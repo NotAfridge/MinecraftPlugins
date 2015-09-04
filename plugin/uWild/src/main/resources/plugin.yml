@@ -1,0 +1,7 @@
+name: uWild
+version: ${project.version}-${build.number}
+description: Weird and Wild Changes
+
+author: Ullarah
+
+main: com.ullarah.uwild.Init

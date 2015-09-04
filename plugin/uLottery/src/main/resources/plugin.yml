@@ -1,0 +1,13 @@
+name: uLottery
+version: ${project.version}
+description: ${project.description}
+
+author: Ullarah
+
+main: com.ullarah.ulottery.Init
+
+depend: [Vault]
+
+commands:
+  dlot:
+    description: Help and Bank Total

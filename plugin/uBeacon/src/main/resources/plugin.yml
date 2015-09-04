@@ -1,0 +1,7 @@
+name: uBeacon
+version: ${project.version}
+description: ${project.description}
+
+author: Ullarah
+
+main: com.ullarah.ubeacon.BeaconInit

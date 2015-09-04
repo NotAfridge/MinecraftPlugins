@@ -1,0 +1,24 @@
+name: uJoinQuit
+version: ${project.version}
+description: ${project.description}
+
+author: Ullarah
+
+main: com.ullarah.ujoinquit.JoinQuitInit
+
+commands:
+  jq:
+    description: Display JoinQuit Help.
+    usage: |
+      <command> : Shows Help.
+      <command> join : Shows Join Messages.
+      <command> quit : Shows Quit Messages.
+      <command> clear : Clears both Join and Quit Messages.
+
+permissions:
+  jq.access:
+    description: Allows the use of JoinQuit
+  jq.join:
+    description: Allows the use of join messages.
+  jq.quit:
+    description: Allows the use of quit messages.

@@ -1,0 +1,23 @@
+name: uRocket
+version: ${project.version}
+description: ${project.description}
+
+author: Ullarah
+
+main: com.ullarah.urocket.RocketInit
+
+softdepend: [WorldEdit, WorldGuard, Vault]
+
+commands:
+  rocket:
+    description: Display Rocket Help.
+    usage: |
+      <command> : Shows Help.
+      <command> chest : Shows Rocket Components.
+
+permissions:
+  rocket.staff:
+    description: Grants staff extra Rocket Boot commands.
+    children:
+      rocket.chest: true
+      rocket.remove: true

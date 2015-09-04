@@ -1,0 +1,31 @@
+joinMessages:
+- "&eWe meet again, %s!"
+- Hey hey, %s!
+- So we meet again %s...
+- Never fear, %s is here!
+- "&bSay hello to %s!"
+- Well well well, if it isn't %s...
+- Sshh quiet everybody... %s is back!
+- "&dWelcome back %s!"
+- Thought you would be back %s!
+- Why hello there %s!
+- "&6%s is back for more exciting adventures!"
+- Hi, %s Mays here for...
+- What is this %s? A joining message for &cANTS?!
+- |-
+  %s, stop trying to make fetch happen!
+        &oIt's not going to happen!
+- "Maybe they're born with it, maybe it's %s"
+
+quitMessages:
+- "&cBye bye, %s!"
+- Seeya later, %s!
+- "%s just left us..."
+- Just like Elvis, %s has left the building!
+- It's going to get lonely now without %s...
+- I hope %s comes back soon!
+- "%s went crazy and joined the circus!"
+- How rude %s, just leaving everybody!
+- "&lBAM&r, and the %s is gone!"
+- "%s disappeared, just like that!"
+- Oops, looks like %s accidentally quit!

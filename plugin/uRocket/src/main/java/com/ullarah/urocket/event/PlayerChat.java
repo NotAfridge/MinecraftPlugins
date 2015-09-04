@@ -1,0 +1,57 @@
+package com.ullarah.urocket.event;
+
+import org.apache.commons.io.output.StringBuilderWriter;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+
+import java.util.Random;
+
+import static com.ullarah.urocket.RocketInit.*;
+
+public class PlayerChat implements Listener {
+
+    @EventHandler
+    public void variantChangeSpeak(AsyncPlayerChatEvent event) {
+
+        Player player = event.getPlayer();
+        String message = event.getMessage();
+
+        if (rocketEffects.contains(player.getUniqueId())) {
+
+            switch (rocketVariant.get(player.getUniqueId())) {
+
+                case ZERO:
+                    event.setMessage(ChatColor.MAGIC + message);
+                    break;
+
+                case STEALTH:
+                    player.sendMessage(getMsgPrefix() + "You are currently hidden!");
+                    event.setCancelled(true);
+                    break;
+
+                case AGENDA:
+                    event.setMessage(ChatColor.LIGHT_PURPLE + message);
+                    break;
+
+                case DRUNK:
+                    StringBuilderWriter drunkMessage = new StringBuilderWriter();
+                    for (String letter : message.split("")) {
+                        int makeItalic = new Random().nextInt(2);
+                        String letterItalic = ChatColor.ITALIC + letter + ChatColor.RESET;
+                        drunkMessage.append(makeItalic == 1 ? letterItalic : letter);
+                    }
+                    event.setMessage(drunkMessage.toString());
+
+                default:
+                    break;
+
+            }
+
+        }
+
+    }
+
+}

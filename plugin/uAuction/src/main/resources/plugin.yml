@@ -1,0 +1,83 @@
+name: uAuction
+version: ${project.version}
+description: ${project.description}
+
+author: Ullarah
+
+main: com.ullarah.uauction.Init
+
+depends: [Vault]
+
+commands:
+  auction:
+    description: Views the public donation chest.
+    usage: |
+      <command> : Shows auction help.
+      <command> create : Creates auction chest.
+      <command> edit : Edits an auction chest.
+      <command> close : Closes an auction chest.
+      <command> open : Opens an auction chest for bidding.
+      <command> list : Views open auctions.
+      <command> bid : Bid on a running chest.
+      <command> view : View a running chest.
+      <command> info : See the current bid and who is winning.
+      <command> collect : Collect your winning chest.
+      <command> give : Gives the auction chest, regardless of outcome.
+      <command> maintenance : Toggles maintenance.
+      <command> delete : Removes single auction.
+      <command> purge : Removes all auctions.
+      <command> chat : Toggle auction chat.
+  alist:
+    description: Views open auctions.
+    usage: |
+      <command> : Lists all open auctions for bidding.
+  abid:
+    description: Bid on a running chest.
+    usage: |
+      <command> name : Bids on a named auction.
+  aview:
+    description: View a running chest.
+    usage: |
+      <command> name : Views a named auction.
+  ainfo:
+    description: View a running chest.
+    usage: |
+      <command> name : See current bid and who is winning.
+  acollect:
+    description: Collect your winning chest.
+    usage: |
+      <command> name : Collect your chest if you won the auction.
+  achat:
+    description: Watch auction chat.
+    usage: |
+      <command> : Toggle auction chat.
+  awon:
+    description: Check for any auction winnings.
+    usage: |
+      <command> : See if you've won anything.
+
+permissions:
+  uauction.op:
+    description: Grant all upper staff echelon commands
+    children:
+      uauction.maintenance: true
+      uauction.purge: true
+      uauction.delete: true
+      uauction.forceedit: true
+      uauction.forceopen: true
+      uauction.forceclose: true
+      uauction.forcebid: true
+  uauction.staff:
+    description: Grant all of the staff commands
+    children:
+      uauction.create: true
+      uauction.edit: true
+      uauction.close: true
+      uauction.open: true
+      uauction.give: true
+  uauction.player:
+    description: Grant players specific commands
+    children:
+      uauction.create: true
+      uauction.edit: true
+      uauction.open: true

@@ -1,0 +1,39 @@
+name: uPostal
+version: ${project.version}
+description: ${project.description}
+
+author: Ullarah
+
+main: com.ullarah.upostal.PostalInit
+
+commands:
+  postal:
+    description: Main Postal Commands.
+    usage: |
+      <command> help : Shows help to player.
+      <command> maintenance : Puts postal in/out of maintenance mode.
+      <command> blacklist [player] : Blacklists the players inbox.
+      <command> clear [player] : Clears the players inbox.
+  post:
+    description: Inbox of other Player
+    usage: |
+      <command> <player> : Opens up players inbox to post items.
+  inbox:
+    description: Owners Inbox
+    usage: |
+      <command> : Views your own inbox.
+      <command> upgrade : Upgrades your inbox.
+
+permissions:
+  postal.player:
+    description: Grant all of the player commands
+    children:
+      postal.view.self: true
+  postal.staff:
+    description: Grant all of the staff commands
+    children:
+      postal.blacklist: true
+      postal.clear: true
+      postal.view.self: true
+      postal.view.player: true
+      postal.maintenance: true
