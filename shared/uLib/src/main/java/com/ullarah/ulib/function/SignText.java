@@ -63,9 +63,16 @@ public class SignText {
 
                 Sign signText = (Sign) location.getBlock().getRelative(BlockFace.valueOf(sign.getKey())).getState();
 
-                if (!cs) extract = extract.toLowerCase();
+                String signLine = signText.getLine(line);
 
-                if (signText.getLine(0).equals(extract)) {
+                if (!cs) {
+
+                    signLine = signLine.toLowerCase();
+                    extract = extract.toLowerCase();
+
+                }
+
+                if (signLine.equals(extract)) {
 
                     for (int i = 0; i < text.length; ++i) if (i != line) signText.setLine(i, text[i]);
 
@@ -83,39 +90,31 @@ public class SignText {
 
         HashMap<String, Boolean> signMap = signFaceMap(location);
 
-        for (Map.Entry<String, Boolean> sign : signMap.entrySet()) {
+        signMap.entrySet().stream().filter(Map.Entry::getValue).forEach(sign -> {
 
-            if (sign.getValue()) {
+            Sign signText = (Sign) location.getBlock().getRelative(BlockFace.valueOf(sign.getKey())).getState();
 
-                Sign signText = (Sign) location.getBlock().getRelative(BlockFace.valueOf(sign.getKey())).getState();
+            for (int l : line) for (String s : text) signText.setLine(l, s);
 
-                for (int l : line) for (String s : text) signText.setLine(l, s);
+            signText.update();
 
-                signText.update();
-
-            }
-
-        }
+        });
 
     }
 
-    public static void clearLines(final Location location, Integer[] line) {
+    public static void clearLine(final Location location, Integer[] line) {
 
         HashMap<String, Boolean> signMap = signFaceMap(location);
 
-        for (Map.Entry<String, Boolean> sign : signMap.entrySet()) {
+        signMap.entrySet().stream().filter(Map.Entry::getValue).forEach(sign -> {
 
-            if (sign.getValue()) {
+            Sign signText = (Sign) location.getBlock().getRelative(BlockFace.valueOf(sign.getKey())).getState();
 
-                Sign signText = (Sign) location.getBlock().getRelative(BlockFace.valueOf(sign.getKey())).getState();
+            for (int l : line) signText.setLine(l, "");
 
-                for (int l : line) signText.setLine(l, "");
+            signText.update();
 
-                signText.update();
-
-            }
-
-        }
+        });
 
     }
 
@@ -123,19 +122,15 @@ public class SignText {
 
         HashMap<String, Boolean> signMap = signFaceMap(location);
 
-        for (Map.Entry<String, Boolean> sign : signMap.entrySet()) {
+        signMap.entrySet().stream().filter(Map.Entry::getValue).forEach(sign -> {
 
-            if (sign.getValue()) {
+            Sign signText = (Sign) location.getBlock().getRelative(BlockFace.valueOf(sign.getKey())).getState();
 
-                Sign signText = (Sign) location.getBlock().getRelative(BlockFace.valueOf(sign.getKey())).getState();
+            signText.update();
 
-                signText.update();
+            for (int l : new Integer[]{0, 1, 2, 3}) signText.setLine(l, "");
 
-                for (int l : new Integer[]{0, 1, 2, 3}) signText.setLine(l, "");
-
-            }
-
-        }
+        });
 
     }
 

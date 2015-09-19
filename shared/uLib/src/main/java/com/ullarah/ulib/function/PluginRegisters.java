@@ -26,6 +26,12 @@ public class PluginRegisters {
                         Bukkit.getServer().getPluginManager().registerEvents((Listener) object, plugin);
                         break;
 
+                    case FURNACE:
+                        FurnaceRecipe furnaceRecipe = (FurnaceRecipe) classObject.getMethod(type.toString())
+                                .invoke(classObject.newInstance());
+                        Bukkit.getServer().addRecipe(furnaceRecipe);
+                        break;
+
                     case RECIPE:
                         ShapedRecipe newRecipe = (ShapedRecipe) classObject.getMethod(type.toString())
                                 .invoke(classObject.newInstance());
@@ -36,19 +42,14 @@ public class PluginRegisters {
                         classObject.getMethod(type.toString()).invoke(classObject.newInstance());
                         break;
 
-                    case FURNACE:
-                        FurnaceRecipe furnaceRecipe = (FurnaceRecipe) classObject.getMethod(type.toString())
-                                .invoke(classObject.newInstance());
-                        Bukkit.getServer().addRecipe(furnaceRecipe);
-                        break;
-
                 }
 
                 amount++;
 
             } catch (Exception e) {
 
-                Bukkit.getLogger().log(Level.SEVERE, "[uLib] Register Error: " + object.getClass().getSimpleName());
+                Bukkit.getLogger().log(Level.SEVERE, "[" + plugin.getName() + "] Register Error: "
+                        + object.getClass().getSimpleName());
 
             }
 
@@ -60,7 +61,7 @@ public class PluginRegisters {
 
     public enum RegisterType {
 
-        EVENT("event"), RECIPE("recipe"), TASK("task"), FURNACE("furnace");
+        COMMAND("command"), EVENT("event"), FURNACE("furnace"), RECIPE("recipe"), TASK("task");
 
         private final String type;
 

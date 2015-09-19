@@ -30,21 +30,8 @@ public class RandomTeleport {
 
     public static void teleport(final Player player, int boundary, Sound sound) {
 
-        World world = player.getWorld();
-        int t = 0;
-
-        while (t < 2) {
-
-            int x = new Random().nextInt(boundary);
-            int z = new Random().nextInt(boundary);
-
-            player.teleport(world.getHighestBlockAt(x, z).getLocation());
-            player.getWorld().playSound(player.getEyeLocation(), sound, 0.8f, 0.95f);
-            player.setVelocity(new Vector(0, 1.25, 0));
-
-            t++;
-
-        }
+        player.getWorld().playSound(player.getEyeLocation(), sound, 0.8f, 0.95f);
+        teleport(player, boundary);
 
     }
 

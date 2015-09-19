@@ -55,10 +55,10 @@ public class ItemMetaCheck {
 
             if (meta.hasDisplayName()) {
 
-                String saddleName = meta.getDisplayName();
+                String metaDisplayName = meta.getDisplayName();
                 List<String> metaLore = meta.getLore();
 
-                if (saddleName.equals(name) && metaLore.equals(lore)) return true;
+                if (metaDisplayName.equals(name) && metaLore.equals(lore)) return true;
 
             }
 

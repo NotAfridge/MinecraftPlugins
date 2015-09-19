@@ -11,7 +11,7 @@ public class Particles {
     public static void show(ParticleType particle, Location location, Float[] offset, float data, int amount) {
 
         PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
-                EnumParticle.a(24), false,
+                EnumParticle.a(particle.toInteger()), false,
                 location.getBlockX(), location.getBlockY(), location.getBlockZ(),
                 offset[0], offset[1], offset[2], data, amount, null);
 
