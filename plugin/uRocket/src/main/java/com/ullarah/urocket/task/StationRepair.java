@@ -19,158 +19,146 @@ public class StationRepair {
 
     public void task() {
 
-        Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(), new Runnable() {
+        Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
+                () -> Bukkit.getScheduler().runTask(getPlugin(), () -> {
 
-            public void run() {
+                    if (!rocketRepair.isEmpty())
+                        for (Map.Entry<UUID, Location> repairStation : rocketRepair.entrySet()) {
 
-                Bukkit.getScheduler().runTask(getPlugin(), new Runnable() {
+                            Player player = Bukkit.getPlayer(repairStation.getKey());
 
-                    @Override
-                    public void run() {
+                            ItemStack playerBoots = player.getInventory().getBoots();
 
-                        if (!rocketRepair.isEmpty())
-                            for (Map.Entry<UUID, Location> repairStation : rocketRepair.entrySet()) {
+                            if (player.getWorld().getBlockAt(
+                                    player.getLocation().getBlockX(),
+                                    player.getLocation().getBlockY() - 2,
+                                    player.getLocation().getBlockZ())
+                                    .getType() == Material.BURNING_FURNACE) {
 
-                                Player player = Bukkit.getPlayer(repairStation.getKey());
+                                if (playerBoots.hasItemMeta()) {
 
-                                ItemStack playerBoots = player.getInventory().getBoots();
+                                    String bootLore = playerBoots.getItemMeta().getLore().get(0);
+                                    Integer bootRepair;
 
-                                if (player.getWorld().getBlockAt(
-                                        player.getLocation().getBlockX(),
-                                        player.getLocation().getBlockY() - 2,
-                                        player.getLocation().getBlockZ())
-                                        .getType() == Material.BURNING_FURNACE) {
+                                    Integer powerLevel = RomanNumeralToInteger.decode(
+                                            bootLore.replaceFirst(
+                                                    ChatColor.YELLOW + "Rocket Level ", ""));
 
-                                    if (playerBoots.hasItemMeta()) {
+                                    switch (powerLevel) {
 
-                                        String bootLore = playerBoots.getItemMeta().getLore().get(0);
-                                        Integer bootRepair;
+                                        case 1:
+                                            bootRepair = 5;
+                                            break;
 
-                                        Integer powerLevel = RomanNumeralToInteger.decode(
-                                                bootLore.replaceFirst(
-                                                        ChatColor.YELLOW + "Rocket Level ", ""));
+                                        case 2:
+                                            bootRepair = 4;
+                                            break;
 
-                                        switch (powerLevel) {
+                                        case 3:
+                                            bootRepair = 3;
+                                            break;
 
-                                            case 1:
-                                                bootRepair = 5;
-                                                break;
+                                        case 4:
+                                            bootRepair = 2;
+                                            break;
 
-                                            case 2:
-                                                bootRepair = 4;
-                                                break;
+                                        case 5:
+                                            bootRepair = new Random().nextInt(9) + 1;
+                                            break;
 
-                                            case 3:
-                                                bootRepair = 3;
-                                                break;
+                                        default:
+                                            bootRepair = 0;
+                                            break;
 
-                                            case 4:
-                                                bootRepair = 2;
-                                                break;
+                                    }
 
-                                            case 5:
-                                                bootRepair = new Random().nextInt(9) + 1;
-                                                break;
+                                    short bootDurability = player.getInventory().getBoots().getDurability();
+                                    int bootHealthOriginal = (195 - bootDurability);
+                                    int bootHealthNew = ((195 - bootDurability) + bootRepair);
 
-                                            default:
-                                                bootRepair = 0;
-                                                break;
+                                    int bootRepairEstimate = Math.round((bootDurability / bootRepair) / 2);
+                                    String bootRepairMinute;
 
-                                        }
+                                    switch (bootRepairEstimate) {
+                                        case 1:
+                                            bootRepairMinute = bootRepairEstimate + " Minute";
+                                            break;
+                                        case 0:
+                                            bootRepairMinute = "Less than a minute!";
+                                            break;
+                                        default:
+                                            bootRepairMinute = bootRepairEstimate + " Minutes";
+                                            break;
+                                    }
 
-                                        short bootDurability = player.getInventory().getBoots().getDurability();
-                                        int bootHealthOriginal = (195 - bootDurability);
-                                        int bootHealthNew = ((195 - bootDurability) + bootRepair);
+                                    if (bootHealthOriginal <= 194) {
 
-                                        int bootRepairEstimate = Math.round((bootDurability / bootRepair) / 2);
-                                        String bootRepairMinute;
+                                        playerBoots.setDurability((short) (bootDurability - bootRepair));
 
-                                        switch (bootRepairEstimate) {
-                                            case 1:
-                                                bootRepairMinute = bootRepairEstimate + " Minute";
-                                                break;
-                                            case 0:
-                                                bootRepairMinute = "Less than a minute!";
-                                                break;
-                                            default:
-                                                bootRepairMinute = bootRepairEstimate + " Minutes";
-                                                break;
-                                        }
+                                        if (bootHealthNew > 195) {
 
-                                        if (bootHealthOriginal <= 194) {
+                                            player.sendMessage(getMsgPrefix() + "Rocket Boots have been fully repaired!");
+                                            TitleSubtitle.title(player, 5, "Rocket Boots have been fully repaired!");
 
-                                            playerBoots.setDurability((short) (bootDurability - bootRepair));
-
-                                            if (bootHealthNew > 195) {
-
-                                                player.sendMessage(getMsgPrefix() + "Rocket Boots have been fully repaired!");
-                                                TitleSubtitle.title(player, 5, "Rocket Boots have been fully repaired!");
-
-                                                player.getWorld().playSound(player.getEyeLocation(), Sound.LEVEL_UP, 0.8f, 1.0f);
-
-                                            } else {
-
-                                                String bootDurabilityMessage = "" + ChatColor.YELLOW
-                                                        + bootHealthNew + " / 195";
-
-                                                String bootEstimationMessage = "Full Repair Estimate: " +
-                                                        ChatColor.YELLOW + bootRepairMinute;
-
-                                                player.sendMessage(getMsgPrefix() + "Rocket Boot Durability: " +
-                                                        bootDurabilityMessage);
-
-                                                player.sendMessage(getMsgPrefix() + "Full Repair Estimate: " +
-                                                        bootEstimationMessage);
-
-                                                com.ullarah.ulib.function.TitleSubtitle.both(player, 5,
-                                                        bootDurabilityMessage, bootEstimationMessage);
-
-                                                float x = (float) player.getLocation().getX();
-                                                float y = (float) player.getLocation().getY();
-                                                float z = (float) player.getLocation().getZ();
-
-                                                player.getWorld().playSound(player.getLocation(), Sound.PORTAL_TRIGGER, 0.5f, 1.5f);
-
-                                                PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
-                                                        EnumParticle.PORTAL, true, x, y, z, 0, 0, 0, 1, 500, null);
-
-                                                for (Player serverPlayer : player.getWorld().getPlayers())
-                                                    ((CraftPlayer) serverPlayer).getHandle().playerConnection.sendPacket(packet);
-
-                                            }
+                                            player.getWorld().playSound(player.getEyeLocation(), Sound.LEVEL_UP, 0.8f, 1.0f);
 
                                         } else {
 
-                                            player.sendMessage(getMsgPrefix() + "Rocket Boots are already at full durability!");
-                                            player.getWorld().playSound(player.getEyeLocation(), Sound.LEVEL_UP, 0.8f, 1.0f);
+                                            String bootDurabilityMessage = "" + ChatColor.YELLOW
+                                                    + bootHealthNew + " / 195";
+
+                                            String bootEstimationMessage = "Full Repair Estimate: " +
+                                                    ChatColor.YELLOW + bootRepairMinute;
+
+                                            player.sendMessage(getMsgPrefix() + "Rocket Boot Durability: " +
+                                                    bootDurabilityMessage);
+
+                                            player.sendMessage(getMsgPrefix() + "Full Repair Estimate: " +
+                                                    bootEstimationMessage);
+
+                                            TitleSubtitle.both(player, 5,
+                                                    bootDurabilityMessage, bootEstimationMessage);
+
+                                            float x = (float) player.getLocation().getX();
+                                            float y = (float) player.getLocation().getY();
+                                            float z = (float) player.getLocation().getZ();
+
+                                            player.getWorld().playSound(player.getLocation(), Sound.PORTAL_TRIGGER, 0.5f, 1.5f);
+
+                                            PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
+                                                    EnumParticle.PORTAL, true, x, y, z, 0, 0, 0, 1, 500, null);
+
+                                            for (Player serverPlayer : player.getWorld().getPlayers())
+                                                ((CraftPlayer) serverPlayer).getHandle().playerConnection.sendPacket(packet);
 
                                         }
 
                                     } else {
 
-                                        player.sendMessage(getMsgPrefix() + ChatColor.RED + "Rocket Boots failed to repair!");
-                                        player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 0.5f, 0.5f);
-                                        rocketRepair.remove(player.getUniqueId());
+                                        player.sendMessage(getMsgPrefix() + "Rocket Boots are already at full durability!");
+                                        player.getWorld().playSound(player.getEyeLocation(), Sound.LEVEL_UP, 0.8f, 1.0f);
 
-                                    }
+                            }
 
                                 } else {
 
-                                    player.sendMessage(getMsgPrefix() + ChatColor.RED + "Repair Tank ran out of fuel!");
-                                    player.getWorld().playSound(player.getEyeLocation(), Sound.ANVIL_BREAK, 0.6f, 1.0f);
+                                    player.sendMessage(getMsgPrefix() + ChatColor.RED + "Rocket Boots failed to repair!");
+                                    player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 0.5f, 0.5f);
                                     rocketRepair.remove(player.getUniqueId());
 
                                 }
 
+                            } else {
+
+                                player.sendMessage(getMsgPrefix() + ChatColor.RED + "Repair Tank ran out of fuel!");
+                                player.getWorld().playSound(player.getEyeLocation(), Sound.ANVIL_BREAK, 0.6f, 1.0f);
+                                rocketRepair.remove(player.getUniqueId());
+
                             }
 
-                    }
+                        }
 
-                });
-
-            }
-
-        }, 0, 600);
+                }), 0, 600);
 
     }
 

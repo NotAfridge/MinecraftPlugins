@@ -18,190 +18,177 @@ public class RocketFuel {
 
     public void task() {
 
-        Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(), new Runnable() {
+        Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
+                () -> Bukkit.getServer().getScheduler().runTask(getPlugin(), () -> {
 
-            @Override
-            public void run() {
+                    if (!rocketUsage.isEmpty()) for (UUID uuid : rocketUsage) {
 
-                Bukkit.getServer().getScheduler().runTask(getPlugin(), new Runnable() {
+                        Player player = Bukkit.getPlayer(uuid);
 
-                    @Override
-                    public void run() {
+                        if (player.isFlying()) {
 
-                        if (!rocketUsage.isEmpty()) for (UUID uuid : rocketUsage) {
+                            if (player.getLevel() <= 2) {
 
-                            Player player = Bukkit.getPlayer(uuid);
+                                player.sendMessage(getMsgPrefix() + "You ran out of fuel for your Rocket Boots!");
+                                disableRocketBoots(player, false, true, false, false, false);
 
-                            if (player.isFlying()) {
+                            } else if (rocketUsage.contains(uuid) && player.getLevel() <= 6) {
 
-                                if (player.getLevel() <= 2) {
+                                rocketLowFuel.add(uuid);
 
-                                    player.sendMessage(getMsgPrefix() + "You ran out of fuel for your Rocket Boots!");
-                                    disableRocketBoots(player, false, true, false, false, false);
+                                player.sendMessage(getMsgPrefix() + "You might want to consider landing!");
+                                com.ullarah.ulib.function.TitleSubtitle.both(player, 2,
+                                        ChatColor.YELLOW + "Low XP", "You might want to consider landing!");
 
-                                } else if (rocketUsage.contains(uuid) && player.getLevel() <= 6) {
+                            }
 
-                                    rocketLowFuel.add(uuid);
+                            if (rocketVariant.containsKey(player.getUniqueId())) {
 
-                                    player.sendMessage(getMsgPrefix() + "You might want to consider landing!");
-                                    com.ullarah.ulib.function.TitleSubtitle.both(player, 2,
-                                            ChatColor.YELLOW + "Low XP", "You might want to consider landing!");
+                                Variant bootVariant = rocketVariant.get(player.getUniqueId());
+                                Random random = new Random();
 
-                                }
+                                switch (bootVariant) {
 
-                                if (rocketVariant.containsKey(player.getUniqueId())) {
+                                    case HEALTH:
+                                        if (player.getHealth() <= 1.0 || player.getFoodLevel() <= 2) {
 
-                                    Variant bootVariant = rocketVariant.get(player.getUniqueId());
-                                    Random random = new Random();
+                                            player.sendMessage(getMsgPrefix() + "You are too hungry to fly...");
+                                            disableRocketBoots(player, false, true, false, false, false);
 
-                                    switch (bootVariant) {
+                                        } else {
 
-                                        case HEALTH:
-                                            if (player.getHealth() <= 1.0 || player.getFoodLevel() <= 2) {
+                                            player.setHealth(player.getHealth() - 1);
+                                            player.setFoodLevel(player.getFoodLevel() - 1);
 
-                                                player.sendMessage(getMsgPrefix() + "You are too hungry to fly...");
-                                                disableRocketBoots(player, false, true, false, false, false);
+                                        }
+                                        break;
 
-                                            } else {
+                                    case MONEY:
+                                        double money = getVaultEconomy().getBalance(player);
 
-                                                player.setHealth(player.getHealth() - 1);
-                                                player.setFoodLevel(player.getFoodLevel() - 1);
+                                        if (money <= 10.0) {
+
+                                            player.sendMessage(getMsgPrefix() + "You are too poor to fly...");
+                                            disableRocketBoots(player, false, true, false, false, false);
+
+                                        } else {
+
+                                            getVaultEconomy().withdrawPlayer(player, 5);
+
+                                            for (int m = 0; m < 2; m++) {
+
+                                                int r = new Random().nextInt(Bukkit.getOnlinePlayers().size());
+                                                Player randomPlayer = (Player) Bukkit.getOnlinePlayers().toArray()[r];
+
+                                                getVaultEconomy().depositPlayer(randomPlayer, 1);
 
                                             }
-                                            break;
 
-                                        case MONEY:
-                                            double money = getVaultEconomy().getBalance(player);
+                                        }
+                                        break;
 
-                                            if (money <= 10.0) {
+                                    case AGENDA:
+                                        StringBuilderWriter agendaMessage = new StringBuilderWriter();
 
-                                                player.sendMessage(getMsgPrefix() + "You are too poor to fly...");
-                                                disableRocketBoots(player, false, true, false, false, false);
+                                        String[] letterArray = {"G", "A", "Y", "A", "G", "E", "N", "D", "A"};
+                                        ChatColor[] colourArray = {
+                                                ChatColor.YELLOW, ChatColor.AQUA, ChatColor.BLUE,
+                                                ChatColor.GOLD, ChatColor.GREEN, ChatColor.LIGHT_PURPLE,
+                                                ChatColor.RED, ChatColor.WHITE
+                                        };
 
-                                            } else {
-
-                                                getVaultEconomy().withdrawPlayer(player, 5);
-
-                                                for (int m = 0; m < 2; m++) {
-
-                                                    int r = new Random().nextInt(Bukkit.getOnlinePlayers().size());
-                                                    Player randomPlayer = (Player) Bukkit.getOnlinePlayers().toArray()[r];
-
-                                                    getVaultEconomy().depositPlayer(randomPlayer, 1);
-
+                                        int i = 0;
+                                        for (int x = 0; x < 2; x++) {
+                                            while (i < 10) {
+                                                for (String letterCurrent : letterArray) {
+                                                    String m = "" + colourArray[new Random().nextInt(colourArray.length)]
+                                                            + ChatColor.BOLD + ChatColor.MAGIC + letterCurrent;
+                                                    agendaMessage.append(m);
                                                 }
-
+                                                i++;
                                             }
-                                            break;
+                                        }
 
-                                        case AGENDA:
-                                            StringBuilderWriter agendaMessage = new StringBuilderWriter();
+                                        player.sendMessage(agendaMessage.toString());
+                                        player.setLevel(player.getLevel() - 1);
+                                        break;
 
-                                            String[] letterArray = {"G", "A", "Y", "A", "G", "E", "N", "D", "A"};
-                                            ChatColor[] colourArray = {
-                                                    ChatColor.YELLOW, ChatColor.AQUA, ChatColor.BLUE,
-                                                    ChatColor.GOLD, ChatColor.GREEN, ChatColor.LIGHT_PURPLE,
-                                                    ChatColor.RED, ChatColor.WHITE
-                                            };
+                                    case DRUNK:
+                                        int vectorSelect = random.nextInt(3);
+                                        double v = (random.nextInt(41) - 30) / 10.0;
+                                        switch (vectorSelect) {
+                                            case 1:
+                                                player.setVelocity(new Vector(v, 0, 0));
+                                                break;
 
-                                            int i = 0;
-                                            for (int x = 0; x < 2; x++) {
-                                                while (i < 10) {
-                                                    for (String letterCurrent : letterArray) {
-                                                        String m = "" + colourArray[new Random().nextInt(colourArray.length)]
-                                                                + ChatColor.BOLD + ChatColor.MAGIC + letterCurrent;
-                                                        agendaMessage.append(m);
-                                                    }
-                                                    i++;
-                                                }
-                                            }
+                                            case 2:
+                                                player.setVelocity(new Vector(0, v, 0));
+                                                break;
 
-                                            player.sendMessage(agendaMessage.toString());
-                                            player.setLevel(player.getLevel() - 1);
-                                            break;
+                                            case 3:
+                                                player.setVelocity(new Vector(0, 0, v));
+                                                break;
 
-                                        case DRUNK:
-                                            int vectorSelect = random.nextInt(3);
-                                            double v = (random.nextInt(41) - 30) / 10.0;
-                                            switch (vectorSelect) {
-                                                case 1:
-                                                    player.setVelocity(new Vector(v, 0, 0));
-                                                    break;
+                                            default:
+                                                break;
+                                        }
+                                        player.setLevel(player.getLevel() - 1);
+                                        break;
 
-                                                case 2:
-                                                    player.setVelocity(new Vector(0, v, 0));
-                                                    break;
+                                    case COAL:
+                                        if (random.nextInt(20) == 10) {
 
-                                                case 3:
-                                                    player.setVelocity(new Vector(0, 0, v));
-                                                    break;
+                                            player.getWorld().playSound(player.getLocation(),
+                                                    Sound.FIREWORK_BLAST, 0.6f, 0.65f);
 
-                                                default:
-                                                    break;
-                                            }
-                                            player.setLevel(player.getLevel() - 1);
-                                            break;
+                                            player.sendMessage(getMsgPrefix() + ChatColor.RED +
+                                                    "Your boots have malfunctioned!");
 
-                                        case COAL:
-                                            if (random.nextInt(20) == 10) {
+                                            disableRocketBoots(player, true, true, true, true, false);
 
-                                                player.getWorld().playSound(player.getLocation(),
-                                                        Sound.FIREWORK_BLAST, 0.6f, 0.65f);
+                                        } else itemFuel(player, Material.COAL, Material.COAL_BLOCK);
 
-                                                player.sendMessage(getMsgPrefix() + ChatColor.RED +
-                                                        "Your boots have malfunctioned!");
+                                        break;
 
-                                                disableRocketBoots(player, true, true, true, true, false);
+                                    case REDSTONE:
+                                        if (random.nextInt(20) == 10) {
 
-                                            } else itemFuel(player, Material.COAL, Material.COAL_BLOCK);
+                                            player.getWorld().playSound(player.getLocation(),
+                                                    Sound.FIREWORK_BLAST, 0.6f, 0.65f);
 
-                                            break;
+                                            player.sendMessage(getMsgPrefix() + ChatColor.RED +
+                                                    "Your boots have malfunctioned!");
 
-                                        case REDSTONE:
-                                            if (random.nextInt(20) == 10) {
+                                            disableRocketBoots(player, true, true, true, true, false);
 
-                                                player.getWorld().playSound(player.getLocation(),
-                                                        Sound.FIREWORK_BLAST, 0.6f, 0.65f);
+                                        } else itemFuel(player, Material.REDSTONE, Material.REDSTONE_BLOCK);
 
-                                                player.sendMessage(getMsgPrefix() + ChatColor.RED +
-                                                        "Your boots have malfunctioned!");
+                                        break;
 
-                                                disableRocketBoots(player, true, true, true, true, false);
+                                    case RUNNER:
+                                        //do nothing
+                                        break;
 
-                                            } else itemFuel(player, Material.REDSTONE, Material.REDSTONE_BLOCK);
-
-                                            break;
-
-                                        case RUNNER:
-                                            //do nothing
-                                            break;
-
-                                        default:
-                                            player.setLevel(player.getLevel() - 1);
-                                            break;
-
-                                    }
-
-                                }
-
-                                if (player.getLocation().getY() > 250) {
-
-                                    player.setFlying(false);
-                                    player.sendMessage(getMsgPrefix() + "Rocket Boots don't work so well up high!");
+                                    default:
+                                        player.setLevel(player.getLevel() - 1);
+                                        break;
 
                                 }
 
                             }
 
-                        }
+                            if (player.getLocation().getY() > 250) {
+
+                                player.setFlying(false);
+                                player.sendMessage(getMsgPrefix() + "Rocket Boots don't work so well up high!");
 
                     }
 
-                });
+                        }
 
             }
 
-        }, 0, 100);
+                }), 0, 100);
 
     }
 

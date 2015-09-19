@@ -13,37 +13,24 @@ public class RocketLowFuel {
 
     public void task() {
 
-        Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(), new Runnable() {
+        Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
+                () -> Bukkit.getServer().getScheduler().runTask(getPlugin(), () -> {
 
-            @Override
-            public void run() {
+                    if (!rocketLowFuel.isEmpty()) for (UUID uuid : rocketLowFuel) {
 
-                Bukkit.getServer().getScheduler().runTask(getPlugin(), new Runnable() {
+                        Player player = Bukkit.getPlayer(uuid);
 
-                    @Override
-                    public void run() {
+                        if (rocketLowFuel.contains(player.getUniqueId())) {
 
-                        if (!rocketLowFuel.isEmpty()) for (UUID uuid : rocketLowFuel) {
-
-                            Player player = Bukkit.getPlayer(uuid);
-
-                            if (rocketLowFuel.contains(player.getUniqueId())) {
-
-                                if (player.isFlying()) if (player.getLevel() <= 6)
-                                    player.getWorld().playSound(player.getLocation(), Sound.ORB_PICKUP, 0.5f, 1.3f);
-                                else rocketLowFuel.remove(uuid);
-
-                            }
+                            if (player.isFlying()) if (player.getLevel() <= 6)
+                                player.getWorld().playSound(player.getLocation(), Sound.ORB_PICKUP, 0.5f, 1.3f);
+                            else rocketLowFuel.remove(uuid);
 
                         }
 
-                    }
-
-                });
-
             }
 
-        }, 0, 15);
+                }), 0, 15);
 
     }
 

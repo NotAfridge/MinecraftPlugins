@@ -11,8 +11,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.ullarah.urocket.RocketInit.getPlugin;
 
@@ -34,9 +34,8 @@ public class BlockBreak implements Listener {
         if (block.getType() == Material.BEACON) {
 
             List<String> stationList = getPlugin().getConfig().getStringList("stations");
-            List<String> newStationList = new ArrayList<>();
-
-            for (String station : stationList) newStationList.add(station.replaceFirst(".{37}", ""));
+            List<String> newStationList = stationList.stream()
+                    .map(station -> station.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
             String stationOriginal = player.getUniqueId().toString() + "|"
                     + world.getName() + "|" + bX + "|" + bY + "|" + bZ;
@@ -61,9 +60,8 @@ public class BlockBreak implements Listener {
         if (block.getType() == Material.FURNACE) {
 
             List<String> tankList = getPlugin().getConfig().getStringList("tanks");
-            List<String> newTankList = new ArrayList<>();
-
-            for (String tank : tankList) newTankList.add(tank.replaceFirst(".{37}", ""));
+            List<String> newTankList = tankList.stream()
+                    .map(tank -> tank.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
             String tankOriginal = player.getUniqueId().toString() + "|"
                     + world.getName() + "|" + bX + "|" + bY + "|" + bZ;
@@ -84,9 +82,8 @@ public class BlockBreak implements Listener {
                 if (blockStation.getBlock().getType() == Material.BEACON) {
 
                     List<String> stationList = getPlugin().getConfig().getStringList("stations");
-                    List<String> newStationList = new ArrayList<>();
-
-                    for (String station : stationList) newStationList.add(station.replaceFirst(".{37}", ""));
+                    List<String> newStationList = stationList.stream()
+                            .map(station -> station.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
                     String stationOriginal = player.getUniqueId().toString() + "|"
                             + world.getName() + "|" + bX + "|" + bY + "|" + bZ;

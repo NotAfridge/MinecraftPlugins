@@ -18,156 +18,144 @@ public class RocketParticles {
 
     public void task() {
 
-        Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(), new Runnable() {
+        Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
+                () -> Bukkit.getScheduler().runTask(getPlugin(), () -> {
 
-            public void run() {
+                    if (!rocketUsage.isEmpty() && !rocketVariant.isEmpty()) for (UUID uuid : rocketUsage) {
 
-                Bukkit.getScheduler().runTask(getPlugin(), new Runnable() {
+                        Player player = Bukkit.getPlayer(uuid);
 
-                    @Override
-                    public void run() {
+                        if (GamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
 
-                        if (!rocketUsage.isEmpty() && !rocketVariant.isEmpty()) for (UUID uuid : rocketUsage) {
+                            if (player.isFlying() || rocketVariant.get(player.getUniqueId()) == Variant.RUNNER) {
 
-                            Player player = Bukkit.getPlayer(uuid);
+                                if (!player.isSneaking()) {
 
-                            if (GamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
+                                    if (rocketVariant.containsKey(player.getUniqueId())) {
 
-                                if (player.isFlying() || rocketVariant.get(player.getUniqueId()) == Variant.RUNNER) {
+                                        Variant bootVariant = rocketVariant.get(player.getUniqueId());
 
-                                    if (!player.isSneaking()) {
+                                        if (bootVariant != null) {
 
-                                        if (rocketVariant.containsKey(player.getUniqueId())) {
+                                            float x = (float) player.getLocation().getX();
+                                            float y = (float) (player.getLocation().getY() - 1);
+                                            float z = (float) player.getLocation().getZ();
 
-                                            Variant bootVariant = rocketVariant.get(player.getUniqueId());
+                                            float oX = (float) 0.125;
+                                            float oY = (float) -0.5;
+                                            float oZ = (float) 0.125;
 
-                                            if (bootVariant != null) {
+                                            PacketPlayOutWorldParticles packet = null;
 
-                                                float x = (float) player.getLocation().getX();
-                                                float y = (float) (player.getLocation().getY() - 1);
-                                                float z = (float) player.getLocation().getZ();
+                                            if (rocketSprint.containsKey(player.getUniqueId())) {
+                                                packet = new PacketPlayOutWorldParticles(
+                                                        EnumParticle.SMOKE_LARGE,
+                                                        true, x, y, z, oX, oY, oZ, 0, 5, null);
+                                            } else {
 
-                                                float oX = (float) 0.125;
-                                                float oY = (float) -0.5;
-                                                float oZ = (float) 0.125;
+                                                int sparkColour = new Random().nextInt(25);
 
-                                                PacketPlayOutWorldParticles packet = null;
+                                                switch (bootVariant) {
 
-                                                if (rocketSprint.containsKey(player.getUniqueId())) {
-                                                    packet = new PacketPlayOutWorldParticles(
-                                                            EnumParticle.SMOKE_LARGE,
-                                                            true, x, y, z, oX, oY, oZ, 0, 5, null);
-                                                } else {
+                                                    case ENDER:
+                                                        packet = new PacketPlayOutWorldParticles(
+                                                                EnumParticle.PORTAL,
+                                                                true, x, y, z, oX, oY, oZ, 0, 25, null);
+                                                        break;
 
-                                                    int sparkColour = new Random().nextInt(25);
+                                                    case HEALTH:
+                                                        packet = new PacketPlayOutWorldParticles(
+                                                                EnumParticle.CRIT_MAGIC,
+                                                                true, x, y, z, oX, oY, oZ, 0, 25, null);
+                                                        break;
 
-                                                    switch (bootVariant) {
+                                                    case KABOOM:
+                                                        packet = new PacketPlayOutWorldParticles(
+                                                                EnumParticle.EXPLOSION_NORMAL,
+                                                                true, x, y, z, oX, oY, oZ, 0, 10, null);
+                                                        break;
 
-                                                        case ENDER:
-                                                            packet = new PacketPlayOutWorldParticles(
-                                                                    EnumParticle.PORTAL,
-                                                                    true, x, y, z, oX, oY, oZ, 0, 25, null);
-                                                            break;
+                                                    case RAINBOW:
+                                                        packet = new PacketPlayOutWorldParticles(
+                                                                EnumParticle.REDSTONE,
+                                                                true, x, y, z, oX, oY, oZ,
+                                                                sparkColour, sparkColour, null);
+                                                        break;
 
-                                                        case HEALTH:
-                                                            packet = new PacketPlayOutWorldParticles(
-                                                                    EnumParticle.CRIT_MAGIC,
-                                                                    true, x, y, z, oX, oY, oZ, 0, 25, null);
-                                                            break;
+                                                    case WATER:
+                                                        packet = new PacketPlayOutWorldParticles(
+                                                                EnumParticle.WATER_BUBBLE,
+                                                                true, x, y, z, oX, oY, oZ, 0, 25, null);
+                                                        break;
 
-                                                        case KABOOM:
-                                                            packet = new PacketPlayOutWorldParticles(
-                                                                    EnumParticle.EXPLOSION_NORMAL,
-                                                                    true, x, y, z, oX, oY, oZ, 0, 10, null);
-                                                            break;
+                                                    case ZERO:
+                                                        packet = new PacketPlayOutWorldParticles(
+                                                                EnumParticle.ENCHANTMENT_TABLE,
+                                                                true, x, y, z, oX, oY, oZ, 0, 25, null);
+                                                        break;
 
-                                                        case RAINBOW:
-                                                            packet = new PacketPlayOutWorldParticles(
-                                                                    EnumParticle.REDSTONE,
-                                                                    true, x, y, z, oX, oY, oZ,
-                                                                    sparkColour, sparkColour, null);
-                                                            break;
+                                                    case AGENDA:
+                                                        packet = new PacketPlayOutWorldParticles(
+                                                                EnumParticle.SPELL_WITCH,
+                                                                true, x, y, z, oX, oY, oZ,
+                                                                sparkColour, sparkColour, null);
+                                                        break;
 
-                                                        case WATER:
-                                                            packet = new PacketPlayOutWorldParticles(
-                                                                    EnumParticle.WATER_BUBBLE,
-                                                                    true, x, y, z, oX, oY, oZ, 0, 25, null);
-                                                            break;
+                                                    case MONEY:
+                                                        packet = new PacketPlayOutWorldParticles(
+                                                                EnumParticle.VILLAGER_HAPPY,
+                                                                true, x, y, z, oX, oY, oZ, 0, 5, null);
+                                                        break;
 
-                                                        case ZERO:
-                                                            packet = new PacketPlayOutWorldParticles(
-                                                                    EnumParticle.ENCHANTMENT_TABLE,
-                                                                    true, x, y, z, oX, oY, oZ, 0, 25, null);
-                                                            break;
+                                                    case DRUNK:
+                                                        packet = new PacketPlayOutWorldParticles(
+                                                                EnumParticle.SPELL_MOB,
+                                                                false, x, (float) (y + 0.85), z,
+                                                                .392f, .823f, .321f, 1, 0, null);
+                                                        break;
 
-                                                        case AGENDA:
-                                                            packet = new PacketPlayOutWorldParticles(
-                                                                    EnumParticle.SPELL_WITCH,
-                                                                    true, x, y, z, oX, oY, oZ,
-                                                                    sparkColour, sparkColour, null);
-                                                            break;
+                                                    case BOOST:
+                                                        packet = new PacketPlayOutWorldParticles(
+                                                                EnumParticle.SNOWBALL,
+                                                                true, x, y, z, oX, oY, oZ, 0, 5, null);
+                                                        break;
 
-                                                        case MONEY:
-                                                            packet = new PacketPlayOutWorldParticles(
-                                                                    EnumParticle.VILLAGER_HAPPY,
-                                                                    true, x, y, z, oX, oY, oZ, 0, 5, null);
-                                                            break;
+                                                    case COAL:
+                                                        packet = new PacketPlayOutWorldParticles(
+                                                                EnumParticle.TOWN_AURA,
+                                                                true, x, y, z, oX, oY, oZ, 0, 50, null);
+                                                        break;
 
-                                                        case DRUNK:
-                                                            packet = new PacketPlayOutWorldParticles(
-                                                                    EnumParticle.SPELL_MOB,
-                                                                    false, x, (float) (y + 0.85), z,
-                                                                    .392f, .823f, .321f, 1, 0, null);
-                                                            break;
+                                                    case REDSTONE:
+                                                        packet = new PacketPlayOutWorldParticles(
+                                                                EnumParticle.REDSTONE,
+                                                                true, x, y, z, oX, oY, oZ, 0, 10, null);
+                                                        break;
 
-                                                        case BOOST:
-                                                            packet = new PacketPlayOutWorldParticles(
-                                                                    EnumParticle.SNOWBALL,
-                                                                    true, x, y, z, oX, oY, oZ, 0, 5, null);
-                                                            break;
+                                                    case RUNNER:
+                                                        packet = new PacketPlayOutWorldParticles(
+                                                                EnumParticle.EXPLOSION_NORMAL,
+                                                                true, x, y, z, oX, oY, oZ, 0, 30, null);
+                                                        break;
 
-                                                        case COAL:
-                                                            packet = new PacketPlayOutWorldParticles(
-                                                                    EnumParticle.TOWN_AURA,
-                                                                    true, x, y, z, oX, oY, oZ, 0, 50, null);
-                                                            break;
+                                                    case GLOW:
+                                                        packet = new PacketPlayOutWorldParticles(
+                                                                EnumParticle.SUSPENDED_DEPTH,
+                                                                true, x, y, z, oX, oY, oZ, 0, 10, null);
+                                                        break;
 
-                                                        case REDSTONE:
-                                                            packet = new PacketPlayOutWorldParticles(
-                                                                    EnumParticle.REDSTONE,
-                                                                    true, x, y, z, oX, oY, oZ, 0, 10, null);
-                                                            break;
-
-                                                        case RUNNER:
-                                                            packet = new PacketPlayOutWorldParticles(
-                                                                    EnumParticle.EXPLOSION_NORMAL,
-                                                                    true, x, y, z, oX, oY, oZ, 0, 30, null);
-                                                            break;
-
-                                                        case GLOW:
-                                                            packet = new PacketPlayOutWorldParticles(
-                                                                    EnumParticle.SUSPENDED_DEPTH,
-                                                                    true, x, y, z, oX, oY, oZ, 0, 10, null);
-                                                            break;
-
-                                                        case ORIGINAL:
-                                                            packet = new PacketPlayOutWorldParticles(
-                                                                    EnumParticle.FLAME,
-                                                                    true, x, y, z, oX, oY, oZ, 0, 5, null);
-                                                            break;
-
-                                                    }
-
-                                                }
-
-                                                for (Player serverPlayer : player.getWorld().getPlayers())
-                                                    ((CraftPlayer) serverPlayer).getHandle().playerConnection.sendPacket(packet);
-
-                                            }
+                                                    case ORIGINAL:
+                                                        packet = new PacketPlayOutWorldParticles(
+                                                                EnumParticle.FLAME,
+                                                                true, x, y, z, oX, oY, oZ, 0, 5, null);
+                                                        break;
 
                                         }
 
                                     }
+
+                                            for (Player serverPlayer : player.getWorld().getPlayers())
+                                                ((CraftPlayer) serverPlayer).getHandle().playerConnection.sendPacket(packet);
 
                                 }
 
@@ -177,11 +165,11 @@ public class RocketParticles {
 
                     }
 
-                });
+                        }
 
             }
 
-        }, 0, 0);
+                }), 0, 0);
 
     }
 

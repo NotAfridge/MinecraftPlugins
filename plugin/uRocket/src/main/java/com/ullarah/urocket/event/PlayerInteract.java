@@ -1,5 +1,6 @@
 package com.ullarah.urocket.event;
 
+import com.ullarah.ulib.function.EntityLocation;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -93,18 +94,30 @@ public class PlayerInteract implements Listener {
 
                                     List<String> standList = getPlugin().getConfig().getStringList("stands");
 
-                                    if (standList.contains(stand))
-                                        player.sendMessage(getMsgPrefix() + ChatColor.YELLOW
-                                                + "Repair Stand already exists at this location!");
-                                    else {
+                                    if (EntityLocation.getNearbyEntities(
+                                            new Location(world, eX, eY + 1, eZ), 1).length != 0) {
 
-                                        standList.add(stand);
+                                        player.sendMessage(getMsgPrefix() + ChatColor.RED
+                                                + "Entity in the way of Repair Stand placement!");
 
-                                        getPlugin().getConfig().set("stands", standList);
-                                        getPlugin().saveConfig();
+                                    } else {
 
-                                        player.sendMessage(getMsgPrefix() + ChatColor.GREEN
-                                                + "Repair Stand ready to use!");
+                                        if (standList.contains(stand))
+
+                                            player.sendMessage(getMsgPrefix() + ChatColor.YELLOW
+                                                    + "Repair Stand already exists at this location!");
+
+                                        else {
+
+                                            standList.add(stand);
+
+                                            getPlugin().getConfig().set("stands", standList);
+                                            getPlugin().saveConfig();
+
+                                            player.sendMessage(getMsgPrefix() + ChatColor.GREEN
+                                                    + "Repair Stand ready to use!");
+
+                                        }
 
                                     }
 

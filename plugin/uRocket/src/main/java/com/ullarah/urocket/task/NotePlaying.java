@@ -21,74 +21,62 @@ public class NotePlaying {
 
     public void task() {
 
-        Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(), new Runnable() {
+        Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
+                () -> Bukkit.getScheduler().runTask(getPlugin(), () -> {
 
-            public void run() {
+                    if (!rocketUsage.isEmpty() && !rocketVariant.isEmpty()) for (UUID uuid : rocketUsage) {
 
-                Bukkit.getScheduler().runTask(getPlugin(), new Runnable() {
+                        Player player = Bukkit.getPlayer(uuid);
 
-                    @Override
-                    public void run() {
+                        if (GamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
 
-                        if (!rocketUsage.isEmpty() && !rocketVariant.isEmpty()) for (UUID uuid : rocketUsage) {
+                            if (player.isFlying()) {
 
-                            Player player = Bukkit.getPlayer(uuid);
+                                if (!player.isSneaking()) {
 
-                            if (GamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
+                                    if (rocketVariant.containsKey(player.getUniqueId())) {
 
-                                if (player.isFlying()) {
+                                        Variant bootVariant = rocketVariant.get(player.getUniqueId());
 
-                                    if (!player.isSneaking()) {
+                                        if (bootVariant == Variant.NOTE) {
 
-                                        if (rocketVariant.containsKey(player.getUniqueId())) {
+                                            String[] tones = {"A", "B", "C", "D", "E", "F", "G"};
 
-                                            Variant bootVariant = rocketVariant.get(player.getUniqueId());
+                                            int randomPianoOctave = new Random().nextInt(2);
+                                            int randomBassOctave = new Random().nextInt(2);
+                                            int randomTones = new Random().nextInt(tones.length);
 
-                                            if (bootVariant == Variant.NOTE) {
+                                            float x = (float) player.getLocation().getX();
+                                            float y = (float) (player.getLocation().getY() - 1);
+                                            float z = (float) player.getLocation().getZ();
 
-                                                String[] tones = {"A", "B", "C", "D", "E", "F", "G"};
+                                            float oX = (float) 0.125;
+                                            float oY = (float) -0.5;
+                                            float oZ = (float) 0.125;
 
-                                                int randomPianoOctave = new Random().nextInt(2);
-                                                int randomBassOctave = new Random().nextInt(2);
-                                                int randomTones = new Random().nextInt(tones.length);
+                                            PacketPlayOutWorldParticles packet;
 
-                                                float x = (float) player.getLocation().getX();
-                                                float y = (float) (player.getLocation().getY() - 1);
-                                                float z = (float) player.getLocation().getZ();
+                                            int noteColour = new Random().nextInt(25);
+                                            if (rocketSprint.containsKey(player.getUniqueId()))
+                                                packet = new PacketPlayOutWorldParticles(EnumParticle.SMOKE_LARGE,
+                                                        true, x, y, z, oX, oY, oZ, 0, 5, null);
+                                            else packet = new PacketPlayOutWorldParticles(EnumParticle.NOTE,
+                                                    true, x, y, z, oX, oY, oZ, noteColour, 1, null);
 
-                                                float oX = (float) 0.125;
-                                                float oY = (float) -0.5;
-                                                float oZ = (float) 0.125;
+                                            for (Player serverPlayer : player.getWorld().getPlayers()) {
+                                                serverPlayer.playNote(
+                                                        player.getLocation(),
+                                                        Instrument.PIANO,
+                                                        natural(randomPianoOctave, Tone.valueOf(tones[randomTones]))
+                                                );
 
-                                                PacketPlayOutWorldParticles packet;
+                                                serverPlayer.playNote(
+                                                        player.getLocation(),
+                                                        Instrument.BASS_GUITAR,
+                                                        natural(randomBassOctave, Tone.valueOf(tones[randomTones]))
+                                                );
 
-                                                int noteColour = new Random().nextInt(25);
-                                                if (rocketSprint.containsKey(player.getUniqueId()))
-                                                    packet = new PacketPlayOutWorldParticles(EnumParticle.SMOKE_LARGE,
-                                                            true, x, y, z, oX, oY, oZ, 0, 5, null);
-                                                else packet = new PacketPlayOutWorldParticles(EnumParticle.NOTE,
-                                                        true, x, y, z, oX, oY, oZ, noteColour, 1, null);
-
-                                                for (Player serverPlayer : player.getWorld().getPlayers()) {
-                                                    serverPlayer.playNote(
-                                                            player.getLocation(),
-                                                            Instrument.PIANO,
-                                                            natural(randomPianoOctave, Tone.valueOf(tones[randomTones]))
-                                                    );
-
-                                                    serverPlayer.playNote(
-                                                            player.getLocation(),
-                                                            Instrument.BASS_GUITAR,
-                                                            natural(randomBassOctave, Tone.valueOf(tones[randomTones]))
-                                                    );
-
-                                                    ((CraftPlayer) serverPlayer).getHandle().playerConnection.sendPacket(packet);
-                                                }
-
-                                            }
-
-                                        }
-
+                                                ((CraftPlayer) serverPlayer).getHandle().playerConnection.sendPacket(packet);
                                     }
 
                                 }
@@ -99,11 +87,11 @@ public class NotePlaying {
 
                     }
 
-                });
+                        }
 
             }
 
-        }, 5, 5);
+                }), 5, 5);
 
     }
 

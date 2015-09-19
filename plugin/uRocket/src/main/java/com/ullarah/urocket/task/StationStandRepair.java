@@ -21,146 +21,134 @@ public class StationStandRepair {
 
     public void task() {
 
-        Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(), new Runnable() {
+        Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
+                () -> Bukkit.getScheduler().runTask(getPlugin(), () -> {
 
-            public void run() {
+                    if (!rocketRepairStand.isEmpty()) {
 
-                Bukkit.getScheduler().runTask(getPlugin(), new Runnable() {
+                        for (Map.Entry<UUID, Location> repairStand : rocketRepairStand.entrySet()) {
 
-                    @Override
-                    public void run() {
+                            Chunk chunk = repairStand.getValue().getWorld().getChunkAt(repairStand.getValue());
 
-                        if (!rocketRepairStand.isEmpty()) {
+                            if (chunk.isLoaded()) {
 
-                            for (Map.Entry<UUID, Location> repairStand : rocketRepairStand.entrySet()) {
+                                Set<LivingEntity> repairStands = new HashSet<>();
 
-                                Chunk chunk = repairStand.getValue().getWorld().getChunkAt(repairStand.getValue());
+                                for (Entity entity : chunk.getEntities())
+                                    if (entity instanceof ArmorStand) repairStands.add((LivingEntity) entity);
 
-                                if (chunk.isLoaded()) {
+                                for (LivingEntity stand : repairStands) {
 
-                                    Set<LivingEntity> repairStands = new HashSet<>();
+                                    Location beaconSign = new Location(
+                                            stand.getLocation().getWorld(),
+                                            stand.getLocation().getX(),
+                                            (stand.getLocation().getY() - 1),
+                                            stand.getLocation().getZ());
 
-                                    for (Entity entity : chunk.getEntities())
-                                        if (entity instanceof ArmorStand) repairStands.add((LivingEntity) entity);
+                                    if (stand.getWorld().getBlockAt(
+                                            stand.getLocation().getBlockX(),
+                                            stand.getLocation().getBlockY() - 2,
+                                            stand.getLocation().getBlockZ())
+                                            .getType() == Material.BURNING_FURNACE) {
 
-                                    for (LivingEntity stand : repairStands) {
+                                        ItemStack standBoots = stand.getEquipment().getBoots();
 
-                                        Location beaconSign = new Location(
-                                                stand.getLocation().getWorld(),
-                                                stand.getLocation().getX(),
-                                                (stand.getLocation().getY() - 1),
-                                                stand.getLocation().getZ());
+                                        if (standBoots.hasItemMeta()) {
 
-                                        if (stand.getWorld().getBlockAt(
-                                                stand.getLocation().getBlockX(),
-                                                stand.getLocation().getBlockY() - 2,
-                                                stand.getLocation().getBlockZ())
-                                                .getType() == Material.BURNING_FURNACE) {
+                                            String bootLore = standBoots.getItemMeta().getLore().get(0);
+                                            Integer bootRepair;
 
-                                            ItemStack standBoots = stand.getEquipment().getBoots();
+                                            Integer powerLevel = RomanNumeralToInteger.decode(
+                                                    bootLore.replaceFirst(
+                                                            ChatColor.YELLOW + "Rocket Level ", ""));
 
-                                            if (standBoots.hasItemMeta()) {
+                                            switch (powerLevel) {
 
-                                                String bootLore = standBoots.getItemMeta().getLore().get(0);
-                                                Integer bootRepair;
+                                                case 1:
+                                                    bootRepair = 5;
+                                                    break;
 
-                                                Integer powerLevel = RomanNumeralToInteger.decode(
-                                                        bootLore.replaceFirst(
-                                                                ChatColor.YELLOW + "Rocket Level ", ""));
+                                                case 2:
+                                                    bootRepair = 4;
+                                                    break;
 
-                                                switch (powerLevel) {
+                                                case 3:
+                                                    bootRepair = 3;
+                                                    break;
 
-                                                    case 1:
-                                                        bootRepair = 5;
-                                                        break;
+                                                case 4:
+                                                    bootRepair = 2;
+                                                    break;
 
-                                                    case 2:
-                                                        bootRepair = 4;
-                                                        break;
+                                                case 5:
+                                                    bootRepair = new Random().nextInt(9) + 1;
+                                                    break;
 
-                                                    case 3:
-                                                        bootRepair = 3;
-                                                        break;
-
-                                                    case 4:
-                                                        bootRepair = 2;
-                                                        break;
-
-                                                    case 5:
-                                                        bootRepair = new Random().nextInt(9) + 1;
-                                                        break;
-
-                                                    default:
-                                                        bootRepair = 0;
-                                                        break;
-
-                                                }
-
-                                                short bootDurability = standBoots.getDurability();
-                                                int bootHealthOriginal = (195 - bootDurability);
-                                                int bootHealthNew = ((195 - bootDurability) + bootRepair);
-
-                                                SignText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
-                                                        new String[]{"[Repair Status]", "----------",
-                                                                standBoots.getItemMeta().getLore().get(0),
-                                                                String.valueOf(bootHealthNew)});
-
-                                                if (bootHealthOriginal <= 194) {
-
-                                                    standBoots.setDurability((short) (bootDurability - bootRepair));
-                                                    stand.getEquipment().setBoots(standBoots);
-
-                                                    if (bootHealthNew > 195) {
-
-                                                        SignText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
-                                                                new String[]{"[Repair Status]", "----------",
-                                                                        standBoots.getItemMeta().getLore().get(0),
-                                                                        "Fully Restored"});
-
-                                                        rocketRepairStand.remove(stand.getUniqueId());
-
-                                                    } else {
-
-                                                        float x = (float) stand.getLocation().getX();
-                                                        float y = (float) stand.getLocation().getY();
-                                                        float z = (float) stand.getLocation().getZ();
-
-                                                        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
-                                                                EnumParticle.PORTAL, true, x, y, z, 0, 0, 0, 1, 500, null);
-
-                                                        for (Player serverPlayer : stand.getWorld().getPlayers())
-                                                            ((CraftPlayer) serverPlayer).getHandle()
-                                                                    .playerConnection.sendPacket(packet);
-
-                                                    }
-
-                                                } else {
-                                                    SignText.clearLines(beaconSign, new Integer[]{2, 3});
-                                                    rocketRepairStand.remove(stand.getUniqueId());
-                                                }
+                                                default:
+                                                    bootRepair = 0;
+                                                    break;
 
                                             }
 
-                                        } else {
-                                            SignText.changeLine(beaconSign, new Integer[]{2, 3},
-                                                    new String[]{"Repair Tank", "Empty"});
-                                            rocketRepairStand.remove(stand.getUniqueId());
+                                            short bootDurability = standBoots.getDurability();
+                                            int bootHealthOriginal = (195 - bootDurability);
+                                            int bootHealthNew = ((195 - bootDurability) + bootRepair);
+
+                                            SignText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
+                                                    new String[]{"[Repair Status]", "----------",
+                                                            standBoots.getItemMeta().getLore().get(0),
+                                                            String.valueOf(bootHealthNew)});
+
+                                            if (bootHealthOriginal <= 194) {
+
+                                                standBoots.setDurability((short) (bootDurability - bootRepair));
+                                                stand.getEquipment().setBoots(standBoots);
+
+                                                if (bootHealthNew > 195) {
+
+                                                    SignText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
+                                                            new String[]{"[Repair Status]", "----------",
+                                                                    standBoots.getItemMeta().getLore().get(0),
+                                                                    "Fully Restored"});
+
+                                                    rocketRepairStand.remove(stand.getUniqueId());
+
+                                                } else {
+
+                                                    float x = (float) stand.getLocation().getX();
+                                                    float y = (float) stand.getLocation().getY();
+                                                    float z = (float) stand.getLocation().getZ();
+
+                                                    PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
+                                                            EnumParticle.PORTAL, true, x, y, z, 0, 0, 0, 1, 500, null);
+
+                                                    for (Player serverPlayer : stand.getWorld().getPlayers())
+                                                        ((CraftPlayer) serverPlayer).getHandle()
+                                                                .playerConnection.sendPacket(packet);
+
                                         }
 
+                                            } else {
+                                                SignText.clearLine(beaconSign, new Integer[]{2, 3});
+                                                rocketRepairStand.remove(stand.getUniqueId());
                                     }
 
                                 }
 
+                                    } else {
+                                        SignText.changeLine(beaconSign, new Integer[]{2, 3},
+                                                new String[]{"Repair Tank", "Empty"});
+                                        rocketRepairStand.remove(stand.getUniqueId());
                             }
+
                         }
 
                     }
 
-                });
-
+                        }
             }
 
-        }, 0, 600);
+                }), 0, 600);
 
     }
 

@@ -17,39 +17,27 @@ public class StationParticles {
 
     public void task() {
 
-        Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(), new Runnable() {
+        Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
+                () -> Bukkit.getScheduler().runTask(getPlugin(), () -> {
 
-            public void run() {
+                    if (!rocketRepair.isEmpty())
+                        for (Map.Entry<UUID, Location> repairStation : rocketRepair.entrySet()) {
 
-                Bukkit.getScheduler().runTask(getPlugin(), new Runnable() {
+                            Player player = Bukkit.getPlayer(repairStation.getKey());
 
-                    @Override
-                    public void run() {
+                            float x = (float) (repairStation.getValue().getBlockX() + 0.5);
+                            float y = (float) (repairStation.getValue().getBlockY() + 0.5);
+                            float z = (float) (repairStation.getValue().getBlockZ() + 0.5);
 
-                        if (!rocketRepair.isEmpty())
-                            for (Map.Entry<UUID, Location> repairStation : rocketRepair.entrySet()) {
+                            PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
+                                    EnumParticle.PORTAL, false, x, y, z, 0, 0, 0, 1, 1, null);
 
-                                Player player = Bukkit.getPlayer(repairStation.getKey());
+                            for (Player serverPlayer : player.getWorld().getPlayers())
+                                ((CraftPlayer) serverPlayer).getHandle().playerConnection.sendPacket(packet);
 
-                                float x = (float) (repairStation.getValue().getBlockX() + 0.5);
-                                float y = (float) (repairStation.getValue().getBlockY() + 0.5);
-                                float z = (float) (repairStation.getValue().getBlockZ() + 0.5);
+                        }
 
-                                PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
-                                        EnumParticle.PORTAL, false, x, y, z, 0, 0, 0, 1, 1, null);
-
-                                for (Player serverPlayer : player.getWorld().getPlayers())
-                                    ((CraftPlayer) serverPlayer).getHandle().playerConnection.sendPacket(packet);
-
-                            }
-
-                    }
-
-                });
-
-            }
-
-        }, 0, 0);
+                }), 0, 0);
 
     }
 

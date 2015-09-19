@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.ullarah.urocket.RocketFunctions.Variant;
 import static com.ullarah.urocket.RocketInit.*;
@@ -76,9 +77,14 @@ public class PlayerMove implements Listener {
                     List<String> newStationList = new ArrayList<>();
                     List<String> newStandList = new ArrayList<>();
 
-                    for (String tank : tankList) newTankList.add(tank.replaceFirst(".{37}", ""));
-                    for (String station : stationList) newStationList.add(station.replaceFirst(".{37}", ""));
-                    for (String stand : standList) newStandList.add(stand.replaceFirst(".{37}", ""));
+                    newTankList.addAll(tankList.stream()
+                            .map(tank -> tank.replaceFirst(".{37}", "")).collect(Collectors.toList()));
+
+                    newStationList.addAll(stationList.stream()
+                            .map(station -> station.replaceFirst(".{37}", "")).collect(Collectors.toList()));
+
+                    newStandList.addAll(standList.stream()
+                            .map(stand -> stand.replaceFirst(".{37}", "")).collect(Collectors.toList()));
 
                     World world = player.getWorld();
 

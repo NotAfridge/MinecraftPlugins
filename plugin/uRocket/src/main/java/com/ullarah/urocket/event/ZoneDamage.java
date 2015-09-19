@@ -12,8 +12,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.ullarah.urocket.RocketFunctions.reloadFlyZones;
 import static com.ullarah.urocket.RocketInit.getMsgPrefix;
@@ -36,9 +36,8 @@ public class ZoneDamage implements Listener {
             int eZ = entityLocation.getBlockZ();
 
             List<String> zoneList = getPlugin().getConfig().getStringList("zones");
-            List<String> newZoneList = new ArrayList<>();
-
-            for (String zone : zoneList) newZoneList.add(zone.replaceFirst(".{37}", ""));
+            List<String> newZoneList = zoneList.stream()
+                    .map(zone -> zone.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
             String zoneOriginal = event.getDamager().getUniqueId().toString() + "|"
                     + zoneEntity.getWorld().getName() + "|" + eX + "|" + eY + "|" + eZ;

@@ -21,53 +21,41 @@ public class StationStandParticles {
 
     public void task() {
 
-        Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(), new Runnable() {
+        Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
+                () -> Bukkit.getScheduler().runTask(getPlugin(), () -> {
 
-            public void run() {
+                    if (!rocketRepairStand.isEmpty())
+                        for (Map.Entry<UUID, Location> repairStand : rocketRepairStand.entrySet()) {
 
-                Bukkit.getScheduler().runTask(getPlugin(), new Runnable() {
+                            Chunk chunk = repairStand.getValue().getWorld().getChunkAt(repairStand.getValue());
 
-                    @Override
-                    public void run() {
+                            if (chunk.isLoaded()) {
 
-                        if (!rocketRepairStand.isEmpty())
-                            for (Map.Entry<UUID, Location> repairStand : rocketRepairStand.entrySet()) {
+                                for (Entity entity : chunk.getEntities()) {
 
-                                Chunk chunk = repairStand.getValue().getWorld().getChunkAt(repairStand.getValue());
+                                    if (entity instanceof ArmorStand) {
 
-                                if (chunk.isLoaded()) {
+                                        LivingEntity stand = (LivingEntity) entity;
 
-                                    for (Entity entity : chunk.getEntities()) {
+                                        float x = (float) (repairStand.getValue().getBlockX() + 0.5);
+                                        float y = (float) (repairStand.getValue().getBlockY() + 0.5);
+                                        float z = (float) (repairStand.getValue().getBlockZ() + 0.5);
 
-                                        if (entity instanceof ArmorStand) {
+                                        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
+                                                EnumParticle.PORTAL, false, x, y, z, 0, 0, 0, 1, 1, null);
 
-                                            LivingEntity stand = (LivingEntity) entity;
-
-                                            float x = (float) (repairStand.getValue().getBlockX() + 0.5);
-                                            float y = (float) (repairStand.getValue().getBlockY() + 0.5);
-                                            float z = (float) (repairStand.getValue().getBlockZ() + 0.5);
-
-                                            PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
-                                                    EnumParticle.PORTAL, false, x, y, z, 0, 0, 0, 1, 1, null);
-
-                                            for (Player serverPlayer : stand.getWorld().getPlayers())
-                                                ((CraftPlayer) serverPlayer).getHandle().playerConnection.sendPacket(packet);
-
-                                        }
-
-                                    }
-
-                                }
+                                        for (Player serverPlayer : stand.getWorld().getPlayers())
+                                            ((CraftPlayer) serverPlayer).getHandle().playerConnection.sendPacket(packet);
 
                             }
 
+                                }
+
                     }
 
-                });
+                        }
 
-            }
-
-        }, 0, 0);
+                }), 0, 0);
 
     }
 

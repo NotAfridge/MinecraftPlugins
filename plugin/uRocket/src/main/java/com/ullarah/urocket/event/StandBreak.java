@@ -10,8 +10,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.ullarah.urocket.RocketInit.getPlugin;
 
@@ -31,9 +31,8 @@ public class StandBreak implements Listener {
             int eZ = entityLocation.getBlockZ();
 
             List<String> standList = getPlugin().getConfig().getStringList("stands");
-            List<String> newStandList = new ArrayList<>();
-
-            for (String stand : standList) newStandList.add(stand.replaceFirst(".{37}", ""));
+            List<String> newStandList = standList.stream()
+                    .map(stand -> stand.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
             String standOriginal = event.getDamager().getUniqueId().toString() + "|"
                     + standEntity.getWorld().getName() + "|" + eX + "|" + eY + "|" + eZ;
