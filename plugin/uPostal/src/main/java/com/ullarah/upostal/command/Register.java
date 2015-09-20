@@ -43,7 +43,6 @@ public class Register {
 
                         FileConfiguration inboxConfig = YamlConfiguration.loadConfiguration(inboxConfigFile);
 
-                        inboxConfig.set("name", player.getPlayerListName());
                         inboxConfig.set("uuid", playerUUID.toString());
                         inboxConfig.set("slot", 9);
                         inboxConfig.set("blacklist", false);

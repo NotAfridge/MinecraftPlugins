@@ -2,7 +2,7 @@ package com.ullarah.upostal.event;
 
 import com.ullarah.ulib.function.ProfileUtils;
 import com.ullarah.upostal.PostalInit;
-import com.ullarah.upostal.command.Inbox;
+import com.ullarah.upostal.command.inbox.Update;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
@@ -34,7 +34,7 @@ public class InboxClose implements Listener {
             UUID inboxViewerUUID = event.getInventory().getViewers().get(0).getUniqueId();
             UUID inboxOwnerUUID = UUID.fromString(inboxConfig.getString("uuid"));
 
-            Inbox.update(inboxViewerUUID, inboxOwnerUUID, chestInventory);
+            Update.run(inboxViewerUUID, inboxOwnerUUID, chestInventory);
 
             if (PostalInit.inboxViewerBusy.contains(inboxOwnerUUID))
                 PostalInit.inboxViewerBusy.remove(inboxOwnerUUID);

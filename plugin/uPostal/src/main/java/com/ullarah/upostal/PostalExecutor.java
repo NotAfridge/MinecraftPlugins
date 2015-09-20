@@ -3,6 +3,9 @@ package com.ullarah.upostal;
 import com.ullarah.ulib.function.ProfileUtils;
 import com.ullarah.upostal.command.Blacklist;
 import com.ullarah.upostal.command.Maintenance;
+import com.ullarah.upostal.command.inbox.Clear;
+import com.ullarah.upostal.command.inbox.Prepare;
+import com.ullarah.upostal.command.inbox.Upgrade;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,7 +16,6 @@ import java.util.UUID;
 
 import static com.ullarah.upostal.PostalInit.*;
 import static com.ullarah.upostal.command.Help.display;
-import static com.ullarah.upostal.command.Inbox.*;
 
 class PostalExecutor implements CommandExecutor {
 
@@ -32,7 +34,7 @@ class PostalExecutor implements CommandExecutor {
 
                         UUID playerID = ProfileUtils.lookup(args[0]).getId();
 
-                        if (playerID != null) prepare((Player) sender, playerID);
+                        if (playerID != null) Prepare.run((Player) sender, playerID);
                         else sender.sendMessage(getMsgPrefix() + ChatColor.YELLOW + "That player does not have an inbox.");
 
                     } else sender.sendMessage(getMsgPrefix() + ChatColor.YELLOW + "Usage: /post <player>");
@@ -41,8 +43,8 @@ class PostalExecutor implements CommandExecutor {
             case "INBOX":
                 if (!getMaintenanceCheck()) {
 
-                    if (args.length >= 1) if (args[0].toUpperCase().equals("UPGRADE")) upgrade(sender);
-                    else prepare((Player) sender, ((Player) sender).getUniqueId());
+                    if (args.length >= 1) if (args[0].toUpperCase().equals("UPGRADE")) Upgrade.run(sender);
+                    else Prepare.run((Player) sender, ((Player) sender).getUniqueId());
 
                 }
                 break;
@@ -79,7 +81,7 @@ class PostalExecutor implements CommandExecutor {
 
                 case "CLEAR":
                     if (!getMaintenanceCheck())
-                        clear(sender, args);
+                        Clear.run(sender, args);
                     else
                         sender.sendMessage(getMaintenanceMessage());
                     break;

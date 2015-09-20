@@ -73,11 +73,9 @@ public class InboxClick implements Listener {
                                 if (lore.size() <= 1) meta.setLore(null);
                                 else {
 
-                                    for (String line : item.getItemMeta().getLore()) {
-                                        if (line.matches("" + ChatColor.GRAY + ChatColor.ITALIC + "From: .*")) {
-                                            lore.remove(lore.size() - 1);
-                                        }
-                                    }
+                                    item.getItemMeta().getLore().stream().filter(line -> line.matches
+                                            ("" + ChatColor.GRAY + ChatColor.ITALIC + "From: .*"))
+                                            .forEach(line -> lore.remove(lore.size() - 1));
 
                                     meta.setLore(lore);
 
