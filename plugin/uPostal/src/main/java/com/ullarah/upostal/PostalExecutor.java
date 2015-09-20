@@ -43,8 +43,9 @@ class PostalExecutor implements CommandExecutor {
             case "INBOX":
                 if (!getMaintenanceCheck()) {
 
-                    if (args.length >= 1) if (args[0].toUpperCase().equals("UPGRADE")) Upgrade.run(sender);
-                    else Prepare.run((Player) sender, ((Player) sender).getUniqueId());
+                    if (args.length >= 1) {
+                        if (args[0].toUpperCase().equals("UPGRADE")) Upgrade.run(sender);
+                    } else Prepare.run((Player) sender, ((Player) sender).getUniqueId());
 
                 }
                 break;

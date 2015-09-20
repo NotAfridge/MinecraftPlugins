@@ -28,8 +28,8 @@ public class InboxClose implements Listener {
             String inboxOwner = stripColor(event.getInventory().getTitle().replace("Inbox: ", ""));
             UUID inboxUUID = ProfileUtils.lookup(inboxOwner).getId();
 
-            File inboxFile = new File(getInboxDataPath(), inboxUUID.toString() + ".yml");
-            FileConfiguration inboxConfig = YamlConfiguration.loadConfiguration(inboxFile);
+            File inboxConfigFile = new File(getInboxDataPath(), inboxUUID.toString() + ".yml");
+            FileConfiguration inboxConfig = YamlConfiguration.loadConfiguration(inboxConfigFile);
 
             UUID inboxViewerUUID = event.getInventory().getViewers().get(0).getUniqueId();
             UUID inboxOwnerUUID = UUID.fromString(inboxConfig.getString("uuid"));

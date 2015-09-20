@@ -23,6 +23,7 @@ public class Prepare {
 
                 FileConfiguration inboxConfig = YamlConfiguration.loadConfiguration(inboxFile);
 
+                String inboxPlayerName = inboxConfig.getString("name");
                 UUID inboxPlayerUUID = UUID.fromString(inboxConfig.getString("uuid"));
                 Integer inboxPlayerSlot = inboxConfig.getInt("slot");
                 ArrayList inboxPlayerStock = (ArrayList) inboxConfig.getList("item");
@@ -39,13 +40,13 @@ public class Prepare {
                         player.sendMessage(getMsgPrefix() + ChatColor.RED + "Your inbox has been blacklisted.");
                     else if (inboxPlayerStock.isEmpty())
                         player.sendMessage(getMsgPrefix() + "You have no items in your inbox!");
-                    else View.run(inboxConfig, player, inboxPlayerUUID, inboxPlayerSlot);
+                    else View.run(inboxPlayerStock, player, inboxPlayerUUID, inboxPlayerName, inboxPlayerSlot);
 
                 } else {
 
                     if (inboxBlacklist)
                         player.sendMessage(getMsgPrefix() + ChatColor.RED + "Their inbox has been blacklisted.");
-                    else View.run(inboxConfig, player, inboxPlayerUUID, inboxPlayerSlot);
+                    else View.run(inboxPlayerStock, player, inboxPlayerUUID, inboxPlayerName, inboxPlayerSlot);
 
                 }
 

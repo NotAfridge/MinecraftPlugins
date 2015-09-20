@@ -43,6 +43,7 @@ public class Register {
 
                         FileConfiguration inboxConfig = YamlConfiguration.loadConfiguration(inboxConfigFile);
 
+                        inboxConfig.set("name", player.getPlayerListName());
                         inboxConfig.set("uuid", playerUUID.toString());
                         inboxConfig.set("slot", 9);
                         inboxConfig.set("blacklist", false);
@@ -51,6 +52,18 @@ public class Register {
                         inboxConfig.save(inboxConfigFile);
 
                     }
+
+                }
+
+            } else {
+
+                File inboxConfigFile = new File(getInboxDataPath(), playerUUID.toString() + ".yml");
+                FileConfiguration inboxConfig = YamlConfiguration.loadConfiguration(inboxConfigFile);
+
+                if (!inboxConfig.getString("name").equals(player.getPlayerListName())) {
+
+                    inboxConfig.set("name", player.getPlayerListName());
+                    inboxConfig.save(inboxConfigFile);
 
                 }
 

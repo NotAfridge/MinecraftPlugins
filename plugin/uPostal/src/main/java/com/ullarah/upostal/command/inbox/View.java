@@ -1,10 +1,8 @@
 package com.ullarah.upostal.command.inbox;
 
-import com.ullarah.ulib.function.ProfileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -17,9 +15,8 @@ import static com.ullarah.upostal.PostalInit.*;
 
 public class View {
 
-    public static void run(FileConfiguration inboxPlayer, Player inboxViewer, UUID inboxUUID, Integer inboxSlot) {
-
-        String inboxPlayerName = ProfileUtils.lookup(inboxUUID).getName();
+    public static void run(ArrayList inboxPlayerStock, Player inboxViewer, UUID inboxUUID,
+                           String inboxPlayerName, Integer inboxSlot) {
 
         Inventory inboxInventory = Bukkit.createInventory(null, inboxSlot,
                 ChatColor.DARK_RED + "Inbox: " + ChatColor.DARK_AQUA + inboxPlayerName);
@@ -40,11 +37,11 @@ public class View {
 
             }
 
-            if (inboxPlayer.get("item") != null) {
+            if (!inboxPlayerStock.isEmpty()) {
 
                 ArrayList<ItemStack> inboxItemStack = new ArrayList<>();
 
-                for (Object inboxCurrentItem : inboxPlayer.getList("item")) {
+                for (Object inboxCurrentItem : inboxPlayerStock) {
 
                     ItemStack inboxTaken = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15);
                     ItemMeta inboxTakenMeta = inboxTaken.getItemMeta();
