@@ -1,5 +1,6 @@
 package com.ullarah.ujoinquit;
 
+import com.ullarah.ulib.function.PermissionCheck;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,34 +26,30 @@ class JoinQuitExecutor implements CommandExecutor {
 
             Player player = (Player) sender;
 
-            if (player.hasPermission("jq.access")) {
+            if (args.length == 0) displayHelp(player);
+            else switch (args[0].toUpperCase()) {
 
-                if (args.length == 0) displayHelp(player);
-                else switch (args[0].toLowerCase()) {
+                case "JOIN":
+                    if (PermissionCheck.check(player, "jq.access", "jq.join"))
+                        listMessages(player, JOIN);
+                    else player.sendMessage(getMsgPermDeny());
+                    break;
 
-                    case "join":
-                        if (player.hasPermission("jq.join"))
-                            listMessages(player, JOIN);
-                        else player.sendMessage(getMsgPermDeny());
-                        break;
+                case "QUIT":
+                    if (PermissionCheck.check(player, "jq.access", "jq.quit"))
+                        listMessages(player, QUIT);
+                    else player.sendMessage(getMsgPermDeny());
+                    break;
 
-                    case "quit":
-                        if (player.hasPermission("jq.quit"))
-                            listMessages(player, QUIT);
-                        else player.sendMessage(getMsgPermDeny());
-                        break;
+                case "CLEAR":
+                    clearMessage(player);
+                    break;
 
-                    case "clear":
-                        clearMessage(player);
-                        break;
+                default:
+                    displayHelp(player);
+                    break;
 
-                    default:
-                        displayHelp(player);
-                        break;
-
-                }
-
-            } else player.sendMessage(getMsgPermDeny());
+            }
 
         }
 

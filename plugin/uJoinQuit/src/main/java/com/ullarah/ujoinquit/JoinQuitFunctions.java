@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 import static com.ullarah.ujoinquit.JoinQuitInit.*;
 
-class JoinQuitFunctions {
+public class JoinQuitFunctions {
 
     public static void listMessages(Player player, messageType type) {
 
@@ -38,7 +38,7 @@ class JoinQuitFunctions {
             if (i == 54) continue;
 
             String[] messageArray = ChatColor.translateAlternateColorCodes('&',
-                    type.getList().get(i).replaceAll("%s", player.getPlayerListName())).split("\n");
+                    type.getList().get(i).replaceAll("\\{player\\}", player.getPlayerListName())).split("\n");
 
             List<String> messages = new ArrayList<>();
 
