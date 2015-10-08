@@ -30,8 +30,8 @@ public class DisplayComponentChest {
         if (RocketInit.getVaultEconomy() != null) variantMoney = VariantMoney.variant();
 
         return new ItemStack[]{
-                BoosterOne.booster(), BoosterTwo.booster(), BoosterThree.booster(),
-                BoosterFour.booster(), BoosterFive.booster(), BoosterTen.booster(),
+                RocketBooster.booster("I"), RocketBooster.booster("II"), RocketBooster.booster("III"),
+                RocketBooster.booster("IV"), RocketBooster.booster("V"), RocketBooster.booster("X"),
                 null, null, null,
 
                 RocketControls.control(), RepairTank.tank(), RepairStation.station(),

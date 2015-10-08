@@ -40,7 +40,7 @@ public class AnvilRename implements Listener {
                         if (currentItem.getItemMeta().hasLore()) {
 
                             if (!currentItem.getItemMeta().getLore().get(0).equals(
-                                    ChatColor.YELLOW + "Rocket Level V")) {
+                                    ChatColor.YELLOW + "Rocket Level X")) {
 
                                 player.closeInventory();
                                 player.sendMessage(getMsgPrefix() + ChatColor.RED + "You cannot modify Rocket Equipment!");

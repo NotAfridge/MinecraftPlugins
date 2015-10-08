@@ -39,7 +39,8 @@ public class StandBreak implements Listener {
 
             String standNew = standEntity.getWorld().getName() + "|" + eX + "|" + eY + "|" + eZ;
 
-            if (standList.contains(standOriginal) || event.getDamager().hasPermission("rocket.remove")) {
+            if (standList.contains(standOriginal) ||
+                    (event.getDamager().hasPermission("rocket.remove") && newStandList.contains(standNew))) {
 
                 if (standEntity.getEquipment().getBoots().getAmount() == 1) {
                     ItemStack standBoots = standEntity.getEquipment().getBoots();
@@ -50,7 +51,7 @@ public class StandBreak implements Listener {
                 standEntity.getWorld().dropItemNaturally(entityLocation, RepairStand.stand());
 
                 standList.remove(newStandList.indexOf(standNew));
-                standEntity.remove();
+                standEntity.setHealth(0.0);
 
                 getPlugin().getConfig().set("stands", standList);
                 getPlugin().saveConfig();

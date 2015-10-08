@@ -5,20 +5,21 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
 
-public class BoosterTen {
+public class RocketBooster {
 
-    public static ItemStack booster() {
+    public static ItemStack booster(String level) {
 
         ItemStack booster = new ItemStack(Material.TNT, 1);
         ItemMeta boosterMeta = booster.getItemMeta();
 
         boosterMeta.setDisplayName(ChatColor.RED + "Rocket Booster");
         boosterMeta.setLore(Arrays.asList(
-                ChatColor.YELLOW + "Rocket Level X"));
+                ChatColor.YELLOW + "Rocket Level " + level.toUpperCase()));
 
         boosterMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         booster.setItemMeta(boosterMeta);
@@ -26,6 +27,20 @@ public class BoosterTen {
         booster.addUnsafeEnchantment(Enchantment.PROTECTION_FIRE, 1);
 
         return booster;
+
+    }
+
+    public ShapedRecipe recipe(String level, Material material) {
+
+        ShapedRecipe boosterRecipe = new ShapedRecipe(booster(level));
+        boosterRecipe.shape("E E", "BRB", "TTT");
+
+        boosterRecipe.setIngredient('B', Material.BLAZE_POWDER);
+        boosterRecipe.setIngredient('E', material);
+        boosterRecipe.setIngredient('R', Material.REDSTONE_BLOCK);
+        boosterRecipe.setIngredient('T', Material.TNT);
+
+        return boosterRecipe;
 
     }
 
