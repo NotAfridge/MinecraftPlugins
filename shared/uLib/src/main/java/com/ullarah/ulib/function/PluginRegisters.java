@@ -33,12 +33,6 @@ public class PluginRegisters {
                         break;
 
                     case RECIPE:
-                        ShapedRecipe newRecipe = (ShapedRecipe) classObject.getMethod(type.toString())
-                                .invoke(classObject.newInstance());
-                        Bukkit.getServer().addRecipe(newRecipe);
-                        break;
-
-                    case RECIPETEST:
                         if (object instanceof NewRecipe) {
                             ShapedRecipe testRecipe = ((NewRecipe) object).recipe();
                             Bukkit.getServer().addRecipe(testRecipe);
@@ -70,7 +64,7 @@ public class PluginRegisters {
 
     public enum RegisterType {
 
-        COMMAND("command"), EVENT("event"), FURNACE("furnace"), RECIPE("recipe"), RECIPETEST("recipe"), TASK("task");
+        COMMAND("command"), EVENT("event"), FURNACE("furnace"), RECIPE("recipe"), TASK("task");
 
         private final String type;
 

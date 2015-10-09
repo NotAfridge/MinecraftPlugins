@@ -2,7 +2,6 @@ package com.ullarah.urocket.command;
 
 import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.recipe.*;
-import com.ullarah.urocket.recipe.variant.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -27,7 +26,8 @@ public class DisplayComponentChest {
     private static ItemStack[] rocketComponents() {
 
         ItemStack variantMoney = null;
-        if (RocketInit.getVaultEconomy() != null) variantMoney = VariantMoney.variant();
+        if (RocketInit.getVaultEconomy() != null)
+            variantMoney = RocketVariant.variant(ChatColor.DARK_GREEN + "Robin Hood");
 
         return new ItemStack[]{
                 RocketBooster.booster("I"), RocketBooster.booster("II"), RocketBooster.booster("III"),
@@ -38,13 +38,25 @@ public class DisplayComponentChest {
                 RepairStand.stand(), RocketFlyZone.zone(), RocketSaddle.saddle(),
                 null, null, new ItemStack(Material.IRON_INGOT),
 
-                VariantEnder.variant(), VariantHealth.variant(), VariantKaboom.variant(),
-                VariantRainbow.variant(), VariantWater.variant(), VariantGlazed.variant(),
-                VariantRedstone.variant(), VariantGlow.variant(), null,
+                RocketVariant.variant(ChatColor.LIGHT_PURPLE + "Gay Agenda"),
+                RocketVariant.variant(ChatColor.AQUA + "Pole Vaulter"),
+                RocketVariant.variant(ChatColor.GRAY + "Coal Miner"),
+                RocketVariant.variant(ChatColor.DARK_AQUA + "Essence of Ender"),
+                RocketVariant.variant(ChatColor.GRAY + "Glazed Over"),
+                RocketVariant.variant(ChatColor.YELLOW + "Shooting Star"),
+                RocketVariant.variant(ChatColor.GREEN + "Health Zapper"),
+                RocketVariant.variant(ChatColor.RED + "TNT Overload"),
+                null,
 
-                VariantZero.variant(), VariantNote.variant(), VariantStealth.variant(),
-                VariantAgenda.variant(), VariantBoost.variant(), VariantCoal.variant(),
-                VariantRunner.variant(), variantMoney, null
+                RocketVariant.variant(ChatColor.GOLD + "Musical Madness"),
+                RocketVariant.variant(ChatColor.YELLOW + "Radical Rainbows"),
+                RocketVariant.variant(ChatColor.DARK_RED + "Red Fury"),
+                RocketVariant.variant(ChatColor.GOLD + "Rocket Runner"),
+                RocketVariant.variant(ChatColor.WHITE + "Super Stealth"),
+                RocketVariant.variant(ChatColor.BLUE + "Water Slider"),
+                RocketVariant.variant(ChatColor.YELLOW + "Patient Zero"),
+                variantMoney,
+                null
         };
 
     }

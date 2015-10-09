@@ -1,5 +1,6 @@
 package com.ullarah.urocket.recipe;
 
+import com.ullarah.ulib.function.NewRecipe;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -8,7 +9,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
 
-public class RocketVariants {
+public class RocketVariants implements NewRecipe {
 
     public static ItemStack boots() {
 

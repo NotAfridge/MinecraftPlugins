@@ -1,12 +1,13 @@
 package com.ullarah.urocket.recipe;
 
+import com.ullarah.ulib.function.NewRecipe;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class RocketBoots {
+public class RocketBoots implements NewRecipe {
 
     public static ItemStack boots() {
 

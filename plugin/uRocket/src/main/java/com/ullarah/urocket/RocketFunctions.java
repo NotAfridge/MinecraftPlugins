@@ -355,8 +355,8 @@ public class RocketFunctions {
 
     public enum Variant {
 
-        ORIGINAL("Original"), ENDER("Random Teleportation"), HEALTH("Health Zapper"), KABOOM("TNT Overload"),
-        RAINBOW("Rainbows"), WATER("Water Slider"), ZERO("Patient Zero"), NOTE("Musical Madness"),
+        ORIGINAL("Original"), ENDER("Essence of Ender"), HEALTH("Health Zapper"), KABOOM("TNT Overload"),
+        RAINBOW("Radical Rainbows"), WATER("Water Slider"), ZERO("Patient Zero"), NOTE("Musical Madness"),
         STEALTH("Super Stealth"), AGENDA("Gay Agenda"), MONEY("Robin Hood"), DRUNK("Glazed Over"),
         BOOST("Pole Vaulter"), COAL("Coal Miner"), REDSTONE("Red Fury"), RUNNER("Rocket Runner"),
         GLOW("Shooting Star");
