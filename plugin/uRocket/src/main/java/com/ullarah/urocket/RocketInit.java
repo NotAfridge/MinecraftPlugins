@@ -120,10 +120,6 @@ public class RocketInit extends JavaPlugin {
 
         registerMap.put(RECIPE.toString(), PluginRegisters.register(getPlugin(), RECIPE,
                 new RocketBooster("I", Material.REDSTONE_BLOCK),
-                new RocketBooster("II", Material.IRON_BLOCK),
-                new RocketBooster("III", Material.GOLD_BLOCK),
-                new RocketBooster("IV", Material.DIAMOND_BLOCK),
-                new RocketBooster("V", Material.EMERALD_BLOCK),
                 new RocketBoots(),
                 new RocketControls(),
                 new RepairStation(),

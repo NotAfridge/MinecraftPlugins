@@ -1,5 +1,6 @@
 package com.ullarah.urocket.recipe;
 
+import com.ullarah.ulib.function.NewRecipe;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -10,10 +11,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
 
-public class RocketBooster {
+public class RocketBooster implements NewRecipe {
 
-    private static String boosterLevel;
-    private static Material boosterMaterial;
+    private String boosterLevel;
+    private Material boosterMaterial;
 
     public RocketBooster(String level, Material material) {
 

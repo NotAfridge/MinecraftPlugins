@@ -1,5 +1,6 @@
 package com.ullarah.urocket.task;
 
+import com.ullarah.ulib.function.TitleSubtitle;
 import org.apache.commons.io.output.StringBuilderWriter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -37,7 +38,7 @@ public class RocketFuel {
                                 rocketLowFuel.add(uuid);
 
                                 player.sendMessage(getMsgPrefix() + "You might want to consider landing!");
-                                com.ullarah.ulib.function.TitleSubtitle.both(player, 2,
+                                TitleSubtitle.both(player, 2,
                                         ChatColor.YELLOW + "Low XP", "You might want to consider landing!");
 
                             }
