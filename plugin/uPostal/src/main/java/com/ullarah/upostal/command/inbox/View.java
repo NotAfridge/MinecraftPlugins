@@ -29,6 +29,7 @@ public class View {
 
             if (inboxUUID.equals(inboxViewer.getUniqueId())) {
 
+                if (inboxChanged.containsKey(inboxUUID)) inboxChanged.remove(inboxUUID);
                 inboxOwnerBusy.add(inboxUUID);
 
             } else {
