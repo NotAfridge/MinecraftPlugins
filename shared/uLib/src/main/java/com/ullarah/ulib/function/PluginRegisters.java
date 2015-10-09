@@ -27,16 +27,13 @@ public class PluginRegisters {
                         break;
 
                     case FURNACE:
-                        FurnaceRecipe furnaceRecipe = (FurnaceRecipe) classObject.getMethod(type.toString())
-                                .invoke(classObject.newInstance());
-                        Bukkit.getServer().addRecipe(furnaceRecipe);
+                        FurnaceRecipe newFurnace = ((NewFurnace) object).furnace();
+                        Bukkit.getServer().addRecipe(newFurnace);
                         break;
 
                     case RECIPE:
-                        if (object instanceof NewRecipe) {
-                            ShapedRecipe testRecipe = ((NewRecipe) object).recipe();
-                            Bukkit.getServer().addRecipe(testRecipe);
-                        }
+                        ShapedRecipe newRecipe = ((NewRecipe) object).recipe();
+                        Bukkit.getServer().addRecipe(newRecipe);
                         break;
 
                     case TASK:

@@ -1,10 +1,11 @@
 package com.ullarah.uchest.furnace;
 
+import com.ullarah.ulib.function.NewFurnace;
 import org.bukkit.Material;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 
-public class FleshLeather {
+public class FleshLeather implements NewFurnace {
 
     public static ItemStack result() {
 

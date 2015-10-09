@@ -1,5 +1,6 @@
 package com.ullarah.ubeacon.recipe;
 
+import com.ullarah.ulib.function.NewRecipe;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -10,7 +11,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
 
-public class BeaconRainbow {
+public class BeaconRainbow implements NewRecipe {
 
     public static ItemStack rainbow() {
 
