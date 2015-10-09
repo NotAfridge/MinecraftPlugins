@@ -12,6 +12,16 @@ import java.util.Arrays;
 
 public class RocketBooster {
 
+    private static String boosterLevel;
+    private static Material boosterMaterial;
+
+    public RocketBooster(String level, Material material) {
+
+        boosterLevel = level;
+        boosterMaterial = material;
+
+    }
+
     public static ItemStack booster(String level) {
 
         ItemStack booster = new ItemStack(Material.TNT, 1);
@@ -30,13 +40,13 @@ public class RocketBooster {
 
     }
 
-    public ShapedRecipe recipe(String level, Material material) {
+    public ShapedRecipe recipe() {
 
-        ShapedRecipe boosterRecipe = new ShapedRecipe(booster(level));
+        ShapedRecipe boosterRecipe = new ShapedRecipe(booster(boosterLevel));
         boosterRecipe.shape("E E", "BRB", "TTT");
 
         boosterRecipe.setIngredient('B', Material.BLAZE_POWDER);
-        boosterRecipe.setIngredient('E', material);
+        boosterRecipe.setIngredient('E', boosterMaterial);
         boosterRecipe.setIngredient('R', Material.REDSTONE_BLOCK);
         boosterRecipe.setIngredient('T', Material.TNT);
 
