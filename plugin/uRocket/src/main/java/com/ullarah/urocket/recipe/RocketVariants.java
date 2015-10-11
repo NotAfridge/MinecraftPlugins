@@ -7,18 +7,25 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 public class RocketVariants implements NewRecipe {
 
-    public static ItemStack boots() {
+    private final Material bootMaterial;
+
+    public RocketVariants(Material material) {
+
+        bootMaterial = material;
+
+    }
+
+    private static ItemStack boots() {
 
         ItemStack boots = new ItemStack(Material.IRON_BOOTS, 1);
 
         ItemMeta bootMeta = boots.getItemMeta();
         bootMeta.setDisplayName(ChatColor.RED + "Useless Rocket Boots");
-        bootMeta.setLore(Arrays.asList(
-                ChatColor.GRAY + "Useless Variant"));
+        bootMeta.setLore(Collections.singletonList(ChatColor.GRAY + "Useless Variant"));
 
         boots.setItemMeta(bootMeta);
 
@@ -29,10 +36,10 @@ public class RocketVariants implements NewRecipe {
     public ShapedRecipe recipe() {
 
         ShapedRecipe bootRecipe = new ShapedRecipe(boots());
-        bootRecipe.shape("H H", "I I", "TNT");
+        bootRecipe.shape("H H", "M M", "TNT");
 
         bootRecipe.setIngredient('H', Material.TRIPWIRE_HOOK);
-        bootRecipe.setIngredient('I', Material.IRON_INGOT);
+        bootRecipe.setIngredient('M', bootMaterial);
         bootRecipe.setIngredient('N', Material.NOTE_BLOCK);
         bootRecipe.setIngredient('T', Material.TNT);
 

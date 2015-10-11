@@ -21,7 +21,8 @@ public class RepairStand implements NewRecipe {
         standMeta.setDisplayName(ChatColor.RED + "Rocket Repair Stand");
         standMeta.setLore(Arrays.asList(
                 ChatColor.YELLOW + "Auto-charge your Rocket Boots!",
-                ChatColor.YELLOW + "Place this on top of your Rocket Station!"));
+                        ChatColor.YELLOW + "Place this on top of your Rocket Station!")
+        );
 
         standMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         stand.setItemMeta(standMeta);

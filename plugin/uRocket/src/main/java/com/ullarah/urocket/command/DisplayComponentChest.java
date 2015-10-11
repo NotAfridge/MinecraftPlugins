@@ -32,11 +32,11 @@ public class DisplayComponentChest {
         return new ItemStack[]{
                 RocketBooster.booster("I"), RocketBooster.booster("II"), RocketBooster.booster("III"),
                 RocketBooster.booster("IV"), RocketBooster.booster("V"), RocketBooster.booster("X"),
-                null, null, null,
+                null, new ItemStack(Material.LEATHER), new ItemStack(Material.IRON_INGOT),
 
                 RocketControls.control(), RepairTank.tank(), RepairStation.station(),
                 RepairStand.stand(), RocketFlyZone.zone(), RocketSaddle.saddle(),
-                null, null, new ItemStack(Material.IRON_INGOT),
+                null, new ItemStack(Material.GOLD_INGOT), new ItemStack(Material.DIAMOND),
 
                 RocketVariant.variant(ChatColor.LIGHT_PURPLE + "Gay Agenda"),
                 RocketVariant.variant(ChatColor.AQUA + "Pole Vaulter"),

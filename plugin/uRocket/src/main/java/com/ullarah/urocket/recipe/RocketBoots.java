@@ -9,7 +9,15 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class RocketBoots implements NewRecipe {
 
-    public static ItemStack boots() {
+    private final Material bootMaterial;
+
+    public RocketBoots(Material material) {
+
+        bootMaterial = material;
+
+    }
+
+    private static ItemStack boots() {
 
         ItemStack boots = new ItemStack(Material.IRON_BOOTS, 1);
 
@@ -25,10 +33,10 @@ public class RocketBoots implements NewRecipe {
     public ShapedRecipe recipe() {
 
         ShapedRecipe bootRecipe = new ShapedRecipe(boots());
-        bootRecipe.shape("H H", "I I", "T T");
+        bootRecipe.shape("H H", "M M", "T T");
 
         bootRecipe.setIngredient('H', Material.TRIPWIRE_HOOK);
-        bootRecipe.setIngredient('I', Material.IRON_INGOT);
+        bootRecipe.setIngredient('M', bootMaterial);
         bootRecipe.setIngredient('T', Material.TNT);
 
         return bootRecipe;

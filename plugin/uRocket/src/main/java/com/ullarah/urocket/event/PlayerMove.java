@@ -41,15 +41,10 @@ public class PlayerMove implements Listener {
                     player.setWalkSpeed(0);
                     player.setSprinting(false);
 
-                    Bukkit.getScheduler().runTaskLater(getPlugin(), new Runnable() {
+                    Bukkit.getScheduler().runTaskLater(getPlugin(), () -> {
 
-                        @Override
-                        public void run() {
-
-                            player.setWalkSpeed(0.2f);
-                            rocketSprint.remove(player.getUniqueId());
-
-                        }
+                        player.setWalkSpeed(0.2f);
+                        rocketSprint.remove(player.getUniqueId());
 
                     }, 0);
 
@@ -138,26 +133,13 @@ public class PlayerMove implements Listener {
 
                                 }
 
-                                Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(getPlugin(), new Runnable() {
+                                Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(getPlugin(),
+                                        () -> Bukkit.getServer().getScheduler().runTask(getPlugin(), () -> {
 
-                                    @Override
-                                    public void run() {
+                                            blockUnder.setType(rocketGlow.get(blockUnder.getLocation()));
+                                            rocketGlow.remove(blockUnder.getLocation());
 
-                                        Bukkit.getServer().getScheduler().runTask(getPlugin(), new Runnable() {
-
-                                            @Override
-                                            public void run() {
-
-                                                blockUnder.setType(rocketGlow.get(blockUnder.getLocation()));
-                                                rocketGlow.remove(blockUnder.getLocation());
-
-                                            }
-
-                                        });
-
-                                    }
-
-                                }, 20);
+                                        }), 20);
 
                             }
 

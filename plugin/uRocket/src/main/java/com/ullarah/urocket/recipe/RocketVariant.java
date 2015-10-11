@@ -9,15 +9,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 public class RocketVariant implements NewRecipe {
 
-    private String variantName;
+    private final String variantName;
 
-    private Material variantTopMaterial;
-    private Material variantSideMaterial;
-    private Material variantBottomMaterial;
+    private final Material variantTopMaterial;
+    private final Material variantSideMaterial;
+    private final Material variantBottomMaterial;
 
     public RocketVariant(String name, Material top, Material side, Material bottom) {
 
@@ -35,7 +35,7 @@ public class RocketVariant implements NewRecipe {
         ItemMeta variantMeta = variant.getItemMeta();
 
         variantMeta.setDisplayName(ChatColor.AQUA + "Variant Booster");
-        variantMeta.setLore(Arrays.asList(name));
+        variantMeta.setLore(Collections.singletonList(name));
 
         variantMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         variant.setItemMeta(variantMeta);

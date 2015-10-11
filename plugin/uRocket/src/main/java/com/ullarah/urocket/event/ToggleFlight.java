@@ -42,12 +42,11 @@ public class ToggleFlight implements Listener {
 
             } else {
 
-                Material rocketMaterial = rocketBoots.getType();
                 Boolean hasRocketMeta = rocketBoots.hasItemMeta();
                 ItemMeta rocketMeta;
                 String rocketName;
 
-                if (hasRocketMeta && rocketMaterial == Material.IRON_BOOTS) {
+                if (hasRocketMeta) {
 
                     rocketMeta = rocketBoots.getItemMeta();
                     rocketName = rocketMeta.getDisplayName();
@@ -91,7 +90,29 @@ public class ToggleFlight implements Listener {
                                         Short rocketDurability = rocketBoots.getDurability();
                                         Variant bootVariant = rocketVariant.get(player.getUniqueId());
 
-                                        if (rocketDurability >= 195) {
+                                        int bootMaterialDurability = 0;
+
+                                        switch (rocketBoots.getType()) {
+
+                                            case LEATHER_BOOTS:
+                                                bootMaterialDurability = 65;
+                                                break;
+
+                                            case IRON_BOOTS:
+                                                bootMaterialDurability = 195;
+                                                break;
+
+                                            case GOLD_BOOTS:
+                                                bootMaterialDurability = 91;
+                                                break;
+
+                                            case DIAMOND_BOOTS:
+                                                bootMaterialDurability = 429;
+                                                break;
+
+                                        }
+
+                                        if (rocketDurability >= bootMaterialDurability) {
 
                                             player.getWorld().createExplosion(player.getLocation(), 0.0f, false);
                                             player.getInventory().setBoots(new ItemStack(Material.AIR));

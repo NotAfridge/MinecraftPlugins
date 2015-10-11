@@ -82,10 +82,9 @@ public class RocketFunctions {
 
         Player player = (Player) event.getWhoClicked();
         ClickType click = event.getClick();
-        Material rocketMaterial = boots.getType();
         Boolean hasRocketMeta = boots.hasItemMeta();
 
-        if (hasRocketMeta && rocketMaterial == Material.IRON_BOOTS) {
+        if (hasRocketMeta) {
 
             ItemMeta rocketMeta = boots.getItemMeta();
 
@@ -98,7 +97,7 @@ public class RocketFunctions {
 
                     if (rocketMeta.getLore().size() == 2) variantLore = rocketMeta.getLore().get(1);
 
-                    Set<String> specialVariants = new HashSet<>(Arrays.asList("Robin Hood"));
+                    Set<String> specialVariants = new HashSet<>(Collections.singletonList("Robin Hood"));
 
                     if (variantLore != null) if (specialVariants.contains(ChatColor.stripColor(variantLore)))
                         switch (getEnum(ChatColor.stripColor(variantLore))) {
@@ -193,6 +192,29 @@ public class RocketFunctions {
     public static void changeBootDurability(Player player, ItemStack rocketBoots) {
 
         Short rocketDurability = rocketBoots.getDurability();
+        Material rocketMaterial = rocketBoots.getType();
+
+        int bootMaterialDurability = 0;
+
+        switch (rocketMaterial) {
+
+            case LEATHER_BOOTS:
+                bootMaterialDurability = 65;
+                break;
+
+            case IRON_BOOTS:
+                bootMaterialDurability = 195;
+                break;
+
+            case GOLD_BOOTS:
+                bootMaterialDurability = 91;
+                break;
+
+            case DIAMOND_BOOTS:
+                bootMaterialDurability = 429;
+                break;
+
+        }
 
         switch (getBootPowerLevel(rocketBoots)) {
 
@@ -222,7 +244,8 @@ public class RocketFunctions {
 
         }
 
-        String totalDurability = ChatColor.YELLOW + "Rocket Boot Durability: " + (195 - rocketDurability) + " / 195";
+        String totalDurability = ChatColor.YELLOW + "Rocket Boot Durability: "
+                + (bootMaterialDurability - rocketDurability) + " / " + bootMaterialDurability;
 
         player.sendMessage(getMsgPrefix() + totalDurability);
         TitleSubtitle.subtitle(player, 3, ChatColor.YELLOW + totalDurability);
@@ -363,7 +386,7 @@ public class RocketFunctions {
 
         private final String type;
 
-        private Variant(String getType) {
+        Variant(String getType) {
             type = getType;
         }
 

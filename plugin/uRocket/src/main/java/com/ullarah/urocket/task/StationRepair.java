@@ -72,9 +72,32 @@ public class StationRepair {
 
                                     }
 
-                                    short bootDurability = player.getInventory().getBoots().getDurability();
-                                    int bootHealthOriginal = (195 - bootDurability);
-                                    int bootHealthNew = ((195 - bootDurability) + bootRepair);
+                                    short bootDurability = playerBoots.getDurability();
+
+                                    int bootMaterialDurability = 0;
+
+                                    switch (playerBoots.getType()) {
+
+                                        case LEATHER_BOOTS:
+                                            bootMaterialDurability = 65;
+                                            break;
+
+                                        case IRON_BOOTS:
+                                            bootMaterialDurability = 195;
+                                            break;
+
+                                        case GOLD_BOOTS:
+                                            bootMaterialDurability = 91;
+                                            break;
+
+                                        case DIAMOND_BOOTS:
+                                            bootMaterialDurability = 429;
+                                            break;
+
+                                    }
+
+                                    int bootHealthOriginal = (bootMaterialDurability - bootDurability);
+                                    int bootHealthNew = ((bootMaterialDurability - bootDurability) + bootRepair);
 
                                     int bootRepairEstimate = Math.round((bootDurability / bootRepair) / 2);
                                     String bootRepairMinute;
@@ -91,11 +114,11 @@ public class StationRepair {
                                             break;
                                     }
 
-                                    if (bootHealthOriginal <= 194) {
+                                    if (bootHealthOriginal <= (bootMaterialDurability - 1)) {
 
                                         playerBoots.setDurability((short) (bootDurability - bootRepair));
 
-                                        if (bootHealthNew > 195) {
+                                        if (bootHealthNew > bootMaterialDurability) {
 
                                             player.sendMessage(getMsgPrefix() + "Rocket Boots have been fully repaired!");
                                             TitleSubtitle.title(player, 5, "Rocket Boots have been fully repaired!");

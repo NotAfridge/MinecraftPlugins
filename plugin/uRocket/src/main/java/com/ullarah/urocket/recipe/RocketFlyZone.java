@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 public class RocketFlyZone implements NewRecipe {
 
@@ -19,8 +19,7 @@ public class RocketFlyZone implements NewRecipe {
 
         ItemMeta zoneMeta = zone.getItemMeta();
         zoneMeta.setDisplayName(ChatColor.RED + "Rocket Fly Zone Controller");
-        zoneMeta.setLore(Arrays.asList(
-                ChatColor.YELLOW + "Stop players flying in your area!"));
+        zoneMeta.setLore(Collections.singletonList(ChatColor.YELLOW + "Stop players flying in your area!"));
 
         zoneMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         zone.setItemMeta(zoneMeta);

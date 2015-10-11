@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 public class CraftStandard implements Listener {
 
@@ -25,7 +26,11 @@ public class CraftStandard implements Listener {
             boolean hasVariants = false;
             boolean hasBoosters = false;
             boolean hasControls = false;
+            boolean hasMaterial = false;
             boolean isBoosterX = false;
+
+            Material bootMaterial = null;
+            boolean materialMatch = false;
 
             String boosterType = null;
             String variantType = null;
@@ -33,6 +38,7 @@ public class CraftStandard implements Listener {
             ItemStack rocketVariant = getSlot[7];
 
             ItemStack[] rocketControls = new ItemStack[]{getSlot[0], getSlot[2]};
+            ItemStack[] rocketMaterial = new ItemStack[]{getSlot[3], getSlot[5]};
             ItemStack[] rocketBoosters = new ItemStack[]{getSlot[6], getSlot[8]};
 
             for (ItemStack control : rocketControls)
@@ -44,12 +50,38 @@ public class CraftStandard implements Listener {
                 if (booster.hasItemMeta()) if (booster.getItemMeta().hasDisplayName())
                     if (booster.getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Booster")) {
                         String boosterMeta = booster.getItemMeta().getLore().get(0);
-                        if (boosterMeta.matches(ChatColor.YELLOW + "Rocket Level I{0,3}V?X?")) {
+                        if (boosterMeta.matches(ChatColor.YELLOW + "Rocket Level I{0,3}V?X?"))
                             boosterType = boosterMeta;
-                            hasBoosters = true;
-                        }
                         if (boosterMeta.matches(ChatColor.YELLOW + "Rocket Level X")) isBoosterX = true;
+                        hasBoosters = true;
                     }
+
+            for (ItemStack material : rocketMaterial)
+                switch (material.getType()) {
+
+                    case LEATHER:
+                        bootMaterial = Material.LEATHER_BOOTS;
+                        hasMaterial = true;
+                        break;
+
+                    case IRON_INGOT:
+                        bootMaterial = Material.IRON_BOOTS;
+                        hasMaterial = true;
+                        break;
+
+                    case GOLD_INGOT:
+                        bootMaterial = Material.GOLD_BOOTS;
+                        hasMaterial = true;
+                        break;
+
+                    case DIAMOND:
+                        bootMaterial = Material.DIAMOND_BOOTS;
+                        hasMaterial = true;
+                        break;
+
+                }
+
+            if (getSlot[3].getType().equals(getSlot[5].getType())) materialMatch = true;
 
             if (rocketVariant.hasItemMeta()) if (rocketVariant.getItemMeta().hasDisplayName())
                 if (rocketVariant.getItemMeta().getDisplayName().equals(ChatColor.AQUA + "Variant Booster")) {
@@ -57,13 +89,13 @@ public class CraftStandard implements Listener {
                     hasVariants = true;
                 }
 
-            if (hasControls && hasBoosters) {
+            if (hasControls && hasBoosters && hasMaterial && materialMatch) {
 
-                ItemStack boots = new ItemStack(Material.IRON_BOOTS, 1);
+                ItemStack boots = new ItemStack(bootMaterial, 1);
                 ItemMeta bootMeta = boots.getItemMeta();
 
                 bootMeta.setDisplayName(ChatColor.RED + "Rocket Boots");
-                bootMeta.setLore(hasVariants ? Arrays.asList(boosterType, variantType) : Arrays.asList(boosterType));
+                bootMeta.setLore(hasVariants ? Arrays.asList(boosterType, variantType) : Collections.singletonList(boosterType));
                 bootMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
                 boots.setItemMeta(bootMeta);

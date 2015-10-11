@@ -1,5 +1,6 @@
 package com.ullarah.urocket.task;
 
+import com.ullarah.ulib.function.Experience;
 import com.ullarah.ulib.function.TitleSubtitle;
 import org.apache.commons.io.output.StringBuilderWriter;
 import org.bukkit.Bukkit;
@@ -46,6 +47,40 @@ public class RocketFuel {
                             if (rocketVariant.containsKey(player.getUniqueId())) {
 
                                 Variant bootVariant = rocketVariant.get(player.getUniqueId());
+                                Material bootMaterial = player.getInventory().getBoots().getType();
+
+                                double getHealthFromBoots = 0;
+                                int getFoodLevelFromBoots = 0;
+                                double getExperienceFromBoots = 0;
+
+                                switch (bootMaterial) {
+
+                                    case LEATHER_BOOTS:
+                                        getHealthFromBoots = (player.getHealth() - 3.5);
+                                        getFoodLevelFromBoots = (player.getFoodLevel() - 4);
+                                        getExperienceFromBoots = 1200;
+                                        break;
+
+                                    case IRON_BOOTS:
+                                        getHealthFromBoots = (player.getHealth() - 2.5);
+                                        getFoodLevelFromBoots = (player.getFoodLevel() - 3);
+                                        getExperienceFromBoots = 800;
+                                        break;
+
+                                    case GOLD_BOOTS:
+                                        getHealthFromBoots = (player.getHealth() - 1.5);
+                                        getFoodLevelFromBoots = (player.getFoodLevel() - 2);
+                                        getExperienceFromBoots = 600;
+                                        break;
+
+                                    case DIAMOND_BOOTS:
+                                        getHealthFromBoots = (player.getHealth() - 0.5);
+                                        getFoodLevelFromBoots = (player.getFoodLevel() - 1);
+                                        getExperienceFromBoots = 500;
+                                        break;
+
+                                }
+
                                 Random random = new Random();
 
                                 switch (bootVariant) {
@@ -58,8 +93,8 @@ public class RocketFuel {
 
                                         } else {
 
-                                            player.setHealth(player.getHealth() - 1);
-                                            player.setFoodLevel(player.getFoodLevel() - 1);
+                                            player.setHealth(getHealthFromBoots);
+                                            player.setFoodLevel(getFoodLevelFromBoots);
 
                                         }
                                         break;
@@ -111,7 +146,7 @@ public class RocketFuel {
                                         }
 
                                         player.sendMessage(agendaMessage.toString());
-                                        player.setLevel(player.getLevel() - 1);
+                                        Experience.removeExperience(player, getExperienceFromBoots);
                                         break;
 
                                     case DRUNK:
@@ -133,7 +168,7 @@ public class RocketFuel {
                                             default:
                                                 break;
                                         }
-                                        player.setLevel(player.getLevel() - 1);
+                                        Experience.removeExperience(player, getExperienceFromBoots);
                                         break;
 
                                     case COAL:
@@ -171,7 +206,7 @@ public class RocketFuel {
                                         break;
 
                                     default:
-                                        player.setLevel(player.getLevel() - 1);
+                                        Experience.removeExperience(player, getExperienceFromBoots);
                                         break;
 
                                 }

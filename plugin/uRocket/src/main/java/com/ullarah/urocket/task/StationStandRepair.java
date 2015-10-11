@@ -91,20 +91,43 @@ public class StationStandRepair {
                                             }
 
                                             short bootDurability = standBoots.getDurability();
-                                            int bootHealthOriginal = (195 - bootDurability);
-                                            int bootHealthNew = ((195 - bootDurability) + bootRepair);
+
+                                            int bootMaterialDurability = 0;
+
+                                            switch (standBoots.getType()) {
+
+                                                case LEATHER_BOOTS:
+                                                    bootMaterialDurability = 65;
+                                                    break;
+
+                                                case IRON_BOOTS:
+                                                    bootMaterialDurability = 195;
+                                                    break;
+
+                                                case GOLD_BOOTS:
+                                                    bootMaterialDurability = 91;
+                                                    break;
+
+                                                case DIAMOND_BOOTS:
+                                                    bootMaterialDurability = 429;
+                                                    break;
+
+                                            }
+
+                                            int bootHealthOriginal = (bootMaterialDurability - bootDurability);
+                                            int bootHealthNew = ((bootMaterialDurability - bootDurability) + bootRepair);
 
                                             SignText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
                                                     new String[]{"[Repair Status]", "----------",
                                                             standBoots.getItemMeta().getLore().get(0),
                                                             String.valueOf(bootHealthNew)});
 
-                                            if (bootHealthOriginal <= 194) {
+                                            if (bootHealthOriginal <= (bootMaterialDurability - 1)) {
 
                                                 standBoots.setDurability((short) (bootDurability - bootRepair));
                                                 stand.getEquipment().setBoots(standBoots);
 
-                                                if (bootHealthNew > 195) {
+                                                if (bootHealthNew > bootMaterialDurability) {
 
                                                     SignText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
                                                             new String[]{"[Repair Status]", "----------",

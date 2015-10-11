@@ -123,13 +123,19 @@ public class RocketInit extends JavaPlugin {
                 new RocketBooster("III", Material.GOLD_BLOCK),
                 new RocketBooster("IV", Material.DIAMOND_BLOCK),
                 new RocketBooster("V", Material.EMERALD_BLOCK),
-                new RocketBoots(),
+                new RocketBoots(Material.LEATHER),
+                new RocketBoots(Material.IRON_INGOT),
+                new RocketBoots(Material.GOLD_INGOT),
+                new RocketBoots(Material.DIAMOND),
                 new RocketControls(),
                 new RepairStation(),
                 new RepairTank(),
                 new RepairStand(),
                 new RocketFlyZone(),
-                new RocketVariants(),
+                new RocketVariants(Material.LEATHER),
+                new RocketVariants(Material.IRON_INGOT),
+                new RocketVariants(Material.GOLD_INGOT),
+                new RocketVariants(Material.DIAMOND),
                 new RocketSaddle()
         ));
 

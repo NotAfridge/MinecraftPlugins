@@ -16,7 +16,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.regex.Pattern;
 
 public class AnvilCreate implements Listener {
@@ -59,7 +59,7 @@ public class AnvilCreate implements Listener {
                                     ItemMeta boosterTenMeta = boosterTen.getItemMeta();
 
                                     boosterTenMeta.setDisplayName(ChatColor.RED + "Rocket Booster");
-                                    boosterTenMeta.setLore(Arrays.asList(
+                                    boosterTenMeta.setLore(Collections.singletonList(
                                             ChatColor.YELLOW + "Rocket Level X"));
                                     boosterTenMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 

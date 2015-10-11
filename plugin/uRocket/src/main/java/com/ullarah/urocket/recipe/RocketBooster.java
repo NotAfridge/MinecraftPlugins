@@ -9,12 +9,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 public class RocketBooster implements NewRecipe {
 
-    private String boosterLevel;
-    private Material boosterMaterial;
+    private final String boosterLevel;
+    private final Material boosterMaterial;
 
     public RocketBooster(String level, Material material) {
 
@@ -29,8 +29,7 @@ public class RocketBooster implements NewRecipe {
         ItemMeta boosterMeta = booster.getItemMeta();
 
         boosterMeta.setDisplayName(ChatColor.RED + "Rocket Booster");
-        boosterMeta.setLore(Arrays.asList(
-                ChatColor.YELLOW + "Rocket Level " + level.toUpperCase()));
+        boosterMeta.setLore(Collections.singletonList(ChatColor.YELLOW + "Rocket Level " + level.toUpperCase()));
 
         boosterMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         booster.setItemMeta(boosterMeta);

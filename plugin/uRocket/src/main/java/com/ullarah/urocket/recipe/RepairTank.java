@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 public class RepairTank implements NewRecipe {
 
@@ -19,8 +19,7 @@ public class RepairTank implements NewRecipe {
 
         ItemMeta tankMeta = tank.getItemMeta();
         tankMeta.setDisplayName(ChatColor.RED + "Rocket Repair Tank");
-        tankMeta.setLore(Arrays.asList(
-                ChatColor.YELLOW + "Fuel it with normal furnace items!"));
+        tankMeta.setLore(Collections.singletonList(ChatColor.YELLOW + "Fuel it with normal furnace items!"));
         tankMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
         tank.setItemMeta(tankMeta);
