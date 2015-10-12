@@ -31,7 +31,7 @@ public class RocketFunctions {
         if (!keepPower && rocketPower.containsKey(uuid)) rocketPower.remove(uuid);
 
         if (!rocketFire.isEmpty()) rocketFire.clear();
-        if (!false && rocketWater.contains(uuid)) rocketWater.remove(uuid);
+        if (rocketWater.contains(uuid)) rocketWater.remove(uuid);
         if (rocketRepair.containsKey(uuid)) rocketRepair.remove(uuid);
 
         if (!keepRepair && rocketHealer.containsKey(uuid)) rocketHealer.remove(uuid);
@@ -212,6 +212,7 @@ public class RocketFunctions {
         Material rocketMaterial = rocketBoots.getType();
 
         int bootMaterialDurability = 0;
+        short changedDurability = 0;
 
         switch (rocketMaterial) {
 
@@ -236,33 +237,35 @@ public class RocketFunctions {
         switch (getBootPowerLevel(rocketBoots)) {
 
             case 1:
-                rocketBoots.setDurability((short) (rocketDurability + 7));
+                changedDurability = (short) (rocketDurability + 7);
                 break;
 
             case 2:
-                rocketBoots.setDurability((short) (rocketDurability + 6));
+                changedDurability = (short) (rocketDurability + 6);
                 break;
 
             case 3:
-                rocketBoots.setDurability((short) (rocketDurability + 5));
+                changedDurability = (short) (rocketDurability + 5);
                 break;
 
             case 4:
-                rocketBoots.setDurability((short) (rocketDurability + 4));
+                changedDurability = (short) (rocketDurability + 4);
                 break;
 
             case 5:
-                rocketBoots.setDurability((short) (rocketDurability + 3));
+                changedDurability = (short) (rocketDurability + 3);
                 break;
 
             case 10:
-                rocketBoots.setDurability((short) (rocketDurability + new Random().nextInt(10)));
+                changedDurability = (short) (rocketDurability + new Random().nextInt(10));
                 break;
 
         }
 
+        rocketBoots.setDurability(changedDurability);
+
         String totalDurability = ChatColor.YELLOW + "Rocket Boot Durability: "
-                + (bootMaterialDurability - rocketDurability) + " / " + bootMaterialDurability;
+                + (bootMaterialDurability - changedDurability) + " / " + bootMaterialDurability;
 
         player.sendMessage(getMsgPrefix() + totalDurability);
         TitleSubtitle.subtitle(player, 3, ChatColor.YELLOW + totalDurability);

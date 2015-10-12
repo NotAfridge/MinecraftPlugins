@@ -365,7 +365,12 @@ public class ToggleFlight implements Listener {
 
                                                 }
 
-                                            } else player.setFlying(false);
+                                            } else {
+
+                                                player.setFlying(false);
+                                                rocketHealer.replace(player.getUniqueId(), 0);
+
+                                            }
 
                                             rocketUsage.add(player.getUniqueId());
 
