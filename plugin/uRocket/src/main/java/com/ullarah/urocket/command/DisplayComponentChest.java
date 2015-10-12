@@ -36,7 +36,7 @@ public class DisplayComponentChest {
 
                 RocketControls.control(), RepairTank.tank(), RepairStation.station(),
                 RepairStand.stand(), RocketFlyZone.zone(), RocketSaddle.saddle(),
-                null, new ItemStack(Material.GOLD_INGOT), new ItemStack(Material.DIAMOND),
+                RocketHealer.healer(), new ItemStack(Material.GOLD_INGOT), new ItemStack(Material.DIAMOND),
 
                 RocketVariant.variant(ChatColor.LIGHT_PURPLE + "Gay Agenda"),
                 RocketVariant.variant(ChatColor.AQUA + "Pole Vaulter"),

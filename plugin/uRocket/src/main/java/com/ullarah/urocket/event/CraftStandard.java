@@ -23,7 +23,8 @@ public class CraftStandard implements Listener {
 
             ItemStack[] getSlot = event.getInventory().getMatrix();
 
-            boolean hasVariants = false;
+            int bootType = 0;
+
             boolean hasBoosters = false;
             boolean hasControls = false;
             boolean hasMaterial = false;
@@ -35,7 +36,10 @@ public class CraftStandard implements Listener {
             String boosterType = null;
             String variantType = null;
 
+            String rocketHeal = ChatColor.AQUA + "Self-Repairing";
+
             ItemStack rocketVariant = getSlot[7];
+            ItemStack rocketHealer = getSlot[4];
 
             ItemStack[] rocketControls = new ItemStack[]{getSlot[0], getSlot[2]};
             ItemStack[] rocketMaterial = new ItemStack[]{getSlot[3], getSlot[5]};
@@ -86,8 +90,12 @@ public class CraftStandard implements Listener {
             if (rocketVariant.hasItemMeta()) if (rocketVariant.getItemMeta().hasDisplayName())
                 if (rocketVariant.getItemMeta().getDisplayName().equals(ChatColor.AQUA + "Variant Booster")) {
                     variantType = rocketVariant.getItemMeta().getLore().get(0);
-                    hasVariants = true;
+                    bootType += 8;
                 }
+
+            if (rocketHealer.hasItemMeta()) if (rocketHealer.getItemMeta().hasDisplayName())
+                if (rocketHealer.getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Healer"))
+                    bootType += 16;
 
             if (hasControls && hasBoosters && hasMaterial && materialMatch) {
 
@@ -95,13 +103,33 @@ public class CraftStandard implements Listener {
                 ItemMeta bootMeta = boots.getItemMeta();
 
                 bootMeta.setDisplayName(ChatColor.RED + "Rocket Boots");
-                bootMeta.setLore(hasVariants ? Arrays.asList(boosterType, variantType) : Collections.singletonList(boosterType));
+
+                switch (bootType) {
+
+                    case 0:
+                        bootMeta.setLore(Collections.singletonList(boosterType));
+                        break;
+
+                    case 8:
+                        bootMeta.setLore(Arrays.asList(boosterType, variantType));
+                        break;
+
+                    case 16:
+                        bootMeta.setLore(Arrays.asList(boosterType, rocketHeal));
+                        break;
+
+                    case 24:
+                        bootMeta.setLore(Arrays.asList(boosterType, variantType, rocketHeal));
+                        break;
+
+                }
+
                 bootMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
                 boots.setItemMeta(bootMeta);
                 boots.addEnchantment(Enchantment.PROTECTION_FALL, 3);
 
-                event.getInventory().setResult(hasVariants && isBoosterX ? null : boots);
+                event.getInventory().setResult((bootType == 8 || bootType == 24) && isBoosterX ? null : boots);
 
             }
 

@@ -32,7 +32,7 @@ public class RocketFuel {
                             if (player.getLevel() <= 2) {
 
                                 player.sendMessage(getMsgPrefix() + "You ran out of fuel for your Rocket Boots!");
-                                disableRocketBoots(player, false, true, false, false, false);
+                                disableRocketBoots(player, false, true, false, false, false, false);
 
                             } else if (rocketUsage.contains(uuid) && player.getLevel() <= 6) {
 
@@ -89,7 +89,7 @@ public class RocketFuel {
                                         if (player.getHealth() <= 1.0 || player.getFoodLevel() <= 2) {
 
                                             player.sendMessage(getMsgPrefix() + "You are too hungry to fly...");
-                                            disableRocketBoots(player, false, true, false, false, false);
+                                            disableRocketBoots(player, false, true, false, false, false, false);
 
                                         } else {
 
@@ -105,7 +105,7 @@ public class RocketFuel {
                                         if (money <= 10.0) {
 
                                             player.sendMessage(getMsgPrefix() + "You are too poor to fly...");
-                                            disableRocketBoots(player, false, true, false, false, false);
+                                            disableRocketBoots(player, false, true, false, false, false, false);
 
                                         } else {
 
@@ -180,7 +180,7 @@ public class RocketFuel {
                                             player.sendMessage(getMsgPrefix() + ChatColor.RED +
                                                     "Your boots have malfunctioned!");
 
-                                            disableRocketBoots(player, true, true, true, true, false);
+                                            disableRocketBoots(player, true, true, true, true, false, false);
 
                                         } else itemFuel(player, Material.COAL, Material.COAL_BLOCK);
 
@@ -195,7 +195,7 @@ public class RocketFuel {
                                             player.sendMessage(getMsgPrefix() + ChatColor.RED +
                                                     "Your boots have malfunctioned!");
 
-                                            disableRocketBoots(player, true, true, true, true, false);
+                                            disableRocketBoots(player, true, true, true, true, false, false);
 
                                         } else itemFuel(player, Material.REDSTONE, Material.REDSTONE_BLOCK);
 

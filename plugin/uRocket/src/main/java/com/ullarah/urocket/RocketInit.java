@@ -17,10 +17,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 
@@ -40,6 +37,7 @@ public class RocketInit extends JavaPlugin {
     public static final ConcurrentHashMap<UUID, String> rocketSprint = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Integer> rocketPower = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Variant> rocketVariant = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<UUID, Integer> rocketHealer = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Location> rocketRepair = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Location> rocketRepairStand = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, HashMap<Location, Location>> rocketZoneLocations = new ConcurrentHashMap<>();
@@ -123,21 +121,40 @@ public class RocketInit extends JavaPlugin {
                 new RocketBooster("III", Material.GOLD_BLOCK),
                 new RocketBooster("IV", Material.DIAMOND_BLOCK),
                 new RocketBooster("V", Material.EMERALD_BLOCK),
-                new RocketBoots(Material.LEATHER),
-                new RocketBoots(Material.IRON_INGOT),
-                new RocketBoots(Material.GOLD_INGOT),
-                new RocketBoots(Material.DIAMOND),
                 new RocketControls(),
                 new RepairStation(),
                 new RepairTank(),
                 new RepairStand(),
                 new RocketFlyZone(),
-                new RocketVariants(Material.LEATHER),
-                new RocketVariants(Material.IRON_INGOT),
-                new RocketVariants(Material.GOLD_INGOT),
-                new RocketVariants(Material.DIAMOND),
-                new RocketSaddle()
+                new RocketSaddle(),
+                new RocketHealer()
         ));
+
+        for (Material material : new ArrayList<Material>() {{
+
+            add(Material.LEATHER);
+            add(Material.IRON_INGOT);
+            add(Material.GOLD_INGOT);
+            add(Material.DIAMOND);
+        }}) {
+
+            for (Boolean bool : new ArrayList<Boolean>() {{
+                add(true);
+                add(false);
+            }}) {
+
+                Integer currentRecipeCount = registerMap.get("recipe");
+
+                registerMap.put(RECIPE.toString(), PluginRegisters.register(getPlugin(), RECIPE,
+                        new RocketBoots(material, bool),
+                        new RocketVariants(material, bool)
+                ));
+
+                registerMap.put(RECIPE.toString(), currentRecipeCount + 2);
+
+            }
+
+        }
 
         registerMap.put("variant", PluginRegisters.register(getPlugin(), RECIPE,
                 new RocketVariant(ChatColor.LIGHT_PURPLE + "Gay Agenda", Material.GOLDEN_APPLE, Material.MAGMA_CREAM, Material.SPECKLED_MELON),
@@ -160,6 +177,7 @@ public class RocketInit extends JavaPlugin {
         registerMap.put(TASK.toString(), PluginRegisters.register(getPlugin(), TASK,
                 new RocketFire(),
                 new RocketFuel(),
+                new RocketHeal(),
                 new RocketParticles(),
                 new RocketLowFuel(),
                 new NotePlaying(),
@@ -218,7 +236,7 @@ public class RocketInit extends JavaPlugin {
     public void onDisable() {
 
         for (UUID uuid : rocketUsage)
-            disableRocketBoots(Bukkit.getPlayer(uuid), false, false, false, false, false);
+            disableRocketBoots(Bukkit.getPlayer(uuid), false, false, false, false, false, false);
 
     }
 

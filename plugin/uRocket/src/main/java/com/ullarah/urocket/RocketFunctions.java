@@ -21,7 +21,7 @@ import static com.ullarah.urocket.RocketInit.*;
 public class RocketFunctions {
 
     public static void disableRocketBoots(Player player, Boolean keepUsage, Boolean keepPower, Boolean keepFlight,
-                                          Boolean keepVariant, Boolean inWater) {
+                                          Boolean keepVariant, Boolean inWater, Boolean keepRepair) {
 
         UUID uuid = player.getUniqueId();
 
@@ -31,8 +31,10 @@ public class RocketFunctions {
         if (!keepPower && rocketPower.containsKey(uuid)) rocketPower.remove(uuid);
 
         if (!rocketFire.isEmpty()) rocketFire.clear();
-        if (!inWater && rocketWater.contains(uuid)) rocketWater.remove(uuid);
+        if (!false && rocketWater.contains(uuid)) rocketWater.remove(uuid);
         if (rocketRepair.containsKey(uuid)) rocketRepair.remove(uuid);
+
+        if (!keepRepair && rocketHealer.containsKey(uuid)) rocketHealer.remove(uuid);
 
         if (!keepVariant && rocketVariant.containsKey(uuid)) {
             switch (rocketVariant.get(uuid)) {
@@ -135,7 +137,7 @@ public class RocketFunctions {
             player.closeInventory();
 
         } else if (rocketPower.containsKey(player.getUniqueId()))
-            disableRocketBoots(player, false, false, false, false, false);
+            disableRocketBoots(player, false, false, false, false, false, false);
 
     }
 
@@ -143,15 +145,25 @@ public class RocketFunctions {
 
         Block blockMiddle = player.getLocation().getBlock().getRelative(BlockFace.SELF);
         String variantLore = null;
+        String healerLore = null;
         Boolean isWaterVariant = false;
         Boolean isRunnerVariant = false;
 
         if (rocketMeta.getLore().size() == 2)
             variantLore = ChatColor.stripColor(rocketMeta.getLore().get(1));
 
+        if (rocketMeta.getLore().size() == 3) {
+            variantLore = ChatColor.stripColor(rocketMeta.getLore().get(1));
+            healerLore = ChatColor.stripColor(rocketMeta.getLore().get(2));
+        }
+
         if (variantLore != null) {
+
             rocketVariant.put(player.getUniqueId(), getEnum(variantLore));
+            rocketHealer.put(player.getUniqueId(), 0);
+
             if (rocketVariant.get(player.getUniqueId()) == WATER) isWaterVariant = true;
+
         } else rocketVariant.put(player.getUniqueId(), ORIGINAL);
 
         if (!isWaterVariant && blockMiddle.isLiquid()) {
@@ -162,14 +174,19 @@ public class RocketFunctions {
         } else if (player.getInventory().getBoots() == null)
             if (GamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
 
+                player.sendMessage(getMsgPrefix() + "Rocket Boots Activated!");
+
                 if (variantLore != null) {
                     player.sendMessage(getMsgPrefix() + "Variant: " + ChatColor.AQUA + variantLore);
                     if (Variant.getEnum(variantLore) == Variant.RUNNER) isRunnerVariant = true;
-                }
+                } else player.sendMessage(getMsgPrefix() + "Variant: " + ChatColor.RED + "Not Found");
+
+                if (healerLore == null)
+                    player.sendMessage(getMsgPrefix() + "Self-Repair: " + ChatColor.RED + "Not Found");
+                else
+                    player.sendMessage(getMsgPrefix() + "Self-Repair: " + ChatColor.GREEN + "Activated");
 
                 if (!isRunnerVariant) player.setAllowFlight(true);
-
-                player.sendMessage(getMsgPrefix() + "Rocket Boots Activated!");
 
                 Integer powerLevel = RomanNumeralToInteger.decode(
                         rocketLore.replaceFirst(
@@ -358,7 +375,7 @@ public class RocketFunctions {
 
                 player.sendMessage(getMsgPrefix() + ChatColor.RED +
                         "Your inventory is too full to split a " + materialType + " block!");
-                disableRocketBoots(player, false, true, false, false, false);
+                disableRocketBoots(player, false, true, false, false, false, false);
 
             } else {
 
@@ -370,7 +387,7 @@ public class RocketFunctions {
         } else {
 
             player.sendMessage(getMsgPrefix() + "You have run out of " + materialType + "...");
-            disableRocketBoots(player, false, true, false, false, false);
+            disableRocketBoots(player, false, true, false, false, false, false);
 
         }
 

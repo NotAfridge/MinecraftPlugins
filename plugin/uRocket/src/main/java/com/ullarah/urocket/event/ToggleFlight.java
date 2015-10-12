@@ -38,7 +38,7 @@ public class ToggleFlight implements Listener {
 
                 player.sendMessage(getMsgPrefix() + ChatColor.YELLOW +
                         "You need to re-attach your Rocket Boots!");
-                disableRocketBoots(player, false, false, false, false, false);
+                disableRocketBoots(player, false, false, false, false, false, false);
 
             } else {
 
@@ -116,7 +116,7 @@ public class ToggleFlight implements Listener {
 
                                             player.getWorld().createExplosion(player.getLocation(), 0.0f, false);
                                             player.getInventory().setBoots(new ItemStack(Material.AIR));
-                                            disableRocketBoots(player, false, false, false, false, false);
+                                            disableRocketBoots(player, false, false, false, false, false, false);
 
                                             player.sendMessage(getMsgPrefix() + "Your Rocket Boots exploded!");
                                             TitleSubtitle.subtitle(player, 3, ChatColor.BOLD + "Your Rocket Boots exploded!");
@@ -143,7 +143,7 @@ public class ToggleFlight implements Listener {
                                                         } else {
 
                                                             disableRocketBoots(player,
-                                                                    false, true, false, false, false);
+                                                                    false, true, false, false, false, false);
                                                             player.sendMessage(getMsgPrefix() + ChatColor.RED +
                                                                     "These Rocket Boots don't work in the Nether!");
 
@@ -189,7 +189,7 @@ public class ToggleFlight implements Listener {
                                                                     player.sendMessage(getMsgPrefix() + "Too hungry to fly...");
 
                                                                     changeDurability = false;
-                                                                    disableRocketBoots(player, false, true, false, false, false);
+                                                                    disableRocketBoots(player, false, true, false, false, false, false);
 
                                                                 } else {
                                                                     player.getWorld().playSound(player.getEyeLocation(),
@@ -295,7 +295,7 @@ public class ToggleFlight implements Listener {
                                                                             + "Get more coal, and re-attach the boots!");
 
                                                                     changeDurability = false;
-                                                                    disableRocketBoots(player, false, true, false, false, false);
+                                                                    disableRocketBoots(player, false, true, false, false, false, false);
 
                                                                 }
                                                                 break;
@@ -317,7 +317,7 @@ public class ToggleFlight implements Listener {
                                                                             + "Get more redstone, and re-attach the boots!");
 
                                                                     changeDurability = false;
-                                                                    disableRocketBoots(player, false, true, false, false, false);
+                                                                    disableRocketBoots(player, false, true, false, false, false, false);
 
                                                                 }
                                                                 break;
@@ -328,6 +328,30 @@ public class ToggleFlight implements Listener {
                                                                 player.setVelocity(new Vector(0, 1.25, 0));
                                                                 player.setFlying(true);
                                                                 break;
+
+                                                        }
+
+                                                        if (rocketHealer.containsKey(player.getUniqueId())) {
+
+                                                            switch (rocketBoots.getType()) {
+
+                                                                case LEATHER_BOOTS:
+                                                                    rocketHealer.replace(player.getUniqueId(), 5);
+                                                                    break;
+
+                                                                case IRON_BOOTS:
+                                                                    rocketHealer.replace(player.getUniqueId(), 4);
+                                                                    break;
+
+                                                                case GOLD_BOOTS:
+                                                                    rocketHealer.replace(player.getUniqueId(), 3);
+                                                                    break;
+
+                                                                case DIAMOND_BOOTS:
+                                                                    rocketHealer.replace(player.getUniqueId(), 2);
+                                                                    break;
+
+                                                            }
 
                                                         }
 
@@ -351,7 +375,7 @@ public class ToggleFlight implements Listener {
 
                                         player.sendMessage(getMsgPrefix() + ChatColor.YELLOW +
                                                 "You need to re-attach your Rocket Boots!");
-                                        disableRocketBoots(player, false, false, false, false, false);
+                                        disableRocketBoots(player, false, false, false, false, false, false);
 
                                     }
 
