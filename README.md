@@ -1,7 +1,5 @@
 # Ullarahs Minecraft Plugins
-All the plugins. In one place. Such lazy.
-
-Easy.
+All the plugins. In one place. Such lazy. Easy.
 
  * Clone the repo
  * Run 'mvn'
@@ -10,4 +8,5 @@ Easy.
  * Do whatever you want with the jars
  * Pat yourself on the back
  
-Don't come complaining to me if things aren't working.
+Don't come complaining to me if things aren't working.  
+[Use the wiki for more information](https://github.com/Ullarah/MinecraftPlugins/wiki)
