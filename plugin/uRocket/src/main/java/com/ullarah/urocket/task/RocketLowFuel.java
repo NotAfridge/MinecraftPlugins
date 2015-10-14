@@ -6,8 +6,7 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-import static com.ullarah.urocket.RocketInit.getPlugin;
-import static com.ullarah.urocket.RocketInit.rocketLowFuel;
+import static com.ullarah.urocket.RocketInit.*;
 
 public class RocketLowFuel {
 
@@ -20,7 +19,29 @@ public class RocketLowFuel {
 
                         Player player = Bukkit.getPlayer(uuid);
 
-                        if (rocketLowFuel.contains(player.getUniqueId())) {
+                        boolean alternateFuel = false;
+
+                        switch (rocketVariant.get(uuid)) {
+
+                            case COAL:
+                                alternateFuel = true;
+                                break;
+
+                            case HEALTH:
+                                alternateFuel = true;
+                                break;
+
+                            case MONEY:
+                                alternateFuel = true;
+                                break;
+
+                            case REDSTONE:
+                                alternateFuel = true;
+                                break;
+
+                        }
+
+                        if (rocketLowFuel.contains(player.getUniqueId()) && !alternateFuel) {
 
                             if (player.isFlying()) if (player.getLevel() <= 6)
                                 player.getWorld().playSound(player.getLocation(), Sound.ORB_PICKUP, 0.5f, 1.3f);

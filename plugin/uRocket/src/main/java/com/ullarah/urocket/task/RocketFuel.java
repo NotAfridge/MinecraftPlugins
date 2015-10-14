@@ -29,12 +29,34 @@ public class RocketFuel {
 
                         if (player.isFlying()) {
 
-                            if (player.getLevel() <= 2) {
+                            boolean alternateFuel = false;
+
+                            switch (rocketVariant.get(uuid)) {
+
+                                case COAL:
+                                    alternateFuel = true;
+                                    break;
+
+                                case HEALTH:
+                                    alternateFuel = true;
+                                    break;
+
+                                case MONEY:
+                                    alternateFuel = true;
+                                    break;
+
+                                case REDSTONE:
+                                    alternateFuel = true;
+                                    break;
+
+                            }
+
+                            if (player.getLevel() <= 2 && !alternateFuel) {
 
                                 player.sendMessage(getMsgPrefix() + "You ran out of fuel for your Rocket Boots!");
                                 disableRocketBoots(player, false, true, false, false, false, false);
 
-                            } else if (rocketUsage.contains(uuid) && player.getLevel() <= 6) {
+                            } else if (rocketUsage.contains(uuid) && player.getLevel() <= 6 && !alternateFuel) {
 
                                 rocketLowFuel.add(uuid);
 

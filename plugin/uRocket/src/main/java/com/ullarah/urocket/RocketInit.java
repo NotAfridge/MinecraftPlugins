@@ -131,7 +131,6 @@ public class RocketInit extends JavaPlugin {
         ));
 
         for (Material material : new ArrayList<Material>() {{
-
             add(Material.LEATHER);
             add(Material.IRON_INGOT);
             add(Material.GOLD_INGOT);

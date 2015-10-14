@@ -59,7 +59,29 @@ public class ToggleFlight implements Listener {
 
                             if (rocketLore.matches(ChatColor.YELLOW + "Rocket Level I{0,3}V?X?")) {
 
-                                if (player.getLevel() < 3) {
+                                boolean alternateFuel = false;
+
+                                switch (rocketVariant.get(player.getUniqueId())) {
+
+                                    case COAL:
+                                        alternateFuel = true;
+                                        break;
+
+                                    case HEALTH:
+                                        alternateFuel = true;
+                                        break;
+
+                                    case MONEY:
+                                        alternateFuel = true;
+                                        break;
+
+                                    case REDSTONE:
+                                        alternateFuel = true;
+                                        break;
+
+                                }
+
+                                if (player.getLevel() < 3 && !alternateFuel) {
 
                                     player.sendMessage(getMsgPrefix() + ChatColor.YELLOW +
                                             "You need more XP to start your Rocket Boots!");
