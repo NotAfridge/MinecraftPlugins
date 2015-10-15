@@ -61,6 +61,9 @@ public class Experience {
         setExperience(player, current + exp);
         player.setTotalExperience(currentTotal + roundExp(exp));
 
+        if (currentTotal == 2147483647) player.setTotalExperience(roundExp(exp));
+        if (currentTotal < 0) player.setTotalExperience(roundExp(exp));
+
     }
 
     public static void removeExperience(Player player, double exp) {
@@ -70,6 +73,9 @@ public class Experience {
 
         setExperience(player, current - exp);
         player.setTotalExperience(currentTotal - roundExp(exp));
+
+        if (currentTotal == 2147483647) player.setTotalExperience(0);
+        if (currentTotal < 0) player.setTotalExperience(0);
 
     }
 
