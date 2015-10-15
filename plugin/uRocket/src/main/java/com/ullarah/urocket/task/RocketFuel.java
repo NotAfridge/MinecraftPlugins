@@ -1,12 +1,10 @@
 package com.ullarah.urocket.task;
 
 import com.ullarah.ulib.function.Experience;
+import com.ullarah.ulib.function.GamemodeCheck;
 import com.ullarah.ulib.function.TitleSubtitle;
 import org.apache.commons.io.output.StringBuilderWriter;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -27,7 +25,20 @@ public class RocketFuel {
 
                         Player player = Bukkit.getPlayer(uuid);
 
-                        if (player.isFlying()) {
+                        if (GamemodeCheck.check(player, GameMode.CREATIVE, GameMode.SPECTATOR)) {
+
+                            player.sendMessage(getMsgPrefix() + "Rocket Boots do not work in this gamemode!");
+                            TitleSubtitle.subtitle(player, 1,
+                                    ChatColor.YELLOW + "Wrong Gamemode!");
+
+                            disableRocketBoots(player, false, true, false, false, false, false);
+
+                        } else if (player.isFlying()) {
+
+                            if (player.getLevel() < 0) player.setLevel(0);
+                            if (player.getExp() < 0) player.setExp(0);
+                            if (player.getTotalExperience() < 0 || player.getTotalExperience() == 2147483647)
+                                player.setTotalExperience(0);
 
                             boolean alternateFuel = false;
 
@@ -51,13 +62,19 @@ public class RocketFuel {
 
                             }
 
-                            if (player.getLevel() <= 2 && !alternateFuel) {
+                            if (rocketUsage.contains(uuid) && player.getLevel() <= 1 && !alternateFuel) {
 
-                                player.sendMessage(getMsgPrefix() + "You ran out of fuel for your Rocket Boots!");
-                                disableRocketBoots(player, false, true, false, false, false, false);
+                                rocketHealer.replace(uuid, 0);
 
-                            } else if (rocketUsage.contains(uuid) && player.getLevel() <= 6 && !alternateFuel) {
+                                player.sendMessage(getMsgPrefix() + "You ran out of XP for your Rocket Boots!");
+                                TitleSubtitle.subtitle(player, 2,
+                                        ChatColor.YELLOW + "You ran out of XP for your Rocket Boots!");
 
+                                disableRocketBoots(player, true, true, true, true, false, false);
+
+                            } else if (rocketUsage.contains(uuid) && player.getLevel() <= 5 && !alternateFuel) {
+
+                                rocketHealer.replace(uuid, 0);
                                 rocketLowFuel.add(uuid);
 
                                 player.sendMessage(getMsgPrefix() + "You might want to consider landing!");
@@ -80,25 +97,25 @@ public class RocketFuel {
                                     case LEATHER_BOOTS:
                                         getHealthFromBoots = (player.getHealth() - 3.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 4);
-                                        getExperienceFromBoots = 1200;
+                                        getExperienceFromBoots = 128.128;
                                         break;
 
                                     case IRON_BOOTS:
                                         getHealthFromBoots = (player.getHealth() - 2.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 3);
-                                        getExperienceFromBoots = 800;
+                                        getExperienceFromBoots = 96.96;
                                         break;
 
                                     case GOLD_BOOTS:
                                         getHealthFromBoots = (player.getHealth() - 1.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 2);
-                                        getExperienceFromBoots = 600;
+                                        getExperienceFromBoots = 64.64;
                                         break;
 
                                     case DIAMOND_BOOTS:
                                         getHealthFromBoots = (player.getHealth() - 0.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 1);
-                                        getExperienceFromBoots = 500;
+                                        getExperienceFromBoots = 32.32;
                                         break;
 
                                 }
@@ -223,10 +240,6 @@ public class RocketFuel {
 
                                         break;
 
-                                    case RUNNER:
-                                        //do nothing
-                                        break;
-
                                     default:
                                         Experience.removeExperience(player, getExperienceFromBoots);
                                         break;
@@ -235,16 +248,23 @@ public class RocketFuel {
 
                             }
 
-                            if (player.getLocation().getY() > 250) {
+                            if (player.getLocation().getY() >= 250) {
 
-                                player.setFlying(false);
+                                rocketHealer.replace(uuid, 0);
+                                disableRocketBoots(player, true, true, true, true, false, false);
                                 player.sendMessage(getMsgPrefix() + "Rocket Boots don't work so well up high!");
 
-                    }
+                            } else if (player.getLocation().getY() <= 0) {
+
+                                rocketHealer.replace(uuid, 0);
+                                disableRocketBoots(player, true, true, true, true, false, false);
+                                player.sendMessage(getMsgPrefix() + "Rocket Boots don't work so in the void!");
+
+                            }
 
                         }
 
-            }
+                    }
 
                 }), 0, 100);
 

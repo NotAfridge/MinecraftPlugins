@@ -149,8 +149,13 @@ public class RocketFunctions {
         Boolean isWaterVariant = false;
         Boolean isRunnerVariant = false;
 
-        if (rocketMeta.getLore().size() == 2)
-            variantLore = ChatColor.stripColor(rocketMeta.getLore().get(1));
+        if (rocketMeta.getLore().size() == 2) {
+            String loreLine = ChatColor.stripColor(rocketMeta.getLore().get(1));
+            assert loreLine != null;
+
+            if (loreLine.equals("Self-Repairing")) healerLore = loreLine;
+            else variantLore = loreLine;
+        }
 
         if (rocketMeta.getLore().size() == 3) {
             variantLore = ChatColor.stripColor(rocketMeta.getLore().get(1));
@@ -264,11 +269,18 @@ public class RocketFunctions {
 
         rocketBoots.setDurability(changedDurability);
 
+        int newBootDurability = bootMaterialDurability - changedDurability;
+
+        if (newBootDurability < 0) {
+            rocketBoots.setDurability((short) bootMaterialDurability);
+            newBootDurability = 0;
+        }
+
         String totalDurability = ChatColor.YELLOW + "Rocket Boot Durability: "
-                + (bootMaterialDurability - changedDurability) + " / " + bootMaterialDurability;
+                + newBootDurability + " / " + bootMaterialDurability;
 
         player.sendMessage(getMsgPrefix() + totalDurability);
-        TitleSubtitle.subtitle(player, 3, ChatColor.YELLOW + totalDurability);
+        TitleSubtitle.subtitle(player, 2, ChatColor.YELLOW + totalDurability);
 
     }
 
