@@ -4,20 +4,21 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -31,32 +32,32 @@ public class JoinQuitFunctions {
         String typeString = type.toString().substring(0, 1) + type.toString().substring(1).toLowerCase();
 
         Inventory chestGUI = getPlugin().getServer().createInventory(
-                null, 54, "" + ChatColor.DARK_RED + ChatColor.BOLD + "Choose a " + typeString + " Message");
+                null, 54, "" + ChatColor.DARK_AQUA + ChatColor.BOLD + typeString + " Message");
 
         for (int i = 0; i < type.getList().size(); i++) {
 
             if (i == 54) continue;
 
-            String[] messageArray = ChatColor.translateAlternateColorCodes('&',
-                    type.getList().get(i).replaceAll("\\{player\\}", player.getPlayerListName())).split("\n");
+            String message = type.getList().get(i);
 
-            List<String> messages = new ArrayList<>();
+            if (message.contains("{player}")) message = replacePlayerString(player, message, 0);
+            if (message.contains("{l_player}")) message = replacePlayerString(player, message, 1);
+            if (message.contains("{u_player}")) message = replacePlayerString(player, message, 2);
 
-            messages.add("");
-            for (String message : messageArray) messages.add(ChatColor.WHITE + message);
-            messages.add("");
+            String messageArray = ChatColor.translateAlternateColorCodes('&', ChatColor.WHITE + message);
 
-            ItemStack paperItem = new ItemStack(Material.PAPER, 1);
+            ItemStack paperItem = message.substring(0, 1).equals("&")
+                    ? translateChatToPane(ChatColor.getByChar(message.substring(1, 2)))
+                    : new ItemStack(Material.THIN_GLASS, 1);
+
             ItemMeta paperMeta = paperItem.getItemMeta();
 
-            paperMeta.setDisplayName(ChatColor.YELLOW + "Click to set " + typeString + " Message.");
+            paperMeta.setDisplayName(messageArray);
 
-            paperMeta.setLore(messages);
-
-            paperMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            paperMeta.setLore(Collections.singletonList("" + ChatColor.YELLOW + ChatColor.ITALIC
+                    + "Click to set " + typeString + " Message"));
             paperItem.setItemMeta(paperMeta);
 
-            paperItem.addUnsafeEnchantment(Enchantment.LUCK, 0);
             chestGUI.addItem(paperItem);
 
         }
@@ -65,12 +66,30 @@ public class JoinQuitFunctions {
 
     }
 
+    public static String replacePlayerString(Player player, String message, int type) {
+
+        switch (type) {
+
+            case 0:
+                return message.replaceAll("\\{player\\}", player.getPlayerListName());
+
+            case 1:
+                return message.replaceAll("\\{l_player\\}", player.getPlayerListName().toLowerCase());
+
+            case 2:
+                return message.replaceAll("\\{u_player\\}", player.getPlayerListName().toUpperCase());
+
+        }
+
+        return null;
+
+    }
+
     public static void updateMessageHashMap() {
 
         for (String list : Arrays.asList("joinMessages", "quitMessages"))
-            for (String message : getPlugin().getConfig().getStringList(list)) {
+            for (String message : getPlugin().getConfig().getStringList(list))
                 messageType.valueOf(messageType.getEnum(list).name()).getList().add(message);
-            }
 
         getPlugin().getLogger().log(Level.INFO,
                 "Joins: " + joinMessages.size() + " | " + "Quits: " + quitMessages.size());
@@ -81,13 +100,13 @@ public class JoinQuitFunctions {
 
         File file = new File(getPlugin().getDataFolder() + File.separator + "player.yml");
 
-        if (!file.exists()) {
+        if (!file.exists()) try {
 
-            try {
-                if (file.createNewFile()) return file;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            if (file.createNewFile()) return file;
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
 
         }
 
@@ -104,6 +123,9 @@ public class JoinQuitFunctions {
 
             if (getPlayerConfig().contains(uuid + ".quit"))
                 playerQuitMessage.put(UUID.fromString(uuid), getPlayerConfig().getInt(uuid + ".quit"));
+
+            if (getPlayerConfig().contains(uuid + ".location"))
+                playerJoinLocation.put(UUID.fromString(uuid), (Location) getPlayerConfig().get(uuid + ".location"));
 
         }
 
@@ -152,6 +174,53 @@ public class JoinQuitFunctions {
 
     }
 
+    public static void setLocation(Player player) {
+
+        try {
+
+            UUID playerUUID = player.getUniqueId();
+            YamlConfiguration config = getPlayerConfig();
+
+            config.set(playerUUID.toString() + ".location", player.getEyeLocation());
+            config.save(getPlayerConfigFile());
+
+            playerJoinLocation.put(playerUUID, player.getEyeLocation());
+
+            player.sendMessage(getMsgPrefix() + "Join location changed!");
+
+        } catch (IOException e) {
+
+            player.sendMessage(getMsgPrefix() + ChatColor.RED + "Error saving changes!");
+            e.printStackTrace();
+
+        }
+
+    }
+
+    public static void showExtra(Player player) {
+
+        Inventory options = Bukkit.createInventory(null, InventoryType.HOPPER,
+                "" + ChatColor.DARK_GREEN + ChatColor.BOLD + "Extra Options");
+
+        ItemStack locationItem = new ItemStack(Material.COMPASS, 1);
+        ItemMeta locationItemMeta = locationItem.getItemMeta();
+
+        locationItemMeta.setDisplayName(ChatColor.WHITE + "Set Join Location");
+        locationItemMeta.setLore(Arrays.asList(
+                        ChatColor.YELLOW + "Set your current location as",
+                        ChatColor.YELLOW + "your join location.")
+        );
+
+        locationItem.setItemMeta(locationItemMeta);
+
+        options.addItem(
+                locationItem
+        );
+
+        player.openInventory(options);
+
+    }
+
     public static void clearMessage(Player player) {
 
         try {
@@ -164,8 +233,9 @@ public class JoinQuitFunctions {
 
             playerJoinMessage.remove(playerUUID);
             playerQuitMessage.remove(playerUUID);
+            playerJoinLocation.remove(playerUUID);
 
-            player.sendMessage(getMsgPrefix() + "Join and Quit messages cleared!");
+            player.sendMessage(getMsgPrefix() + "All settings cleared!");
 
         } catch (IOException e) {
 
@@ -183,16 +253,20 @@ public class JoinQuitFunctions {
         TextComponent allOptions = new TextComponent(getMsgPrefix() + "Click an option: ");
 
         TextComponent joinOption = new TextComponent(
-                ChatColor.LIGHT_PURPLE + "[" + ChatColor.AQUA + "Set Join" + ChatColor.LIGHT_PURPLE + "] ");
+                ChatColor.AQUA + "[" + ChatColor.DARK_AQUA + "Set Join" + ChatColor.AQUA + "] ");
 
         TextComponent quitOption = new TextComponent(
-                ChatColor.LIGHT_PURPLE + "[" + ChatColor.AQUA + "Set Quit" + ChatColor.LIGHT_PURPLE + "] ");
+                ChatColor.AQUA + "[" + ChatColor.DARK_AQUA + "Set Quit" + ChatColor.AQUA + "] ");
+
+        TextComponent extraOption = new TextComponent(
+                ChatColor.GREEN + "[" + ChatColor.DARK_GREEN + "Extra" + ChatColor.GREEN + "] ");
 
         TextComponent clearOption = new TextComponent(
                 ChatColor.RED + "[" + ChatColor.DARK_RED + "Clear" + ChatColor.RED + "] ");
 
         joinOption.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/jq join"));
         quitOption.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/jq quit"));
+        extraOption.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/jq extra"));
         clearOption.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/jq clear"));
 
         joinOption.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
@@ -203,15 +277,96 @@ public class JoinQuitFunctions {
                 new ComponentBuilder(ChatColor.YELLOW + "Click to view and set a Quit Message\n"
                         + ChatColor.GOLD + "/jq quit").create()));
 
+        extraOption.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                new ComponentBuilder(ChatColor.YELLOW + "Click to view Extra Options\n"
+                        + ChatColor.GOLD + "/jq extra").create()));
+
         clearOption.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                new ComponentBuilder(ChatColor.YELLOW + "Click to clear both Join and Quit Messages\n"
+                new ComponentBuilder(ChatColor.YELLOW + "Click to clear everything\n"
                         + ChatColor.GOLD + "/jq clear").create()));
 
         allOptions.addExtra(joinOption);
         allOptions.addExtra(quitOption);
+        allOptions.addExtra(extraOption);
         allOptions.addExtra(clearOption);
 
         player.spigot().sendMessage(allOptions);
+
+    }
+
+    private static ItemStack translateChatToPane(ChatColor chatColor) {
+
+        short paneColour = 0;
+
+        switch (chatColor) {
+
+            case BLACK:
+                paneColour = 15;
+                break;
+
+            case DARK_BLUE:
+                paneColour = 11;
+                break;
+
+            case DARK_GREEN:
+                paneColour = 13;
+                break;
+
+            case DARK_AQUA:
+                paneColour = 9;
+                break;
+
+            case DARK_RED:
+                paneColour = 14;
+                break;
+
+            case DARK_PURPLE:
+                paneColour = 10;
+                break;
+
+            case GOLD:
+                paneColour = 1;
+                break;
+
+            case GRAY:
+                paneColour = 8;
+                break;
+
+            case DARK_GRAY:
+                paneColour = 7;
+                break;
+
+            case BLUE:
+                paneColour = 3;
+                break;
+
+            case GREEN:
+                paneColour = 5;
+                break;
+
+            case AQUA:
+                paneColour = 3;
+                break;
+
+            case RED:
+                paneColour = 14;
+                break;
+
+            case LIGHT_PURPLE:
+                paneColour = 6;
+                break;
+
+            case YELLOW:
+                paneColour = 4;
+                break;
+
+            case WHITE:
+                paneColour = 0;
+                break;
+
+        }
+
+        return new ItemStack(Material.STAINED_GLASS_PANE, 1, paneColour);
 
     }
 

@@ -1,27 +1,31 @@
 package com.ullarah.ujoinquit;
 
 import com.ullarah.ujoinquit.event.MessageClick;
+import com.ullarah.ujoinquit.event.OptionClick;
 import com.ullarah.ujoinquit.event.PlayerJoin;
 import com.ullarah.ujoinquit.event.PlayerQuit;
 import com.ullarah.ulib.function.PluginRegisters;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static com.ullarah.ujoinquit.JoinQuitFunctions.*;
 import static com.ullarah.ulib.function.PluginRegisters.RegisterType.EVENT;
 
 public class JoinQuitInit extends JavaPlugin {
 
-    public static final HashMap<UUID, Integer> playerJoinMessage = new HashMap<>();
-    public static final HashMap<UUID, Integer> playerQuitMessage = new HashMap<>();
+    public static final ConcurrentHashMap<UUID, Integer> playerJoinMessage = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<UUID, Integer> playerQuitMessage = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<UUID, Location> playerJoinLocation = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<UUID, Integer> playerTimeout = new ConcurrentHashMap<>();
     public static final List<String> joinMessages = new ArrayList<>();
     public static final List<String> quitMessages = new ArrayList<>();
     private static Plugin plugin;
@@ -94,6 +98,7 @@ public class JoinQuitInit extends JavaPlugin {
 
         PluginRegisters.register(getPlugin(), EVENT,
                 new MessageClick(),
+                new OptionClick(),
                 new PlayerJoin(),
                 new PlayerQuit()
         );

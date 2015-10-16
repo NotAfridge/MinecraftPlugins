@@ -14,19 +14,23 @@ import static com.ullarah.ujoinquit.JoinQuitFunctions.setMessage;
 public class MessageClick implements Listener {
 
     @EventHandler
-    public void playerClickInventory(InventoryClickEvent event) {
+    public void playerClickMessage(InventoryClickEvent event) {
 
         Player player = (Player) event.getWhoClicked();
-        String chestName = event.getInventory().getTitle();
+        String inventoryTitle = event.getInventory().getTitle();
 
-        if (chestName.matches(".*(Join|Quit) Message") && PermissionCheck.check(player, "jq.access", "jq.join", "jq.quit")) {
+        if (inventoryTitle.matches(".*(Join|Quit) Message")
+                && PermissionCheck.check(player, "jq.access", "jq.join", "jq.quit")) {
 
-            if (event.getRawSlot() < 54) {
+            if (event.getRawSlot() >= 0 && event.getRawSlot() < 54) {
 
-                if (event.getCurrentItem().getType() != Material.AIR && event.getCurrentItem().getType() == Material.PAPER) {
+                Material clickedItem = event.getCurrentItem().getType();
 
-                    if (chestName.matches(".*Join Message")) setMessage(player, JOIN, event.getRawSlot());
-                    if (chestName.matches(".*Quit Message")) setMessage(player, QUIT, event.getRawSlot());
+                if (clickedItem != Material.AIR
+                        && (clickedItem == Material.STAINED_GLASS_PANE || clickedItem == Material.THIN_GLASS)) {
+
+                    if (inventoryTitle.matches(".*Join Message")) setMessage(player, JOIN, event.getRawSlot());
+                    if (inventoryTitle.matches(".*Quit Message")) setMessage(player, QUIT, event.getRawSlot());
 
                     player.closeInventory();
 

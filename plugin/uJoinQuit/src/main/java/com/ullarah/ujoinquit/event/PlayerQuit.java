@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import static com.ullarah.ujoinquit.JoinQuitFunctions.getMessage;
 import static com.ullarah.ujoinquit.JoinQuitFunctions.messageType.QUIT;
+import static com.ullarah.ujoinquit.JoinQuitFunctions.replacePlayerString;
 import static com.ullarah.ujoinquit.JoinQuitInit.playerQuitMessage;
 
 public class PlayerQuit implements Listener {
@@ -18,9 +19,17 @@ public class PlayerQuit implements Listener {
 
         Player player = event.getPlayer();
 
-        if (playerQuitMessage.containsKey(player.getUniqueId()))
-            event.setQuitMessage(" ◀◀ " + ChatColor.translateAlternateColorCodes('&',
-                    getMessage(player, QUIT).replaceAll("\\{player\\}", player.getPlayerListName())));
+        if (playerQuitMessage.containsKey(player.getUniqueId())) {
+
+            String message = getMessage(player, QUIT);
+
+            if (message.contains("{player}")) message = replacePlayerString(player, message, 0);
+            if (message.contains("{l_player}")) message = replacePlayerString(player, message, 1);
+            if (message.contains("{u_player}")) message = replacePlayerString(player, message, 2);
+
+            event.setQuitMessage(" «« " + ChatColor.translateAlternateColorCodes('&', message));
+
+        }
 
     }
 

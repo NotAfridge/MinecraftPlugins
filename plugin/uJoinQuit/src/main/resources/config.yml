@@ -1,31 +1,27 @@
 joinMessages:
-- "&eWe meet again, %s!"
-- Hey hey, %s!
-- So we meet again %s...
-- Never fear, %s is here!
-- "&bSay hello to %s!"
-- Well well well, if it isn't %s...
-- Sshh quiet everybody... %s is back!
-- "&dWelcome back %s!"
-- Thought you would be back %s!
-- Why hello there %s!
-- "&6%s is back for more exciting adventures!"
-- Hi, %s Mays here for...
-- What is this %s? A joining message for &cANTS?!
-- |-
-  %s, stop trying to make fetch happen!
-        &oIt's not going to happen!
-- "Maybe they're born with it, maybe it's %s"
-
+- We meet again, {player}!
+- Hey hey, {player}!
+- So we meet again {player}...
+- Never fear, {player} is here!
+- Say hello to {player}!
+- Well well well, if it isn't {player}...
+- Sshh quiet everybody... {player} is back!
+- Welcome back {player}!
+- Thought you would be back {player}!
+- Why hello there {player}!
+- '&6{player} is back for more exciting adventures!'
+- Hi, {player} Mays here for...
+- What is this {player}? A joining message for ANTS?!
+- Maybe they're born with it, maybe it's {player}
 quitMessages:
-- "&cBye bye, %s!"
-- Seeya later, %s!
-- "%s just left us..."
-- Just like Elvis, %s has left the building!
-- It's going to get lonely now without %s...
-- I hope %s comes back soon!
-- "%s went crazy and joined the circus!"
-- How rude %s, just leaving everybody!
-- "&lBAM&r, and the %s is gone!"
-- "%s disappeared, just like that!"
-- Oops, looks like %s accidentally quit!
+- '&cBye bye, {player}!'
+- Seeya later, {player}!
+- '{player} just left us...'
+- Just like Elvis, {player} has left the building!
+- It's going to get lonely now without {player}...
+- I hope {player} comes back soon!
+- '{player} went crazy and joined the circus!'
+- How rude {player}, just leaving everybody!
+- '&lBAM&f, and the {player} is gone!'
+- '{player} disappeared, just like that!'
+- Oops, looks like {player} accidentally quit!

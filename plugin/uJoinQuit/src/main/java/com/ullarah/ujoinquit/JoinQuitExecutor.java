@@ -41,6 +41,12 @@ class JoinQuitExecutor implements CommandExecutor {
                     else player.sendMessage(getMsgPermDeny());
                     break;
 
+                case "EXTRA":
+                    if (PermissionCheck.check(player, "jq.access", "jq.extra"))
+                        showExtra(player);
+                    else player.sendMessage(getMsgPermDeny());
+                    break;
+
                 case "CLEAR":
                     clearMessage(player);
                     break;
