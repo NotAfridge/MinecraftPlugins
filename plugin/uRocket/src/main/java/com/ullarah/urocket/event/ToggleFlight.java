@@ -42,16 +42,11 @@ public class ToggleFlight implements Listener {
 
             } else {
 
-                Boolean hasRocketMeta = rocketBoots.hasItemMeta();
-                ItemMeta rocketMeta;
-                String rocketName;
+                if (rocketBoots.hasItemMeta()) {
 
-                if (hasRocketMeta) {
+                    ItemMeta rocketMeta = rocketBoots.getItemMeta();
 
-                    rocketMeta = rocketBoots.getItemMeta();
-                    rocketName = rocketMeta.getDisplayName();
-
-                    if (rocketName.matches(ChatColor.RED + "Rocket Boots")) {
+                    if (rocketMeta.getDisplayName().matches(ChatColor.RED + "Rocket Boots")) {
 
                         if (rocketMeta.hasLore()) {
 
