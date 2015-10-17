@@ -15,35 +15,23 @@ public class PostalReminder {
 
     public static BukkitTask task(final UUID player) {
 
-        return Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(), new Runnable() {
+        return Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
+                () -> Bukkit.getScheduler().runTask(getPlugin(), () -> {
 
-            public void run() {
+                    for (Player receiverPlayer : Bukkit.getServer().getOnlinePlayers()) {
 
-                Bukkit.getScheduler().runTask(getPlugin(), new Runnable() {
+                        if (receiverPlayer.getUniqueId().equals(player)) {
 
-                    @Override
-                    public void run() {
-
-                        for (Player receiverPlayer : Bukkit.getServer().getOnlinePlayers()) {
-
-                            if (receiverPlayer.getUniqueId().equals(player)) {
-
-                                String message = ChatColor.YELLOW + "You have new items in your inbox!";
-                                receiverPlayer.sendMessage(getMsgPrefix() + message);
-                                TitleSubtitle.subtitle(receiverPlayer, 5, message);
-                                break;
-
-                            }
+                            String message = ChatColor.YELLOW + "You have new items in your inbox!";
+                            receiverPlayer.sendMessage(getMsgPrefix() + message);
+                            TitleSubtitle.subtitle(receiverPlayer, 5, message);
+                            break;
 
                         }
 
                     }
 
-                });
-
-            }
-
-        }, 6000, 6000);
+                }), 6000, 6000);
 
     }
 

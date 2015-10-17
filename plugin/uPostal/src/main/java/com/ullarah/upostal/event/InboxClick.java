@@ -37,8 +37,7 @@ public class InboxClick implements Listener {
 
             boolean isOwner = inboxViewerUUID.equals(inboxOwnerUUID);
 
-            if (event.getRawSlot() == -999 || event.getClick().isRightClick())
-                event.setCancelled(true);
+            if (event.getRawSlot() == -999 || event.getClick().isRightClick()) event.setCancelled(true);
             else {
 
                 ItemStack hand = event.getWhoClicked().getItemOnCursor();
