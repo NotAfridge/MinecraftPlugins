@@ -4,15 +4,19 @@ import com.ullarah.ulib.function.GamemodeCheck;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.GameMode;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import java.util.Random;
 import java.util.UUID;
 
 import static com.ullarah.urocket.RocketFunctions.Variant;
 import static com.ullarah.urocket.RocketInit.*;
+import static org.bukkit.Material.LEATHER_BOOTS;
 
 public class RocketParticles {
 
@@ -80,6 +84,18 @@ public class RocketParticles {
                                                                 EnumParticle.REDSTONE,
                                                                 true, x, y, z, oX, oY, oZ,
                                                                 sparkColour, sparkColour, null);
+
+                                                        ItemStack rocketBoots = player.getInventory().getBoots();
+
+                                                        if (rocketBoots.getType() == LEATHER_BOOTS) {
+                                                            LeatherArmorMeta armorMeta = (LeatherArmorMeta) rocketBoots.getItemMeta();
+                                                            armorMeta.setColor(Color.fromRGB(
+                                                                    new Random().nextInt(255),
+                                                                    new Random().nextInt(255),
+                                                                    new Random().nextInt(255)
+                                                            ));
+                                                            rocketBoots.setItemMeta(armorMeta);
+                                                        }
                                                         break;
 
                                                     case WATER:
