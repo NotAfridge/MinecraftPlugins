@@ -21,7 +21,7 @@ import static com.ullarah.urocket.RocketInit.*;
 public class RocketFunctions {
 
     public static void disableRocketBoots(Player player, Boolean keepUsage, Boolean keepPower, Boolean keepFlight,
-                                          Boolean keepVariant, Boolean inWater, Boolean keepRepair) {
+                                          Boolean keepVariant, Boolean inWater, Boolean keepEnhancement) {
 
         UUID uuid = player.getUniqueId();
 
@@ -34,7 +34,8 @@ public class RocketFunctions {
         if (rocketWater.contains(uuid)) rocketWater.remove(uuid);
         if (rocketRepair.containsKey(uuid)) rocketRepair.remove(uuid);
 
-        if (!keepRepair && rocketHealer.containsKey(uuid)) rocketHealer.remove(uuid);
+        if (!keepEnhancement && rocketHealer.containsKey(uuid)) rocketHealer.remove(uuid);
+        if (!keepEnhancement && rocketEfficient.containsKey(uuid)) rocketEfficient.remove(uuid);
 
         if (!keepVariant && rocketVariant.containsKey(uuid)) {
             switch (rocketVariant.get(uuid)) {
@@ -97,7 +98,7 @@ public class RocketFunctions {
                     String rocketLore = rocketMeta.getLore().get(0);
                     String variantLore = null;
 
-                    if (rocketMeta.getLore().size() == 2) variantLore = rocketMeta.getLore().get(1);
+                    if (rocketMeta.getLore().size() >= 2) variantLore = rocketMeta.getLore().get(1);
 
                     Set<String> specialVariants = new HashSet<>(Collections.singletonList("Robin Hood"));
 
@@ -145,27 +146,43 @@ public class RocketFunctions {
 
         Block blockMiddle = player.getLocation().getBlock().getRelative(BlockFace.SELF);
         String variantLore = null;
-        String healerLore = null;
+        String enhancementLore = null;
         Boolean isWaterVariant = false;
         Boolean isRunnerVariant = false;
 
         if (rocketMeta.getLore().size() == 2) {
+
             String loreLine = ChatColor.stripColor(rocketMeta.getLore().get(1));
             assert loreLine != null;
 
-            if (loreLine.equals("Self-Repairing")) healerLore = loreLine;
-            else variantLore = loreLine;
+            switch (loreLine) {
+
+                case "Self-Repairing":
+                    enhancementLore = loreLine;
+                    rocketHealer.put(player.getUniqueId(), 0);
+                    break;
+
+                case "Fuel Efficient":
+                    enhancementLore = loreLine;
+                    rocketEfficient.put(player.getUniqueId(), true);
+                    break;
+
+                default:
+                    variantLore = loreLine;
+                    break;
+
+            }
+
         }
 
         if (rocketMeta.getLore().size() == 3) {
             variantLore = ChatColor.stripColor(rocketMeta.getLore().get(1));
-            healerLore = ChatColor.stripColor(rocketMeta.getLore().get(2));
+            enhancementLore = ChatColor.stripColor(rocketMeta.getLore().get(2));
         }
 
         if (variantLore != null) {
 
             rocketVariant.put(player.getUniqueId(), getEnum(variantLore));
-            rocketHealer.put(player.getUniqueId(), 0);
 
             if (rocketVariant.get(player.getUniqueId()) == WATER) isWaterVariant = true;
 
@@ -186,10 +203,10 @@ public class RocketFunctions {
                     if (Variant.getEnum(variantLore) == Variant.RUNNER) isRunnerVariant = true;
                 } else player.sendMessage(getMsgPrefix() + "Variant: " + ChatColor.RED + "Not Found");
 
-                if (healerLore == null)
-                    player.sendMessage(getMsgPrefix() + "Self-Repair: " + ChatColor.RED + "Not Found");
+                if (enhancementLore != null)
+                    player.sendMessage(getMsgPrefix() + "Enhancement: " + ChatColor.AQUA + enhancementLore);
                 else
-                    player.sendMessage(getMsgPrefix() + "Self-Repair: " + ChatColor.GREEN + "Activated");
+                    player.sendMessage(getMsgPrefix() + "Enhancement: " + ChatColor.RED + "Not Found");
 
                 if (!isRunnerVariant) player.setAllowFlight(true);
 
@@ -414,7 +431,7 @@ public class RocketFunctions {
         RAINBOW("Radical Rainbows"), WATER("Water Slider"), ZERO("Patient Zero"), NOTE("Musical Madness"),
         STEALTH("Super Stealth"), AGENDA("Gay Agenda"), MONEY("Robin Hood"), DRUNK("Glazed Over"),
         BOOST("Pole Vaulter"), COAL("Coal Miner"), REDSTONE("Red Fury"), RUNNER("Rocket Runner"),
-        GLOW("Shooting Star");
+        GLOW("Shooting Star"), SOUND("Loud Silence");
 
         private final String type;
 

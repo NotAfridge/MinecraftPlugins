@@ -15,10 +15,10 @@ public class RocketHealer implements NewRecipe {
 
     public static ItemStack healer() {
 
-        ItemStack healer = new ItemStack(Material.ANVIL, 1);
+        ItemStack healer = new ItemStack(Material.NETHER_STAR, 1);
 
         ItemMeta healerMeta = healer.getItemMeta();
-        healerMeta.setDisplayName(ChatColor.RED + "Rocket Healer");
+        healerMeta.setDisplayName(ChatColor.RED + "Self Repair Enhancement");
         healerMeta.setLore(Collections.singletonList(ChatColor.YELLOW + "Repair your Rocket Boots as you fly!"));
 
         healerMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);

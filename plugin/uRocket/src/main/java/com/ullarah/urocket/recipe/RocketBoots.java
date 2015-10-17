@@ -13,25 +13,25 @@ import java.util.Collections;
 public class RocketBoots implements NewRecipe {
 
     private final Material bootMaterial;
-    private final boolean hasHealer;
+    private final boolean hasEnhancement;
 
-    public RocketBoots(Material material, boolean healer) {
+    public RocketBoots(Material material, boolean enhancement) {
 
         bootMaterial = material;
-        hasHealer = healer;
+        hasEnhancement = enhancement;
 
     }
 
-    private static ItemStack boots(boolean hasHealer) {
+    private static ItemStack boots(boolean hasEnhancement) {
 
         ItemStack boots = new ItemStack(Material.IRON_BOOTS, 1);
 
         ItemMeta bootMeta = boots.getItemMeta();
         bootMeta.setDisplayName(ChatColor.GRAY + "Useless Rocket Boots");
 
-        if (hasHealer) {
+        if (hasEnhancement) {
 
-            bootMeta.setLore(Collections.singletonList(ChatColor.GRAY + "Useless Self-Repair Unit"));
+            bootMeta.setLore(Collections.singletonList(ChatColor.GRAY + "Useless Enhancement"));
 
             bootMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             boots.setItemMeta(bootMeta);
@@ -46,12 +46,12 @@ public class RocketBoots implements NewRecipe {
 
     public ShapedRecipe recipe() {
 
-        ShapedRecipe bootRecipe = new ShapedRecipe(boots(hasHealer));
+        ShapedRecipe bootRecipe = new ShapedRecipe(boots(hasEnhancement));
 
-        if (hasHealer) {
+        if (hasEnhancement) {
 
             bootRecipe.shape("H H", "MAM", "T T");
-            bootRecipe.setIngredient('A', Material.ANVIL);
+            bootRecipe.setIngredient('A', Material.NETHER_STAR);
 
         } else bootRecipe.shape("H H", "M M", "T T");
 

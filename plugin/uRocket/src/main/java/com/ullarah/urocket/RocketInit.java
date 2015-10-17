@@ -38,6 +38,7 @@ public class RocketInit extends JavaPlugin {
     public static final ConcurrentHashMap<UUID, Integer> rocketPower = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Variant> rocketVariant = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Integer> rocketHealer = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<UUID, Boolean> rocketEfficient = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Location> rocketRepair = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Location> rocketRepairStand = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, HashMap<Location, Location>> rocketZoneLocations = new ConcurrentHashMap<>();
@@ -127,7 +128,8 @@ public class RocketInit extends JavaPlugin {
                 new RepairStand(),
                 new RocketFlyZone(),
                 new RocketSaddle(),
-                new RocketHealer()
+                new RocketHealer(),
+                new RocketEfficient()
         ));
 
         for (Material material : new ArrayList<Material>() {{
@@ -170,7 +172,8 @@ public class RocketInit extends JavaPlugin {
                 new RocketVariant(ChatColor.GOLD + "Rocket Runner", Material.SUGAR, Material.SUGAR, Material.PRISMARINE_CRYSTALS),
                 new RocketVariant(ChatColor.WHITE + "Super Stealth", Material.SLIME_BALL, Material.PACKED_ICE, Material.SOUL_SAND),
                 new RocketVariant(ChatColor.BLUE + "Water Slider", Material.WATER_LILY, Material.PRISMARINE_CRYSTALS, Material.WATER_BUCKET),
-                new RocketVariant(ChatColor.YELLOW + "Patient Zero", Material.BLAZE_POWDER, Material.EXP_BOTTLE, Material.ENCHANTMENT_TABLE)
+                new RocketVariant(ChatColor.YELLOW + "Patient Zero", Material.BLAZE_POWDER, Material.EXP_BOTTLE, Material.ENCHANTMENT_TABLE),
+                new RocketVariant(ChatColor.WHITE + "Loud Silence", Material.GOLD_RECORD, Material.JUKEBOX, Material.NOTE_BLOCK)
         ));
 
         registerMap.put(TASK.toString(), PluginRegisters.register(getPlugin(), TASK,

@@ -6,6 +6,7 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Instrument;
+import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
@@ -13,6 +14,8 @@ import java.util.Random;
 import java.util.UUID;
 
 import static com.ullarah.urocket.RocketFunctions.Variant;
+import static com.ullarah.urocket.RocketFunctions.Variant.NOTE;
+import static com.ullarah.urocket.RocketFunctions.Variant.SOUND;
 import static com.ullarah.urocket.RocketInit.*;
 import static org.bukkit.Note.Tone;
 import static org.bukkit.Note.natural;
@@ -38,13 +41,55 @@ public class NotePlaying {
 
                                         Variant bootVariant = rocketVariant.get(player.getUniqueId());
 
-                                        if (bootVariant == Variant.NOTE) {
+                                        switch (bootVariant) {
 
-                                            String[] tones = {"A", "B", "C", "D", "E", "F", "G"};
+                                            case NOTE:
+                                                String[] tones = {"A", "B", "C", "D", "E", "F", "G"};
 
-                                            int randomPianoOctave = new Random().nextInt(2);
-                                            int randomBassOctave = new Random().nextInt(2);
-                                            int randomTones = new Random().nextInt(tones.length);
+                                                int randomPianoOctave = new Random().nextInt(2);
+                                                int randomBassOctave = new Random().nextInt(2);
+                                                int randomTones = new Random().nextInt(tones.length);
+
+                                                for (Player serverPlayer : player.getWorld().getPlayers()) {
+
+                                                    serverPlayer.playNote(
+                                                            player.getLocation(),
+                                                            Instrument.PIANO,
+                                                            natural(randomPianoOctave, Tone.valueOf(tones[randomTones]))
+                                                    );
+
+                                                    serverPlayer.playNote(
+                                                            player.getLocation(),
+                                                            Instrument.BASS_GUITAR,
+                                                            natural(randomBassOctave, Tone.valueOf(tones[randomTones]))
+                                                    );
+
+                                                }
+                                                break;
+
+                                            case SOUND:
+                                                float min = 0.25f;
+                                                float max = 1.25f;
+
+                                                Sound[] allSounds = org.bukkit.Sound.values();
+
+                                                Sound randomSound = allSounds[new Random().nextInt(allSounds.length)];
+                                                float randomPitch = new Random().nextFloat() * (max - min) + min;
+                                                float randomVolume = new Random().nextFloat() * (max - min) + min;
+
+                                                for (Player serverPlayer : player.getWorld().getPlayers()) {
+
+                                                    serverPlayer.playSound(
+                                                            player.getLocation(),
+                                                            randomSound, randomPitch, randomVolume
+                                                    );
+
+                                                }
+                                                break;
+
+                                        }
+
+                                        if (bootVariant == NOTE || bootVariant == SOUND) {
 
                                             float x = (float) player.getLocation().getX();
                                             float y = (float) (player.getLocation().getY() - 1);
@@ -56,27 +101,18 @@ public class NotePlaying {
 
                                             PacketPlayOutWorldParticles packet;
 
-                                            int noteColour = new Random().nextInt(25);
+                                            int colour = new Random().nextInt(25);
                                             if (rocketSprint.containsKey(player.getUniqueId()))
                                                 packet = new PacketPlayOutWorldParticles(EnumParticle.SMOKE_LARGE,
                                                         true, x, y, z, oX, oY, oZ, 0, 5, null);
                                             else packet = new PacketPlayOutWorldParticles(EnumParticle.NOTE,
-                                                    true, x, y, z, oX, oY, oZ, noteColour, 1, null);
+                                                    true, x, y, z, oX, oY, oZ, colour, 1, null);
 
-                                            for (Player serverPlayer : player.getWorld().getPlayers()) {
-                                                serverPlayer.playNote(
-                                                        player.getLocation(),
-                                                        Instrument.PIANO,
-                                                        natural(randomPianoOctave, Tone.valueOf(tones[randomTones]))
-                                                );
-
-                                                serverPlayer.playNote(
-                                                        player.getLocation(),
-                                                        Instrument.BASS_GUITAR,
-                                                        natural(randomBassOctave, Tone.valueOf(tones[randomTones]))
-                                                );
-
+                                            for (Player serverPlayer : player.getWorld().getPlayers())
                                                 ((CraftPlayer) serverPlayer).getHandle().playerConnection.sendPacket(packet);
+
+                                        }
+
                                     }
 
                                 }
@@ -87,11 +123,7 @@ public class NotePlaying {
 
                     }
 
-                        }
-
-            }
-
-                }), 5, 5);
+                }), 10, 10);
 
     }
 

@@ -36,10 +36,11 @@ public class CraftStandard implements Listener {
             String boosterType = null;
             String variantType = null;
 
-            String rocketHeal = ChatColor.AQUA + "Self-Repairing";
+            String rocketHeal = ChatColor.AQUA + "Self Repair";
+            String rocketEfficient = ChatColor.AQUA + "Fuel Efficient";
 
             ItemStack rocketVariant = getSlot[7];
-            ItemStack rocketHealer = getSlot[4];
+            ItemStack rocketEnhancement = getSlot[4];
 
             ItemStack[] rocketControls = new ItemStack[]{getSlot[0], getSlot[2]};
             ItemStack[] rocketMaterial = new ItemStack[]{getSlot[3], getSlot[5]};
@@ -93,9 +94,19 @@ public class CraftStandard implements Listener {
                     bootType += 8;
                 }
 
-            if (rocketHealer.hasItemMeta()) if (rocketHealer.getItemMeta().hasDisplayName())
-                if (rocketHealer.getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Healer"))
+            if (rocketEnhancement.hasItemMeta()) if (rocketEnhancement.getItemMeta().hasDisplayName()) {
+
+                String enhancementName = rocketEnhancement.getItemMeta().getDisplayName();
+
+                if (enhancementName.equals(ChatColor.RED + "Self Repair Enhancement")) {
                     bootType += 16;
+                }
+
+                if (enhancementName.equals(ChatColor.RED + "Fuel Efficient Enhancement")) {
+                    bootType += 32;
+                }
+
+            }
 
             if (hasControls && hasBoosters && hasMaterial && materialMatch) {
 
@@ -122,6 +133,15 @@ public class CraftStandard implements Listener {
                         bootMeta.setLore(Arrays.asList(boosterType, variantType, rocketHeal));
                         break;
 
+                    case 32:
+                        bootMeta.setLore(Arrays.asList(boosterType, rocketEfficient));
+                        break;
+
+                    case 40:
+                        bootMeta.setLore(Arrays.asList(boosterType, variantType, rocketEfficient));
+                        break;
+
+
                 }
 
                 bootMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -129,7 +149,8 @@ public class CraftStandard implements Listener {
                 boots.setItemMeta(bootMeta);
                 boots.addEnchantment(Enchantment.PROTECTION_FALL, 3);
 
-                event.getInventory().setResult((bootType == 8 || bootType == 24) && isBoosterX ? null : boots);
+                event.getInventory().setResult((bootType == 8 || bootType == 24 || bootType == 40)
+                        && isBoosterX ? null : boots);
 
             }
 

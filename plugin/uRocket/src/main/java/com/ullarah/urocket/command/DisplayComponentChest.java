@@ -32,7 +32,7 @@ public class DisplayComponentChest {
         return new ItemStack[]{
                 RocketBooster.booster("I"), RocketBooster.booster("II"), RocketBooster.booster("III"),
                 RocketBooster.booster("IV"), RocketBooster.booster("V"), RocketBooster.booster("X"),
-                null, new ItemStack(Material.LEATHER), new ItemStack(Material.IRON_INGOT),
+                RocketEfficient.efficient(), new ItemStack(Material.LEATHER), new ItemStack(Material.IRON_INGOT),
 
                 RocketControls.control(), RepairTank.tank(), RepairStation.station(),
                 RepairStand.stand(), RocketFlyZone.zone(), RocketSaddle.saddle(),
@@ -46,7 +46,7 @@ public class DisplayComponentChest {
                 RocketVariant.variant(ChatColor.YELLOW + "Shooting Star"),
                 RocketVariant.variant(ChatColor.GREEN + "Health Zapper"),
                 RocketVariant.variant(ChatColor.RED + "TNT Overload"),
-                null,
+                RocketVariant.variant(ChatColor.WHITE + "Loud Silence"),
 
                 RocketVariant.variant(ChatColor.GOLD + "Musical Madness"),
                 RocketVariant.variant(ChatColor.YELLOW + "Radical Rainbows"),

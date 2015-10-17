@@ -97,25 +97,33 @@ public class RocketFuel {
                                     case LEATHER_BOOTS:
                                         getHealthFromBoots = (player.getHealth() - 3.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 4);
-                                        getExperienceFromBoots = 128.128;
+                                        if (rocketEfficient.containsKey(uuid)) {
+                                            if (rocketEfficient.get(uuid)) getExperienceFromBoots = 80.85;
+                                        } else getExperienceFromBoots = 128.128;
                                         break;
 
                                     case IRON_BOOTS:
                                         getHealthFromBoots = (player.getHealth() - 2.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 3);
-                                        getExperienceFromBoots = 96.96;
+                                        if (rocketEfficient.containsKey(uuid)) {
+                                            if (rocketEfficient.get(uuid)) getExperienceFromBoots = 60.65;
+                                        } else getExperienceFromBoots = 96.96;
                                         break;
 
                                     case GOLD_BOOTS:
                                         getHealthFromBoots = (player.getHealth() - 1.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 2);
-                                        getExperienceFromBoots = 64.64;
+                                        if (rocketEfficient.containsKey(uuid)) {
+                                            if (rocketEfficient.get(uuid)) getExperienceFromBoots = 40.45;
+                                        } else getExperienceFromBoots = 64.64;
                                         break;
 
                                     case DIAMOND_BOOTS:
                                         getHealthFromBoots = (player.getHealth() - 0.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 1);
-                                        getExperienceFromBoots = 32.32;
+                                        if (rocketEfficient.containsKey(uuid)) {
+                                            if (rocketEfficient.get(uuid)) getExperienceFromBoots = 20.25;
+                                        } else getExperienceFromBoots = 32.32;
                                         break;
 
                                 }
