@@ -3,8 +3,6 @@ package com.ullarah.urocket.recipe;
 import com.ullarah.ulib.function.NewRecipe;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -21,10 +19,7 @@ public class RocketHealer implements NewRecipe {
         healerMeta.setDisplayName(ChatColor.RED + "Self Repair Enhancement");
         healerMeta.setLore(Collections.singletonList(ChatColor.YELLOW + "Repair your Rocket Boots as you fly!"));
 
-        healerMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         healer.setItemMeta(healerMeta);
-
-        healer.addUnsafeEnchantment(Enchantment.LUCK, 1);
 
         return healer;
 

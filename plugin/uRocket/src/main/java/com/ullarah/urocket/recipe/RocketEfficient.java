@@ -3,8 +3,6 @@ package com.ullarah.urocket.recipe;
 import com.ullarah.ulib.function.NewRecipe;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -25,10 +23,7 @@ public class RocketEfficient implements NewRecipe {
                         "" + ChatColor.WHITE + ChatColor.ITALIC + "Will only affect XP based fuels!")
         );
 
-        efficientMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         efficient.setItemMeta(efficientMeta);
-
-        efficient.addUnsafeEnchantment(Enchantment.LUCK, 1);
 
         return efficient;
 
@@ -37,11 +32,11 @@ public class RocketEfficient implements NewRecipe {
     public ShapedRecipe recipe() {
 
         ShapedRecipe efficientRecipe = new ShapedRecipe(efficient());
-        efficientRecipe.shape("E E", "NRN");
+        efficientRecipe.shape("S S", "NRN");
 
-        efficientRecipe.setIngredient('E', Material.EYE_OF_ENDER);
         efficientRecipe.setIngredient('N', Material.NETHER_STAR);
         efficientRecipe.setIngredient('R', Material.REDSTONE_BLOCK);
+        efficientRecipe.setIngredient('S', Material.SPONGE);
 
         return efficientRecipe;
 
