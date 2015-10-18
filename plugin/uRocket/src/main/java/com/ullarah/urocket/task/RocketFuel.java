@@ -41,6 +41,8 @@ public class RocketFuel {
                                 player.setTotalExperience(0);
 
                             boolean alternateFuel = false;
+                            boolean isFuelEfficient = false;
+                            boolean isSolarPowered = false;
 
                             switch (rocketVariant.get(uuid)) {
 
@@ -62,6 +64,9 @@ public class RocketFuel {
 
                             }
 
+                            if (rocketEfficient.containsKey(uuid)) isFuelEfficient = rocketEfficient.get(uuid);
+                            if (rocketSolar.containsKey(uuid)) isSolarPowered = rocketSolar.get(uuid);
+
                             if (rocketUsage.contains(uuid) && player.getLevel() <= 1 && !alternateFuel) {
 
                                 rocketHealer.replace(uuid, 0);
@@ -75,7 +80,6 @@ public class RocketFuel {
                             } else if (rocketUsage.contains(uuid) && player.getLevel() <= 5 && !alternateFuel) {
 
                                 rocketHealer.replace(uuid, 0);
-                                rocketLowFuel.add(uuid);
 
                                 player.sendMessage(getMsgPrefix() + "You might want to consider landing!");
                                 TitleSubtitle.both(player, 2,
@@ -84,6 +88,8 @@ public class RocketFuel {
                             }
 
                             if (rocketVariant.containsKey(player.getUniqueId())) {
+
+                                Random random = new Random();
 
                                 Variant bootVariant = rocketVariant.get(player.getUniqueId());
                                 Material bootMaterial = player.getInventory().getBoots().getType();
@@ -97,38 +103,40 @@ public class RocketFuel {
                                     case LEATHER_BOOTS:
                                         getHealthFromBoots = (player.getHealth() - 3.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 4);
-                                        if (rocketEfficient.containsKey(uuid)) {
-                                            if (rocketEfficient.get(uuid)) getExperienceFromBoots = 80.85;
-                                        } else getExperienceFromBoots = 128.128;
+
+                                        if (isFuelEfficient) getExperienceFromBoots = 80.85;
+                                        else if (isSolarPowered) getExperienceFromBoots = 54.25;
+                                        else getExperienceFromBoots = 128.125;
                                         break;
 
                                     case IRON_BOOTS:
                                         getHealthFromBoots = (player.getHealth() - 2.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 3);
-                                        if (rocketEfficient.containsKey(uuid)) {
-                                            if (rocketEfficient.get(uuid)) getExperienceFromBoots = 60.65;
-                                        } else getExperienceFromBoots = 96.96;
+
+                                        if (isFuelEfficient) getExperienceFromBoots = 60.65;
+                                        else if (isSolarPowered) getExperienceFromBoots = 39.45;
+                                        else getExperienceFromBoots = 96.95;
                                         break;
 
                                     case GOLD_BOOTS:
                                         getHealthFromBoots = (player.getHealth() - 1.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 2);
-                                        if (rocketEfficient.containsKey(uuid)) {
-                                            if (rocketEfficient.get(uuid)) getExperienceFromBoots = 40.45;
-                                        } else getExperienceFromBoots = 64.64;
+
+                                        if (isFuelEfficient) getExperienceFromBoots = 40.45;
+                                        else if (isSolarPowered) getExperienceFromBoots = 27.25;
+                                        else getExperienceFromBoots = 64.65;
                                         break;
 
                                     case DIAMOND_BOOTS:
                                         getHealthFromBoots = (player.getHealth() - 0.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 1);
-                                        if (rocketEfficient.containsKey(uuid)) {
-                                            if (rocketEfficient.get(uuid)) getExperienceFromBoots = 20.25;
-                                        } else getExperienceFromBoots = 32.32;
+
+                                        if (isFuelEfficient) getExperienceFromBoots = 20.25;
+                                        else if (isSolarPowered) getExperienceFromBoots = 13.75;
+                                        else getExperienceFromBoots = 32.35;
                                         break;
 
                                 }
-
-                                Random random = new Random();
 
                                 switch (bootVariant) {
 
@@ -258,13 +266,11 @@ public class RocketFuel {
 
                             if (player.getLocation().getY() >= 250) {
 
-                                rocketHealer.replace(uuid, 0);
                                 disableRocketBoots(player, true, true, true, true, false, false);
                                 player.sendMessage(getMsgPrefix() + "Rocket Boots don't work so well up high!");
 
                             } else if (player.getLocation().getY() <= 0) {
 
-                                rocketHealer.replace(uuid, 0);
                                 disableRocketBoots(player, true, true, true, true, false, false);
                                 player.sendMessage(getMsgPrefix() + "Rocket Boots don't work so in the void!");
 

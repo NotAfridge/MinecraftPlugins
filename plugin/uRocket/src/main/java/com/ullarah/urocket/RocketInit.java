@@ -39,6 +39,7 @@ public class RocketInit extends JavaPlugin {
     public static final ConcurrentHashMap<UUID, Variant> rocketVariant = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Integer> rocketHealer = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Boolean> rocketEfficient = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<UUID, Boolean> rocketSolar = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Location> rocketRepair = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Location> rocketRepairStand = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, HashMap<Location, Location>> rocketZoneLocations = new ConcurrentHashMap<>();
@@ -129,7 +130,8 @@ public class RocketInit extends JavaPlugin {
                 new RocketFlyZone(),
                 new RocketSaddle(),
                 new RocketHealer(),
-                new RocketEfficient()
+                new RocketEfficient(),
+                new RocketSolar()
         ));
 
         for (Material material : new ArrayList<Material>() {{
@@ -187,7 +189,8 @@ public class RocketInit extends JavaPlugin {
                 new StationRepair(),
                 new ActiveEffects(),
                 new StationStandParticles(),
-                new StationStandRepair()
+                new StationStandRepair(),
+                new RocketSolarCheck()
         ));
 
         getCommand("rocket").setExecutor(new RocketExecutor());

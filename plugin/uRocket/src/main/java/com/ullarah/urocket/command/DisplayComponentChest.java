@@ -4,7 +4,6 @@ import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.recipe.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -26,17 +25,18 @@ public class DisplayComponentChest {
     private static ItemStack[] rocketComponents() {
 
         ItemStack variantMoney = null;
+
         if (RocketInit.getVaultEconomy() != null)
             variantMoney = RocketVariant.variant(ChatColor.DARK_GREEN + "Robin Hood");
 
         return new ItemStack[]{
                 RocketBooster.booster("I"), RocketBooster.booster("II"), RocketBooster.booster("III"),
                 RocketBooster.booster("IV"), RocketBooster.booster("V"), RocketBooster.booster("X"),
-                RocketEfficient.efficient(), new ItemStack(Material.LEATHER), new ItemStack(Material.IRON_INGOT),
+                RocketEfficient.efficient(), RocketSolar.solar(), null,
 
                 RocketControls.control(), RepairTank.tank(), RepairStation.station(),
                 RepairStand.stand(), RocketFlyZone.zone(), RocketSaddle.saddle(),
-                RocketHealer.healer(), new ItemStack(Material.GOLD_INGOT), new ItemStack(Material.DIAMOND),
+                RocketHealer.healer(), null, null,
 
                 RocketVariant.variant(ChatColor.LIGHT_PURPLE + "Gay Agenda"),
                 RocketVariant.variant(ChatColor.AQUA + "Pole Vaulter"),
@@ -55,8 +55,8 @@ public class DisplayComponentChest {
                 RocketVariant.variant(ChatColor.WHITE + "Super Stealth"),
                 RocketVariant.variant(ChatColor.BLUE + "Water Slider"),
                 RocketVariant.variant(ChatColor.YELLOW + "Patient Zero"),
-                variantMoney,
-                null
+                null,
+                variantMoney
         };
 
     }

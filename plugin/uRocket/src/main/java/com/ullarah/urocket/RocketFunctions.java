@@ -36,6 +36,7 @@ public class RocketFunctions {
 
         if (!keepEnhancement && rocketHealer.containsKey(uuid)) rocketHealer.remove(uuid);
         if (!keepEnhancement && rocketEfficient.containsKey(uuid)) rocketEfficient.remove(uuid);
+        if (!keepEnhancement && rocketSolar.containsKey(uuid)) rocketSolar.remove(uuid);
 
         if (!keepVariant && rocketVariant.containsKey(uuid)) {
             switch (rocketVariant.get(uuid)) {
@@ -76,6 +77,8 @@ public class RocketFunctions {
 
                 player.setNoDamageTicks(60);
                 player.setFallDistance(0);
+
+                player.sendMessage(getMsgPrefix() + "Rocket Boots Deactivated!");
 
             }
 
@@ -150,6 +153,10 @@ public class RocketFunctions {
         Boolean isWaterVariant = false;
         Boolean isRunnerVariant = false;
 
+        rocketHealer.put(player.getUniqueId(), 0);
+        rocketEfficient.put(player.getUniqueId(), false);
+        rocketSolar.put(player.getUniqueId(), false);
+
         if (rocketMeta.getLore().size() == 2) {
 
             String loreLine = ChatColor.stripColor(rocketMeta.getLore().get(1));
@@ -157,14 +164,18 @@ public class RocketFunctions {
 
             switch (loreLine) {
 
-                case "Self-Repairing":
+                case "Self Repair":
                     enhancementLore = loreLine;
-                    rocketHealer.put(player.getUniqueId(), 0);
                     break;
 
                 case "Fuel Efficient":
                     enhancementLore = loreLine;
-                    rocketEfficient.put(player.getUniqueId(), true);
+                    rocketEfficient.replace(player.getUniqueId(), true);
+                    break;
+
+                case "Solar Powered":
+                    enhancementLore = loreLine;
+                    rocketSolar.replace(player.getUniqueId(), true);
                     break;
 
                 default:

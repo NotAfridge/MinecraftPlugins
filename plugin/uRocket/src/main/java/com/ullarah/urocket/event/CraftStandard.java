@@ -38,6 +38,7 @@ public class CraftStandard implements Listener {
 
             String rocketHeal = ChatColor.AQUA + "Self Repair";
             String rocketEfficient = ChatColor.AQUA + "Fuel Efficient";
+            String rocketSolar = ChatColor.AQUA + "Solar Powered";
 
             ItemStack rocketVariant = getSlot[7];
             ItemStack rocketEnhancement = getSlot[4];
@@ -98,13 +99,9 @@ public class CraftStandard implements Listener {
 
                 String enhancementName = rocketEnhancement.getItemMeta().getDisplayName();
 
-                if (enhancementName.equals(ChatColor.RED + "Self Repair Enhancement")) {
-                    bootType += 16;
-                }
-
-                if (enhancementName.equals(ChatColor.RED + "Fuel Efficient Enhancement")) {
-                    bootType += 32;
-                }
+                if (enhancementName.equals(ChatColor.RED + "Self Repair Enhancement")) bootType += 16;
+                if (enhancementName.equals(ChatColor.RED + "Fuel Efficient Enhancement")) bootType += 32;
+                if (enhancementName.equals(ChatColor.RED + "Solar Enhancement")) bootType += 64;
 
             }
 
@@ -141,6 +138,14 @@ public class CraftStandard implements Listener {
                         bootMeta.setLore(Arrays.asList(boosterType, variantType, rocketEfficient));
                         break;
 
+                    case 64:
+                        bootMeta.setLore(Arrays.asList(boosterType, rocketSolar));
+                        break;
+
+                    case 72:
+                        bootMeta.setLore(Arrays.asList(boosterType, variantType, rocketSolar));
+                        break;
+
 
                 }
 
@@ -149,7 +154,7 @@ public class CraftStandard implements Listener {
                 boots.setItemMeta(bootMeta);
                 boots.addEnchantment(Enchantment.PROTECTION_FALL, 3);
 
-                event.getInventory().setResult((bootType == 8 || bootType == 24 || bootType == 40)
+                event.getInventory().setResult((bootType == 8 || bootType == 24 || bootType == 40 || bootType == 72)
                         && isBoosterX ? null : boots);
 
             }
