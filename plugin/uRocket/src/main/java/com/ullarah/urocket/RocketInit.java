@@ -166,7 +166,7 @@ public class RocketInit extends JavaPlugin {
                 new RocketVariant(ChatColor.YELLOW + "Shooting Star", Material.TORCH, Material.GLOWSTONE, Material.MAGMA_CREAM),
                 new RocketVariant(ChatColor.GREEN + "Health Zapper", Material.PUMPKIN_PIE, Material.REDSTONE_TORCH_ON, Material.TNT),
                 new RocketVariant(ChatColor.RED + "TNT Overload", Material.BLAZE_POWDER, Material.BLAZE_ROD, Material.TNT),
-                new RocketVariant(ChatColor.GOLD + "Musical Madness", Material.NOTE_BLOCK, Material.GREEN_RECORD, Material.JUKEBOX),
+                new RocketVariant(ChatColor.GOLD + "Musical Madness", Material.GREEN_RECORD, Material.JUKEBOX, Material.NOTE_BLOCK),
                 new RocketVariant(ChatColor.YELLOW + "Radical Rainbows", Material.BEACON, Material.REDSTONE_COMPARATOR, Material.STAINED_GLASS),
                 new RocketVariant(ChatColor.DARK_RED + "Red Fury", Material.REDSTONE, Material.REDSTONE_COMPARATOR, Material.BLAZE_POWDER),
                 new RocketVariant(ChatColor.GOLD + "Rocket Runner", Material.SUGAR, Material.SUGAR, Material.PRISMARINE_CRYSTALS),
