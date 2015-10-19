@@ -1,6 +1,6 @@
 name: uWild
-version: ${project.version}-${build.number}
-description: Weird and Wild Changes
+version: ${project.version}
+description: ${project.description}
 
 author: Ullarah
 

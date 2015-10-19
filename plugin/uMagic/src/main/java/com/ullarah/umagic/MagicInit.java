@@ -225,6 +225,9 @@ class MagicEvents implements Listener {
 
                                 switch (block.getType()) {
 
+                                    case ARMOR_STAND:
+
+
                                     case LOG:
                                         switch (block.getData()) {
 

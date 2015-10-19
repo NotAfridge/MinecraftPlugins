@@ -23,7 +23,8 @@ import java.util.*;
 import java.util.logging.Level;
 
 import static com.ullarah.uchest.ChestFunctions.createItemStack;
-import static com.ullarah.ulib.function.PluginRegisters.RegisterType.*;
+import static com.ullarah.ulib.function.PluginRegisters.RegisterType.EVENT;
+import static com.ullarah.ulib.function.PluginRegisters.RegisterType.TASK;
 
 public class ChestInit extends JavaPlugin {
 
@@ -230,7 +231,6 @@ public class ChestInit extends JavaPlugin {
         Bukkit.getLogger().log(Level.INFO, "[" + plugin.getName() + "] "
                 + "Events: " + registerMap.get(EVENT.toString()) + " | "
                 + "Tasks: " + registerMap.get(TASK.toString()) + " | "
-                + "Furnace: " + registerMap.get(FURNACE.toString()) + " | "
                 + "Perks: " + perkArray.length);
 
         if (pluginList.size() > 0)
