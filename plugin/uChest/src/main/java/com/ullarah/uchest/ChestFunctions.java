@@ -249,7 +249,7 @@ public class ChestFunctions {
 
         private final String type;
 
-        private validStorage(String getType) {
+        validStorage(String getType) {
             type = getType;
         }
 

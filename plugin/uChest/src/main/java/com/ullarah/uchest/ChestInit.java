@@ -1,7 +1,6 @@
 package com.ullarah.uchest;
 
 import com.ullarah.uchest.event.*;
-import com.ullarah.uchest.furnace.*;
 import com.ullarah.uchest.task.*;
 import com.ullarah.ulib.function.PluginRegisters;
 import net.milkbowl.vault.economy.Economy;
@@ -36,13 +35,7 @@ public class ChestInit extends JavaPlugin {
     public static final Set<UUID> chestPerkLockout = new HashSet<>();
     public static final HashMap<UUID, Integer> chestLockoutCount = new HashMap<>();
     public static final HashMap<UUID, Integer> chestPerkLockoutCount = new HashMap<>();
-    public static final HashMap<String, Integer> registerMap = new HashMap<>();
-    private static final Inventory chestDonationInventory = Bukkit.createInventory(getChestDonationHolder(), 54,
-            ChatColor.DARK_GREEN + "Donation Chest");
-    private static final Inventory chestRandomInventory = Bukkit.createInventory(getChestRandomHolder(), 54,
-            ChatColor.DARK_GREEN + "Random Chest");
-    private static final Inventory chestSwapInventory = Bukkit.createInventory(getChestSwapHolder(), 54,
-            ChatColor.DARK_GREEN + "Swap Chest");
+    private static final HashMap<String, Integer> registerMap = new HashMap<>();
     public static Boolean chestSwapBusy;
     public static ItemStack[] chestSwapItemStack;
     public static Player chestSwapPlayer;
@@ -56,10 +49,15 @@ public class ChestInit extends JavaPlugin {
     private static String msgNoConsole = null;
     private static Boolean maintenanceCheck;
     private static String maintenanceMessage;
-
     private static InventoryHolder chestDonationHolder = ChestInit::getChestDonationInventory;
+    private static final Inventory chestDonationInventory = Bukkit.createInventory(getChestDonationHolder(), 54,
+            ChatColor.DARK_GREEN + "Donation Chest");
     private static InventoryHolder chestRandomHolder = ChestInit::getChestRandomInventory;
+    private static final Inventory chestRandomInventory = Bukkit.createInventory(getChestRandomHolder(), 54,
+            ChatColor.DARK_GREEN + "Random Chest");
     private static InventoryHolder chestSwapHolder = () -> chestSwapInventory;
+    private static final Inventory chestSwapInventory = Bukkit.createInventory(getChestSwapHolder(), 54,
+            ChatColor.DARK_GREEN + "Swap Chest");
 
     public static Plugin getPlugin() {
         return plugin;
@@ -182,10 +180,7 @@ public class ChestInit extends JavaPlugin {
                     new PerkClick(),
                     new PlayerDeath(),
                     new PlayerQuit(),
-                    new PlayerJoin(),
-                    new FurnaceBurn(),
-                    new FurnaceClick(),
-                    new FurnaceSmelt()
+                    new PlayerJoin()
             ));
 
             registerMap.put(TASK.toString(), PluginRegisters.register(getPlugin(), TASK,
@@ -194,15 +189,6 @@ public class ChestInit extends JavaPlugin {
                     new ChestExperienceTimer(),
                     new ChestPerkReset(),
                     new ChestRandomTimer()
-            ));
-
-            registerMap.put(FURNACE.toString(), PluginRegisters.register(getPlugin(), FURNACE,
-                    new FleshLeather(),
-                    new FlintSulphur(),
-                    new IronChainHelmet(),
-                    new IronChainChestPlate(),
-                    new IronChainLeggings(),
-                    new IronChainBoots()
             ));
 
             String[] perkArray = new String[]{
