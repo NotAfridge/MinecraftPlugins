@@ -49,18 +49,19 @@ public class CraftStandard implements Listener {
 
             for (ItemStack control : rocketControls)
                 if (control.hasItemMeta()) if (control.getItemMeta().hasDisplayName())
-                    if (control.getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Control"))
-                        hasControls = true;
-
+                    hasControls = control.getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Control");
+            if (!getSlot[0].equals(getSlot[2])) hasControls = false;
+            
             for (ItemStack booster : rocketBoosters)
                 if (booster.hasItemMeta()) if (booster.getItemMeta().hasDisplayName())
-                    if (booster.getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Booster")) {
-                        String boosterMeta = booster.getItemMeta().getLore().get(0);
-                        if (boosterMeta.matches(ChatColor.YELLOW + "Rocket Level I{0,3}V?X?"))
-                            boosterType = boosterMeta;
-                        if (boosterMeta.matches(ChatColor.YELLOW + "Rocket Level X")) isBoosterX = true;
-                        hasBoosters = true;
-                    }
+                    hasBoosters = booster.getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Booster");
+            if (!getSlot[6].equals(getSlot[8])) hasBoosters = false;
+
+            if (hasBoosters) {
+                String boosterMeta = getSlot[6].getItemMeta().getLore().get(0);
+                if (boosterMeta.matches(ChatColor.YELLOW + "Rocket Level I{0,3}V?X?")) boosterType = boosterMeta;
+                if (boosterMeta.matches(ChatColor.YELLOW + "Rocket Level X")) isBoosterX = true;
+            }
 
             for (ItemStack material : rocketMaterial)
                 switch (material.getType()) {
@@ -87,7 +88,7 @@ public class CraftStandard implements Listener {
 
                 }
 
-            if (getSlot[3].getType().equals(getSlot[5].getType())) materialMatch = true;
+            if (getSlot[3].equals(getSlot[5])) materialMatch = true;
 
             if (rocketVariant.hasItemMeta()) if (rocketVariant.getItemMeta().hasDisplayName())
                 if (rocketVariant.getItemMeta().getDisplayName().equals(ChatColor.AQUA + "Variant Booster")) {

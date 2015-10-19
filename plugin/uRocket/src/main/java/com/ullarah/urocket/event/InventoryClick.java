@@ -24,6 +24,16 @@ public class InventoryClick implements Listener {
 
         if (event.getInventory() instanceof CraftingInventory) {
 
+            if (event.getSlotType() == InventoryType.SlotType.RESULT) {
+
+                ItemStack itemStack = event.getCurrentItem();
+
+                if (itemStack.hasItemMeta()) if (itemStack.getItemMeta().hasDisplayName())
+                    if (itemStack.getItemMeta().getDisplayName().equals(ChatColor.GRAY + "Useless Rocket Boots"))
+                        event.setCancelled(true);
+
+            }
+
             if (event.getSlotType() == InventoryType.SlotType.ARMOR && event.getRawSlot() == 8)
                 interactRocketBoots(event, event.getWhoClicked().getItemOnCursor());
 

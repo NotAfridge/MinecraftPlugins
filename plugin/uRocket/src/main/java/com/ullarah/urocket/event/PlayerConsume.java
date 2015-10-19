@@ -35,6 +35,11 @@ public class PlayerConsume implements Listener {
                                 player.sendMessage(getMsgPrefix() + "You cannot eat and fly at the same time!");
                                 break;
 
+                            case STEALTH:
+                                event.setCancelled(true);
+                                player.sendMessage(getMsgPrefix() + "You cannot eat while you are hidden!");
+                                break;
+
                             default:
                                 break;
 

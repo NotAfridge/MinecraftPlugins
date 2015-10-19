@@ -30,8 +30,18 @@ public class AnvilRename implements Listener {
                 if (event.getCurrentItem().getItemMeta().hasDisplayName()) {
 
                     Set<String> rocketItems = new HashSet<>(Arrays.asList(
-                            "Rocket Boots", "Rocket Repair Station", "Rocket Repair Tank", "Rocket Repair Stand",
-                            "Rocket Control", "Rocket Fly Zone Controller", "Rocket Booster", "Variant Booster"));
+                            "Rocket Boots",
+                            "Rocket Repair Station",
+                            "Rocket Repair Tank",
+                            "Rocket Repair Stand",
+                            "Rocket Control",
+                            "Rocket Fly Zone Controller",
+                            "Rocket Booster",
+                            "Variant Booster",
+                            "Rocket Saddle",
+                            "Self Repair Enhancement",
+                            "Fuel Efficient Enhancement",
+                            "Solar Enhancement"));
 
                     ItemStack currentItem = event.getCurrentItem();
 

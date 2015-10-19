@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Collections;
+import java.util.Arrays;
 
 public class RocketBoots implements NewRecipe {
 
@@ -28,10 +28,14 @@ public class RocketBoots implements NewRecipe {
 
         ItemMeta bootMeta = boots.getItemMeta();
         bootMeta.setDisplayName(ChatColor.GRAY + "Useless Rocket Boots");
+        bootMeta.setLore(Arrays.asList(" ", ChatColor.RED + "Bad Rocket Boot Combination!"));
 
         if (hasEnhancement) {
 
-            bootMeta.setLore(Collections.singletonList(ChatColor.GRAY + "Useless Enhancement"));
+            bootMeta.setLore(Arrays.asList(
+                            ChatColor.GRAY + "Useless Enhancement",
+                            " ", ChatColor.RED + "Bad Rocket Boot Combination!")
+            );
 
             bootMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             boots.setItemMeta(bootMeta);
