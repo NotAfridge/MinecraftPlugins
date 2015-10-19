@@ -55,7 +55,7 @@ public class ChestInit extends JavaPlugin {
     private static InventoryHolder chestRandomHolder = ChestInit::getChestRandomInventory;
     private static final Inventory chestRandomInventory = Bukkit.createInventory(getChestRandomHolder(), 54,
             ChatColor.DARK_GREEN + "Random Chest");
-    private static InventoryHolder chestSwapHolder = () -> chestSwapInventory;
+    private static InventoryHolder chestSwapHolder = ChestInit::getChestSwapInventory;
     private static final Inventory chestSwapInventory = Bukkit.createInventory(getChestSwapHolder(), 54,
             ChatColor.DARK_GREEN + "Swap Chest");
 
@@ -147,102 +147,95 @@ public class ChestInit extends JavaPlugin {
         return chestRandomInventory;
     }
 
+    public static Inventory getChestSwapInventory() {
+        return chestSwapInventory;
+    }
+
     public void onEnable() {
 
         setPlugin(this);
 
         PluginManager pluginManager = getServer().getPluginManager();
-        Plugin pluginUllarahLib = pluginManager.getPlugin("uLib");
+        Plugin pluginVault = pluginManager.getPlugin("Vault");
 
-        if (pluginUllarahLib == null) {
+        setMsgPrefix(ChatColor.GOLD + "[" + plugin.getName() + "] " + ChatColor.WHITE);
 
-            plugin.getLogger().log(Level.SEVERE, "uLib Not Found! - Disabling " + plugin.getName() + "...");
-            pluginManager.disablePlugin(this);
+        Set<String> pluginList = new HashSet<>();
 
-        } else {
+        getConfig().options().copyDefaults(true);
+        saveConfig();
 
-            Plugin pluginVault = pluginManager.getPlugin("Vault");
+        registerMap.put(EVENT.toString(), PluginRegisters.register(getPlugin(), EVENT,
+                new ChestClick(),
+                new ChestClose(),
+                new ChestDrag(),
+                new ChestInteract(),
+                new ChestInteract(),
+                new ChestOpen(),
+                new PerkClick(),
+                new PlayerDeath(),
+                new PlayerQuit(),
+                new PlayerJoin()
+        ));
 
-            setMsgPrefix(ChatColor.GOLD + "[" + plugin.getName() + "] " + ChatColor.WHITE);
+        registerMap.put(TASK.toString(), PluginRegisters.register(getPlugin(), TASK,
+                new ChestAnnounce(),
+                new ChestClean(),
+                new ChestExperienceTimer(),
+                new ChestPerkReset(),
+                new ChestRandomTimer()
+        ));
 
-            Set<String> pluginList = new HashSet<>();
+        String[] perkArray = new String[]{
+                "Random Money",
+                "Random Experience"
+        };
 
-            getConfig().options().copyDefaults(true);
-            saveConfig();
+        for (int a = 0; a < 25; a++)
+            perkItemStacks.add(new ItemStack(Material.AIR));
 
-            registerMap.put(EVENT.toString(), PluginRegisters.register(getPlugin(), EVENT,
-                    new ChestClick(),
-                    new ChestClose(),
-                    new ChestDrag(),
-                    new ChestInteract(),
-                    new ChestInteract(),
-                    new ChestOpen(),
-                    new PerkClick(),
-                    new PlayerDeath(),
-                    new PlayerQuit(),
-                    new PlayerJoin()
-            ));
+        for (String perk : perkArray)
+            perkItemStacks.add(createItemStack(Material.PAPER, ChatColor.WHITE + perk, null));
 
-            registerMap.put(TASK.toString(), PluginRegisters.register(getPlugin(), TASK,
-                    new ChestAnnounce(),
-                    new ChestClean(),
-                    new ChestExperienceTimer(),
-                    new ChestPerkReset(),
-                    new ChestRandomTimer()
-            ));
+        setMsgPermDeny(getMsgPrefix() + ChatColor.RED + "No permission.");
+        setMsgNoConsole(getMsgPrefix() + ChatColor.RED + "No console usage.");
 
-            String[] perkArray = new String[]{
-                    "Random Money",
-                    "Random Experience"
-            };
+        setMaintenanceCheck(getPlugin().getConfig().getBoolean("maintenance"));
+        setMaintenanceMessage(getMsgPrefix() + ChatColor.RED + "The Chest System is unavailable.");
 
-            for (int a = 0; a < 25; a++)
-                perkItemStacks.add(new ItemStack(Material.AIR));
+        chestAccessLevel = getPlugin().getConfig().getInt("chestaccess");
+        holdingAccessLevel = getPlugin().getConfig().getInt("holdaccess");
 
-            for (String perk : perkArray)
-                perkItemStacks.add(createItemStack(Material.PAPER, ChatColor.WHITE + perk, null));
-
-            setMsgPermDeny(getMsgPrefix() + ChatColor.RED + "No permission.");
-            setMsgNoConsole(getMsgPrefix() + ChatColor.RED + "No console usage.");
-
-            setMaintenanceCheck(getPlugin().getConfig().getBoolean("maintenance"));
-            setMaintenanceMessage(getMsgPrefix() + ChatColor.RED + "The Chest System is unavailable.");
-
-            chestAccessLevel = getPlugin().getConfig().getInt("chestaccess");
-            holdingAccessLevel = getPlugin().getConfig().getInt("holdaccess");
-
-            for (String t : new String[]{"", "d", "h", "m", "p", "r", "s", "v", "x"}) {
-                getCommand(t + "chest").setExecutor(new ChestExecutor());
-                chestTypeEnabled.put(t + "chest", getPlugin().getConfig().getBoolean(t + "chestenabled"));
-            }
-
-            setChestDonationHolder(chestDonationHolder);
-            setChestRandomHolder(chestRandomHolder);
-            setChestSwapHolder(chestSwapHolder);
-
-            chestSwapBusy = false;
-
-            if (pluginVault != null) {
-                RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(
-                        net.milkbowl.vault.economy.Economy.class);
-                if (economyProvider != null) {
-                    setVaultEconomy(economyProvider.getProvider());
-                    allowMoneyChest = true;
-                    pluginList.add("Vault");
-                }
-            }
-
-            Bukkit.getLogger().log(Level.INFO, "[" + plugin.getName() + "] "
-                    + "Events: " + registerMap.get(EVENT.toString()) + " | "
-                    + "Tasks: " + registerMap.get(TASK.toString()) + " | "
-                    + "Furnace: " + registerMap.get(FURNACE.toString()) + " | "
-                    + "Perks: " + perkArray.length);
-
-            if (pluginList.size() > 0)
-                Bukkit.getLogger().log(Level.INFO,
-                        "[" + plugin.getName() + "] Hooked: " + StringUtils.join(pluginList, ", "));
-
+        for (String t : new String[]{"", "d", "h", "m", "p", "r", "s", "v", "x"}) {
+            getCommand(t + "chest").setExecutor(new ChestExecutor());
+            chestTypeEnabled.put(t + "chest", getPlugin().getConfig().getBoolean(t + "chestenabled"));
         }
+
+        setChestDonationHolder(chestDonationHolder);
+        setChestRandomHolder(chestRandomHolder);
+        setChestSwapHolder(chestSwapHolder);
+
+        chestSwapBusy = false;
+
+        if (pluginVault != null) {
+            RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(
+                    net.milkbowl.vault.economy.Economy.class);
+            if (economyProvider != null) {
+                setVaultEconomy(economyProvider.getProvider());
+                allowMoneyChest = true;
+                pluginList.add("Vault");
+            }
+        }
+
+        Bukkit.getLogger().log(Level.INFO, "[" + plugin.getName() + "] "
+                + "Events: " + registerMap.get(EVENT.toString()) + " | "
+                + "Tasks: " + registerMap.get(TASK.toString()) + " | "
+                + "Furnace: " + registerMap.get(FURNACE.toString()) + " | "
+                + "Perks: " + perkArray.length);
+
+        if (pluginList.size() > 0)
+            Bukkit.getLogger().log(Level.INFO,
+                    "[" + plugin.getName() + "] Hooked: " + StringUtils.join(pluginList, ", "));
 
     }
 
