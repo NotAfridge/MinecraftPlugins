@@ -15,7 +15,7 @@ import static com.ullarah.uchest.ChestInit.*;
 
 public class ChestMenu {
 
-    public static void showChestMenu(CommandSender sender) {
+    private static void showChestMenu(CommandSender sender) {
 
         Player player = (Player) sender;
         Inventory chestGUI = Bukkit.getServer().createInventory(
@@ -54,19 +54,7 @@ public class ChestMenu {
                         ChatColor.RED + "Some items do not return money!")
         ));
 
-        chestGUI.setItem(3, createItemStack(Material.GLOWSTONE, menuColour + "Perk Chest", Arrays.asList(
-                        ChatColor.YELLOW + "[ Minimum of " + chestAccessLevel + " levels to use! ]",
-                        ChatColor.RESET + "",
-                        ChatColor.WHITE + "Opens the perk chest.",
-                        ChatColor.WHITE + "Choose something unique!",
-                        ChatColor.RESET + "",
-                        ChatColor.AQUA + "Donators get access twice a day",
-                        ChatColor.RESET + "",
-                        ChatColor.RED + "There are both good and bad perks!",
-                        ChatColor.RED + "You have 5 seconds to choose a perk!")
-        ));
-
-        chestGUI.setItem(4, createItemStack(Material.SPONGE, menuColour + "Random Chest", Arrays.asList(
+        chestGUI.setItem(3, createItemStack(Material.SPONGE, menuColour + "Random Chest", Arrays.asList(
                         ChatColor.YELLOW + "[ Minimum of " + chestAccessLevel + " levels to use! ]",
                         ChatColor.RESET + "",
                         ChatColor.WHITE + "Opens the random chest.",
@@ -77,14 +65,14 @@ public class ChestMenu {
                         ChatColor.RED + "XP will be removed the more you stay!")
         ));
 
-        chestGUI.setItem(5, createItemStack(Material.GLASS, menuColour + "Swap Chest", Arrays.asList(
+        chestGUI.setItem(4, createItemStack(Material.GLASS, menuColour + "Swap Chest", Arrays.asList(
                         ChatColor.WHITE + "Opens the swapping chest.",
                         ChatColor.WHITE + "Put random items in, get random items out!",
                         ChatColor.RESET + "",
                         ChatColor.RED + "This chest is player supported!")
         ));
 
-        chestGUI.setItem(6, createItemStack(Material.ENDER_CHEST, menuColour + "Vault Chest", Arrays.asList(
+        chestGUI.setItem(5, createItemStack(Material.ENDER_CHEST, menuColour + "Vault Chest", Arrays.asList(
                         ChatColor.YELLOW + "[ Will remove " + holdingAccessLevel + " levels to open! ]",
                         ChatColor.RESET + "",
                         ChatColor.WHITE + "Opens your personal vault chest.",
@@ -93,18 +81,13 @@ public class ChestMenu {
                         ChatColor.DARK_AQUA + "Upgrade your vault using " + ChatColor.AQUA + "/vchest upgrade")
         ));
 
-        chestGUI.setItem(7, createItemStack(Material.SEA_LANTERN, menuColour + "Experience Chest", Arrays.asList(
+        chestGUI.setItem(6, createItemStack(Material.SEA_LANTERN, menuColour + "Experience Chest", Arrays.asList(
                         ChatColor.YELLOW + "[ Minimum of " + chestAccessLevel + " levels to use! ]",
                         ChatColor.RESET + "",
                         ChatColor.WHITE + "Opens the experience chest.",
                         ChatColor.WHITE + "Allows you to convert items to XP!",
                         ChatColor.RESET + "",
                         ChatColor.RED + "Some items do not return XP!")
-        ));
-
-        chestGUI.setItem(8, createItemStack(Material.BEDROCK, menuColour + "Coming Soon...", Arrays.asList(
-                        ChatColor.WHITE + "More chests coming soon ...",
-                        ChatColor.YELLOW + "... Chest ideas pending!")
         ));
 
         player.openInventory(chestGUI);
@@ -139,9 +122,6 @@ public class ChestMenu {
 
                 case TOGGLE:
                     ToggleAccess.toggleChestAccess(sender, args);
-                    break;
-
-                case REMOTE:
                     break;
 
                 default:

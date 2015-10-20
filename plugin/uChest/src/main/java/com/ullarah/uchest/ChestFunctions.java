@@ -11,9 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static com.ullarah.uchest.ChestFunctions.validStorage.VAULT;
 import static com.ullarah.uchest.ChestInit.*;
@@ -107,42 +105,6 @@ public class ChestFunctions {
 
     }
 
-    public static void openPerkChest(CommandSender sender) {
-
-        final Player player = (Player) sender;
-        int playerLevel = player.getLevel();
-
-        if (playerLevel < chestAccessLevel)
-            player.sendMessage(getMsgPrefix() + "You need more than " +
-                    chestAccessLevel + " levels to open this chest.");
-        else if (chestPerkLockout.contains(player.getUniqueId())) {
-
-            player.sendMessage(getMsgPrefix() + "You have already used this chest today!");
-
-        } else {
-
-            Inventory chestPerkInventory = Bukkit.createInventory(player, 54, ChatColor.DARK_GREEN + "Perk Chest");
-            ArrayList<ItemStack> perkStack = new ArrayList<>();
-
-            for (int i = 0; i < 54; i++)
-                perkStack.add(perkItemStacks.get(new Random().nextInt(perkItemStacks.size())));
-
-            chestPerkInventory.setContents(perkStack.toArray(new ItemStack[perkStack.size()]));
-            player.openInventory(chestPerkInventory);
-
-            chestPerkLockoutEntry(player);
-
-            Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(getPlugin(), () -> {
-
-                if (player.getOpenInventory().getTopInventory().getTitle()
-                        .equals(ChatColor.DARK_GREEN + "Perk Chest")) player.closeInventory();
-
-            }, 10000);
-
-        }
-
-    }
-
     public static void openRandomChest(CommandSender sender) {
 
         final Player player = (Player) sender;
@@ -207,7 +169,7 @@ public class ChestFunctions {
 
     }
 
-    public static void chestLockoutEntry(Player player) {
+    private static void chestLockoutEntry(Player player) {
 
         if (chestLockoutCount.containsKey(player.getUniqueId())) {
 
@@ -220,32 +182,12 @@ public class ChestFunctions {
 
     }
 
-    public static void chestPerkLockoutEntry(Player player) {
-
-        if (!chestPerkLockoutCount.containsKey(player.getUniqueId()))
-            chestPerkLockoutCount.put(player.getUniqueId(), 1);
-
-        switch (chestPerkLockoutCount.get(player.getUniqueId())) {
-
-            case 1:
-                if (player.hasPermission("chest.perk2"))
-                    chestPerkLockoutCount.put(player.getUniqueId(), 2);
-                else chestPerkLockout.add(player.getUniqueId());
-                break;
-
-            case 2:
-                chestPerkLockout.add(player.getUniqueId());
-
-        }
-
-    }
-
     public enum validCommands {
-        HELP, MAINTENANCE, TOGGLE, RANDOM, RESET, VIEW, UPGRADE, REMOTE
+        HELP, MAINTENANCE, TOGGLE, RANDOM, RESET, VIEW, UPGRADE
     }
 
     public enum validStorage {
-        HOLD("hold"), VAULT("vault"), REMOTE("remote");
+        HOLD("hold"), VAULT("vault");
 
         private final String type;
 

@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 import static com.ullarah.uchest.ChestInit.*;
 
-class Maintenance {
+public class Maintenance {
 
     public static void runMaintenance(CommandSender sender, String[] args) {
 

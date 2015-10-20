@@ -26,10 +26,6 @@ commands:
     description: Views the money chest.
     usage: |
       <command> : Views the money chest.
-  pchest:
-    description: Views the perk chest.
-    usage: |
-      <command> : Views the perk chest.
   rchest:
     description: Views the random chest.
     usage: |
@@ -51,10 +47,6 @@ commands:
 permissions:
   chest.access:
     description: Grants access to all chests.
-  chest.perk:
-    description: Grants access to the perk chest.
-  chest.perk2:
-    description: Grants access to the perk chest. Twice a day.
   chest.staff:
     description: Grants all of the staff commands.
     children:

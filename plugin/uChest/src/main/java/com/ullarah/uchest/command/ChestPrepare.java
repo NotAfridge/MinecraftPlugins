@@ -19,7 +19,7 @@ import static com.ullarah.uchest.ChestFunctions.validStorage.HOLD;
 import static com.ullarah.uchest.ChestInit.getMsgPrefix;
 import static com.ullarah.uchest.ChestInit.getPlugin;
 
-class ChestPrepare {
+public class ChestPrepare {
 
     public static void prepare(Player owner, Player viewer, validStorage type) {
 

@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 
 import static com.ullarah.uchest.ChestInit.*;
 
-class DonationReset {
+public class DonationReset {
 
     public static void resetDonationChest(CommandSender sender) {
 

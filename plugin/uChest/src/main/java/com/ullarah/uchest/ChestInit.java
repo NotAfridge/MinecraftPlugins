@@ -1,14 +1,15 @@
 package com.ullarah.uchest;
 
 import com.ullarah.uchest.event.*;
-import com.ullarah.uchest.task.*;
+import com.ullarah.uchest.task.ChestAnnounce;
+import com.ullarah.uchest.task.ChestClean;
+import com.ullarah.uchest.task.ChestExperienceTimer;
+import com.ullarah.uchest.task.ChestRandomTimer;
 import com.ullarah.ulib.function.PluginRegisters;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.block.Furnace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -19,30 +20,36 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 import java.util.logging.Level;
 
-import static com.ullarah.uchest.ChestFunctions.createItemStack;
 import static com.ullarah.ulib.function.PluginRegisters.RegisterType.EVENT;
 import static com.ullarah.ulib.function.PluginRegisters.RegisterType.TASK;
 
 public class ChestInit extends JavaPlugin {
 
-    public static final HashMap<Furnace, HashMap<Material, Integer>> customBurner = new HashMap<>();
     public static final HashMap<UUID, InventoryView> chestRandomRemoveXP = new HashMap<>();
     public static final HashMap<String, Boolean> chestTypeEnabled = new HashMap<>();
-    public static final List<ItemStack> perkItemStacks = new ArrayList<>();
     public static final Set<UUID> chestLockout = new HashSet<>();
-    public static final Set<UUID> chestPerkLockout = new HashSet<>();
+    public static final Set<UUID> chestDonateLockout = new HashSet<>();
     public static final HashMap<UUID, Integer> chestLockoutCount = new HashMap<>();
-    public static final HashMap<UUID, Integer> chestPerkLockoutCount = new HashMap<>();
     private static final HashMap<String, Integer> registerMap = new HashMap<>();
+    private static final Inventory chestDonationInventory = Bukkit.createInventory(getChestDonationHolder(), 54,
+            ChatColor.DARK_GREEN + "Donation Chest");
+    private static final Inventory chestRandomInventory = Bukkit.createInventory(getChestRandomHolder(), 54,
+            ChatColor.DARK_GREEN + "Random Chest");
+    private static final Inventory chestSwapInventory = Bukkit.createInventory(getChestSwapHolder(), 54,
+            ChatColor.DARK_GREEN + "Swap Chest");
     public static Boolean chestSwapBusy;
     public static ItemStack[] chestSwapItemStack;
     public static Player chestSwapPlayer;
     public static Integer chestAccessLevel;
     public static Integer holdingAccessLevel;
     public static Boolean allowMoneyChest = false;
+    public static Boolean chestDonateLock = false;
     private static Plugin plugin;
     private static Economy vaultEconomy;
     private static String msgPrefix = null;
@@ -51,14 +58,8 @@ public class ChestInit extends JavaPlugin {
     private static Boolean maintenanceCheck;
     private static String maintenanceMessage;
     private static InventoryHolder chestDonationHolder = ChestInit::getChestDonationInventory;
-    private static final Inventory chestDonationInventory = Bukkit.createInventory(getChestDonationHolder(), 54,
-            ChatColor.DARK_GREEN + "Donation Chest");
     private static InventoryHolder chestRandomHolder = ChestInit::getChestRandomInventory;
-    private static final Inventory chestRandomInventory = Bukkit.createInventory(getChestRandomHolder(), 54,
-            ChatColor.DARK_GREEN + "Random Chest");
     private static InventoryHolder chestSwapHolder = ChestInit::getChestSwapInventory;
-    private static final Inventory chestSwapInventory = Bukkit.createInventory(getChestSwapHolder(), 54,
-            ChatColor.DARK_GREEN + "Swap Chest");
 
     public static Plugin getPlugin() {
         return plugin;
@@ -148,7 +149,7 @@ public class ChestInit extends JavaPlugin {
         return chestRandomInventory;
     }
 
-    public static Inventory getChestSwapInventory() {
+    private static Inventory getChestSwapInventory() {
         return chestSwapInventory;
     }
 
@@ -173,7 +174,6 @@ public class ChestInit extends JavaPlugin {
                 new ChestInteract(),
                 new ChestInteract(),
                 new ChestOpen(),
-                new PerkClick(),
                 new PlayerDeath(),
                 new PlayerQuit(),
                 new PlayerJoin()
@@ -183,20 +183,8 @@ public class ChestInit extends JavaPlugin {
                 new ChestAnnounce(),
                 new ChestClean(),
                 new ChestExperienceTimer(),
-                new ChestPerkReset(),
                 new ChestRandomTimer()
         ));
-
-        String[] perkArray = new String[]{
-                "Random Money",
-                "Random Experience"
-        };
-
-        for (int a = 0; a < 25; a++)
-            perkItemStacks.add(new ItemStack(Material.AIR));
-
-        for (String perk : perkArray)
-            perkItemStacks.add(createItemStack(Material.PAPER, ChatColor.WHITE + perk, null));
 
         setMsgPermDeny(getMsgPrefix() + ChatColor.RED + "No permission.");
         setMsgNoConsole(getMsgPrefix() + ChatColor.RED + "No console usage.");
@@ -207,7 +195,7 @@ public class ChestInit extends JavaPlugin {
         chestAccessLevel = getPlugin().getConfig().getInt("chestaccess");
         holdingAccessLevel = getPlugin().getConfig().getInt("holdaccess");
 
-        for (String t : new String[]{"", "d", "h", "m", "p", "r", "s", "v", "x"}) {
+        for (String t : new String[]{"", "d", "h", "m", "r", "s", "v", "x"}) {
             getCommand(t + "chest").setExecutor(new ChestExecutor());
             chestTypeEnabled.put(t + "chest", getPlugin().getConfig().getBoolean(t + "chestenabled"));
         }
@@ -230,8 +218,7 @@ public class ChestInit extends JavaPlugin {
 
         Bukkit.getLogger().log(Level.INFO, "[" + plugin.getName() + "] "
                 + "Events: " + registerMap.get(EVENT.toString()) + " | "
-                + "Tasks: " + registerMap.get(TASK.toString()) + " | "
-                + "Perks: " + perkArray.length);
+                + "Tasks: " + registerMap.get(TASK.toString()));
 
         if (pluginList.size() > 0)
             Bukkit.getLogger().log(Level.INFO,

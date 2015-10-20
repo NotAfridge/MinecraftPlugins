@@ -6,12 +6,12 @@ import org.bukkit.entity.Player;
 
 import static com.ullarah.uchest.ChestInit.*;
 
-class ToggleAccess {
+public class ToggleAccess {
 
     public static void toggleChestAccess(CommandSender sender, String[] args) {
 
         if (sender.hasPermission("chest.maintenance") || !(sender instanceof Player))
-            if (args.length == 2) if (args[1].toLowerCase().matches("[dhmrsvx]chest")) {
+            if (args.length == 2) if (args[1].toLowerCase().matches("[dhmrvx]chest")) {
 
                 switch (chestTypeEnabled.get(args[1].toLowerCase()) ? 0 : 1) {
 

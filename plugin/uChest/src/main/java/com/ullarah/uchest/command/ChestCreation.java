@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.ullarah.uchest.ChestFunctions.validStorage.REMOTE;
 import static com.ullarah.uchest.ChestInit.getMsgPrefix;
 import static com.ullarah.uchest.ChestInit.getPlugin;
 import static com.ullarah.uchest.command.ChestPrepare.prepare;
@@ -48,11 +47,8 @@ public class ChestCreation {
                 FileConfiguration chestConfig = YamlConfiguration.loadConfiguration(chestFileNew);
 
                 chestConfig.set("name", player.getName());
-
-                if (type != REMOTE) {
-                    chestConfig.set("slots", 9);
-                    chestConfig.set("item", new ArrayList<>());
-                } else chestConfig.set("chest", new ArrayList<>());
+                chestConfig.set("slots", 9);
+                chestConfig.set("item", new ArrayList<>());
 
                 try {
 
@@ -68,7 +64,9 @@ public class ChestCreation {
                 player.closeInventory();
             }
 
-        } else if (display) prepare(player, null, type);
+        }
+
+        if (display) prepare(player, null, type);
 
     }
 

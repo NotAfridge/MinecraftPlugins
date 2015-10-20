@@ -23,8 +23,7 @@ public class ChestVault {
             sender.sendMessage(getMsgNoConsole());
         else if (!getMaintenanceCheck()) if (chestTypeEnabled.get("vchest")) ChestCreation.create(sender, VAULT, true);
         else sender.sendMessage(getMsgPrefix() + "Vault Chest is currently unavailable.");
-        else
-            sender.sendMessage(getMaintenanceMessage());
+        else sender.sendMessage(getMaintenanceMessage());
 
         else try {
 

@@ -17,7 +17,6 @@ class ChestExecutor implements CommandExecutor {
             put("Donation", "d");
             put("Holding", "h");
             put("Money", "m");
-            put("Perk", "p");
             put("Random", "r");
             put("Swap", "s");
             put("Vault", "v");

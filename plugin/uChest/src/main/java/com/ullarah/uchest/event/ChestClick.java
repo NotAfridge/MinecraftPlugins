@@ -5,10 +5,29 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import static com.ullarah.uchest.ChestFunctions.openChestDelay;
+import static com.ullarah.uchest.ChestInit.*;
 
 public class ChestClick implements Listener {
+
+    private static void chestDonatePlayerUnlock(Player player) {
+        new BukkitRunnable() {
+            int c = getPlugin().getConfig().getInt("unlock");
+
+            @Override
+            public void run() {
+                if (c <= 0) {
+                    chestDonateLockout.remove(player.getUniqueId());
+                    this.cancel();
+                    return;
+                }
+                chestDonateLockout.add(player.getUniqueId());
+                c--;
+            }
+        }.runTaskTimer(getPlugin(), 0, 20);
+    }
 
     @EventHandler
     public void event(final InventoryClickEvent event) {
@@ -16,8 +35,12 @@ public class ChestClick implements Listener {
         Inventory chestInventory = event.getInventory();
         Player chestPlayer = (Player) event.getWhoClicked();
 
-        if (chestInventory.getName().matches("§2Donation Chest") && event.getRawSlot() == -999)
-            event.getView().close();
+        if (chestInventory.getName().matches("§2Donation Chest")) {
+            if (chestDonateLock && event.getRawSlot() <= 53)
+                if (chestDonateLockout.contains(chestPlayer.getUniqueId())) event.setCancelled(true);
+                else chestDonatePlayerUnlock(chestPlayer);
+            if (event.getRawSlot() == -999) event.getView().close();
+        }
 
         if (chestInventory.getName().matches("§2Experience Chest") && event.getRawSlot() == -999)
             event.getView().close();
@@ -44,22 +67,18 @@ public class ChestClick implements Listener {
                     break;
 
                 case 3:
-                    openChestDelay(chestPlayer, "pchest");
-                    break;
-
-                case 4:
                     openChestDelay(chestPlayer, "rchest");
                     break;
 
-                case 5:
+                case 4:
                     openChestDelay(chestPlayer, "schest");
                     break;
 
-                case 6:
+                case 5:
                     openChestDelay(chestPlayer, "vchest");
                     break;
 
-                case 7:
+                case 6:
                     openChestDelay(chestPlayer, "xchest");
                     break;
 
