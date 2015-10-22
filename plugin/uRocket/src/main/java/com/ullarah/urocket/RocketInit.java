@@ -42,7 +42,7 @@ public class RocketInit extends JavaPlugin {
     public static final ConcurrentHashMap<UUID, Boolean> rocketSolar = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Location> rocketRepair = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Location> rocketRepairStand = new ConcurrentHashMap<>();
-    public static final ConcurrentHashMap<UUID, HashMap<Location, Location>> rocketZoneLocations = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<UUID, ConcurrentHashMap<Location, Location>> rocketZoneLocations = new ConcurrentHashMap<>();
 
     public static final HashMap<String, Integer> registerMap = new HashMap<>();
 
@@ -241,7 +241,7 @@ public class RocketInit extends JavaPlugin {
     public void onDisable() {
 
         for (UUID uuid : rocketUsage)
-            disableRocketBoots(Bukkit.getPlayer(uuid), false, false, false, false, false, false);
+            disableRocketBoots(Bukkit.getPlayer(uuid), false, false, false, false, false);
 
     }
 

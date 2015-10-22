@@ -10,9 +10,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static com.ullarah.urocket.RocketInit.*;
 
@@ -21,7 +21,7 @@ public class ZoneCheck implements Listener {
     @EventHandler
     public void playerMovement(PlayerMoveEvent event) {
 
-        for (Map.Entry<UUID, HashMap<Location, Location>> rocketZone : rocketZoneLocations.entrySet())
+        for (Map.Entry<UUID, ConcurrentHashMap<Location, Location>> rocketZone : rocketZoneLocations.entrySet())
             for (Map.Entry<Location, Location> rocketLocation : rocketZone.getValue().entrySet()) {
 
                 Player player = event.getPlayer();

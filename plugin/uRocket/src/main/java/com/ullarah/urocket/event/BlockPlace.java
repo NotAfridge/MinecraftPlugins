@@ -13,10 +13,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static com.ullarah.urocket.RocketFunctions.zoneCrystalCreation;
 import static com.ullarah.urocket.RocketInit.*;
@@ -112,7 +112,7 @@ public class BlockPlace implements Listener {
 
                                 Boolean isFlyZone = false;
 
-                                for (Map.Entry<UUID, HashMap<Location, Location>> rocketZone : rocketZoneLocations.entrySet()) {
+                                for (Map.Entry<UUID, ConcurrentHashMap<Location, Location>> rocketZone : rocketZoneLocations.entrySet()) {
 
                                     for (Map.Entry<Location, Location> rocketLocation : rocketZone.getValue().entrySet()) {
 

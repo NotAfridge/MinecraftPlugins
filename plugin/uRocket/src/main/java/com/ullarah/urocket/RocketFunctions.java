@@ -14,6 +14,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static com.ullarah.urocket.RocketFunctions.Variant.*;
 import static com.ullarah.urocket.RocketInit.*;
@@ -21,7 +22,7 @@ import static com.ullarah.urocket.RocketInit.*;
 public class RocketFunctions {
 
     public static void disableRocketBoots(Player player, Boolean keepUsage, Boolean keepPower, Boolean keepFlight,
-                                          Boolean keepVariant, Boolean inWater, Boolean keepEnhancement) {
+                                          Boolean keepVariant, Boolean keepEnhancement) {
 
         UUID uuid = player.getUniqueId();
 
@@ -101,25 +102,32 @@ public class RocketFunctions {
                     String rocketLore = rocketMeta.getLore().get(0);
                     String variantLore = null;
 
-                    if (rocketMeta.getLore().size() >= 2) variantLore = rocketMeta.getLore().get(1);
+                    if (rocketMeta.getLore().size() >= 2)
+                        variantLore = ChatColor.stripColor(rocketMeta.getLore().get(1));
 
                     Set<String> specialVariants = new HashSet<>(Collections.singletonList("Robin Hood"));
 
-                    if (variantLore != null) if (specialVariants.contains(ChatColor.stripColor(variantLore)))
-                        switch (getEnum(ChatColor.stripColor(variantLore))) {
+                    if (variantLore != null) if (specialVariants.contains(variantLore)) {
 
-                            case MONEY:
-                                if (getVaultEconomy() == null) {
-                                    validBoots = false;
-                                    player.sendMessage(getMsgPrefix() + "These Rocket Boots cannot be equipped!");
-                                }
-                                break;
+                        Variant variantType = getEnum(variantLore);
 
-                            default:
-                                validBoots = true;
-                                break;
+                        if (variantType != null) {
+                            switch (variantType) {
 
+                                case MONEY:
+                                    if (getVaultEconomy() == null) {
+                                        validBoots = false;
+                                        player.sendMessage(getMsgPrefix() + "These Rocket Boots cannot be equipped!");
+                                    }
+                                    break;
+
+                                default:
+                                    validBoots = true;
+                                    break;
+
+                            }
                         }
+                    }
 
                     if (validBoots && rocketLore.matches(ChatColor.YELLOW + "Rocket Level I{0,3}V?X?"))
                         if (!rocketUsage.contains(player.getUniqueId()))
@@ -141,7 +149,7 @@ public class RocketFunctions {
             player.closeInventory();
 
         } else if (rocketPower.containsKey(player.getUniqueId()))
-            disableRocketBoots(player, false, false, false, false, false, false);
+            disableRocketBoots(player, false, false, false, false, false);
 
     }
 
@@ -193,9 +201,12 @@ public class RocketFunctions {
 
         if (variantLore != null) {
 
-            rocketVariant.put(player.getUniqueId(), getEnum(variantLore));
+            Variant variantType = getEnum(variantLore);
 
-            if (rocketVariant.get(player.getUniqueId()) == WATER) isWaterVariant = true;
+            if (variantType != null) {
+                rocketVariant.put(player.getUniqueId(), variantType);
+                if (rocketVariant.get(player.getUniqueId()) == WATER) isWaterVariant = true;
+            }
 
         } else rocketVariant.put(player.getUniqueId(), ORIGINAL);
 
@@ -333,7 +344,7 @@ public class RocketFunctions {
                         Integer.parseInt(zoneSection[3]) + 50,
                         Integer.parseInt(zoneSection[4]) + 25);
 
-                HashMap<Location, Location> zoneLocation = new HashMap<Location, Location>() {{
+                ConcurrentHashMap<Location, Location> zoneLocation = new ConcurrentHashMap<Location, Location>() {{
                     put(zoneLocationStart, zoneLocationEnd);
                 }};
 
@@ -418,7 +429,7 @@ public class RocketFunctions {
 
                 player.sendMessage(getMsgPrefix() + ChatColor.RED +
                         "Your inventory is too full to split a " + materialType + " block!");
-                disableRocketBoots(player, false, true, false, false, false, false);
+                disableRocketBoots(player, false, true, false, true, true);
 
             } else {
 
@@ -430,7 +441,7 @@ public class RocketFunctions {
         } else {
 
             player.sendMessage(getMsgPrefix() + "You have run out of " + materialType + "...");
-            disableRocketBoots(player, false, true, false, false, false, false);
+            disableRocketBoots(player, false, true, false, true, true);
 
         }
 

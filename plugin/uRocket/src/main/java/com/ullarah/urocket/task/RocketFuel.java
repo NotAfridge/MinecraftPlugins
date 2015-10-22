@@ -31,7 +31,7 @@ public class RocketFuel {
                             TitleSubtitle.subtitle(player, 1,
                                     ChatColor.YELLOW + "Wrong Gamemode!");
 
-                            disableRocketBoots(player, false, true, false, false, false, false);
+                            disableRocketBoots(player, false, false, false, false, false);
 
                         } else if (player.isFlying()) {
 
@@ -75,7 +75,7 @@ public class RocketFuel {
                                 TitleSubtitle.subtitle(player, 2,
                                         ChatColor.YELLOW + "You ran out of XP for your Rocket Boots!");
 
-                                disableRocketBoots(player, true, true, true, true, false, false);
+                                disableRocketBoots(player, true, true, true, true, true);
 
                             } else if (rocketUsage.contains(uuid) && player.getLevel() <= 5 && !alternateFuel) {
 
@@ -144,7 +144,7 @@ public class RocketFuel {
                                         if (player.getHealth() <= 1.0 || player.getFoodLevel() <= 2) {
 
                                             player.sendMessage(getMsgPrefix() + "You are too hungry to fly...");
-                                            disableRocketBoots(player, false, true, false, false, false, false);
+                                            disableRocketBoots(player, false, true, false, true, true);
 
                                         } else {
 
@@ -160,7 +160,7 @@ public class RocketFuel {
                                         if (money <= 10.0) {
 
                                             player.sendMessage(getMsgPrefix() + "You are too poor to fly...");
-                                            disableRocketBoots(player, false, true, false, false, false, false);
+                                            disableRocketBoots(player, false, true, false, true, true);
 
                                         } else {
 
@@ -235,7 +235,7 @@ public class RocketFuel {
                                             player.sendMessage(getMsgPrefix() + ChatColor.RED +
                                                     "Your boots have malfunctioned!");
 
-                                            disableRocketBoots(player, true, true, true, true, false, false);
+                                            disableRocketBoots(player, true, true, true, true, true);
 
                                         } else itemFuel(player, Material.COAL, Material.COAL_BLOCK);
 
@@ -250,7 +250,7 @@ public class RocketFuel {
                                             player.sendMessage(getMsgPrefix() + ChatColor.RED +
                                                     "Your boots have malfunctioned!");
 
-                                            disableRocketBoots(player, true, true, true, true, false, false);
+                                            disableRocketBoots(player, true, true, true, true, true);
 
                                         } else itemFuel(player, Material.REDSTONE, Material.REDSTONE_BLOCK);
 
@@ -266,12 +266,12 @@ public class RocketFuel {
 
                             if (player.getLocation().getY() >= 250) {
 
-                                disableRocketBoots(player, true, true, true, true, false, false);
+                                disableRocketBoots(player, true, true, true, true, true);
                                 player.sendMessage(getMsgPrefix() + "Rocket Boots don't work so well up high!");
 
                             } else if (player.getLocation().getY() <= 0) {
 
-                                disableRocketBoots(player, true, true, true, true, false, false);
+                                disableRocketBoots(player, true, true, true, true, true);
                                 player.sendMessage(getMsgPrefix() + "Rocket Boots don't work so in the void!");
 
                             }

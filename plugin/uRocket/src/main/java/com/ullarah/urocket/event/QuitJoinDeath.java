@@ -12,17 +12,17 @@ public class QuitJoinDeath implements Listener {
 
     @EventHandler
     public void rocketRemoveOnQuit(PlayerQuitEvent event) {
-        disableRocketBoots(event.getPlayer(), false, false, false, false, false, false);
+        disableRocketBoots(event.getPlayer(), false, false, false, false, false);
     }
 
     @EventHandler
     public void rocketRemoveOnJoin(PlayerJoinEvent event) {
-        disableRocketBoots(event.getPlayer(), false, false, false, false, false, false);
+        disableRocketBoots(event.getPlayer(), false, false, false, false, false);
     }
 
     @EventHandler
     public void rocketRemoveOnDeath(PlayerDeathEvent event) {
-        disableRocketBoots(event.getEntity(), false, false, false, false, false, false);
+        disableRocketBoots(event.getEntity(), false, false, false, false, false);
     }
 
 }

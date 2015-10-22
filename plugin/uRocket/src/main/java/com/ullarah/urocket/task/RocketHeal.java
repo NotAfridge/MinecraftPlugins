@@ -27,7 +27,8 @@ public class RocketHeal {
                             Player player = Bukkit.getPlayer(rocketHealer.getKey());
                             Integer repair = rocketHealer.getValue();
 
-                            if (repair != 0 && GamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
+                            if (repair != 0 && player.isFlying()
+                                    && GamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
 
                                 ItemStack rocketBoots = player.getInventory().getBoots();
 

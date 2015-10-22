@@ -29,7 +29,7 @@ public class PlayerWorldChange implements Listener {
                     player.sendMessage(getMsgPrefix() + changeMessage);
                 }
 
-                disableRocketBoots(player, false, false, false, false, false, false);
+                disableRocketBoots(player, false, false, false, false, false);
 
             }
 

@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import static com.ullarah.urocket.command.DisplayHelp.runHelp;
 
-public class RocketExecutor implements CommandExecutor {
+class RocketExecutor implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
@@ -29,9 +29,9 @@ public class RocketExecutor implements CommandExecutor {
 
                 try {
 
-                    switch (validCommands.valueOf(args[0].toUpperCase())) {
+                    switch (args[0].toUpperCase()) {
 
-                        case CHEST:
+                        case "CHEST":
                             if (sender.hasPermission("rocket.chest"))
                                 DisplayComponentChest.open(sender);
                             else
@@ -54,10 +54,6 @@ public class RocketExecutor implements CommandExecutor {
 
         }
 
-    }
-
-    private enum validCommands {
-        CHEST
     }
 
 }
