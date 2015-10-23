@@ -9,8 +9,8 @@ import static com.ullarah.uchest.ChestInit.getPlugin;
 public class ChestAnnounce {
 
     private static final long chestCountdownFinal = getPlugin().getConfig().getLong("countdown") * 20;
-    private static final long chestCountdownWarning = (getPlugin().getConfig().getLong("countdown") - 600) * 20;
-    private static final long chestCountdownCritical = (getPlugin().getConfig().getLong("countdown") - 60) * 20;
+    private static final long chestCountdownWarning = (chestCountdownFinal - 600) * 20;
+    private static final long chestCountdownCritical = (chestCountdownFinal - 60) * 20;
 
     public static void task() {
 
@@ -19,12 +19,12 @@ public class ChestAnnounce {
             Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
                     () -> Bukkit.broadcastMessage(getMsgPrefix() + ChatColor.AQUA
                             + "10 minutes left until the Donation Chest is emptied!"),
-                    chestCountdownWarning, chestCountdownWarning);
+                    0, chestCountdownWarning);
 
             Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
                     () -> Bukkit.broadcastMessage(getMsgPrefix() + ChatColor.RED
                             + "60 seconds left until the Donation Chest is emptied!"),
-                    chestCountdownCritical, chestCountdownCritical);
+                    0, chestCountdownCritical);
 
         }
 

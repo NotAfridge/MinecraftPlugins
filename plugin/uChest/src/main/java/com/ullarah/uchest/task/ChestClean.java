@@ -21,7 +21,7 @@ public class ChestClean {
                 Bukkit.broadcastMessage(getMsgPrefix() + ChatColor.YELLOW + "Donation Chest has been emptied!");
                 Bukkit.broadcastMessage(getMsgPrefix() + ChatColor.YELLOW + "Leftovers have gone to the Swap Chest!");
 
-            }, chestCountdownFinal, chestCountdownFinal);
+            }, 0, chestCountdownFinal);
 
     }
 
