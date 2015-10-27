@@ -110,9 +110,9 @@ public class ChestFunctions {
         final Player player = (Player) sender;
         int playerLevel = player.getLevel();
 
-        if (playerLevel < chestAccessLevel)
+        if (playerLevel < randomAccessLevel)
             player.sendMessage(getMsgPrefix() + "You need more than " +
-                    chestAccessLevel + " levels to open this chest.");
+                    randomAccessLevel + " levels to open this chest.");
         else if (chestLockout.contains(player.getUniqueId())) {
 
             player.sendMessage(getMsgPrefix() + "You are currently locked out from this chest.");
