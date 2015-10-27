@@ -1,9 +1,6 @@
 countdown: 10800
-raninterval: 10
-ranstay: 1
-ranamount: 6
-xprinterval: 5
-xpramount: -15
+rantimer: 15
+ranaccess: 5
 chestaccess: 10
 holdaccess: 5
 unlock: 3

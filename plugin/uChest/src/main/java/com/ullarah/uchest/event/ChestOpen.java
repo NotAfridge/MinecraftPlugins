@@ -6,7 +6,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 
-import static com.ullarah.uchest.ChestInit.*;
+import static com.ullarah.uchest.ChestInit.chestSwapBusy;
+import static com.ullarah.uchest.ChestInit.chestSwapPlayer;
 
 public class ChestOpen implements Listener {
 
@@ -21,9 +22,6 @@ public class ChestOpen implements Listener {
             chestSwapBusy = true;
             chestInventory.clear();
         }
-
-        if (chestInventory.getName().matches("§2Random Chest"))
-            chestRandomRemoveXP.put(chestPlayer.getUniqueId(), event.getView());
 
     }
 

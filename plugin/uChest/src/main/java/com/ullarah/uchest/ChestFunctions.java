@@ -9,9 +9,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static com.ullarah.uchest.ChestFunctions.validStorage.VAULT;
 import static com.ullarah.uchest.ChestInit.*;
@@ -87,11 +90,8 @@ public class ChestFunctions {
             player.sendMessage(getMsgPrefix() + "You are currently locked out from this chest.");
             player.sendMessage(getMsgPrefix() + "Don't panic. Just try again later!");
 
-            Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(getPlugin(), () -> {
-
-                if (chestLockout.contains(player.getUniqueId())) chestLockout.remove(player.getUniqueId());
-
-            }, 6000);
+            Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(
+                    getPlugin(), () -> chestLockout.remove(player.getUniqueId()), 6000);
 
         } else {
 
@@ -118,14 +118,67 @@ public class ChestFunctions {
             player.sendMessage(getMsgPrefix() + "You are currently locked out from this chest.");
             player.sendMessage(getMsgPrefix() + "Don't panic. Just try again later!");
 
-            Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(getPlugin(), () -> chestLockout.remove(player.getUniqueId()), 6000);
+            Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(
+                    getPlugin(), () -> chestLockout.remove(player.getUniqueId()), 6000);
 
         } else {
 
-            player.openInventory(getChestRandomHolder().getInventory());
+            player.setLevel(playerLevel - randomAccessLevel);
+
+            Inventory randomInventory = getChestRandomHolder().getInventory();
+
+            ItemStack greenGlass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 5);
+
+            int randomTimer = getPlugin().getConfig().getInt("rantimer");
+
+            player.openInventory(randomInventory);
             chestLockoutEntry(player);
 
+            for (int i = 45; i < 54; i++)
+                randomInventory.setItem(i, greenGlass);
+
+            new BukkitRunnable() {
+                int c = randomTimer;
+
+                @Override
+                public void run() {
+                    if (c <= 0) {
+                        player.closeInventory();
+                        this.cancel();
+                        return;
+                    }
+                    changeChest(randomInventory, (c * 100) / randomTimer);
+                    c--;
+                }
+            }.runTaskTimer(getPlugin(), 5, 20);
+
         }
+
+    }
+
+    public static void changeChest(Inventory randomInventory, int percent) {
+
+        Random randomSlot = new Random();
+        ItemStack redGlass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 14);
+
+        List<String> materialList = new ArrayList<>(
+                getPlugin().getConfig().getConfigurationSection("materials").getKeys(false));
+
+        for (int i = 0; i < 45; i++) getChestRandomInventory().setItem(i, null);
+
+        getChestRandomInventory().setItem(randomSlot.nextInt(44),
+                new ItemStack(Material.getMaterial(
+                        materialList.get(randomSlot.nextInt(materialList.size())))));
+
+        if (percent <= 90) randomInventory.setItem(53, redGlass);
+        if (percent <= 80) randomInventory.setItem(52, redGlass);
+        if (percent <= 70) randomInventory.setItem(51, redGlass);
+        if (percent <= 60) randomInventory.setItem(50, redGlass);
+        if (percent <= 50) randomInventory.setItem(49, redGlass);
+        if (percent <= 40) randomInventory.setItem(48, redGlass);
+        if (percent <= 30) randomInventory.setItem(47, redGlass);
+        if (percent <= 20) randomInventory.setItem(46, redGlass);
+        if (percent <= 10) randomInventory.setItem(45, redGlass);
 
     }
 

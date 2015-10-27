@@ -46,7 +46,7 @@ public class ChestClick implements Listener {
             event.getView().close();
 
         if (chestInventory.getName().matches("§2Random Chest")) if (event.getRawSlot() == -999) event.getView().close();
-        else if (event.getCurrentItem().getAmount() >= 1 && event.getRawSlot() >= 54) event.setCancelled(true);
+        else if (event.getCurrentItem().getAmount() >= 1 && event.getRawSlot() >= 45) event.setCancelled(true);
 
         if (chestInventory.getName().matches("§6§lMixed Chests")) {
             event.setCancelled(true);

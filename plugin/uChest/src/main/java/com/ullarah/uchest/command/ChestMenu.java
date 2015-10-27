@@ -55,14 +55,14 @@ public class ChestMenu {
         ));
 
         chestGUI.setItem(3, createItemStack(Material.SPONGE, menuColour + "Random Chest", Arrays.asList(
-                        ChatColor.YELLOW + "[ Minimum of " + chestAccessLevel + " levels to use! ]",
+                        ChatColor.YELLOW + "[ Will remove " + randomAccessLevel + " levels to open! ]",
                         ChatColor.RESET + "",
                         ChatColor.WHITE + "Opens the random chest.",
                         ChatColor.WHITE + "Random items in random slots,",
                         ChatColor.WHITE + "at short random intervals!",
                         ChatColor.RESET + "",
                         ChatColor.RED + "You have to be quick to grab them!",
-                        ChatColor.RED + "XP will be removed the more you stay!")
+                        ChatColor.RED + "Time is represented by coloured glass!")
         ));
 
         chestGUI.setItem(4, createItemStack(Material.GLASS, menuColour + "Swap Chest", Arrays.asList(

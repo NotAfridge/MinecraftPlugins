@@ -36,9 +36,6 @@ public class ChestClose implements Listener {
             chestInventory.clear();
         }
 
-        if (chestInventory.getName().matches("§2Random Chest"))
-            chestRandomRemoveXP.remove(chestPlayer.getUniqueId());
-
         if (chestInventory.getName().matches("§2Swap Chest")) {
             ItemStack[] checkItems = chestInventory.getContents();
 
