@@ -1,0 +1,7 @@
+name: uTab
+version: ${project.version}
+description: ${project.description}
+
+author: Ullarah
+
+main: com.ullarah.utab.Init

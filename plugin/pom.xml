@@ -24,6 +24,7 @@
         <module>uMagic</module>
         <module>uPostal</module>
         <module>uRocket</module>
+        <module>uTab</module>
         <module>uWild</module>
 
     </modules>

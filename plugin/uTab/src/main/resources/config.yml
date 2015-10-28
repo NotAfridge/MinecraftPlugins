@@ -1,0 +1,9 @@
+timer: 5
+header:
+  messages:
+    - '&lHello World'
+    - 'Welcome to the server {player}'
+footer:
+  messages:
+    - 'Visit us at &bwww.example.com'
+    - '&eThanks for playing {player}!'
