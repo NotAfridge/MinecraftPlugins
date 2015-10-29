@@ -4,4 +4,15 @@ description: ${project.description}
 
 author: Ullarah
 
-main: com.ullarah.utab.Init
+main: com.ullarah.utab.TabInit
+
+commands:
+  utab:
+    description: Main plugin command.
+    usage: |
+      <command> : Display Total and Current Messages.
+      <command> reload : Reload Tab Messages.
+
+permissions:
+  utab.commands:
+    description: Grants use of tab commands.
