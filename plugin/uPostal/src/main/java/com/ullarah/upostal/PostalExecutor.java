@@ -29,25 +29,34 @@ class PostalExecutor implements CommandExecutor {
                 break;
 
             case "POST":
-                if (!getMaintenanceCheck())
-                    if (args.length >= 1) {
+                if ((sender instanceof Player)) {
+                    if (!getMaintenanceCheck()) {
+                        if (args.length >= 1) {
+                            if (args[0].matches("[\\w\\d_]{1,16}")) {
 
-                        UUID playerID = ProfileUtils.lookup(args[0]).getId();
+                                try {
+                                    UUID playerID = ProfileUtils.lookup(args[0]).getId();
+                                    if (playerID != null) Prepare.run((Player) sender, playerID);
+                                } catch (Exception e) {
+                                    sender.sendMessage(getMsgPrefix() + ChatColor.YELLOW + "That player does not have an inbox!");
+                                }
 
-                        if (playerID != null) Prepare.run((Player) sender, playerID);
-                        else sender.sendMessage(getMsgPrefix() + ChatColor.YELLOW + "That player does not have an inbox.");
-
-                    } else sender.sendMessage(getMsgPrefix() + ChatColor.YELLOW + "Usage: /post <player>");
+                            } else sender.sendMessage(getMsgPrefix() + ChatColor.RED + "Not a valid player name!");
+                        } else sender.sendMessage(getMsgPrefix() + ChatColor.YELLOW + "Usage: /post <player>");
+                    } else sender.sendMessage(getMaintenanceMessage());
+                } else sender.sendMessage(getMsgNoConsole());
                 break;
 
             case "INBOX":
-                if (!getMaintenanceCheck()) {
+                if (sender instanceof Player) {
+                    if (!getMaintenanceCheck()) {
 
-                    if (args.length >= 1) {
-                        if (args[0].toUpperCase().equals("UPGRADE")) Upgrade.run(sender);
-                    } else Prepare.run((Player) sender, ((Player) sender).getUniqueId());
+                        if (args.length >= 1) {
+                            if (args[0].toUpperCase().equals("UPGRADE")) Upgrade.run(sender);
+                        } else Prepare.run((Player) sender, ((Player) sender).getUniqueId());
 
-                }
+                    } else sender.sendMessage(getMaintenanceMessage());
+                } else sender.sendMessage(getMsgNoConsole());
                 break;
 
         }
