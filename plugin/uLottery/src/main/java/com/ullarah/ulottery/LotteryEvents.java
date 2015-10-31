@@ -8,11 +8,10 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import static com.ullarah.ulottery.Init.*;
+import static com.ullarah.ulottery.LotteryInit.*;
 
-class Events implements Listener {
+class LotteryEvents implements Listener {
 
-    @SuppressWarnings("unused")
     @EventHandler
     public void playerDeath(final PlayerDeathEvent event) {
 
@@ -39,7 +38,6 @@ class Events implements Listener {
 
     }
 
-    @SuppressWarnings("unused")
     @EventHandler
     public void playerQuit(final PlayerQuitEvent event) {
 
@@ -47,7 +45,6 @@ class Events implements Listener {
 
     }
 
-    @SuppressWarnings("unused")
     @EventHandler
     public void playerJoin(final PlayerJoinEvent event) {
 

@@ -10,9 +10,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-import static com.ullarah.ulottery.Init.*;
+import static com.ullarah.ulottery.LotteryInit.*;
 
-class Commands implements CommandExecutor {
+class LotteryCommands implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
