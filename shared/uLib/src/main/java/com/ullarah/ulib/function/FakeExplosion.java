@@ -10,7 +10,14 @@ import org.bukkit.entity.Player;
 
 public class FakeExplosion {
 
-    public static void create(Integer size, Location location, ExplosionType explosion) {
+    /**
+     * Produces an explosion like particle, without block damage.
+     *
+     * @param location  the location of the players world
+     * @param size      the size of explosion centered from the location
+     * @param explosion the type of explosion from {@link ExplosionType}
+     */
+    public static void create(Location location, Integer size, ExplosionType explosion) {
 
         float eX = (float) location.getX();
         float eY = (float) location.getY();
@@ -27,15 +34,32 @@ public class FakeExplosion {
 
     }
 
+    /**
+     * Returns the particle type of explosions
+     * {@link #NORMAL}
+     * {@link #LARGE}
+     * {@link #HUGE}
+     */
     public enum ExplosionType {
 
+        /**
+         * Smaller white particles
+         */
         NORMAL("EXPLOSION_NORMAL"),
+
+        /**
+         * Normal TNT like particles
+         */
         LARGE("EXPLOSION_LARGE"),
+
+        /**
+         * Massive particles, wither, enderdragon etc.
+         */
         HUGE("EXPLOSION_HUGE");
 
         private final String type;
 
-        private ExplosionType(String getType) {
+        ExplosionType(String getType) {
             type = getType;
         }
 

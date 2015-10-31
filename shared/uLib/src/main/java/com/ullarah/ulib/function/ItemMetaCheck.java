@@ -7,11 +7,18 @@ import java.util.List;
 
 public class ItemMetaCheck {
 
-    public static boolean check(ItemStack stack, String name) {
+    /**
+     * Item metadata check, custom name only.
+     *
+     * @param item the item object to check
+     * @param name the display name of the item
+     * @return if the item has a custom name and matches name given
+     */
+    public static boolean check(ItemStack item, String name) {
 
-        if (stack != null && stack.hasItemMeta()) {
+        if (item != null && item.hasItemMeta()) {
 
-            ItemMeta meta = stack.getItemMeta();
+            ItemMeta meta = item.getItemMeta();
 
             if (meta.hasDisplayName()) {
 
@@ -27,11 +34,18 @@ public class ItemMetaCheck {
 
     }
 
-    public static boolean check(ItemStack stack, List<String> lore) {
+    /**
+     * Item metadata check, custom lore only.
+     *
+     * @param item the item object to check
+     * @param lore the lore array of the item
+     * @return if the item has custom lore and matches the lore array given
+     */
+    public static boolean check(ItemStack item, List<String> lore) {
 
-        if (stack != null && stack.hasItemMeta()) {
+        if (item != null && item.hasItemMeta()) {
 
-            ItemMeta meta = stack.getItemMeta();
+            ItemMeta meta = item.getItemMeta();
 
             if (meta.hasLore()) {
 
@@ -47,13 +61,22 @@ public class ItemMetaCheck {
 
     }
 
-    public static boolean check(ItemStack stack, String name, List<String> lore) {
+    /**
+     * Item metadata check, custom name, custom lore.
+     *
+     * @param item the item object to check
+     * @param name the display name of the item
+     * @param lore the lore array of the item
+     * @return if the item has both custom name and lore
+     *             and matches both name and lore given.
+     */
+    public static boolean check(ItemStack item, String name, List<String> lore) {
 
-        if (stack != null && stack.hasItemMeta()) {
+        if (item != null && item.hasItemMeta()) {
 
-            ItemMeta meta = stack.getItemMeta();
+            ItemMeta meta = item.getItemMeta();
 
-            if (meta.hasDisplayName()) {
+            if (meta.hasDisplayName() && meta.hasLore()) {
 
                 String metaDisplayName = meta.getDisplayName();
                 List<String> metaLore = meta.getLore();

@@ -10,6 +10,13 @@ import static net.minecraft.server.v1_8_R3.PacketPlayOutTitle.EnumTitleAction;
 
 public class TitleSubtitle {
 
+    /**
+     * Displays a title in front of players client
+     *
+     * @param player  the player object
+     * @param seconds the amount of seconds to display
+     * @param title   the text of the title
+     */
     public static void title(Player player, int seconds, String title) {
 
         CraftPlayer craftPlayer = (CraftPlayer) player;
@@ -24,6 +31,13 @@ public class TitleSubtitle {
 
     }
 
+    /**
+     * Displays a title in front of players client
+     *
+     * @param player   the player object
+     * @param seconds  the amount of seconds to display
+     * @param subtitle the text of the subtitle
+     */
     public static void subtitle(Player player, int seconds, String subtitle) {
 
         CraftPlayer craftPlayer = (CraftPlayer) player;
@@ -41,6 +55,14 @@ public class TitleSubtitle {
 
     }
 
+    /**
+     * Displays a title in front of players client
+     *
+     * @param player   the player object
+     * @param seconds  the amount of seconds to display
+     * @param title    the text of the title
+     * @param subtitle the text of the subtitle
+     */
     public static void both(Player player, int seconds, String title, String subtitle) {
 
         CraftPlayer craftPlayer = (CraftPlayer) player;

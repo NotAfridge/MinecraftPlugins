@@ -67,7 +67,7 @@ public class Particles {
 
         private final Integer type;
 
-        private ParticleType(Integer getType) {
+        ParticleType(Integer getType) {
             type = getType;
         }
 

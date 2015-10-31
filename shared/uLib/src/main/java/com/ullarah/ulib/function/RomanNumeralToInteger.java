@@ -2,6 +2,12 @@ package com.ullarah.ulib.function;
 
 public class RomanNumeralToInteger {
 
+    /**
+     * Decodes a roman numeral to an integer
+     *
+     * @param letter the roman numeral character
+     * @return the value converted from roman numeral
+     */
     private static int decodeSingle(char letter) {
 
         switch (letter) {
@@ -28,6 +34,12 @@ public class RomanNumeralToInteger {
 
     }
 
+    /**
+     * Decodes a set of roman numerals to an integer
+     *
+     * @param roman the set of roman numerals
+     * @return the value converted from the set of roman numerals
+     */
     public static int decode(String roman) {
 
         int result = 0;

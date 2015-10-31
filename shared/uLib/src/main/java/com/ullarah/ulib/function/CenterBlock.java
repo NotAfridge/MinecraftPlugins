@@ -6,6 +6,13 @@ import org.bukkit.entity.Player;
 
 public class CenterBlock {
 
+    /**
+     * Calculates the exact center of a block location
+     *
+     * @param player   the player object
+     * @param location the location of the players world
+     * @return the center location
+     */
     public static Location exact(Player player, Location location) {
 
         World world = player.getWorld();
@@ -19,6 +26,14 @@ public class CenterBlock {
 
     }
 
+    /**
+     * Calculates the exact center of a block location, with a variable height.
+     *
+     * @param player   the player object
+     * @param location the location of the players world
+     * @param height   the specific height of the given location
+     * @return the center location
+     */
     public static Location variable(Player player, Location location, double height) {
 
         World world = player.getWorld();

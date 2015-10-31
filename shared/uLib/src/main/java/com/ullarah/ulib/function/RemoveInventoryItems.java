@@ -6,7 +6,15 @@ import org.bukkit.inventory.PlayerInventory;
 
 public class RemoveInventoryItems {
 
-    public static void remove(PlayerInventory inventory, Material material, int amount) {
+    /**
+     * Removes a number of material items from a players inventory
+     *
+     * @param inventory the players inventory
+     * @param material  the type of item to remove from inventory
+     * @param amount    the amount of item(s) to remove from inventory
+     * @return if the item removal was successful
+     */
+    public static boolean remove(PlayerInventory inventory, Material material, int amount) {
 
         for (ItemStack itemStack : inventory.getContents()) {
 
@@ -17,18 +25,20 @@ public class RemoveInventoryItems {
                 if (newAmount > 0) {
 
                     itemStack.setAmount(newAmount);
-                    break;
+                    return true;
 
                 } else {
 
                     inventory.remove(itemStack);
-                    if (-newAmount == 0) break;
+                    if (-newAmount == 0) return true;
 
                 }
 
             }
 
         }
+
+        return false;
 
     }
 

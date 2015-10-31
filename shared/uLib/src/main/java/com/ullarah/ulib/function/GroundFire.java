@@ -11,6 +11,14 @@ import java.util.Set;
 
 public class GroundFire {
 
+    /**
+     * Sets blocks on fire given players location.
+     *
+     * @param player   the player object
+     * @param type     the type of fire, single, or multiple centered around location
+     * @param material the material type to set on fire
+     * @return a set of fire locations
+     */
     public static Set setFire(Player player, String type, Material material) {
 
         Set<Location> fireBlock = new HashSet<>();

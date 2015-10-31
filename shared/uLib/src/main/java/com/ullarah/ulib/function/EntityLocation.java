@@ -7,6 +7,13 @@ import java.util.HashSet;
 
 public class EntityLocation {
 
+    /**
+     * Checks entities in a given location
+     *
+     * @param location the location of the players world
+     * @param radius   the radius to check centered from the location
+     * @return an array of entities in a chunk
+     */
     public static Entity[] getNearbyEntities(Location location, int radius) {
 
         int chunkRadius = radius < 16 ? 1 : (radius - (radius % 16)) / 16;

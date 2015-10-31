@@ -10,6 +10,14 @@ import java.util.logging.Level;
 
 public class PluginRegisters {
 
+    /**
+     * Registers different types for minecraft reference
+     *
+     * @param plugin  the current plugin used
+     * @param type    the type of object that is being registered
+     * @param objects the objects to register against the plugin
+     * @return the number of valid registrations
+     */
     public static int register(Plugin plugin, RegisterType type, Object... objects) {
 
         int amount = 0;
@@ -46,10 +54,8 @@ public class PluginRegisters {
 
             } catch (Exception e) {
 
-                e.printStackTrace();
-
                 Bukkit.getLogger().log(Level.SEVERE, "[" + plugin.getName() + "] Register Error: "
-                        + object.getClass().getSimpleName());
+                        + "[" + type.toString().toUpperCase() + "] " + object.getClass().getSimpleName());
 
             }
 
@@ -65,7 +71,7 @@ public class PluginRegisters {
 
         private final String type;
 
-        private RegisterType(String getType) {
+        RegisterType(String getType) {
             type = getType;
         }
 

@@ -2,15 +2,13 @@ package com.ullarah.ulib.function;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import java.util.*;
 
-public class ProfileUtils {
+import java.util.UUID;
 
-    private ProfileUtils() {
-    }
+public class PlayerProfile {
 
     @SuppressWarnings("deprecation")
-    public static PlayerProfile lookup(String name) {
+    public static profile lookup(String name) {
 
         OfflinePlayer player = Bukkit.getOfflinePlayer(name);
 
@@ -18,34 +16,26 @@ public class ProfileUtils {
                 fromPlayer(player) : null;
     }
 
-    private static PlayerProfile fromPlayer(OfflinePlayer player) {
-
-        return new PlayerProfile(player.getUniqueId(), player.getName());
-
+    private static profile fromPlayer(OfflinePlayer player) {
+        return new profile(player.getUniqueId(), player.getName());
     }
 
-    public static class PlayerProfile {
+    public static class profile {
 
         private final UUID id;
         private final String name;
 
-        public PlayerProfile(UUID id, String name) {
-
+        public profile(UUID id, String name) {
             this.id = id;
             this.name = name;
-
         }
 
         public UUID getId() {
-
             return id;
-
         }
 
         public String getName() {
-
             return name;
-
         }
 
     }
