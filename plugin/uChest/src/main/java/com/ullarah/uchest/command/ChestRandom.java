@@ -5,32 +5,19 @@ import org.bukkit.entity.Player;
 
 import static com.ullarah.uchest.ChestFunctions.openRandomChest;
 import static com.ullarah.uchest.ChestInit.*;
+import static com.ullarah.ulib.function.CommonString.*;
 
 public class ChestRandom {
 
     public void runCommand(CommandSender sender, String[] args) {
 
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) messageNoConsole(getPlugin(), sender);
+        else if (!getMaintenanceCheck()) {
 
-            sender.sendMessage(getMsgNoConsole());
+            if (chestTypeEnabled.get("rchest")) openRandomChest(sender);
+            else messagePlayer(getPlugin(), (Player) sender, new String[]{"Random Chest is currently unavailable."});
 
-        } else if (!getMaintenanceCheck()) {
-
-            if (chestTypeEnabled.get("rchest")) {
-
-                openRandomChest(sender);
-
-            } else {
-
-                sender.sendMessage(getMsgPrefix() + "Random Chest is currently unavailable.");
-
-            }
-
-        } else {
-
-            sender.sendMessage(getMaintenanceMessage());
-
-        }
+        } else messageMaintenance(getPlugin(), sender);
 
     }
 

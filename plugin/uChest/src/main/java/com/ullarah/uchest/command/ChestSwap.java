@@ -4,40 +4,24 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import static com.ullarah.uchest.ChestInit.*;
+import static com.ullarah.ulib.function.CommonString.*;
 
 public class ChestSwap {
 
     public void runCommand(CommandSender sender, String[] args) {
 
-        if (!(sender instanceof Player)) {
-
-            sender.sendMessage(getMsgNoConsole());
-
-        } else if (!getMaintenanceCheck()) {
+        if (!(sender instanceof Player)) messageNoConsole(getPlugin(), sender);
+        else if (!getMaintenanceCheck()) {
 
             if (chestTypeEnabled.get("schest")) {
 
-                if (chestSwapBusy) {
+                if (chestSwapBusy)
+                    messagePlayer(getPlugin(), (Player) sender, new String[]{"The swap chest is busy. Try again later!"});
+                else ((Player) sender).openInventory(getChestSwapHolder().getInventory());
 
-                    sender.sendMessage(getMsgPrefix() + "The swap chest is busy. Try again later!");
+            } else messagePlayer(getPlugin(), (Player) sender, new String[]{"Swap Chest is currently unavailable."});
 
-                } else {
-
-                    ((Player) sender).openInventory(getChestSwapHolder().getInventory());
-
-                }
-
-            } else {
-
-                sender.sendMessage(getMsgPrefix() + "Swapping Chest is currently unavailable.");
-
-            }
-
-        } else {
-
-            sender.sendMessage(getMaintenanceMessage());
-
-        }
+        } else messageMaintenance(getPlugin(), sender);
 
     }
 

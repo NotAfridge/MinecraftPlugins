@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.ullarah.uchest.ChestInit.*;
+import static com.ullarah.ulib.function.CommonString.messagePermDeny;
+import static com.ullarah.ulib.function.CommonString.messagePlayer;
 
 public class DonationRandom {
 
@@ -40,16 +42,17 @@ public class DonationRandom {
 
             for (Player player : Bukkit.getOnlinePlayers()) {
 
-                player.sendMessage(new String[]{
-                        getMsgPrefix() + ChatColor.GREEN + "Donation Chest has been randomized with new items!",
-                        getMsgPrefix() + ChatColor.GREEN + "Quick! Use /dchest to open it up!",
+                messagePlayer(getPlugin(), player, new String[]{
+                        ChatColor.GREEN + "Donation Chest has been randomized with new items!",
+                        ChatColor.GREEN + "Quick! Use /dchest to open it up!",
                 });
 
                 if (lockedSeconds > 0) {
                     String end = lockedSeconds + " seconds.";
                     if (lockedSeconds == 1) end = "second.";
-                    player.sendMessage(getMsgPrefix() + ChatColor.GRAY + ChatColor.ITALIC
-                            + "You are restricted to one item every " + end);
+                    messagePlayer(getPlugin(), player, new String[]{
+                            "" + ChatColor.GRAY + ChatColor.ITALIC + "You are restricted to one item every " + end
+                    });
                 }
 
             }
@@ -57,7 +60,7 @@ public class DonationRandom {
             chestDonateLock = true;
             chestDonateCountdown();
 
-        } else sender.sendMessage(getMsgPermDeny());
+        } else messagePermDeny(getPlugin(), sender);
 
     }
 

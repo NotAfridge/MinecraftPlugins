@@ -18,6 +18,8 @@ import java.util.Random;
 
 import static com.ullarah.uchest.ChestFunctions.validStorage.VAULT;
 import static com.ullarah.uchest.ChestInit.*;
+import static com.ullarah.ulib.function.CommonString.messagePlayer;
+import static com.ullarah.ulib.function.CommonString.pluginPrefix;
 
 public class ChestFunctions {
 
@@ -59,8 +61,10 @@ public class ChestFunctions {
 
                 getVaultEconomy().depositPlayer(player, amount);
 
-                player.sendMessage(amount > 0 ? getMsgPrefix() + "You gained " + ChatColor.GREEN +
-                        "$" + decimalFormat.format(amount) : getMsgPrefix() + "You gained no money.");
+                messagePlayer(getPlugin(), player, new String[]{
+                        amount > 0 ? pluginPrefix(getPlugin()) + "You gained " + ChatColor.GREEN +
+                                "$" + decimalFormat.format(amount) : pluginPrefix(getPlugin()) + "You gained no money."
+                });
 
             }
 
@@ -68,8 +72,10 @@ public class ChestFunctions {
 
                 Experience.addExperience(player, amount);
 
-                player.sendMessage(amount > 0 ? getMsgPrefix() + "You gained " + ChatColor.GREEN +
-                        decimalFormat.format(amount) + " XP" : getMsgPrefix() + "You gained no XP.");
+                messagePlayer(getPlugin(), player, new String[]{
+                        amount > 0 ? pluginPrefix(getPlugin()) + "You gained " + ChatColor.GREEN +
+                                decimalFormat.format(amount) + " XP" : pluginPrefix(getPlugin()) + "You gained no XP."
+                });
 
             }
 
@@ -82,13 +88,15 @@ public class ChestFunctions {
         final Player player = (Player) sender;
         int playerLevel = player.getLevel();
 
-        if (playerLevel < chestAccessLevel)
-            player.sendMessage(getMsgPrefix() + "You need more than " +
-                    chestAccessLevel + " levels to open this chest.");
+        if (playerLevel < chestAccessLevel) messagePlayer(getPlugin(), player, new String[]{
+                "You need more than " + chestAccessLevel + " levels to open this chest."
+        });
         else if (chestLockout.contains(player.getUniqueId())) {
 
-            player.sendMessage(getMsgPrefix() + "You are currently locked out from this chest.");
-            player.sendMessage(getMsgPrefix() + "Don't panic. Just try again later!");
+            messagePlayer(getPlugin(), player, new String[]{
+                    "You are currently locked out from this chest.",
+                    "Don't panic. Just try again later!"
+            });
 
             Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(
                     getPlugin(), () -> chestLockout.remove(player.getUniqueId()), 6000);
@@ -110,13 +118,15 @@ public class ChestFunctions {
         final Player player = (Player) sender;
         int playerLevel = player.getLevel();
 
-        if (playerLevel < randomAccessLevel)
-            player.sendMessage(getMsgPrefix() + "You need more than " +
-                    randomAccessLevel + " levels to open this chest.");
+        if (playerLevel < randomAccessLevel) messagePlayer(getPlugin(), player, new String[]{
+                "You need more than " + randomAccessLevel + " levels to open this chest."
+        });
         else if (chestLockout.contains(player.getUniqueId())) {
 
-            player.sendMessage(getMsgPrefix() + "You are currently locked out from this chest.");
-            player.sendMessage(getMsgPrefix() + "Don't panic. Just try again later!");
+            messagePlayer(getPlugin(), player, new String[]{
+                    "You are currently locked out from this chest.",
+                    "Don't panic. Just try again later!"
+            });
 
             Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(
                     getPlugin(), () -> chestLockout.remove(player.getUniqueId()), 6000);
@@ -188,8 +198,9 @@ public class ChestFunctions {
 
             if (player.getLevel() <= holdingAccessLevel) {
 
-                player.sendMessage(getMsgPrefix() + "You need more than " +
-                        holdingAccessLevel + " levels to open this chest.");
+                messagePlayer(getPlugin(), player, new String[]{
+                        "You need more than " + holdingAccessLevel + " levels to open this chest."
+                });
 
             } else {
 

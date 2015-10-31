@@ -6,22 +6,27 @@ import org.bukkit.entity.Player;
 
 import static com.ullarah.uchest.ChestFunctions.validCommands;
 import static com.ullarah.uchest.ChestInit.*;
+import static com.ullarah.ulib.function.CommonString.*;
 
 public class ChestDonation {
 
     public void runCommand(CommandSender sender, String[] args) {
 
-        String consoleTools = getMsgPrefix() + ChatColor.WHITE + "random | reset";
+        String consoleTools = pluginPrefix(getPlugin()) + ChatColor.WHITE + "random | reset";
 
-        if (args.length == 0) if (!(sender instanceof Player))
-            sender.sendMessage(getMsgNoConsole());
-        else if (!getMaintenanceCheck()) if (chestTypeEnabled.get("dchest"))
-            ((Player) sender).openInventory(getChestDonationHolder().getInventory());
-        else sender.sendMessage(getMsgPrefix() + "Donation Chest is currently unavailable.");
-        else
-            sender.sendMessage(getMaintenanceMessage());
+        if (args.length == 0) {
 
-        else try {
+            if (!(sender instanceof Player)) messageNoConsole(getPlugin(), sender);
+            else if (!getMaintenanceCheck()) {
+
+                if (chestTypeEnabled.get("dchest"))
+                    ((Player) sender).openInventory(getChestDonationHolder().getInventory());
+                else
+                    messagePlayer(getPlugin(), (Player) sender, new String[]{"Donation Chest is currently unavailable."});
+
+            } else messageMaintenance(getPlugin(), sender);
+
+        } else try {
 
             switch (validCommands.valueOf(args[0].toUpperCase())) {
 
@@ -29,14 +34,14 @@ public class ChestDonation {
                     if (!getMaintenanceCheck())
                         DonationRandom.fillDonationChest(sender);
                     else
-                        sender.sendMessage(getMaintenanceMessage());
+                        messageMaintenance(getPlugin(), sender);
                     break;
 
                 case RESET:
                     if (!getMaintenanceCheck())
                         DonationReset.resetDonationChest(sender);
                     else
-                        sender.sendMessage(getMaintenanceMessage());
+                        messageMaintenance(getPlugin(), sender);
                     break;
 
                 default:

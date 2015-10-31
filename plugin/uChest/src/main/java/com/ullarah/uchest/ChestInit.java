@@ -45,11 +45,7 @@ public class ChestInit extends JavaPlugin {
     public static Boolean displayClearMessage = false;
     private static Plugin plugin;
     private static Economy vaultEconomy;
-    private static String msgPrefix = null;
-    private static String msgPermDeny = null;
-    private static String msgNoConsole = null;
     private static Boolean maintenanceCheck;
-    private static String maintenanceMessage;
     private static InventoryHolder chestDonationHolder = ChestInit::getChestDonationInventory;
     private static final Inventory chestDonationInventory = Bukkit.createInventory(getChestDonationHolder(), 54,
             ChatColor.DARK_GREEN + "Donation Chest");
@@ -68,44 +64,12 @@ public class ChestInit extends JavaPlugin {
         ChestInit.plugin = plugin;
     }
 
-    public static String getMsgPrefix() {
-        return msgPrefix;
-    }
-
-    private static void setMsgPrefix(String msgPrefix) {
-        ChestInit.msgPrefix = msgPrefix;
-    }
-
-    public static String getMsgPermDeny() {
-        return msgPermDeny;
-    }
-
-    private static void setMsgPermDeny(String msgPermDeny) {
-        ChestInit.msgPermDeny = msgPermDeny;
-    }
-
-    public static String getMsgNoConsole() {
-        return msgNoConsole;
-    }
-
-    private static void setMsgNoConsole(String msgNoConsole) {
-        ChestInit.msgNoConsole = msgNoConsole;
-    }
-
     public static Boolean getMaintenanceCheck() {
         return maintenanceCheck;
     }
 
     public static void setMaintenanceCheck(Boolean maintenanceCheck) {
         ChestInit.maintenanceCheck = maintenanceCheck;
-    }
-
-    public static String getMaintenanceMessage() {
-        return maintenanceMessage;
-    }
-
-    private static void setMaintenanceMessage(String maintenanceMessage) {
-        ChestInit.maintenanceMessage = maintenanceMessage;
     }
 
     public static Economy getVaultEconomy() {
@@ -159,8 +123,6 @@ public class ChestInit extends JavaPlugin {
         PluginManager pluginManager = getServer().getPluginManager();
         Plugin pluginVault = pluginManager.getPlugin("Vault");
 
-        setMsgPrefix(ChatColor.GOLD + "[" + plugin.getName() + "] " + ChatColor.WHITE);
-
         Set<String> pluginList = new HashSet<>();
 
         getConfig().options().copyDefaults(true);
@@ -183,11 +145,7 @@ public class ChestInit extends JavaPlugin {
                 new ChestClean()
         ));
 
-        setMsgPermDeny(getMsgPrefix() + ChatColor.RED + "No permission.");
-        setMsgNoConsole(getMsgPrefix() + ChatColor.RED + "No console usage.");
-
         setMaintenanceCheck(getPlugin().getConfig().getBoolean("maintenance"));
-        setMaintenanceMessage(getMsgPrefix() + ChatColor.RED + "The Chest System is unavailable.");
 
         chestAccessLevel = getPlugin().getConfig().getInt("chestaccess");
         holdingAccessLevel = getPlugin().getConfig().getInt("holdaccess");

@@ -1,9 +1,11 @@
 package com.ullarah.uchest.task;
 
+import com.ullarah.ulib.function.Broadcast;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
-import static com.ullarah.uchest.ChestInit.*;
+import static com.ullarah.uchest.ChestInit.displayClearMessage;
+import static com.ullarah.uchest.ChestInit.getPlugin;
 
 public class ChestAnnounce {
 
@@ -17,17 +19,15 @@ public class ChestAnnounce {
 
             Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
                     () -> {
-                        if (displayClearMessage)
-                            Bukkit.broadcastMessage(getMsgPrefix() + ChatColor.AQUA
-                                    + "10 minutes left until the Donation Chest is emptied!");
+                        if (displayClearMessage) Broadcast.sendMessage(getPlugin(), false, new String[]{ChatColor.AQUA
+                                + "10 minutes left until the Donation Chest is emptied!"});
                     },
                     0, chestCountdownWarning);
 
             Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
                     () -> {
-                        if (displayClearMessage)
-                            Bukkit.broadcastMessage(getMsgPrefix() + ChatColor.RED
-                                    + "60 seconds left until the Donation Chest is emptied!");
+                        if (displayClearMessage) Broadcast.sendMessage(getPlugin(), false, new String[]{ChatColor.RED
+                                + "60 seconds left until the Donation Chest is emptied!"});
                     },
                     0, chestCountdownCritical);
 

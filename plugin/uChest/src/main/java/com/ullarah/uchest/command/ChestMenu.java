@@ -12,6 +12,7 @@ import java.util.Arrays;
 import static com.ullarah.uchest.ChestFunctions.createItemStack;
 import static com.ullarah.uchest.ChestFunctions.validCommands;
 import static com.ullarah.uchest.ChestInit.*;
+import static com.ullarah.ulib.function.CommonString.*;
 
 public class ChestMenu {
 
@@ -96,24 +97,19 @@ public class ChestMenu {
 
     public void runCommand(CommandSender sender, String[] args) {
 
-        String consoleTools = getMsgPrefix() + ChatColor.WHITE + "maintenance | toggle";
+        String consoleTools = pluginPrefix(getPlugin()) + ChatColor.WHITE + "maintenance | toggle";
 
-        if (args.length == 0) if (!(sender instanceof Player))
-            sender.sendMessage(consoleTools);
-        else if (!getMaintenanceCheck())
-            showChestMenu(sender);
-        else
-            sender.sendMessage(getMaintenanceMessage());
+        if (args.length == 0) if (!(sender instanceof Player)) sender.sendMessage(consoleTools);
+        else if (!getMaintenanceCheck()) showChestMenu(sender);
+        else messageMaintenance(getPlugin(), sender);
 
         else try {
 
             switch (validCommands.valueOf(args[0].toUpperCase())) {
 
                 case HELP:
-                    if (!(sender instanceof Player))
-                        sender.sendMessage(getMsgNoConsole());
-                    else
-                        DisplayHelp.runHelp(sender);
+                    if (!(sender instanceof Player)) messageNoConsole(getPlugin(), sender);
+                    else DisplayHelp.runHelp(sender);
                     break;
 
                 case MAINTENANCE:
