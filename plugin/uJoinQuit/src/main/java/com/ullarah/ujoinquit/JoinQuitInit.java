@@ -67,8 +67,8 @@ public class JoinQuitInit extends JavaPlugin {
         setPlayerConfigFile(updatePlayerConfigFile());
         setPlayerConfig(YamlConfiguration.loadConfiguration(getPlayerConfigFile()));
 
-        joinChar = getPlayerConfig().getString("joinChar");
-        quitChar = getPlayerConfig().getString("quitChar");
+        joinChar = getConfig().getString("joinChar");
+        quitChar = getConfig().getString("quitChar");
 
         updatePlayerMessageIndex();
 
