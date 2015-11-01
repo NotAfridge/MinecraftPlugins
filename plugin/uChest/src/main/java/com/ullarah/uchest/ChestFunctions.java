@@ -10,11 +10,13 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import static com.ullarah.uchest.ChestFunctions.validStorage.VAULT;
 import static com.ullarah.uchest.ChestInit.*;
@@ -91,15 +93,49 @@ public class ChestFunctions {
         if (playerLevel < chestAccessLevel) messageSend(getPlugin(), player, true, new String[]{
                 "You need more than " + chestAccessLevel + " levels to open this chest."
         });
-        else if (chestLockout.contains(player.getUniqueId())) {
+        else if (chestConvertLockout.contains(player.getUniqueId())) {
+
+            if (!chestConvertLockoutTimer.containsKey(player.getUniqueId())) {
+
+                chestConvertLockoutTimer.put(player.getUniqueId(), getPlugin().getConfig().getInt("convertlock"));
+
+                BukkitTask task = new BukkitRunnable() {
+                    int c = chestConvertLockoutTimer.get(player.getUniqueId());
+
+                    @Override
+                    public void run() {
+                        if (c <= 0) {
+                            chestConvertLockoutTimer.remove(player.getUniqueId());
+                            chestConvertLockout.remove(player.getUniqueId());
+                            this.cancel();
+                            return;
+                        }
+                        chestConvertLockoutTimer.replace(player.getUniqueId(), c--);
+                    }
+                }.runTaskTimer(getPlugin(), 20, 20);
+
+            }
+
+            int getCurrentLockTime = chestConvertLockoutTimer.get(player.getUniqueId());
+
+            String minuteString = " Minute";
+            String secondString = " Second";
+
+            long minute = TimeUnit.SECONDS.toMinutes(getCurrentLockTime) - (TimeUnit.SECONDS.toHours(getCurrentLockTime) * 60);
+            long second = TimeUnit.SECONDS.toSeconds(getCurrentLockTime) - (TimeUnit.SECONDS.toMinutes(getCurrentLockTime) * 60);
+
+            if (minute > 1) minuteString = minuteString + "s";
+            if (second > 1) secondString = secondString + "s";
+
+            String timeLeft = ChatColor.YELLOW + "";
+
+            if (minute > 0) timeLeft += minute + minuteString + " ";
+            if (second > 0) timeLeft += second + secondString;
 
             messageSend(getPlugin(), player, true, new String[]{
-                    "You are currently locked out from this chest.",
-                    "Don't panic. Just try again later!"
+                    "You are currently locked out from conversion chests.",
+                    "Try again in " + timeLeft
             });
-
-            Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(
-                    getPlugin(), () -> chestLockout.remove(player.getUniqueId()), 6000);
 
         } else {
 
@@ -107,7 +143,7 @@ public class ChestFunctions {
                     player, 27, ChatColor.DARK_GREEN + (type.equals("MONEY") ? "Money" : "Experience") + " Chest");
             player.openInventory(chestExpInventory);
 
-            chestLockoutEntry(player);
+            chestConvertLockoutEntry(player);
 
         }
 
@@ -121,15 +157,49 @@ public class ChestFunctions {
         if (playerLevel < randomAccessLevel) messageSend(getPlugin(), player, true, new String[]{
                 "You need more than " + randomAccessLevel + " levels to open this chest."
         });
-        else if (chestLockout.contains(player.getUniqueId())) {
+        else if (chestRandomLockout.contains(player.getUniqueId())) {
+
+            if (!chestRandomLockoutTimer.containsKey(player.getUniqueId())) {
+
+                chestRandomLockoutTimer.put(player.getUniqueId(), getPlugin().getConfig().getInt("ranlock"));
+
+                BukkitTask task = new BukkitRunnable() {
+                    int c = chestRandomLockoutTimer.get(player.getUniqueId());
+
+                    @Override
+                    public void run() {
+                        if (c <= 0) {
+                            chestRandomLockoutTimer.remove(player.getUniqueId());
+                            chestRandomLockout.remove(player.getUniqueId());
+                            this.cancel();
+                            return;
+                        }
+                        chestRandomLockoutTimer.replace(player.getUniqueId(), c--);
+                    }
+                }.runTaskTimer(getPlugin(), 20, 20);
+
+            }
+
+            int getCurrentLockTime = chestRandomLockoutTimer.get(player.getUniqueId());
+
+            String minuteString = " Minute";
+            String secondString = " Second";
+
+            long minute = TimeUnit.SECONDS.toMinutes(getCurrentLockTime) - (TimeUnit.SECONDS.toHours(getCurrentLockTime) * 60);
+            long second = TimeUnit.SECONDS.toSeconds(getCurrentLockTime) - (TimeUnit.SECONDS.toMinutes(getCurrentLockTime) * 60);
+
+            if (minute > 1) minuteString = minuteString + "s";
+            if (second > 1) secondString = secondString + "s";
+
+            String timeLeft = ChatColor.YELLOW + "";
+
+            if (minute > 0) timeLeft += minute + minuteString + " ";
+            if (second > 0) timeLeft += second + secondString;
 
             messageSend(getPlugin(), player, true, new String[]{
-                    "You are currently locked out from this chest.",
-                    "Don't panic. Just try again later!"
+                    "You are currently locked out the random chest.",
+                    "Try again in " + timeLeft
             });
-
-            Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(
-                    getPlugin(), () -> chestLockout.remove(player.getUniqueId()), 6000);
 
         } else {
 
@@ -142,7 +212,7 @@ public class ChestFunctions {
             int randomTimer = getPlugin().getConfig().getInt("rantimer");
 
             player.openInventory(randomInventory);
-            chestLockoutEntry(player);
+            chestRandomLockoutEntry(player);
 
             for (int i = 45; i < 54; i++)
                 randomInventory.setItem(i, greenGlass);
@@ -233,16 +303,29 @@ public class ChestFunctions {
 
     }
 
-    private static void chestLockoutEntry(Player player) {
+    private static void chestConvertLockoutEntry(Player player) {
 
-        if (chestLockoutCount.containsKey(player.getUniqueId())) {
+        if (chestConvertLockoutCount.containsKey(player.getUniqueId())) {
 
-            Integer count = chestLockoutCount.get(player.getUniqueId());
+            Integer count = chestConvertLockoutCount.get(player.getUniqueId());
 
-            if (count < 2) chestLockoutCount.put(player.getUniqueId(), count + 1);
-            else chestLockout.add(player.getUniqueId());
+            if (count < 2) chestConvertLockoutCount.put(player.getUniqueId(), count + 1);
+            else chestConvertLockout.add(player.getUniqueId());
 
-        } else chestLockoutCount.put(player.getUniqueId(), 1);
+        } else chestConvertLockoutCount.put(player.getUniqueId(), 1);
+
+    }
+
+    private static void chestRandomLockoutEntry(Player player) {
+
+        if (chestRandomLockoutCount.containsKey(player.getUniqueId())) {
+
+            Integer count = chestRandomLockoutCount.get(player.getUniqueId());
+
+            if (count < 2) chestRandomLockoutCount.put(player.getUniqueId(), count + 1);
+            else chestRandomLockout.add(player.getUniqueId());
+
+        } else chestRandomLockoutCount.put(player.getUniqueId(), 1);
 
     }
 

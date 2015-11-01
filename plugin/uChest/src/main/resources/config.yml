@@ -1,6 +1,8 @@
 countdown: 10800
 rantimer: 15
 ranaccess: 5
+ranlock: 300
+convertlock: 300
 chestaccess: 10
 holdaccess: 5
 unlock: 3

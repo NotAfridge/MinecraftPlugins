@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 
 import static com.ullarah.ulib.function.PluginRegisters.RegisterType.EVENT;
@@ -30,10 +31,14 @@ import static com.ullarah.ulib.function.PluginRegisters.RegisterType.TASK;
 public class ChestInit extends JavaPlugin {
 
     public static final HashMap<String, Boolean> chestTypeEnabled = new HashMap<>();
-    public static final Set<UUID> chestLockout = new HashSet<>();
+    public static final Set<UUID> chestConvertLockout = new HashSet<>();
+    public static final Set<UUID> chestRandomLockout = new HashSet<>();
     public static final Set<UUID> chestDonateLockout = new HashSet<>();
-    public static final HashMap<UUID, Integer> chestLockoutCount = new HashMap<>();
-    private static final HashMap<String, Integer> registerMap = new HashMap<>();
+    public static final ConcurrentHashMap<UUID, Integer> chestConvertLockoutCount = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<UUID, Integer> chestRandomLockoutCount = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<UUID, Integer> chestConvertLockoutTimer = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<UUID, Integer> chestRandomLockoutTimer = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, Integer> registerMap = new ConcurrentHashMap<>();
     public static Boolean chestSwapBusy;
     public static ItemStack[] chestSwapItemStack;
     public static Player chestSwapPlayer;
