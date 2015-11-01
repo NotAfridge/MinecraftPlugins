@@ -7,10 +7,13 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.util.UUID;
+
 import static com.ullarah.ujoinquit.JoinQuitFunctions.getMessage;
 import static com.ullarah.ujoinquit.JoinQuitFunctions.messageType.QUIT;
 import static com.ullarah.ujoinquit.JoinQuitFunctions.replacePlayerString;
 import static com.ullarah.ujoinquit.JoinQuitInit.playerQuitMessage;
+import static com.ullarah.ujoinquit.JoinQuitInit.quitChar;
 
 public class PlayerQuit implements Listener {
 
@@ -18,16 +21,12 @@ public class PlayerQuit implements Listener {
     public void playerQuit(PlayerQuitEvent event) {
 
         Player player = event.getPlayer();
+        UUID playerUUID = player.getUniqueId();
 
-        if (playerQuitMessage.containsKey(player.getUniqueId())) {
+        if (playerQuitMessage.containsKey(playerUUID)) {
 
-            String message = getMessage(player, QUIT);
-
-            if (message.contains("{player}")) message = replacePlayerString(player, message, 0);
-            if (message.contains("{l_player}")) message = replacePlayerString(player, message, 1);
-            if (message.contains("{u_player}")) message = replacePlayerString(player, message, 2);
-
-            event.setQuitMessage(" «« " + ChatColor.translateAlternateColorCodes('&', message));
+            String message = replacePlayerString(player, getMessage(player, QUIT));
+            event.setQuitMessage(quitChar + ChatColor.translateAlternateColorCodes('&', message));
 
         }
 

@@ -5,7 +5,6 @@ import com.ullarah.ujoinquit.event.OptionClick;
 import com.ullarah.ujoinquit.event.PlayerJoin;
 import com.ullarah.ujoinquit.event.PlayerQuit;
 import com.ullarah.ulib.function.PluginRegisters;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -28,10 +27,9 @@ public class JoinQuitInit extends JavaPlugin {
     public static final ConcurrentHashMap<UUID, Integer> playerTimeout = new ConcurrentHashMap<>();
     public static final List<String> joinMessages = new ArrayList<>();
     public static final List<String> quitMessages = new ArrayList<>();
+    public static String joinChar;
+    public static String quitChar;
     private static Plugin plugin;
-    private static String msgPrefix = null;
-    private static String msgPermDeny = null;
-    private static String msgNoConsole = null;
     private static File playerConfigFile;
     private static YamlConfiguration playerConfig;
 
@@ -40,27 +38,6 @@ public class JoinQuitInit extends JavaPlugin {
     }
     private static void setPlugin(Plugin plugin) {
         JoinQuitInit.plugin = plugin;
-    }
-
-    public static String getMsgPrefix() {
-        return msgPrefix;
-    }
-    private static void setMsgPrefix(String msgPrefix) {
-        JoinQuitInit.msgPrefix = msgPrefix;
-    }
-
-    public static String getMsgPermDeny() {
-        return msgPermDeny;
-    }
-    private static void setMsgPermDeny(String msgPermDeny) {
-        JoinQuitInit.msgPermDeny = msgPermDeny;
-    }
-
-    public static String getMsgNoConsole() {
-        return msgNoConsole;
-    }
-    private static void setMsgNoConsole(String msgNoConsole) {
-        JoinQuitInit.msgNoConsole = msgNoConsole;
     }
 
     public static File getPlayerConfigFile() {
@@ -82,8 +59,6 @@ public class JoinQuitInit extends JavaPlugin {
 
         setPlugin(this);
 
-        setMsgPrefix(ChatColor.GOLD + "[" + getPlugin().getName() + "] " + ChatColor.RESET);
-
         getConfig().options().copyDefaults(true);
         saveConfig();
 
@@ -91,6 +66,9 @@ public class JoinQuitInit extends JavaPlugin {
 
         setPlayerConfigFile(updatePlayerConfigFile());
         setPlayerConfig(YamlConfiguration.loadConfiguration(getPlayerConfigFile()));
+
+        joinChar = getPlayerConfig().getString("joinChar");
+        quitChar = getPlayerConfig().getString("quitChar");
 
         updatePlayerMessageIndex();
 
@@ -102,9 +80,6 @@ public class JoinQuitInit extends JavaPlugin {
                 new PlayerJoin(),
                 new PlayerQuit()
         );
-
-        setMsgPermDeny(getMsgPrefix() + ChatColor.RED + "No permission.");
-        setMsgNoConsole(getMsgPrefix() + ChatColor.RED + "No console usage.");
 
     }
 

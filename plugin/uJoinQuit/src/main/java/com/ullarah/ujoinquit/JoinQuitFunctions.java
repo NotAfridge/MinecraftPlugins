@@ -24,6 +24,8 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 import static com.ullarah.ujoinquit.JoinQuitInit.*;
+import static com.ullarah.ulib.function.CommonString.messageSend;
+import static com.ullarah.ulib.function.CommonString.pluginPrefix;
 
 public class JoinQuitFunctions {
 
@@ -38,12 +40,7 @@ public class JoinQuitFunctions {
 
             if (i == 54) continue;
 
-            String message = type.getList().get(i);
-
-            if (message.contains("{player}")) message = replacePlayerString(player, message, 0);
-            if (message.contains("{l_player}")) message = replacePlayerString(player, message, 1);
-            if (message.contains("{u_player}")) message = replacePlayerString(player, message, 2);
-
+            String message = replacePlayerString(player, type.getList().get(i));
             String messageArray = ChatColor.translateAlternateColorCodes('&', ChatColor.WHITE + message);
 
             ItemStack paperItem = message.substring(0, 1).equals("&")
@@ -66,22 +63,18 @@ public class JoinQuitFunctions {
 
     }
 
-    public static String replacePlayerString(Player player, String message, int type) {
+    public static String replacePlayerString(Player player, String message) {
 
-        switch (type) {
+        if (message.contains("{player}"))
+            message = message.replaceAll("\\{player\\}", player.getPlayerListName());
 
-            case 0:
-                return message.replaceAll("\\{player\\}", player.getPlayerListName());
+        if (message.contains("{l_player}"))
+            message = message.replaceAll("\\{l_player\\}", player.getPlayerListName().toLowerCase());
 
-            case 1:
-                return message.replaceAll("\\{l_player\\}", player.getPlayerListName().toLowerCase());
+        if (message.contains("{u_player}"))
+            message = message.replaceAll("\\{u_player\\}", player.getPlayerListName().toUpperCase());
 
-            case 2:
-                return message.replaceAll("\\{u_player\\}", player.getPlayerListName().toUpperCase());
-
-        }
-
-        return null;
+        return message;
 
     }
 
@@ -163,11 +156,11 @@ public class JoinQuitFunctions {
             }
 
             String messageType = type.toString().substring(0, 1) + type.toString().substring(1).toLowerCase();
-            player.sendMessage(getMsgPrefix() + messageType + " message changed!");
+            messageSend(getPlugin(), player, true, new String[]{messageType + " message changed!"});
 
         } catch (IOException e) {
 
-            player.sendMessage(getMsgPrefix() + ChatColor.RED + "Error saving changes!");
+            messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Error saving changes!"});
             e.printStackTrace();
 
         }
@@ -186,11 +179,11 @@ public class JoinQuitFunctions {
 
             playerJoinLocation.put(playerUUID, player.getEyeLocation());
 
-            player.sendMessage(getMsgPrefix() + "Join location changed!");
+            messageSend(getPlugin(), player, true, new String[]{"Join location changed!"});
 
         } catch (IOException e) {
 
-            player.sendMessage(getMsgPrefix() + ChatColor.RED + "Error saving changes!");
+            messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Error saving changes!"});
             e.printStackTrace();
 
         }
@@ -235,11 +228,11 @@ public class JoinQuitFunctions {
             playerQuitMessage.remove(playerUUID);
             playerJoinLocation.remove(playerUUID);
 
-            player.sendMessage(getMsgPrefix() + "All settings cleared!");
+            messageSend(getPlugin(), player, true, new String[]{"All settings cleared!"});
 
         } catch (IOException e) {
 
-            player.sendMessage(getMsgPrefix() + ChatColor.RED + "Error saving changes!");
+            messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Error saving changes!"});
             e.printStackTrace();
 
         }
@@ -248,9 +241,9 @@ public class JoinQuitFunctions {
 
     public static void displayHelp(Player player) {
 
-        player.sendMessage(getMsgPrefix() + "Custom Join and Quit Messages");
+        messageSend(getPlugin(), player, true, new String[]{"Custom Join and Quit Messages"});
 
-        TextComponent allOptions = new TextComponent(getMsgPrefix() + "Click an option: ");
+        TextComponent allOptions = new TextComponent(pluginPrefix(getPlugin()) + "Click an option: ");
 
         TextComponent joinOption = new TextComponent(
                 ChatColor.AQUA + "[" + ChatColor.DARK_AQUA + "Set Join" + ChatColor.AQUA + "] ");
@@ -377,7 +370,7 @@ public class JoinQuitFunctions {
         private final List<String> list;
         private final String type;
 
-        private messageType(List<String> getList, String getType) {
+        messageType(List<String> getList, String getType) {
             list = getList;
             type = getType;
         }

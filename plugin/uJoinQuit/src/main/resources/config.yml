@@ -1,3 +1,5 @@
+joinChar: ' »» '
+quitChar: ' «« '
 joinMessages:
 - We meet again, {player}!
 - Hey hey, {player}!

@@ -14,7 +14,7 @@ commands:
       <command> join : Shows Join Messages.
       <command> quit : Shows Quit Messages.
       <command> clear : Clears both Join and Quit Messages.
-      <command> options : Shows different Join and Quit Options.
+      <command> extra : Shows different Join and Quit Options.
 
 permissions:
   jq.access:

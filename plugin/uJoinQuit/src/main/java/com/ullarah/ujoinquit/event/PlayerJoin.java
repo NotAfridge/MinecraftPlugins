@@ -12,8 +12,7 @@ import java.util.UUID;
 import static com.ullarah.ujoinquit.JoinQuitFunctions.getMessage;
 import static com.ullarah.ujoinquit.JoinQuitFunctions.messageType.JOIN;
 import static com.ullarah.ujoinquit.JoinQuitFunctions.replacePlayerString;
-import static com.ullarah.ujoinquit.JoinQuitInit.playerJoinLocation;
-import static com.ullarah.ujoinquit.JoinQuitInit.playerJoinMessage;
+import static com.ullarah.ujoinquit.JoinQuitInit.*;
 
 public class PlayerJoin implements Listener {
 
@@ -25,13 +24,8 @@ public class PlayerJoin implements Listener {
 
         if (playerJoinMessage.containsKey(playerUUID)) {
 
-            String message = getMessage(player, JOIN);
-
-            if (message.contains("{player}")) message = replacePlayerString(player, message, 0);
-            if (message.contains("{l_player}")) message = replacePlayerString(player, message, 1);
-            if (message.contains("{u_player}")) message = replacePlayerString(player, message, 2);
-
-            event.setJoinMessage(" »» " + ChatColor.translateAlternateColorCodes('&', message));
+            String message = replacePlayerString(player, getMessage(player, JOIN));
+            event.setJoinMessage(joinChar + ChatColor.translateAlternateColorCodes('&', message));
 
         }
 
