@@ -15,8 +15,7 @@ public class ChestExperience {
         else if (!getMaintenanceCheck()) {
 
             if (allowMoneyChest && chestTypeEnabled.get("xchest")) openConvertChest(sender, "XP");
-            else
-                messagePlayer(getPlugin(), (Player) sender, new String[]{"Experience Chest is currently unavailable."});
+            else messageSend(getPlugin(), sender, true, new String[]{"Experience Chest is currently unavailable."});
 
         } else messageMaintenance(getPlugin(), sender);
 

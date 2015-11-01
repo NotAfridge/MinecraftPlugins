@@ -16,10 +16,10 @@ public class ChestSwap {
             if (chestTypeEnabled.get("schest")) {
 
                 if (chestSwapBusy)
-                    messagePlayer(getPlugin(), (Player) sender, new String[]{"The swap chest is busy. Try again later!"});
+                    messageSend(getPlugin(), sender, true, new String[]{"The swap chest is busy. Try again later!"});
                 else ((Player) sender).openInventory(getChestSwapHolder().getInventory());
 
-            } else messagePlayer(getPlugin(), (Player) sender, new String[]{"Swap Chest is currently unavailable."});
+            } else messageSend(getPlugin(), sender, true, new String[]{"Swap Chest is currently unavailable."});
 
         } else messageMaintenance(getPlugin(), sender);
 

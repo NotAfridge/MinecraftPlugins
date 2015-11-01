@@ -1,5 +1,7 @@
 package com.ullarah.uchest.command;
 
+import com.ullarah.uchest.ChestInit;
+import com.ullarah.ulib.function.CommonString;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -10,8 +12,10 @@ public class DisplayHelp {
 
         if (sender instanceof Player) {
 
-            sender.sendMessage(new String[]{
-                    ChatColor.AQUA + " Mixed Chest Help" + ChatColor.WHITE + " - Use /chest to read descriptions!",
+            Player player = (Player) sender;
+
+            CommonString.messageSend(ChestInit.getPlugin(), player, false, new String[]{
+                    ChatColor.AQUA + " uChest Help" + ChatColor.WHITE + " - Use /chest to read descriptions!",
                     " " + ChatColor.STRIKETHROUGH + "----------------------------------------------------",
                     ChatColor.GOLD + " /chest   - " + ChatColor.YELLOW + "Mixed Chest Menu",
                     ChatColor.GOLD + " /dchest - " + ChatColor.YELLOW + "Donation Chest",
@@ -25,7 +29,7 @@ public class DisplayHelp {
 
             if (sender.hasPermission("chest.staff")) {
 
-                sender.sendMessage(new String[]{
+                CommonString.messageSend(ChestInit.getPlugin(), player, false, new String[]{
                         " " + ChatColor.STRIKETHROUGH + "-------------------" + ChatColor.RED + " Staff Commands "
                                 + ChatColor.WHITE + ChatColor.STRIKETHROUGH + "-------------------",
                         ChatColor.GOLD + " /chest maintenance <on|off>",

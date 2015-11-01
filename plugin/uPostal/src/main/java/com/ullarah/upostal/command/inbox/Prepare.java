@@ -9,6 +9,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import static com.ullarah.ulib.function.CommonString.messageMaintenance;
+import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.upostal.PostalInit.*;
 
 public class Prepare {
@@ -37,26 +39,28 @@ public class Prepare {
                     }
 
                     if (inboxBlacklist)
-                        player.sendMessage(getMsgPrefix() + ChatColor.RED + "Your inbox has been blacklisted.");
+                        messageSend(getPlugin(), player, true, new String[]{
+                                ChatColor.RED + "Your inbox has been blacklisted."
+                        });
                     else if (inboxPlayerStock.isEmpty())
-                        player.sendMessage(getMsgPrefix() + "You have no items in your inbox!");
+                        messageSend(getPlugin(), player, true, new String[]{
+                                "You have no items in your inbox!"
+                        });
                     else View.run(inboxPlayerStock, player, inboxPlayerUUID, inboxPlayerName, inboxPlayerSlot);
 
                 } else {
 
                     if (inboxBlacklist)
-                        player.sendMessage(getMsgPrefix() + ChatColor.RED + "Their inbox has been blacklisted.");
+                        messageSend(getPlugin(), player, true, new String[]{
+                                ChatColor.RED + "Their inbox has been blacklisted."
+                        });
                     else View.run(inboxPlayerStock, player, inboxPlayerUUID, inboxPlayerName, inboxPlayerSlot);
 
                 }
 
-            } else {
+            } else messageSend(getPlugin(), player, true, new String[]{"That player does not have an inbox!"});
 
-                player.sendMessage(getMsgPrefix() + "That player does not have an inbox!");
-
-            }
-
-        } else player.sendMessage(getMaintenanceMessage());
+        } else messageMaintenance(getPlugin(), player);
 
     }
 

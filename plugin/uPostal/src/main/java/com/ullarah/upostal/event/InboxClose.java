@@ -1,6 +1,6 @@
 package com.ullarah.upostal.event;
 
-import com.ullarah.ulib.function.ProfileUtils;
+import com.ullarah.ulib.function.PlayerProfile;
 import com.ullarah.upostal.PostalInit;
 import com.ullarah.upostal.command.inbox.Update;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -27,7 +27,7 @@ public class InboxClose implements Listener {
         if (chestInventory.getName().matches("§4Inbox: §3(.*)")) {
 
             String inboxOwner = stripColor(event.getInventory().getTitle().replace("Inbox: ", ""));
-            UUID inboxUUID = ProfileUtils.lookup(inboxOwner).getId();
+            UUID inboxUUID = PlayerProfile.lookup(inboxOwner).getId();
 
             File inboxConfigFile = new File(getInboxDataPath(), inboxUUID.toString() + ".yml");
             FileConfiguration inboxConfig = YamlConfiguration.loadConfiguration(inboxConfigFile);

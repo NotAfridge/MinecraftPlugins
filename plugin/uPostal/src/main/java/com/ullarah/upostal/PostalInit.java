@@ -5,7 +5,6 @@ import com.ullarah.upostal.event.InboxClick;
 import com.ullarah.upostal.event.InboxClose;
 import com.ullarah.upostal.event.InboxDrag;
 import com.ullarah.upostal.event.JoinRegister;
-import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -49,30 +48,6 @@ public class PostalInit extends JavaPlugin {
         PostalInit.inboxDataPath = dataPath;
     }
 
-    public static String getMsgPrefix() {
-        return msgPrefix;
-    }
-
-    private static void setMsgPrefix(String msgPrefix) {
-        PostalInit.msgPrefix = msgPrefix;
-    }
-
-    public static String getMsgPermDeny() {
-        return msgPermDeny;
-    }
-
-    private static void setMsgPermDeny(String msgPermDeny) {
-        PostalInit.msgPermDeny = msgPermDeny;
-    }
-
-    public static String getMsgNoConsole() {
-        return msgNoConsole;
-    }
-
-    private static void setMsgNoConsole(String msgNoConsole) {
-        PostalInit.msgNoConsole = msgNoConsole;
-    }
-
     public static Boolean getMaintenanceCheck() {
         return maintenanceCheck;
     }
@@ -81,20 +56,10 @@ public class PostalInit extends JavaPlugin {
         PostalInit.maintenanceCheck = maintenanceCheck;
     }
 
-    public static String getMaintenanceMessage() {
-        return maintenanceMessage;
-    }
-
-    private static void setMaintenanceMessage(String maintenanceMessage) {
-        PostalInit.maintenanceMessage = maintenanceMessage;
-    }
-
     public void onEnable() {
 
         setPlugin(this);
         setInboxDataPath(getPlugin().getDataFolder() + File.separator + "inbox");
-
-        setMsgPrefix(ChatColor.GOLD + "[uPostal] " + ChatColor.WHITE);
 
         getConfig().options().copyDefaults(true);
         saveConfig();
@@ -110,11 +75,7 @@ public class PostalInit extends JavaPlugin {
         getCommand("post").setExecutor(new PostalExecutor());
         getCommand("inbox").setExecutor(new PostalExecutor());
 
-        setMsgPermDeny(getMsgPrefix() + ChatColor.RED + "No permission.");
-        setMsgNoConsole(getMsgPrefix() + ChatColor.RED + "No console usage.");
-
         setMaintenanceCheck(PostalInit.getPlugin().getConfig().getBoolean("maintenance"));
-        setMaintenanceMessage(getMsgPrefix() + ChatColor.RED + "uPostal is currently unavailable.");
 
     }
 

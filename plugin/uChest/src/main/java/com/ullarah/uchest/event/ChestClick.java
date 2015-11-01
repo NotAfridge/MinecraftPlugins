@@ -1,5 +1,6 @@
 package com.ullarah.uchest.event;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -32,24 +33,30 @@ public class ChestClick implements Listener {
     @EventHandler
     public void event(final InventoryClickEvent event) {
 
-        Inventory chestInventory = event.getInventory();
+        Inventory chestInventory = event.getClickedInventory();
         Player chestPlayer = (Player) event.getWhoClicked();
+
+        if (chestInventory == null) return;
 
         if (chestInventory.getName().matches("§2Donation Chest")) {
             if (chestDonateLock && event.getRawSlot() <= 53)
-                if (chestDonateLockout.contains(chestPlayer.getUniqueId())) event.setCancelled(true);
+                if (chestDonateLockout.contains(chestPlayer.getUniqueId())) {
+                    event.setCancelled(true);
+                    event.getCursor().setType(Material.AIR);
+                }
                 else chestDonatePlayerUnlock(chestPlayer);
-            if (event.getRawSlot() == -999) event.getView().close();
         }
 
-        if (chestInventory.getName().matches("§2Experience Chest") && event.getRawSlot() == -999)
-            event.getView().close();
-
-        if (chestInventory.getName().matches("§2Random Chest")) if (event.getRawSlot() == -999) event.getView().close();
-        else if (event.getCurrentItem().getAmount() >= 1 && event.getRawSlot() >= 45) event.setCancelled(true);
+        if (chestInventory.getName().matches("§2Random Chest")) {
+            if (event.getCurrentItem().getAmount() >= 1 && event.getRawSlot() >= 45) {
+                event.setCancelled(true);
+                event.getCursor().setType(Material.AIR);
+            }
+        }
 
         if (chestInventory.getName().matches("§6§lMixed Chests")) {
             event.setCancelled(true);
+            event.getCursor().setType(Material.AIR);
             chestPlayer.closeInventory();
 
             switch (event.getRawSlot()) {

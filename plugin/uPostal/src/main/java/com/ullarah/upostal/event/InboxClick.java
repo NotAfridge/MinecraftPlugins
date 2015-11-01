@@ -1,6 +1,6 @@
 package com.ullarah.upostal.event;
 
-import com.ullarah.ulib.function.ProfileUtils;
+import com.ullarah.ulib.function.PlayerProfile;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -23,21 +23,25 @@ public class InboxClick implements Listener {
     @EventHandler
     public void event(final InventoryClickEvent event) {
 
-        if (event.getInventory().getName().matches("§4Inbox: §3(.*)")) {
+        if (event.getClickedInventory() == null) return;
 
-            String inboxOwner = stripColor(event.getInventory().getTitle().replace("Inbox: ", ""));
-            UUID inboxUUID = ProfileUtils.lookup(inboxOwner).getId();
+        if (event.getClickedInventory().getName().matches("§4Inbox: §3(.*)")) {
+
+            if (event.getClickedInventory() == null) return;
+
+            String inboxOwner = stripColor(event.getClickedInventory().getTitle().replace("Inbox: ", ""));
+            UUID inboxUUID = PlayerProfile.lookup(inboxOwner).getId();
 
             File inboxFile = new File(getInboxDataPath(), inboxUUID.toString() + ".yml");
             FileConfiguration inboxConfig = YamlConfiguration.loadConfiguration(inboxFile);
 
-            UUID inboxViewerUUID = event.getInventory().getViewers().get(0).getUniqueId();
+            UUID inboxViewerUUID = event.getClickedInventory().getViewers().get(0).getUniqueId();
             UUID inboxOwnerUUID = UUID.fromString(inboxConfig.getString("uuid"));
             int inboxSlotSizeRaw = inboxConfig.getInt("slot") - 1;
 
             boolean isOwner = inboxViewerUUID.equals(inboxOwnerUUID);
 
-            if (event.getRawSlot() == -999 || event.getClick().isRightClick()) event.setCancelled(true);
+            if (event.getClick().isRightClick()) event.setCancelled(true);
             else {
 
                 ItemStack hand = event.getWhoClicked().getItemOnCursor();
@@ -57,8 +61,10 @@ public class InboxClick implements Listener {
 
                             if (item.getItemMeta().getDisplayName().equals(
                                     ChatColor.WHITE + "Slot Taken")
-                                    && item.getType() == Material.STAINED_GLASS_PANE)
+                                    && item.getType() == Material.STAINED_GLASS_PANE) {
+                                event.getCursor().setType(Material.AIR);
                                 event.setCancelled(true);
+                            }
 
                         }
 

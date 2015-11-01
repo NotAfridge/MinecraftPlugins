@@ -15,7 +15,7 @@ import java.io.IOException;
 
 import static com.ullarah.uchest.ChestFunctions.convertItem;
 import static com.ullarah.uchest.ChestInit.*;
-import static com.ullarah.ulib.function.CommonString.messagePlayer;
+import static com.ullarah.ulib.function.CommonString.messageSend;
 
 public class ChestClose implements Listener {
 
@@ -65,7 +65,7 @@ public class ChestClose implements Listener {
                 holdConfig.set("item", chestInventory.getContents());
                 holdConfig.save(holdFile);
 
-            } else messagePlayer(getPlugin(), chestPlayer, new String[]{
+            } else messageSend(getPlugin(), chestPlayer, true, new String[]{
                     ChatColor.RED + "Error saving holding chest contents."
             });
 
@@ -83,7 +83,7 @@ public class ChestClose implements Listener {
                 vaultConfig.set("item", chestInventory.getContents());
                 vaultConfig.save(vaultFile);
 
-            } else messagePlayer(getPlugin(), chestPlayer, new String[]{
+            } else messageSend(getPlugin(), chestPlayer, true, new String[]{
                     ChatColor.RED + "Error saving vault chest contents."
             });
 

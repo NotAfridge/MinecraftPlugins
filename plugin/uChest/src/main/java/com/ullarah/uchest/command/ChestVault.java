@@ -24,7 +24,7 @@ public class ChestVault {
         else if (!getMaintenanceCheck()) {
 
             if (chestTypeEnabled.get("vchest")) ChestCreation.create(sender, VAULT, true);
-            else messagePlayer(getPlugin(), (Player) sender, new String[]{"Vault Chest is currently unavailable."});
+            else messageSend(getPlugin(), sender, true, new String[]{"Vault Chest is currently unavailable."});
 
         } else messageMaintenance(getPlugin(), sender);
 
@@ -40,12 +40,12 @@ public class ChestVault {
                                 ChestPrepare.prepare(Bukkit.getPlayer(PlayerProfile.lookup(args[1]).getId()),
                                         (Player) sender, VAULT);
                             } catch (Exception e) {
-                                messagePlayer(getPlugin(), (Player) sender, new String[]{
+                                messageSend(getPlugin(), sender, true, new String[]{
                                         ChatColor.RED + "Cannot view vault chest at this time. Try again later!"
                                 });
                             }
                         } else
-                            messagePlayer(getPlugin(), (Player) sender, new String[]{ChatColor.YELLOW + "/vchest view <player>"});
+                            messageSend(getPlugin(), sender, true, new String[]{ChatColor.YELLOW + "/vchest view <player>"});
                     } else messagePermDeny(getPlugin(), sender);
                     break;
 
@@ -66,7 +66,7 @@ public class ChestVault {
 
                                 if (chestPlayerSlot >= 54) {
 
-                                    messagePlayer(getPlugin(), player, new String[]{
+                                    messageSend(getPlugin(), player, true, new String[]{
                                             ChatColor.AQUA + "You have the maximum number of slots!"
                                     });
 
@@ -80,19 +80,19 @@ public class ChestVault {
                                         try {
                                             chestConfig.save(chestFile);
                                         } catch (IOException e) {
-                                            messagePlayer(getPlugin(), player, new String[]{
+                                            messageSend(getPlugin(), player, true, new String[]{
                                                     ChatColor.RED + "Slot Update Error!"
                                             });
                                         }
 
-                                        messagePlayer(getPlugin(), player, new String[]{
+                                        messageSend(getPlugin(), player, true, new String[]{
                                                 ChatColor.YELLOW + "You upgraded your vault! You now have " +
                                                         ChatColor.GREEN + (chestPlayerSlot + 9) + ChatColor.YELLOW + " slots!"
                                         });
 
                                     } else {
 
-                                        messagePlayer(getPlugin(), player, new String[]{
+                                        messageSend(getPlugin(), player, true, new String[]{
                                                 ChatColor.YELLOW + "You need at least" +
                                                         ChatColor.GOLD + " 50xp levels " + ChatColor.YELLOW + "to upgrade!"
                                         });
@@ -103,7 +103,7 @@ public class ChestVault {
 
                             }
 
-                        } else messagePlayer(getPlugin(), player, new String[]{
+                        } else messageSend(getPlugin(), player, true, new String[]{
                                 ChatColor.YELLOW + "You need at least" + ChatColor.GOLD +
                                         " 50xp levels " + ChatColor.YELLOW + "to upgrade!"
                         });

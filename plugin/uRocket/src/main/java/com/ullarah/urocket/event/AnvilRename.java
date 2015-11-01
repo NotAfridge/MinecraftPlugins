@@ -21,7 +21,9 @@ public class AnvilRename implements Listener {
     public static void onInventoryClick(InventoryClickEvent event) {
 
         Player player = (Player) event.getWhoClicked();
-        Inventory inventory = event.getInventory();
+        Inventory inventory = event.getClickedInventory();
+
+        if (inventory == null) return;
 
         if (inventory instanceof AnvilInventory) {
 

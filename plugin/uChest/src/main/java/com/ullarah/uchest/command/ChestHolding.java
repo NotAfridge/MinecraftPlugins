@@ -19,7 +19,7 @@ public class ChestHolding {
         else if (!getMaintenanceCheck()) {
 
             if (chestTypeEnabled.get("hchest")) ChestCreation.create(sender, HOLD, true);
-            else messagePlayer(getPlugin(), (Player) sender, new String[]{"Hold Chest is currently unavailable."});
+            else messageSend(getPlugin(), sender, true, new String[]{"Hold Chest is currently unavailable."});
 
         } else messageMaintenance(getPlugin(), sender);
 
@@ -35,12 +35,12 @@ public class ChestHolding {
                                 ChestPrepare.prepare(Bukkit.getPlayer(PlayerProfile.lookup(args[1]).getId()),
                                         (Player) sender, HOLD);
                             } catch (Exception e) {
-                                messagePlayer(getPlugin(), (Player) sender, new String[]{
+                                messageSend(getPlugin(), sender, true, new String[]{
                                         ChatColor.RED + "Cannot view hold chest at this time. Try again later!"
                                 });
                             }
                         } else
-                            messagePlayer(getPlugin(), (Player) sender, new String[]{ChatColor.YELLOW + "/hchest view <player>"});
+                            messageSend(getPlugin(), sender, true, new String[]{ChatColor.YELLOW + "/hchest view <player>"});
                     } else messagePermDeny(getPlugin(), sender);
                     break;
 

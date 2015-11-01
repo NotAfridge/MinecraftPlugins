@@ -15,7 +15,7 @@ public class ChestMoney {
         else if (!getMaintenanceCheck()) {
 
             if (allowMoneyChest && chestTypeEnabled.get("mchest")) openConvertChest(sender, "MONEY");
-            else messagePlayer(getPlugin(), (Player) sender, new String[]{"Money Chest is currently unavailable."});
+            else messageSend(getPlugin(), sender, true, new String[]{"Money Chest is currently unavailable."});
 
         } else messageMaintenance(getPlugin(), sender);
 

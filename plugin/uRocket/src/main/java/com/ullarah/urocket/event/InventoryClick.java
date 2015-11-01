@@ -1,6 +1,7 @@
 package com.ullarah.urocket.event;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,7 +23,7 @@ public class InventoryClick implements Listener {
     @EventHandler
     public void playerInventoryClick(InventoryClickEvent event) {
 
-        if (event.getInventory() instanceof CraftingInventory) {
+        if (event.getClickedInventory() instanceof CraftingInventory) {
 
             if (event.getSlotType() == InventoryType.SlotType.RESULT) {
 
@@ -41,11 +42,11 @@ public class InventoryClick implements Listener {
 
         }
 
-        if (event.getInventory() instanceof HorseInventory) {
+        if (event.getClickedInventory() instanceof HorseInventory) {
 
             if (event.getRawSlot() == 0) {
 
-                Horse horse = (Horse) event.getInventory().getHolder();
+                Horse horse = (Horse) event.getClickedInventory().getHolder();
                 UUID horseUUID = horse.getUniqueId();
                 ItemStack saddle = event.getWhoClicked().getItemOnCursor();
 
@@ -68,17 +69,20 @@ public class InventoryClick implements Listener {
     @EventHandler
     public void infiniteRocketComponents(InventoryClickEvent event) {
 
-        String inventoryName = event.getInventory().getTitle();
+        if (event.getClickedInventory() == null) return;
 
-        if (inventoryName.matches(ChatColor.DARK_RED + "Rocket Components")) {
+        String inventoryName = ChatColor.DARK_RED + "Rocket Components";
+
+        if (event.getRawSlot() <= 53 && inventoryName.equals(event.getClickedInventory().getTitle())) {
+
             Player player = (Player) event.getWhoClicked();
             ItemStack componentType = event.getCurrentItem();
 
+            componentType.setAmount(1);
             event.setCancelled(true);
 
-            if (event.getRawSlot() == -999) event.getView().close();
-            else player.getInventory().addItem(new ItemStack(componentType));
-
+            player.getItemOnCursor().setType(Material.AIR);
+            player.getInventory().addItem(new ItemStack(componentType));
         }
 
     }

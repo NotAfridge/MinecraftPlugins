@@ -52,7 +52,7 @@ public class ZoneDamage implements Listener {
                 zoneList.remove(newZoneList.indexOf(zoneNew));
                 zoneEntity.remove();
 
-                FakeExplosion.create(4, entityLocation, FakeExplosion.ExplosionType.LARGE);
+                FakeExplosion.create(entityLocation, 4, FakeExplosion.ExplosionType.LARGE);
                 entityLocation.getWorld().strikeLightningEffect(entityLocation);
 
                 zoneEntity.getWorld().dropItemNaturally(entityLocation, RocketFlyZone.zone());

@@ -28,14 +28,16 @@ class Events implements Listener {
     @EventHandler
     public void auctionBoxClick(final InventoryClickEvent event) {
 
-        Inventory chestInventory = event.getInventory();
+        Inventory chestInventory = event.getClickedInventory();
         Integer getRawSlot = event.getRawSlot();
         InventoryAction getAction = event.getAction();
+
+        if (chestInventory == null) return;
 
         // Running Auction
         if (chestInventory.getName().matches("§1Auction: §3(.*)")) {
 
-            String auctionBoxName = stripColor(event.getInventory().getTitle().replace("Auction: ", ""));
+            String auctionBoxName = stripColor(event.getClickedInventory().getTitle().replace("Auction: ", ""));
             assert auctionBoxName != null;
 
             File auctionDataPath = new File(getPlugin().getDataFolder() + File.separator + "auction", auctionBoxName.toLowerCase() + ".yml");
@@ -50,7 +52,7 @@ class Events implements Listener {
         // Collect Auction
         if (chestInventory.getName().matches("§1Auction: §2(.*)")) {
 
-            String auctionBoxName = stripColor(event.getInventory().getTitle().replace("Auction: ", ""));
+            String auctionBoxName = stripColor(event.getClickedInventory().getTitle().replace("Auction: ", ""));
             assert auctionBoxName != null;
 
             File auctionDataPath = new File(getPlugin().getDataFolder() + File.separator + "auction", auctionBoxName.toLowerCase() + ".yml");
@@ -70,7 +72,7 @@ class Events implements Listener {
         // Give Auction
         if (chestInventory.getName().matches("§1Auction: §6(.*)")) {
 
-            String auctionBoxName = stripColor(event.getInventory().getTitle().replace("Auction: ", ""));
+            String auctionBoxName = stripColor(event.getClickedInventory().getTitle().replace("Auction: ", ""));
             assert auctionBoxName != null;
 
             File auctionDataPath = new File(getPlugin().getDataFolder() + File.separator + "auction", auctionBoxName.toLowerCase() + ".yml");

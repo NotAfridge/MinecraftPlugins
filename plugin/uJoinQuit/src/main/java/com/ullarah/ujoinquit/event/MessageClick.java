@@ -16,11 +16,15 @@ public class MessageClick implements Listener {
     @EventHandler
     public void playerClickMessage(InventoryClickEvent event) {
 
+        if (event.getClickedInventory() == null) return;
+
         Player player = (Player) event.getWhoClicked();
-        String inventoryTitle = event.getInventory().getTitle();
+        String inventoryTitle = event.getClickedInventory().getTitle();
 
         if (inventoryTitle.matches(".*(Join|Quit) Message")
                 && PermissionCheck.check(player, "jq.access", "jq.join", "jq.quit")) {
+
+            if (event.getClickedInventory() == null) return;
 
             if (event.getRawSlot() >= 0 && event.getRawSlot() < 54) {
 
@@ -32,6 +36,7 @@ public class MessageClick implements Listener {
                     if (inventoryTitle.matches(".*Join Message")) setMessage(player, JOIN, event.getRawSlot());
                     if (inventoryTitle.matches(".*Quit Message")) setMessage(player, QUIT, event.getRawSlot());
 
+                    event.getCursor().setType(Material.AIR);
                     player.closeInventory();
 
                 }

@@ -2,12 +2,11 @@ package com.ullarah.uchest.command;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import static com.ullarah.uchest.ChestInit.getPlugin;
 import static com.ullarah.uchest.ChestInit.setMaintenanceCheck;
 import static com.ullarah.ulib.function.CommonString.messagePermDeny;
-import static com.ullarah.ulib.function.CommonString.messagePlayer;
+import static com.ullarah.ulib.function.CommonString.messageSend;
 
 public class Maintenance {
 
@@ -20,7 +19,7 @@ public class Maintenance {
                 case 0:
                     getPlugin().getConfig().set("maintenance", false);
                     setMaintenanceCheck(false);
-                    messagePlayer(getPlugin(), (Player) sender, new String[]{
+                    messageSend(getPlugin(), sender, true, new String[]{
                             ChatColor.GREEN + "Maintenance mode is now off."
                     });
                     break;
@@ -28,7 +27,7 @@ public class Maintenance {
                 case 1:
                     getPlugin().getConfig().set("maintenance", true);
                     setMaintenanceCheck(true);
-                    messagePlayer(getPlugin(), (Player) sender, new String[]{
+                    messageSend(getPlugin(), sender, true, new String[]{
                             ChatColor.RED + "Maintenance mode is now on."
                     });
                     break;
@@ -37,7 +36,7 @@ public class Maintenance {
 
             getPlugin().saveConfig();
 
-        } else messagePlayer(getPlugin(), (Player) sender, new String[]{
+        } else messageSend(getPlugin(), sender, true, new String[]{
                 ChatColor.YELLOW + "/chest maintenance <on|off>"});
         else messagePermDeny(getPlugin(), sender);
 

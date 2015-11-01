@@ -15,7 +15,7 @@ public class ChestRandom {
         else if (!getMaintenanceCheck()) {
 
             if (chestTypeEnabled.get("rchest")) openRandomChest(sender);
-            else messagePlayer(getPlugin(), (Player) sender, new String[]{"Random Chest is currently unavailable."});
+            else messageSend(getPlugin(), sender, true, new String[]{"Random Chest is currently unavailable."});
 
         } else messageMaintenance(getPlugin(), sender);
 

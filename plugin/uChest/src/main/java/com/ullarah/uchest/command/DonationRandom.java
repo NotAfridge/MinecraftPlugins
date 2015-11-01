@@ -13,7 +13,7 @@ import java.util.List;
 
 import static com.ullarah.uchest.ChestInit.*;
 import static com.ullarah.ulib.function.CommonString.messagePermDeny;
-import static com.ullarah.ulib.function.CommonString.messagePlayer;
+import static com.ullarah.ulib.function.CommonString.messageSend;
 
 public class DonationRandom {
 
@@ -42,7 +42,7 @@ public class DonationRandom {
 
             for (Player player : Bukkit.getOnlinePlayers()) {
 
-                messagePlayer(getPlugin(), player, new String[]{
+                messageSend(getPlugin(), player, true, new String[]{
                         ChatColor.GREEN + "Donation Chest has been randomized with new items!",
                         ChatColor.GREEN + "Quick! Use /dchest to open it up!",
                 });
@@ -50,7 +50,7 @@ public class DonationRandom {
                 if (lockedSeconds > 0) {
                     String end = lockedSeconds + " seconds.";
                     if (lockedSeconds == 1) end = "second.";
-                    messagePlayer(getPlugin(), player, new String[]{
+                    messageSend(getPlugin(), player, true, new String[]{
                             "" + ChatColor.GRAY + ChatColor.ITALIC + "You are restricted to one item every " + end
                     });
                 }

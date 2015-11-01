@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffectType;
 
@@ -410,40 +409,6 @@ public class RocketFunctions {
         }
 
         return false;
-
-    }
-
-    public static void itemFuel(Player player, Material itemSingle, Material itemBlock) {
-
-        PlayerInventory inventory = player.getInventory();
-
-        String materialType = itemSingle.name().toLowerCase();
-
-        if (inventory.contains(itemSingle)) {
-
-            RemoveInventoryItems.remove(inventory, itemSingle, 2);
-
-        } else if (inventory.contains(itemBlock)) {
-
-            if (inventory.firstEmpty() == -1) {
-
-                player.sendMessage(getMsgPrefix() + ChatColor.RED +
-                        "Your inventory is too full to split a " + materialType + " block!");
-                disableRocketBoots(player, false, true, false, true, true);
-
-            } else {
-
-                RemoveInventoryItems.remove(inventory, itemBlock, 1);
-                inventory.addItem(new ItemStack(itemSingle, 7));
-
-            }
-
-        } else {
-
-            player.sendMessage(getMsgPrefix() + "You have run out of " + materialType + "...");
-            disableRocketBoots(player, false, true, false, true, true);
-
-        }
 
     }
 

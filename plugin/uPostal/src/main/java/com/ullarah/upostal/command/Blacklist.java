@@ -1,14 +1,17 @@
 package com.ullarah.upostal.command;
 
-import com.ullarah.ulib.function.ProfileUtils;
+import com.ullarah.ulib.function.PlayerProfile;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
 
+import static com.ullarah.ulib.function.CommonString.messageMaintenance;
+import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.upostal.PostalInit.*;
 
 public class Blacklist {
@@ -19,56 +22,53 @@ public class Blacklist {
 
             if (sender.hasPermission("postal.blacklist")) {
 
-                if (args.length >= 2) try {
+                if (args.length >= 2) {
 
-                    File inboxFile = new File(getInboxDataPath(), ProfileUtils.lookup(args[1]).getId().toString() + ".yml");
+                    try {
 
-                    if (inboxFile.exists()) {
+                        File inboxFile = new File(getInboxDataPath(),
+                                PlayerProfile.lookup(args[1]).getId().toString() + ".yml");
 
-                        FileConfiguration inboxConfig = YamlConfiguration.loadConfiguration(inboxFile);
+                        if (inboxFile.exists()) {
 
-                        String inboxPlayerName = (String) inboxConfig.get("name");
-                        Boolean inboxBlacklist = (Boolean) inboxConfig.get("blacklist");
+                            FileConfiguration inboxConfig = YamlConfiguration.loadConfiguration(inboxFile);
 
-                        if (inboxBlacklist == null) {
-
-                            // Added for existing yml files
-                            // This won't be needed for future installs.
-                            inboxConfig.set("blacklist", true);
-                            sender.sendMessage(getMsgPrefix()
-                                    + ChatColor.RED + inboxPlayerName + " is now blacklisted.");
-
-                        } else {
+                            String inboxPlayerName = (String) inboxConfig.get("name");
+                            Boolean inboxBlacklist = (Boolean) inboxConfig.get("blacklist");
 
                             if (inboxBlacklist) {
 
                                 inboxConfig.set("blacklist", false);
-                                sender.sendMessage(getMsgPrefix()
-                                        + ChatColor.GREEN + inboxPlayerName + " no longer blacklisted.");
+                                messageSend(getPlugin(), (Player) sender, true, new String[]{
+                                        ChatColor.GREEN + inboxPlayerName + " no longer blacklisted."
+                                });
 
                             } else {
 
                                 inboxConfig.set("blacklist", true);
-                                sender.sendMessage(getMsgPrefix()
-                                        + ChatColor.RED + inboxPlayerName + " is now blacklisted.");
+                                messageSend(getPlugin(), (Player) sender, true, new String[]{
+                                        ChatColor.RED + inboxPlayerName + " is now blacklisted."
+                                });
 
                             }
 
-                        }
+                            inboxConfig.save(inboxFile);
 
-                        inboxConfig.save(inboxFile);
+                        } else messageSend(getPlugin(), (Player) sender, true, new String[]{
+                                "That player does not have an inbox!"});
 
-                    } else sender.sendMessage(getMsgPrefix() + "That player does not have an inbox!");
+                    } catch (IOException e) {
 
-                } catch (IOException e) {
+                        e.printStackTrace();
 
-                    e.printStackTrace();
+                    }
 
-                }
+                } else messageSend(getPlugin(), (Player) sender, true, new String[]{
+                        ChatColor.YELLOW + "/postal blacklist <player>"});
 
             }
 
-        } else sender.sendMessage(getMaintenanceMessage());
+        } else messageMaintenance(getPlugin(), sender);
 
     }
 

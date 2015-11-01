@@ -11,6 +11,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.upostal.PostalInit.*;
 
 public class View {
@@ -23,7 +24,7 @@ public class View {
 
         if (inboxOwnerBusy.contains(inboxUUID) || inboxViewerBusy.contains(inboxUUID)) {
 
-            inboxViewer.sendMessage(getMsgPrefix() + "This inbox is currently busy. Try again later.");
+            messageSend(getPlugin(), inboxViewer, true, new String[]{"This inbox is currently busy. Try again later."});
 
         } else {
 

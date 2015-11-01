@@ -1,6 +1,5 @@
 package com.ullarah.uchest.command;
 
-import com.ullarah.ulib.function.CommonString;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -18,6 +17,7 @@ import static com.ullarah.uchest.ChestFunctions.chestView;
 import static com.ullarah.uchest.ChestFunctions.validStorage;
 import static com.ullarah.uchest.ChestFunctions.validStorage.HOLD;
 import static com.ullarah.uchest.ChestInit.getPlugin;
+import static com.ullarah.ulib.function.CommonString.messageSend;
 
 public class ChestPrepare {
 
@@ -49,7 +49,7 @@ public class ChestPrepare {
             try {
                 chestConfig.save(chestFile);
             } catch (IOException e) {
-                CommonString.messagePlayer(getPlugin(), owner, new String[]{
+                messageSend(getPlugin(), owner, true, new String[]{
                         ChatColor.RED + "Error saving existing " + type + " chest."
                 });
                 e.printStackTrace();

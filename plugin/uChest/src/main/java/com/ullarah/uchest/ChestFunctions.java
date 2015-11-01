@@ -18,7 +18,7 @@ import java.util.Random;
 
 import static com.ullarah.uchest.ChestFunctions.validStorage.VAULT;
 import static com.ullarah.uchest.ChestInit.*;
-import static com.ullarah.ulib.function.CommonString.messagePlayer;
+import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.ulib.function.CommonString.pluginPrefix;
 
 public class ChestFunctions {
@@ -61,7 +61,7 @@ public class ChestFunctions {
 
                 getVaultEconomy().depositPlayer(player, amount);
 
-                messagePlayer(getPlugin(), player, new String[]{
+                messageSend(getPlugin(), player, true, new String[]{
                         amount > 0 ? pluginPrefix(getPlugin()) + "You gained " + ChatColor.GREEN +
                                 "$" + decimalFormat.format(amount) : pluginPrefix(getPlugin()) + "You gained no money."
                 });
@@ -72,7 +72,7 @@ public class ChestFunctions {
 
                 Experience.addExperience(player, amount);
 
-                messagePlayer(getPlugin(), player, new String[]{
+                messageSend(getPlugin(), player, true, new String[]{
                         amount > 0 ? pluginPrefix(getPlugin()) + "You gained " + ChatColor.GREEN +
                                 decimalFormat.format(amount) + " XP" : pluginPrefix(getPlugin()) + "You gained no XP."
                 });
@@ -88,12 +88,12 @@ public class ChestFunctions {
         final Player player = (Player) sender;
         int playerLevel = player.getLevel();
 
-        if (playerLevel < chestAccessLevel) messagePlayer(getPlugin(), player, new String[]{
+        if (playerLevel < chestAccessLevel) messageSend(getPlugin(), player, true, new String[]{
                 "You need more than " + chestAccessLevel + " levels to open this chest."
         });
         else if (chestLockout.contains(player.getUniqueId())) {
 
-            messagePlayer(getPlugin(), player, new String[]{
+            messageSend(getPlugin(), player, true, new String[]{
                     "You are currently locked out from this chest.",
                     "Don't panic. Just try again later!"
             });
@@ -118,12 +118,12 @@ public class ChestFunctions {
         final Player player = (Player) sender;
         int playerLevel = player.getLevel();
 
-        if (playerLevel < randomAccessLevel) messagePlayer(getPlugin(), player, new String[]{
+        if (playerLevel < randomAccessLevel) messageSend(getPlugin(), player, true, new String[]{
                 "You need more than " + randomAccessLevel + " levels to open this chest."
         });
         else if (chestLockout.contains(player.getUniqueId())) {
 
-            messagePlayer(getPlugin(), player, new String[]{
+            messageSend(getPlugin(), player, true, new String[]{
                     "You are currently locked out from this chest.",
                     "Don't panic. Just try again later!"
             });
@@ -198,7 +198,7 @@ public class ChestFunctions {
 
             if (player.getLevel() <= holdingAccessLevel) {
 
-                messagePlayer(getPlugin(), player, new String[]{
+                messageSend(getPlugin(), player, true, new String[]{
                         "You need more than " + holdingAccessLevel + " levels to open this chest."
                 });
 

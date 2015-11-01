@@ -1,5 +1,6 @@
 package com.ullarah.urocket.task;
 
+import com.ullarah.ulib.function.BlockStacks;
 import com.ullarah.ulib.function.Experience;
 import com.ullarah.ulib.function.GamemodeCheck;
 import com.ullarah.ulib.function.TitleSubtitle;
@@ -11,7 +12,8 @@ import org.bukkit.util.Vector;
 import java.util.Random;
 import java.util.UUID;
 
-import static com.ullarah.urocket.RocketFunctions.*;
+import static com.ullarah.urocket.RocketFunctions.Variant;
+import static com.ullarah.urocket.RocketFunctions.disableRocketBoots;
 import static com.ullarah.urocket.RocketInit.*;
 
 public class RocketFuel {
@@ -237,7 +239,8 @@ public class RocketFuel {
 
                                             disableRocketBoots(player, true, true, true, true, true);
 
-                                        } else itemFuel(player, Material.COAL, Material.COAL_BLOCK);
+                                        } else if (BlockStacks.split(getPlugin(), player, Material.COAL_BLOCK, Material.COAL, 2, 8))
+                                            disableRocketBoots(player, false, true, false, true, true);
 
                                         break;
 
@@ -252,7 +255,8 @@ public class RocketFuel {
 
                                             disableRocketBoots(player, true, true, true, true, true);
 
-                                        } else itemFuel(player, Material.REDSTONE, Material.REDSTONE_BLOCK);
+                                        } else if (BlockStacks.split(getPlugin(), player, Material.REDSTONE_BLOCK, Material.REDSTONE, 2, 8))
+                                            disableRocketBoots(player, false, true, false, true, true);
 
                                         break;
 

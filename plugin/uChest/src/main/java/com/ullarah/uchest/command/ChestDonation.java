@@ -19,10 +19,8 @@ public class ChestDonation {
             if (!(sender instanceof Player)) messageNoConsole(getPlugin(), sender);
             else if (!getMaintenanceCheck()) {
 
-                if (chestTypeEnabled.get("dchest"))
-                    ((Player) sender).openInventory(getChestDonationHolder().getInventory());
-                else
-                    messagePlayer(getPlugin(), (Player) sender, new String[]{"Donation Chest is currently unavailable."});
+                if (chestTypeEnabled.get("dchest")) ((Player) sender).openInventory(getChestDonationHolder().getInventory());
+                else messageSend(getPlugin(), sender, true, new String[]{"Donation Chest is currently unavailable."});
 
             } else messageMaintenance(getPlugin(), sender);
 

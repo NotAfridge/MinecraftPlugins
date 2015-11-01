@@ -2,12 +2,11 @@ package com.ullarah.uchest.command;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import static com.ullarah.uchest.ChestInit.chestTypeEnabled;
 import static com.ullarah.uchest.ChestInit.getPlugin;
 import static com.ullarah.ulib.function.CommonString.messagePermDeny;
-import static com.ullarah.ulib.function.CommonString.messagePlayer;
+import static com.ullarah.ulib.function.CommonString.messageSend;
 
 public class ToggleAccess {
 
@@ -21,7 +20,7 @@ public class ToggleAccess {
                     case 0:
                         getPlugin().getConfig().set(args[1].toLowerCase() + "enabled", false);
                         chestTypeEnabled.put(args[1].toLowerCase(), false);
-                        messagePlayer(getPlugin(), (Player) sender, new String[]{
+                        messageSend(getPlugin(), sender, true, new String[]{
                                 ChatColor.YELLOW + args[1].toLowerCase() + ChatColor.RED + " is now disabled."
                         });
                         break;
@@ -29,7 +28,7 @@ public class ToggleAccess {
                     case 1:
                         getPlugin().getConfig().set(args[1] + "enabled", true);
                         chestTypeEnabled.put(args[1].toLowerCase(), true);
-                        messagePlayer(getPlugin(), (Player) sender, new String[]{
+                        messageSend(getPlugin(), sender, true, new String[]{
                                 ChatColor.YELLOW + args[1].toLowerCase() + ChatColor.GREEN + " is now enabled."
                         });
                         break;
@@ -38,10 +37,10 @@ public class ToggleAccess {
 
                 getPlugin().saveConfig();
 
-            } else messagePlayer(getPlugin(), (Player) sender, new String[]{
+            } else messageSend(getPlugin(), sender, true, new String[]{
                     ChatColor.RED + "That type of chest does not exist!"
             });
-            else messagePlayer(getPlugin(), (Player) sender, new String[]{
+            else messageSend(getPlugin(), sender, true, new String[]{
                     ChatColor.YELLOW + "/chest toggle <chest type> <on|off>"
             });
         else messagePermDeny(getPlugin(), sender);

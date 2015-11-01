@@ -15,11 +15,13 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.ullarah.ulib.function.CommonString.messageMaintenance;
+import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.upostal.PostalInit.*;
 
 public class Update {
@@ -80,7 +82,7 @@ public class Update {
                             } else {
 
                                 ItemMeta itemMeta = item.getItemMeta();
-                                itemMeta.setLore(Arrays.asList(fromString));
+                                itemMeta.setLore(Collections.singletonList(fromString));
                                 item.setItemMeta(itemMeta);
 
                             }
@@ -96,12 +98,14 @@ public class Update {
 
                 } catch (IOException e) {
 
-                    player.sendMessage(getMsgPrefix() + ChatColor.RED + "Inbox Update Error!");
+                    messageSend(getPlugin(), player, true, new String[]{
+                            ChatColor.RED + "Inbox Update Error!"
+                    });
 
                 }
 
-                if (inboxOwnerBusy.isEmpty()) if (newItems) player.sendMessage(
-                        getMsgPrefix() + ChatColor.GREEN + "Items sent successfully!");
+                if (inboxOwnerBusy.isEmpty()) if (newItems)
+                    messageSend(getPlugin(), player, true, new String[]{ChatColor.GREEN + "Items sent successfully!"});
 
                 if (newItems) {
 
@@ -111,7 +115,7 @@ public class Update {
 
                             inboxChanged.put(receiver, PostalReminder.task(receiver));
                             String message = ChatColor.YELLOW + "You have new items in your inbox!";
-                            receiverPlayer.sendMessage(getMsgPrefix() + message);
+                            messageSend(getPlugin(), receiverPlayer, true, new String[]{message});
                             TitleSubtitle.subtitle(receiverPlayer, 5, message);
                             break;
 
@@ -131,11 +135,11 @@ public class Update {
 
             } catch (IOException e) {
 
-                player.sendMessage(getMsgPrefix() + ChatColor.RED + "Inbox Update Error!");
+                messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Inbox Update Error!"});
 
             }
 
-        } else player.sendMessage(getMaintenanceMessage());
+        } else messageMaintenance(getPlugin(), player);
 
     }
 

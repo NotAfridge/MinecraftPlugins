@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import static com.ullarah.uchest.ChestInit.getPlugin;
 import static com.ullarah.uchest.command.ChestPrepare.prepare;
-import static com.ullarah.ulib.function.CommonString.messagePlayer;
+import static com.ullarah.ulib.function.CommonString.messageSend;
 
 public class ChestCreation {
 
@@ -38,7 +38,7 @@ public class ChestCreation {
             if (!chestFileNew.exists()) try {
                 chestFileCreation = chestFileNew.createNewFile();
             } catch (IOException e) {
-                messagePlayer(getPlugin(), player, new String[]{ChatColor.RED + "Error creating chest."});
+                messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Error creating chest."});
                 e.printStackTrace();
             }
 
@@ -55,12 +55,12 @@ public class ChestCreation {
                     chestConfig.save(chestFileNew);
 
                 } catch (IOException e) {
-                    messagePlayer(getPlugin(), player, new String[]{ChatColor.RED + "Error saving chest."});
+                    messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Error saving chest."});
                     e.printStackTrace();
                 }
 
             } else {
-                messagePlayer(getPlugin(), player, new String[]{ChatColor.RED + "Error creating chest."});
+                messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Error creating chest."});
                 player.closeInventory();
             }
 

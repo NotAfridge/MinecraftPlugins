@@ -2,7 +2,7 @@ package com.ullarah.uauction.command;
 
 import com.google.common.io.Files;
 import com.ullarah.uauction.Init;
-import com.ullarah.ulib.function.ProfileUtils;
+import com.ullarah.ulib.function.PlayerProfile;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -84,7 +84,7 @@ public class Collection {
             final String auctionBoxName = args[2].toLowerCase();
             final String auctionBoxReceiver = args[1];
 
-            final UUID receiverUUID = ProfileUtils.lookup(auctionBoxReceiver).getId();
+            final UUID receiverUUID = PlayerProfile.lookup(auctionBoxReceiver).getId();
 
             if (Bukkit.getPlayer(receiverUUID).isOnline()) {
 
