@@ -25,7 +25,7 @@ public class PlayerJoin implements Listener {
         if (playerJoinMessage.containsKey(playerUUID)) {
 
             String message = replacePlayerString(player, getMessage(player, JOIN));
-            event.setJoinMessage(joinChar + ChatColor.translateAlternateColorCodes('&', message));
+            event.setJoinMessage(ChatColor.translateAlternateColorCodes('&', joinChar + message));
 
         }
 

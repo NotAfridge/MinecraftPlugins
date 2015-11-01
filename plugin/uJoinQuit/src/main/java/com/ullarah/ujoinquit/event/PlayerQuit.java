@@ -26,7 +26,7 @@ public class PlayerQuit implements Listener {
         if (playerQuitMessage.containsKey(playerUUID)) {
 
             String message = replacePlayerString(player, getMessage(player, QUIT));
-            event.setQuitMessage(quitChar + ChatColor.translateAlternateColorCodes('&', message));
+            event.setQuitMessage(ChatColor.translateAlternateColorCodes('&', quitChar + message));
 
         }
 
