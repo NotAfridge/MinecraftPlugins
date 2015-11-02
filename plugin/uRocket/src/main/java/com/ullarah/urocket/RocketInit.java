@@ -23,6 +23,7 @@ import java.util.logging.Level;
 
 import static com.ullarah.ulib.function.PluginRegisters.RegisterType.*;
 import static com.ullarah.urocket.RocketFunctions.*;
+import static com.ullarah.urocket.RocketFunctions.Variant.*;
 
 public class RocketInit extends JavaPlugin {
 
@@ -45,6 +46,9 @@ public class RocketInit extends JavaPlugin {
     public static final ConcurrentHashMap<UUID, ConcurrentHashMap<Location, Location>> rocketZoneLocations = new ConcurrentHashMap<>();
 
     public static final HashMap<String, Integer> registerMap = new HashMap<>();
+
+    public static final HashSet<Variant> rocketEnhancementBlacklist = new HashSet<>
+            (Arrays.asList(HEALTH, MONEY, COAL, REDSTONE));
 
     private static String msgPrefix = null;
     private static Plugin plugin;
@@ -222,7 +226,7 @@ public class RocketInit extends JavaPlugin {
         }
 
         reloadFlyZones(true);
-        
+
         int zoneList = 0;
         if (registerMap.get("zone") != null) zoneList = registerMap.get("zone");
 

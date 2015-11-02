@@ -194,8 +194,24 @@ public class RocketFunctions {
         }
 
         if (rocketMeta.getLore().size() == 3) {
+
             variantLore = ChatColor.stripColor(rocketMeta.getLore().get(1));
             enhancementLore = ChatColor.stripColor(rocketMeta.getLore().get(2));
+
+            Variant variantType = getEnum(variantLore);
+
+            if (!rocketEnhancementBlacklist.contains(variantType)) switch (enhancementLore) {
+
+                case "Fuel Efficient":
+                    rocketEfficient.replace(player.getUniqueId(), true);
+                    break;
+
+                case "Solar Powered":
+                    rocketSolar.replace(player.getUniqueId(), true);
+                    break;
+
+            }
+
         }
 
         if (variantLore != null) {

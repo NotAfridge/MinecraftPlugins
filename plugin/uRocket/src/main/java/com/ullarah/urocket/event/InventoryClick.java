@@ -23,7 +23,9 @@ public class InventoryClick implements Listener {
     @EventHandler
     public void playerInventoryClick(InventoryClickEvent event) {
 
-        if (event.getClickedInventory() instanceof CraftingInventory) {
+        if (event.getClickedInventory() == null) return;
+
+        if (event.getInventory() instanceof CraftingInventory) {
 
             if (event.getSlotType() == InventoryType.SlotType.RESULT) {
 
@@ -42,7 +44,7 @@ public class InventoryClick implements Listener {
 
         }
 
-        if (event.getClickedInventory() instanceof HorseInventory) {
+        if (event.getInventory() instanceof HorseInventory) {
 
             if (event.getRawSlot() == 0) {
 
