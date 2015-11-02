@@ -7,6 +7,7 @@ public class GamemodeCheck {
 
     /**
      * Check if a player is in the correct gamemode.
+     * Can only check one gamemode of course.
      *
      * @param player   the player object
      * @param gamemode the gamemode(s) to check
@@ -14,8 +15,8 @@ public class GamemodeCheck {
      */
     public static boolean check(Player player, GameMode... gamemode) {
 
-        for (GameMode mode : gamemode) if (!player.getGameMode().equals(mode)) return false;
-        return true;
+        for (GameMode mode : gamemode) if (player.getGameMode().equals(mode)) return true;
+        return false;
 
     }
 
