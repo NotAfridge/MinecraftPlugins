@@ -99,7 +99,7 @@ public class ChestFunctions {
 
                 chestConvertLockoutTimer.put(player.getUniqueId(), getPlugin().getConfig().getInt("convertlock"));
 
-                BukkitTask task = new BukkitRunnable() {
+                new BukkitRunnable() {
                     int c = chestConvertLockoutTimer.get(player.getUniqueId());
 
                     @Override
@@ -163,7 +163,7 @@ public class ChestFunctions {
 
                 chestRandomLockoutTimer.put(player.getUniqueId(), getPlugin().getConfig().getInt("ranlock"));
 
-                BukkitTask task = new BukkitRunnable() {
+                new BukkitRunnable() {
                     int c = chestRandomLockoutTimer.get(player.getUniqueId());
 
                     @Override
@@ -217,12 +217,13 @@ public class ChestFunctions {
             for (int i = 45; i < 54; i++)
                 randomInventory.setItem(i, greenGlass);
 
-            new BukkitRunnable() {
+            BukkitTask task = new BukkitRunnable() {
                 int c = randomTimer;
 
                 @Override
                 public void run() {
                     if (c <= 0) {
+                        chestRandomTask.remove(player.getUniqueId());
                         player.closeInventory();
                         this.cancel();
                         return;
@@ -231,6 +232,8 @@ public class ChestFunctions {
                     c--;
                 }
             }.runTaskTimer(getPlugin(), 5, 20);
+
+            chestRandomTask.put(player.getUniqueId(), task);
 
         }
 
