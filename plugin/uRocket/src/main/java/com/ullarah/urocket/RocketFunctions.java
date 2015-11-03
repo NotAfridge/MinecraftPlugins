@@ -23,23 +23,23 @@ public class RocketFunctions {
     public static void disableRocketBoots(Player player, Boolean keepUsage, Boolean keepPower, Boolean keepFlight,
                                           Boolean keepVariant, Boolean keepEnhancement) {
 
-        UUID uuid = player.getUniqueId();
+        UUID playerUUID = player.getUniqueId();
 
-        if (!keepUsage && rocketUsage.contains(uuid)) rocketUsage.remove(uuid);
-        if (rocketSprint.containsKey(uuid)) rocketSprint.remove(uuid);
-        if (rocketLowFuel.contains(uuid)) rocketLowFuel.remove(uuid);
-        if (!keepPower && rocketPower.containsKey(uuid)) rocketPower.remove(uuid);
+        if (!keepUsage && rocketUsage.contains(playerUUID)) rocketUsage.remove(playerUUID);
+        if (rocketSprint.containsKey(playerUUID)) rocketSprint.remove(playerUUID);
+        if (rocketLowFuel.contains(playerUUID)) rocketLowFuel.remove(playerUUID);
+        if (!keepPower && rocketPower.containsKey(playerUUID)) rocketPower.remove(playerUUID);
 
         if (!rocketFire.isEmpty()) rocketFire.clear();
-        if (rocketWater.contains(uuid)) rocketWater.remove(uuid);
-        if (rocketRepair.containsKey(uuid)) rocketRepair.remove(uuid);
+        if (rocketWater.contains(playerUUID)) rocketWater.remove(playerUUID);
+        if (rocketRepair.containsKey(playerUUID)) rocketRepair.remove(playerUUID);
 
-        if (!keepEnhancement && rocketHealer.containsKey(uuid)) rocketHealer.remove(uuid);
-        if (!keepEnhancement && rocketEfficient.containsKey(uuid)) rocketEfficient.remove(uuid);
-        if (!keepEnhancement && rocketSolar.containsKey(uuid)) rocketSolar.remove(uuid);
+        if (!keepEnhancement && rocketHealer.containsKey(playerUUID)) rocketHealer.remove(playerUUID);
+        if (!keepEnhancement && rocketEfficient.containsKey(playerUUID)) rocketEfficient.remove(playerUUID);
+        if (!keepEnhancement && rocketSolar.containsKey(playerUUID)) rocketSolar.remove(playerUUID);
 
-        if (!keepVariant && rocketVariant.containsKey(uuid)) {
-            switch (rocketVariant.get(uuid)) {
+        if (!keepVariant && rocketVariant.containsKey(playerUUID)) {
+            switch (rocketVariant.get(playerUUID)) {
                 case ENDER:
                     player.removePotionEffect(PotionEffectType.NIGHT_VISION);
                     player.removePotionEffect(PotionEffectType.HEALTH_BOOST);
@@ -63,7 +63,7 @@ public class RocketFunctions {
                     player.removePotionEffect(PotionEffectType.SPEED);
                     break;
             }
-            rocketVariant.remove(uuid);
+            rocketVariant.remove(playerUUID);
         }
 
         if (player.isOnline())
@@ -89,6 +89,14 @@ public class RocketFunctions {
         Player player = (Player) event.getWhoClicked();
         ClickType click = event.getClick();
         Boolean hasRocketMeta = boots.hasItemMeta();
+
+        if (GamemodeCheck.check(player, GameMode.CREATIVE, GameMode.SPECTATOR)) {
+            event.setCancelled(true);
+            player.closeInventory();
+            disableRocketBoots(player, false, false, false, false, false);
+            player.sendMessage(getMsgPrefix() + "Rocket Boots do not work in this gamemode!");
+            return;
+        }
 
         if (hasRocketMeta) {
 
@@ -138,10 +146,8 @@ public class RocketFunctions {
         } else if (rocketSprint.containsKey(player.getUniqueId())) {
 
             player.sendMessage(new String[]{
-                    getMsgPrefix() + ChatColor.RED +
-                            "Ouch! You cannot take your boots of yet!",
-                    getMsgPrefix() + ChatColor.RESET +
-                            "You need to land for them to cooldown!"
+                    getMsgPrefix() + ChatColor.RED + "Ouch! You cannot take your boots of yet!",
+                    getMsgPrefix() + ChatColor.RESET + "You need to land for them to cool down!"
             });
 
             event.setCancelled(true);
@@ -154,6 +160,12 @@ public class RocketFunctions {
 
     public static void attachRocketBoots(Player player, ItemMeta rocketMeta, String rocketLore) {
 
+        if (GamemodeCheck.check(player, GameMode.CREATIVE, GameMode.SPECTATOR)) {
+            disableRocketBoots(player, false, false, false, false, false);
+            player.sendMessage(getMsgPrefix() + "Rocket Boots do not work in this gamemode!");
+            return;
+        }
+        
         Block blockMiddle = player.getLocation().getBlock().getRelative(BlockFace.SELF);
         String variantLore = null;
         String enhancementLore = null;
@@ -200,16 +212,21 @@ public class RocketFunctions {
 
             Variant variantType = getEnum(variantLore);
 
-            if (!rocketEnhancementBlacklist.contains(variantType)) switch (enhancementLore) {
+            if (!rocketEnhancementBlacklist.contains(variantType)) {
 
-                case "Fuel Efficient":
-                    rocketEfficient.replace(player.getUniqueId(), true);
-                    break;
+                assert enhancementLore != null;
+                switch (enhancementLore) {
 
-                case "Solar Powered":
-                    rocketSolar.replace(player.getUniqueId(), true);
-                    break;
+                    case "Fuel Efficient":
+                        rocketEfficient.replace(player.getUniqueId(), true);
+                        break;
 
+                    case "Solar Powered":
+                        rocketSolar.replace(player.getUniqueId(), true);
+                        break;
+
+                }
+                
             }
 
         }

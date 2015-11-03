@@ -2,10 +2,12 @@ package com.ullarah.urocket.task;
 
 import com.ullarah.ulib.function.BlockStacks;
 import com.ullarah.ulib.function.Experience;
-import com.ullarah.ulib.function.GamemodeCheck;
 import com.ullarah.ulib.function.TitleSubtitle;
 import org.apache.commons.io.output.StringBuilderWriter;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -27,15 +29,7 @@ public class RocketFuel {
 
                         Player player = Bukkit.getPlayer(uuid);
 
-                        if (GamemodeCheck.check(player, GameMode.CREATIVE, GameMode.SPECTATOR)) {
-
-                            player.sendMessage(getMsgPrefix() + "Rocket Boots do not work in this gamemode!");
-                            TitleSubtitle.subtitle(player, 1,
-                                    ChatColor.YELLOW + "Wrong Gamemode!");
-
-                            disableRocketBoots(player, false, false, false, false, false);
-
-                        } else if (player.isFlying()) {
+                        if (player.isFlying()) {
 
                             if (player.getLevel() < 0) player.setLevel(0);
                             if (player.getExp() < 0) player.setExp(0);

@@ -9,20 +9,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class DisplayComponentChest {
+public class DisplayRecipe {
 
     public static void open(CommandSender sender) {
 
         Player player = (Player) sender;
 
-        Inventory rocketComponentInventory = Bukkit.createInventory(null, 36, ChatColor.DARK_RED + "Rocket Components");
+        Inventory rocketRecipeInventory = Bukkit.createInventory(null, 36, ChatColor.GOLD + "Rocket Recipes");
 
-        rocketComponentInventory.setContents(rocketComponents());
-        player.openInventory(rocketComponentInventory);
+        rocketRecipeInventory.setContents(recipeMainMenu());
+        player.openInventory(rocketRecipeInventory);
 
     }
 
-    private static ItemStack[] rocketComponents() {
+    private static ItemStack[] recipeMainMenu() {
 
         ItemStack variantMoney = null;
 
@@ -35,7 +35,7 @@ public class DisplayComponentChest {
                 RocketBooster.booster("III"),
                 RocketBooster.booster("IV"),
                 RocketBooster.booster("V"),
-                RocketBooster.booster("X"),
+                null,
                 RocketEfficient.efficient(),
                 RocketSolar.solar(),
                 null,

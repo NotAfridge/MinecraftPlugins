@@ -24,6 +24,7 @@ import java.util.logging.Level;
 import static com.ullarah.ulib.function.PluginRegisters.RegisterType.*;
 import static com.ullarah.urocket.RocketFunctions.*;
 import static com.ullarah.urocket.RocketFunctions.Variant.*;
+import static com.ullarah.urocket.VariantInit.returnVariantMap;
 
 public class RocketInit extends JavaPlugin {
 
@@ -107,6 +108,7 @@ public class RocketInit extends JavaPlugin {
                 new QuitJoinDeath(),
                 new ToggleFlight(),
                 new ToggleSprint(),
+                new PlayerGamemodeChange(),
                 new PlayerChat(),
                 new PlayerCommand(),
                 new PlayerInteract(),
@@ -150,37 +152,30 @@ public class RocketInit extends JavaPlugin {
                 add(false);
             }}) {
 
-                Integer currentRecipeCount = registerMap.get("recipe");
-
-                registerMap.put(RECIPE.toString(), PluginRegisters.register(getPlugin(), RECIPE,
+                PluginRegisters.register(getPlugin(), RECIPE,
                         new RocketBoots(material, bool),
                         new RocketVariants(material, bool)
-                ));
+                );
 
-                registerMap.put(RECIPE.toString(), currentRecipeCount + 2);
+                registerMap.put(RECIPE.toString(), registerMap.get(RECIPE.toString()) + 2);
 
             }
 
         }
 
-        registerMap.put("variant", PluginRegisters.register(getPlugin(), RECIPE,
-                new RocketVariant(ChatColor.LIGHT_PURPLE + "Gay Agenda", Material.GOLDEN_APPLE, Material.MAGMA_CREAM, Material.SPECKLED_MELON),
-                new RocketVariant(ChatColor.AQUA + "Pole Vaulter", Material.RABBIT_FOOT, Material.SLIME_BLOCK, Material.FIREWORK_CHARGE),
-                new RocketVariant(ChatColor.GRAY + "Coal Miner", Material.NETHERRACK, Material.COAL_BLOCK, Material.FURNACE),
-                new RocketVariant(ChatColor.DARK_AQUA + "Essence of Ender", Material.EYE_OF_ENDER, Material.IRON_BLOCK, Material.ENDER_STONE),
-                new RocketVariant(ChatColor.GRAY + "Glazed Over", Material.WEB, Material.CACTUS, Material.FISHING_ROD),
-                new RocketVariant(ChatColor.YELLOW + "Shooting Star", Material.TORCH, Material.GLOWSTONE, Material.MAGMA_CREAM),
-                new RocketVariant(ChatColor.GREEN + "Health Zapper", Material.PUMPKIN_PIE, Material.REDSTONE_TORCH_ON, Material.TNT),
-                new RocketVariant(ChatColor.RED + "TNT Overload", Material.BLAZE_POWDER, Material.BLAZE_ROD, Material.TNT),
-                new RocketVariant(ChatColor.GOLD + "Musical Madness", Material.GREEN_RECORD, Material.JUKEBOX, Material.NOTE_BLOCK),
-                new RocketVariant(ChatColor.YELLOW + "Radical Rainbows", Material.BEACON, Material.REDSTONE_COMPARATOR, Material.STAINED_GLASS),
-                new RocketVariant(ChatColor.DARK_RED + "Red Fury", Material.REDSTONE, Material.REDSTONE_COMPARATOR, Material.BLAZE_POWDER),
-                new RocketVariant(ChatColor.GOLD + "Rocket Runner", Material.SUGAR, Material.SUGAR, Material.PRISMARINE_CRYSTALS),
-                new RocketVariant(ChatColor.WHITE + "Super Stealth", Material.SLIME_BALL, Material.PACKED_ICE, Material.SOUL_SAND),
-                new RocketVariant(ChatColor.BLUE + "Water Slider", Material.WATER_LILY, Material.PRISMARINE_CRYSTALS, Material.WATER_BUCKET),
-                new RocketVariant(ChatColor.YELLOW + "Patient Zero", Material.BLAZE_POWDER, Material.EXP_BOTTLE, Material.ENCHANTMENT_TABLE),
-                new RocketVariant(ChatColor.WHITE + "Loud Silence", Material.GOLD_RECORD, Material.JUKEBOX, Material.NOTE_BLOCK)
-        ));
+        registerMap.put("variant", 0);
+        for (Object variantObject : returnVariantMap().entrySet()) {
+
+            String variantName = (String) ((Map.Entry) variantObject).getKey();
+            ArrayList variantMaterial = (ArrayList) ((Map.Entry) variantObject).getValue();
+
+            PluginRegisters.register(getPlugin(), RECIPE,
+                    new RocketVariant(variantName, variantMaterial)
+            );
+
+            registerMap.put("variant", registerMap.get("variant") + 1);
+
+        }
 
         registerMap.put(TASK.toString(), PluginRegisters.register(getPlugin(), TASK,
                 new RocketFire(),
@@ -215,20 +210,25 @@ public class RocketInit extends JavaPlugin {
             RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(
                     net.milkbowl.vault.economy.Economy.class);
             if (economyProvider != null) {
+
                 setVaultEconomy(economyProvider.getProvider());
-                Integer currentRecipeCount = registerMap.get("recipe");
+
                 PluginRegisters.register(getPlugin(), RECIPE,
                         new RocketVariant(ChatColor.DARK_GREEN + "Robin Hood",
-                                Material.EMERALD, Material.DIAMOND, Material.DISPENSER));
-                registerMap.put(RECIPE.toString(), currentRecipeCount + 1);
+                                new ArrayList<Material>() {{
+                                    add(Material.EMERALD);
+                                    add(Material.DIAMOND);
+                                    add(Material.DISPENSER);
+                                }}));
+
+                registerMap.put("variant", registerMap.get("variant") + 1);
                 pluginList.add("Vault");
+
             }
         }
 
         reloadFlyZones(true);
-
-        int zoneList = 0;
-        if (registerMap.get("zone") != null) zoneList = registerMap.get("zone");
+        int zoneList = registerMap.get("zone") != null ? registerMap.get("zone") : 0;
 
         Bukkit.getLogger().log(Level.INFO, "[" + getPlugin().getName() + "] "
                 + "Events: " + registerMap.get("event") + " | "
