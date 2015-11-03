@@ -17,10 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 
 import static com.ullarah.ujoinquit.JoinQuitInit.*;
@@ -65,26 +62,24 @@ public class JoinQuitFunctions {
 
     public static String replacePlayerString(Player player, String message) {
 
+        Collection onlinePlayers = Bukkit.getOnlinePlayers();
+        Player randomPlayer = (Player) onlinePlayers.toArray()[new Random().nextInt(onlinePlayers.size() - 1)];
+        if (lastPlayer.equals(player.getPlayerListName())) lastPlayer = "nobody";
+
         if (message.contains("{player}"))
-            message = message.replaceAll("\\{player\\}",
-                    player.getPlayerListName());
+            message = message.replaceAll("\\{player\\}", player.getPlayerListName());
 
         if (message.contains("{l_player}"))
-            message = message.replaceAll("\\{l_player\\}",
-                    player.getPlayerListName().toLowerCase());
+            message = message.replaceAll("\\{l_player\\}", player.getPlayerListName().toLowerCase());
 
         if (message.contains("{u_player}"))
-            message = message.replaceAll("\\{u_player\\}",
-                    player.getPlayerListName().toUpperCase());
+            message = message.replaceAll("\\{u_player\\}", player.getPlayerListName().toUpperCase());
 
         if (message.contains("{p_player}"))
-            message = message.replaceAll("\\{p_player\\}",
-                    lastPlayer);
+            message = message.replaceAll("\\{p_player\\}", lastPlayer);
 
-        if (message.contains("{r_player}")) {
-            message = message.replaceAll("\\{r_player\\}",
-                    Bukkit.getOnlinePlayers().stream().findAny().get().getPlayerListName());
-        }
+        if (message.contains("{r_player}"))
+            message = message.replaceAll("\\{r_player\\}", randomPlayer.getPlayerListName());
 
         return message;
 
