@@ -27,6 +27,8 @@ public class PlayerJoin implements Listener {
             String message = replacePlayerString(player, getMessage(player, JOIN));
             event.setJoinMessage(ChatColor.translateAlternateColorCodes('&', joinChar + message));
 
+            lastPlayer = player.getPlayerListName();
+
         }
 
         if (playerJoinLocation.containsKey(playerUUID)) player.teleport(playerJoinLocation.get(playerUUID));

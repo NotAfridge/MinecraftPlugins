@@ -27,6 +27,7 @@ public class JoinQuitInit extends JavaPlugin {
     public static final ConcurrentHashMap<UUID, Integer> playerTimeout = new ConcurrentHashMap<>();
     public static final List<String> joinMessages = new ArrayList<>();
     public static final List<String> quitMessages = new ArrayList<>();
+    public static String lastPlayer = "nobody";
     public static String joinChar;
     public static String quitChar;
     private static Plugin plugin;

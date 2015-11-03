@@ -17,10 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 
 import static com.ullarah.ujoinquit.JoinQuitInit.*;
@@ -73,6 +70,21 @@ public class JoinQuitFunctions {
 
         if (message.contains("{u_player}"))
             message = message.replaceAll("\\{u_player\\}", player.getPlayerListName().toUpperCase());
+
+        if (message.contains("{p_player}"))
+            message = message.replaceAll("\\{p_player\\}", lastPlayer);
+
+        if (message.contains("{r_player}")) {
+            String randomPlayer;
+
+            Collection onlinePlayers = Bukkit.getOnlinePlayers();
+            int onlinePlayerCount = onlinePlayers.size();
+
+            randomPlayer = onlinePlayerCount < 2 ? player.getPlayerListName()
+                    : onlinePlayers.toArray()[onlinePlayerCount - 1].toString();
+
+            message = message.replaceAll("\\{r_player\\}", randomPlayer);
+        }
 
         return message;
 
