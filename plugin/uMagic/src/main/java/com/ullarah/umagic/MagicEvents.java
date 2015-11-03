@@ -1,6 +1,5 @@
 package com.ullarah.umagic;
 
-import com.ullarah.ulib.function.CommonString;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -9,7 +8,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-import static com.ullarah.umagic.MagicInit.getPlugin;
 import static com.ullarah.umagic.MagicInit.getWorldGuard;
 import static org.bukkit.Material.DIAMOND_HOE;
 
@@ -30,8 +28,7 @@ public class MagicEvents implements Listener {
                         if (block != null) {
                             if (getWorldGuard().canBuild(player, block)) {
 
-                                String placeWarning = CommonString.pluginPrefix(getPlugin()) + ChatColor.RED +
-                                        ChatColor.BOLD + "WARNING: " +
+                                String placeWarning = "" + ChatColor.RED + ChatColor.BOLD + "WARNING: " +
                                         ChatColor.YELLOW + "Glitch block created. Do not place blocks next to it.";
 
                                 switch (block.getType()) {
