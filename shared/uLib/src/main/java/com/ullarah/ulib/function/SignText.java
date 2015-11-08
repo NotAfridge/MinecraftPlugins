@@ -111,10 +111,9 @@ public class SignText {
      * Change specific sign text to given text array
      *
      * @param location the location surrounded by signs
-     * @param line     an array of the sign lines to change
-     * @param text     a string array of sign line text to change
+     * @param lines    a map of the sign lines to change
      */
-    public static void changeLine(final Location location, Integer[] line, String[] text) {
+    public static void changeLine(final Location location, Map<Integer, String> lines) {
 
         HashMap<String, Boolean> signMap = signFaceMap(location);
 
@@ -122,7 +121,7 @@ public class SignText {
 
             Sign signText = (Sign) location.getBlock().getRelative(BlockFace.valueOf(sign.getKey())).getState();
 
-            for (int l : line) for (String s : text) signText.setLine(l, s);
+            for(Map.Entry entry : lines.entrySet()) signText.setLine((int) entry.getKey(), (String) entry.getValue());
 
             signText.update();
 
