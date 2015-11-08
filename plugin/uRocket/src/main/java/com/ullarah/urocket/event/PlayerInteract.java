@@ -28,15 +28,6 @@ public class PlayerInteract implements Listener {
     public void playerInteraction(PlayerInteractEvent event) {
 
         Player player = event.getPlayer();
-        Block block = player.getTargetBlock((Set<Material>) null, 50);
-
-        World world = player.getWorld();
-        Location blockLocation = block.getLocation();
-
-        int eX = blockLocation.getBlockX();
-        int eY = blockLocation.getBlockY();
-        int eZ = blockLocation.getBlockZ();
-
         Action action = event.getAction();
 
         if (action == Action.RIGHT_CLICK_AIR) if (player.getItemInHand().getType() == Material.CARROT_STICK) {
@@ -74,6 +65,14 @@ public class PlayerInteract implements Listener {
 
                         if (player.getWorld().getName().equals("world")) {
 
+                            Block block = player.getTargetBlock((Set<Material>) null, 50);
+                            World world = player.getWorld();
+                            Location blockLocation = block.getLocation();
+
+                            int eX = blockLocation.getBlockX();
+                            int eY = blockLocation.getBlockY();
+                            int eZ = blockLocation.getBlockZ();
+
                             if (block.getType() == BEACON && event.getBlockFace().getModY() == 1) {
 
                                 List<String> stationList = getPlugin().getConfig().getStringList("stations");
@@ -84,7 +83,7 @@ public class PlayerInteract implements Listener {
                                 if (!stationList.contains(station)) {
 
                                     event.setCancelled(true);
-                                    player.sendMessage(getMsgPrefix() + ChatColor.YELLOW
+                                    player.sendMessage(getMsgPrefix() + ChatColor.RED
                                             + "You can only place this on top of a Repair Station!");
 
                                 } else if (player.isSneaking()) {
@@ -137,7 +136,7 @@ public class PlayerInteract implements Listener {
                             player.updateInventory();
                             event.setCancelled(true);
                             player.sendMessage(getMsgPrefix() + ChatColor.YELLOW
-                                    + "You can only place this on top of a Repair Station!");
+                                    + "Repair Stands cannot be placed here!");
 
                         }
 

@@ -223,7 +223,7 @@ public class RocketFuel {
                                         break;
 
                                     case COAL:
-                                        if (random.nextInt(20) == 10) {
+                                        if (random.nextInt(10) == 5) {
 
                                             player.getWorld().playSound(player.getLocation(),
                                                     Sound.FIREWORK_BLAST, 0.6f, 0.65f);
@@ -233,13 +233,14 @@ public class RocketFuel {
 
                                             disableRocketBoots(player, true, true, true, true, true);
 
-                                        } else if (BlockStacks.split(getPlugin(), player, Material.COAL_BLOCK, Material.COAL, 2, 8))
-                                            disableRocketBoots(player, false, true, false, true, true);
+                                        } else if (!BlockStacks.split(getPlugin(), player,
+                                                Material.COAL_BLOCK, Material.COAL, 1, 8))
+                                            disableRocketBoots(player, true, true, true, true, true);
 
                                         break;
 
                                     case REDSTONE:
-                                        if (random.nextInt(20) == 10) {
+                                        if (random.nextInt(10) == 5) {
 
                                             player.getWorld().playSound(player.getLocation(),
                                                     Sound.FIREWORK_BLAST, 0.6f, 0.65f);
@@ -249,8 +250,9 @@ public class RocketFuel {
 
                                             disableRocketBoots(player, true, true, true, true, true);
 
-                                        } else if (BlockStacks.split(getPlugin(), player, Material.REDSTONE_BLOCK, Material.REDSTONE, 2, 8))
-                                            disableRocketBoots(player, false, true, false, true, true);
+                                        } else if (!BlockStacks.split(getPlugin(), player,
+                                                Material.REDSTONE_BLOCK, Material.REDSTONE, 1, 8))
+                                            disableRocketBoots(player, true, true, true, true, true);
 
                                         break;
 

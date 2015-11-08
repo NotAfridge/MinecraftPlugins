@@ -328,7 +328,7 @@ public class ToggleFlight implements Listener {
                                                                                     + "Get more coal, and re-attach the boots!");
 
                                                                             changeDurability = false;
-                                                                            disableRocketBoots(player, false, true, false, true, true);
+                                                                            disableRocketBoots(player, false, false, false, false, false);
 
                                                                         }
                                                                         break;
@@ -350,7 +350,7 @@ public class ToggleFlight implements Listener {
                                                                                     + "Get more redstone, and re-attach the boots!");
 
                                                                             changeDurability = false;
-                                                                            disableRocketBoots(player, false, true, false, true, true);
+                                                                            disableRocketBoots(player, false, false, false, false, false);
 
                                                                         }
                                                                         break;

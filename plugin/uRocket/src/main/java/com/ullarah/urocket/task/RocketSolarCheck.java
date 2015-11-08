@@ -24,7 +24,7 @@ public class RocketSolarCheck {
 
                             Player player = Bukkit.getPlayer(isSolar.getKey());
 
-                            if (isSolar.getValue()) {
+                            if (isSolar.getValue() && player.isFlying()) {
 
                                 boolean showSolarParticles = false;
 

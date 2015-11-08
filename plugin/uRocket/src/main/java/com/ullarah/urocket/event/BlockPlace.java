@@ -177,31 +177,31 @@ public class BlockPlace implements Listener {
                         case BEACON:
                             if (rocketItem.equals(ChatColor.RED + "Rocket Repair Station"))
                                 player.sendMessage(getMsgPrefix() + ChatColor.RED
-                                        + "Rocket Repair Stations cannot be placed here!");
+                                        + "Repair Stations cannot be placed here!");
                             break;
 
                         case FURNACE:
                             if (rocketItem.equals(ChatColor.RED + "Rocket Repair Tank"))
                                 player.sendMessage(getMsgPrefix() + ChatColor.RED
-                                        + "Rocket Repair Tanks cannot be placed here!");
+                                        + "Repair Tanks cannot be placed here!");
                             break;
 
                         case ENDER_PORTAL_FRAME:
                             if (rocketItem.equals(ChatColor.RED + "Rocket Fly Zone Controller"))
                                 player.sendMessage(getMsgPrefix() + ChatColor.RED
-                                        + "Rocket Fly Zone Controllers cannot be placed here!");
+                                        + "Fly Zone Controllers cannot be placed here!");
                             break;
 
                         case NOTE_BLOCK:
                             if (ChatColor.stripColor(rocketItem).equals("Variant Booster"))
                                 player.sendMessage(getMsgPrefix() + ChatColor.YELLOW
-                                        + "Rocket Variants cannot be placed down!");
+                                        + "Variants cannot be placed down!");
                             break;
 
                         case TNT:
                             if (rocketItem.equals(ChatColor.RED + "Rocket Booster"))
                                 player.sendMessage(getMsgPrefix() + ChatColor.YELLOW
-                                        + "Rocket Boosters cannot be placed down!");
+                                        + "Boosters cannot be placed down!");
                             break;
 
                     }

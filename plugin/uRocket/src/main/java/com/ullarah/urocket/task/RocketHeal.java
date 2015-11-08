@@ -1,9 +1,7 @@
 package com.ullarah.urocket.task;
 
-import com.ullarah.ulib.function.GamemodeCheck;
 import com.ullarah.urocket.RocketInit;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -27,8 +25,7 @@ public class RocketHeal {
                             Player player = Bukkit.getPlayer(rocketHealer.getKey());
                             Integer repair = rocketHealer.getValue();
 
-                            if (repair != 0 && player.isFlying()
-                                    && GamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
+                            if (repair > 0 && player.isFlying()) {
 
                                 ItemStack rocketBoots = player.getInventory().getBoots();
 

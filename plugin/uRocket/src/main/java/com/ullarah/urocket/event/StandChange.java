@@ -1,6 +1,7 @@
 package com.ullarah.urocket.event;
 
 import com.ullarah.ulib.function.SignText;
+import com.ullarah.urocket.RocketFunctions;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -57,12 +58,42 @@ public class StandChange implements Listener {
 
                             if (standItem != null) {
 
-                                int bootDurability = (195 - player.getItemInHand().getDurability());
+                                Short rocketDurability = player.getItemInHand().getDurability();
+                                RocketFunctions.Variant bootVariant = rocketVariant.get(player.getUniqueId());
+
+                                int bootMaterialDurability = 0;
+
+                                switch (player.getItemInHand().getType()) {
+
+                                    case LEATHER_BOOTS:
+                                        bootMaterialDurability = 65;
+                                        break;
+
+                                    case IRON_BOOTS:
+                                        bootMaterialDurability = 195;
+                                        break;
+
+                                    case GOLD_BOOTS:
+                                        bootMaterialDurability = 91;
+                                        break;
+
+                                    case DIAMOND_BOOTS:
+                                        bootMaterialDurability = 429;
+                                        break;
+
+                                }
+
+                                int bootDurability = (bootMaterialDurability - player.getItemInHand().getDurability());
                                 String bootType = ChatColor.stripColor(player.getItemInHand().getItemMeta().getLore().get(0));
 
                                 SignText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
-                                        new String[]{"[Repair Status]", "----------",
-                                                ChatColor.RED + bootType, String.valueOf(bootDurability)});
+                                        new String[]{
+                                                "[Repair Status]",
+                                                ChatColor.STRIKETHROUGH + "--------------",
+                                                ChatColor.RED + bootType,
+                                                String.valueOf(bootDurability) + " / " + bootMaterialDurability});
+
+                                SignText.changeLine(beaconSign, new Integer[]{0}, new String[]{"[Repair Status]"});
 
                                 rocketRepairStand.put(event.getRightClicked().getUniqueId(), standLocation);
 
@@ -82,7 +113,13 @@ public class StandChange implements Listener {
                     } else {
 
                         SignText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
-                                new String[]{"[Repair Status]", "----------", "", ""});
+                                new String[]{
+                                        "[Repair Status]",
+                                        ChatColor.STRIKETHROUGH + "--------------",
+                                        "",
+                                        ""});
+
+                        SignText.changeLine(beaconSign, new Integer[]{0}, new String[]{"[Repair Status]"});
 
                         rocketRepairStand.remove(event.getRightClicked().getUniqueId());
 

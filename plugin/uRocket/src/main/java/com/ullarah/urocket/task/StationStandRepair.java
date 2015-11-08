@@ -117,10 +117,14 @@ public class StationStandRepair {
                                             int bootHealthOriginal = (bootMaterialDurability - bootDurability);
                                             int bootHealthNew = ((bootMaterialDurability - bootDurability) + bootRepair);
 
+                                            String bootType = ChatColor.stripColor(standBoots.getItemMeta().getLore().get(0));
+
                                             SignText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
-                                                    new String[]{"[Repair Status]", "----------",
-                                                            standBoots.getItemMeta().getLore().get(0),
-                                                            String.valueOf(bootHealthNew)});
+                                                    new String[]{
+                                                            "[Repair Status]",
+                                                            ChatColor.STRIKETHROUGH + "--------------",
+                                                            ChatColor.RED + bootType,
+                                                            String.valueOf(bootHealthNew) + " / " + bootMaterialDurability});
 
                                             if (bootHealthOriginal <= (bootMaterialDurability - 1)) {
 
@@ -130,8 +134,10 @@ public class StationStandRepair {
                                                 if (bootHealthNew > bootMaterialDurability) {
 
                                                     SignText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
-                                                            new String[]{"[Repair Status]", "----------",
-                                                                    standBoots.getItemMeta().getLore().get(0),
+                                                            new String[]{
+                                                                    "[Repair Status]",
+                                                                    ChatColor.STRIKETHROUGH + "--------------",
+                                                                    ChatColor.RED + bootType,
                                                                     "Fully Restored"});
 
                                                     rocketRepairStand.remove(stand.getUniqueId());
