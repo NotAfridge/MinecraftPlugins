@@ -6,7 +6,10 @@ import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.Plugin;
 
+import java.security.CodeSource;
 import java.util.logging.Level;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 public class PluginRegisters {
 
@@ -55,10 +58,91 @@ public class PluginRegisters {
             } catch (Exception e) {
 
                 Bukkit.getLogger().log(Level.SEVERE, "[" + plugin.getName() + "] Register Error: "
-                        + "[" + type.toString().toUpperCase() + "] " + object.getClass().getSimpleName());
+                        + "[" + type.toString().toUpperCase() + "] " + object.getClass().getCanonicalName());
 
             }
 
+        }
+
+        return amount;
+
+    }
+
+    /**
+     * Registers all different types for minecraft reference
+     * This will search the plugin source for valid entry points
+     * <p>
+     * Requires proper package names
+     *
+     * @param plugin the current plugin used
+     * @param type   the type of object that is being registered
+     * @return the number of valid registrations
+     */
+    public static int registerAll(Plugin plugin, RegisterType type) {
+
+        int amount = 0;
+
+        try {
+
+            CodeSource codeSource = plugin.getClass().getProtectionDomain().getCodeSource();
+
+            if (codeSource != null) {
+
+                ZipInputStream stream = new ZipInputStream(codeSource.getLocation().openStream());
+
+                while (true) {
+
+                    String pluginPackage = plugin.getClass().getPackage().getName().toLowerCase();
+                    String classPackage = pluginPackage + "." + type.toString().toLowerCase();
+
+                    ZipEntry entry = stream.getNextEntry();
+
+                    if (entry == null) break;
+
+                    String className = entry.getName();
+                    String classPath = classPackage.replaceAll("\\.", "/") + "/";
+
+                    if (className.startsWith(classPath) && className.endsWith(".class")) {
+
+                        if (className.contains("$")) continue;
+                        className = className.replace(classPath, "").replace(".class", "");
+
+                        switch (type) {
+
+                            case EVENT:
+                                Bukkit.getServer().getPluginManager().registerEvents(
+                                        (Listener) Class.forName(classPackage + "." + className).newInstance(), plugin);
+                                break;
+
+                            case FURNACE:
+                                FurnaceRecipe newFurnace = ((NewFurnace) Class.forName(classPackage + "." + className)
+                                        .newInstance()).furnace();
+                                Bukkit.getServer().addRecipe(newFurnace);
+                                break;
+
+                            case RECIPE:
+                                ShapedRecipe newRecipe = ((NewRecipe) Class.forName(classPackage + "." + className)
+                                        .newInstance()).recipe();
+                                Bukkit.getServer().addRecipe(newRecipe);
+                                break;
+
+                            case TASK:
+                                plugin.getClass().getMethod(type.toString())
+                                        .invoke(Class.forName(classPackage + "." + className).newInstance());
+                                break;
+
+                        }
+
+                        amount++;
+
+                    }
+
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return amount;
