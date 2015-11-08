@@ -26,19 +26,19 @@ public class BlockPlace implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void repairTankStationPlacement(BlockPlaceEvent event) {
 
-        Player player = event.getPlayer();
-        Block block = event.getBlock();
-
-        World world = player.getWorld();
-        Location blockLocation = block.getLocation();
-
         if (event.getItemInHand().hasItemMeta()) {
 
             if (event.getItemInHand().getItemMeta().hasDisplayName()) {
 
                 String rocketItem = event.getItemInHand().getItemMeta().getDisplayName();
 
+                Player player = event.getPlayer();
+                Block block = event.getBlock();
+
                 if (player.getWorld().getName().equals("world")) {
+
+                    World world = player.getWorld();
+                    Location blockLocation = block.getLocation();
 
                     switch (block.getType()) {
 

@@ -3,45 +3,44 @@ package com.ullarah.urocket.recipe;
 import com.ullarah.ulib.function.NewRecipe;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RocketBoots implements NewRecipe {
 
     private final Material bootMaterial;
+    private final boolean hasVariant;
     private final boolean hasEnhancement;
 
-    public RocketBoots(Material material, boolean enhancement) {
+    public RocketBoots(Material material, boolean variant, boolean enhancement) {
 
         bootMaterial = material;
+        hasVariant = variant;
         hasEnhancement = enhancement;
 
     }
 
-    private static ItemStack boots(boolean hasEnhancement) {
+    private static ItemStack boots(Material bootMaterial, boolean hasVariant, boolean hasEnhancement) {
 
-        ItemStack boots = new ItemStack(Material.IRON_BOOTS, 1);
+        Material bootType = Material.getMaterial(bootMaterial.name().replaceAll("_(.*)", "") + "_BOOTS");
+        ItemStack boots = new ItemStack(bootType, 1);
 
         ItemMeta bootMeta = boots.getItemMeta();
         bootMeta.setDisplayName(ChatColor.GRAY + "Useless Rocket Boots");
-        bootMeta.setLore(Arrays.asList(" ", ChatColor.RED + "Bad Rocket Boot Combination!"));
 
-        if (hasEnhancement) {
+        List<String> loreList = new ArrayList<>();
 
-            bootMeta.setLore(Arrays.asList(
-                            ChatColor.GRAY + "Useless Enhancement",
-                            " ", ChatColor.RED + "Bad Rocket Boot Combination!")
-            );
+        if (hasVariant) loreList.add(ChatColor.GRAY + "Useless Variant");
+        if (hasEnhancement) loreList.add(ChatColor.GRAY + "Useless Enhancement");
 
-            bootMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            boots.setItemMeta(bootMeta);
+        loreList.add("");
+        loreList.add(ChatColor.RED + "Bad Rocket Boot Combination!");
 
-        }
-
+        bootMeta.setLore(loreList);
         boots.setItemMeta(bootMeta);
 
         return boots;
@@ -50,18 +49,16 @@ public class RocketBoots implements NewRecipe {
 
     public ShapedRecipe recipe() {
 
-        ShapedRecipe bootRecipe = new ShapedRecipe(boots(hasEnhancement));
+        ShapedRecipe bootRecipe = new ShapedRecipe(boots(bootMaterial, hasVariant, hasEnhancement));
 
-        if (hasEnhancement) {
-
-            bootRecipe.shape("H H", "MAM", "T T");
-            bootRecipe.setIngredient('A', Material.NETHER_STAR);
-
-        } else bootRecipe.shape("H H", "M M", "T T");
+        bootRecipe.shape("H H", hasEnhancement ? "MEM" : "M M", hasVariant ? "TVT" : "T T");
 
         bootRecipe.setIngredient('H', Material.TRIPWIRE_HOOK);
         bootRecipe.setIngredient('M', bootMaterial);
         bootRecipe.setIngredient('T', Material.TNT);
+
+        if (hasVariant) bootRecipe.setIngredient('V', Material.NOTE_BLOCK);
+        if (hasEnhancement) bootRecipe.setIngredient('E', Material.NETHER_STAR);
 
         return bootRecipe;
 

@@ -21,17 +21,18 @@ public class BlockBreak implements Listener {
     @EventHandler
     public void destroyTankStation(BlockBreakEvent event) {
 
-        Player player = event.getPlayer();
         Block block = event.getBlock();
 
-        World world = player.getWorld();
-        Location blockLocation = block.getLocation();
-
-        int bX = blockLocation.getBlockX();
-        int bY = blockLocation.getBlockY();
-        int bZ = blockLocation.getBlockZ();
-
         if (block.getType() == Material.BEACON) {
+
+            Player player = event.getPlayer();
+
+            World world = player.getWorld();
+            Location blockLocation = block.getLocation();
+
+            int bX = blockLocation.getBlockX();
+            int bY = blockLocation.getBlockY();
+            int bZ = blockLocation.getBlockZ();
 
             List<String> stationList = getPlugin().getConfig().getStringList("stations");
             List<String> newStationList = stationList.stream()
@@ -58,6 +59,15 @@ public class BlockBreak implements Listener {
         }
 
         if (block.getType() == Material.FURNACE) {
+
+            Player player = event.getPlayer();
+
+            World world = player.getWorld();
+            Location blockLocation = block.getLocation();
+
+            int bX = blockLocation.getBlockX();
+            int bY = blockLocation.getBlockY();
+            int bZ = blockLocation.getBlockZ();
 
             List<String> tankList = getPlugin().getConfig().getStringList("tanks");
             List<String> newTankList = tankList.stream()

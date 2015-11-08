@@ -1,10 +1,7 @@
 package com.ullarah.urocket;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.ullarah.ulib.function.PluginRegisters;
-import com.ullarah.urocket.event.*;
 import com.ullarah.urocket.recipe.*;
-import com.ullarah.urocket.task.*;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
@@ -22,6 +19,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 
 import static com.ullarah.ulib.function.PluginRegisters.RegisterType.*;
+import static com.ullarah.ulib.function.PluginRegisters.register;
+import static com.ullarah.ulib.function.PluginRegisters.registerAll;
 import static com.ullarah.urocket.RocketFunctions.*;
 import static com.ullarah.urocket.RocketFunctions.Variant.*;
 import static com.ullarah.urocket.VariantInit.returnVariantMap;
@@ -97,33 +96,10 @@ public class RocketInit extends JavaPlugin {
         Plugin pluginWorldGuard = pluginManager.getPlugin("WorldGuard");
         Plugin pluginVault = pluginManager.getPlugin("Vault");
 
-        registerMap.put(EVENT.toString(), PluginRegisters.register(getPlugin(), EVENT,
-                new AnvilCreate(),
-                new AnvilRename(),
-                new BlockBreak(),
-                new BlockPlace(),
-                new InventoryClick(),
-                new PlayerMove(),
-                new CraftStandard(),
-                new QuitJoinDeath(),
-                new ToggleFlight(),
-                new ToggleSprint(),
-                new PlayerGamemodeChange(),
-                new PlayerChat(),
-                new PlayerCommand(),
-                new PlayerInteract(),
-                new PlayerConsume(),
-                new PlayerWorldChange(),
-                new StandChange(),
-                new StandBreak(),
-                new ZoneCheck(),
-                new ZoneDamage(),
-                new EntityFlying(),
-                new PlayerInteractEntity(),
-                new EntityDeath()
-        ));
+        registerMap.put(EVENT.toString(), registerAll(getPlugin(), EVENT));
+        registerMap.put(TASK.toString(), registerAll(getPlugin(), TASK));
 
-        registerMap.put(RECIPE.toString(), PluginRegisters.register(getPlugin(), RECIPE,
+        registerMap.put(RECIPE.toString(), register(getPlugin(), RECIPE,
                 new RocketBooster("I", Material.REDSTONE_BLOCK),
                 new RocketBooster("II", Material.IRON_BLOCK),
                 new RocketBooster("III", Material.GOLD_BLOCK),
@@ -152,12 +128,11 @@ public class RocketInit extends JavaPlugin {
                 add(false);
             }}) {
 
-                PluginRegisters.register(getPlugin(), RECIPE,
-                        new RocketBoots(material, bool),
-                        new RocketVariants(material, bool)
-                );
-
-                registerMap.put(RECIPE.toString(), registerMap.get(RECIPE.toString()) + 2);
+                registerMap.put(RECIPE.toString(), registerMap.get(RECIPE.toString()) +
+                        register(getPlugin(), RECIPE,
+                                new RocketBoots(material, bool, bool),
+                                new RocketBoots(material, bool, !bool)
+                        ));
 
             }
 
@@ -169,28 +144,10 @@ public class RocketInit extends JavaPlugin {
             String variantName = (String) ((Map.Entry) variantObject).getKey();
             ArrayList variantMaterial = (ArrayList) ((Map.Entry) variantObject).getValue();
 
-            PluginRegisters.register(getPlugin(), RECIPE,
-                    new RocketVariant(variantName, variantMaterial)
-            );
-
-            registerMap.put("variant", registerMap.get("variant") + 1);
+            registerMap.put("variant", registerMap.get("variant") +
+                    register(getPlugin(), RECIPE, new RocketVariant(variantName, variantMaterial)));
 
         }
-
-        registerMap.put(TASK.toString(), PluginRegisters.register(getPlugin(), TASK,
-                new RocketFire(),
-                new RocketFuel(),
-                new RocketHeal(),
-                new RocketParticles(),
-                new RocketLowFuel(),
-                new NotePlaying(),
-                new StationParticles(),
-                new StationRepair(),
-                new ActiveEffects(),
-                new StationStandParticles(),
-                new StationStandRepair(),
-                new RocketSolarCheck()
-        ));
 
         getCommand("rocket").setExecutor(new RocketExecutor());
 
@@ -213,15 +170,14 @@ public class RocketInit extends JavaPlugin {
 
                 setVaultEconomy(economyProvider.getProvider());
 
-                PluginRegisters.register(getPlugin(), RECIPE,
+                registerMap.put("variant", registerMap.get("variant") + register(getPlugin(), RECIPE,
                         new RocketVariant(ChatColor.DARK_GREEN + "Robin Hood",
                                 new ArrayList<Material>() {{
                                     add(Material.EMERALD);
                                     add(Material.DIAMOND);
                                     add(Material.DISPENSER);
-                                }}));
+                                }})));
 
-                registerMap.put("variant", registerMap.get("variant") + 1);
                 pluginList.add("Vault");
 
             }
