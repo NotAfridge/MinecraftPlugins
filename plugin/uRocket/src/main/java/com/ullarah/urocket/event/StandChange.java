@@ -13,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static com.ullarah.urocket.RocketInit.*;
@@ -93,7 +94,9 @@ public class StandChange implements Listener {
                                                 ChatColor.RED + bootType,
                                                 String.valueOf(bootDurability) + " / " + bootMaterialDurability});
 
-                                SignText.changeLine(beaconSign, new Integer[]{0}, new String[]{"[Repair Status]"});
+                                SignText.changeLine(beaconSign, new HashMap<Integer, String>() {{
+                                    put(0, "[Repair Status]");
+                                }});
 
                                 rocketRepairStand.put(event.getRightClicked().getUniqueId(), standLocation);
 
@@ -119,7 +122,9 @@ public class StandChange implements Listener {
                                         "",
                                         ""});
 
-                        SignText.changeLine(beaconSign, new Integer[]{0}, new String[]{"[Repair Status]"});
+                        SignText.changeLine(beaconSign, new HashMap<Integer, String>() {{
+                            put(0, "[Repair Status]");
+                        }});
 
                         rocketRepairStand.remove(event.getRightClicked().getUniqueId());
 

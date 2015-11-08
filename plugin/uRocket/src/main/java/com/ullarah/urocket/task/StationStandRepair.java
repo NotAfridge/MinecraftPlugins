@@ -155,27 +155,30 @@ public class StationStandRepair {
                                                         ((CraftPlayer) serverPlayer).getHandle()
                                                                 .playerConnection.sendPacket(packet);
 
-                                        }
+                                                }
 
                                             } else {
                                                 SignText.clearLine(beaconSign, new Integer[]{2, 3});
                                                 rocketRepairStand.remove(stand.getUniqueId());
+                                            }
+
+                                        }
+
+                                    } else {
+                                        SignText.changeLine(beaconSign,
+                                                new HashMap<Integer, String>() {{
+                                                    put(2, "Repair Tank");
+                                                    put(3, "Empty");
+                                                }});
+                                        rocketRepairStand.remove(stand.getUniqueId());
                                     }
 
                                 }
 
-                                    } else {
-                                        SignText.changeLine(beaconSign, new Integer[]{2, 3},
-                                                new String[]{"Repair Tank", "Empty"});
-                                        rocketRepairStand.remove(stand.getUniqueId());
                             }
 
                         }
-
                     }
-
-                        }
-            }
 
                 }), 0, 600);
 
