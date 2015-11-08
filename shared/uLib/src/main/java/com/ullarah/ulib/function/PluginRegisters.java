@@ -105,30 +105,28 @@ public class PluginRegisters {
                     if (className.startsWith(classPath) && className.endsWith(".class")) {
 
                         if (className.contains("$")) continue;
+
                         className = className.replace(classPath, "").replace(".class", "");
+                        Object classInstance = Class.forName(classPackage + "." + className).newInstance();
 
                         switch (type) {
 
                             case EVENT:
-                                Bukkit.getServer().getPluginManager().registerEvents(
-                                        (Listener) Class.forName(classPackage + "." + className).newInstance(), plugin);
+                                Bukkit.getServer().getPluginManager().registerEvents((Listener) classInstance, plugin);
                                 break;
 
                             case FURNACE:
-                                FurnaceRecipe newFurnace = ((NewFurnace) Class.forName(classPackage + "." + className)
-                                        .newInstance()).furnace();
+                                FurnaceRecipe newFurnace = ((NewFurnace) classInstance).furnace();
                                 Bukkit.getServer().addRecipe(newFurnace);
                                 break;
 
                             case RECIPE:
-                                ShapedRecipe newRecipe = ((NewRecipe) Class.forName(classPackage + "." + className)
-                                        .newInstance()).recipe();
+                                ShapedRecipe newRecipe = ((NewRecipe) classInstance).recipe();
                                 Bukkit.getServer().addRecipe(newRecipe);
                                 break;
 
                             case TASK:
-                                plugin.getClass().getMethod(type.toString())
-                                        .invoke(Class.forName(classPackage + "." + className).newInstance());
+                                classInstance.getClass().getMethod(type.toString()).invoke(classInstance);
                                 break;
 
                         }
