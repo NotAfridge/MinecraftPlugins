@@ -151,7 +151,7 @@ public class PlayerInteract implements Listener {
                     if (rocketLore.matches(ChatColor.YELLOW + "Rocket Level I{0,3}V?X?"))
                         if (!rocketUsage.contains(player.getUniqueId())) {
                             if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)
-                                attachRocketBoots(player, rocketMeta, rocketLore);
+                                attachRocketBoots(player, rocketMeta);
                             else event.setCancelled(true);
                         }
 

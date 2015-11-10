@@ -19,37 +19,12 @@ public class RocketLowFuel {
 
                         Player player = Bukkit.getPlayer(uuid);
 
-                        boolean alternateFuel = false;
-
-                        switch (rocketVariant.get(uuid)) {
-
-                            case COAL:
-                                alternateFuel = true;
-                                break;
-
-                            case HEALTH:
-                                alternateFuel = true;
-                                break;
-
-                            case MONEY:
-                                alternateFuel = true;
-                                break;
-
-                            case REDSTONE:
-                                alternateFuel = true;
-                                break;
-
-                        }
-
-                        if (rocketLowFuel.contains(player.getUniqueId()) && !alternateFuel) {
-
+                        if (rocketLowFuel.contains(player.getUniqueId()) && !rocketVariant.get(uuid).isAlternateFuel())
                             if (player.isFlying()) if (player.getLevel() <= 6)
                                 player.getWorld().playSound(player.getLocation(), Sound.ORB_PICKUP, 0.5f, 1.3f);
                             else rocketLowFuel.remove(uuid);
 
-                        }
-
-            }
+                    }
 
                 }), 0, 15);
 

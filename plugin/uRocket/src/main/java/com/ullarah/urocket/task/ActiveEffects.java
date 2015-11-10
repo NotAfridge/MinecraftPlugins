@@ -5,13 +5,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.Map;
 import java.util.UUID;
 
-import static com.ullarah.urocket.RocketFunctions.Variant;
 import static com.ullarah.urocket.RocketInit.*;
+import static com.ullarah.urocket.RocketVariant.Variant;
+import static com.ullarah.urocket.RocketVariant.Variant.STEALTH;
 
 public class ActiveEffects {
 
@@ -21,75 +21,30 @@ public class ActiveEffects {
                 () -> Bukkit.getScheduler().runTask(getPlugin(), () -> {
 
                     if (!rocketPower.isEmpty()) {
-                        for (Map.Entry<UUID, Integer> rocketActive : rocketPower.entrySet()) {
+                        for (Map.Entry<UUID, Integer> entry : rocketPower.entrySet()) {
 
-                            Player player = Bukkit.getPlayer(rocketActive.getKey());
+                            Player player = Bukkit.getPlayer(entry.getKey());
 
-                            if (GamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
-                                if (player.getWorld().getName().equals("world")) {
+                            if (GamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE))
+                                if (player.getWorld().getName().equals("world"))
                                     if (rocketVariant.containsKey(player.getUniqueId())) if (player.isFlying()) {
 
                                         Variant bootVariant = rocketVariant.get(player.getUniqueId());
+                                        PotionEffect[] effects = bootVariant.getPotionEffects();
 
-                                        if (bootVariant != null) {
+                                        for (PotionEffect effect : player.getActivePotionEffects())
+                                            player.removePotionEffect(effect.getType());
 
-                                            for (PotionEffect effect : player.getActivePotionEffects())
-                                                player.removePotionEffect(effect.getType());
-
-                                            switch (bootVariant) {
-
-                                                case ENDER:
-                                                    rocketEffects.add(player.getUniqueId());
-                                                    player.addPotionEffect(new PotionEffect(
-                                                            PotionEffectType.NIGHT_VISION,
-                                                            Integer.MAX_VALUE, 2, false, false), true);
-                                                    player.addPotionEffect(new PotionEffect(
-                                                            PotionEffectType.HEALTH_BOOST,
-                                                            Integer.MAX_VALUE, 4, false, false), true);
-                                                    break;
-
-                                                case ZERO:
-                                                    rocketEffects.add(player.getUniqueId());
-                                                    player.addPotionEffect(new PotionEffect(
-                                                            PotionEffectType.CONFUSION,
-                                                            Integer.MAX_VALUE, 0, false, false), true);
-                                                    player.addPotionEffect(new PotionEffect(
-                                                            PotionEffectType.DAMAGE_RESISTANCE,
-                                                            Integer.MAX_VALUE, 1, false, false), true);
-                                                    player.addPotionEffect(new PotionEffect(
-                                                            PotionEffectType.INCREASE_DAMAGE,
-                                                            Integer.MAX_VALUE, 1, false, false), true);
-                                                    break;
-
-                                                case STEALTH:
-                                                    rocketEffects.add(player.getUniqueId());
-                                                    for (Player onlinePlayer : Bukkit.getOnlinePlayers())
-                                                        onlinePlayer.hidePlayer(player);
-                                                    break;
-
-                                                case DRUNK:
-                                                    rocketEffects.add(player.getUniqueId());
-                                                    player.addPotionEffect(new PotionEffect(
-                                                            PotionEffectType.CONFUSION,
-                                                            Integer.MAX_VALUE, 0, false, false), true);
-                                                    player.addPotionEffect(new PotionEffect(
-                                                            PotionEffectType.FAST_DIGGING,
-                                                            Integer.MAX_VALUE, 2, false, false), true);
-                                                    break;
-
-                                                case BOOST:
-                                                    rocketEffects.add(player.getUniqueId());
-                                                    player.addPotionEffect(new PotionEffect(
-                                                            PotionEffectType.HEAL,
-                                                            Integer.MAX_VALUE, 1, false, false), true);
-                                                    break;
-
-                                                default:
-                                                    break;
-
+                                        if (effects != null) {
+                                            for (PotionEffect effect : effects) {
+                                                rocketEffects.add(player.getUniqueId());
+                                                player.addPotionEffect(effect);
                                             }
-
                                         }
+
+                                        if (bootVariant.equals(STEALTH))
+                                            for (Player onlinePlayer : Bukkit.getOnlinePlayers())
+                                                onlinePlayer.hidePlayer(player);
 
                                     } else if (rocketEffects.contains(player.getUniqueId())) {
 
@@ -101,12 +56,10 @@ public class ActiveEffects {
 
                                         rocketEffects.remove(player.getUniqueId());
 
-                            }
-                        }
-                    }
+                                    }
 
                         }
-            }
+                    }
 
                 }), 0, 0);
 

@@ -12,10 +12,10 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.UUID;
 
-import static com.ullarah.urocket.RocketFunctions.Variant.RUNNER;
 import static com.ullarah.urocket.RocketFunctions.changeBootDurability;
 import static com.ullarah.urocket.RocketFunctions.getBootPowerLevel;
 import static com.ullarah.urocket.RocketInit.*;
+import static com.ullarah.urocket.RocketVariant.Variant.RUNNER;
 
 public class ToggleSprint implements Listener {
 
@@ -39,7 +39,7 @@ public class ToggleSprint implements Listener {
                                 getMsgPrefix() + ChatColor.RED +
                                         "Uh Oh! Your Rocket Boots have overheated!",
                                 getMsgPrefix() + ChatColor.RESET +
-                                        "You need to land for them to cooldown!"
+                                        "You need to land for them to cool down!"
                         });
 
                         player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 0.5f, 0.75f);

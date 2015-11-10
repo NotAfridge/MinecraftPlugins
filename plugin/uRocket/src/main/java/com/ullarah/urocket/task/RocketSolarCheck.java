@@ -10,6 +10,8 @@ import org.bukkit.entity.Player;
 import java.util.Map;
 import java.util.UUID;
 
+import static com.ullarah.urocket.RocketEnhancement.Enhancement;
+import static com.ullarah.urocket.RocketEnhancement.Enhancement.SOLAR;
 import static com.ullarah.urocket.RocketInit.*;
 
 public class RocketSolarCheck {
@@ -19,12 +21,13 @@ public class RocketSolarCheck {
         Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
                 () -> Bukkit.getServer().getScheduler().runTask(getPlugin(), () -> {
 
-                    if (!rocketSolar.isEmpty())
-                        for (Map.Entry<UUID, Boolean> isSolar : rocketSolar.entrySet()) {
+                    if (!rocketEnhancement.isEmpty())
+                        for (Map.Entry<UUID, Enhancement> entry : rocketEnhancement.entrySet()) {
 
-                            Player player = Bukkit.getPlayer(isSolar.getKey());
+                            Player player = Bukkit.getPlayer(entry.getKey());
+                            Enhancement enhancement = entry.getValue();
 
-                            if (isSolar.getValue() && player.isFlying()) {
+                            if (enhancement.equals(SOLAR) && player.isFlying()) {
 
                                 boolean showSolarParticles = false;
 

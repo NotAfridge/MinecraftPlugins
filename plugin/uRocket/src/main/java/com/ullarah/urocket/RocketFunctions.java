@@ -1,6 +1,7 @@
 package com.ullarah.urocket;
 
 import com.ullarah.ulib.function.*;
+import com.ullarah.urocket.RocketVariant.Variant;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -15,8 +16,9 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.ullarah.urocket.RocketFunctions.Variant.*;
+import static com.ullarah.urocket.RocketEnhancement.Enhancement;
 import static com.ullarah.urocket.RocketInit.*;
+import static com.ullarah.urocket.RocketVariant.Variant.*;
 
 public class RocketFunctions {
 
@@ -34,9 +36,7 @@ public class RocketFunctions {
         if (rocketWater.contains(playerUUID)) rocketWater.remove(playerUUID);
         if (rocketRepair.containsKey(playerUUID)) rocketRepair.remove(playerUUID);
 
-        if (!keepEnhancement && rocketHealer.containsKey(playerUUID)) rocketHealer.remove(playerUUID);
-        if (!keepEnhancement && rocketEfficient.containsKey(playerUUID)) rocketEfficient.remove(playerUUID);
-        if (!keepEnhancement && rocketSolar.containsKey(playerUUID)) rocketSolar.remove(playerUUID);
+        if (!keepEnhancement && rocketEnhancement.containsKey(playerUUID)) rocketEnhancement.remove(playerUUID);
 
         if (!keepVariant && rocketVariant.containsKey(playerUUID)) {
             switch (rocketVariant.get(playerUUID)) {
@@ -139,7 +139,7 @@ public class RocketFunctions {
                     if (validBoots && rocketLore.matches(ChatColor.YELLOW + "Rocket Level I{0,3}V?X?"))
                         if (!rocketUsage.contains(player.getUniqueId()))
                             if (click == ClickType.MIDDLE) event.setCancelled(true);
-                            else attachRocketBoots(player, rocketMeta, rocketLore);
+                            else attachRocketBoots(player, rocketMeta);
 
                 }
 
@@ -158,115 +158,86 @@ public class RocketFunctions {
 
     }
 
-    public static void attachRocketBoots(Player player, ItemMeta rocketMeta, String rocketLore) {
+    public static void attachRocketBoots(Player player, ItemMeta rocketMeta) {
 
         if (GamemodeCheck.check(player, GameMode.CREATIVE, GameMode.SPECTATOR)) {
             disableRocketBoots(player, false, false, false, false, false);
             player.sendMessage(getMsgPrefix() + "Rocket Boots do not work in this gamemode!");
             return;
         }
-        
+
         Block blockMiddle = player.getLocation().getBlock().getRelative(BlockFace.SELF);
-        String variantLore = null;
-        String enhancementLore = null;
+
         Boolean isWaterVariant = false;
         Boolean isRunnerVariant = false;
 
-        if (rocketMeta.getLore().size() == 2) {
+        String[] rocketMessage = new String[3];
+        rocketMessage[0] = "Rocket Boots Activated!";
 
-            String loreLine = ChatColor.stripColor(rocketMeta.getLore().get(1));
-            assert loreLine != null;
+        switch (rocketMeta.getLore().size()) {
 
-            switch (loreLine) {
+            case 1:
+                rocketMessage[1] = "Variant: " + ChatColor.RED + "Not Found";
+                rocketMessage[2] = "Enhancement: " + ChatColor.RED + "Not Found";
+                rocketVariant.put(player.getUniqueId(), ORIGINAL);
+                break;
 
-                case "Self Repair":
-                    enhancementLore = loreLine;
-                    rocketHealer.put(player.getUniqueId(), 0);
-                    break;
+            case 2:
+                String loreLine = ChatColor.stripColor(rocketMeta.getLore().get(1));
 
-                case "Fuel Efficient":
-                    enhancementLore = loreLine;
-                    rocketEfficient.put(player.getUniqueId(), true);
-                    break;
-
-                case "Solar Powered":
-                    enhancementLore = loreLine;
-                    rocketSolar.put(player.getUniqueId(), true);
-                    break;
-
-                default:
-                    variantLore = loreLine;
-                    break;
-
-            }
-
-        }
-
-        if (rocketMeta.getLore().size() == 3) {
-
-            variantLore = ChatColor.stripColor(rocketMeta.getLore().get(1));
-            enhancementLore = ChatColor.stripColor(rocketMeta.getLore().get(2));
-
-            Variant variantType = getEnum(variantLore);
-
-            if (!rocketEnhancementBlacklist.contains(variantType)) {
-
-                assert enhancementLore != null;
-                switch (enhancementLore) {
-
-                    case "Self Repair":
-                        rocketHealer.put(player.getUniqueId(), 0);
-                        break;
-
-                    case "Fuel Efficient":
-                        rocketEfficient.put(player.getUniqueId(), true);
-                        break;
-
-                    case "Solar Powered":
-                        rocketSolar.put(player.getUniqueId(), true);
-                        break;
-
+                if (Variant.isVariant(loreLine)) {
+                    rocketMessage[1] = "Variant: " + ChatColor.AQUA + loreLine;
+                    rocketMessage[2] = "Enhancement: " + ChatColor.RED + "Not Found";
+                    rocketVariant.put(player.getUniqueId(), Variant.getEnum(loreLine));
+                    if (Variant.getEnum(loreLine).equals(WATER)) isWaterVariant = true;
+                    if (Variant.getEnum(loreLine).equals(RUNNER)) isRunnerVariant = true;
                 }
-                
-            }
+
+                if (Enhancement.isEnhancement(loreLine)) {
+                    rocketMessage[1] = "Variant: " + ChatColor.RED + "Not Found";
+                    rocketMessage[2] = "Enhancement: " + ChatColor.AQUA + loreLine;
+                    rocketEnhancement.put(player.getUniqueId(), Enhancement.getEnum(loreLine));
+                }
+                break;
+
+            case 3:
+                String variantLore = ChatColor.stripColor(rocketMeta.getLore().get(1));
+                String enhancementLore = ChatColor.stripColor(rocketMeta.getLore().get(2));
+
+                Variant variantType = Variant.getEnum(variantLore);
+                Enhancement enhancementType = Enhancement.getEnum(enhancementLore);
+
+                rocketMessage[1] = "Variant: " + ChatColor.AQUA + variantLore;
+                rocketVariant.put(player.getUniqueId(), variantType);
+
+                if (variantType.getEnhancementAllow()) {
+                    rocketMessage[2] = "Enhancement: " + ChatColor.AQUA + enhancementLore;
+                    rocketEnhancement.put(player.getUniqueId(), enhancementType);
+                } else rocketMessage[2] = "Enhancement: " + ChatColor.YELLOW + "Not Working";
+                break;
+
+            default:
+                break;
 
         }
-
-        if (variantLore != null) {
-
-            Variant variantType = getEnum(variantLore);
-
-            if (variantType != null) {
-                rocketVariant.put(player.getUniqueId(), variantType);
-                if (rocketVariant.get(player.getUniqueId()) == WATER) isWaterVariant = true;
-            }
-
-        } else rocketVariant.put(player.getUniqueId(), ORIGINAL);
 
         if (!isWaterVariant && blockMiddle.isLiquid()) {
 
             rocketWater.add(player.getUniqueId());
             player.sendMessage(getMsgPrefix() + "These Rocket Boots will not start in water!");
+            return;
 
-        } else if (player.getInventory().getBoots() == null)
+        }
+
+        if (player.getInventory().getBoots() == null)
             if (GamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
 
-                player.sendMessage(getMsgPrefix() + "Rocket Boots Activated!");
-
-                if (variantLore != null) {
-                    player.sendMessage(getMsgPrefix() + "Variant: " + ChatColor.AQUA + variantLore);
-                    if (Variant.getEnum(variantLore) == Variant.RUNNER) isRunnerVariant = true;
-                } else player.sendMessage(getMsgPrefix() + "Variant: " + ChatColor.RED + "Not Found");
-
-                if (enhancementLore != null)
-                    player.sendMessage(getMsgPrefix() + "Enhancement: " + ChatColor.AQUA + enhancementLore);
-                else
-                    player.sendMessage(getMsgPrefix() + "Enhancement: " + ChatColor.RED + "Not Found");
+                CommonString.messageSend(getPlugin(), player, true, rocketMessage);
 
                 if (!isRunnerVariant) player.setAllowFlight(true);
 
                 Integer powerLevel = RomanNumeralToInteger.decode(
-                        rocketLore.replaceFirst(
+                        rocketMeta.getLore().get(0).replaceFirst(
                                 ChatColor.YELLOW + "Rocket Level ", ""));
 
                 rocketPower.put(player.getUniqueId(), powerLevel);
@@ -443,31 +414,6 @@ public class RocketFunctions {
         }
 
         return false;
-
-    }
-
-    public enum Variant {
-
-        ORIGINAL("Original"), ENDER("Essence of Ender"), HEALTH("Health Zapper"), KABOOM("TNT Overload"),
-        RAINBOW("Radical Rainbows"), WATER("Water Slider"), ZERO("Patient Zero"), NOTE("Musical Madness"),
-        STEALTH("Super Stealth"), AGENDA("Gay Agenda"), MONEY("Robin Hood"), DRUNK("Glazed Over"),
-        BOOST("Pole Vaulter"), COAL("Coal Miner"), REDSTONE("Red Fury"), RUNNER("Rocket Runner"),
-        GLOW("Shooting Star"), SOUND("Loud Silence");
-
-        private final String type;
-
-        Variant(String getType) {
-            type = getType;
-        }
-
-        public static Variant getEnum(String variant) {
-            for (Variant v : values()) if (variant.equals(v.type)) return v;
-            return null;
-        }
-
-        public String toString() {
-            return type;
-        }
 
     }
 

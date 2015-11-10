@@ -14,9 +14,11 @@ import org.bukkit.util.Vector;
 import java.util.Random;
 import java.util.UUID;
 
-import static com.ullarah.urocket.RocketFunctions.Variant;
+import static com.ullarah.urocket.RocketEnhancement.Enhancement.FUEL;
+import static com.ullarah.urocket.RocketEnhancement.Enhancement.SOLAR;
 import static com.ullarah.urocket.RocketFunctions.disableRocketBoots;
 import static com.ullarah.urocket.RocketInit.*;
+import static com.ullarah.urocket.RocketVariant.Variant;
 
 public class RocketFuel {
 
@@ -40,32 +42,15 @@ public class RocketFuel {
                             boolean isFuelEfficient = false;
                             boolean isSolarPowered = false;
 
-                            switch (rocketVariant.get(uuid)) {
+                            if (rocketVariant.containsKey(uuid))
+                                alternateFuel = rocketVariant.get(uuid).isAlternateFuel();
 
-                                case COAL:
-                                    alternateFuel = true;
-                                    break;
-
-                                case HEALTH:
-                                    alternateFuel = true;
-                                    break;
-
-                                case MONEY:
-                                    alternateFuel = true;
-                                    break;
-
-                                case REDSTONE:
-                                    alternateFuel = true;
-                                    break;
-
+                            if (rocketEnhancement.containsKey(uuid)) {
+                                isFuelEfficient = (rocketEnhancement.get(uuid).equals(FUEL));
+                                isSolarPowered = (rocketEnhancement.get(uuid).equals(SOLAR));
                             }
 
-                            if (rocketEfficient.containsKey(uuid)) isFuelEfficient = rocketEfficient.get(uuid);
-                            if (rocketSolar.containsKey(uuid)) isSolarPowered = rocketSolar.get(uuid);
-
                             if (rocketUsage.contains(uuid) && player.getLevel() <= 1 && !alternateFuel) {
-
-                                rocketHealer.replace(uuid, 0);
 
                                 player.sendMessage(getMsgPrefix() + "You ran out of XP for your Rocket Boots!");
                                 TitleSubtitle.subtitle(player, 2,
@@ -74,8 +59,6 @@ public class RocketFuel {
                                 disableRocketBoots(player, true, true, true, true, true);
 
                             } else if (rocketUsage.contains(uuid) && player.getLevel() <= 5 && !alternateFuel) {
-
-                                rocketHealer.replace(uuid, 0);
 
                                 player.sendMessage(getMsgPrefix() + "You might want to consider landing!");
                                 TitleSubtitle.both(player, 2,
@@ -239,7 +222,7 @@ public class RocketFuel {
 
                                         break;
 
-                                    case REDSTONE:
+                                    case FURY:
                                         if (random.nextInt(10) == 5) {
 
                                             player.getWorld().playSound(player.getLocation(),

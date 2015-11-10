@@ -1,7 +1,6 @@
 package com.ullarah.urocket.event;
 
 import com.ullarah.ulib.function.SignText;
-import com.ullarah.urocket.RocketFunctions;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -58,9 +57,6 @@ public class StandChange implements Listener {
                         if (player.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Boots")) {
 
                             if (standItem != null) {
-
-                                Short rocketDurability = player.getItemInHand().getDurability();
-                                RocketFunctions.Variant bootVariant = rocketVariant.get(player.getUniqueId());
 
                                 int bootMaterialDurability = 0;
 

@@ -36,9 +36,9 @@ public class CraftStandard implements Listener {
             String boosterType = null;
             String variantType = null;
 
-            String rocketHeal = ChatColor.AQUA + "Self Repair";
-            String rocketEfficient = ChatColor.AQUA + "Fuel Efficient";
-            String rocketSolar = ChatColor.AQUA + "Solar Powered";
+            String rocketRepair = "Self Repair";
+            String rocketEfficient = "Fuel Efficient";
+            String rocketSolar = "Solar Power";
 
             ItemStack rocketVariant = getSlot[7];
             ItemStack rocketEnhancement = getSlot[4];
@@ -100,9 +100,9 @@ public class CraftStandard implements Listener {
 
                 String enhancementName = rocketEnhancement.getItemMeta().getDisplayName();
 
-                if (enhancementName.equals(ChatColor.RED + "Self Repair Enhancement")) bootType += 16;
-                if (enhancementName.equals(ChatColor.RED + "Fuel Efficient Enhancement")) bootType += 32;
-                if (enhancementName.equals(ChatColor.RED + "Solar Enhancement")) bootType += 64;
+                if (enhancementName.equals(ChatColor.RED + rocketRepair)) bootType += 16;
+                if (enhancementName.equals(ChatColor.RED + rocketEfficient)) bootType += 32;
+                if (enhancementName.equals(ChatColor.RED + rocketSolar)) bootType += 64;
 
             }
 
@@ -124,27 +124,27 @@ public class CraftStandard implements Listener {
                         break;
 
                     case 16:
-                        bootMeta.setLore(Arrays.asList(boosterType, rocketHeal));
+                        bootMeta.setLore(Arrays.asList(boosterType, ChatColor.AQUA + rocketRepair));
                         break;
 
                     case 24:
-                        bootMeta.setLore(Arrays.asList(boosterType, variantType, rocketHeal));
+                        bootMeta.setLore(Arrays.asList(boosterType, variantType, ChatColor.AQUA + rocketRepair));
                         break;
 
                     case 32:
-                        bootMeta.setLore(Arrays.asList(boosterType, rocketEfficient));
+                        bootMeta.setLore(Arrays.asList(boosterType, ChatColor.AQUA + rocketEfficient));
                         break;
 
                     case 40:
-                        bootMeta.setLore(Arrays.asList(boosterType, variantType, rocketEfficient));
+                        bootMeta.setLore(Arrays.asList(boosterType, variantType, ChatColor.AQUA + rocketEfficient));
                         break;
 
                     case 64:
-                        bootMeta.setLore(Arrays.asList(boosterType, rocketSolar));
+                        bootMeta.setLore(Arrays.asList(boosterType, ChatColor.AQUA + rocketSolar));
                         break;
 
                     case 72:
-                        bootMeta.setLore(Arrays.asList(boosterType, variantType, rocketSolar));
+                        bootMeta.setLore(Arrays.asList(boosterType, variantType, ChatColor.AQUA + rocketSolar));
                         break;
 
 

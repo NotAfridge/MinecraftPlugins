@@ -21,9 +21,10 @@ import java.util.logging.Level;
 import static com.ullarah.ulib.function.PluginRegisters.RegisterType.*;
 import static com.ullarah.ulib.function.PluginRegisters.register;
 import static com.ullarah.ulib.function.PluginRegisters.registerAll;
-import static com.ullarah.urocket.RocketFunctions.*;
-import static com.ullarah.urocket.RocketFunctions.Variant.*;
-import static com.ullarah.urocket.VariantInit.returnVariantMap;
+import static com.ullarah.urocket.RocketEnhancement.Enhancement;
+import static com.ullarah.urocket.RocketFunctions.disableRocketBoots;
+import static com.ullarah.urocket.RocketFunctions.reloadFlyZones;
+import static com.ullarah.urocket.RocketVariant.Variant;
 
 public class RocketInit extends JavaPlugin {
 
@@ -38,17 +39,12 @@ public class RocketInit extends JavaPlugin {
     public static final ConcurrentHashMap<UUID, String> rocketSprint = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Integer> rocketPower = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Variant> rocketVariant = new ConcurrentHashMap<>();
-    public static final ConcurrentHashMap<UUID, Integer> rocketHealer = new ConcurrentHashMap<>();
-    public static final ConcurrentHashMap<UUID, Boolean> rocketEfficient = new ConcurrentHashMap<>();
-    public static final ConcurrentHashMap<UUID, Boolean> rocketSolar = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<UUID, Enhancement> rocketEnhancement = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Location> rocketRepair = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Location> rocketRepairStand = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, ConcurrentHashMap<Location, Location>> rocketZoneLocations = new ConcurrentHashMap<>();
 
     public static final HashMap<String, Integer> registerMap = new HashMap<>();
-
-    public static final HashSet<Variant> rocketEnhancementBlacklist = new HashSet<>
-            (Arrays.asList(HEALTH, MONEY, COAL, REDSTONE));
 
     private static String msgPrefix = null;
     private static Plugin plugin;
@@ -96,9 +92,6 @@ public class RocketInit extends JavaPlugin {
         Plugin pluginWorldGuard = pluginManager.getPlugin("WorldGuard");
         Plugin pluginVault = pluginManager.getPlugin("Vault");
 
-        registerMap.put(EVENT.toString(), registerAll(getPlugin(), EVENT));
-        registerMap.put(TASK.toString(), registerAll(getPlugin(), TASK));
-
         registerMap.put(RECIPE.toString(), register(getPlugin(), RECIPE,
                 new RocketBooster("I", Material.REDSTONE_BLOCK),
                 new RocketBooster("II", Material.IRON_BLOCK),
@@ -110,10 +103,7 @@ public class RocketInit extends JavaPlugin {
                 new RepairTank(),
                 new RepairStand(),
                 new RocketFlyZone(),
-                new RocketSaddle(),
-                new RocketHealer(),
-                new RocketEfficient(),
-                new RocketSolar()
+                new RocketSaddle()
         ));
 
         for (Material material : new ArrayList<Material>() {{
@@ -138,17 +128,15 @@ public class RocketInit extends JavaPlugin {
 
         }
 
-        registerMap.put("variant", 0);
-        for (Object variantObject : returnVariantMap().entrySet()) {
+        registerMap.put(EVENT.toString(), registerAll(getPlugin(), EVENT));
+        registerMap.put(TASK.toString(), registerAll(getPlugin(), TASK));
 
-            String variantName = (String) ((Map.Entry) variantObject).getKey();
-            ArrayList variantMaterial = (ArrayList) ((Map.Entry) variantObject).getValue();
+        RocketVariant variantInit = new RocketVariant();
+        variantInit.init();
 
-            registerMap.put("variant", registerMap.get("variant") +
-                    register(getPlugin(), RECIPE, new RocketVariant(variantName, variantMaterial)));
-
-        }
-
+        RocketEnhancement enhancementInit = new RocketEnhancement();
+        enhancementInit.init();
+        
         getCommand("rocket").setExecutor(new RocketExecutor());
 
         getConfig().options().copyDefaults(true);
@@ -167,19 +155,8 @@ public class RocketInit extends JavaPlugin {
             RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(
                     net.milkbowl.vault.economy.Economy.class);
             if (economyProvider != null) {
-
                 setVaultEconomy(economyProvider.getProvider());
-
-                registerMap.put("variant", registerMap.get("variant") + register(getPlugin(), RECIPE,
-                        new RocketVariant(ChatColor.DARK_GREEN + "Robin Hood",
-                                new ArrayList<Material>() {{
-                                    add(Material.EMERALD);
-                                    add(Material.DIAMOND);
-                                    add(Material.DISPENSER);
-                                }})));
-
                 pluginList.add("Vault");
-
             }
         }
 
@@ -187,14 +164,16 @@ public class RocketInit extends JavaPlugin {
         int zoneList = registerMap.get("zone") != null ? registerMap.get("zone") : 0;
 
         Bukkit.getLogger().log(Level.INFO, "[" + getPlugin().getName() + "] "
+                + "Tasks: " + registerMap.get("task") + " | "
                 + "Events: " + registerMap.get("event") + " | "
                 + "Recipes: " + registerMap.get("recipe") + " | "
                 + "Variants: " + registerMap.get("variant") + " | "
-                + "Tasks: " + registerMap.get("task") + " | "
+                + "Enhancements: " + registerMap.get("enhancement") + " | "
                 + "Zones: " + zoneList);
 
         if (pluginList.size() > 0)
-            Bukkit.getLogger().log(Level.INFO, "[" + getPlugin().getName() + "] Hooked: " + StringUtils.join(pluginList, ", "));
+            Bukkit.getLogger().log(Level.INFO,
+                    "[" + getPlugin().getName() + "] Hooked: " + StringUtils.join(pluginList, ", "));
 
     }
 

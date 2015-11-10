@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.ullarah.urocket.RocketFunctions.Variant;
 import static com.ullarah.urocket.RocketInit.*;
+import static com.ullarah.urocket.RocketVariant.Variant;
 
 public class PlayerMove implements Listener {
 

@@ -13,10 +13,10 @@ import org.bukkit.entity.Player;
 import java.util.Random;
 import java.util.UUID;
 
-import static com.ullarah.urocket.RocketFunctions.Variant;
-import static com.ullarah.urocket.RocketFunctions.Variant.NOTE;
-import static com.ullarah.urocket.RocketFunctions.Variant.SOUND;
 import static com.ullarah.urocket.RocketInit.*;
+import static com.ullarah.urocket.RocketVariant.Variant;
+import static com.ullarah.urocket.RocketVariant.Variant.NOTE;
+import static com.ullarah.urocket.RocketVariant.Variant.SOUND;
 import static org.bukkit.Note.Tone;
 import static org.bukkit.Note.natural;
 
@@ -101,12 +101,14 @@ public class NotePlaying {
 
                                             PacketPlayOutWorldParticles packet;
 
-                                            int colour = new Random().nextInt(25);
                                             if (rocketSprint.containsKey(player.getUniqueId()))
                                                 packet = new PacketPlayOutWorldParticles(EnumParticle.SMOKE_LARGE,
                                                         true, x, y, z, oX, oY, oZ, 0, 5, null);
-                                            else packet = new PacketPlayOutWorldParticles(EnumParticle.NOTE,
-                                                    true, x, y, z, oX, oY, oZ, colour, 1, null);
+                                            else packet = new PacketPlayOutWorldParticles(bootVariant.getParticleType(),
+                                                    true, x, y, z, oX, oY, oZ,
+                                                    bootVariant.getParticleSpeed(),
+                                                    bootVariant.getParticleAmount(),
+                                                    null);
 
                                             for (Player serverPlayer : player.getWorld().getPlayers())
                                                 ((CraftPlayer) serverPlayer).getHandle().playerConnection.sendPacket(packet);

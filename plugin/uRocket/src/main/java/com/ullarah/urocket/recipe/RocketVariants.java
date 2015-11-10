@@ -9,10 +9,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
 import java.util.Collections;
 
-public class RocketVariant implements NewRecipe {
+public class RocketVariants implements NewRecipe {
 
     private final String variantName;
 
@@ -20,13 +19,13 @@ public class RocketVariant implements NewRecipe {
     private final Material variantSideMaterial;
     private final Material variantBottomMaterial;
 
-    public RocketVariant(String name, ArrayList materials) {
+    public RocketVariants(String name, Material[] materials) {
 
         variantName = name;
 
-        variantTopMaterial = (Material) materials.get(0);
-        variantSideMaterial = (Material) materials.get(1);
-        variantBottomMaterial = (Material) materials.get(2);
+        variantTopMaterial = materials[0];
+        variantSideMaterial = materials[1];
+        variantBottomMaterial = materials[2];
 
     }
 

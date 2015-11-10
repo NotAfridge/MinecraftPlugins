@@ -7,7 +7,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 
-import static com.ullarah.urocket.RocketFunctions.Variant;
 import static com.ullarah.urocket.RocketInit.getMsgPrefix;
 import static com.ullarah.urocket.RocketInit.rocketVariant;
 
@@ -24,26 +23,20 @@ public class PlayerConsume implements Listener {
 
                 if (rocketVariant.containsKey(player.getUniqueId())) {
 
-                    Variant bootVariant = rocketVariant.get(player.getUniqueId());
+                    switch (rocketVariant.get(player.getUniqueId())) {
 
-                    if (bootVariant != null) {
+                        case HEALTH:
+                            event.setCancelled(true);
+                            player.sendMessage(getMsgPrefix() + "You cannot eat and fly at the same time!");
+                            break;
 
-                        switch (bootVariant) {
+                        case STEALTH:
+                            event.setCancelled(true);
+                            player.sendMessage(getMsgPrefix() + "You cannot eat while you are hidden!");
+                            break;
 
-                            case HEALTH:
-                                event.setCancelled(true);
-                                player.sendMessage(getMsgPrefix() + "You cannot eat and fly at the same time!");
-                                break;
-
-                            case STEALTH:
-                                event.setCancelled(true);
-                                player.sendMessage(getMsgPrefix() + "You cannot eat while you are hidden!");
-                                break;
-
-                            default:
-                                break;
-
-                        }
+                        default:
+                            break;
 
                     }
 
