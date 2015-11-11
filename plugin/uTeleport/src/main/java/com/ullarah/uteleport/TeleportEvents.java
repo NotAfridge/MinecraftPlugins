@@ -23,58 +23,60 @@ public class TeleportEvents implements Listener {
         UUID playerUUID = player.getUniqueId();
 
         TeleportCause cause = event.getCause();
+
         Location locationFrom = event.getFrom();
+        Location locationTo = event.getTo();
+
+        double posFromX = (int) locationFrom.getX();
+        double posFromY = (int) locationFrom.getY();
+        double posFromZ = (int) locationFrom.getZ();
 
         if (cause.equals(COMMAND) || cause.equals(PLUGIN)) {
 
             if (!historyBlock.contains(playerUUID)) {
 
-                if (historyMap.containsKey(playerUUID)) {
+                if (locationFrom.distance(locationTo) > getPlugin().getConfig().getDouble("distance")) {
 
-                    ConcurrentHashMap<ArrayList<Location>, ArrayList<Date>> locationMap = historyMap.get(playerUUID);
+                    if (historyMap.containsKey(playerUUID)) {
 
-                    ArrayList<Location> locations = new ArrayList<>();
-                    ArrayList<Date> dates = new ArrayList<>();
+                        ConcurrentHashMap<ArrayList<Location>, ArrayList<Date>> locationMap = historyMap.get(playerUUID);
 
-                    for (Map.Entry<ArrayList<Location>, ArrayList<Date>> entry : locationMap.entrySet()) {
+                        ArrayList<Location> locations = new ArrayList<>();
+                        ArrayList<Date> dates = new ArrayList<>();
 
-                        ArrayList<Location> historyLocation = entry.getKey();
-                        ArrayList<Date> historyDate = entry.getValue();
+                        for (Map.Entry<ArrayList<Location>, ArrayList<Date>> entry : locationMap.entrySet()) {
 
-                        if (historyLocation.size() >= getPlugin().getConfig().getInt("history")) {
-                            historyLocation.remove(0);
-                            historyDate.remove(0);
+                            ArrayList<Location> historyLocation = entry.getKey();
+                            ArrayList<Date> historyDate = entry.getValue();
+
+                            if (historyLocation.size() >= getPlugin().getConfig().getInt("history")) {
+                                historyLocation.remove(0);
+                                historyDate.remove(0);
+                            }
+
+                            locations = historyLocation;
+                            dates = historyDate;
+
                         }
 
-                        locations = historyLocation;
-                        dates = historyDate;
+                        locations.add(new Location(locationFrom.getWorld(), posFromX, posFromY, posFromZ, 0, 0));
+                        dates.add(Calendar.getInstance().getTime());
+
+                        locationMap.put(locations, dates);
+
+                        historyMap.put(playerUUID, locationMap);
+
+                    } else {
+
+                        historyMap.put(playerUUID, new ConcurrentHashMap<ArrayList<Location>, ArrayList<Date>>() {{
+                            put(new ArrayList<Location>() {{
+                                add(new Location(locationFrom.getWorld(), posFromX, posFromY, posFromZ, 0, 0));
+                            }}, new ArrayList<Date>() {{
+                                add(Calendar.getInstance().getTime());
+                            }});
+                        }});
 
                     }
-
-                    double posX = (int) locationFrom.getX();
-                    double posY = (int) locationFrom.getY();
-                    double posZ = (int) locationFrom.getZ();
-
-                    locations.add(new Location(locationFrom.getWorld(), posX, posY, posZ, 0, 0));
-                    dates.add(Calendar.getInstance().getTime());
-
-                    locationMap.put(locations, dates);
-
-                    historyMap.put(playerUUID, locationMap);
-
-                } else {
-
-                    double posX = (int) locationFrom.getX();
-                    double posY = (int) locationFrom.getY();
-                    double posZ = (int) locationFrom.getZ();
-
-                    historyMap.put(playerUUID, new ConcurrentHashMap<ArrayList<Location>, ArrayList<Date>>() {{
-                        put(new ArrayList<Location>() {{
-                            add(new Location(locationFrom.getWorld(), posX, posY, posZ, 0, 0));
-                        }}, new ArrayList<Date>() {{
-                            add(Calendar.getInstance().getTime());
-                        }});
-                    }});
 
                 }
 

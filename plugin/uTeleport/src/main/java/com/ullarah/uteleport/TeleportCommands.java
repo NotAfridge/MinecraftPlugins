@@ -32,7 +32,7 @@ public class TeleportCommands implements CommandExecutor {
 
         ConcurrentHashMap<ArrayList<Location>, ArrayList<Date>> locationMap = historyMap.get(player.getUniqueId());
 
-        if (historyMap.isEmpty()) {
+        if (!historyMap.containsKey(player.getUniqueId())) {
 
             messageSend(getPlugin(), player, true, new String[]{"No teleport history found."});
 
@@ -70,7 +70,7 @@ public class TeleportCommands implements CommandExecutor {
                         else {
                             historyBlock.add(player.getUniqueId());
                             new BukkitRunnable() {
-                                int b = 3;
+                                int b = getPlugin().getConfig().getInt("timeout");
 
                                 @Override
                                 public void run() {
