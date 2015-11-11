@@ -1,0 +1,14 @@
+name: ${project.name}
+version: ${project.version}
+description: ${project.description}
+
+author: Ullarah
+
+main: ${project.groupId}.${project.artifactId}.TeleportInit
+
+commands:
+  utp:
+    description: Displays Teleport History.
+    usage: /utp
+    permission: uteleport.use
+    permission-message: You do not have <permission>
