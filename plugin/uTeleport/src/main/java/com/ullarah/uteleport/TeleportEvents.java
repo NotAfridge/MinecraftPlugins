@@ -31,11 +31,14 @@ public class TeleportEvents implements Listener {
         double posFromY = (int) locationFrom.getY();
         double posFromZ = (int) locationFrom.getZ();
 
+        boolean validTeleport = !locationFrom.getWorld().equals(locationTo.getWorld())
+                || locationFrom.distance(locationTo) > getPlugin().getConfig().getDouble("distance");
+
         if (cause.equals(COMMAND) || cause.equals(PLUGIN)) {
 
             if (!historyBlock.contains(playerUUID)) {
 
-                if (locationFrom.distance(locationTo) > getPlugin().getConfig().getDouble("distance")) {
+                if (validTeleport) {
 
                     if (historyMap.containsKey(playerUUID)) {
 

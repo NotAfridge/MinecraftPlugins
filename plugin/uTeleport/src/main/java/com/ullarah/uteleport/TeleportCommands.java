@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.ullarah.ulib.function.CommonString.messageSend;
+import static com.ullarah.ulib.function.CommonString.*;
 import static com.ullarah.uteleport.TeleportInit.*;
 
 public class TeleportCommands implements CommandExecutor {
@@ -28,7 +28,17 @@ public class TeleportCommands implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
 
+        if (!(sender instanceof Player)) {
+            messageNoConsole(getPlugin(), sender);
+            return true;
+        }
+
         Player player = (Player) sender;
+
+        if (!player.hasPermission("uteleport.use")) {
+            messagePermDeny(getPlugin(), player);
+            return true;
+        }
 
         ConcurrentHashMap<ArrayList<Location>, ArrayList<Date>> locationMap = historyMap.get(player.getUniqueId());
 
