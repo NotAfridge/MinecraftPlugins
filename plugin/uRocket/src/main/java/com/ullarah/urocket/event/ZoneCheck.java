@@ -2,7 +2,6 @@ package com.ullarah.urocket.event;
 
 import com.ullarah.ulib.function.InsideCuboid;
 import com.ullarah.ulib.function.TitleSubtitle;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -14,7 +13,10 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.urocket.RocketInit.*;
+import static com.ullarah.urocket.RocketLanguage.RB_DISABLE;
+import static com.ullarah.urocket.RocketLanguage.RB_FZ_ENTRY;
 
 public class ZoneCheck implements Listener {
 
@@ -47,11 +49,10 @@ public class ZoneCheck implements Listener {
 
                                         player.setFlySpeed(0.05f);
 
-                                        TitleSubtitle.subtitle(player, 3, ChatColor.RED + "You have entered a No-Fly Zone!");
+                                        TitleSubtitle.subtitle(player, 3, RB_FZ_ENTRY);
 
-                                        player.sendMessage(new String[]{
-                                                getMsgPrefix() + ChatColor.RED + "You have entered a No-Fly Zone!",
-                                                getMsgPrefix() + ChatColor.RED + "Disabling Rocket Boots!"
+                                        messageSend(getPlugin(), player, true, new String[]{
+                                                RB_FZ_ENTRY, RB_DISABLE
                                         });
 
                                         player.getWorld().playSound(player.getLocation(), Sound.FIZZ, 0.5f, 0.75f);

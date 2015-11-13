@@ -1,11 +1,13 @@
 package com.ullarah.urocket;
 
+import com.ullarah.ulib.function.CommonString;
 import com.ullarah.urocket.command.DisplayComponentChest;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import static com.ullarah.urocket.RocketInit.getPlugin;
 import static com.ullarah.urocket.command.DisplayHelp.runHelp;
 
 class RocketExecutor implements CommandExecutor {
@@ -21,7 +23,7 @@ class RocketExecutor implements CommandExecutor {
 
     private void rocketChest(CommandSender sender, String[] args) {
 
-        if (!(sender instanceof Player)) sender.sendMessage("No Console Usage");
+        if (!(sender instanceof Player)) CommonString.messageNoConsole(getPlugin(), sender);
         else {
 
             if (args.length == 0) runHelp(sender);

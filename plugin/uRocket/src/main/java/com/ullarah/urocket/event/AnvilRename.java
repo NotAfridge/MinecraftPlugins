@@ -13,14 +13,15 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.ullarah.urocket.RocketInit.getMsgPrefix;
+import static com.ullarah.ulib.function.CommonString.messageSend;
+import static com.ullarah.urocket.RocketInit.getPlugin;
+import static com.ullarah.urocket.RocketLanguage.RB_MOD_ERROR;
 
 public class AnvilRename implements Listener {
 
     @EventHandler
     public static void onInventoryClick(InventoryClickEvent event) {
 
-        Player player = (Player) event.getWhoClicked();
         Inventory inventory = event.getClickedInventory();
 
         if (inventory == null) return;
@@ -51,11 +52,11 @@ public class AnvilRename implements Listener {
 
                         if (currentItem.getItemMeta().hasLore()) {
 
-                            if (!currentItem.getItemMeta().getLore().get(0).equals(
-                                    ChatColor.YELLOW + "Rocket Level X")) {
+                            if (!currentItem.getItemMeta().getLore().get(0).equals(ChatColor.YELLOW + "Rocket Level X")) {
 
+                                Player player = (Player) event.getWhoClicked();
                                 player.closeInventory();
-                                player.sendMessage(getMsgPrefix() + ChatColor.RED + "You cannot modify Rocket Equipment!");
+                                messageSend(getPlugin(), player, true, RB_MOD_ERROR);
 
                             }
 

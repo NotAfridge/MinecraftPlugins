@@ -47,11 +47,11 @@ public class StationStandParticles {
                                         for (Player serverPlayer : stand.getWorld().getPlayers())
                                             ((CraftPlayer) serverPlayer).getHandle().playerConnection.sendPacket(packet);
 
-                            }
+                                    }
 
                                 }
 
-                    }
+                            }
 
                         }
 

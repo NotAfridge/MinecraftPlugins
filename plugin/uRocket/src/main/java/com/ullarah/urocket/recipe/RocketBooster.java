@@ -34,7 +34,7 @@ public class RocketBooster implements NewRecipe {
         boosterMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         booster.setItemMeta(boosterMeta);
 
-        booster.addUnsafeEnchantment(Enchantment.PROTECTION_FIRE, 1);
+        booster.addUnsafeEnchantment(Enchantment.LUCK, 1);
 
         return booster;
 

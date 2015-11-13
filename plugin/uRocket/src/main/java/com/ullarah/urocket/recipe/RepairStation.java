@@ -24,7 +24,7 @@ public class RepairStation implements NewRecipe {
 
         station.setItemMeta(stationMeta);
 
-        station.addUnsafeEnchantment(Enchantment.PROTECTION_EXPLOSIONS, 1);
+        station.addUnsafeEnchantment(Enchantment.LUCK, 1);
 
         return station;
 

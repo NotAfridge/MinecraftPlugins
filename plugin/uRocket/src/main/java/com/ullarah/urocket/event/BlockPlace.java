@@ -18,8 +18,10 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.urocket.RocketFunctions.zoneCrystalCreation;
 import static com.ullarah.urocket.RocketInit.*;
+import static com.ullarah.urocket.RocketLanguage.*;
 
 public class BlockPlace implements Listener {
 
@@ -58,8 +60,7 @@ public class BlockPlace implements Listener {
                                     if (!tankList.contains(tank)) {
 
                                         event.setCancelled(true);
-                                        player.sendMessage(getMsgPrefix() + ChatColor.RED
-                                                + "You can only place this on top of a Repair Tank!");
+                                        messageSend(getPlugin(), player, true, RB_STATION_PLACE_ERROR);
 
                                     } else {
 
@@ -74,16 +75,14 @@ public class BlockPlace implements Listener {
                                         getPlugin().getConfig().set("stations", stationList);
                                         getPlugin().saveConfig();
 
-                                        player.sendMessage(getMsgPrefix() + ChatColor.YELLOW
-                                                + "Rocket Repair Station ready to use!");
+                                        messageSend(getPlugin(), player, true, RB_STATION_PLACE_SUCCESS);
 
                                     }
 
                                 } else {
 
                                     event.setCancelled(true);
-                                    player.sendMessage(getMsgPrefix() + ChatColor.RED
-                                            + "You can only place this on top of a Repair Tank!");
+                                    messageSend(getPlugin(), player, true, RB_STATION_PLACE_ERROR);
 
                                 }
 
@@ -130,16 +129,14 @@ public class BlockPlace implements Listener {
                                 if (!isFlyZone) {
 
                                     if (getWorldGuard() != null) {
-                                        if (getWorldGuard().canBuild(player, blockLocation)) {
+                                        if (getWorldGuard().canBuild(player, blockLocation))
                                             zoneCrystalCreation(player, blockLocation);
-                                        }
                                     } else zoneCrystalCreation(player, blockLocation);
 
                                 } else {
 
                                     event.setCancelled(true);
-                                    player.sendMessage(getMsgPrefix() + ChatColor.YELLOW
-                                            + "This is already a No-Fly Zone!");
+                                    messageSend(getPlugin(), player, true, RB_FZ_EXIST);
 
                                 }
 
@@ -148,21 +145,15 @@ public class BlockPlace implements Listener {
 
                         case NOTE_BLOCK:
                             if (ChatColor.stripColor(rocketItem).equals("Variant Booster")) {
-
                                 event.setCancelled(true);
-                                player.sendMessage(getMsgPrefix() + ChatColor.YELLOW
-                                        + "Rocket Variants cannot be placed down!");
-
+                                messageSend(getPlugin(), player, true, PlacementDeny("Variants"));
                             }
                             break;
 
                         case TNT:
                             if (rocketItem.equals(ChatColor.RED + "Rocket Booster")) {
-
                                 event.setCancelled(true);
-                                player.sendMessage(getMsgPrefix() + ChatColor.YELLOW
-                                        + "Rocket Boosters cannot be placed down!");
-
+                                messageSend(getPlugin(), player, true, PlacementDeny("Boosters"));
                             }
                             break;
 
@@ -176,32 +167,27 @@ public class BlockPlace implements Listener {
 
                         case BEACON:
                             if (rocketItem.equals(ChatColor.RED + "Rocket Repair Station"))
-                                player.sendMessage(getMsgPrefix() + ChatColor.RED
-                                        + "Repair Stations cannot be placed here!");
+                                messageSend(getPlugin(), player, true, WorldPlacementDeny("Repair Stations"));
                             break;
 
                         case FURNACE:
                             if (rocketItem.equals(ChatColor.RED + "Rocket Repair Tank"))
-                                player.sendMessage(getMsgPrefix() + ChatColor.RED
-                                        + "Repair Tanks cannot be placed here!");
+                                messageSend(getPlugin(), player, true, WorldPlacementDeny("Repair Tanks"));
                             break;
 
                         case ENDER_PORTAL_FRAME:
                             if (rocketItem.equals(ChatColor.RED + "Rocket Fly Zone Controller"))
-                                player.sendMessage(getMsgPrefix() + ChatColor.RED
-                                        + "Fly Zone Controllers cannot be placed here!");
+                                messageSend(getPlugin(), player, true, WorldPlacementDeny("Fly Zone Controllers"));
                             break;
 
                         case NOTE_BLOCK:
                             if (ChatColor.stripColor(rocketItem).equals("Variant Booster"))
-                                player.sendMessage(getMsgPrefix() + ChatColor.YELLOW
-                                        + "Variants cannot be placed down!");
+                                messageSend(getPlugin(), player, true, PlacementDeny("Variants"));
                             break;
 
                         case TNT:
                             if (rocketItem.equals(ChatColor.RED + "Rocket Booster"))
-                                player.sendMessage(getMsgPrefix() + ChatColor.YELLOW
-                                        + "Boosters cannot be placed down!");
+                                messageSend(getPlugin(), player, true, PlacementDeny("Boosters"));
                             break;
 
                     }

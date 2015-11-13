@@ -5,7 +5,6 @@ import com.ullarah.urocket.recipe.*;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -46,18 +45,9 @@ public class RocketInit extends JavaPlugin {
 
     public static final HashMap<String, Integer> registerMap = new HashMap<>();
 
-    private static String msgPrefix = null;
     private static Plugin plugin;
     private static WorldGuardPlugin worldGuard;
     private static Economy vaultEconomy;
-
-    public static String getMsgPrefix() {
-        return msgPrefix;
-    }
-
-    private static void setMsgPrefix(String msgPrefix) {
-        RocketInit.msgPrefix = msgPrefix;
-    }
 
     public static Plugin getPlugin() {
         return plugin;
@@ -136,13 +126,11 @@ public class RocketInit extends JavaPlugin {
 
         RocketEnhancement enhancementInit = new RocketEnhancement();
         enhancementInit.init();
-        
+
         getCommand("rocket").setExecutor(new RocketExecutor());
 
         getConfig().options().copyDefaults(true);
         saveConfig();
-
-        setMsgPrefix(ChatColor.GOLD + "[" + getPlugin().getName() + "] " + ChatColor.RESET);
 
         Set<String> pluginList = new HashSet<>();
 
@@ -152,8 +140,7 @@ public class RocketInit extends JavaPlugin {
         }
 
         if (pluginVault != null) {
-            RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(
-                    net.milkbowl.vault.economy.Economy.class);
+            RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
             if (economyProvider != null) {
                 setVaultEconomy(economyProvider.getProvider());
                 pluginList.add("Vault");

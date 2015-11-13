@@ -5,7 +5,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
+import java.util.UUID;
+
+import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.urocket.RocketInit.*;
+import static com.ullarah.urocket.RocketLanguage.RB_HIDDEN;
 
 public class PlayerCommand implements Listener {
 
@@ -13,15 +17,16 @@ public class PlayerCommand implements Listener {
     public void variantCommandStop(PlayerCommandPreprocessEvent event) {
 
         Player player = event.getPlayer();
+        UUID playerUUID = player.getUniqueId();
 
-        if (rocketEffects.contains(player.getUniqueId())) {
+        if (rocketEffects.contains(playerUUID)) {
 
-            if (rocketVariant.containsKey(player.getUniqueId())) {
+            if (rocketVariant.containsKey(playerUUID)) {
 
-                switch (rocketVariant.get(player.getUniqueId())) {
+                switch (rocketVariant.get(playerUUID)) {
 
                     case STEALTH:
-                        player.sendMessage(getMsgPrefix() + "You are currently hidden!");
+                        messageSend(getPlugin(), player, true, RB_HIDDEN);
                         event.setCancelled(true);
                         break;
 

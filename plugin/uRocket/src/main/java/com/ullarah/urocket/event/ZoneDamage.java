@@ -2,7 +2,6 @@ package com.ullarah.urocket.event;
 
 import com.ullarah.ulib.function.FakeExplosion;
 import com.ullarah.urocket.recipe.RocketFlyZone;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.Entity;
@@ -15,9 +14,10 @@ import org.bukkit.event.hanging.HangingBreakEvent;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.urocket.RocketFunctions.reloadFlyZones;
-import static com.ullarah.urocket.RocketInit.getMsgPrefix;
 import static com.ullarah.urocket.RocketInit.getPlugin;
+import static com.ullarah.urocket.RocketLanguage.RB_FZ_REMOVE;
 import static org.bukkit.event.hanging.HangingBreakEvent.RemoveCause.EXPLOSION;
 
 public class ZoneDamage implements Listener {
@@ -46,8 +46,7 @@ public class ZoneDamage implements Listener {
 
             if (zoneList.contains(zoneOriginal) || event.getDamager().hasPermission("rocket.remove")) {
 
-                event.getDamager().sendMessage(getMsgPrefix() + ChatColor.GREEN
-                        + "Rocket Fly Zone Controller removed successfully!");
+                messageSend(getPlugin(), event.getDamager(), true, RB_FZ_REMOVE);
 
                 zoneList.remove(newZoneList.indexOf(zoneNew));
                 zoneEntity.remove();

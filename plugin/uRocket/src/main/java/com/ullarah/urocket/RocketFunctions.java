@@ -16,8 +16,10 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.urocket.RocketEnhancement.Enhancement;
 import static com.ullarah.urocket.RocketInit.*;
+import static com.ullarah.urocket.RocketLanguage.*;
 import static com.ullarah.urocket.RocketVariant.Variant.*;
 
 public class RocketFunctions {
@@ -78,7 +80,7 @@ public class RocketFunctions {
                 player.setNoDamageTicks(60);
                 player.setFallDistance(0);
 
-                player.sendMessage(getMsgPrefix() + "Rocket Boots Deactivated!");
+                messageSend(getPlugin(), player, true, RB_DEACTIVATE);
 
             }
 
@@ -94,7 +96,7 @@ public class RocketFunctions {
             event.setCancelled(true);
             player.closeInventory();
             disableRocketBoots(player, false, false, false, false, false);
-            player.sendMessage(getMsgPrefix() + "Rocket Boots do not work in this gamemode!");
+            messageSend(getPlugin(), player, true, RB_GAMEMODE_ERROR);
             return;
         }
 
@@ -105,7 +107,6 @@ public class RocketFunctions {
             if (rocketMeta.hasDisplayName())
                 if (rocketMeta.getDisplayName().matches(ChatColor.RED + "Rocket Boots")) if (rocketMeta.hasLore()) {
 
-                    Boolean validBoots = true;
                     String rocketLore = rocketMeta.getLore().get(0);
                     String variantLore = null;
 
@@ -118,36 +119,23 @@ public class RocketFunctions {
 
                         Variant variantType = getEnum(variantLore);
 
-                        if (variantType != null) {
-                            switch (variantType) {
-
-                                case MONEY:
-                                    if (getVaultEconomy() == null) {
-                                        validBoots = false;
-                                        player.sendMessage(getMsgPrefix() + "These Rocket Boots cannot be equipped!");
-                                    }
-                                    break;
-
-                                default:
-                                    validBoots = true;
-                                    break;
-
-                            }
+                        if (variantType != null) if (variantType == Variant.MONEY) if (getVaultEconomy() == null) {
+                            messageSend(getPlugin(), player, true, RB_EQUIP_ERROR);
+                            return;
                         }
                     }
 
-                    if (validBoots && rocketLore.matches(ChatColor.YELLOW + "Rocket Level I{0,3}V?X?"))
+                    if (rocketLore.matches(ChatColor.YELLOW + "Rocket Level I{0,3}V?X?"))
                         if (!rocketUsage.contains(player.getUniqueId()))
                             if (click == ClickType.MIDDLE) event.setCancelled(true);
-                            else attachRocketBoots(player, rocketMeta);
+                            else attachRocketBoots(player, boots);
 
                 }
 
         } else if (rocketSprint.containsKey(player.getUniqueId())) {
 
-            player.sendMessage(new String[]{
-                    getMsgPrefix() + ChatColor.RED + "Ouch! You cannot take your boots of yet!",
-                    getMsgPrefix() + ChatColor.RESET + "You need to land for them to cool down!"
+            messageSend(getPlugin(), player, true, new String[]{
+                    RB_COOLDOWN_TOUCH, RB_COOLDOWN_LAND
             });
 
             event.setCancelled(true);
@@ -158,27 +146,28 @@ public class RocketFunctions {
 
     }
 
-    public static void attachRocketBoots(Player player, ItemMeta rocketMeta) {
+    public static void attachRocketBoots(Player player, ItemStack boots) {
 
         if (GamemodeCheck.check(player, GameMode.CREATIVE, GameMode.SPECTATOR)) {
             disableRocketBoots(player, false, false, false, false, false);
-            player.sendMessage(getMsgPrefix() + "Rocket Boots do not work in this gamemode!");
+            messageSend(getPlugin(), player, true, RB_GAMEMODE_ERROR);
             return;
         }
 
+        ItemMeta rocketMeta = boots.getItemMeta();
         Block blockMiddle = player.getLocation().getBlock().getRelative(BlockFace.SELF);
 
         Boolean isWaterVariant = false;
         Boolean isRunnerVariant = false;
 
         String[] rocketMessage = new String[3];
-        rocketMessage[0] = "Rocket Boots Activated!";
+        rocketMessage[0] = RB_ACTIVATE;
 
         switch (rocketMeta.getLore().size()) {
 
             case 1:
-                rocketMessage[1] = "Variant: " + ChatColor.RED + "Not Found";
-                rocketMessage[2] = "Enhancement: " + ChatColor.RED + "Not Found";
+                rocketMessage[1] = RB_VARIANT + RB_NOT_FOUND;
+                rocketMessage[2] = RB_ENHANCE + RB_NOT_FOUND;
                 rocketVariant.put(player.getUniqueId(), ORIGINAL);
                 break;
 
@@ -186,17 +175,23 @@ public class RocketFunctions {
                 String loreLine = ChatColor.stripColor(rocketMeta.getLore().get(1));
 
                 if (Variant.isVariant(loreLine)) {
-                    rocketMessage[1] = "Variant: " + ChatColor.AQUA + loreLine;
-                    rocketMessage[2] = "Enhancement: " + ChatColor.RED + "Not Found";
-                    rocketVariant.put(player.getUniqueId(), Variant.getEnum(loreLine));
-                    if (Variant.getEnum(loreLine).equals(WATER)) isWaterVariant = true;
-                    if (Variant.getEnum(loreLine).equals(RUNNER)) isRunnerVariant = true;
+                    Variant variantType = Variant.getEnum(loreLine);
+                    if (variantType != null) {
+                        rocketMessage[1] = RB_VARIANT + loreLine;
+                        rocketMessage[2] = RB_ENHANCE + RB_NOT_FOUND;
+                        rocketVariant.put(player.getUniqueId(), variantType);
+                        if (variantType.equals(WATER)) isWaterVariant = true;
+                        if (variantType.equals(RUNNER)) isRunnerVariant = true;
+                    }
                 }
 
                 if (Enhancement.isEnhancement(loreLine)) {
-                    rocketMessage[1] = "Variant: " + ChatColor.RED + "Not Found";
-                    rocketMessage[2] = "Enhancement: " + ChatColor.AQUA + loreLine;
-                    rocketEnhancement.put(player.getUniqueId(), Enhancement.getEnum(loreLine));
+                    Enhancement enhancementType = Enhancement.getEnum(loreLine);
+                    if (enhancementType != null) {
+                        rocketMessage[1] = RB_VARIANT + RB_NOT_FOUND;
+                        rocketMessage[2] = RB_ENHANCE + loreLine;
+                        rocketEnhancement.put(player.getUniqueId(), enhancementType);
+                    }
                 }
                 break;
 
@@ -207,13 +202,18 @@ public class RocketFunctions {
                 Variant variantType = Variant.getEnum(variantLore);
                 Enhancement enhancementType = Enhancement.getEnum(enhancementLore);
 
-                rocketMessage[1] = "Variant: " + ChatColor.AQUA + variantLore;
-                rocketVariant.put(player.getUniqueId(), variantType);
+                if (variantType != null && enhancementType != null) {
+                    rocketMessage[1] = RB_VARIANT + variantLore;
+                    rocketVariant.put(player.getUniqueId(), variantType);
 
-                if (variantType.getEnhancementAllow()) {
-                    rocketMessage[2] = "Enhancement: " + ChatColor.AQUA + enhancementLore;
-                    rocketEnhancement.put(player.getUniqueId(), enhancementType);
-                } else rocketMessage[2] = "Enhancement: " + ChatColor.YELLOW + "Not Working";
+                    if (variantType.getEnhancementAllow()) {
+                        rocketMessage[2] = RB_ENHANCE + enhancementLore;
+                        rocketEnhancement.put(player.getUniqueId(), enhancementType);
+                    } else rocketMessage[2] = RB_ENHANCE + RB_NOT_WORKING;
+
+                }
+
+
                 break;
 
             default:
@@ -224,7 +224,7 @@ public class RocketFunctions {
         if (!isWaterVariant && blockMiddle.isLiquid()) {
 
             rocketWater.add(player.getUniqueId());
-            player.sendMessage(getMsgPrefix() + "These Rocket Boots will not start in water!");
+            messageSend(getPlugin(), player, true, RB_WATER_WARNING);
             return;
 
         }
@@ -232,57 +232,113 @@ public class RocketFunctions {
         if (player.getInventory().getBoots() == null)
             if (GamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
 
-                CommonString.messageSend(getPlugin(), player, true, rocketMessage);
-
+                messageSend(getPlugin(), player, true, rocketMessage);
                 if (!isRunnerVariant) player.setAllowFlight(true);
-
-                Integer powerLevel = RomanNumeralToInteger.decode(
-                        rocketMeta.getLore().get(0).replaceFirst(
-                                ChatColor.YELLOW + "Rocket Level ", ""));
-
-                rocketPower.put(player.getUniqueId(), powerLevel);
+                rocketPower.put(player.getUniqueId(), getBootPowerLevel(boots));
 
             }
 
     }
 
-    public static int getBootPowerLevel(ItemStack rocketBoots) {
+    public static boolean isValidRocketBoots(ItemStack boots) {
 
-        return RomanNumeralToInteger.decode(
-                rocketBoots.getItemMeta().getLore().get(0)
-                        .replaceFirst(ChatColor.YELLOW + "Rocket Level ", ""));
+        if (boots.hasItemMeta()) {
+            ItemMeta bootMeta = boots.getItemMeta();
+
+            if (bootMeta.hasDisplayName())
+                if (bootMeta.getDisplayName().matches(RB_NAME))
+                    if (bootMeta.hasLore())
+                        if (bootMeta.getLore().get(0).matches(ChatColor.YELLOW + "Rocket Level I{0,3}V?X?"))
+                            return true;
+        }
+
+        return false;
 
     }
 
-    public static void changeBootDurability(Player player, ItemStack rocketBoots) {
+    public static int getBootPowerLevel(ItemStack boots) {
 
-        Short rocketDurability = rocketBoots.getDurability();
-        Material rocketMaterial = rocketBoots.getType();
+        return RomanNumeralToInteger.decode(boots.getItemMeta().getLore().get(0).replaceFirst(RB_LEVEL, ""));
 
-        int bootMaterialDurability = 0;
-        short changedDurability = 0;
+    }
 
-        switch (rocketMaterial) {
+    public static int getBootRepairRate(ItemStack boots) {
 
-            case LEATHER_BOOTS:
-                bootMaterialDurability = 65;
-                break;
+        switch (getBootPowerLevel(boots)) {
 
-            case IRON_BOOTS:
-                bootMaterialDurability = 195;
-                break;
+            case 1:
+                return 5;
 
-            case GOLD_BOOTS:
-                bootMaterialDurability = 91;
-                break;
+            case 2:
+                return 4;
 
-            case DIAMOND_BOOTS:
-                bootMaterialDurability = 429;
-                break;
+            case 3:
+                return 3;
+
+            case 4:
+                return 2;
+
+            case 5:
+                return new Random().nextInt(9) + 1;
 
         }
 
-        switch (getBootPowerLevel(rocketBoots)) {
+        return 0;
+
+    }
+
+    public static int getBootRepairRate(Material boots) {
+
+        switch (boots) {
+
+            case LEATHER_BOOTS:
+                return 5;
+
+            case IRON_BOOTS:
+                return 4;
+
+            case GOLD_BOOTS:
+                return 3;
+
+            case DIAMOND_BOOTS:
+                return 2;
+
+        }
+
+        return 0;
+
+    }
+
+    public static int getBootDurability(ItemStack boots) {
+
+        switch (boots.getType()) {
+
+            case LEATHER_BOOTS:
+                return 65;
+
+            case IRON_BOOTS:
+                return 195;
+
+            case GOLD_BOOTS:
+                return 91;
+
+            case DIAMOND_BOOTS:
+                return 429;
+
+        }
+
+        return 0;
+
+    }
+
+    public static void changeBootDurability(Player player, ItemStack boots) {
+
+        Short rocketDurability = boots.getDurability();
+
+        int bootMaterialDurability = getBootDurability(boots);
+        short changedDurability = 0;
+
+        switch (getBootPowerLevel(boots)) {
 
             case 1:
                 changedDurability = (short) (rocketDurability + 7);
@@ -310,19 +366,20 @@ public class RocketFunctions {
 
         }
 
-        rocketBoots.setDurability(changedDurability);
+        boots.setDurability(changedDurability);
 
         int newBootDurability = bootMaterialDurability - changedDurability;
 
         if (newBootDurability < 0) {
-            rocketBoots.setDurability((short) bootMaterialDurability);
+
+            boots.setDurability((short) bootMaterialDurability);
             newBootDurability = 0;
+
         }
 
-        String totalDurability = ChatColor.YELLOW + "Rocket Boot Durability: "
-                + newBootDurability + " / " + bootMaterialDurability;
+        String totalDurability = RB_DURABILITY + newBootDurability + " / " + bootMaterialDurability;
 
-        player.sendMessage(getMsgPrefix() + totalDurability);
+        messageSend(getPlugin(), player, true, new String[]{totalDurability});
         TitleSubtitle.subtitle(player, 2, ChatColor.YELLOW + totalDurability);
 
     }
@@ -348,11 +405,9 @@ public class RocketFunctions {
                         Integer.parseInt(zoneSection[3]) + 50,
                         Integer.parseInt(zoneSection[4]) + 25);
 
-                ConcurrentHashMap<Location, Location> zoneLocation = new ConcurrentHashMap<Location, Location>() {{
+                rocketZoneLocations.put(UUID.fromString(zoneSection[0]), new ConcurrentHashMap<Location, Location>() {{
                     put(zoneLocationStart, zoneLocationEnd);
-                }};
-
-                rocketZoneLocations.put(UUID.fromString(zoneSection[0]), zoneLocation);
+                }});
 
             }
 
@@ -389,28 +444,16 @@ public class RocketFunctions {
         world.playSound(centerBlock, Sound.WITHER_IDLE, 1.25f, 0.55f);
         Particles.show(Particles.ParticleType.PORTAL, particleLocation, new Float[]{0.0f, 0.0f, 0.0f}, 2, 2500);
 
-        player.sendMessage(getMsgPrefix() + ChatColor.YELLOW + "Rocket Fly Zone Controller is now activated!");
+        messageSend(getPlugin(), player, true, RB_FZ_SUCCESS);
 
     }
 
     public static boolean rocketSaddleCheck(ItemStack saddle) {
 
         if (saddle != null && saddle.hasItemMeta()) {
-
             ItemMeta saddleMeta = saddle.getItemMeta();
-
-            if (saddleMeta.hasDisplayName()) {
-
-                String saddleName = saddleMeta.getDisplayName();
-
-                if (saddleName.equals(ChatColor.RED + "Rocket Saddle")) {
-
-                    return true;
-
-                }
-
-            }
-
+            if (saddleMeta.hasDisplayName())
+                if (saddleMeta.getDisplayName().equals(RB_SADDLE)) return true;
         }
 
         return false;

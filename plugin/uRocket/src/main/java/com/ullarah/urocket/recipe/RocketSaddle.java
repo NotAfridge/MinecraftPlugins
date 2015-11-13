@@ -21,7 +21,7 @@ public class RocketSaddle implements NewRecipe {
         saddleMeta.setDisplayName(ChatColor.RED + "Rocket Saddle");
         saddleMeta.setLore(Arrays.asList(
                 ChatColor.YELLOW + "Make pigs fly...",
-                        ChatColor.YELLOW + "...maybe horses too!")
+                ChatColor.YELLOW + "...maybe horses too!")
         );
 
         saddleMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);

@@ -51,7 +51,7 @@ public class CraftStandard implements Listener {
                 if (control.hasItemMeta()) if (control.getItemMeta().hasDisplayName())
                     hasControls = control.getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Control");
             if (!getSlot[0].equals(getSlot[2])) hasControls = false;
-            
+
             for (ItemStack booster : rocketBoosters)
                 if (booster.hasItemMeta()) if (booster.getItemMeta().hasDisplayName())
                     hasBoosters = booster.getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Booster");
@@ -153,7 +153,7 @@ public class CraftStandard implements Listener {
                 bootMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
                 boots.setItemMeta(bootMeta);
-                boots.addEnchantment(Enchantment.PROTECTION_FALL, 3);
+                boots.addEnchantment(Enchantment.PROTECTION_FALL, 4);
 
                 event.getInventory().setResult((bootType == 8 || bootType == 24 || bootType == 40 || bootType == 72)
                         && isBoosterX ? null : boots);

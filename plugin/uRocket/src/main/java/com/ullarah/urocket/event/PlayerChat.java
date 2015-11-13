@@ -9,7 +9,9 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.Random;
 
+import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.urocket.RocketInit.*;
+import static com.ullarah.urocket.RocketLanguage.RB_HIDDEN;
 
 public class PlayerChat implements Listener {
 
@@ -17,9 +19,10 @@ public class PlayerChat implements Listener {
     public void variantChangeSpeak(AsyncPlayerChatEvent event) {
 
         Player player = event.getPlayer();
-        String message = event.getMessage();
 
         if (rocketEffects.contains(player.getUniqueId())) {
+
+            String message = event.getMessage();
 
             switch (rocketVariant.get(player.getUniqueId())) {
 
@@ -28,7 +31,7 @@ public class PlayerChat implements Listener {
                     break;
 
                 case STEALTH:
-                    player.sendMessage(getMsgPrefix() + "You are currently hidden!");
+                    messageSend(getPlugin(), player, true, RB_HIDDEN);
                     event.setCancelled(true);
                     break;
 

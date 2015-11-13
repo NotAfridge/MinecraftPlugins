@@ -10,6 +10,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.ullarah.urocket.RocketLanguage.RB_USELESS;
+
 public class RocketBoots implements NewRecipe {
 
     private final Material bootMaterial;
@@ -30,7 +32,7 @@ public class RocketBoots implements NewRecipe {
         ItemStack boots = new ItemStack(bootType, 1);
 
         ItemMeta bootMeta = boots.getItemMeta();
-        bootMeta.setDisplayName(ChatColor.GRAY + "Useless Rocket Boots");
+        bootMeta.setDisplayName(RB_USELESS);
 
         List<String> loreList = new ArrayList<>();
 

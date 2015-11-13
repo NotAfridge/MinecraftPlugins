@@ -40,7 +40,7 @@ public class RocketVariants implements NewRecipe {
         variantMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         variant.setItemMeta(variantMeta);
 
-        variant.addUnsafeEnchantment(Enchantment.PROTECTION_FIRE, 1);
+        variant.addUnsafeEnchantment(Enchantment.LUCK, 1);
 
         return variant;
 

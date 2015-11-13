@@ -15,7 +15,11 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.ullarah.urocket.RocketInit.*;
+import static com.ullarah.ulib.function.CommonString.messageSend;
+import static com.ullarah.urocket.RocketFunctions.getBootDurability;
+import static com.ullarah.urocket.RocketInit.getPlugin;
+import static com.ullarah.urocket.RocketInit.rocketRepairStand;
+import static com.ullarah.urocket.RocketLanguage.RB_RS_CHANGE;
 
 public class StandChange implements Listener {
 
@@ -24,29 +28,14 @@ public class StandChange implements Listener {
 
         Player player = event.getPlayer();
         World world = player.getWorld();
-        ItemStack standItem = event.getArmorStandItem();
         Location standLocation = event.getRightClicked().getLocation();
-
-        Block fuelBlock = world.getBlockAt(
-                standLocation.getBlockX(),
-                standLocation.getBlockY() - 2,
-                standLocation.getBlockZ());
+        Block fuelBlock = world.getBlockAt(standLocation.getBlockX(), standLocation.getBlockY() - 2, standLocation.getBlockZ());
 
         if (fuelBlock.getType() == Material.BURNING_FURNACE) {
 
             List<String> standList = getPlugin().getConfig().getStringList("stands");
-
-            String stand = player.getUniqueId().toString() + "|"
-                    + world.getName() + "|"
-                    + standLocation.getBlockX() + "|"
-                    + standLocation.getBlockY() + "|"
-                    + standLocation.getBlockZ();
-
-            Location beaconSign = new Location(
-                    standLocation.getWorld(),
-                    standLocation.getX(),
-                    (standLocation.getY() - 1),
-                    standLocation.getZ());
+            String stand = player.getUniqueId().toString() + "|" + world.getName() + "|" + standLocation.getBlockX() + "|" + standLocation.getBlockY() + "|" + standLocation.getBlockZ();
+            Location beaconSign = new Location(standLocation.getWorld(), standLocation.getX(), (standLocation.getY() - 1), standLocation.getZ());
 
             if (standList.contains(stand)) {
 
@@ -56,31 +45,13 @@ public class StandChange implements Listener {
 
                         if (player.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Boots")) {
 
+                            ItemStack standItem = event.getArmorStandItem();
+
                             if (standItem != null) {
 
-                                int bootMaterialDurability = 0;
-
-                                switch (player.getItemInHand().getType()) {
-
-                                    case LEATHER_BOOTS:
-                                        bootMaterialDurability = 65;
-                                        break;
-
-                                    case IRON_BOOTS:
-                                        bootMaterialDurability = 195;
-                                        break;
-
-                                    case GOLD_BOOTS:
-                                        bootMaterialDurability = 91;
-                                        break;
-
-                                    case DIAMOND_BOOTS:
-                                        bootMaterialDurability = 429;
-                                        break;
-
-                                }
-
+                                int bootMaterialDurability = getBootDurability(player.getItemInHand());
                                 int bootDurability = (bootMaterialDurability - player.getItemInHand().getDurability());
+
                                 String bootType = ChatColor.stripColor(player.getItemInHand().getItemMeta().getLore().get(0));
 
                                 SignText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
@@ -106,17 +77,13 @@ public class StandChange implements Listener {
 
                     if (player.getItemInHand().getType() != Material.AIR) {
 
-                        player.sendMessage(getMsgPrefix() + "You can only place Rocket Boots on this stand!");
+                        messageSend(getPlugin(), player, true, RB_RS_CHANGE);
                         event.setCancelled(true);
 
                     } else {
 
                         SignText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
-                                new String[]{
-                                        "[Repair Status]",
-                                        ChatColor.STRIKETHROUGH + "--------------",
-                                        "",
-                                        ""});
+                                new String[]{"[Repair Status]", ChatColor.STRIKETHROUGH + "--------------", "", ""});
 
                         SignText.changeLine(beaconSign, new HashMap<Integer, String>() {{
                             put(0, "[Repair Status]");

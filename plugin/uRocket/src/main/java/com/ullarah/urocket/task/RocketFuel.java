@@ -14,10 +14,12 @@ import org.bukkit.util.Vector;
 import java.util.Random;
 import java.util.UUID;
 
+import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.urocket.RocketEnhancement.Enhancement.FUEL;
 import static com.ullarah.urocket.RocketEnhancement.Enhancement.SOLAR;
 import static com.ullarah.urocket.RocketFunctions.disableRocketBoots;
 import static com.ullarah.urocket.RocketInit.*;
+import static com.ullarah.urocket.RocketLanguage.*;
 import static com.ullarah.urocket.RocketVariant.Variant;
 
 public class RocketFuel {
@@ -35,8 +37,7 @@ public class RocketFuel {
 
                             if (player.getLevel() < 0) player.setLevel(0);
                             if (player.getExp() < 0) player.setExp(0);
-                            if (player.getTotalExperience() < 0 || player.getTotalExperience() == 2147483647)
-                                player.setTotalExperience(0);
+                            if (player.getTotalExperience() < 0 || player.getTotalExperience() == 2147483647) player.setTotalExperience(0);
 
                             boolean alternateFuel = false;
                             boolean isFuelEfficient = false;
@@ -52,17 +53,15 @@ public class RocketFuel {
 
                             if (rocketUsage.contains(uuid) && player.getLevel() <= 1 && !alternateFuel) {
 
-                                player.sendMessage(getMsgPrefix() + "You ran out of XP for your Rocket Boots!");
-                                TitleSubtitle.subtitle(player, 2,
-                                        ChatColor.YELLOW + "You ran out of XP for your Rocket Boots!");
+                                messageSend(getPlugin(), player, true, RB_FUEL_OUTAGE);
+                                TitleSubtitle.subtitle(player, 2, RB_FUEL_OUTAGE);
 
                                 disableRocketBoots(player, true, true, true, true, true);
 
                             } else if (rocketUsage.contains(uuid) && player.getLevel() <= 5 && !alternateFuel) {
 
-                                player.sendMessage(getMsgPrefix() + "You might want to consider landing!");
-                                TitleSubtitle.both(player, 2,
-                                        ChatColor.YELLOW + "Low XP", "You might want to consider landing!");
+                                messageSend(getPlugin(), player, true, RB_FUEL_WARNING);
+                                TitleSubtitle.both(player, 2, RB_FUEL_LOW, RB_FUEL_WARNING);
 
                             }
 
@@ -122,7 +121,7 @@ public class RocketFuel {
                                     case HEALTH:
                                         if (player.getHealth() <= 1.0 || player.getFoodLevel() <= 2) {
 
-                                            player.sendMessage(getMsgPrefix() + "You are too hungry to fly...");
+                                            messageSend(getPlugin(), player, true, RB_HUNGRY);
                                             disableRocketBoots(player, false, true, false, true, true);
 
                                         } else {
@@ -134,11 +133,9 @@ public class RocketFuel {
                                         break;
 
                                     case MONEY:
-                                        double money = getVaultEconomy().getBalance(player);
+                                        if (getVaultEconomy().getBalance(player) <= 10.0) {
 
-                                        if (money <= 10.0) {
-
-                                            player.sendMessage(getMsgPrefix() + "You are too poor to fly...");
+                                            messageSend(getPlugin(), player, true, RB_MONEY);
                                             disableRocketBoots(player, false, true, false, true, true);
 
                                         } else {
@@ -179,7 +176,7 @@ public class RocketFuel {
                                             }
                                         }
 
-                                        player.sendMessage(agendaMessage.toString());
+                                        messageSend(getPlugin(), player, false, agendaMessage.toString());
                                         Experience.removeExperience(player, getExperienceFromBoots);
                                         break;
 
@@ -208,16 +205,11 @@ public class RocketFuel {
                                     case COAL:
                                         if (random.nextInt(10) == 5) {
 
-                                            player.getWorld().playSound(player.getLocation(),
-                                                    Sound.FIREWORK_BLAST, 0.6f, 0.65f);
-
-                                            player.sendMessage(getMsgPrefix() + ChatColor.RED +
-                                                    "Your boots have malfunctioned!");
-
+                                            player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 0.6f, 0.65f);
+                                            messageSend(getPlugin(), player, true, RB_MALFUNCTION);
                                             disableRocketBoots(player, true, true, true, true, true);
 
-                                        } else if (!BlockStacks.split(getPlugin(), player,
-                                                Material.COAL_BLOCK, Material.COAL, 1, 8))
+                                        } else if (!BlockStacks.split(getPlugin(), player, Material.COAL_BLOCK, Material.COAL, 1, 8))
                                             disableRocketBoots(player, true, true, true, true, true);
 
                                         break;
@@ -225,16 +217,11 @@ public class RocketFuel {
                                     case FURY:
                                         if (random.nextInt(10) == 5) {
 
-                                            player.getWorld().playSound(player.getLocation(),
-                                                    Sound.FIREWORK_BLAST, 0.6f, 0.65f);
-
-                                            player.sendMessage(getMsgPrefix() + ChatColor.RED +
-                                                    "Your boots have malfunctioned!");
-
+                                            player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 0.6f, 0.65f);
+                                            messageSend(getPlugin(), player, true, RB_MALFUNCTION);
                                             disableRocketBoots(player, true, true, true, true, true);
 
-                                        } else if (!BlockStacks.split(getPlugin(), player,
-                                                Material.REDSTONE_BLOCK, Material.REDSTONE, 1, 8))
+                                        } else if (!BlockStacks.split(getPlugin(), player, Material.REDSTONE_BLOCK, Material.REDSTONE, 1, 8))
                                             disableRocketBoots(player, true, true, true, true, true);
 
                                         break;
@@ -250,12 +237,12 @@ public class RocketFuel {
                             if (player.getLocation().getY() >= 250) {
 
                                 disableRocketBoots(player, true, true, true, true, true);
-                                player.sendMessage(getMsgPrefix() + "Rocket Boots don't work so well up high!");
+                                messageSend(getPlugin(), player, true, RB_HIGH);
 
                             } else if (player.getLocation().getY() <= 0) {
 
                                 disableRocketBoots(player, true, true, true, true, true);
-                                player.sendMessage(getMsgPrefix() + "Rocket Boots don't work so in the void!");
+                                messageSend(getPlugin(), player, true, RB_LOW);
 
                             }
 

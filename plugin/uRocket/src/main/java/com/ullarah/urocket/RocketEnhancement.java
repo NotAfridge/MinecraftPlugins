@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.ullarah.ulib.function.PluginRegisters.RegisterType.RECIPE;
@@ -30,9 +31,7 @@ public class RocketEnhancement {
 
         REPAIR(
                 RED + "Self Repair", ANVIL,
-                Arrays.asList(
-                        ChatColor.YELLOW + "Repair your Rocket Boots as you fly!"
-                )
+                Collections.singletonList(ChatColor.YELLOW + "Repair your Rocket Boots as you fly!")
         ),
         FUEL(
                 RED + "Fuel Efficient", SPONGE,

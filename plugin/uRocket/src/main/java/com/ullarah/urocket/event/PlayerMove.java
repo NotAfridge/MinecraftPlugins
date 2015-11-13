@@ -13,9 +13,13 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
+import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.urocket.RocketInit.*;
+import static com.ullarah.urocket.RocketLanguage.RB_STATION_START;
+import static com.ullarah.urocket.RocketLanguage.RB_WATER_WARNING;
 import static com.ullarah.urocket.RocketVariant.Variant;
 
 public class PlayerMove implements Listener {
@@ -24,9 +28,11 @@ public class PlayerMove implements Listener {
     public void playerMovement(PlayerMoveEvent event) {
 
         final Player player = event.getPlayer();
-        final Location location = player.getLocation();
 
         if (GamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
+
+            final Location location = player.getLocation();
+            World world = player.getWorld();
 
             if (rocketSprint.containsKey(player.getUniqueId())) {
 
@@ -54,15 +60,11 @@ public class PlayerMove implements Listener {
 
             if (rocketPower.containsKey(player.getUniqueId())) {
 
-                Location bTank = new Location(player.getWorld(),
-                        location.getX(), location.getY() - 2, location.getZ());
-                Location bStation = new Location(player.getWorld(),
-                        location.getX(), location.getY() - 1, location.getZ());
-                Location bStand = new Location(player.getWorld(),
-                        location.getX(), location.getY(), location.getZ());
+                Location bTank = new Location(player.getWorld(), location.getX(), location.getY() - 2, location.getZ());
+                Location bStation = new Location(player.getWorld(), location.getX(), location.getY() - 1, location.getZ());
+                Location bStand = new Location(player.getWorld(), location.getX(), location.getY(), location.getZ());
 
-                if (bTank.getBlock().getType() == Material.BURNING_FURNACE &&
-                        bStation.getBlock().getType() == Material.BEACON) {
+                if (bTank.getBlock().getType() == Material.BURNING_FURNACE && bStation.getBlock().getType() == Material.BEACON) {
 
                     List<String> tankList = getPlugin().getConfig().getStringList("tanks");
                     List<String> stationList = getPlugin().getConfig().getStringList("stations");
@@ -72,30 +74,18 @@ public class PlayerMove implements Listener {
                     List<String> newStationList = new ArrayList<>();
                     List<String> newStandList = new ArrayList<>();
 
-                    newTankList.addAll(tankList.stream()
-                            .map(tank -> tank.replaceFirst(".{37}", "")).collect(Collectors.toList()));
+                    newTankList.addAll(tankList.stream().map(tank -> tank.replaceFirst(".{37}", "")).collect(Collectors.toList()));
+                    newStationList.addAll(stationList.stream().map(station -> station.replaceFirst(".{37}", "")).collect(Collectors.toList()));
+                    newStandList.addAll(standList.stream().map(stand -> stand.replaceFirst(".{37}", "")).collect(Collectors.toList()));
 
-                    newStationList.addAll(stationList.stream()
-                            .map(station -> station.replaceFirst(".{37}", "")).collect(Collectors.toList()));
-
-                    newStandList.addAll(standList.stream()
-                            .map(stand -> stand.replaceFirst(".{37}", "")).collect(Collectors.toList()));
-
-                    World world = player.getWorld();
-
-                    String tank = world.getName() + "|"
-                            + bTank.getBlockX() + "|" + bTank.getBlockY() + "|" + bTank.getBlockZ();
-
-                    String station = world.getName() + "|"
-                            + bStation.getBlockX() + "|" + bStation.getBlockY() + "|" + bStation.getBlockZ();
-
-                    String stand = world.getName() + "|"
-                            + bStand.getBlockX() + "|" + bStand.getBlockY() + "|" + bStand.getBlockZ();
+                    String tank = world.getName() + "|" + bTank.getBlockX() + "|" + bTank.getBlockY() + "|" + bTank.getBlockZ();
+                    String station = world.getName() + "|" + bStation.getBlockX() + "|" + bStation.getBlockY() + "|" + bStation.getBlockZ();
+                    String stand = world.getName() + "|" + bStand.getBlockX() + "|" + bStand.getBlockY() + "|" + bStand.getBlockZ();
 
                     if (newStationList.contains(station) && newTankList.contains(tank) && !newStandList.contains(stand))
                         if (!rocketRepair.containsKey(player.getUniqueId())) {
-                            TitleSubtitle.subtitle(player, 3, ChatColor.YELLOW + "Rocket Boot Repair starting...");
-                            player.sendMessage(getMsgPrefix() + "Rocket Boot Repair starting. Please stand still.");
+                            TitleSubtitle.subtitle(player, 3, RB_STATION_START);
+                            messageSend(getPlugin(), player, true, RB_STATION_START);
                             player.getWorld().playSound(player.getEyeLocation(), Sound.ORB_PICKUP, 0.8f, 0.5f);
                             rocketRepair.put(player.getUniqueId(), bStation);
                         }
@@ -112,8 +102,8 @@ public class PlayerMove implements Listener {
                         if (blockMiddle.isLiquid()) {
 
                             if (!rocketWater.contains(player.getUniqueId())) {
-                                TitleSubtitle.subtitle(player, 3, ChatColor.YELLOW + "Rocket Boots don't work in water!");
-                                player.sendMessage(getMsgPrefix() + "Rocket Boots don't work in water!");
+                                TitleSubtitle.subtitle(player, 3, RB_WATER_WARNING);
+                                messageSend(getPlugin(), player, true, RB_WATER_WARNING);
                             }
 
                             rocketWater.add(player.getUniqueId());
@@ -153,6 +143,13 @@ public class PlayerMove implements Listener {
                     if (rocketVariant.get(player.getUniqueId()) == Variant.ORIGINAL)
                         if (player.isFlying() && player.getWorld().getName().equals("world_nether"))
                             GroundFire.setFire(player, "SINGLE", Material.NETHERRACK);
+
+                    if (world.getName().equals("world") && (world.hasStorm() || world.isThundering()))
+                        if (new Random().nextInt(10) == 5) {
+                            world.strikeLightning(location);
+                            player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 1.5f, 0.75f);
+                            rocketSprint.put(player.getUniqueId(), "AIR");
+                        }
 
                 }
 

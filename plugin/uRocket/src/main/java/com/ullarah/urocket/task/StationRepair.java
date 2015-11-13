@@ -1,6 +1,5 @@
 package com.ullarah.urocket.task;
 
-import com.ullarah.ulib.function.RomanNumeralToInteger;
 import com.ullarah.ulib.function.TitleSubtitle;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
@@ -10,10 +9,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
 
-import static com.ullarah.urocket.RocketInit.*;
+import static com.ullarah.ulib.function.CommonString.messageSend;
+import static com.ullarah.urocket.RocketFunctions.getBootDurability;
+import static com.ullarah.urocket.RocketFunctions.getBootRepairRate;
+import static com.ullarah.urocket.RocketInit.getPlugin;
+import static com.ullarah.urocket.RocketInit.rocketRepair;
 
 public class StationRepair {
 
@@ -26,7 +28,6 @@ public class StationRepair {
                         for (Map.Entry<UUID, Location> repairStation : rocketRepair.entrySet()) {
 
                             Player player = Bukkit.getPlayer(repairStation.getKey());
-
                             ItemStack playerBoots = player.getInventory().getBoots();
 
                             if (player.getWorld().getBlockAt(
@@ -37,64 +38,10 @@ public class StationRepair {
 
                                 if (playerBoots.hasItemMeta()) {
 
-                                    String bootLore = playerBoots.getItemMeta().getLore().get(0);
-                                    Integer bootRepair;
-
-                                    Integer powerLevel = RomanNumeralToInteger.decode(
-                                            bootLore.replaceFirst(
-                                                    ChatColor.YELLOW + "Rocket Level ", ""));
-
-                                    switch (powerLevel) {
-
-                                        case 1:
-                                            bootRepair = 5;
-                                            break;
-
-                                        case 2:
-                                            bootRepair = 4;
-                                            break;
-
-                                        case 3:
-                                            bootRepair = 3;
-                                            break;
-
-                                        case 4:
-                                            bootRepair = 2;
-                                            break;
-
-                                        case 5:
-                                            bootRepair = new Random().nextInt(9) + 1;
-                                            break;
-
-                                        default:
-                                            bootRepair = 0;
-                                            break;
-
-                                    }
+                                    Integer bootRepair = getBootRepairRate(playerBoots);
 
                                     short bootDurability = playerBoots.getDurability();
-
-                                    int bootMaterialDurability = 0;
-
-                                    switch (playerBoots.getType()) {
-
-                                        case LEATHER_BOOTS:
-                                            bootMaterialDurability = 65;
-                                            break;
-
-                                        case IRON_BOOTS:
-                                            bootMaterialDurability = 195;
-                                            break;
-
-                                        case GOLD_BOOTS:
-                                            bootMaterialDurability = 91;
-                                            break;
-
-                                        case DIAMOND_BOOTS:
-                                            bootMaterialDurability = 429;
-                                            break;
-
-                                    }
+                                    int bootMaterialDurability = getBootDurability(playerBoots);
 
                                     int bootHealthOriginal = (bootMaterialDurability - bootDurability);
                                     int bootHealthNew = ((bootMaterialDurability - bootDurability) + bootRepair);
@@ -106,9 +53,11 @@ public class StationRepair {
                                         case 1:
                                             bootRepairMinute = bootRepairEstimate + " Minute";
                                             break;
+
                                         case 0:
                                             bootRepairMinute = "Less than a minute!";
                                             break;
+
                                         default:
                                             bootRepairMinute = bootRepairEstimate + " Minutes";
                                             break;
@@ -120,27 +69,23 @@ public class StationRepair {
 
                                         if (bootHealthNew > bootMaterialDurability) {
 
-                                            player.sendMessage(getMsgPrefix() + "Rocket Boots have been fully repaired!");
-                                            TitleSubtitle.title(player, 5, "Rocket Boots have been fully repaired!");
+                                            String repairDone = "Rocket Boots have been fully repaired!";
+                                            messageSend(getPlugin(), player, true, repairDone);
+                                            TitleSubtitle.title(player, 5, repairDone);
 
                                             player.getWorld().playSound(player.getEyeLocation(), Sound.LEVEL_UP, 0.8f, 1.0f);
 
                                         } else {
 
-                                            String bootDurabilityMessage = "" + ChatColor.YELLOW
-                                                    + bootHealthNew + " / 195";
+                                            String bootDurabilityMessage = "" + ChatColor.YELLOW + bootHealthNew + " / 195";
+                                            String bootEstimationMessage = "Full Repair Estimate: " + ChatColor.YELLOW + bootRepairMinute;
 
-                                            String bootEstimationMessage = "Full Repair Estimate: " +
-                                                    ChatColor.YELLOW + bootRepairMinute;
+                                            messageSend(getPlugin(), player, true, new String[]{
+                                                    "Rocket Boot Durability: " + bootDurabilityMessage,
+                                                    "Full Repair Estimate: " + bootEstimationMessage
+                                            });
 
-                                            player.sendMessage(getMsgPrefix() + "Rocket Boot Durability: " +
-                                                    bootDurabilityMessage);
-
-                                            player.sendMessage(getMsgPrefix() + "Full Repair Estimate: " +
-                                                    bootEstimationMessage);
-
-                                            TitleSubtitle.both(player, 5,
-                                                    bootDurabilityMessage, bootEstimationMessage);
+                                            TitleSubtitle.both(player, 5, bootDurabilityMessage, bootEstimationMessage);
 
                                             float x = (float) player.getLocation().getX();
                                             float y = (float) player.getLocation().getY();
@@ -148,8 +93,7 @@ public class StationRepair {
 
                                             player.getWorld().playSound(player.getLocation(), Sound.PORTAL_TRIGGER, 0.5f, 1.5f);
 
-                                            PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
-                                                    EnumParticle.PORTAL, true, x, y, z, 0, 0, 0, 1, 500, null);
+                                            PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.PORTAL, true, x, y, z, 0, 0, 0, 1, 500, null);
 
                                             for (Player serverPlayer : player.getWorld().getPlayers())
                                                 ((CraftPlayer) serverPlayer).getHandle().playerConnection.sendPacket(packet);
@@ -158,14 +102,14 @@ public class StationRepair {
 
                                     } else {
 
-                                        player.sendMessage(getMsgPrefix() + "Rocket Boots are already at full durability!");
+                                        messageSend(getPlugin(), player, true, "Rocket Boots are already at full durability!");
                                         player.getWorld().playSound(player.getEyeLocation(), Sound.LEVEL_UP, 0.8f, 1.0f);
 
-                            }
+                                    }
 
                                 } else {
 
-                                    player.sendMessage(getMsgPrefix() + ChatColor.RED + "Rocket Boots failed to repair!");
+                                    messageSend(getPlugin(), player, true, ChatColor.RED + "Rocket Boots failed to repair!");
                                     player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 0.5f, 0.5f);
                                     rocketRepair.remove(player.getUniqueId());
 
@@ -173,7 +117,7 @@ public class StationRepair {
 
                             } else {
 
-                                player.sendMessage(getMsgPrefix() + ChatColor.RED + "Repair Tank ran out of fuel!");
+                                messageSend(getPlugin(), player, true, ChatColor.RED + "Repair Tank ran out of fuel!");
                                 player.getWorld().playSound(player.getEyeLocation(), Sound.ANVIL_BREAK, 0.6f, 1.0f);
                                 rocketRepair.remove(player.getUniqueId());
 

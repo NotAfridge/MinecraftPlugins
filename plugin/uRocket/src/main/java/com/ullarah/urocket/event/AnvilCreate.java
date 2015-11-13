@@ -24,7 +24,6 @@ public class AnvilCreate implements Listener {
     @EventHandler
     public static void onInventoryClick(InventoryClickEvent event) {
 
-        Player player = (Player) event.getWhoClicked();
         Inventory inventory = event.getClickedInventory();
 
         if (inventory == null) return;
@@ -70,6 +69,8 @@ public class AnvilCreate implements Listener {
 
                                     if (event.getRawSlot() == 2)
                                         if (itemOne.getAmount() == 1 && itemTwo.getAmount() == 1) {
+
+                                            Player player = (Player) event.getWhoClicked();
 
                                             ItemStack airStack = new ItemStack(Material.AIR);
                                             event.getClickedInventory().setContents(new ItemStack[]{airStack, airStack});

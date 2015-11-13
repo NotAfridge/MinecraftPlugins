@@ -1,6 +1,5 @@
 package com.ullarah.urocket.task;
 
-import com.ullarah.ulib.function.RomanNumeralToInteger;
 import com.ullarah.ulib.function.SignText;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
@@ -14,6 +13,8 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
+import static com.ullarah.urocket.RocketFunctions.getBootDurability;
+import static com.ullarah.urocket.RocketFunctions.getBootRepairRate;
 import static com.ullarah.urocket.RocketInit.getPlugin;
 import static com.ullarah.urocket.RocketInit.rocketRepairStand;
 
@@ -55,64 +56,10 @@ public class StationStandRepair {
 
                                         if (standBoots.hasItemMeta()) {
 
-                                            String bootLore = standBoots.getItemMeta().getLore().get(0);
-                                            Integer bootRepair;
-
-                                            Integer powerLevel = RomanNumeralToInteger.decode(
-                                                    bootLore.replaceFirst(
-                                                            ChatColor.YELLOW + "Rocket Level ", ""));
-
-                                            switch (powerLevel) {
-
-                                                case 1:
-                                                    bootRepair = 5;
-                                                    break;
-
-                                                case 2:
-                                                    bootRepair = 4;
-                                                    break;
-
-                                                case 3:
-                                                    bootRepair = 3;
-                                                    break;
-
-                                                case 4:
-                                                    bootRepair = 2;
-                                                    break;
-
-                                                case 5:
-                                                    bootRepair = new Random().nextInt(9) + 1;
-                                                    break;
-
-                                                default:
-                                                    bootRepair = 0;
-                                                    break;
-
-                                            }
+                                            Integer bootRepair = getBootRepairRate(standBoots);
 
                                             short bootDurability = standBoots.getDurability();
-
-                                            int bootMaterialDurability = 0;
-
-                                            switch (standBoots.getType()) {
-
-                                                case LEATHER_BOOTS:
-                                                    bootMaterialDurability = 65;
-                                                    break;
-
-                                                case IRON_BOOTS:
-                                                    bootMaterialDurability = 195;
-                                                    break;
-
-                                                case GOLD_BOOTS:
-                                                    bootMaterialDurability = 91;
-                                                    break;
-
-                                                case DIAMOND_BOOTS:
-                                                    bootMaterialDurability = 429;
-                                                    break;
-
-                                            }
+                                            int bootMaterialDurability = getBootDurability(standBoots);
 
                                             int bootHealthOriginal = (bootMaterialDurability - bootDurability);
                                             int bootHealthNew = ((bootMaterialDurability - bootDurability) + bootRepair);

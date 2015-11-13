@@ -7,8 +7,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 
-import static com.ullarah.urocket.RocketInit.getMsgPrefix;
+import static com.ullarah.ulib.function.CommonString.messageSend;
+import static com.ullarah.urocket.RocketInit.getPlugin;
 import static com.ullarah.urocket.RocketInit.rocketVariant;
+import static com.ullarah.urocket.RocketLanguage.RB_CONSUME_FLY;
+import static com.ullarah.urocket.RocketLanguage.RB_CONSUME_HIDDEN;
 
 public class PlayerConsume implements Listener {
 
@@ -27,12 +30,12 @@ public class PlayerConsume implements Listener {
 
                         case HEALTH:
                             event.setCancelled(true);
-                            player.sendMessage(getMsgPrefix() + "You cannot eat and fly at the same time!");
+                            messageSend(getPlugin(), player, true, RB_CONSUME_FLY);
                             break;
 
                         case STEALTH:
                             event.setCancelled(true);
-                            player.sendMessage(getMsgPrefix() + "You cannot eat while you are hidden!");
+                            messageSend(getPlugin(), player, true, RB_CONSUME_HIDDEN);
                             break;
 
                         default:

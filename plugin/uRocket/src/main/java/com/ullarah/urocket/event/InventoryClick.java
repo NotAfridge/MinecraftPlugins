@@ -17,6 +17,7 @@ import java.util.UUID;
 import static com.ullarah.urocket.RocketFunctions.interactRocketBoots;
 import static com.ullarah.urocket.RocketFunctions.rocketSaddleCheck;
 import static com.ullarah.urocket.RocketInit.rocketEntity;
+import static com.ullarah.urocket.RocketLanguage.RB_USELESS;
 
 public class InventoryClick implements Listener {
 
@@ -32,7 +33,7 @@ public class InventoryClick implements Listener {
                 ItemStack itemStack = event.getCurrentItem();
 
                 if (itemStack.hasItemMeta()) if (itemStack.getItemMeta().hasDisplayName())
-                    if (itemStack.getItemMeta().getDisplayName().equals(ChatColor.GRAY + "Useless Rocket Boots"))
+                    if (itemStack.getItemMeta().getDisplayName().equals(RB_USELESS))
                         event.setCancelled(true);
 
             }

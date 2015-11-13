@@ -31,16 +31,12 @@ public class StandBreak implements Listener {
             int eZ = entityLocation.getBlockZ();
 
             List<String> standList = getPlugin().getConfig().getStringList("stands");
-            List<String> newStandList = standList.stream()
-                    .map(stand -> stand.replaceFirst(".{37}", "")).collect(Collectors.toList());
+            List<String> newStandList = standList.stream().map(stand -> stand.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
-            String standOriginal = event.getDamager().getUniqueId().toString() + "|"
-                    + standEntity.getWorld().getName() + "|" + eX + "|" + eY + "|" + eZ;
-
+            String standOriginal = event.getDamager().getUniqueId().toString() + "|" + standEntity.getWorld().getName() + "|" + eX + "|" + eY + "|" + eZ;
             String standNew = standEntity.getWorld().getName() + "|" + eX + "|" + eY + "|" + eZ;
 
-            if (standList.contains(standOriginal) ||
-                    (event.getDamager().hasPermission("rocket.remove") && newStandList.contains(standNew))) {
+            if (standList.contains(standOriginal) || (event.getDamager().hasPermission("rocket.remove") && newStandList.contains(standNew))) {
 
                 if (standEntity.getEquipment().getBoots().getAmount() == 1) {
                     ItemStack standBoots = standEntity.getEquipment().getBoots();

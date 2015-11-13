@@ -35,26 +35,12 @@ public class BlockBreak implements Listener {
             int bZ = blockLocation.getBlockZ();
 
             List<String> stationList = getPlugin().getConfig().getStringList("stations");
-            List<String> newStationList = stationList.stream()
-                    .map(station -> station.replaceFirst(".{37}", "")).collect(Collectors.toList());
+            List<String> newStationList = stationList.stream().map(station -> station.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
-            String stationOriginal = player.getUniqueId().toString() + "|"
-                    + world.getName() + "|" + bX + "|" + bY + "|" + bZ;
-
+            String stationOriginal = player.getUniqueId().toString() + "|" + world.getName() + "|" + bX + "|" + bY + "|" + bZ;
             String stationNew = world.getName() + "|" + bX + "|" + bY + "|" + bZ;
 
-            if (stationList.contains(stationOriginal) || player.hasPermission("rocket.remove")) {
-
-                stationList.remove(newStationList.indexOf(stationNew));
-
-                world.getBlockAt(blockLocation).setType(Material.AIR);
-                getPlugin().getConfig().set("stations", stationList);
-                getPlugin().saveConfig();
-
-                world.createExplosion(blockLocation, 0.0f, false);
-                world.dropItemNaturally(blockLocation, RepairStation.station());
-
-            }
+            removeRepairStation(world, player, blockLocation, stationList, newStationList, stationOriginal, stationNew);
 
         }
 
@@ -70,12 +56,9 @@ public class BlockBreak implements Listener {
             int bZ = blockLocation.getBlockZ();
 
             List<String> tankList = getPlugin().getConfig().getStringList("tanks");
-            List<String> newTankList = tankList.stream()
-                    .map(tank -> tank.replaceFirst(".{37}", "")).collect(Collectors.toList());
+            List<String> newTankList = tankList.stream().map(tank -> tank.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
-            String tankOriginal = player.getUniqueId().toString() + "|"
-                    + world.getName() + "|" + bX + "|" + bY + "|" + bZ;
-
+            String tankOriginal = player.getUniqueId().toString() + "|" + world.getName() + "|" + bX + "|" + bY + "|" + bZ;
             String tankNew = world.getName() + "|" + bX + "|" + bY + "|" + bZ;
 
             if (tankList.contains(tankOriginal) || player.hasPermission("rocket.remove")) {
@@ -86,32 +69,17 @@ public class BlockBreak implements Listener {
                 getPlugin().getConfig().set("tanks", tankList);
                 getPlugin().saveConfig();
 
-                Location blockStation = new Location(player.getWorld(),
-                        blockLocation.getX(), blockLocation.getY() + 1, blockLocation.getZ());
+                Location blockStation = new Location(player.getWorld(), blockLocation.getX(), blockLocation.getY() + 1, blockLocation.getZ());
 
                 if (blockStation.getBlock().getType() == Material.BEACON) {
 
                     List<String> stationList = getPlugin().getConfig().getStringList("stations");
-                    List<String> newStationList = stationList.stream()
-                            .map(station -> station.replaceFirst(".{37}", "")).collect(Collectors.toList());
+                    List<String> newStationList = stationList.stream().map(station -> station.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
-                    String stationOriginal = player.getUniqueId().toString() + "|"
-                            + world.getName() + "|" + bX + "|" + bY + "|" + bZ;
-
+                    String stationOriginal = player.getUniqueId().toString() + "|" + world.getName() + "|" + bX + "|" + bY + "|" + bZ;
                     String stationNew = world.getName() + "|" + bX + "|" + bY + "|" + bZ;
 
-                    if (stationList.contains(stationOriginal) || player.hasPermission("rocket.remove")) {
-
-                        stationList.remove(newStationList.indexOf(stationNew));
-
-                        world.getBlockAt(blockStation).setType(Material.AIR);
-                        getPlugin().getConfig().set("stations", stationList);
-                        getPlugin().saveConfig();
-
-                        world.createExplosion(blockLocation, 0.0f, false);
-                        world.dropItemNaturally(blockStation, RepairStation.station());
-
-                    }
+                    removeRepairStation(world, player, blockLocation, stationList, newStationList, stationOriginal, stationNew);
 
                 }
 
@@ -119,6 +87,24 @@ public class BlockBreak implements Listener {
                 world.dropItemNaturally(blockLocation, RepairTank.tank());
 
             }
+
+        }
+
+    }
+
+    public void removeRepairStation(World world, Player player, Location blockLocation, List<String> stationList,
+                                    List<String> newStationList, String stationOriginal, String stationNew) {
+
+        if (stationList.contains(stationOriginal) || player.hasPermission("rocket.remove")) {
+
+            stationList.remove(newStationList.indexOf(stationNew));
+
+            world.getBlockAt(blockLocation).setType(Material.AIR);
+            getPlugin().getConfig().set("stations", stationList);
+            getPlugin().saveConfig();
+
+            world.createExplosion(blockLocation, 0.0f, false);
+            world.dropItemNaturally(blockLocation, RepairStation.station());
 
         }
 
