@@ -70,6 +70,20 @@ public class CommonString {
     }
 
     /**
+     * A message that is sent to a {@code CommandSender} object
+     *
+     * @param plugin  the plugin object
+     * @param sender  the sender who receives the message
+     * @param prefix  the prefix of the current plugin
+     * @param message the message to send
+     */
+    public static void messageSend(Plugin plugin, CommandSender sender, boolean prefix, String message) {
+
+        sender.sendMessage(prefix ? pluginPrefix(plugin) + message : message);
+
+    }
+
+    /**
      * A message that is sent to a {@code Player} object
      *
      * @param plugin   the plugin object
@@ -80,6 +94,20 @@ public class CommonString {
     public static void messageSend(Plugin plugin, Player player, boolean prefix, String[] messages) {
 
         for (String message : messages) player.sendMessage(prefix ? pluginPrefix(plugin) + message : message);
+
+    }
+
+    /**
+     * A message that is sent to a {@code Player} object
+     *
+     * @param plugin  the plugin object
+     * @param player  the sender who receives the message
+     * @param prefix  the prefix of the current plugin
+     * @param message the message to send
+     */
+    public static void messageSend(Plugin plugin, Player player, boolean prefix, String message) {
+
+        player.sendMessage(prefix ? pluginPrefix(plugin) + message : message);
 
     }
 
