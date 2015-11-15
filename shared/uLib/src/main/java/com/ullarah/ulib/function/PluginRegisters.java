@@ -29,26 +29,24 @@ public class PluginRegisters {
 
             try {
 
-                Class<?> classObject = object.getClass();
-
                 switch (type) {
 
                     case EVENT:
-                        Bukkit.getServer().getPluginManager().registerEvents((Listener) object, plugin);
+                        plugin.getServer().getPluginManager().registerEvents((Listener) object, plugin);
                         break;
 
                     case FURNACE:
                         FurnaceRecipe newFurnace = ((NewFurnace) object).furnace();
-                        Bukkit.getServer().addRecipe(newFurnace);
+                        plugin.getServer().addRecipe(newFurnace);
                         break;
 
                     case RECIPE:
                         ShapedRecipe newRecipe = ((NewRecipe) object).recipe();
-                        Bukkit.getServer().addRecipe(newRecipe);
+                        plugin.getServer().addRecipe(newRecipe);
                         break;
 
                     case TASK:
-                        classObject.getMethod(type.toString()).invoke(classObject.newInstance());
+                        object.getClass().getMethod(type.toString()).invoke(object.getClass().newInstance());
                         break;
 
                 }
@@ -112,17 +110,17 @@ public class PluginRegisters {
                         switch (type) {
 
                             case EVENT:
-                                Bukkit.getServer().getPluginManager().registerEvents((Listener) classInstance, plugin);
+                                plugin.getServer().getPluginManager().registerEvents((Listener) classInstance, plugin);
                                 break;
 
                             case FURNACE:
                                 FurnaceRecipe newFurnace = ((NewFurnace) classInstance).furnace();
-                                Bukkit.getServer().addRecipe(newFurnace);
+                                plugin.getServer().addRecipe(newFurnace);
                                 break;
 
                             case RECIPE:
                                 ShapedRecipe newRecipe = ((NewRecipe) classInstance).recipe();
-                                Bukkit.getServer().addRecipe(newRecipe);
+                                plugin.getServer().addRecipe(newRecipe);
                                 break;
 
                             case TASK:
