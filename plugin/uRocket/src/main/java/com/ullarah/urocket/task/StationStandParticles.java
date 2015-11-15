@@ -10,19 +10,22 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 import java.util.Map;
 import java.util.UUID;
 
-import static com.ullarah.urocket.RocketInit.getPlugin;
+import static com.ullarah.urocket.RocketInit.pluginName;
 import static com.ullarah.urocket.RocketInit.rocketRepairStand;
 
 public class StationStandParticles {
 
     public void task() {
 
-        Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
-                () -> Bukkit.getScheduler().runTask(getPlugin(), () -> {
+        Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+
+        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
+                () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
 
                     if (!rocketRepairStand.isEmpty())
                         for (Map.Entry<UUID, Location> repairStand : rocketRepairStand.entrySet()) {

@@ -175,19 +175,21 @@ public class ToggleFlight implements Listener {
                                                             break;
 
                                                         case COAL:
-                                                            if (!player.getInventory().contains(Material.COAL) || !player.getInventory().contains(Material.COAL_BLOCK)) {
-                                                                messageSend(getPlugin(), player, true, FuelRequired("coal"));
-                                                                changeDurability = false;
-                                                                disableRocketBoots(player, false, false, false, false, false);
-                                                            }
+                                                            if (!player.getInventory().contains(Material.COAL_BLOCK))
+                                                                if (!player.getInventory().contains(Material.COAL)) {
+                                                                    messageSend(getPlugin(), player, true, FuelRequired("coal"));
+                                                                    changeDurability = false;
+                                                                    disableRocketBoots(player, false, false, false, false, false);
+                                                                }
                                                             break;
 
                                                         case FURY:
-                                                            if (!player.getInventory().contains(Material.REDSTONE) || !player.getInventory().contains(Material.REDSTONE_BLOCK)) {
-                                                                messageSend(getPlugin(), player, true, FuelRequired("redstone"));
-                                                                changeDurability = false;
-                                                                disableRocketBoots(player, false, false, false, false, false);
-                                                            }
+                                                            if (!player.getInventory().contains(Material.REDSTONE_BLOCK))
+                                                                if (!player.getInventory().contains(Material.REDSTONE)) {
+                                                                    messageSend(getPlugin(), player, true, FuelRequired("redstone"));
+                                                                    changeDurability = false;
+                                                                    disableRocketBoots(player, false, false, false, false, false);
+                                                                }
                                                             break;
 
                                                     }

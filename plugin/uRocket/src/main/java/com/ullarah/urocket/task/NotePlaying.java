@@ -9,6 +9,7 @@ import org.bukkit.Instrument;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 import java.util.Random;
 import java.util.UUID;
@@ -24,8 +25,10 @@ public class NotePlaying {
 
     public void task() {
 
-        Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
-                () -> Bukkit.getScheduler().runTask(getPlugin(), () -> {
+        Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+
+        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
+                () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
 
                     if (!rocketUsage.isEmpty() && !rocketVariant.isEmpty()) for (UUID uuid : rocketUsage) {
 

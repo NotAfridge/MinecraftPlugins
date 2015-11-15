@@ -9,6 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
 import java.util.Random;
@@ -26,8 +27,10 @@ public class RocketFuel {
 
     public void task() {
 
-        Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
-                () -> Bukkit.getServer().getScheduler().runTask(getPlugin(), () -> {
+        Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+
+        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
+                () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
 
                     if (!rocketUsage.isEmpty()) for (UUID uuid : rocketUsage) {
 

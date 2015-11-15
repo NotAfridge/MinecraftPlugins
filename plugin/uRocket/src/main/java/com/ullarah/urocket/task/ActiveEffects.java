@@ -4,6 +4,7 @@ import com.ullarah.ulib.function.GamemodeCheck;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 
 import java.util.Map;
@@ -17,8 +18,10 @@ public class ActiveEffects {
 
     public void task() {
 
-        Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
-                () -> Bukkit.getScheduler().runTask(getPlugin(), () -> {
+        Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+
+        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
+                () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
 
                     if (!rocketPower.isEmpty()) {
                         for (Map.Entry<UUID, Integer> entry : rocketPower.entrySet()) {

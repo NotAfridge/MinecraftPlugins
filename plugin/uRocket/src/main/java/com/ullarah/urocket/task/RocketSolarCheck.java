@@ -6,6 +6,7 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 import java.util.Map;
 import java.util.UUID;
@@ -18,8 +19,10 @@ public class RocketSolarCheck {
 
     public void task() {
 
-        Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
-                () -> Bukkit.getServer().getScheduler().runTask(getPlugin(), () -> {
+        Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+
+        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
+                () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
 
                     if (!rocketEnhancement.isEmpty())
                         for (Map.Entry<UUID, Enhancement> entry : rocketEnhancement.entrySet()) {

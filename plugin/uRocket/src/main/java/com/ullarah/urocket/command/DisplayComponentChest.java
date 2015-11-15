@@ -1,12 +1,18 @@
 package com.ullarah.urocket.command;
 
+import com.ullarah.urocket.RocketVariant;
 import com.ullarah.urocket.recipe.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class DisplayComponentChest {
 
@@ -14,7 +20,7 @@ public class DisplayComponentChest {
 
         Player player = (Player) sender;
 
-        Inventory rocketComponentInventory = Bukkit.createInventory(null, 36, ChatColor.DARK_RED + "Rocket Components");
+        Inventory rocketComponentInventory = Bukkit.createInventory(null, 45, ChatColor.DARK_RED + "Rocket Components");
 
         rocketComponentInventory.setContents(rocketComponents());
         player.openInventory(rocketComponentInventory);
@@ -23,47 +29,44 @@ public class DisplayComponentChest {
 
     private static ItemStack[] rocketComponents() {
 
-        return new ItemStack[]{
-                RocketBooster.booster("I"),
-                RocketBooster.booster("II"),
-                RocketBooster.booster("III"),
-                RocketBooster.booster("IV"),
-                RocketBooster.booster("V"),
-                RocketBooster.booster("X"),
-                RocketEnhance.enhancement(ChatColor.RED + "Fuel Efficient", null),
-                RocketEnhance.enhancement(ChatColor.RED + "Solar Power", null),
-                null,
+        List<ItemStack> rocketStack = new ArrayList<ItemStack>() {{
+            Arrays.asList(
+                    add(RocketBooster.booster("I")),
+                    add(RocketBooster.booster("II")),
+                    add(RocketBooster.booster("III")),
+                    add(RocketBooster.booster("IV")),
+                    add(RocketBooster.booster("V")),
+                    add(RocketBooster.booster("X")),
+                    add(new ItemStack(Material.AIR)),
+                    add(new ItemStack(Material.AIR)),
+                    add(new ItemStack(Material.AIR)),
 
-                RocketControls.control(),
-                RepairTank.tank(),
-                RepairStation.station(),
-                RepairStand.stand(),
-                RocketFlyZone.zone(),
-                RocketSaddle.saddle(),
-                RocketEnhance.enhancement(ChatColor.RED + "Self Repair", null),
-                null,
-                null,
+                    add(RocketControls.control()),
+                    add(RepairTank.tank()),
+                    add(RepairStation.station()),
+                    add(RepairStand.stand()),
+                    add(RocketFlyZone.zone()),
+                    add(RocketSaddle.saddle()),
+                    add(new ItemStack(Material.AIR)),
+                    add(new ItemStack(Material.AIR)),
+                    add(new ItemStack(Material.AIR)),
 
-                RocketVariants.variant(ChatColor.LIGHT_PURPLE + "Gay Agenda"),
-                RocketVariants.variant(ChatColor.AQUA + "Pole Vaulter"),
-                RocketVariants.variant(ChatColor.GRAY + "Coal Miner"),
-                RocketVariants.variant(ChatColor.DARK_AQUA + "Essence of Ender"),
-                RocketVariants.variant(ChatColor.GRAY + "Glazed Over"),
-                RocketVariants.variant(ChatColor.YELLOW + "Shooting Star"),
-                RocketVariants.variant(ChatColor.GREEN + "Health Zapper"),
-                RocketVariants.variant(ChatColor.RED + "TNT Overload"),
-                RocketVariants.variant(ChatColor.WHITE + "Loud Silence"),
+                    add(RocketEnhance.enhancement(ChatColor.RED + "Fuel Efficient", null)),
+                    add(RocketEnhance.enhancement(ChatColor.RED + "Solar Power", null)),
+                    add(RocketEnhance.enhancement(ChatColor.RED + "Self Repair", null)),
+                    add(new ItemStack(Material.AIR)),
+                    add(new ItemStack(Material.AIR)),
+                    add(new ItemStack(Material.AIR)),
+                    add(new ItemStack(Material.AIR)),
+                    add(new ItemStack(Material.AIR)),
+                    add(new ItemStack(Material.AIR))
+            );
+        }};
 
-                RocketVariants.variant(ChatColor.GOLD + "Musical Madness"),
-                RocketVariants.variant(ChatColor.YELLOW + "Radical Rainbows"),
-                RocketVariants.variant(ChatColor.DARK_RED + "Red Fury"),
-                RocketVariants.variant(ChatColor.GOLD + "Rocket Runner"),
-                RocketVariants.variant(ChatColor.WHITE + "Super Stealth"),
-                RocketVariants.variant(ChatColor.BLUE + "Water Slider"),
-                RocketVariants.variant(ChatColor.YELLOW + "Patient Zero"),
-                RocketVariants.variant(ChatColor.DARK_GREEN + "Robin Hood"),
-                null
-        };
+        for (RocketVariant.Variant variant : RocketVariant.Variant.values())
+            rocketStack.add(RocketVariants.variant(variant.getName()));
+
+        return rocketStack.toArray(new ItemStack[rocketStack.size()]);
 
     }
 

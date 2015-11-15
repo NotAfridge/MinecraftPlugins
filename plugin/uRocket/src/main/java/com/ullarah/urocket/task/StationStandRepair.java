@@ -10,20 +10,23 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 
 import java.util.*;
 
 import static com.ullarah.urocket.RocketFunctions.getBootDurability;
 import static com.ullarah.urocket.RocketFunctions.getBootRepairRate;
-import static com.ullarah.urocket.RocketInit.getPlugin;
+import static com.ullarah.urocket.RocketInit.pluginName;
 import static com.ullarah.urocket.RocketInit.rocketRepairStand;
 
 public class StationStandRepair {
 
     public void task() {
 
-        Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
-                () -> Bukkit.getScheduler().runTask(getPlugin(), () -> {
+        Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+
+        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
+                () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
 
                     if (!rocketRepairStand.isEmpty()) {
 

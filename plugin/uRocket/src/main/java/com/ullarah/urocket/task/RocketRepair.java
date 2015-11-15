@@ -5,17 +5,20 @@ import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 
 import static com.ullarah.urocket.RocketEnhancement.Enhancement.REPAIR;
-import static com.ullarah.urocket.RocketInit.getPlugin;
+import static com.ullarah.urocket.RocketInit.pluginName;
 import static com.ullarah.urocket.RocketInit.rocketEnhancement;
 
 public class RocketRepair {
 
     public void task() {
 
-        Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
-                () -> Bukkit.getScheduler().runTask(getPlugin(), () -> {
+        Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+
+        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
+                () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
 
                     if (!rocketEnhancement.isEmpty())
                         rocketEnhancement.entrySet().stream().filter(entry -> rocketEnhancement.get(

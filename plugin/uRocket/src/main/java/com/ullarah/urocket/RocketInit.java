@@ -27,6 +27,8 @@ import static com.ullarah.urocket.RocketVariant.Variant;
 
 public class RocketInit extends JavaPlugin {
 
+    public static final String pluginName = "uRocket";
+
     public static final HashSet<UUID> rocketUsage = new HashSet<>();
     public static final HashSet<UUID> rocketWater = new HashSet<>();
     public static final HashSet<UUID> rocketZones = new HashSet<>();
@@ -46,6 +48,7 @@ public class RocketInit extends JavaPlugin {
     public static final HashMap<String, Integer> registerMap = new HashMap<>();
 
     private static Plugin plugin;
+    private static PluginManager pluginManager;
     private static WorldGuardPlugin worldGuard;
     private static Economy vaultEconomy;
 
@@ -55,6 +58,14 @@ public class RocketInit extends JavaPlugin {
 
     private static void setPlugin(Plugin plugin) {
         RocketInit.plugin = plugin;
+    }
+
+    public static PluginManager getPluginManager() {
+        return pluginManager;
+    }
+
+    private static void setPluginManager(PluginManager pluginManager) {
+        RocketInit.pluginManager = pluginManager;
     }
 
     public static WorldGuardPlugin getWorldGuard() {
@@ -75,12 +86,11 @@ public class RocketInit extends JavaPlugin {
 
     public void onEnable() {
 
-        setPlugin(this);
+        setPluginManager(Bukkit.getPluginManager());
+        setPlugin(getPluginManager().getPlugin(pluginName));
 
-        PluginManager pluginManager = getServer().getPluginManager();
-
-        Plugin pluginWorldGuard = pluginManager.getPlugin("WorldGuard");
-        Plugin pluginVault = pluginManager.getPlugin("Vault");
+        Plugin pluginWorldGuard = getPluginManager().getPlugin("WorldGuard");
+        Plugin pluginVault = getPluginManager().getPlugin("Vault");
 
         registerMap.put(RECIPE.toString(), register(getPlugin(), RECIPE,
                 new RocketBooster("I", Material.REDSTONE_BLOCK),
@@ -121,11 +131,8 @@ public class RocketInit extends JavaPlugin {
         registerMap.put(EVENT.toString(), registerAll(getPlugin(), EVENT));
         registerMap.put(TASK.toString(), registerAll(getPlugin(), TASK));
 
-        RocketVariant variantInit = new RocketVariant();
-        variantInit.init();
-
-        RocketEnhancement enhancementInit = new RocketEnhancement();
-        enhancementInit.init();
+        new RocketVariant().init();
+        new RocketEnhancement().init();
 
         getCommand("rocket").setExecutor(new RocketExecutor());
 
@@ -150,7 +157,7 @@ public class RocketInit extends JavaPlugin {
         reloadFlyZones(true);
         int zoneList = registerMap.get("zone") != null ? registerMap.get("zone") : 0;
 
-        Bukkit.getLogger().log(Level.INFO, "[" + getPlugin().getName() + "] "
+        Bukkit.getLogger().log(Level.INFO, "[" + pluginName + "] "
                 + "Tasks: " + registerMap.get("task") + " | "
                 + "Events: " + registerMap.get("event") + " | "
                 + "Recipes: " + registerMap.get("recipe") + " | "
@@ -160,7 +167,7 @@ public class RocketInit extends JavaPlugin {
 
         if (pluginList.size() > 0)
             Bukkit.getLogger().log(Level.INFO,
-                    "[" + getPlugin().getName() + "] Hooked: " + StringUtils.join(pluginList, ", "));
+                    "[" + pluginName + "] Hooked: " + StringUtils.join(pluginList, ", "));
 
     }
 
