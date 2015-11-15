@@ -9,6 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
@@ -19,6 +20,7 @@ import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.urocket.RocketEnhancement.Enhancement.FUEL;
 import static com.ullarah.urocket.RocketEnhancement.Enhancement.SOLAR;
 import static com.ullarah.urocket.RocketFunctions.disableRocketBoots;
+import static com.ullarah.urocket.RocketFunctions.getBootPowerLevel;
 import static com.ullarah.urocket.RocketInit.*;
 import static com.ullarah.urocket.RocketLanguage.*;
 import static com.ullarah.urocket.RocketVariant.Variant;
@@ -37,10 +39,6 @@ public class RocketFuel {
                         Player player = Bukkit.getPlayer(uuid);
 
                         if (player.isFlying()) {
-
-                            if (player.getLevel() < 0) player.setLevel(0);
-                            if (player.getExp() < 0) player.setExp(0);
-                            if (player.getTotalExperience() < 0 || player.getTotalExperience() == 2147483647) player.setTotalExperience(0);
 
                             boolean alternateFuel = false;
                             boolean isFuelEfficient = false;
@@ -72,16 +70,19 @@ public class RocketFuel {
 
                                 Random random = new Random();
 
+                                ItemStack rocketBoots = player.getInventory().getBoots();
                                 Variant bootVariant = rocketVariant.get(player.getUniqueId());
-                                Material bootMaterial = player.getInventory().getBoots().getType();
+                                Material bootMaterial = rocketBoots.getType();
 
                                 double getHealthFromBoots = 0;
                                 int getFoodLevelFromBoots = 0;
                                 double getExperienceFromBoots = 0;
+                                int itemFuelCost = 0;
 
                                 switch (bootMaterial) {
 
                                     case LEATHER_BOOTS:
+                                        itemFuelCost = 1 + getBootPowerLevel(rocketBoots);
                                         getHealthFromBoots = (player.getHealth() - 3.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 4);
 
@@ -91,6 +92,7 @@ public class RocketFuel {
                                         break;
 
                                     case IRON_BOOTS:
+                                        itemFuelCost = 1 + getBootPowerLevel(rocketBoots);
                                         getHealthFromBoots = (player.getHealth() - 2.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 3);
 
@@ -100,6 +102,7 @@ public class RocketFuel {
                                         break;
 
                                     case GOLD_BOOTS:
+                                        itemFuelCost = 2 + getBootPowerLevel(rocketBoots);
                                         getHealthFromBoots = (player.getHealth() - 1.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 2);
 
@@ -109,6 +112,7 @@ public class RocketFuel {
                                         break;
 
                                     case DIAMOND_BOOTS:
+                                        itemFuelCost = 3 + getBootPowerLevel(rocketBoots);
                                         getHealthFromBoots = (player.getHealth() - 0.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 1);
 
@@ -212,7 +216,7 @@ public class RocketFuel {
                                             messageSend(getPlugin(), player, true, RB_MALFUNCTION);
                                             disableRocketBoots(player, true, true, true, true, true, true);
 
-                                        } else if (!BlockStacks.split(getPlugin(), player, Material.COAL_BLOCK, Material.COAL, 1, 8))
+                                        } else if (!BlockStacks.split(getPlugin(), player, Material.COAL_BLOCK, Material.COAL, itemFuelCost, (9 - itemFuelCost)))
                                             disableRocketBoots(player, true, true, true, true, true, true);
 
                                         break;
@@ -224,7 +228,7 @@ public class RocketFuel {
                                             messageSend(getPlugin(), player, true, RB_MALFUNCTION);
                                             disableRocketBoots(player, true, true, true, true, true, true);
 
-                                        } else if (!BlockStacks.split(getPlugin(), player, Material.REDSTONE_BLOCK, Material.REDSTONE, 1, 8))
+                                        } else if (!BlockStacks.split(getPlugin(), player, Material.REDSTONE_BLOCK, Material.REDSTONE, itemFuelCost, (9 - itemFuelCost)))
                                             disableRocketBoots(player, true, true, true, true, true, true);
 
                                         break;

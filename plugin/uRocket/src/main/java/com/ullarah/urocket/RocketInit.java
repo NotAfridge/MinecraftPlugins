@@ -56,7 +56,7 @@ public class RocketInit extends JavaPlugin {
         return plugin;
     }
 
-    private static void setPlugin(Plugin plugin) {
+    private void setPlugin(Plugin plugin) {
         RocketInit.plugin = plugin;
     }
 
@@ -64,7 +64,7 @@ public class RocketInit extends JavaPlugin {
         return pluginManager;
     }
 
-    private static void setPluginManager(PluginManager pluginManager) {
+    private void setPluginManager(PluginManager pluginManager) {
         RocketInit.pluginManager = pluginManager;
     }
 
@@ -72,7 +72,7 @@ public class RocketInit extends JavaPlugin {
         return worldGuard;
     }
 
-    private static void setWorldGuard(WorldGuardPlugin worldGuard) {
+    private void setWorldGuard(WorldGuardPlugin worldGuard) {
         RocketInit.worldGuard = worldGuard;
     }
 
@@ -80,7 +80,7 @@ public class RocketInit extends JavaPlugin {
         return vaultEconomy;
     }
 
-    private static void setVaultEconomy(Economy vaultEconomy) {
+    private void setVaultEconomy(Economy vaultEconomy) {
         RocketInit.vaultEconomy = vaultEconomy;
     }
 

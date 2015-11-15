@@ -30,6 +30,11 @@ public class PlayerMove implements Listener {
 
         if (GamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
 
+            if (player.getLevel() < 0) player.setLevel(0);
+            if (player.getExp() < 0) player.setExp(0);
+            if (player.getTotalExperience() < 0 || player.getTotalExperience() == Integer.MAX_VALUE)
+                player.setTotalExperience(0);
+
             final Location location = player.getLocation();
             World world = player.getWorld();
 
