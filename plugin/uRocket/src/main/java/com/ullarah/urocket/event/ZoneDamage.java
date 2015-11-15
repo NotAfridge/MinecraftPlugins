@@ -36,12 +36,9 @@ public class ZoneDamage implements Listener {
             int eZ = entityLocation.getBlockZ();
 
             List<String> zoneList = getPlugin().getConfig().getStringList("zones");
-            List<String> newZoneList = zoneList.stream()
-                    .map(zone -> zone.replaceFirst(".{37}", "")).collect(Collectors.toList());
+            List<String> newZoneList = zoneList.stream().map(zone -> zone.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
-            String zoneOriginal = event.getDamager().getUniqueId().toString() + "|"
-                    + zoneEntity.getWorld().getName() + "|" + eX + "|" + eY + "|" + eZ;
-
+            String zoneOriginal = event.getDamager().getUniqueId().toString() + "|" + zoneEntity.getWorld().getName() + "|" + eX + "|" + eY + "|" + eZ;
             String zoneNew = zoneEntity.getWorld().getName() + "|" + eX + "|" + eY + "|" + eZ;
 
             if (zoneList.contains(zoneOriginal) || event.getDamager().hasPermission("rocket.remove")) {

@@ -52,10 +52,12 @@ public class EntityFlying implements Listener {
         if (event.getCause() == EntityDamageEvent.DamageCause.FALL) {
 
             if (event.getEntity() instanceof Horse)
-                if (rocketEntity.containsKey(event.getEntity().getUniqueId())) event.setCancelled(true);
+                if (rocketEntity.containsKey(event.getEntity().getUniqueId()))
+                    event.setCancelled(true);
 
             if (event.getEntity() instanceof Pig)
-                if (rocketEntity.containsKey(event.getEntity().getUniqueId())) event.setCancelled(true);
+                if (rocketEntity.containsKey(event.getEntity().getUniqueId()))
+                    event.setCancelled(true);
 
             if (event.getEntity() instanceof Player) {
 
@@ -65,9 +67,8 @@ public class EntityFlying implements Listener {
 
                     EntityType entityType = player.getVehicle().getType();
 
-                    if (entityType == EntityType.HORSE || entityType == EntityType.PIG) {
+                    if (entityType == EntityType.HORSE || entityType == EntityType.PIG)
                         if (rocketEntity.containsKey(event.getEntity().getUniqueId())) event.setCancelled(true);
-                    }
 
                 }
 

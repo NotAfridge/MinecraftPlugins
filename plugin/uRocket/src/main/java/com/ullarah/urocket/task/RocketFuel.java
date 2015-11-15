@@ -59,7 +59,7 @@ public class RocketFuel {
                                 messageSend(getPlugin(), player, true, RB_FUEL_OUTAGE);
                                 TitleSubtitle.subtitle(player, 2, RB_FUEL_OUTAGE);
 
-                                disableRocketBoots(player, true, true, true, true, true);
+                                disableRocketBoots(player, true, true, true, true, true, true);
 
                             } else if (rocketUsage.contains(uuid) && player.getLevel() <= 5 && !alternateFuel) {
 
@@ -125,7 +125,7 @@ public class RocketFuel {
                                         if (player.getHealth() <= 1.0 || player.getFoodLevel() <= 2) {
 
                                             messageSend(getPlugin(), player, true, RB_HUNGRY);
-                                            disableRocketBoots(player, false, true, false, true, true);
+                                            disableRocketBoots(player, false, true, false, true, true, true);
 
                                         } else {
 
@@ -139,7 +139,7 @@ public class RocketFuel {
                                         if (getVaultEconomy().getBalance(player) <= 10.0) {
 
                                             messageSend(getPlugin(), player, true, RB_MONEY);
-                                            disableRocketBoots(player, false, true, false, true, true);
+                                            disableRocketBoots(player, false, true, false, true, true, true);
 
                                         } else {
 
@@ -210,10 +210,10 @@ public class RocketFuel {
 
                                             player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 0.6f, 0.65f);
                                             messageSend(getPlugin(), player, true, RB_MALFUNCTION);
-                                            disableRocketBoots(player, true, true, true, true, true);
+                                            disableRocketBoots(player, true, true, true, true, true, true);
 
                                         } else if (!BlockStacks.split(getPlugin(), player, Material.COAL_BLOCK, Material.COAL, 1, 8))
-                                            disableRocketBoots(player, true, true, true, true, true);
+                                            disableRocketBoots(player, true, true, true, true, true, true);
 
                                         break;
 
@@ -222,10 +222,10 @@ public class RocketFuel {
 
                                             player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 0.6f, 0.65f);
                                             messageSend(getPlugin(), player, true, RB_MALFUNCTION);
-                                            disableRocketBoots(player, true, true, true, true, true);
+                                            disableRocketBoots(player, true, true, true, true, true, true);
 
                                         } else if (!BlockStacks.split(getPlugin(), player, Material.REDSTONE_BLOCK, Material.REDSTONE, 1, 8))
-                                            disableRocketBoots(player, true, true, true, true, true);
+                                            disableRocketBoots(player, true, true, true, true, true, true);
 
                                         break;
 
@@ -239,12 +239,12 @@ public class RocketFuel {
 
                             if (player.getLocation().getY() >= 250) {
 
-                                disableRocketBoots(player, true, true, true, true, true);
+                                disableRocketBoots(player, true, true, true, true, true, true);
                                 messageSend(getPlugin(), player, true, RB_HIGH);
 
                             } else if (player.getLocation().getY() <= 0) {
 
-                                disableRocketBoots(player, true, true, true, true, true);
+                                disableRocketBoots(player, true, true, true, true, true, true);
                                 messageSend(getPlugin(), player, true, RB_LOW);
 
                             }

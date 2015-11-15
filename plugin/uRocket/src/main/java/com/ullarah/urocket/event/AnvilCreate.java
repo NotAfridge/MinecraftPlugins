@@ -51,21 +51,18 @@ public class AnvilCreate implements Listener {
                             String boosterSlotTwoName = itemTwo.getItemMeta().getDisplayName();
                             String boosterSlotTwoLore = itemTwo.getItemMeta().getLore().get(0);
 
-                            if (Pattern.matches(boosterNameMatch, boosterSlotOneName) &&
-                                    Pattern.matches(boosterLoreMatch, boosterSlotOneLore))
-                                if (Pattern.matches(boosterNameMatch, boosterSlotTwoName) &&
-                                        Pattern.matches(boosterLoreMatch, boosterSlotTwoLore)) {
+                            if (Pattern.matches(boosterNameMatch, boosterSlotOneName) && Pattern.matches(boosterLoreMatch, boosterSlotOneLore))
+                                if (Pattern.matches(boosterNameMatch, boosterSlotTwoName) && Pattern.matches(boosterLoreMatch, boosterSlotTwoLore)) {
 
                                     ItemStack boosterTen = new ItemStack(Material.TNT, 1);
                                     ItemMeta boosterTenMeta = boosterTen.getItemMeta();
 
                                     boosterTenMeta.setDisplayName(ChatColor.RED + "Rocket Booster");
-                                    boosterTenMeta.setLore(Collections.singletonList(
-                                            ChatColor.YELLOW + "Rocket Level X"));
+                                    boosterTenMeta.setLore(Collections.singletonList(ChatColor.YELLOW + "Rocket Level X"));
                                     boosterTenMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
                                     boosterTen.setItemMeta(boosterTenMeta);
-                                    boosterTen.addUnsafeEnchantment(Enchantment.PROTECTION_FIRE, 1);
+                                    boosterTen.addUnsafeEnchantment(Enchantment.LUCK, 1);
 
                                     if (event.getRawSlot() == 2)
                                         if (itemOne.getAmount() == 1 && itemTwo.getAmount() == 1) {
@@ -77,16 +74,23 @@ public class AnvilCreate implements Listener {
                                             player.getWorld().dropItemNaturally(player.getEyeLocation(), boosterTen);
                                             player.closeInventory();
 
-                                            TitleSubtitle.subtitle(player, 3,
-                                                    "" + ChatColor.RED + ChatColor.BOLD + "Booster Level X created...");
+                                            TitleSubtitle.subtitle(player, 3, "" + ChatColor.RED + ChatColor.BOLD + "Booster Level X created...");
 
                                             for (Player onlinePlayer : Bukkit.getOnlinePlayers())
                                                 onlinePlayer.playSound(onlinePlayer.getEyeLocation(),
-                                                        Sound.BLAZE_DEATH, 1.0f, 0.3f);
+                                                        Sound.BLAZE_DEATH, 1.0f, 0.75f);
 
                                             for (Player onlinePlayer : Bukkit.getOnlinePlayers())
                                                 onlinePlayer.playSound(onlinePlayer.getEyeLocation(),
                                                         Sound.WITHER_DEATH, 0.6f, 0.6f);
+
+                                            for (Player onlinePlayer : Bukkit.getOnlinePlayers())
+                                                onlinePlayer.playSound(onlinePlayer.getEyeLocation(),
+                                                        Sound.GHAST_SCREAM2, 0.75f, 0.8f);
+
+                                            for (Player onlinePlayer : Bukkit.getOnlinePlayers())
+                                                onlinePlayer.playSound(onlinePlayer.getEyeLocation(),
+                                                        Sound.AMBIENCE_THUNDER, 0.35f, 0.5f);
 
                                         }
 

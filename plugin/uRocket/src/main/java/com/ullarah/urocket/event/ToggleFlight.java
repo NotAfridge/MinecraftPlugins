@@ -37,7 +37,7 @@ public class ToggleFlight implements Listener {
             if (rocketBoots == null) {
 
                 messageSend(getPlugin(), player, true, RB_ATTACH);
-                disableRocketBoots(player, false, false, false, false, false);
+                disableRocketBoots(player, false, false, false, false, false, true);
 
             } else {
 
@@ -45,12 +45,12 @@ public class ToggleFlight implements Listener {
 
                     if (player.getLocation().getY() >= 250) {
 
-                        disableRocketBoots(player, true, true, true, true, true);
+                        disableRocketBoots(player, true, true, true, true, true, true);
                         messageSend(getPlugin(), player, true, RB_HIGH);
 
                     } else if (player.getLocation().getY() <= 0) {
 
-                        disableRocketBoots(player, true, true, true, true, true);
+                        disableRocketBoots(player, true, true, true, true, true, true);
                         messageSend(getPlugin(), player, true, RB_LOW);
 
                     } else {
@@ -93,7 +93,7 @@ public class ToggleFlight implements Listener {
 
                                     player.getWorld().createExplosion(player.getLocation(), 0.0f, false);
                                     player.getInventory().setBoots(new ItemStack(Material.AIR));
-                                    disableRocketBoots(player, false, false, false, false, false);
+                                    disableRocketBoots(player, false, false, false, false, false, true);
 
                                     messageSend(getPlugin(), player, true, RB_EXPLODE);
                                     TitleSubtitle.subtitle(player, 3, RB_EXPLODE);
@@ -116,7 +116,7 @@ public class ToggleFlight implements Listener {
 
                                                 } else {
 
-                                                    disableRocketBoots(player, false, true, false, true, true);
+                                                    disableRocketBoots(player, false, true, false, true, true, true);
                                                     messageSend(getPlugin(), player, true, RB_NETHER);
 
                                                 }
@@ -157,7 +157,7 @@ public class ToggleFlight implements Listener {
                                                             if (player.getHealth() <= 1.0 || player.getFoodLevel() <= 2) {
                                                                 messageSend(getPlugin(), player, true, RB_HUNGRY);
                                                                 changeDurability = false;
-                                                                disableRocketBoots(player, false, true, false, true, true);
+                                                                disableRocketBoots(player, false, true, false, true, true, true);
                                                             }
                                                             break;
 
@@ -165,7 +165,7 @@ public class ToggleFlight implements Listener {
                                                             if (getVaultEconomy().getBalance(player) <= 10.0) {
                                                                 messageSend(getPlugin(), player, true, RB_MONEY);
                                                                 changeDurability = false;
-                                                                disableRocketBoots(player, false, true, false, true, true);
+                                                                disableRocketBoots(player, false, true, false, true, true, true);
                                                             }
                                                             break;
 
@@ -179,7 +179,7 @@ public class ToggleFlight implements Listener {
                                                                 if (!player.getInventory().contains(Material.COAL)) {
                                                                     messageSend(getPlugin(), player, true, FuelRequired("coal"));
                                                                     changeDurability = false;
-                                                                    disableRocketBoots(player, false, false, false, false, false);
+                                                                    disableRocketBoots(player, false, false, false, false, false, true);
                                                                 }
                                                             break;
 
@@ -188,7 +188,7 @@ public class ToggleFlight implements Listener {
                                                                 if (!player.getInventory().contains(Material.REDSTONE)) {
                                                                     messageSend(getPlugin(), player, true, FuelRequired("redstone"));
                                                                     changeDurability = false;
-                                                                    disableRocketBoots(player, false, false, false, false, false);
+                                                                    disableRocketBoots(player, false, false, false, false, false, true);
                                                                 }
                                                             break;
 
@@ -215,7 +215,7 @@ public class ToggleFlight implements Listener {
                             } else {
 
                                 messageSend(getPlugin(), player, true, RB_ATTACH);
-                                disableRocketBoots(player, false, false, false, false, false);
+                                disableRocketBoots(player, false, false, false, false, false, true);
 
                             }
 

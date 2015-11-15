@@ -42,6 +42,10 @@ public class BlockPlace implements Listener {
                     World world = player.getWorld();
                     Location blockLocation = block.getLocation();
 
+                    int bX = blockLocation.getBlockX();
+                    int bY = blockLocation.getBlockY();
+                    int bZ = blockLocation.getBlockZ();
+
                     switch (block.getType()) {
 
                         case BEACON:
@@ -50,12 +54,7 @@ public class BlockPlace implements Listener {
                                 if (block.getRelative(BlockFace.DOWN).getType() == Material.FURNACE) {
 
                                     List<String> tankList = getPlugin().getConfig().getStringList("tanks");
-
-                                    String tank = player.getUniqueId().toString() + "|"
-                                            + world.getName() + "|"
-                                            + blockLocation.getBlockX() + "|"
-                                            + (blockLocation.getBlockY() - 1) + "|"
-                                            + blockLocation.getBlockZ();
+                                    String tank = player.getUniqueId().toString() + "|" + world.getName() + "|" + bX + "|" + (bY - 1) + "|" + bZ;
 
                                     if (!tankList.contains(tank)) {
 
@@ -65,12 +64,7 @@ public class BlockPlace implements Listener {
                                     } else {
 
                                         List<String> stationList = getPlugin().getConfig().getStringList("stations");
-
-                                        stationList.add(player.getUniqueId().toString() + "|"
-                                                + world.getName() + "|"
-                                                + blockLocation.getBlockX() + "|"
-                                                + blockLocation.getBlockY() + "|"
-                                                + blockLocation.getBlockZ());
+                                        stationList.add(player.getUniqueId().toString() + "|" + world.getName() + "|" + bX + "|" + bY + "|" + bZ);
 
                                         getPlugin().getConfig().set("stations", stationList);
                                         getPlugin().saveConfig();
@@ -93,12 +87,7 @@ public class BlockPlace implements Listener {
                             if (rocketItem.equals(ChatColor.RED + "Rocket Repair Tank")) {
 
                                 List<String> tankList = getPlugin().getConfig().getStringList("tanks");
-
-                                tankList.add(player.getUniqueId().toString() + "|"
-                                        + world.getName() + "|"
-                                        + blockLocation.getBlockX() + "|"
-                                        + blockLocation.getBlockY() + "|"
-                                        + blockLocation.getBlockZ());
+                                tankList.add(player.getUniqueId().toString() + "|" + world.getName() + "|" + bX + "|" + bY + "|" + bZ);
 
                                 getPlugin().getConfig().set("tanks", tankList);
                                 getPlugin().saveConfig();

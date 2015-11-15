@@ -30,7 +30,7 @@ public class PlayerGamemodeChange implements Listener {
                     messageSend(getPlugin(), player, true, RB_GAMEMODE_ERROR);
                     TitleSubtitle.subtitle(player, 1, RB_GAMEMODE_ERROR);
 
-                    disableRocketBoots(player, false, false, false, false, false);
+                    disableRocketBoots(player, false, false, false, false, false, true);
 
                 }
 

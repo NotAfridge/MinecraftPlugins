@@ -25,7 +25,7 @@ import static com.ullarah.urocket.RocketVariant.Variant.*;
 public class RocketFunctions {
 
     public static void disableRocketBoots(Player player, Boolean keepUsage, Boolean keepPower, Boolean keepFlight,
-                                          Boolean keepVariant, Boolean keepEnhancement) {
+                                          Boolean keepVariant, Boolean keepEnhancement, Boolean disableMessage) {
 
         UUID playerUUID = player.getUniqueId();
 
@@ -80,7 +80,7 @@ public class RocketFunctions {
                 player.setNoDamageTicks(60);
                 player.setFallDistance(0);
 
-                messageSend(getPlugin(), player, true, RB_DEACTIVATE);
+                if (disableMessage) messageSend(getPlugin(), player, true, RB_DEACTIVATE);
 
             }
 
@@ -95,7 +95,7 @@ public class RocketFunctions {
         if (GamemodeCheck.check(player, GameMode.CREATIVE, GameMode.SPECTATOR)) {
             event.setCancelled(true);
             player.closeInventory();
-            disableRocketBoots(player, false, false, false, false, false);
+            disableRocketBoots(player, false, false, false, false, false, true);
             messageSend(getPlugin(), player, true, RB_GAMEMODE_ERROR);
             return;
         }
@@ -142,14 +142,14 @@ public class RocketFunctions {
             player.closeInventory();
 
         } else if (rocketPower.containsKey(player.getUniqueId()))
-            disableRocketBoots(player, false, false, false, false, false);
+            disableRocketBoots(player, false, false, false, false, false, true);
 
     }
 
     public static void attachRocketBoots(Player player, ItemStack boots) {
 
         if (GamemodeCheck.check(player, GameMode.CREATIVE, GameMode.SPECTATOR)) {
-            disableRocketBoots(player, false, false, false, false, false);
+            disableRocketBoots(player, false, false, false, false, false, true);
             messageSend(getPlugin(), player, true, RB_GAMEMODE_ERROR);
             return;
         }
