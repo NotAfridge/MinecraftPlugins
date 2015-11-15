@@ -34,6 +34,7 @@ public final class RocketLanguage {
     public static String RB_HIGH = "Rocket Boots don't work so well up high!";
     public static String RB_LOW = "Rocket Boots don't work so in the void!";
     public static String RB_NETHER = ChatColor.RED + "These Rocket Boots don't work in the Nether!";
+    public static String RB_STRIKE = ChatColor.RED + "Rocket Boots struck by lightning! Land quickly!";
 
     public static String RB_SADDLE = ChatColor.RED + "Rocket Saddle";
     public static String RB_WATER_WARNING = ChatColor.YELLOW + "These Rocket Boots do not work in water!";

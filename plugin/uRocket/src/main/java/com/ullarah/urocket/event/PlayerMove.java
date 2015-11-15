@@ -18,8 +18,7 @@ import java.util.stream.Collectors;
 
 import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.RocketLanguage.RB_STATION_START;
-import static com.ullarah.urocket.RocketLanguage.RB_WATER_WARNING;
+import static com.ullarah.urocket.RocketLanguage.*;
 import static com.ullarah.urocket.RocketVariant.Variant;
 
 public class PlayerMove implements Listener {
@@ -145,10 +144,15 @@ public class PlayerMove implements Listener {
                             GroundFire.setFire(player, "SINGLE", Material.NETHERRACK);
 
                     if (world.getName().equals("world") && (world.hasStorm() || world.isThundering()))
-                        if (new Random().nextInt(10) == 5) {
-                            world.strikeLightning(location);
-                            player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 1.5f, 0.75f);
-                            rocketSprint.put(player.getUniqueId(), "AIR");
+                        if (new Random().nextInt(500) == 1) {
+                            if (player.getInventory().getBoots().getType() != Material.LEATHER_BOOTS) {
+                                if (player.isFlying()) {
+                                    world.strikeLightning(location);
+                                    player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 1.5f, 0.75f);
+                                    rocketSprint.put(player.getUniqueId(), "AIR");
+                                    messageSend(getPlugin(), player, true, RB_STRIKE);
+                                }
+                            }
                         }
 
                 }
