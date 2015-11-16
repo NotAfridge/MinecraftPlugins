@@ -38,7 +38,7 @@ public class InventoryClick implements Listener {
 
             }
 
-            if (event.getSlotType() == InventoryType.SlotType.ARMOR && event.getRawSlot() == 8)
+            if (event.getSlotType().equals(InventoryType.SlotType.ARMOR) && event.getRawSlot() == 8)
                 interactRocketBoots(event, event.getWhoClicked().getItemOnCursor());
 
             if (event.isShiftClick()) interactRocketBoots(event, event.getCurrentItem());

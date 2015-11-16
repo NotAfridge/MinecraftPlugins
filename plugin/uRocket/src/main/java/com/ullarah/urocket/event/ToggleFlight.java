@@ -55,20 +55,7 @@ public class ToggleFlight implements Listener {
 
                     } else {
 
-                        boolean alternateFuel = false;
-
-                        if (rocketVariant.containsKey(player.getUniqueId()))
-                            alternateFuel = rocketVariant.get(player.getUniqueId()).isAlternateFuel();
-
-                        if (player.getLevel() < 3 && !alternateFuel) {
-
-                            messageSend(getPlugin(), player, true, RB_FUEL_REQUIRE);
-                            TitleSubtitle.subtitle(player, 3, RB_FUEL_REQUIRE);
-
-                            player.setFlying(false);
-                            event.setCancelled(true);
-
-                        } else if (rocketZones.contains(player.getUniqueId())) {
+                        if (rocketZones.contains(player.getUniqueId())) {
 
                             if (rocketVariant.get(player.getUniqueId()) != RUNNER) {
 
@@ -106,24 +93,24 @@ public class ToggleFlight implements Listener {
 
                                             if (player.getWorld().getName().equals("world_nether")) {
 
+                                                if (!player.getInventory().contains(Material.COAL_BLOCK))
+                                                    if (!player.getInventory().contains(Material.COAL)) {
+                                                        messageSend(getPlugin(), player, true, FuelRequired("coal"));
+                                                        disableRocketBoots(player, false, false, false, false, false, true);
+                                                        return;
+                                                    }
+
                                                 if (bootVariant == ORIGINAL) {
 
-                                                    GroundFire.setFire(player, "BOOST", Material.NETHERRACK);
+                                                    rocketFire.add(GroundFire.setFire(player, "BOOST", Material.NETHERRACK));
 
                                                     player.getWorld().playSound(player.getEyeLocation(), Sound.EXPLODE, 0.8f, 0.8f);
                                                     player.setFlying(true);
                                                     player.setFlySpeed(rocketPower.get(player.getUniqueId()) * 0.03f);
 
-                                                } else {
-
-                                                    disableRocketBoots(player, false, true, false, true, true, true);
-                                                    messageSend(getPlugin(), player, true, RB_NETHER);
-
                                                 }
 
                                             } else {
-
-                                                Boolean changeDurability = true;
 
                                                 if (getBootPowerLevel(rocketBoots) == 10) {
 
@@ -146,26 +133,21 @@ public class ToggleFlight implements Listener {
 
                                                 } else {
 
-                                                    player.setFlying(true);
-
-                                                    player.getWorld().playSound(player.getEyeLocation(), bootVariant.getSound(), bootVariant.getVolume(), bootVariant.getPitch());
-                                                    player.setVelocity(bootVariant.getVector());
-
                                                     switch (bootVariant) {
 
                                                         case HEALTH:
                                                             if (player.getHealth() <= 1.0 || player.getFoodLevel() <= 2) {
                                                                 messageSend(getPlugin(), player, true, RB_HUNGRY);
-                                                                changeDurability = false;
                                                                 disableRocketBoots(player, false, true, false, true, true, true);
+                                                                return;
                                                             }
                                                             break;
 
                                                         case MONEY:
                                                             if (getVaultEconomy().getBalance(player) <= 10.0) {
                                                                 messageSend(getPlugin(), player, true, RB_MONEY);
-                                                                changeDurability = false;
                                                                 disableRocketBoots(player, false, true, false, true, true, true);
+                                                                return;
                                                             }
                                                             break;
 
@@ -174,12 +156,12 @@ public class ToggleFlight implements Listener {
                                                             player.setVelocity(player.getVelocity().setY(10));
                                                             break;
 
-                                                        case COAL:
-                                                            if (!player.getInventory().contains(Material.COAL_BLOCK))
-                                                                if (!player.getInventory().contains(Material.COAL)) {
-                                                                    messageSend(getPlugin(), player, true, FuelRequired("coal"));
-                                                                    changeDurability = false;
+                                                        case TREE:
+                                                            if (!player.getInventory().contains(Material.LOG))
+                                                                if (!player.getInventory().contains(Material.WOOD)) {
+                                                                    messageSend(getPlugin(), player, true, FuelRequired("wood"));
                                                                     disableRocketBoots(player, false, false, false, false, false, true);
+                                                                    return;
                                                                 }
                                                             break;
 
@@ -187,17 +169,32 @@ public class ToggleFlight implements Listener {
                                                             if (!player.getInventory().contains(Material.REDSTONE_BLOCK))
                                                                 if (!player.getInventory().contains(Material.REDSTONE)) {
                                                                     messageSend(getPlugin(), player, true, FuelRequired("redstone"));
-                                                                    changeDurability = false;
                                                                     disableRocketBoots(player, false, false, false, false, false, true);
+                                                                    return;
+                                                                }
+                                                            break;
+
+                                                        default:
+                                                            if (!player.getInventory().contains(Material.COAL_BLOCK))
+                                                                if (!player.getInventory().contains(Material.COAL)) {
+                                                                    messageSend(getPlugin(), player, true, FuelRequired("coal"));
+                                                                    disableRocketBoots(player, false, false, false, false, false, true);
+                                                                    return;
                                                                 }
                                                             break;
 
                                                     }
-                                                }
 
-                                                if (changeDurability) {
+                                                    player.setVelocity(bootVariant.getVector());
+                                                    player.setFlying(true);
 
-                                                    player.setFlySpeed(rocketPower.get(player.getUniqueId()) * 0.0475f);
+                                                    player.getWorld().playSound(
+                                                            player.getEyeLocation(),
+                                                            bootVariant.getSound(),
+                                                            bootVariant.getVolume(),
+                                                            bootVariant.getPitch());
+
+                                                    player.setFlySpeed(rocketPower.get(player.getUniqueId()) * 0.045f);
                                                     changeBootDurability(player, rocketBoots);
 
                                                 }

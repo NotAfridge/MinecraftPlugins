@@ -33,7 +33,7 @@ public class PlayerInteract implements Listener {
         Player player = event.getPlayer();
         Action action = event.getAction();
 
-        if (action == Action.RIGHT_CLICK_AIR) if (player.getItemInHand().getType() == Material.CARROT_STICK) {
+        if (action.equals(Action.RIGHT_CLICK_AIR)) if (player.getItemInHand().getType().equals(Material.CARROT_STICK)) {
 
             if (player.getVehicle() instanceof Pig) {
 
@@ -66,7 +66,7 @@ public class PlayerInteract implements Listener {
 
                 if (rocketItem.equals(ChatColor.RED + "Rocket Repair Stand")) {
 
-                    if (action == Action.RIGHT_CLICK_BLOCK) {
+                    if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
 
                         if (player.getWorld().getName().equals("world")) {
 
@@ -78,7 +78,7 @@ public class PlayerInteract implements Listener {
                             int eY = blockLocation.getBlockY();
                             int eZ = blockLocation.getBlockZ();
 
-                            if (block.getType() == BEACON && event.getBlockFace().getModY() == 1) {
+                            if (block.getType().equals(BEACON) && event.getBlockFace().getModY() == 1) {
 
                                 List<String> stationList = getPlugin().getConfig().getStringList("stations");
                                 String station = player.getUniqueId().toString() + "|" + world.getName() + "|" + eX + "|" + eY + "|" + eZ;
@@ -144,7 +144,7 @@ public class PlayerInteract implements Listener {
 
                     if (rocketLore.matches(ChatColor.YELLOW + "Rocket Level I{0,3}V?X?"))
                         if (!rocketUsage.contains(player.getUniqueId())) {
-                            if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)
+                            if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK))
                                 attachRocketBoots(player, rocketBoots);
                             else event.setCancelled(true);
                         }

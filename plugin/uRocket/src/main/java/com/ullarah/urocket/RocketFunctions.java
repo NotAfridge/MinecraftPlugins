@@ -20,7 +20,6 @@ import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.urocket.RocketEnhancement.Enhancement;
 import static com.ullarah.urocket.RocketInit.*;
 import static com.ullarah.urocket.RocketLanguage.*;
-import static com.ullarah.urocket.RocketVariant.Variant.*;
 
 public class RocketFunctions {
 
@@ -31,7 +30,6 @@ public class RocketFunctions {
 
         if (!keepUsage && rocketUsage.contains(playerUUID)) rocketUsage.remove(playerUUID);
         if (rocketSprint.containsKey(playerUUID)) rocketSprint.remove(playerUUID);
-        if (rocketLowFuel.contains(playerUUID)) rocketLowFuel.remove(playerUUID);
         if (!keepPower && rocketPower.containsKey(playerUUID)) rocketPower.remove(playerUUID);
 
         if (!rocketFire.isEmpty()) rocketFire.clear();
@@ -117,7 +115,7 @@ public class RocketFunctions {
 
                     if (variantLore != null) if (specialVariants.contains(variantLore)) {
 
-                        Variant variantType = getEnum(variantLore);
+                        Variant variantType = Variant.getEnum(variantLore);
 
                         if (variantType != null) if (variantType == Variant.MONEY) if (getVaultEconomy() == null) {
                             messageSend(getPlugin(), player, true, RB_EQUIP_ERROR);
@@ -149,10 +147,12 @@ public class RocketFunctions {
     public static void attachRocketBoots(Player player, ItemStack boots) {
 
         if (GamemodeCheck.check(player, GameMode.CREATIVE, GameMode.SPECTATOR)) {
-            disableRocketBoots(player, false, false, false, false, false, true);
             messageSend(getPlugin(), player, true, RB_GAMEMODE_ERROR);
+            disableRocketBoots(player, false, false, false, false, false, true);
             return;
         }
+
+        UUID playerUUID = player.getUniqueId();
 
         ItemMeta rocketMeta = boots.getItemMeta();
         Block blockMiddle = player.getLocation().getBlock().getRelative(BlockFace.SELF);
@@ -168,7 +168,8 @@ public class RocketFunctions {
             case 1:
                 rocketMessage[1] = RB_VARIANT + RB_NOT_FOUND;
                 rocketMessage[2] = RB_ENHANCE + RB_NOT_FOUND;
-                rocketVariant.put(player.getUniqueId(), ORIGINAL);
+                rocketVariant.put(playerUUID, Variant.ORIGINAL);
+                rocketEnhancement.put(playerUUID, Enhancement.NOTHING);
                 break;
 
             case 2:
@@ -179,9 +180,10 @@ public class RocketFunctions {
                     if (variantType != null) {
                         rocketMessage[1] = RB_VARIANT + loreLine;
                         rocketMessage[2] = RB_ENHANCE + RB_NOT_FOUND;
-                        rocketVariant.put(player.getUniqueId(), variantType);
-                        if (variantType.equals(WATER)) isWaterVariant = true;
-                        if (variantType.equals(RUNNER)) isRunnerVariant = true;
+                        rocketVariant.put(playerUUID, variantType);
+                        rocketEnhancement.put(playerUUID, Enhancement.NOTHING);
+                        if (variantType.equals(Variant.WATER)) isWaterVariant = true;
+                        if (variantType.equals(Variant.RUNNER)) isRunnerVariant = true;
                     }
                 }
 
@@ -190,7 +192,8 @@ public class RocketFunctions {
                     if (enhancementType != null) {
                         rocketMessage[1] = RB_VARIANT + RB_NOT_FOUND;
                         rocketMessage[2] = RB_ENHANCE + loreLine;
-                        rocketEnhancement.put(player.getUniqueId(), enhancementType);
+                        rocketVariant.put(playerUUID, Variant.ORIGINAL);
+                        rocketEnhancement.put(playerUUID, enhancementType);
                     }
                 }
                 break;
@@ -204,29 +207,34 @@ public class RocketFunctions {
 
                 if (variantType != null && enhancementType != null) {
                     rocketMessage[1] = RB_VARIANT + variantLore;
-                    rocketVariant.put(player.getUniqueId(), variantType);
+                    rocketVariant.put(playerUUID, variantType);
 
                     if (variantType.getEnhancementAllow()) {
                         rocketMessage[2] = RB_ENHANCE + enhancementLore;
-                        rocketEnhancement.put(player.getUniqueId(), enhancementType);
+                        rocketEnhancement.put(playerUUID, enhancementType);
                     } else rocketMessage[2] = RB_ENHANCE + RB_NOT_WORKING;
 
                 }
-
-
-                break;
-
-            default:
                 break;
 
         }
 
         if (!isWaterVariant && blockMiddle.isLiquid()) {
-
-            rocketWater.add(player.getUniqueId());
+            rocketWater.add(playerUUID);
             messageSend(getPlugin(), player, true, RB_WATER_WARNING);
             return;
+        }
 
+        if (rocketVariant.get(playerUUID) == null || rocketEnhancement.get(playerUUID) == null) {
+            messageSend(getPlugin(), player, true, RB_FAIL_ATTACH);
+            disableRocketBoots(player, false, false, false, false, false, true);
+            return;
+        }
+
+        if (rocketVariant.get(playerUUID) != Variant.ORIGINAL && player.getWorld().getName().equals("world_nether")) {
+            messageSend(getPlugin(), player, true, RB_NETHER);
+            disableRocketBoots(player, false, false, false, false, false, true);
+            return;
         }
 
         if (player.getInventory().getBoots() == null)
@@ -234,9 +242,16 @@ public class RocketFunctions {
 
                 messageSend(getPlugin(), player, true, rocketMessage);
                 if (!isRunnerVariant) player.setAllowFlight(true);
-                rocketPower.put(player.getUniqueId(), getBootPowerLevel(boots));
+                rocketPower.put(playerUUID, getBootPowerLevel(boots));
 
             }
+
+    }
+
+    public static void removeFuel(Player player, Material block, Material single, int cost) {
+
+        if (!BlockStacks.split(getPlugin(), player, block, single, cost, (9 - cost)))
+            disableRocketBoots(player, true, true, true, true, true, true);
 
     }
 

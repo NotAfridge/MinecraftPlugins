@@ -12,6 +12,7 @@ import static com.ullarah.ulib.function.PluginRegisters.RegisterType.RECIPE;
 import static com.ullarah.ulib.function.PluginRegisters.register;
 import static com.ullarah.urocket.RocketInit.getPlugin;
 import static com.ullarah.urocket.RocketInit.registerMap;
+import static org.bukkit.ChatColor.DARK_GRAY;
 import static org.bukkit.ChatColor.RED;
 import static org.bukkit.Material.*;
 
@@ -29,6 +30,10 @@ public class RocketEnhancement {
 
     public enum Enhancement {
 
+        NOTHING(
+                DARK_GRAY + "Nothing", BEDROCK,
+                Collections.singletonList(ChatColor.DARK_GRAY + "Literally Nothing!")
+        ),
         REPAIR(
                 RED + "Self Repair", ANVIL,
                 Collections.singletonList(ChatColor.YELLOW + "Repair your Rocket Boots as you fly!")

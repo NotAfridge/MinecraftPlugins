@@ -106,8 +106,8 @@ public class RocketVariant {
                         new PotionEffect(PotionEffectType.HEAL, Integer.MAX_VALUE, 1, false, false)
                 }, Sound.MAGMACUBE_JUMP, 1.25f, 0.75f, new Vector(0, 20, 0)
         ),
-        COAL(
-                ChatColor.GRAY + "Coal Miner", new Material[]{Material.NETHERRACK, Material.COAL_BLOCK, Material.FURNACE},
+        TREE(
+                ChatColor.GRAY + "Tree Hugger", new Material[]{Material.NETHERRACK, Material.LOG, Material.FURNACE},
                 true, false, EnumParticle.TOWN_AURA, 0, 50, null,
                 Sound.ZOMBIE_REMEDY, 1.25f, 0.95f, new Vector(0, 1, 0)
         ),

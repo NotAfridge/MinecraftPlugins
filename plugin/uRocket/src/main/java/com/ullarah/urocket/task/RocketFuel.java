@@ -1,8 +1,5 @@
 package com.ullarah.urocket.task;
 
-import com.ullarah.ulib.function.BlockStacks;
-import com.ullarah.ulib.function.Experience;
-import com.ullarah.ulib.function.TitleSubtitle;
 import org.apache.commons.io.output.StringBuilderWriter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -19,8 +16,7 @@ import java.util.UUID;
 import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.urocket.RocketEnhancement.Enhancement.FUEL;
 import static com.ullarah.urocket.RocketEnhancement.Enhancement.SOLAR;
-import static com.ullarah.urocket.RocketFunctions.disableRocketBoots;
-import static com.ullarah.urocket.RocketFunctions.getBootPowerLevel;
+import static com.ullarah.urocket.RocketFunctions.*;
 import static com.ullarah.urocket.RocketInit.*;
 import static com.ullarah.urocket.RocketLanguage.*;
 import static com.ullarah.urocket.RocketVariant.Variant;
@@ -40,30 +36,12 @@ public class RocketFuel {
 
                         if (player.isFlying()) {
 
-                            boolean alternateFuel = false;
                             boolean isFuelEfficient = false;
                             boolean isSolarPowered = false;
-
-                            if (rocketVariant.containsKey(uuid))
-                                alternateFuel = rocketVariant.get(uuid).isAlternateFuel();
 
                             if (rocketEnhancement.containsKey(uuid)) {
                                 isFuelEfficient = (rocketEnhancement.get(uuid).equals(FUEL));
                                 isSolarPowered = (rocketEnhancement.get(uuid).equals(SOLAR));
-                            }
-
-                            if (rocketUsage.contains(uuid) && player.getLevel() <= 1 && !alternateFuel) {
-
-                                messageSend(getPlugin(), player, true, RB_FUEL_OUTAGE);
-                                TitleSubtitle.subtitle(player, 2, RB_FUEL_OUTAGE);
-
-                                disableRocketBoots(player, true, true, true, true, true, true);
-
-                            } else if (rocketUsage.contains(uuid) && player.getLevel() <= 5 && !alternateFuel) {
-
-                                messageSend(getPlugin(), player, true, RB_FUEL_WARNING);
-                                TitleSubtitle.both(player, 2, RB_FUEL_LOW, RB_FUEL_WARNING);
-
                             }
 
                             if (rocketVariant.containsKey(player.getUniqueId())) {
@@ -76,7 +54,6 @@ public class RocketFuel {
 
                                 double getHealthFromBoots = 0;
                                 int getFoodLevelFromBoots = 0;
-                                double getExperienceFromBoots = 0;
                                 int itemFuelCost = 0;
 
                                 switch (bootMaterial) {
@@ -86,39 +63,35 @@ public class RocketFuel {
                                         getHealthFromBoots = (player.getHealth() - 3.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 4);
 
-                                        if (isFuelEfficient) getExperienceFromBoots = 80.85;
-                                        else if (isSolarPowered) getExperienceFromBoots = 54.25;
-                                        else getExperienceFromBoots = 128.125;
+                                        if (isFuelEfficient) itemFuelCost -= 1;
+                                        if (isSolarPowered) itemFuelCost -= 1;
                                         break;
 
                                     case IRON_BOOTS:
-                                        itemFuelCost = 1 + getBootPowerLevel(rocketBoots);
+                                        itemFuelCost = 2 + getBootPowerLevel(rocketBoots);
                                         getHealthFromBoots = (player.getHealth() - 2.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 3);
 
-                                        if (isFuelEfficient) getExperienceFromBoots = 60.65;
-                                        else if (isSolarPowered) getExperienceFromBoots = 39.45;
-                                        else getExperienceFromBoots = 96.95;
+                                        if (isFuelEfficient) itemFuelCost -= 1;
+                                        if (isSolarPowered) itemFuelCost -= 2;
                                         break;
 
                                     case GOLD_BOOTS:
-                                        itemFuelCost = 2 + getBootPowerLevel(rocketBoots);
+                                        itemFuelCost = 3 + getBootPowerLevel(rocketBoots);
                                         getHealthFromBoots = (player.getHealth() - 1.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 2);
 
-                                        if (isFuelEfficient) getExperienceFromBoots = 40.45;
-                                        else if (isSolarPowered) getExperienceFromBoots = 27.25;
-                                        else getExperienceFromBoots = 64.65;
+                                        if (isFuelEfficient) itemFuelCost -= 2;
+                                        if (isSolarPowered) itemFuelCost -= 3;
                                         break;
 
                                     case DIAMOND_BOOTS:
-                                        itemFuelCost = 3 + getBootPowerLevel(rocketBoots);
+                                        itemFuelCost = 4 + getBootPowerLevel(rocketBoots);
                                         getHealthFromBoots = (player.getHealth() - 0.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 1);
 
-                                        if (isFuelEfficient) getExperienceFromBoots = 20.25;
-                                        else if (isSolarPowered) getExperienceFromBoots = 13.75;
-                                        else getExperienceFromBoots = 32.35;
+                                        if (isFuelEfficient) itemFuelCost -= 3;
+                                        if (isSolarPowered) itemFuelCost -= 4;
                                         break;
 
                                 }
@@ -184,7 +157,7 @@ public class RocketFuel {
                                         }
 
                                         messageSend(getPlugin(), player, false, agendaMessage.toString());
-                                        Experience.removeExperience(player, getExperienceFromBoots);
+                                        removeFuel(player, Material.COAL_BLOCK, Material.COAL, itemFuelCost);
                                         break;
 
                                     case DRUNK:
@@ -206,19 +179,17 @@ public class RocketFuel {
                                             default:
                                                 break;
                                         }
-                                        Experience.removeExperience(player, getExperienceFromBoots);
+                                        removeFuel(player, Material.COAL_BLOCK, Material.COAL, itemFuelCost);
                                         break;
 
-                                    case COAL:
+                                    case TREE:
                                         if (random.nextInt(10) == 5) {
 
                                             player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 0.6f, 0.65f);
                                             messageSend(getPlugin(), player, true, RB_MALFUNCTION);
                                             disableRocketBoots(player, true, true, true, true, true, true);
 
-                                        } else if (!BlockStacks.split(getPlugin(), player, Material.COAL_BLOCK, Material.COAL, itemFuelCost, (9 - itemFuelCost)))
-                                            disableRocketBoots(player, true, true, true, true, true, true);
-
+                                        } else removeFuel(player, Material.LOG, Material.WOOD, itemFuelCost);
                                         break;
 
                                     case FURY:
@@ -228,13 +199,12 @@ public class RocketFuel {
                                             messageSend(getPlugin(), player, true, RB_MALFUNCTION);
                                             disableRocketBoots(player, true, true, true, true, true, true);
 
-                                        } else if (!BlockStacks.split(getPlugin(), player, Material.REDSTONE_BLOCK, Material.REDSTONE, itemFuelCost, (9 - itemFuelCost)))
-                                            disableRocketBoots(player, true, true, true, true, true, true);
-
+                                        } else
+                                            removeFuel(player, Material.REDSTONE_BLOCK, Material.REDSTONE, itemFuelCost);
                                         break;
 
                                     default:
-                                        Experience.removeExperience(player, getExperienceFromBoots);
+                                        removeFuel(player, Material.COAL_BLOCK, Material.COAL, itemFuelCost);
                                         break;
 
                                 }

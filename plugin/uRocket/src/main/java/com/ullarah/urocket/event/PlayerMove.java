@@ -30,11 +30,6 @@ public class PlayerMove implements Listener {
 
         if (GamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
 
-            if (player.getLevel() < 0) player.setLevel(0);
-            if (player.getExp() < 0) player.setExp(0);
-            if (player.getTotalExperience() < 0 || player.getTotalExperience() == Integer.MAX_VALUE)
-                player.setTotalExperience(0);
-
             final Location location = player.getLocation();
             World world = player.getWorld();
 
@@ -68,7 +63,7 @@ public class PlayerMove implements Listener {
                 Location bStation = new Location(player.getWorld(), location.getX(), location.getY() - 1, location.getZ());
                 Location bStand = new Location(player.getWorld(), location.getX(), location.getY(), location.getZ());
 
-                if (bTank.getBlock().getType() == Material.BURNING_FURNACE && bStation.getBlock().getType() == Material.BEACON) {
+                if (bTank.getBlock().getType().equals(Material.BURNING_FURNACE) && bStation.getBlock().getType().equals(Material.BEACON)) {
 
                     List<String> tankList = getPlugin().getConfig().getStringList("tanks");
                     List<String> stationList = getPlugin().getConfig().getStringList("stations");
@@ -115,10 +110,10 @@ public class PlayerMove implements Listener {
 
                         } else {
 
-                            if (rocketVariant.get(player.getUniqueId()) == Variant.GLOW
+                            if (rocketVariant.get(player.getUniqueId()).equals(Variant.GLOW)
                                     && player.isFlying() && !player.isSneaking()
-                                    && blockUnder.getType() == Material.AIR
-                                    && blockMiddle.getType() == Material.AIR) {
+                                    && blockUnder.getType().equals(Material.AIR)
+                                    && blockMiddle.getType().equals(Material.AIR)) {
 
                                 if (!rocketGlow.containsKey(blockUnder.getLocation())) {
 
@@ -144,18 +139,20 @@ public class PlayerMove implements Listener {
 
                     }
 
-                    if (rocketVariant.get(player.getUniqueId()) == Variant.ORIGINAL)
+                    if (rocketVariant.get(player.getUniqueId()).equals(Variant.ORIGINAL))
                         if (player.isFlying() && player.getWorld().getName().equals("world_nether"))
-                            GroundFire.setFire(player, "SINGLE", Material.NETHERRACK);
+                            rocketFire.add(GroundFire.setFire(player, "SINGLE", Material.NETHERRACK));
 
                     if (world.getName().equals("world") && (world.hasStorm() || world.isThundering()))
                         if (new Random().nextInt(500) == 1) {
-                            if (player.getInventory().getBoots().getType() != Material.LEATHER_BOOTS) {
+                            if (!player.getInventory().getBoots().getType().equals(Material.LEATHER_BOOTS)) {
                                 if (player.isFlying()) {
+
                                     world.strikeLightning(location);
                                     player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 1.5f, 0.75f);
                                     rocketSprint.put(player.getUniqueId(), "AIR");
                                     messageSend(getPlugin(), player, true, RB_STRIKE);
+
                                 }
                             }
                         }
