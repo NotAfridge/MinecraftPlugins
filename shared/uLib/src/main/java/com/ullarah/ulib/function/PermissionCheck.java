@@ -11,7 +11,7 @@ public class PermissionCheck {
      * @param permission the permission to check
      * @return whether or not the player has the permission(s)
      */
-    public static boolean check(Player player, String permission) {
+    public boolean check(Player player, String permission) {
 
         return player.hasPermission(permission);
 
@@ -24,7 +24,7 @@ public class PermissionCheck {
      * @param permissions the permission(s) to check
      * @return whether or not the player has the permission(s)
      */
-    public static boolean check(Player player, String... permissions) {
+    public boolean check(Player player, String... permissions) {
 
         boolean isValid = false;
         for (String permission : permissions) isValid = player.hasPermission(permission);

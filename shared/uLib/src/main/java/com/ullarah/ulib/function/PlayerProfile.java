@@ -8,7 +8,7 @@ import java.util.UUID;
 public class PlayerProfile {
 
     @SuppressWarnings("deprecation")
-    public static profile lookup(String name) {
+    public profile lookup(String name) {
 
         OfflinePlayer player = Bukkit.getOfflinePlayer(name);
 
@@ -16,11 +16,11 @@ public class PlayerProfile {
                 fromPlayer(player) : null;
     }
 
-    private static profile fromPlayer(OfflinePlayer player) {
+    private profile fromPlayer(OfflinePlayer player) {
         return new profile(player.getUniqueId(), player.getName());
     }
 
-    public static class profile {
+    public class profile {
 
         private final UUID id;
         private final String name;

@@ -8,7 +8,7 @@ public class RomanNumeralToInteger {
      * @param letter the roman numeral character
      * @return the value converted from roman numeral
      */
-    private static int decodeSingle(char letter) {
+    private int decodeSingle(char letter) {
 
         switch (letter) {
 
@@ -40,7 +40,7 @@ public class RomanNumeralToInteger {
      * @param roman the set of roman numerals
      * @return the value converted from the set of roman numerals
      */
-    public static int decode(String roman) {
+    public int decode(String roman) {
 
         int result = 0;
         roman = roman.toUpperCase();

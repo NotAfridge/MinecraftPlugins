@@ -15,7 +15,7 @@ public class RandomTeleport {
      * @param player the player object
      * @param radius the are of which to teleport from players location
      */
-    public static void teleport(final Player player, int radius) {
+    public void teleport(final Player player, int radius) {
 
         World world = player.getWorld();
         int t = 0;
@@ -41,7 +41,7 @@ public class RandomTeleport {
      * @param radius the are of which to teleport from players location
      * @param sound  the sound which is played before teleport
      */
-    public static void teleport(final Player player, int radius, Sound sound) {
+    public void teleport(final Player player, int radius, Sound sound) {
 
         player.getWorld().playSound(player.getEyeLocation(), sound, 0.8f, 0.95f);
         teleport(player, radius);

@@ -17,7 +17,7 @@ public class FakeExplosion {
      * @param size      the size of explosion centered from the location
      * @param explosion the type of explosion from {@link ExplosionType}
      */
-    public static void create(Location location, Integer size, ExplosionType explosion) {
+    public void create(Location location, Integer size, ExplosionType explosion) {
 
         float eX = (float) location.getX();
         float eY = (float) location.getY();

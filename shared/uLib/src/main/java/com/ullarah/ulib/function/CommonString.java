@@ -13,7 +13,7 @@ public class CommonString {
      * @param plugin the plugin object
      * @return a fancy prefix style string
      */
-    public static String pluginPrefix(Plugin plugin) {
+    public String pluginPrefix(Plugin plugin) {
 
         return ChatColor.GOLD + "[" + plugin.getName() + "] " + ChatColor.WHITE;
 
@@ -25,7 +25,7 @@ public class CommonString {
      * @param plugin the plugin object
      * @param sender the sender who receives the message
      */
-    public static void messagePermDeny(Plugin plugin, CommandSender sender) {
+    public void messagePermDeny(Plugin plugin, CommandSender sender) {
 
         sender.sendMessage(pluginPrefix(plugin) + ChatColor.RED + "No permission.");
 
@@ -37,7 +37,7 @@ public class CommonString {
      * @param plugin the plugin object
      * @param sender the sender who receives the message
      */
-    public static void messageNoConsole(Plugin plugin, CommandSender sender) {
+    public void messageNoConsole(Plugin plugin, CommandSender sender) {
 
         sender.sendMessage(pluginPrefix(plugin) + ChatColor.RED + "No console usage.");
 
@@ -49,7 +49,7 @@ public class CommonString {
      * @param plugin the plugin object
      * @param sender the sender who receives the message
      */
-    public static void messageMaintenance(Plugin plugin, CommandSender sender) {
+    public void messageMaintenance(Plugin plugin, CommandSender sender) {
 
         sender.sendMessage(pluginPrefix(plugin) + ChatColor.RED + "Currently under maintenance.");
 
@@ -63,7 +63,7 @@ public class CommonString {
      * @param prefix   the prefix of the current plugin
      * @param messages an array of messages to send
      */
-    public static void messageSend(Plugin plugin, CommandSender sender, boolean prefix, String[] messages) {
+    public void messageSend(Plugin plugin, CommandSender sender, boolean prefix, String[] messages) {
 
         for (String message : messages) sender.sendMessage(prefix ? pluginPrefix(plugin) + message : message);
 
@@ -77,7 +77,7 @@ public class CommonString {
      * @param prefix  the prefix of the current plugin
      * @param message the message to send
      */
-    public static void messageSend(Plugin plugin, CommandSender sender, boolean prefix, String message) {
+    public void messageSend(Plugin plugin, CommandSender sender, boolean prefix, String message) {
 
         sender.sendMessage(prefix ? pluginPrefix(plugin) + message : message);
 
@@ -91,7 +91,7 @@ public class CommonString {
      * @param prefix   the prefix of the current plugin
      * @param messages an array of messages to send
      */
-    public static void messageSend(Plugin plugin, Player player, boolean prefix, String[] messages) {
+    public void messageSend(Plugin plugin, Player player, boolean prefix, String[] messages) {
 
         for (String message : messages) player.sendMessage(prefix ? pluginPrefix(plugin) + message : message);
 
@@ -105,7 +105,7 @@ public class CommonString {
      * @param prefix  the prefix of the current plugin
      * @param message the message to send
      */
-    public static void messageSend(Plugin plugin, Player player, boolean prefix, String message) {
+    public void messageSend(Plugin plugin, Player player, boolean prefix, String message) {
 
         player.sendMessage(prefix ? pluginPrefix(plugin) + message : message);
 

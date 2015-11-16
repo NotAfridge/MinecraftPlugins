@@ -14,7 +14,7 @@ public class RemoveInventoryItems {
      * @param amount    the amount of item(s) to remove from inventory
      * @return if the item removal was successful
      */
-    public static boolean remove(PlayerInventory inventory, Material material, int amount) {
+    public boolean remove(PlayerInventory inventory, Material material, int amount) {
 
         for (ItemStack itemStack : inventory.getContents()) {
 

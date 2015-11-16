@@ -21,25 +21,23 @@ public class BlockStacks {
      * @param split  the amount of items to give after a block split
      * @return whether or not the split or item removal was successful
      */
-    public static boolean split(Plugin plugin, Player player, Material block, Material single, int amount, int split) {
+    public boolean split(Plugin plugin, Player player, Material block, Material single, int amount, int split) {
 
         String pluginName = ChatColor.GOLD + "[" + plugin.getName() + "] " + ChatColor.WHITE;
         PlayerInventory inventory = player.getInventory();
         String materialType = single.name().toLowerCase();
 
-        if (inventory.contains(single)) RemoveInventoryItems.remove(inventory, single, amount);
+        if (inventory.contains(single)) new RemoveInventoryItems().remove(inventory, single, amount);
         else if (inventory.contains(block)) {
 
             if (inventory.firstEmpty() == -1) {
 
-                player.sendMessage(pluginName + ChatColor.RED +
-                        "Your inventory is too full to split a " + materialType + " block!");
+                player.sendMessage(pluginName + ChatColor.RED + "Your inventory is too full to split a " + materialType + " block!");
                 return false;
 
             } else {
 
-                if (RemoveInventoryItems.remove(inventory, block, amount))
-                    inventory.addItem(new ItemStack(single, split));
+                if (new RemoveInventoryItems().remove(inventory, block, 1)) inventory.addItem(new ItemStack(single, split));
                 else return false;
 
             }

@@ -17,17 +17,9 @@ public class TitleSubtitle {
      * @param seconds the amount of seconds to display
      * @param title   the text of the title
      */
-    public static void title(Player player, int seconds, String title) {
+    public void title(Player player, int seconds, String title) {
 
-        CraftPlayer craftPlayer = (CraftPlayer) player;
-
-        IChatBaseComponent chatTitle = ChatSerializer.a("{\"text\": \"" + title + "\"}");
-
-        PacketPlayOutTitle packetTitle = new PacketPlayOutTitle(EnumTitleAction.TITLE, chatTitle);
-        PacketPlayOutTitle packetLength = new PacketPlayOutTitle(20, seconds * 20, 20);
-
-        craftPlayer.getHandle().playerConnection.sendPacket(packetTitle);
-        craftPlayer.getHandle().playerConnection.sendPacket(packetLength);
+        both(player, seconds, title, "");
 
     }
 
@@ -38,20 +30,9 @@ public class TitleSubtitle {
      * @param seconds  the amount of seconds to display
      * @param subtitle the text of the subtitle
      */
-    public static void subtitle(Player player, int seconds, String subtitle) {
+    public void subtitle(Player player, int seconds, String subtitle) {
 
-        CraftPlayer craftPlayer = (CraftPlayer) player;
-
-        IChatBaseComponent chatTitle = ChatSerializer.a("{\"text\": \" \"}");
-        IChatBaseComponent chatSubTitle = ChatSerializer.a("{\"text\": \"" + subtitle + "\"}");
-
-        PacketPlayOutTitle packetTitle = new PacketPlayOutTitle(EnumTitleAction.TITLE, chatTitle);
-        PacketPlayOutTitle packetSubTitle = new PacketPlayOutTitle(EnumTitleAction.SUBTITLE, chatSubTitle);
-        PacketPlayOutTitle packetLength = new PacketPlayOutTitle(20, seconds * 20, 20);
-
-        craftPlayer.getHandle().playerConnection.sendPacket(packetTitle);
-        craftPlayer.getHandle().playerConnection.sendPacket(packetSubTitle);
-        craftPlayer.getHandle().playerConnection.sendPacket(packetLength);
+        both(player, seconds, "", subtitle);
 
     }
 
@@ -63,7 +44,7 @@ public class TitleSubtitle {
      * @param title    the text of the title
      * @param subtitle the text of the subtitle
      */
-    public static void both(Player player, int seconds, String title, String subtitle) {
+    public void both(Player player, int seconds, String title, String subtitle) {
 
         CraftPlayer craftPlayer = (CraftPlayer) player;
 

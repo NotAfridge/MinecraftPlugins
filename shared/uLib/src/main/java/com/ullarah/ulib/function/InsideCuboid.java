@@ -12,7 +12,7 @@ public class InsideCuboid {
      * @param end      the cuboid end location
      * @return is the location of the object within the cuboid
      */
-    public static boolean check(Location location, Location start, Location end) {
+    public boolean check(Location location, Location start, Location end) {
 
         int x1 = Math.min(start.getBlockX(), end.getBlockX());
         int y1 = Math.min(start.getBlockY(), end.getBlockY());

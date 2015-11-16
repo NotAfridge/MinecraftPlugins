@@ -21,7 +21,7 @@ public class PluginRegisters {
      * @param objects the objects to register against the plugin
      * @return the number of valid registrations
      */
-    public static int register(Plugin plugin, RegisterType type, Object... objects) {
+    public int register(Plugin plugin, RegisterType type, Object... objects) {
 
         int amount = 0;
 
@@ -58,6 +58,8 @@ public class PluginRegisters {
                 Bukkit.getLogger().log(Level.SEVERE, "[" + plugin.getName() + "] Register Error: "
                         + "[" + type.toString().toUpperCase() + "] " + object.getClass().getCanonicalName());
 
+                e.printStackTrace();
+
             }
 
         }
@@ -76,7 +78,7 @@ public class PluginRegisters {
      * @param type   the type of object that is being registered
      * @return the number of valid registrations
      */
-    public static int registerAll(Plugin plugin, RegisterType type) {
+    public int registerAll(Plugin plugin, RegisterType type) {
 
         int amount = 0;
 

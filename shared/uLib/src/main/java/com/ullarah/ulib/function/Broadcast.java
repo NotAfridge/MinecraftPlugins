@@ -15,7 +15,7 @@ public class Broadcast {
      * @param console  the option to log the message(s) to console
      * @param messages the messages, in a string array
      */
-    public static void sendMessage(Plugin plugin, boolean console, String[] messages) {
+    public void sendMessage(Plugin plugin, boolean console, String[] messages) {
 
         for (Player player : Bukkit.getOnlinePlayers())
             for (String message : messages)
@@ -32,7 +32,7 @@ public class Broadcast {
      * @param messages the messages, in a string array
      * @param players  the players who will receive the message
      */
-    public static void sendMessage(Plugin plugin, boolean console, String[] messages, Player... players) {
+    public void sendMessage(Plugin plugin, boolean console, String[] messages, Player... players) {
 
         for (Player player : players)
             for (String message : messages)
@@ -49,9 +49,9 @@ public class Broadcast {
      * @param messages    the messages, in a string array
      * @param permissions the players who have this given permission
      */
-    public static void sendMessage(Plugin plugin, boolean console, String[] messages, String... permissions) {
+    public void sendMessage(Plugin plugin, boolean console, String[] messages, String... permissions) {
 
-        Bukkit.getOnlinePlayers().stream().filter(player -> PermissionCheck.check(player, permissions)).forEach(player -> {
+        Bukkit.getOnlinePlayers().stream().filter(player -> new PermissionCheck().check(player, permissions)).forEach(player -> {
             for (String message : messages)
                 player.sendMessage(ChatColor.GOLD + "[" + plugin.getName() + "] " + ChatColor.WHITE + message);
         });

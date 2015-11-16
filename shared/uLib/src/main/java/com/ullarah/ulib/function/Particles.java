@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 public class Particles {
 
-    public static void show(ParticleType particle, Location location, Float[] offset, float data, int amount) {
+    public void show(ParticleType particle, Location location, Float[] offset, float data, int amount) {
 
         PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
                 EnumParticle.a(particle.toInteger()), false,

@@ -19,9 +19,9 @@ public class GroundFire {
      * @param material the material type to set on fire
      * @return a set of fire locations
      */
-    public static Set setFire(Player player, String type, Material material) {
+    public HashSet<Location> setFire(Player player, String type, Material material) {
 
-        Set<Location> fireBlock = new HashSet<>();
+        HashSet<Location> fireBlock = new HashSet<>();
 
         if (!player.hasPotionEffect(PotionEffectType.FIRE_RESISTANCE)) {
 

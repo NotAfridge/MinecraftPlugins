@@ -15,7 +15,7 @@ public class SignText {
      * @param location the location surrounded by signs
      * @return a HashMap containing valid sign faces
      */
-    private static HashMap<String, Boolean> signFaceMap(final Location location) {
+    private HashMap<String, Boolean> signFaceMap(final Location location) {
 
         HashMap<String, Boolean> signMap = new HashMap<>();
 
@@ -45,7 +45,7 @@ public class SignText {
      * @param location the location surrounded by signs
      * @param text     the text array, max 4 entries
      */
-    public static void changeAll(final Location location, String[] text) {
+    public void changeAll(final Location location, String[] text) {
 
         HashMap<String, Boolean> signMap = signFaceMap(location);
 
@@ -74,7 +74,7 @@ public class SignText {
      * @param cs       to check the case sensitivity
      * @param text     a string array of sign line text to change
      */
-    public static void changeAllCheck(final Location location, int line, String extract, boolean cs, String[] text) {
+    public void changeAllCheck(final Location location, int line, String extract, boolean cs, String[] text) {
 
         HashMap<String, Boolean> signMap = signFaceMap(location);
 
@@ -113,7 +113,7 @@ public class SignText {
      * @param location the location surrounded by signs
      * @param lines    a map of the sign lines to change
      */
-    public static void changeLine(final Location location, Map<Integer, String> lines) {
+    public void changeLine(final Location location, Map<Integer, String> lines) {
 
         HashMap<String, Boolean> signMap = signFaceMap(location);
 
@@ -135,7 +135,7 @@ public class SignText {
      * @param location the location surrounded by signs
      * @param line     an array of the sign lines to clear
      */
-    public static void clearLine(final Location location, Integer[] line) {
+    public void clearLine(final Location location, Integer[] line) {
 
         HashMap<String, Boolean> signMap = signFaceMap(location);
 
@@ -156,7 +156,7 @@ public class SignText {
      *
      * @param location the location surrounded by signs
      */
-    public static void clearAll(final Location location) {
+    public void clearAll(final Location location) {
 
         HashMap<String, Boolean> signMap = signFaceMap(location);
 

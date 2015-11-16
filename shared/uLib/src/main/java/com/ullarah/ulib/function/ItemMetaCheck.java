@@ -14,7 +14,7 @@ public class ItemMetaCheck {
      * @param name the display name of the item
      * @return if the item has a custom name and matches name given
      */
-    public static boolean check(ItemStack item, String name) {
+    public boolean check(ItemStack item, String name) {
 
         if (item != null && item.hasItemMeta()) {
 
@@ -41,7 +41,7 @@ public class ItemMetaCheck {
      * @param lore the lore array of the item
      * @return if the item has custom lore and matches the lore array given
      */
-    public static boolean check(ItemStack item, List<String> lore) {
+    public boolean check(ItemStack item, List<String> lore) {
 
         if (item != null && item.hasItemMeta()) {
 
@@ -70,7 +70,7 @@ public class ItemMetaCheck {
      * @return if the item has both custom name and lore
      *             and matches both name and lore given.
      */
-    public static boolean check(ItemStack item, String name, List<String> lore) {
+    public boolean check(ItemStack item, String name, List<String> lore) {
 
         if (item != null && item.hasItemMeta()) {
 

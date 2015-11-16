@@ -13,7 +13,7 @@ public class GamemodeCheck {
      * @param gamemode the gamemode(s) to check
      * @return whether or not the players gamemode is valid
      */
-    public static boolean check(Player player, GameMode... gamemode) {
+    public boolean check(Player player, GameMode... gamemode) {
 
         for (GameMode mode : gamemode) if (player.getGameMode().equals(mode)) return true;
         return false;
