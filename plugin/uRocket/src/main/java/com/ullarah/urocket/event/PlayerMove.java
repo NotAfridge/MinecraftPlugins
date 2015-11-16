@@ -1,5 +1,6 @@
 package com.ullarah.urocket.event;
 
+import com.ullarah.ulib.function.CommonString;
 import com.ullarah.ulib.function.GamemodeCheck;
 import com.ullarah.ulib.function.GroundFire;
 import com.ullarah.ulib.function.TitleSubtitle;
@@ -16,7 +17,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.urocket.RocketInit.*;
 import static com.ullarah.urocket.RocketLanguage.*;
 import static com.ullarah.urocket.RocketVariant.Variant;
@@ -28,7 +28,7 @@ public class PlayerMove implements Listener {
 
         final Player player = event.getPlayer();
 
-        if (GamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
+        if (new GamemodeCheck().check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
 
             final Location location = player.getLocation();
             World world = player.getWorld();
@@ -83,8 +83,8 @@ public class PlayerMove implements Listener {
 
                     if (newStationList.contains(station) && newTankList.contains(tank) && !newStandList.contains(stand))
                         if (!rocketRepair.containsKey(player.getUniqueId())) {
-                            TitleSubtitle.subtitle(player, 3, RB_STATION_START);
-                            messageSend(getPlugin(), player, true, RB_STATION_START);
+                            new TitleSubtitle().subtitle(player, 3, RB_STATION_START);
+                            new CommonString().messageSend(getPlugin(), player, true, RB_STATION_START);
                             player.getWorld().playSound(player.getEyeLocation(), Sound.ORB_PICKUP, 0.8f, 0.5f);
                             rocketRepair.put(player.getUniqueId(), bStation);
                         }
@@ -101,8 +101,8 @@ public class PlayerMove implements Listener {
                         if (blockMiddle.isLiquid()) {
 
                             if (!rocketWater.contains(player.getUniqueId())) {
-                                TitleSubtitle.subtitle(player, 3, RB_WATER_WARNING);
-                                messageSend(getPlugin(), player, true, RB_WATER_WARNING);
+                                new TitleSubtitle().subtitle(player, 3, RB_WATER_WARNING);
+                                new CommonString().messageSend(getPlugin(), player, true, RB_WATER_WARNING);
                             }
 
                             rocketWater.add(player.getUniqueId());
@@ -141,7 +141,7 @@ public class PlayerMove implements Listener {
 
                     if (rocketVariant.get(player.getUniqueId()).equals(Variant.ORIGINAL))
                         if (player.isFlying() && player.getWorld().getName().equals("world_nether"))
-                            rocketFire.add(GroundFire.setFire(player, "SINGLE", Material.NETHERRACK));
+                            rocketFire.add(new GroundFire().setFire(player, "SINGLE", Material.NETHERRACK));
 
                     if (world.getName().equals("world") && (world.hasStorm() || world.isThundering()))
                         if (new Random().nextInt(500) == 1) {
@@ -151,7 +151,7 @@ public class PlayerMove implements Listener {
                                     world.strikeLightning(location);
                                     player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 1.5f, 0.75f);
                                     rocketSprint.put(player.getUniqueId(), "AIR");
-                                    messageSend(getPlugin(), player, true, RB_STRIKE);
+                                    new CommonString().messageSend(getPlugin(), player, true, RB_STRIKE);
 
                                 }
                             }

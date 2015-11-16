@@ -34,7 +34,7 @@ public class RocketVariants implements NewRecipe {
         ItemStack variant = new ItemStack(Material.NOTE_BLOCK, 1);
         ItemMeta variantMeta = variant.getItemMeta();
 
-        variantMeta.setDisplayName(ChatColor.AQUA + "Variant Booster");
+        variantMeta.setDisplayName(ChatColor.AQUA + "Rocket Boot Variant");
         variantMeta.setLore(Collections.singletonList(name));
 
         variantMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);

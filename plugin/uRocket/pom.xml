@@ -7,7 +7,7 @@
 
     <name>uRocket</name>
     <description>Mixed Rockets</description>
-    <version>1.7.1</version>
+    <version>1.7.3</version>
 
     <parent>
         <groupId>com.ullarah</groupId>

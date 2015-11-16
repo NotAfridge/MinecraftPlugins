@@ -69,7 +69,7 @@ public class StationStandRepair {
 
                                             String bootType = ChatColor.stripColor(standBoots.getItemMeta().getLore().get(0));
 
-                                            SignText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
+                                            new SignText().changeAllCheck(beaconSign, 0, "[Repair Status]", false,
                                                     new String[]{
                                                             "[Repair Status]",
                                                             ChatColor.STRIKETHROUGH + "--------------",
@@ -83,7 +83,7 @@ public class StationStandRepair {
 
                                                 if (bootHealthNew > bootMaterialDurability) {
 
-                                                    SignText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
+                                                    new SignText().changeAllCheck(beaconSign, 0, "[Repair Status]", false,
                                                             new String[]{
                                                                     "[Repair Status]",
                                                                     ChatColor.STRIKETHROUGH + "--------------",
@@ -108,14 +108,14 @@ public class StationStandRepair {
                                                 }
 
                                             } else {
-                                                SignText.clearLine(beaconSign, new Integer[]{2, 3});
+                                                new SignText().clearLine(beaconSign, new Integer[]{2, 3});
                                                 rocketRepairStand.remove(stand.getUniqueId());
                                             }
 
                                         }
 
                                     } else {
-                                        SignText.changeLine(beaconSign,
+                                        new SignText().changeLine(beaconSign,
                                                 new HashMap<Integer, String>() {{
                                                     put(2, "Repair Tank");
                                                     put(3, "Empty");

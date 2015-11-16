@@ -1,5 +1,6 @@
 package com.ullarah.urocket.event;
 
+import com.ullarah.ulib.function.CommonString;
 import com.ullarah.ulib.function.FakeExplosion;
 import com.ullarah.urocket.recipe.RocketFlyZone;
 import org.bukkit.Location;
@@ -14,7 +15,6 @@ import org.bukkit.event.hanging.HangingBreakEvent;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.urocket.RocketFunctions.reloadFlyZones;
 import static com.ullarah.urocket.RocketInit.getPlugin;
 import static com.ullarah.urocket.RocketLanguage.RB_FZ_REMOVE;
@@ -43,12 +43,12 @@ public class ZoneDamage implements Listener {
 
             if (zoneList.contains(zoneOriginal) || event.getDamager().hasPermission("rocket.remove")) {
 
-                messageSend(getPlugin(), event.getDamager(), true, RB_FZ_REMOVE);
+                new CommonString().messageSend(getPlugin(), event.getDamager(), true, RB_FZ_REMOVE);
 
                 zoneList.remove(newZoneList.indexOf(zoneNew));
                 zoneEntity.remove();
 
-                FakeExplosion.create(entityLocation, 4, FakeExplosion.ExplosionType.LARGE);
+                new FakeExplosion().create(entityLocation, 4, FakeExplosion.ExplosionType.LARGE);
                 entityLocation.getWorld().strikeLightningEffect(entityLocation);
 
                 zoneEntity.getWorld().dropItemNaturally(entityLocation, RocketFlyZone.zone());

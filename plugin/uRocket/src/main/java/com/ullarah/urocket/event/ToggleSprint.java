@@ -1,5 +1,6 @@
 package com.ullarah.urocket.event;
 
+import com.ullarah.ulib.function.CommonString;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,7 +12,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.UUID;
 
-import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.urocket.RocketFunctions.changeBootDurability;
 import static com.ullarah.urocket.RocketFunctions.getBootPowerLevel;
 import static com.ullarah.urocket.RocketInit.*;
@@ -36,7 +36,7 @@ public class ToggleSprint implements Listener {
 
                         rocketSprint.put(playerUUID, "AIR");
 
-                        messageSend(getPlugin(), player, true, new String[]{
+                        new CommonString().messageSend(getPlugin(), player, true, new String[]{
                                 RB_COOLDOWN_HEAT, RB_COOLDOWN_LAND
                         });
 
@@ -55,7 +55,7 @@ public class ToggleSprint implements Listener {
                     } else {
 
                         rocketSprint.put(playerUUID, "LAND");
-                        messageSend(getPlugin(), player, true, RB_SPRINT);
+                        new CommonString().messageSend(getPlugin(), player, true, RB_SPRINT);
 
                     }
 

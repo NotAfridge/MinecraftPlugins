@@ -1,5 +1,6 @@
 package com.ullarah.urocket.event;
 
+import com.ullarah.ulib.function.CommonString;
 import com.ullarah.ulib.function.GamemodeCheck;
 import com.ullarah.ulib.function.TitleSubtitle;
 import com.ullarah.urocket.RocketInit;
@@ -9,7 +10,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
 
-import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.urocket.RocketFunctions.disableRocketBoots;
 import static com.ullarah.urocket.RocketInit.getPlugin;
 import static com.ullarah.urocket.RocketInit.rocketUsage;
@@ -25,10 +25,10 @@ public class PlayerGamemodeChange implements Listener {
         if (!rocketUsage.isEmpty())
             if (RocketInit.rocketUsage.contains(player.getUniqueId())) {
 
-                if (GamemodeCheck.check(player, GameMode.CREATIVE, GameMode.SPECTATOR)) {
+                if (new GamemodeCheck().check(player, GameMode.CREATIVE, GameMode.SPECTATOR)) {
 
-                    messageSend(getPlugin(), player, true, RB_GAMEMODE_ERROR);
-                    TitleSubtitle.subtitle(player, 1, RB_GAMEMODE_ERROR);
+                    new CommonString().messageSend(getPlugin(), player, true, RB_GAMEMODE_ERROR);
+                    new TitleSubtitle().subtitle(player, 1, RB_GAMEMODE_ERROR);
 
                     disableRocketBoots(player, false, false, false, false, false, true);
 

@@ -1,5 +1,6 @@
 package com.ullarah.urocket.event;
 
+import com.ullarah.ulib.function.CommonString;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -7,7 +8,6 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import java.util.UUID;
 
-import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.urocket.RocketInit.*;
 import static com.ullarah.urocket.RocketLanguage.RB_HIDDEN;
 
@@ -26,7 +26,7 @@ public class PlayerCommand implements Listener {
                 switch (rocketVariant.get(playerUUID)) {
 
                     case STEALTH:
-                        messageSend(getPlugin(), player, true, RB_HIDDEN);
+                        new CommonString().messageSend(getPlugin(), player, true, RB_HIDDEN);
                         event.setCancelled(true);
                         break;
 

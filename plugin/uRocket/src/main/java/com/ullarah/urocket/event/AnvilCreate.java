@@ -74,7 +74,7 @@ public class AnvilCreate implements Listener {
                                             player.getWorld().dropItemNaturally(player.getEyeLocation(), boosterTen);
                                             player.closeInventory();
 
-                                            TitleSubtitle.subtitle(player, 3, "" + ChatColor.RED + ChatColor.BOLD + "Booster Level X created...");
+                                            new TitleSubtitle().subtitle(player, 3, "" + ChatColor.RED + ChatColor.BOLD + "Booster Level X created...");
 
                                             for (Player onlinePlayer : Bukkit.getOnlinePlayers())
                                                 onlinePlayer.playSound(onlinePlayer.getEyeLocation(),

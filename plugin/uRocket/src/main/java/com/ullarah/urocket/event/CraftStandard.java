@@ -19,7 +19,7 @@ public class CraftStandard implements Listener {
     @EventHandler
     public void craftRocketBoots(PrepareItemCraftEvent event) {
 
-        if (event.getInventory().getType() == InventoryType.WORKBENCH) {
+        if (event.getInventory().getType().equals(InventoryType.WORKBENCH)) {
 
             ItemStack[] getSlot = event.getInventory().getMatrix();
 
@@ -35,10 +35,7 @@ public class CraftStandard implements Listener {
 
             String boosterType = null;
             String variantType = null;
-
-            String rocketRepair = "Self Repair";
-            String rocketEfficient = "Fuel Efficient";
-            String rocketSolar = "Solar Power";
+            String enhancementType = null;
 
             ItemStack rocketVariant = getSlot[7];
             ItemStack rocketEnhancement = getSlot[4];
@@ -91,20 +88,24 @@ public class CraftStandard implements Listener {
             if (getSlot[3].equals(getSlot[5])) materialMatch = true;
 
             if (rocketVariant.hasItemMeta()) if (rocketVariant.getItemMeta().hasDisplayName())
-                if (rocketVariant.getItemMeta().getDisplayName().equals(ChatColor.AQUA + "Variant Booster")) {
-                    variantType = rocketVariant.getItemMeta().getLore().get(0);
-                    bootType += 8;
+                if (rocketVariant.getItemMeta().getDisplayName().equals(ChatColor.AQUA + "Rocket Boot Variant")) {
+                    if (rocketVariant.getItemMeta().hasLore()) {
+
+                        variantType = rocketVariant.getItemMeta().getLore().get(0);
+                        bootType += 8;
+
+                    }
                 }
 
-            if (rocketEnhancement.hasItemMeta()) if (rocketEnhancement.getItemMeta().hasDisplayName()) {
+            if (rocketEnhancement.hasItemMeta()) if (rocketEnhancement.getItemMeta().hasDisplayName())
+                if (rocketEnhancement.getItemMeta().getDisplayName().equals(ChatColor.AQUA + "Rocket Boot Enhancement")) {
+                    if (rocketEnhancement.getItemMeta().hasLore()) {
 
-                String enhancementName = rocketEnhancement.getItemMeta().getDisplayName();
+                        enhancementType = rocketEnhancement.getItemMeta().getLore().get(0);
+                        bootType += 16;
 
-                if (enhancementName.equals(ChatColor.RED + rocketRepair)) bootType += 16;
-                if (enhancementName.equals(ChatColor.RED + rocketEfficient)) bootType += 32;
-                if (enhancementName.equals(ChatColor.RED + rocketSolar)) bootType += 64;
-
-            }
+                    }
+                }
 
             if (hasControls && hasBoosters && hasMaterial && materialMatch) {
 
@@ -124,29 +125,12 @@ public class CraftStandard implements Listener {
                         break;
 
                     case 16:
-                        bootMeta.setLore(Arrays.asList(boosterType, ChatColor.AQUA + rocketRepair));
+                        bootMeta.setLore(Arrays.asList(boosterType, enhancementType));
                         break;
 
                     case 24:
-                        bootMeta.setLore(Arrays.asList(boosterType, variantType, ChatColor.AQUA + rocketRepair));
+                        bootMeta.setLore(Arrays.asList(boosterType, variantType, enhancementType));
                         break;
-
-                    case 32:
-                        bootMeta.setLore(Arrays.asList(boosterType, ChatColor.AQUA + rocketEfficient));
-                        break;
-
-                    case 40:
-                        bootMeta.setLore(Arrays.asList(boosterType, variantType, ChatColor.AQUA + rocketEfficient));
-                        break;
-
-                    case 64:
-                        bootMeta.setLore(Arrays.asList(boosterType, ChatColor.AQUA + rocketSolar));
-                        break;
-
-                    case 72:
-                        bootMeta.setLore(Arrays.asList(boosterType, variantType, ChatColor.AQUA + rocketSolar));
-                        break;
-
 
                 }
 
@@ -155,8 +139,7 @@ public class CraftStandard implements Listener {
                 boots.setItemMeta(bootMeta);
                 boots.addEnchantment(Enchantment.PROTECTION_FALL, 4);
 
-                event.getInventory().setResult((bootType == 8 || bootType == 24 || bootType == 40 || bootType == 72)
-                        && isBoosterX ? null : boots);
+                event.getInventory().setResult((bootType == 8 || bootType == 16 || bootType == 24) && isBoosterX ? null : boots);
 
             }
 

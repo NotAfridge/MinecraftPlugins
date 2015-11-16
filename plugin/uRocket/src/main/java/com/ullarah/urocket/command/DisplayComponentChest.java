@@ -1,5 +1,6 @@
 package com.ullarah.urocket.command;
 
+import com.ullarah.urocket.RocketEnhancement;
 import com.ullarah.urocket.RocketVariant;
 import com.ullarah.urocket.recipe.*;
 import org.bukkit.Bukkit;
@@ -49,22 +50,15 @@ public class DisplayComponentChest {
                     add(RocketSaddle.saddle()),
                     add(new ItemStack(Material.AIR)),
                     add(new ItemStack(Material.AIR)),
-                    add(new ItemStack(Material.AIR)),
-
-                    add(RocketEnhance.enhancement(ChatColor.RED + "Fuel Efficient", null)),
-                    add(RocketEnhance.enhancement(ChatColor.RED + "Solar Power", null)),
-                    add(RocketEnhance.enhancement(ChatColor.RED + "Self Repair", null)),
-                    add(new ItemStack(Material.AIR)),
-                    add(new ItemStack(Material.AIR)),
-                    add(new ItemStack(Material.AIR)),
-                    add(new ItemStack(Material.AIR)),
-                    add(new ItemStack(Material.AIR)),
                     add(new ItemStack(Material.AIR))
             );
         }};
 
         for (RocketVariant.Variant variant : RocketVariant.Variant.values())
             rocketStack.add(RocketVariants.variant(variant.getName()));
+
+        for (RocketEnhancement.Enhancement enhancement : RocketEnhancement.Enhancement.values())
+            rocketStack.add(RocketEnhance.enhancement(enhancement.getName(), enhancement.getLore()));
 
         return rocketStack.toArray(new ItemStack[rocketStack.size()]);
 

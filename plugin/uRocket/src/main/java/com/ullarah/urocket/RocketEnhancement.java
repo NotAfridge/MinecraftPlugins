@@ -1,19 +1,16 @@
 package com.ullarah.urocket;
 
+import com.ullarah.ulib.function.PluginRegisters;
 import com.ullarah.urocket.recipe.RocketEnhance;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import static com.ullarah.ulib.function.PluginRegisters.RegisterType.RECIPE;
-import static com.ullarah.ulib.function.PluginRegisters.register;
 import static com.ullarah.urocket.RocketInit.getPlugin;
 import static com.ullarah.urocket.RocketInit.registerMap;
-import static org.bukkit.ChatColor.DARK_GRAY;
-import static org.bukkit.ChatColor.RED;
 import static org.bukkit.Material.*;
 
 public class RocketEnhancement {
@@ -23,34 +20,28 @@ public class RocketEnhancement {
         registerMap.put("enhancement", 0);
         for (Enhancement enhancement : Enhancement.values())
             registerMap.put("enhancement", registerMap.get("enhancement") +
-                    register(getPlugin(), RECIPE, new RocketEnhance(
-                            enhancement.getName(), enhancement.getMaterial(), enhancement.getLore())));
+                    new PluginRegisters().register(getPlugin(), RECIPE,
+                            new RocketEnhance(enhancement.getName(), enhancement.getMaterial(), enhancement.getLore())));
 
     }
 
     public enum Enhancement {
 
         NOTHING(
-                DARK_GRAY + "Nothing", BEDROCK,
+                ChatColor.DARK_GRAY + "Nothing", BEDROCK,
                 Collections.singletonList(ChatColor.DARK_GRAY + "Literally Nothing!")
         ),
         REPAIR(
-                RED + "Self Repair", ANVIL,
+                ChatColor.RED + "Self Repair", ANVIL,
                 Collections.singletonList(ChatColor.YELLOW + "Repair your Rocket Boots as you fly!")
         ),
         FUEL(
-                RED + "Fuel Efficient", SPONGE,
-                Arrays.asList(
-                        ChatColor.YELLOW + "Stretch your rocket fuel further!",
-                        "" + ChatColor.WHITE + ChatColor.ITALIC + "Will only affect XP based fuels!"
-                )
+                ChatColor.YELLOW + "Fuel Efficient", SPONGE,
+                Collections.singletonList(ChatColor.YELLOW + "Stretch your rocket fuel further!")
         ),
         SOLAR(
-                RED + "Solar Power", DAYLIGHT_DETECTOR,
-                Arrays.asList(
-                        ChatColor.YELLOW + "Fly until the sun goes down!",
-                        "" + ChatColor.WHITE + ChatColor.ITALIC + "Will only affect XP based fuels!"
-                )
+                ChatColor.WHITE + "Solar Power", DAYLIGHT_DETECTOR,
+                Collections.singletonList(ChatColor.YELLOW + "Fly until the sun goes down!")
         );
 
         private final String name;

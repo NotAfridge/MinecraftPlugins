@@ -1,5 +1,6 @@
 package com.ullarah.urocket.event;
 
+import com.ullarah.ulib.function.CommonString;
 import com.ullarah.ulib.function.InsideCuboid;
 import com.ullarah.ulib.function.TitleSubtitle;
 import org.bukkit.Location;
@@ -13,7 +14,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.urocket.RocketInit.*;
 import static com.ullarah.urocket.RocketLanguage.RB_DISABLE;
 import static com.ullarah.urocket.RocketLanguage.RB_FZ_ENTRY;
@@ -32,7 +32,7 @@ public class ZoneCheck implements Listener {
                 Location zoneStart = rocketLocation.getKey();
                 Location zoneEnd = rocketLocation.getValue();
 
-                if (InsideCuboid.check(location, zoneStart, zoneEnd)) {
+                if (new InsideCuboid().check(location, zoneStart, zoneEnd)) {
 
                     if (!rocketZones.contains(player.getUniqueId())) {
 
@@ -49,9 +49,9 @@ public class ZoneCheck implements Listener {
 
                                         player.setFlySpeed(0.05f);
 
-                                        TitleSubtitle.subtitle(player, 3, RB_FZ_ENTRY);
+                                        new TitleSubtitle().subtitle(player, 3, RB_FZ_ENTRY);
 
-                                        messageSend(getPlugin(), player, true, new String[]{
+                                        new CommonString().messageSend(getPlugin(), player, true, new String[]{
                                                 RB_FZ_ENTRY, RB_DISABLE
                                         });
 

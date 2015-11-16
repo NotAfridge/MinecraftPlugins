@@ -34,7 +34,7 @@ public class NotePlaying {
 
                         Player player = Bukkit.getPlayer(uuid);
 
-                        if (GamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
+                        if (new GamemodeCheck().check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
 
                             if (player.isFlying()) {
 

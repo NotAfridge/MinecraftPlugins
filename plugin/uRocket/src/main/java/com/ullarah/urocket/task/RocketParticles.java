@@ -33,7 +33,7 @@ public class RocketParticles {
 
                                 Player player = Bukkit.getPlayer(uuid);
 
-                                if (GamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE))
+                                if (new GamemodeCheck().check(player, GameMode.SURVIVAL, GameMode.ADVENTURE))
                                     if (player.isFlying() || rocketVariant.get(player.getUniqueId()) == RUNNER)
                                         if (!player.isSneaking()) if (rocketVariant.containsKey(player.getUniqueId())) {
 

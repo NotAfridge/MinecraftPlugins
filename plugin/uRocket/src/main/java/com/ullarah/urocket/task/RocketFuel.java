@@ -1,5 +1,6 @@
 package com.ullarah.urocket.task;
 
+import com.ullarah.ulib.function.CommonString;
 import org.apache.commons.io.output.StringBuilderWriter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,7 +14,6 @@ import org.bukkit.util.Vector;
 import java.util.Random;
 import java.util.UUID;
 
-import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.urocket.RocketEnhancement.Enhancement.FUEL;
 import static com.ullarah.urocket.RocketEnhancement.Enhancement.SOLAR;
 import static com.ullarah.urocket.RocketFunctions.*;
@@ -101,7 +101,7 @@ public class RocketFuel {
                                     case HEALTH:
                                         if (player.getHealth() <= 1.0 || player.getFoodLevel() <= 2) {
 
-                                            messageSend(getPlugin(), player, true, RB_HUNGRY);
+                                            new CommonString().messageSend(getPlugin(), player, true, RB_HUNGRY);
                                             disableRocketBoots(player, false, true, false, true, true, true);
 
                                         } else {
@@ -115,7 +115,7 @@ public class RocketFuel {
                                     case MONEY:
                                         if (getVaultEconomy().getBalance(player) <= 10.0) {
 
-                                            messageSend(getPlugin(), player, true, RB_MONEY);
+                                            new CommonString().messageSend(getPlugin(), player, true, RB_MONEY);
                                             disableRocketBoots(player, false, true, false, true, true, true);
 
                                         } else {
@@ -156,7 +156,7 @@ public class RocketFuel {
                                             }
                                         }
 
-                                        messageSend(getPlugin(), player, false, agendaMessage.toString());
+                                        new CommonString().messageSend(getPlugin(), player, false, agendaMessage.toString());
                                         removeFuel(player, Material.COAL_BLOCK, Material.COAL, itemFuelCost);
                                         break;
 
@@ -186,7 +186,7 @@ public class RocketFuel {
                                         if (random.nextInt(10) == 5) {
 
                                             player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 0.6f, 0.65f);
-                                            messageSend(getPlugin(), player, true, RB_MALFUNCTION);
+                                            new CommonString().messageSend(getPlugin(), player, true, RB_MALFUNCTION);
                                             disableRocketBoots(player, true, true, true, true, true, true);
 
                                         } else removeFuel(player, Material.LOG, Material.WOOD, itemFuelCost);
@@ -196,7 +196,7 @@ public class RocketFuel {
                                         if (random.nextInt(10) == 5) {
 
                                             player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 0.6f, 0.65f);
-                                            messageSend(getPlugin(), player, true, RB_MALFUNCTION);
+                                            new CommonString().messageSend(getPlugin(), player, true, RB_MALFUNCTION);
                                             disableRocketBoots(player, true, true, true, true, true, true);
 
                                         } else
@@ -214,12 +214,12 @@ public class RocketFuel {
                             if (player.getLocation().getY() >= 250) {
 
                                 disableRocketBoots(player, true, true, true, true, true, true);
-                                messageSend(getPlugin(), player, true, RB_HIGH);
+                                new CommonString().messageSend(getPlugin(), player, true, RB_HIGH);
 
                             } else if (player.getLocation().getY() <= 0) {
 
                                 disableRocketBoots(player, true, true, true, true, true, true);
-                                messageSend(getPlugin(), player, true, RB_LOW);
+                                new CommonString().messageSend(getPlugin(), player, true, RB_LOW);
 
                             }
 

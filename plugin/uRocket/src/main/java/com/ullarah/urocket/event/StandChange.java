@@ -1,5 +1,6 @@
 package com.ullarah.urocket.event;
 
+import com.ullarah.ulib.function.CommonString;
 import com.ullarah.ulib.function.SignText;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -15,7 +16,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.urocket.RocketFunctions.getBootDurability;
 import static com.ullarah.urocket.RocketInit.getPlugin;
 import static com.ullarah.urocket.RocketInit.rocketRepairStand;
@@ -54,14 +54,14 @@ public class StandChange implements Listener {
 
                                 String bootType = ChatColor.stripColor(player.getItemInHand().getItemMeta().getLore().get(0));
 
-                                SignText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
+                                new SignText().changeAllCheck(beaconSign, 0, "[Repair Status]", false,
                                         new String[]{
                                                 "[Repair Status]",
                                                 ChatColor.STRIKETHROUGH + "--------------",
                                                 ChatColor.RED + bootType,
                                                 String.valueOf(bootDurability) + " / " + bootMaterialDurability});
 
-                                SignText.changeLine(beaconSign, new HashMap<Integer, String>() {{
+                                new SignText().changeLine(beaconSign, new HashMap<Integer, String>() {{
                                     put(0, "[Repair Status]");
                                 }});
 
@@ -77,15 +77,15 @@ public class StandChange implements Listener {
 
                     if (player.getItemInHand().getType() != Material.AIR) {
 
-                        messageSend(getPlugin(), player, true, RB_RS_CHANGE);
+                        new CommonString().messageSend(getPlugin(), player, true, RB_RS_CHANGE);
                         event.setCancelled(true);
 
                     } else {
 
-                        SignText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
+                        new SignText().changeAllCheck(beaconSign, 0, "[Repair Status]", false,
                                 new String[]{"[Repair Status]", ChatColor.STRIKETHROUGH + "--------------", "", ""});
 
-                        SignText.changeLine(beaconSign, new HashMap<Integer, String>() {{
+                        new SignText().changeLine(beaconSign, new HashMap<Integer, String>() {{
                             put(0, "[Repair Status]");
                         }});
 

@@ -1,5 +1,6 @@
 package com.ullarah.urocket.event;
 
+import com.ullarah.ulib.function.CommonString;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,7 +14,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.urocket.RocketInit.getPlugin;
 import static com.ullarah.urocket.RocketLanguage.RB_MOD_ERROR;
 
@@ -56,7 +56,7 @@ public class AnvilRename implements Listener {
 
                                 Player player = (Player) event.getWhoClicked();
                                 player.closeInventory();
-                                messageSend(getPlugin(), player, true, RB_MOD_ERROR);
+                                new CommonString().messageSend(getPlugin(), player, true, RB_MOD_ERROR);
 
                             }
 

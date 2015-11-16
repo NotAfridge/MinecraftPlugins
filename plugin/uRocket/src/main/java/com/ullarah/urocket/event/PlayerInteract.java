@@ -1,5 +1,6 @@
 package com.ullarah.urocket.event;
 
+import com.ullarah.ulib.function.CommonString;
 import com.ullarah.ulib.function.EntityLocation;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -19,7 +20,6 @@ import org.bukkit.util.Vector;
 import java.util.List;
 import java.util.Set;
 
-import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.urocket.RocketFunctions.attachRocketBoots;
 import static com.ullarah.urocket.RocketInit.*;
 import static com.ullarah.urocket.RocketLanguage.*;
@@ -86,22 +86,22 @@ public class PlayerInteract implements Listener {
                                 if (!stationList.contains(station)) {
 
                                     event.setCancelled(true);
-                                    messageSend(getPlugin(), player, true, RB_RS_PLACE_ERROR);
+                                    new CommonString().messageSend(getPlugin(), player, true, RB_RS_PLACE_ERROR);
 
                                 } else if (player.isSneaking()) {
 
                                     String stand = player.getUniqueId().toString() + "|" + world.getName() + "|" + eX + "|" + (eY + 1) + "|" + eZ;
                                     List<String> standList = getPlugin().getConfig().getStringList("stands");
 
-                                    if (EntityLocation.getNearbyEntities(new Location(world, eX, eY + 1, eZ), 1).length != 0) {
+                                    if (new EntityLocation().getNearbyEntities(new Location(world, eX, eY + 1, eZ), 1).length != 0) {
 
-                                        messageSend(getPlugin(), player, true, RB_RS_ENTITY);
+                                        new CommonString().messageSend(getPlugin(), player, true, RB_RS_ENTITY);
 
                                     } else {
 
                                         if (standList.contains(stand))
 
-                                            messageSend(getPlugin(), player, true, RB_RS_EXIST);
+                                            new CommonString().messageSend(getPlugin(), player, true, RB_RS_EXIST);
 
                                         else {
 
@@ -110,7 +110,7 @@ public class PlayerInteract implements Listener {
                                             getPlugin().getConfig().set("stands", standList);
                                             getPlugin().saveConfig();
 
-                                            messageSend(getPlugin(), player, true, RB_RS_PLACE_SUCCESS);
+                                            new CommonString().messageSend(getPlugin(), player, true, RB_RS_PLACE_SUCCESS);
 
                                         }
 
@@ -122,7 +122,7 @@ public class PlayerInteract implements Listener {
 
                                 player.updateInventory();
                                 event.setCancelled(true);
-                                messageSend(getPlugin(), player, true, RB_RS_PLACE_ERROR);
+                                new CommonString().messageSend(getPlugin(), player, true, RB_RS_PLACE_ERROR);
 
                             }
 
@@ -130,7 +130,7 @@ public class PlayerInteract implements Listener {
 
                             player.updateInventory();
                             event.setCancelled(true);
-                            messageSend(getPlugin(), player, true, PlacementDeny("Repair Stands"));
+                            new CommonString().messageSend(getPlugin(), player, true, PlacementDeny("Repair Stands"));
 
                         }
 

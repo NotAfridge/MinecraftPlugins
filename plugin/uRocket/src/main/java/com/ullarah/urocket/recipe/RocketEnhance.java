@@ -1,11 +1,15 @@
 package com.ullarah.urocket.recipe;
 
 import com.ullarah.ulib.function.NewRecipe;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RocketEnhance implements NewRecipe {
@@ -27,10 +31,17 @@ public class RocketEnhance implements NewRecipe {
         ItemStack enhancement = new ItemStack(Material.NETHER_STAR, 1);
         ItemMeta enhancementMeta = enhancement.getItemMeta();
 
-        enhancementMeta.setDisplayName(name);
+        enhancementMeta.setDisplayName(ChatColor.AQUA + "Rocket Boot Enhancement");
+
+        lore = new ArrayList<>(lore); // You would think that this is silly right?
+        lore.add(0, name);            // Well it's not, try adding without creating a new ArrayList...
+
         enhancementMeta.setLore(lore);
 
+        enhancementMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         enhancement.setItemMeta(enhancementMeta);
+
+        enhancement.addUnsafeEnchantment(Enchantment.LUCK, 1);
 
         return enhancement;
 

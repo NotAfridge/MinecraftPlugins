@@ -23,7 +23,7 @@ class RocketExecutor implements CommandExecutor {
 
     private void rocketChest(CommandSender sender, String[] args) {
 
-        if (!(sender instanceof Player)) CommonString.messageNoConsole(getPlugin(), sender);
+        if (!(sender instanceof Player)) new CommonString().messageNoConsole(getPlugin(), sender);
         else {
 
             if (args.length == 0) runHelp(sender);

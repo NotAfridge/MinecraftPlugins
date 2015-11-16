@@ -28,7 +28,7 @@ public class ActiveEffects {
 
                             Player player = Bukkit.getPlayer(entry.getKey());
 
-                            if (GamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE))
+                            if (new GamemodeCheck().check(player, GameMode.SURVIVAL, GameMode.ADVENTURE))
                                 if (player.getWorld().getName().equals("world"))
                                     if (rocketVariant.containsKey(player.getUniqueId())) if (player.isFlying()) {
 

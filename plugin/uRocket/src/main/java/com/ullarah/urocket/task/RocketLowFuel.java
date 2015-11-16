@@ -1,5 +1,6 @@
 package com.ullarah.urocket.task;
 
+import com.ullarah.ulib.function.CommonString;
 import com.ullarah.ulib.function.TitleSubtitle;
 import com.ullarah.urocket.RocketVariant;
 import org.bukkit.Bukkit;
@@ -11,7 +12,6 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.UUID;
 
-import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.urocket.RocketInit.*;
 import static com.ullarah.urocket.RocketLanguage.*;
 
@@ -70,8 +70,8 @@ public class RocketLowFuel {
                             }
 
                             if (fuelLow) {
-                                TitleSubtitle.subtitle(player, 1, RB_FUEL_LOW);
-                                messageSend(getPlugin(), player, true, new String[]{
+                                new TitleSubtitle().subtitle(player, 1, RB_FUEL_LOW);
+                                new CommonString().messageSend(getPlugin(), player, true, new String[]{
                                         FuelLow(fuelType), RB_FUEL_WARNING
                                 });
                                 player.getWorld().playSound(player.getLocation(), Sound.ORB_PICKUP, 0.5f, 1.3f);

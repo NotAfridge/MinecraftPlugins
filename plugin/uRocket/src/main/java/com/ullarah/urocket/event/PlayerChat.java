@@ -1,5 +1,6 @@
 package com.ullarah.urocket.event;
 
+import com.ullarah.ulib.function.CommonString;
 import org.apache.commons.io.output.StringBuilderWriter;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -9,7 +10,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.Random;
 
-import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.urocket.RocketInit.*;
 import static com.ullarah.urocket.RocketLanguage.RB_HIDDEN;
 
@@ -31,7 +31,7 @@ public class PlayerChat implements Listener {
                     break;
 
                 case STEALTH:
-                    messageSend(getPlugin(), player, true, RB_HIDDEN);
+                    new CommonString().messageSend(getPlugin(), player, true, RB_HIDDEN);
                     event.setCancelled(true);
                     break;
 
