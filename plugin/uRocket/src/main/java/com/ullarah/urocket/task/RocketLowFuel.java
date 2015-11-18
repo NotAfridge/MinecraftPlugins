@@ -1,9 +1,9 @@
 package com.ullarah.urocket.task;
 
-import com.ullarah.ulib.function.CommonString;
-import com.ullarah.ulib.function.TitleSubtitle;
 import com.ullarah.urocket.RocketFunctions;
-import com.ullarah.urocket.RocketVariant;
+import com.ullarah.urocket.function.CommonString;
+import com.ullarah.urocket.function.TitleSubtitle;
+import com.ullarah.urocket.init.RocketVariant;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -21,7 +21,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.RocketLanguage.*;
+import static com.ullarah.urocket.init.RocketLanguage.*;
 
 public class RocketLowFuel {
 

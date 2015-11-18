@@ -1,6 +1,6 @@
 package com.ullarah.urocket.command;
 
-import com.ullarah.ulib.function.CommonString;
+import com.ullarah.urocket.function.CommonString;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

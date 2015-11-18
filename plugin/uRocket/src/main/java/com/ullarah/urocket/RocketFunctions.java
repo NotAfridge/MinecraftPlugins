@@ -1,12 +1,15 @@
 package com.ullarah.urocket;
 
-import com.ullarah.ulib.function.*;
-import com.ullarah.urocket.RocketVariant.Variant;
+import com.ullarah.urocket.function.*;
+import com.ullarah.urocket.init.RocketVariant.Variant;
+import net.minecraft.server.v1_8_R3.EnumParticle;
+import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -23,9 +26,9 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-import static com.ullarah.urocket.RocketEnhancement.Enhancement;
 import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.RocketLanguage.*;
+import static com.ullarah.urocket.init.RocketEnhancement.Enhancement;
+import static com.ullarah.urocket.init.RocketLanguage.*;
 import static org.bukkit.Material.AIR;
 
 public class RocketFunctions {
@@ -34,7 +37,6 @@ public class RocketFunctions {
     private final TitleSubtitle titleSubtitle = new TitleSubtitle();
     private final GamemodeCheck gamemodeCheck = new GamemodeCheck();
     private final BlockStacks blockStacks = new BlockStacks();
-    private final Particles particles = new Particles();
     private final RomanNumeralToInteger romanNumeralToInteger = new RomanNumeralToInteger();
 
     public void disableRocketBoots(Player player, Boolean keepUsage, Boolean keepPower, Boolean keepFlight,
@@ -648,7 +650,14 @@ public class RocketFunctions {
         Location particleLocation = new Location(world, cBX + 0.5, cBY + 1.2, cBZ + 0.5);
 
         world.playSound(centerBlock, Sound.WITHER_IDLE, 1.25f, 0.55f);
-        particles.show(Particles.ParticleType.PORTAL, particleLocation, new Float[]{0.0f, 0.0f, 0.0f}, 2, 2500);
+
+        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
+                EnumParticle.PORTAL, false,
+                particleLocation.getBlockX(), particleLocation.getBlockY(), particleLocation.getBlockZ(),
+                0.0f, 0.0f, 0.0f, 2, 2500, null);
+
+        for (Player serverPlayer : player.getWorld().getPlayers())
+            ((CraftPlayer) serverPlayer).getHandle().playerConnection.sendPacket(packet);
 
         commonString.messageSend(getPlugin(), player, true, RB_FZ_SUCCESS);
 

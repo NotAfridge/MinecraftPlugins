@@ -1,7 +1,7 @@
 package com.ullarah.urocket.command;
 
-import com.ullarah.urocket.RocketEnhancement;
-import com.ullarah.urocket.RocketVariant;
+import com.ullarah.urocket.init.RocketEnhancement;
+import com.ullarah.urocket.init.RocketVariant;
 import com.ullarah.urocket.recipe.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

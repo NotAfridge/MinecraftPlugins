@@ -1,6 +1,6 @@
-package com.ullarah.urocket;
+package com.ullarah.urocket.init;
 
-import com.ullarah.ulib.function.PluginRegisters;
+import com.ullarah.urocket.function.PluginRegisters;
 import com.ullarah.urocket.recipe.RocketVariants;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.ChatColor;
@@ -12,9 +12,9 @@ import org.bukkit.util.Vector;
 
 import java.util.Random;
 
-import static com.ullarah.ulib.function.PluginRegisters.RegisterType.RECIPE;
 import static com.ullarah.urocket.RocketInit.getPlugin;
 import static com.ullarah.urocket.RocketInit.registerMap;
+import static com.ullarah.urocket.function.PluginRegisters.RegisterType.RECIPE;
 
 public class RocketVariant {
 

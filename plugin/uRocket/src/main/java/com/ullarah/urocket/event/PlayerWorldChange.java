@@ -1,9 +1,9 @@
 package com.ullarah.urocket.event;
 
-import com.ullarah.ulib.function.CommonString;
-import com.ullarah.ulib.function.GamemodeCheck;
-import com.ullarah.ulib.function.TitleSubtitle;
 import com.ullarah.urocket.RocketFunctions;
+import com.ullarah.urocket.function.CommonString;
+import com.ullarah.urocket.function.GamemodeCheck;
+import com.ullarah.urocket.function.TitleSubtitle;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 
 import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.RocketLanguage.RB_WORLD_CHANGE;
+import static com.ullarah.urocket.init.RocketLanguage.RB_WORLD_CHANGE;
 
 public class PlayerWorldChange implements Listener {
 

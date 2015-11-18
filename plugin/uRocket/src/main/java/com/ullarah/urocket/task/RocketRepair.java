@@ -7,9 +7,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
-import static com.ullarah.urocket.RocketEnhancement.Enhancement.REPAIR;
 import static com.ullarah.urocket.RocketInit.pluginName;
 import static com.ullarah.urocket.RocketInit.rocketEnhancement;
+import static com.ullarah.urocket.init.RocketEnhancement.Enhancement.REPAIR;
 
 public class RocketRepair {
 

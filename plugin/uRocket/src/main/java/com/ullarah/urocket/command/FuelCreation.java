@@ -1,6 +1,6 @@
 package com.ullarah.urocket.command;
 
-import com.ullarah.ulib.function.CommonString;
+import com.ullarah.urocket.function.CommonString;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -11,8 +11,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.ullarah.urocket.RocketInit.getPlugin;
-import static com.ullarah.urocket.RocketLanguage.RB_JACKET_CREATE_ERROR;
-import static com.ullarah.urocket.RocketLanguage.RB_JACKET_SAVE_ERROR;
+import static com.ullarah.urocket.init.RocketLanguage.RB_JACKET_CREATE_ERROR;
+import static com.ullarah.urocket.init.RocketLanguage.RB_JACKET_SAVE_ERROR;
 
 public class FuelCreation {
 

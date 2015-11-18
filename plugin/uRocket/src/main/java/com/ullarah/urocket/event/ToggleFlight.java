@@ -1,7 +1,7 @@
 package com.ullarah.urocket.event;
 
-import com.ullarah.ulib.function.*;
 import com.ullarah.urocket.RocketFunctions;
+import com.ullarah.urocket.function.*;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -16,10 +16,10 @@ import org.bukkit.util.Vector;
 import java.util.Random;
 
 import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.RocketLanguage.*;
-import static com.ullarah.urocket.RocketVariant.Variant;
-import static com.ullarah.urocket.RocketVariant.Variant.ORIGINAL;
-import static com.ullarah.urocket.RocketVariant.Variant.RUNNER;
+import static com.ullarah.urocket.init.RocketLanguage.*;
+import static com.ullarah.urocket.init.RocketVariant.Variant;
+import static com.ullarah.urocket.init.RocketVariant.Variant.ORIGINAL;
+import static com.ullarah.urocket.init.RocketVariant.Variant.RUNNER;
 
 public class ToggleFlight implements Listener {
 

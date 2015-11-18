@@ -1,7 +1,9 @@
 package com.ullarah.urocket;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.ullarah.ulib.function.PluginRegisters;
+import com.ullarah.urocket.function.PluginRegisters;
+import com.ullarah.urocket.init.RocketEnhancement;
+import com.ullarah.urocket.init.RocketVariant;
 import com.ullarah.urocket.recipe.*;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.lang3.StringUtils;
@@ -18,9 +20,9 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 
-import static com.ullarah.ulib.function.PluginRegisters.RegisterType.*;
-import static com.ullarah.urocket.RocketEnhancement.Enhancement;
-import static com.ullarah.urocket.RocketVariant.Variant;
+import static com.ullarah.urocket.function.PluginRegisters.RegisterType.*;
+import static com.ullarah.urocket.init.RocketEnhancement.Enhancement;
+import static com.ullarah.urocket.init.RocketVariant.Variant;
 
 public class RocketInit extends JavaPlugin {
 

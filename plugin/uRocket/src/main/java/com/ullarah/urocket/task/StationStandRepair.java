@@ -1,7 +1,7 @@
 package com.ullarah.urocket.task;
 
-import com.ullarah.ulib.function.SignText;
 import com.ullarah.urocket.RocketFunctions;
+import com.ullarah.urocket.function.SignText;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.bukkit.*;

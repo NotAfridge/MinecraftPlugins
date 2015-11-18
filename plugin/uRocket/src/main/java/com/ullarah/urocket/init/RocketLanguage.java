@@ -1,4 +1,4 @@
-package com.ullarah.urocket;
+package com.ullarah.urocket.init;
 
 import org.bukkit.ChatColor;
 

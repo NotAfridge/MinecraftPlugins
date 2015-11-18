@@ -1,6 +1,6 @@
 package com.ullarah.urocket.event;
 
-import com.ullarah.ulib.function.CommonString;
+import com.ullarah.urocket.function.CommonString;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static com.ullarah.urocket.RocketInit.getPlugin;
-import static com.ullarah.urocket.RocketLanguage.RB_JACKET_SAVE_ERROR;
+import static com.ullarah.urocket.init.RocketLanguage.RB_JACKET_SAVE_ERROR;
 
 public class JacketClose implements Listener {
 

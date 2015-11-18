@@ -18,7 +18,7 @@ import java.util.UUID;
 
 import static com.ullarah.urocket.RocketInit.rocketEntity;
 import static com.ullarah.urocket.RocketInit.rocketJacket;
-import static com.ullarah.urocket.RocketLanguage.RB_USELESS;
+import static com.ullarah.urocket.init.RocketLanguage.RB_USELESS;
 
 public class InventoryClick implements Listener {
 

@@ -1,7 +1,7 @@
 package com.ullarah.urocket.event;
 
-import com.ullarah.ulib.function.CommonString;
 import com.ullarah.urocket.RocketFunctions;
+import com.ullarah.urocket.function.CommonString;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,8 +14,8 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.UUID;
 
 import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.RocketLanguage.*;
-import static com.ullarah.urocket.RocketVariant.Variant.RUNNER;
+import static com.ullarah.urocket.init.RocketLanguage.*;
+import static com.ullarah.urocket.init.RocketVariant.Variant.RUNNER;
 
 public class ToggleSprint implements Listener {
 

@@ -1,8 +1,8 @@
 package com.ullarah.urocket.event;
 
-import com.ullarah.ulib.function.CommonString;
-import com.ullarah.ulib.function.InsideCuboid;
 import com.ullarah.urocket.RocketFunctions;
+import com.ullarah.urocket.function.CommonString;
+import com.ullarah.urocket.function.InsideCuboid;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -21,7 +21,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.RocketLanguage.*;
+import static com.ullarah.urocket.init.RocketLanguage.*;
 
 public class BlockPlace implements Listener {
 

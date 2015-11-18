@@ -1,9 +1,9 @@
 package com.ullarah.urocket.event;
 
-import com.ullarah.ulib.function.CommonString;
-import com.ullarah.ulib.function.GamemodeCheck;
-import com.ullarah.ulib.function.GroundFire;
-import com.ullarah.ulib.function.TitleSubtitle;
+import com.ullarah.urocket.function.CommonString;
+import com.ullarah.urocket.function.GamemodeCheck;
+import com.ullarah.urocket.function.GroundFire;
+import com.ullarah.urocket.function.TitleSubtitle;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -18,8 +18,8 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.RocketLanguage.*;
-import static com.ullarah.urocket.RocketVariant.Variant;
+import static com.ullarah.urocket.init.RocketLanguage.*;
+import static com.ullarah.urocket.init.RocketVariant.Variant;
 
 public class PlayerMove implements Listener {
 

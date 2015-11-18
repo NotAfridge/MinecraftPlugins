@@ -1,8 +1,8 @@
 package com.ullarah.urocket.event;
 
-import com.ullarah.ulib.function.CommonString;
-import com.ullarah.ulib.function.SignText;
 import com.ullarah.urocket.RocketFunctions;
+import com.ullarah.urocket.function.CommonString;
+import com.ullarah.urocket.function.SignText;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -19,7 +19,7 @@ import java.util.List;
 
 import static com.ullarah.urocket.RocketInit.getPlugin;
 import static com.ullarah.urocket.RocketInit.rocketRepairStand;
-import static com.ullarah.urocket.RocketLanguage.RB_RS_CHANGE;
+import static com.ullarah.urocket.init.RocketLanguage.RB_RS_CHANGE;
 
 public class StandChange implements Listener {
 

@@ -1,8 +1,8 @@
 package com.ullarah.urocket.event;
 
-import com.ullarah.ulib.function.CommonString;
-import com.ullarah.ulib.function.InsideCuboid;
-import com.ullarah.ulib.function.TitleSubtitle;
+import com.ullarah.urocket.function.CommonString;
+import com.ullarah.urocket.function.InsideCuboid;
+import com.ullarah.urocket.function.TitleSubtitle;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -15,8 +15,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.RocketLanguage.RB_DISABLE;
-import static com.ullarah.urocket.RocketLanguage.RB_FZ_ENTRY;
+import static com.ullarah.urocket.init.RocketLanguage.RB_DISABLE;
+import static com.ullarah.urocket.init.RocketLanguage.RB_FZ_ENTRY;
 
 public class ZoneCheck implements Listener {
 

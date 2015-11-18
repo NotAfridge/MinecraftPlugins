@@ -1,6 +1,6 @@
 package com.ullarah.urocket.recipe;
 
-import com.ullarah.ulib.function.NewRecipe;
+import com.ullarah.urocket.function.NewRecipe;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;

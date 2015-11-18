@@ -1,7 +1,7 @@
 package com.ullarah.urocket.task;
 
-import com.ullarah.ulib.function.CommonString;
 import com.ullarah.urocket.RocketFunctions;
+import com.ullarah.urocket.function.CommonString;
 import org.apache.commons.io.output.StringBuilderWriter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,10 +15,10 @@ import org.bukkit.util.Vector;
 import java.util.Random;
 import java.util.UUID;
 
-import static com.ullarah.urocket.RocketEnhancement.Enhancement.*;
 import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.RocketLanguage.*;
-import static com.ullarah.urocket.RocketVariant.Variant;
+import static com.ullarah.urocket.init.RocketEnhancement.Enhancement.*;
+import static com.ullarah.urocket.init.RocketLanguage.*;
+import static com.ullarah.urocket.init.RocketVariant.Variant;
 
 public class RocketFuel {
 

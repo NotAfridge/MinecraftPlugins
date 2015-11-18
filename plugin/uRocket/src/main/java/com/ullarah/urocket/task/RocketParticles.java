@@ -1,6 +1,6 @@
 package com.ullarah.urocket.task;
 
-import com.ullarah.ulib.function.GamemodeCheck;
+import com.ullarah.urocket.function.GamemodeCheck;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.bukkit.Bukkit;
@@ -16,8 +16,8 @@ import java.util.Random;
 import java.util.UUID;
 
 import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.RocketVariant.Variant;
-import static com.ullarah.urocket.RocketVariant.Variant.*;
+import static com.ullarah.urocket.init.RocketVariant.Variant;
+import static com.ullarah.urocket.init.RocketVariant.Variant.*;
 import static org.bukkit.Material.LEATHER_BOOTS;
 
 public class RocketParticles {

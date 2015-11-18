@@ -1,8 +1,8 @@
 package com.ullarah.urocket;
 
-import com.ullarah.ulib.function.CommonString;
 import com.ullarah.urocket.command.DisplayComponentChest;
 import com.ullarah.urocket.command.DisplayHelp;
+import com.ullarah.urocket.function.CommonString;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

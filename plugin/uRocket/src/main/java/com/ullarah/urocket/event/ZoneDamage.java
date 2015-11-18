@@ -1,8 +1,8 @@
 package com.ullarah.urocket.event;
 
-import com.ullarah.ulib.function.CommonString;
-import com.ullarah.ulib.function.FakeExplosion;
 import com.ullarah.urocket.RocketFunctions;
+import com.ullarah.urocket.function.CommonString;
+import com.ullarah.urocket.function.FakeExplosion;
 import com.ullarah.urocket.recipe.RocketFlyZone;
 import org.bukkit.Location;
 import org.bukkit.entity.EnderCrystal;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.ullarah.urocket.RocketInit.getPlugin;
-import static com.ullarah.urocket.RocketLanguage.RB_FZ_REMOVE;
+import static com.ullarah.urocket.init.RocketLanguage.RB_FZ_REMOVE;
 import static org.bukkit.event.hanging.HangingBreakEvent.RemoveCause.EXPLOSION;
 
 public class ZoneDamage implements Listener {

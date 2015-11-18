@@ -1,6 +1,6 @@
 package com.ullarah.urocket.event;
 
-import com.ullarah.ulib.function.TitleSubtitle;
+import com.ullarah.urocket.function.TitleSubtitle;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
