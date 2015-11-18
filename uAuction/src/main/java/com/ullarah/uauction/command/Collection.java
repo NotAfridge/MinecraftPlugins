@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.ullarah.uauction.Init.*;
 import static com.ullarah.uauction.command.Bidding.currentBid;
@@ -59,8 +60,8 @@ public class Collection {
 
                     if (auctionBox.get("item") != null) {
 
-                        for (Object inboxCurrentItem : auctionBox.getList("item"))
-                            boxItemStack.add((ItemStack) inboxCurrentItem);
+                        boxItemStack.addAll(auctionBox.getList("item").stream().map(inboxCurrentItem
+                                -> (ItemStack) inboxCurrentItem).collect(Collectors.toList()));
 
                         auctionBoxContents.setContents(boxItemStack.toArray(new ItemStack[boxItemStack.size()]));
                     }
@@ -104,8 +105,8 @@ public class Collection {
 
                     if (auctionBox.get("item") != null) {
 
-                        for (Object inboxCurrentItem : auctionBox.getList("item"))
-                            boxItemStack.add((ItemStack) inboxCurrentItem);
+                        boxItemStack.addAll(auctionBox.getList("item").stream().map(inboxCurrentItem
+                                -> (ItemStack) inboxCurrentItem).collect(Collectors.toList()));
 
                         auctionBoxContents.setContents(boxItemStack.toArray(new ItemStack[boxItemStack.size()]));
                     }
@@ -124,10 +125,8 @@ public class Collection {
 
         final Player winner = (Player) sender;
 
-        final List<String> auctions = new ArrayList<>();
-
-        for (Map.Entry<String, UUID> entry : winnerAlerts.entrySet())
-            if (winner.getUniqueId().equals(entry.getValue())) auctions.add(entry.getKey());
+        final List<String> auctions = winnerAlerts.entrySet().stream().filter(entry
+                -> winner.getUniqueId().equals(entry.getValue())).map(Map.Entry::getKey).collect(Collectors.toList());
 
         if (auctions.size() > 0) {
 
