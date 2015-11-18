@@ -1,29 +1,29 @@
-joinChar: ' »» '
-quitChar: ' «« '
+joinChar: ' &a>>&r '
+quitChar: ' &c<<&r '
 joinMessages:
-- We meet again, {player}!
-- Hey hey, {player}!
-- So we meet again {player}...
-- Never fear, {player} is here!
-- Say hello to {player}!
-- Well well well, if it isn't {player}...
-- Sshh quiet everybody... {player} is back!
-- Welcome back {player}!
-- Thought you would be back {player}!
-- Why hello there {player}!
-- '&6{player} is back for more exciting adventures!'
-- Hi, {player} Mays here for...
-- What is this {player}? A joining message for ANTS?!
-- Maybe they're born with it, maybe it's {player}
+  - We meet again, {player}!
+  - Hey hey, {player}!
+  - So we meet again {player}...
+  - Never fear, {player} is here!
+  - Say hello to {player}!
+  - Well well well, if it isn't {player}...
+  - Sshh quiet everybody... {player} is back!
+  - Welcome back {player}!
+  - Thought you would be back {player}!
+  - Why hello there {player}!
+  - '&6{player} is back for more exciting adventures!'
+  - Hi, {player} Mays here for...
+  - What is this {player}? A joining message for ANTS?!
+  - Maybe they're born with it, maybe it's {player}
 quitMessages:
-- '&cBye bye, {player}!'
-- Seeya later, {player}!
-- '{player} just left us...'
-- Just like Elvis, {player} has left the building!
-- It's going to get lonely now without {player}...
-- I hope {player} comes back soon!
-- '{player} went crazy and joined the circus!'
-- How rude {player}, just leaving everybody!
-- '&lBAM&f, and the {player} is gone!'
-- '{player} disappeared, just like that!'
-- Oops, looks like {player} accidentally quit!
+  - '&cBye bye, {player}!'
+  - Seeya later, {player}!
+  - '{player} just left us...'
+  - Just like Elvis, {player} has left the building!
+  - It's going to get lonely now without {player}...
+  - I hope {player} comes back soon!
+  - '{player} went crazy and joined the circus!'
+  - How rude {player}, just leaving everybody!
+  - '&lBAM&f, and the {player} is gone!'
+  - '{player} disappeared, just like that!'
+  - Oops, looks like {player} accidentally quit!
