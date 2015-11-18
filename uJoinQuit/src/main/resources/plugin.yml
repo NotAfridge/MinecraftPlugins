@@ -1,0 +1,27 @@
+name: ${project.name}
+version: ${project.version}
+description: ${project.description}
+
+author: Ullarah
+
+main: ${project.groupId}.${project.artifactId}.JoinQuitInit
+
+commands:
+  jq:
+    description: Display JoinQuit Help.
+    usage: |
+      <command> : Shows Help.
+      <command> join : Shows Join Messages.
+      <command> quit : Shows Quit Messages.
+      <command> clear : Clears both Join and Quit Messages.
+      <command> extra : Shows different Join and Quit Options.
+
+permissions:
+  jq.access:
+    description: Allows the use of JoinQuit
+  jq.extra:
+    description: Allows the use of different options.
+  jq.join:
+    description: Allows the use of join messages.
+  jq.quit:
+    description: Allows the use of quit messages.

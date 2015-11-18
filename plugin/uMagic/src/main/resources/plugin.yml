@@ -1,9 +1,0 @@
-name: uMagic
-version: ${project.version}
-description: ${project.description}
-
-author: Ullarah
-
-softdepend: [WorldEdit, WorldGuard]
-
-main: com.ullarah.umagic.MagicInit

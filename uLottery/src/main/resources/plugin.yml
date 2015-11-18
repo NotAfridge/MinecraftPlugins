@@ -1,0 +1,13 @@
+name: ${project.name}
+version: ${project.version}
+description: ${project.description}
+
+author: Ullarah
+
+main: ${project.groupId}.${project.artifactId}.LotteryInit
+
+depend: [Vault]
+
+commands:
+  dlot:
+    description: Help and Bank Total

@@ -1,7 +1,0 @@
-name: uWild
-version: ${project.version}
-description: ${project.description}
-
-author: Ullarah
-
-main: com.ullarah.uwild.Init

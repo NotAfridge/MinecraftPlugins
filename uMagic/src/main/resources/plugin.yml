@@ -1,0 +1,9 @@
+name: ${project.name}
+version: ${project.version}
+description: ${project.description}
+
+author: Ullarah
+
+softdepend: [WorldEdit, WorldGuard]
+
+main: ${project.groupId}.${project.artifactId}.MagicInit
