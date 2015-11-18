@@ -61,8 +61,6 @@ public class JoinQuitFunctions {
 
     public static String replacePlayerString(Player player, String message) {
 
-        Collection onlinePlayers = Bukkit.getOnlinePlayers();
-        Player randomPlayer = (Player) onlinePlayers.toArray()[new Random().nextInt(onlinePlayers.size() - 1)];
         if (lastPlayer.equals(player.getPlayerListName())) lastPlayer = "nobody";
 
         if (message.contains("{player}"))
@@ -77,8 +75,15 @@ public class JoinQuitFunctions {
         if (message.contains("{p_player}"))
             message = message.replaceAll("\\{p_player\\}", lastPlayer);
 
-        if (message.contains("{r_player}"))
-            message = message.replaceAll("\\{r_player\\}", randomPlayer.getPlayerListName());
+        if (message.contains("{r_player}")) {
+            String playerName = "nobody";
+            Collection onlinePlayers = Bukkit.getOnlinePlayers();
+            if (onlinePlayers.size() > 1) {
+                Player randomPlayer = (Player) onlinePlayers.toArray()[new Random().nextInt(onlinePlayers.size() - 1)];
+                playerName = randomPlayer.getPlayerListName();
+            }
+            message = message.replaceAll("\\{r_player\\}", playerName);
+        }
 
         return message;
 
