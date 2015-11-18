@@ -10,3 +10,18 @@ All the plugins. In one place. Such lazy. Easy.
  
 Don't come complaining to me if things aren't working.  
 [Use the wiki for more information](https://github.com/Ullarah/MinecraftPlugins/wiki)
+
+| Plugin    | Status          |
+| --------- | --------------- |
+| uAuction  | Requires Recode |
+| uBeacon   | In Progress     |
+| uChest    | Ready           |
+| uJoinQuit | Ready           |
+| uLottery  | Ready           |
+| uMagic    | Ready           |
+| uPostal   | Ready           |
+| uRocket   | Ready           |
+| uTab      | Ready           |
+| uTeleport | Ready           |
+| uWatch    | Do Not Use      |
+| uWild     | In Progress     |
