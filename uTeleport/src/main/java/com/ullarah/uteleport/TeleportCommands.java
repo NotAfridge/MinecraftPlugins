@@ -28,15 +28,17 @@ public class TeleportCommands implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
 
+        CommonString commonString = new CommonString();
+
         if (!(sender instanceof Player)) {
-            new CommonString().messageNoConsole(getPlugin(), sender);
+            commonString.messageNoConsole(getPlugin(), sender);
             return true;
         }
 
         Player player = (Player) sender;
 
         if (!player.hasPermission("uteleport.use")) {
-            new CommonString().messagePermDeny(getPlugin(), player);
+            commonString.messagePermDeny(getPlugin(), player);
             return true;
         }
 
@@ -44,7 +46,7 @@ public class TeleportCommands implements CommandExecutor {
 
         if (!historyMap.containsKey(player.getUniqueId())) {
 
-            new CommonString().messageSend(getPlugin(), player, true, new String[]{"No teleport history found."});
+            commonString.messageSend(getPlugin(), player, true, "No teleport history found.");
 
         } else {
 
@@ -76,7 +78,7 @@ public class TeleportCommands implements CommandExecutor {
 
                     if (locations.contains(location)) {
                         if (historyBlock.contains(player.getUniqueId()))
-                            new CommonString().messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Slow down there..."});
+                            commonString.messageSend(getPlugin(), player, true, ChatColor.RED + "Slow down there...");
                         else {
                             historyBlock.add(player.getUniqueId());
                             new BukkitRunnable() {
@@ -92,20 +94,20 @@ public class TeleportCommands implements CommandExecutor {
                                     b--;
                                 }
                             }.runTaskTimer(getPlugin(), 0, 20);
-                            new CommonString().messageSend(getPlugin(), player, true, new String[]{ChatColor.GREEN + "Teleporting..."});
+                            commonString.messageSend(getPlugin(), player, true, ChatColor.GREEN + "Teleporting...");
                             player.teleport(location);
                         }
                     } else
-                        new CommonString().messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Teleport entry not found."});
+                        commonString.messageSend(getPlugin(), player, true, ChatColor.RED + "Teleport entry not found.");
 
                 }
 
             } else {
 
-                new CommonString().messageSend(getPlugin(), player, true, new String[]{
+                commonString.messageSend(getPlugin(), player, true,
                         "Teleport History - Click " +
                                 ChatColor.LIGHT_PURPLE + "[" + ChatColor.DARK_PURPLE + "TP" + ChatColor.LIGHT_PURPLE + "]" +
-                                ChatColor.RESET + " for teleportation."});
+                                ChatColor.RESET + " for teleportation.");
 
                 for (Location location : locations) {
 
