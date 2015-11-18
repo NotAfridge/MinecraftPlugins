@@ -13,12 +13,12 @@ import java.util.Collections;
 
 public class RepairStation implements NewRecipe {
 
-    public static ItemStack station() {
+    public ItemStack station() {
 
         ItemStack station = new ItemStack(Material.BEACON, 1);
 
         ItemMeta stationMeta = station.getItemMeta();
-        stationMeta.setDisplayName(ChatColor.RED + "Rocket Repair Station");
+        stationMeta.setDisplayName(ChatColor.RED + "Rocket Boot Repair Station");
         stationMeta.setLore(Collections.singletonList(ChatColor.YELLOW + "Place it on top of a Repair Tank!"));
         stationMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 

@@ -46,12 +46,12 @@ public class CraftStandard implements Listener {
 
             for (ItemStack control : rocketControls)
                 if (control.hasItemMeta()) if (control.getItemMeta().hasDisplayName())
-                    hasControls = control.getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Control");
+                    hasControls = control.getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Boot Control");
             if (!getSlot[0].equals(getSlot[2])) hasControls = false;
 
             for (ItemStack booster : rocketBoosters)
                 if (booster.hasItemMeta()) if (booster.getItemMeta().hasDisplayName())
-                    hasBoosters = booster.getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Booster");
+                    hasBoosters = booster.getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Boot Booster");
             if (!getSlot[6].equals(getSlot[8])) hasBoosters = false;
 
             if (hasBoosters) {

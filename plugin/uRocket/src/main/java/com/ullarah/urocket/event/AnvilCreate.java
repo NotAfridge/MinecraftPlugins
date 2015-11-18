@@ -22,7 +22,9 @@ import java.util.regex.Pattern;
 public class AnvilCreate implements Listener {
 
     @EventHandler
-    public static void onInventoryClick(InventoryClickEvent event) {
+    public void onInventoryClick(InventoryClickEvent event) {
+
+        TitleSubtitle titleSubtitle = new TitleSubtitle();
 
         Inventory inventory = event.getClickedInventory();
 
@@ -74,7 +76,7 @@ public class AnvilCreate implements Listener {
                                             player.getWorld().dropItemNaturally(player.getEyeLocation(), boosterTen);
                                             player.closeInventory();
 
-                                            new TitleSubtitle().subtitle(player, 3, "" + ChatColor.RED + ChatColor.BOLD + "Booster Level X created...");
+                                            titleSubtitle.subtitle(player, 3, "" + ChatColor.RED + ChatColor.BOLD + "Booster Level X created...");
 
                                             for (Player onlinePlayer : Bukkit.getOnlinePlayers())
                                                 onlinePlayer.playSound(onlinePlayer.getEyeLocation(),

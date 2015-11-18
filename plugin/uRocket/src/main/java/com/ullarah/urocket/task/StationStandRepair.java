@@ -1,6 +1,7 @@
 package com.ullarah.urocket.task;
 
 import com.ullarah.ulib.function.SignText;
+import com.ullarah.urocket.RocketFunctions;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.bukkit.*;
@@ -14,8 +15,6 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.*;
 
-import static com.ullarah.urocket.RocketFunctions.getBootDurability;
-import static com.ullarah.urocket.RocketFunctions.getBootRepairRate;
 import static com.ullarah.urocket.RocketInit.pluginName;
 import static com.ullarah.urocket.RocketInit.rocketRepairStand;
 
@@ -24,6 +23,8 @@ public class StationStandRepair {
     public void task() {
 
         Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+        RocketFunctions rocketFunctions = new RocketFunctions();
+        SignText signText = new SignText();
 
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
                 () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
@@ -59,17 +60,17 @@ public class StationStandRepair {
 
                                         if (standBoots.hasItemMeta()) {
 
-                                            Integer bootRepair = getBootRepairRate(standBoots);
+                                            Integer bootRepair = rocketFunctions.getBootRepairRate(standBoots);
 
                                             short bootDurability = standBoots.getDurability();
-                                            int bootMaterialDurability = getBootDurability(standBoots);
+                                            int bootMaterialDurability = rocketFunctions.getBootDurability(standBoots);
 
                                             int bootHealthOriginal = (bootMaterialDurability - bootDurability);
                                             int bootHealthNew = ((bootMaterialDurability - bootDurability) + bootRepair);
 
                                             String bootType = ChatColor.stripColor(standBoots.getItemMeta().getLore().get(0));
 
-                                            new SignText().changeAllCheck(beaconSign, 0, "[Repair Status]", false,
+                                            signText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
                                                     new String[]{
                                                             "[Repair Status]",
                                                             ChatColor.STRIKETHROUGH + "--------------",
@@ -83,7 +84,7 @@ public class StationStandRepair {
 
                                                 if (bootHealthNew > bootMaterialDurability) {
 
-                                                    new SignText().changeAllCheck(beaconSign, 0, "[Repair Status]", false,
+                                                    signText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
                                                             new String[]{
                                                                     "[Repair Status]",
                                                                     ChatColor.STRIKETHROUGH + "--------------",
@@ -108,14 +109,14 @@ public class StationStandRepair {
                                                 }
 
                                             } else {
-                                                new SignText().clearLine(beaconSign, new Integer[]{2, 3});
+                                                signText.clearLine(beaconSign, new Integer[]{2, 3});
                                                 rocketRepairStand.remove(stand.getUniqueId());
                                             }
 
                                         }
 
                                     } else {
-                                        new SignText().changeLine(beaconSign,
+                                        signText.changeLine(beaconSign,
                                                 new HashMap<Integer, String>() {{
                                                     put(2, "Repair Tank");
                                                     put(3, "Empty");

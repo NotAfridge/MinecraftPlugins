@@ -13,12 +13,12 @@ import java.util.Collections;
 
 public class RocketFlyZone implements NewRecipe {
 
-    public static ItemStack zone() {
+    public ItemStack zone() {
 
         ItemStack zone = new ItemStack(Material.ENDER_PORTAL_FRAME, 1);
 
         ItemMeta zoneMeta = zone.getItemMeta();
-        zoneMeta.setDisplayName(ChatColor.RED + "Rocket Fly Zone Controller");
+        zoneMeta.setDisplayName(ChatColor.RED + "Rocket Boot Fly Zone Controller");
         zoneMeta.setLore(Collections.singletonList(ChatColor.YELLOW + "Stop players flying in your area!"));
 
         zoneMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);

@@ -2,6 +2,7 @@ package com.ullarah.urocket.task;
 
 import com.ullarah.ulib.function.CommonString;
 import com.ullarah.ulib.function.TitleSubtitle;
+import com.ullarah.urocket.RocketFunctions;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.bukkit.*;
@@ -13,8 +14,6 @@ import org.bukkit.plugin.Plugin;
 import java.util.Map;
 import java.util.UUID;
 
-import static com.ullarah.urocket.RocketFunctions.getBootDurability;
-import static com.ullarah.urocket.RocketFunctions.getBootRepairRate;
 import static com.ullarah.urocket.RocketInit.*;
 
 public class StationRepair {
@@ -22,6 +21,9 @@ public class StationRepair {
     public void task() {
 
         Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+        RocketFunctions rocketFunctions = new RocketFunctions();
+        CommonString commonString = new CommonString();
+        TitleSubtitle titleSubtitle = new TitleSubtitle();
 
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
                 () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
@@ -40,10 +42,10 @@ public class StationRepair {
 
                                 if (playerBoots.hasItemMeta()) {
 
-                                    Integer bootRepair = getBootRepairRate(playerBoots);
+                                    Integer bootRepair = rocketFunctions.getBootRepairRate(playerBoots);
 
                                     short bootDurability = playerBoots.getDurability();
-                                    int bootMaterialDurability = getBootDurability(playerBoots);
+                                    int bootMaterialDurability = rocketFunctions.getBootDurability(playerBoots);
 
                                     int bootHealthOriginal = (bootMaterialDurability - bootDurability);
                                     int bootHealthNew = ((bootMaterialDurability - bootDurability) + bootRepair);
@@ -72,8 +74,8 @@ public class StationRepair {
                                         if (bootHealthNew > bootMaterialDurability) {
 
                                             String repairDone = "Rocket Boots have been fully repaired!";
-                                            new CommonString().messageSend(getPlugin(), player, true, repairDone);
-                                            new TitleSubtitle().title(player, 5, repairDone);
+                                            commonString.messageSend(getPlugin(), player, true, repairDone);
+                                            titleSubtitle.title(player, 5, repairDone);
 
                                             player.getWorld().playSound(player.getEyeLocation(), Sound.LEVEL_UP, 0.8f, 1.0f);
 
@@ -82,12 +84,12 @@ public class StationRepair {
                                             String bootDurabilityMessage = "" + ChatColor.YELLOW + bootHealthNew + " / 195";
                                             String bootEstimationMessage = "Full Repair Estimate: " + ChatColor.YELLOW + bootRepairMinute;
 
-                                            new CommonString().messageSend(getPlugin(), player, true, new String[]{
+                                            commonString.messageSend(getPlugin(), player, true, new String[]{
                                                     "Rocket Boot Durability: " + bootDurabilityMessage,
                                                     "Full Repair Estimate: " + bootEstimationMessage
                                             });
 
-                                            new TitleSubtitle().both(player, 5, bootDurabilityMessage, bootEstimationMessage);
+                                            titleSubtitle.both(player, 5, bootDurabilityMessage, bootEstimationMessage);
 
                                             float x = (float) player.getLocation().getX();
                                             float y = (float) player.getLocation().getY();
@@ -104,14 +106,14 @@ public class StationRepair {
 
                                     } else {
 
-                                        new CommonString().messageSend(getPlugin(), player, true, "Rocket Boots are already at full durability!");
+                                        commonString.messageSend(getPlugin(), player, true, "Rocket Boots are already at full durability!");
                                         player.getWorld().playSound(player.getEyeLocation(), Sound.LEVEL_UP, 0.8f, 1.0f);
 
                                     }
 
                                 } else {
 
-                                    new CommonString().messageSend(getPlugin(), player, true, ChatColor.RED + "Rocket Boots failed to repair!");
+                                    commonString.messageSend(getPlugin(), player, true, ChatColor.RED + "Rocket Boots failed to repair!");
                                     player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 0.5f, 0.5f);
                                     rocketRepair.remove(player.getUniqueId());
 
@@ -119,7 +121,7 @@ public class StationRepair {
 
                             } else {
 
-                                new CommonString().messageSend(getPlugin(), player, true, ChatColor.RED + "Repair Tank ran out of fuel!");
+                                commonString.messageSend(getPlugin(), player, true, ChatColor.RED + "Repair Tank ran out of fuel!");
                                 player.getWorld().playSound(player.getEyeLocation(), Sound.ANVIL_BREAK, 0.6f, 1.0f);
                                 rocketRepair.remove(player.getUniqueId());
 

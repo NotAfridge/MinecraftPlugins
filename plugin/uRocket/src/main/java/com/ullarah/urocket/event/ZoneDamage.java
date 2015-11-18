@@ -2,6 +2,7 @@ package com.ullarah.urocket.event;
 
 import com.ullarah.ulib.function.CommonString;
 import com.ullarah.ulib.function.FakeExplosion;
+import com.ullarah.urocket.RocketFunctions;
 import com.ullarah.urocket.recipe.RocketFlyZone;
 import org.bukkit.Location;
 import org.bukkit.entity.EnderCrystal;
@@ -15,7 +16,6 @@ import org.bukkit.event.hanging.HangingBreakEvent;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.ullarah.urocket.RocketFunctions.reloadFlyZones;
 import static com.ullarah.urocket.RocketInit.getPlugin;
 import static com.ullarah.urocket.RocketLanguage.RB_FZ_REMOVE;
 import static org.bukkit.event.hanging.HangingBreakEvent.RemoveCause.EXPLOSION;
@@ -24,6 +24,10 @@ public class ZoneDamage implements Listener {
 
     @EventHandler
     public void zoneCrystalDamage(EntityDamageByEntityEvent event) {
+
+        RocketFunctions rocketFunctions = new RocketFunctions();
+        CommonString commonString = new CommonString();
+        FakeExplosion fakeExplosion = new FakeExplosion();
 
         if (event.getEntity() instanceof EnderCrystal) {
 
@@ -43,20 +47,20 @@ public class ZoneDamage implements Listener {
 
             if (zoneList.contains(zoneOriginal) || event.getDamager().hasPermission("rocket.remove")) {
 
-                new CommonString().messageSend(getPlugin(), event.getDamager(), true, RB_FZ_REMOVE);
+                commonString.messageSend(getPlugin(), event.getDamager(), true, RB_FZ_REMOVE);
 
                 zoneList.remove(newZoneList.indexOf(zoneNew));
                 zoneEntity.remove();
 
-                new FakeExplosion().create(entityLocation, 4, FakeExplosion.ExplosionType.LARGE);
+                fakeExplosion.create(entityLocation, 4, FakeExplosion.ExplosionType.LARGE);
                 entityLocation.getWorld().strikeLightningEffect(entityLocation);
 
-                zoneEntity.getWorld().dropItemNaturally(entityLocation, RocketFlyZone.zone());
+                zoneEntity.getWorld().dropItemNaturally(entityLocation, new RocketFlyZone().zone());
 
                 getPlugin().getConfig().set("zones", zoneList);
                 getPlugin().saveConfig();
 
-                reloadFlyZones(false);
+                rocketFunctions.reloadFlyZones(false);
 
             } else event.setCancelled(true);
 

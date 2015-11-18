@@ -10,33 +10,30 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RocketEnhance implements NewRecipe {
 
     private final String enhancementName;
     private final Material enhancementMaterial;
-    private final List<String> enhancementLore;
 
-    public RocketEnhance(String name, Material material, List<String> lore) {
+    public RocketEnhance(String name, Material material) {
 
         enhancementName = name;
         enhancementMaterial = material;
-        enhancementLore = lore;
 
     }
 
-    public static ItemStack enhancement(String name, List<String> lore) {
+    public static ItemStack enhancement(String name) {
 
         ItemStack enhancement = new ItemStack(Material.NETHER_STAR, 1);
         ItemMeta enhancementMeta = enhancement.getItemMeta();
 
         enhancementMeta.setDisplayName(ChatColor.AQUA + "Rocket Boot Enhancement");
 
-        lore = new ArrayList<>(lore); // You would think that this is silly right?
-        lore.add(0, name);            // Well it's not, try adding without creating a new ArrayList...
+        ArrayList<String> enhancementLore = new ArrayList<>();
+        enhancementLore.add(0, name);
 
-        enhancementMeta.setLore(lore);
+        enhancementMeta.setLore(enhancementLore);
 
         enhancementMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         enhancement.setItemMeta(enhancementMeta);
@@ -49,8 +46,8 @@ public class RocketEnhance implements NewRecipe {
 
     public ShapedRecipe recipe() {
 
-        ShapedRecipe enhanceRecipe = new ShapedRecipe(enhancement(enhancementName, enhancementLore));
-        enhanceRecipe.shape("E E", "NRN");
+        ShapedRecipe enhanceRecipe = new ShapedRecipe(enhancement(enhancementName));
+        enhanceRecipe.shape("EEE", "NRN");
 
         enhanceRecipe.setIngredient('E', enhancementMaterial);
         enhanceRecipe.setIngredient('N', Material.NETHER_STAR);

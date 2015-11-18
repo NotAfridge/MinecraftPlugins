@@ -26,6 +26,7 @@ public class NotePlaying {
     public void task() {
 
         Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+        GamemodeCheck gamemodeCheck = new GamemodeCheck();
 
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
                 () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
@@ -34,7 +35,7 @@ public class NotePlaying {
 
                         Player player = Bukkit.getPlayer(uuid);
 
-                        if (new GamemodeCheck().check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
+                        if (gamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
 
                             if (player.isFlying()) {
 

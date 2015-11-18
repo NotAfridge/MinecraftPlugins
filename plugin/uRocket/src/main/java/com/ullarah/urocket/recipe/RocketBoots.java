@@ -26,7 +26,7 @@ public class RocketBoots implements NewRecipe {
 
     }
 
-    private static ItemStack boots(Material bootMaterial, boolean hasVariant, boolean hasEnhancement) {
+    private ItemStack boots(Material bootMaterial, boolean hasVariant, boolean hasEnhancement) {
 
         Material bootType = Material.getMaterial(bootMaterial.name().replaceAll("_(.*)", "") + "_BOOTS");
         ItemStack boots = new ItemStack(bootType, 1);

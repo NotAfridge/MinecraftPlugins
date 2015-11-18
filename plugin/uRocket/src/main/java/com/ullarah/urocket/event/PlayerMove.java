@@ -26,6 +26,10 @@ public class PlayerMove implements Listener {
     @EventHandler
     public void playerMovement(PlayerMoveEvent event) {
 
+        CommonString commonString = new CommonString();
+        TitleSubtitle titleSubtitle = new TitleSubtitle();
+        GroundFire groundFire = new GroundFire();
+
         final Player player = event.getPlayer();
 
         if (new GamemodeCheck().check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
@@ -83,8 +87,8 @@ public class PlayerMove implements Listener {
 
                     if (newStationList.contains(station) && newTankList.contains(tank) && !newStandList.contains(stand))
                         if (!rocketRepair.containsKey(player.getUniqueId())) {
-                            new TitleSubtitle().subtitle(player, 3, RB_STATION_START);
-                            new CommonString().messageSend(getPlugin(), player, true, RB_STATION_START);
+                            titleSubtitle.subtitle(player, 3, RB_STATION_START);
+                            commonString.messageSend(getPlugin(), player, true, RB_STATION_START);
                             player.getWorld().playSound(player.getEyeLocation(), Sound.ORB_PICKUP, 0.8f, 0.5f);
                             rocketRepair.put(player.getUniqueId(), bStation);
                         }
@@ -101,8 +105,8 @@ public class PlayerMove implements Listener {
                         if (blockMiddle.isLiquid()) {
 
                             if (!rocketWater.contains(player.getUniqueId())) {
-                                new TitleSubtitle().subtitle(player, 3, RB_WATER_WARNING);
-                                new CommonString().messageSend(getPlugin(), player, true, RB_WATER_WARNING);
+                                titleSubtitle.subtitle(player, 3, RB_WATER_WARNING);
+                                commonString.messageSend(getPlugin(), player, true, RB_WATER_WARNING);
                             }
 
                             rocketWater.add(player.getUniqueId());
@@ -141,7 +145,7 @@ public class PlayerMove implements Listener {
 
                     if (rocketVariant.get(player.getUniqueId()).equals(Variant.ORIGINAL))
                         if (player.isFlying() && player.getWorld().getName().equals("world_nether"))
-                            rocketFire.add(new GroundFire().setFire(player, "SINGLE", Material.NETHERRACK));
+                            rocketFire.add(groundFire.setFire(player, "SINGLE", Material.NETHERRACK));
 
                     if (world.getName().equals("world") && (world.hasStorm() || world.isThundering()))
                         if (new Random().nextInt(500) == 1) {
@@ -151,7 +155,7 @@ public class PlayerMove implements Listener {
                                     world.strikeLightning(location);
                                     player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 1.5f, 0.75f);
                                     rocketSprint.put(player.getUniqueId(), "AIR");
-                                    new CommonString().messageSend(getPlugin(), player, true, RB_STRIKE);
+                                    commonString.messageSend(getPlugin(), player, true, RB_STRIKE);
 
                                 }
                             }

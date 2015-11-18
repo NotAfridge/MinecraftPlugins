@@ -18,9 +18,12 @@ public class PlayerConsume implements Listener {
     @EventHandler
     public void playerEating(PlayerItemConsumeEvent event) {
 
+        CommonString commonString = new CommonString();
+        GamemodeCheck gamemodeCheck = new GamemodeCheck();
+
         Player player = event.getPlayer();
 
-        if (new GamemodeCheck().check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
+        if (gamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
 
             if (player.isFlying()) {
 
@@ -30,12 +33,12 @@ public class PlayerConsume implements Listener {
 
                         case HEALTH:
                             event.setCancelled(true);
-                            new CommonString().messageSend(getPlugin(), player, true, RB_CONSUME_FLY);
+                            commonString.messageSend(getPlugin(), player, true, RB_CONSUME_FLY);
                             break;
 
                         case STEALTH:
                             event.setCancelled(true);
-                            new CommonString().messageSend(getPlugin(), player, true, RB_CONSUME_HIDDEN);
+                            commonString.messageSend(getPlugin(), player, true, RB_CONSUME_HIDDEN);
                             break;
 
                         default:

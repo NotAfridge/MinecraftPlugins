@@ -23,6 +23,10 @@ public class ZoneCheck implements Listener {
     @EventHandler
     public void playerMovement(PlayerMoveEvent event) {
 
+        CommonString commonString = new CommonString();
+        TitleSubtitle titleSubtitle = new TitleSubtitle();
+        InsideCuboid insideCuboid = new InsideCuboid();
+
         for (Map.Entry<UUID, ConcurrentHashMap<Location, Location>> rocketZone : rocketZoneLocations.entrySet())
             for (Map.Entry<Location, Location> rocketLocation : rocketZone.getValue().entrySet()) {
 
@@ -32,7 +36,7 @@ public class ZoneCheck implements Listener {
                 Location zoneStart = rocketLocation.getKey();
                 Location zoneEnd = rocketLocation.getValue();
 
-                if (new InsideCuboid().check(location, zoneStart, zoneEnd)) {
+                if (insideCuboid.check(location, zoneStart, zoneEnd)) {
 
                     if (!rocketZones.contains(player.getUniqueId())) {
 
@@ -49,9 +53,9 @@ public class ZoneCheck implements Listener {
 
                                         player.setFlySpeed(0.05f);
 
-                                        new TitleSubtitle().subtitle(player, 3, RB_FZ_ENTRY);
+                                        titleSubtitle.subtitle(player, 3, RB_FZ_ENTRY);
 
-                                        new CommonString().messageSend(getPlugin(), player, true, new String[]{
+                                        commonString.messageSend(getPlugin(), player, true, new String[]{
                                                 RB_FZ_ENTRY, RB_DISABLE
                                         });
 

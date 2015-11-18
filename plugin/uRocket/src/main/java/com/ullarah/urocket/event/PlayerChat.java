@@ -18,6 +18,8 @@ public class PlayerChat implements Listener {
     @EventHandler
     public void variantChangeSpeak(AsyncPlayerChatEvent event) {
 
+        CommonString commonString = new CommonString();
+
         Player player = event.getPlayer();
 
         if (rocketEffects.contains(player.getUniqueId())) {
@@ -31,7 +33,7 @@ public class PlayerChat implements Listener {
                     break;
 
                 case STEALTH:
-                    new CommonString().messageSend(getPlugin(), player, true, RB_HIDDEN);
+                    commonString.messageSend(getPlugin(), player, true, RB_HIDDEN);
                     event.setCancelled(true);
                     break;
 

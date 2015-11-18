@@ -1,6 +1,7 @@
 package com.ullarah.urocket.task;
 
 import com.ullarah.ulib.function.CommonString;
+import com.ullarah.urocket.RocketFunctions;
 import org.apache.commons.io.output.StringBuilderWriter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,9 +15,7 @@ import org.bukkit.util.Vector;
 import java.util.Random;
 import java.util.UUID;
 
-import static com.ullarah.urocket.RocketEnhancement.Enhancement.FUEL;
-import static com.ullarah.urocket.RocketEnhancement.Enhancement.SOLAR;
-import static com.ullarah.urocket.RocketFunctions.*;
+import static com.ullarah.urocket.RocketEnhancement.Enhancement.*;
 import static com.ullarah.urocket.RocketInit.*;
 import static com.ullarah.urocket.RocketLanguage.*;
 import static com.ullarah.urocket.RocketVariant.Variant;
@@ -26,6 +25,8 @@ public class RocketFuel {
     public void task() {
 
         Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+        RocketFunctions rocketFunctions = new RocketFunctions();
+        CommonString commonString = new CommonString();
 
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
                 () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
@@ -38,10 +39,12 @@ public class RocketFuel {
 
                             boolean isFuelEfficient = false;
                             boolean isSolarPowered = false;
+                            boolean isJunkPowered = false;
 
                             if (rocketEnhancement.containsKey(uuid)) {
                                 isFuelEfficient = (rocketEnhancement.get(uuid).equals(FUEL));
                                 isSolarPowered = (rocketEnhancement.get(uuid).equals(SOLAR));
+                                isJunkPowered = (rocketEnhancement.get(uuid).equals(JUNK));
                             }
 
                             if (rocketVariant.containsKey(player.getUniqueId())) {
@@ -59,7 +62,7 @@ public class RocketFuel {
                                 switch (bootMaterial) {
 
                                     case LEATHER_BOOTS:
-                                        itemFuelCost = 1 + getBootPowerLevel(rocketBoots);
+                                        itemFuelCost = 1 + rocketFunctions.getBootPowerLevel(rocketBoots);
                                         getHealthFromBoots = (player.getHealth() - 3.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 4);
 
@@ -68,7 +71,7 @@ public class RocketFuel {
                                         break;
 
                                     case IRON_BOOTS:
-                                        itemFuelCost = 2 + getBootPowerLevel(rocketBoots);
+                                        itemFuelCost = 2 + rocketFunctions.getBootPowerLevel(rocketBoots);
                                         getHealthFromBoots = (player.getHealth() - 2.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 3);
 
@@ -77,7 +80,7 @@ public class RocketFuel {
                                         break;
 
                                     case GOLD_BOOTS:
-                                        itemFuelCost = 3 + getBootPowerLevel(rocketBoots);
+                                        itemFuelCost = 3 + rocketFunctions.getBootPowerLevel(rocketBoots);
                                         getHealthFromBoots = (player.getHealth() - 1.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 2);
 
@@ -86,7 +89,7 @@ public class RocketFuel {
                                         break;
 
                                     case DIAMOND_BOOTS:
-                                        itemFuelCost = 4 + getBootPowerLevel(rocketBoots);
+                                        itemFuelCost = 4 + rocketFunctions.getBootPowerLevel(rocketBoots);
                                         getHealthFromBoots = (player.getHealth() - 0.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 1);
 
@@ -101,8 +104,8 @@ public class RocketFuel {
                                     case HEALTH:
                                         if (player.getHealth() <= 1.0 || player.getFoodLevel() <= 2) {
 
-                                            new CommonString().messageSend(getPlugin(), player, true, RB_HUNGRY);
-                                            disableRocketBoots(player, false, true, false, true, true, true);
+                                            commonString.messageSend(getPlugin(), player, true, RB_HUNGRY);
+                                            rocketFunctions.disableRocketBoots(player, false, true, false, true, true, true);
 
                                         } else {
 
@@ -115,8 +118,8 @@ public class RocketFuel {
                                     case MONEY:
                                         if (getVaultEconomy().getBalance(player) <= 10.0) {
 
-                                            new CommonString().messageSend(getPlugin(), player, true, RB_MONEY);
-                                            disableRocketBoots(player, false, true, false, true, true, true);
+                                            commonString.messageSend(getPlugin(), player, true, RB_MONEY);
+                                            rocketFunctions.disableRocketBoots(player, false, true, false, true, true, true);
 
                                         } else {
 
@@ -156,14 +159,15 @@ public class RocketFuel {
                                             }
                                         }
 
-                                        new CommonString().messageSend(getPlugin(), player, false, agendaMessage.toString());
-                                        removeFuel(player, Material.COAL_BLOCK, Material.COAL, itemFuelCost);
+                                        commonString.messageSend(getPlugin(), player, false, agendaMessage.toString());
                                         break;
 
                                     case DRUNK:
                                         int vectorSelect = random.nextInt(3);
                                         double v = (random.nextInt(41) - 30) / 10.0;
+
                                         switch (vectorSelect) {
+
                                             case 1:
                                                 player.setVelocity(new Vector(v, 0, 0));
                                                 break;
@@ -178,48 +182,49 @@ public class RocketFuel {
 
                                             default:
                                                 break;
+
                                         }
-                                        removeFuel(player, Material.COAL_BLOCK, Material.COAL, itemFuelCost);
                                         break;
 
                                     case TREE:
                                         if (random.nextInt(10) == 5) {
 
                                             player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 0.6f, 0.65f);
-                                            new CommonString().messageSend(getPlugin(), player, true, RB_MALFUNCTION);
-                                            disableRocketBoots(player, true, true, true, true, true, true);
+                                            commonString.messageSend(getPlugin(), player, true, RB_MALFUNCTION);
+                                            rocketFunctions.disableRocketBoots(player, true, true, true, true, true, true);
 
-                                        } else removeFuel(player, Material.LOG, Material.WOOD, itemFuelCost);
+                                        }
                                         break;
 
                                     case FURY:
                                         if (random.nextInt(10) == 5) {
 
                                             player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 0.6f, 0.65f);
-                                            new CommonString().messageSend(getPlugin(), player, true, RB_MALFUNCTION);
-                                            disableRocketBoots(player, true, true, true, true, true, true);
+                                            commonString.messageSend(getPlugin(), player, true, RB_MALFUNCTION);
+                                            rocketFunctions.disableRocketBoots(player, true, true, true, true, true, true);
 
-                                        } else
-                                            removeFuel(player, Material.REDSTONE_BLOCK, Material.REDSTONE, itemFuelCost);
-                                        break;
-
-                                    default:
-                                        removeFuel(player, Material.COAL_BLOCK, Material.COAL, itemFuelCost);
+                                        }
                                         break;
 
                                 }
+
+                                Material fuelBlock = bootVariant.getFuelBlock();
+                                Material fuelSingle = bootVariant.getFuelSingle();
+
+                                if (fuelBlock != null || fuelSingle != null) if (!isJunkPowered)
+                                    rocketFunctions.removeFuel(player, fuelBlock, fuelSingle, itemFuelCost);
 
                             }
 
                             if (player.getLocation().getY() >= 250) {
 
-                                disableRocketBoots(player, true, true, true, true, true, true);
-                                new CommonString().messageSend(getPlugin(), player, true, RB_HIGH);
+                                rocketFunctions.disableRocketBoots(player, true, true, true, true, true, true);
+                                commonString.messageSend(getPlugin(), player, true, RB_HIGH);
 
                             } else if (player.getLocation().getY() <= 0) {
 
-                                disableRocketBoots(player, true, true, true, true, true, true);
-                                new CommonString().messageSend(getPlugin(), player, true, RB_LOW);
+                                rocketFunctions.disableRocketBoots(player, true, true, true, true, true, true);
+                                commonString.messageSend(getPlugin(), player, true, RB_LOW);
 
                             }
 

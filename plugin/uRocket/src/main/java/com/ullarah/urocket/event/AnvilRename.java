@@ -20,7 +20,9 @@ import static com.ullarah.urocket.RocketLanguage.RB_MOD_ERROR;
 public class AnvilRename implements Listener {
 
     @EventHandler
-    public static void onInventoryClick(InventoryClickEvent event) {
+    public void onInventoryClick(InventoryClickEvent event) {
+
+        CommonString commonString = new CommonString();
 
         Inventory inventory = event.getClickedInventory();
 
@@ -34,17 +36,16 @@ public class AnvilRename implements Listener {
 
                     Set<String> rocketItems = new HashSet<>(Arrays.asList(
                             "Rocket Boots",
-                            "Rocket Repair Station",
-                            "Rocket Repair Tank",
-                            "Rocket Repair Stand",
-                            "Rocket Control",
-                            "Rocket Fly Zone Controller",
-                            "Rocket Booster",
-                            "Variant Booster",
-                            "Rocket Saddle",
-                            "Self Repair Enhancement",
-                            "Fuel Efficient Enhancement",
-                            "Solar Enhancement"));
+                            "Rocket Boot Repair Station",
+                            "Rocket Boot Repair Tank",
+                            "Rocket Boot Repair Stand",
+                            "Rocket Boot Control",
+                            "Rocket Boot Fly Zone Controller",
+                            "Rocket Boot Booster",
+                            "Rocket Boot Saddle",
+                            "Rocket Boot Fuel Jacket",
+                            "Rocket Boot Variant",
+                            "Rocket Boot Enhancement"));
 
                     ItemStack currentItem = event.getCurrentItem();
 
@@ -56,7 +57,7 @@ public class AnvilRename implements Listener {
 
                                 Player player = (Player) event.getWhoClicked();
                                 player.closeInventory();
-                                new CommonString().messageSend(getPlugin(), player, true, RB_MOD_ERROR);
+                                commonString.messageSend(getPlugin(), player, true, RB_MOD_ERROR);
 
                             }
 

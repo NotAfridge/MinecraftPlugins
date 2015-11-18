@@ -84,7 +84,7 @@ public class BlockBreak implements Listener {
                 }
 
                 world.createExplosion(blockLocation, 0.0f, false);
-                world.dropItemNaturally(blockLocation, RepairTank.tank());
+                world.dropItemNaturally(blockLocation, new RepairTank().tank());
 
             }
 
@@ -104,7 +104,7 @@ public class BlockBreak implements Listener {
             getPlugin().saveConfig();
 
             world.createExplosion(blockLocation, 0.0f, false);
-            world.dropItemNaturally(blockLocation, RepairStation.station());
+            world.dropItemNaturally(blockLocation, new RepairStation().station());
 
         }
 

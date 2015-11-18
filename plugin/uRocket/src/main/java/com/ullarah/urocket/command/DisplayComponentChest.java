@@ -17,7 +17,7 @@ import java.util.List;
 
 public class DisplayComponentChest {
 
-    public static void open(CommandSender sender) {
+    public void open(CommandSender sender) {
 
         Player player = (Player) sender;
 
@@ -28,7 +28,7 @@ public class DisplayComponentChest {
 
     }
 
-    private static ItemStack[] rocketComponents() {
+    private ItemStack[] rocketComponents() {
 
         List<ItemStack> rocketStack = new ArrayList<ItemStack>() {{
             Arrays.asList(
@@ -37,17 +37,17 @@ public class DisplayComponentChest {
                     add(RocketBooster.booster("III")),
                     add(RocketBooster.booster("IV")),
                     add(RocketBooster.booster("V")),
-                    add(RocketBooster.booster("X")),
-                    add(new ItemStack(Material.AIR)),
-                    add(new ItemStack(Material.AIR)),
-                    add(new ItemStack(Material.AIR)),
+                    add(RocketFuelJacket.jacket(Material.LEATHER_CHESTPLATE)),
+                    add(RocketFuelJacket.jacket(Material.IRON_CHESTPLATE)),
+                    add(RocketFuelJacket.jacket(Material.GOLD_CHESTPLATE)),
+                    add(RocketFuelJacket.jacket(Material.DIAMOND_CHESTPLATE)),
 
-                    add(RocketControls.control()),
-                    add(RepairTank.tank()),
-                    add(RepairStation.station()),
-                    add(RepairStand.stand()),
-                    add(RocketFlyZone.zone()),
-                    add(RocketSaddle.saddle()),
+                    add(new RocketControls().control()),
+                    add(new RepairTank().tank()),
+                    add(new RepairStation().station()),
+                    add(new RepairStand().stand()),
+                    add(new RocketFlyZone().zone()),
+                    add(new RocketSaddle().saddle()),
                     add(new ItemStack(Material.AIR)),
                     add(new ItemStack(Material.AIR)),
                     add(new ItemStack(Material.AIR))
@@ -58,7 +58,7 @@ public class DisplayComponentChest {
             rocketStack.add(RocketVariants.variant(variant.getName()));
 
         for (RocketEnhancement.Enhancement enhancement : RocketEnhancement.Enhancement.values())
-            rocketStack.add(RocketEnhance.enhancement(enhancement.getName(), enhancement.getLore()));
+            rocketStack.add(RocketEnhance.enhancement(enhancement.getName()));
 
         return rocketStack.toArray(new ItemStack[rocketStack.size()]);
 

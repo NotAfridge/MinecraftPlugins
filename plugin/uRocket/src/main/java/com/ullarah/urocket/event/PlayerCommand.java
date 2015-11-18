@@ -16,6 +16,8 @@ public class PlayerCommand implements Listener {
     @EventHandler
     public void variantCommandStop(PlayerCommandPreprocessEvent event) {
 
+        CommonString commonString = new CommonString();
+
         Player player = event.getPlayer();
         UUID playerUUID = player.getUniqueId();
 
@@ -26,7 +28,7 @@ public class PlayerCommand implements Listener {
                 switch (rocketVariant.get(playerUUID)) {
 
                     case STEALTH:
-                        new CommonString().messageSend(getPlugin(), player, true, RB_HIDDEN);
+                        commonString.messageSend(getPlugin(), player, true, RB_HIDDEN);
                         event.setCancelled(true);
                         break;
 

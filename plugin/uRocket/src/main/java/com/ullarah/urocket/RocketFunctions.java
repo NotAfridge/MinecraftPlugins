@@ -5,16 +5,22 @@ import com.ullarah.urocket.RocketVariant.Variant;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffectType;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import static com.ullarah.urocket.RocketEnhancement.Enhancement;
 import static com.ullarah.urocket.RocketInit.*;
@@ -22,8 +28,15 @@ import static com.ullarah.urocket.RocketLanguage.*;
 
 public class RocketFunctions {
 
-    public static void disableRocketBoots(Player player, Boolean keepUsage, Boolean keepPower, Boolean keepFlight,
-                                          Boolean keepVariant, Boolean keepEnhancement, Boolean disableMessage) {
+    private final CommonString commonString = new CommonString();
+    private final TitleSubtitle titleSubtitle = new TitleSubtitle();
+    private final GamemodeCheck gamemodeCheck = new GamemodeCheck();
+    private final BlockStacks blockStacks = new BlockStacks();
+    private final Particles particles = new Particles();
+    private final RomanNumeralToInteger romanNumeralToInteger = new RomanNumeralToInteger();
+
+    public void disableRocketBoots(Player player, Boolean keepUsage, Boolean keepPower, Boolean keepFlight,
+                                   Boolean keepVariant, Boolean keepEnhancement, Boolean disableMessage) {
 
         UUID playerUUID = player.getUniqueId();
 
@@ -75,7 +88,7 @@ public class RocketFunctions {
 
         }
 
-        if (player.isOnline() && new GamemodeCheck().check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
+        if (player.isOnline() && gamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
 
             for (Player onlinePlayer : Bukkit.getOnlinePlayers()) onlinePlayer.showPlayer(player);
 
@@ -86,23 +99,23 @@ public class RocketFunctions {
             player.setNoDamageTicks(100);
             player.setFallDistance(0);
 
-            if (disableMessage) new CommonString().messageSend(getPlugin(), player, true, RB_DEACTIVATE);
+            if (disableMessage) commonString.messageSend(getPlugin(), player, true, RB_DEACTIVATE);
 
         }
 
     }
 
-    public static void interactRocketBoots(InventoryClickEvent event, ItemStack boots) {
+    public void interactRocketBoots(InventoryClickEvent event, ItemStack boots) {
 
         Player player = (Player) event.getWhoClicked();
         ClickType click = event.getClick();
         Boolean hasRocketMeta = boots.hasItemMeta();
 
-        if (new GamemodeCheck().check(player, GameMode.CREATIVE, GameMode.SPECTATOR)) {
+        if (gamemodeCheck.check(player, GameMode.CREATIVE, GameMode.SPECTATOR)) {
             event.setCancelled(true);
             player.closeInventory();
             disableRocketBoots(player, false, false, false, false, false, true);
-            new CommonString().messageSend(getPlugin(), player, true, RB_GAMEMODE_ERROR);
+            commonString.messageSend(getPlugin(), player, true, RB_GAMEMODE_ERROR);
             return;
         }
 
@@ -126,7 +139,7 @@ public class RocketFunctions {
                         Variant variantType = Variant.getEnum(variantLore);
 
                         if (variantType != null) if (variantType == Variant.MONEY) if (getVaultEconomy() == null) {
-                            new CommonString().messageSend(getPlugin(), player, true, RB_EQUIP_ERROR);
+                            commonString.messageSend(getPlugin(), player, true, RB_EQUIP_ERROR);
                             return;
                         }
                     }
@@ -140,7 +153,7 @@ public class RocketFunctions {
 
         } else if (rocketSprint.containsKey(player.getUniqueId())) {
 
-            new CommonString().messageSend(getPlugin(), player, true, new String[]{
+            commonString.messageSend(getPlugin(), player, true, new String[]{
                     RB_COOLDOWN_TOUCH, RB_COOLDOWN_LAND
             });
 
@@ -152,10 +165,10 @@ public class RocketFunctions {
 
     }
 
-    public static void attachRocketBoots(Player player, ItemStack boots) {
+    public void attachRocketBoots(Player player, ItemStack boots) {
 
-        if (new GamemodeCheck().check(player, GameMode.CREATIVE, GameMode.SPECTATOR)) {
-            new CommonString().messageSend(getPlugin(), player, true, RB_GAMEMODE_ERROR);
+        if (gamemodeCheck.check(player, GameMode.CREATIVE, GameMode.SPECTATOR)) {
+            commonString.messageSend(getPlugin(), player, true, RB_GAMEMODE_ERROR);
             disableRocketBoots(player, false, false, false, false, false, true);
             return;
         }
@@ -232,26 +245,26 @@ public class RocketFunctions {
 
         if (!isWaterVariant && blockMiddle.isLiquid()) {
             rocketWater.add(playerUUID);
-            new CommonString().messageSend(getPlugin(), player, true, RB_WATER_WARNING);
+            commonString.messageSend(getPlugin(), player, true, RB_WATER_WARNING);
             return;
         }
 
         if (rocketVariant.get(playerUUID) == null || rocketEnhancement.get(playerUUID) == null) {
-            new CommonString().messageSend(getPlugin(), player, true, RB_FAIL_ATTACH);
+            commonString.messageSend(getPlugin(), player, true, RB_FAIL_ATTACH);
             disableRocketBoots(player, false, false, false, false, false, true);
             return;
         }
 
         if (rocketVariant.get(playerUUID) != Variant.ORIGINAL && player.getWorld().getName().equals("world_nether")) {
-            new CommonString().messageSend(getPlugin(), player, true, RB_NETHER);
+            commonString.messageSend(getPlugin(), player, true, RB_NETHER);
             disableRocketBoots(player, false, false, false, false, false, true);
             return;
         }
 
         if (player.getInventory().getBoots() == null)
-            if (new GamemodeCheck().check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
+            if (gamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
 
-                new CommonString().messageSend(getPlugin(), player, true, rocketMessage);
+                commonString.messageSend(getPlugin(), player, true, rocketMessage);
                 if (!isRunnerVariant) player.setAllowFlight(true);
                 rocketPower.put(playerUUID, getBootPowerLevel(boots));
 
@@ -259,14 +272,136 @@ public class RocketFunctions {
 
     }
 
-    public static void removeFuel(Player player, Material block, Material single, int cost) {
+    public boolean checkFuel(Player player, Material single, Material block) {
 
-        if (!new BlockStacks().split(getPlugin(), player, block, single, cost, (9 - cost)))
-            disableRocketBoots(player, true, true, true, true, true, true);
+        if (isValidFuelJacket(player.getInventory().getChestplate())) {
+
+            File fuelFile = new File(getPlugin().getDataFolder() + File.separator + "fuel", player.getUniqueId().toString() + ".yml");
+            FileConfiguration fuelConfig = YamlConfiguration.loadConfiguration(fuelFile);
+
+            if (fuelFile.exists()) {
+
+                ArrayList<Object> jacketSizeType = fuelJacketType(player.getInventory().getChestplate().getType());
+
+                int fuelSize = (int) jacketSizeType.get(0);
+                String fuelType = (String) jacketSizeType.get(1);
+
+                if (fuelConfig.get(fuelType) != null) {
+
+                    Inventory fuelInventory;
+
+                    ArrayList<ItemStack> itemStack = new ArrayList<>();
+                    itemStack.addAll(fuelConfig.getList(fuelType).stream().map(fuelCurrentItem -> (ItemStack) fuelCurrentItem).collect(Collectors.toList()));
+
+                    fuelInventory = Bukkit.createInventory(player, fuelSize, "" + ChatColor.DARK_RED + ChatColor.BOLD + "Rocket Boot Fuel Jacket");
+                    fuelInventory.setContents(itemStack.toArray(new ItemStack[itemStack.size()]));
+
+                    if (fuelInventory.contains(block)) return true;
+                    if (fuelInventory.contains(single)) return true;
+
+                }
+
+            }
+
+        }
+
+        commonString.messageSend(getPlugin(), player, true, FuelRequired(single.name().toLowerCase()));
+        return false;
 
     }
 
-    public static boolean isValidRocketBoots(ItemStack boots) {
+    public void removeFuel(Player player, Material block, Material single, int cost) {
+
+        if (isValidFuelJacket(player.getInventory().getChestplate())) {
+
+            File fuelFile = new File(getPlugin().getDataFolder() + File.separator + "fuel", player.getUniqueId().toString() + ".yml");
+            FileConfiguration fuelConfig = YamlConfiguration.loadConfiguration(fuelFile);
+
+            if (fuelFile.exists()) {
+
+                ArrayList<Object> jacketSizeType = fuelJacketType(player.getInventory().getChestplate().getType());
+
+                int fuelSize = (int) jacketSizeType.get(0);
+                String fuelType = (String) jacketSizeType.get(1);
+
+                if (fuelConfig.get(fuelType) != null) {
+
+                    ArrayList<ItemStack> itemStack = new ArrayList<>();
+                    itemStack.addAll(fuelConfig.getList(fuelType).stream().map(fuelCurrentItem -> (ItemStack) fuelCurrentItem).collect(Collectors.toList()));
+
+                    Inventory fuelInventory;
+                    fuelInventory = Bukkit.createInventory(player, fuelSize, "" + ChatColor.DARK_RED + ChatColor.BOLD + "Rocket Boot Fuel Jacket");
+                    fuelInventory.setContents(itemStack.toArray(new ItemStack[itemStack.size()]));
+
+                    if (!blockStacks.split(fuelInventory, block, single, cost, (9 - cost)))
+                        disableRocketBoots(player, true, true, true, true, true, true);
+
+                    try {
+
+                        fuelConfig.set(fuelType, fuelInventory.getContents());
+                        fuelConfig.save(fuelFile);
+
+                    } catch (IOException e) {
+
+                        commonString.messageSend(getPlugin(), player, true, RB_JACKET_SAVE_ERROR);
+                        e.printStackTrace();
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+    public boolean isValidFuelJacket(ItemStack jacket) {
+
+        if (jacket.hasItemMeta()) {
+            ItemMeta jacketMeta = jacket.getItemMeta();
+            if (jacketMeta.hasDisplayName())
+                if (jacketMeta.getDisplayName().equals(ChatColor.RED + "Rocket Boot Fuel Jacket")) return true;
+
+        }
+
+        return false;
+
+    }
+
+    public ArrayList<Object> fuelJacketType(Material type) {
+
+        ArrayList<Object> jacketSizeType = new ArrayList<>();
+
+        switch (type) {
+
+            case LEATHER_CHESTPLATE:
+                jacketSizeType.add(9);
+                jacketSizeType.add("leather");
+                break;
+
+            case IRON_CHESTPLATE:
+                jacketSizeType.add(18);
+                jacketSizeType.add("iron");
+                break;
+
+            case GOLD_CHESTPLATE:
+                jacketSizeType.add(27);
+                jacketSizeType.add("gold");
+                break;
+
+            case DIAMOND_CHESTPLATE:
+                jacketSizeType.add(36);
+                jacketSizeType.add("diamond");
+                break;
+
+        }
+
+        return jacketSizeType;
+
+    }
+
+    public boolean isValidRocketBoots(ItemStack boots) {
 
         if (boots.hasItemMeta()) {
             ItemMeta bootMeta = boots.getItemMeta();
@@ -282,13 +417,13 @@ public class RocketFunctions {
 
     }
 
-    public static int getBootPowerLevel(ItemStack boots) {
+    public int getBootPowerLevel(ItemStack boots) {
 
-        return new RomanNumeralToInteger().decode(boots.getItemMeta().getLore().get(0).replaceFirst(RB_LEVEL, ""));
+        return romanNumeralToInteger.decode(boots.getItemMeta().getLore().get(0).replaceFirst(RB_LEVEL, ""));
 
     }
 
-    public static int getBootRepairRate(ItemStack boots) {
+    public int getBootRepairRate(ItemStack boots) {
 
         switch (getBootPowerLevel(boots)) {
 
@@ -313,7 +448,7 @@ public class RocketFunctions {
 
     }
 
-    public static int getBootRepairRate(Material boots) {
+    public int getBootRepairRate(Material boots) {
 
         switch (boots) {
 
@@ -335,7 +470,7 @@ public class RocketFunctions {
 
     }
 
-    public static int getBootDurability(ItemStack boots) {
+    public int getBootDurability(ItemStack boots) {
 
         switch (boots.getType()) {
 
@@ -357,7 +492,7 @@ public class RocketFunctions {
 
     }
 
-    public static void changeBootDurability(Player player, ItemStack boots) {
+    public void changeBootDurability(Player player, ItemStack boots) {
 
         Short rocketDurability = boots.getDurability();
 
@@ -405,12 +540,12 @@ public class RocketFunctions {
 
         String totalDurability = RB_DURABILITY + newBootDurability + " / " + bootMaterialDurability;
 
-        new CommonString().messageSend(getPlugin(), player, true, new String[]{totalDurability});
-        new TitleSubtitle().subtitle(player, 2, ChatColor.YELLOW + totalDurability);
+        commonString.messageSend(getPlugin(), player, true, new String[]{totalDurability});
+        titleSubtitle.subtitle(player, 2, ChatColor.YELLOW + totalDurability);
 
     }
 
-    public static void reloadFlyZones(boolean showMessage) {
+    public void reloadFlyZones(boolean showMessage) {
 
         rocketZoneLocations.clear();
         List<String> zoneList = getPlugin().getConfig().getStringList("zones");
@@ -443,7 +578,7 @@ public class RocketFunctions {
 
     }
 
-    public static void zoneCrystalCreation(Player player, Location blockLocation) {
+    public void zoneCrystalCreation(Player player, Location blockLocation) {
 
         World world = player.getWorld();
 
@@ -468,13 +603,13 @@ public class RocketFunctions {
         Location particleLocation = new Location(world, cBX + 0.5, cBY + 1.2, cBZ + 0.5);
 
         world.playSound(centerBlock, Sound.WITHER_IDLE, 1.25f, 0.55f);
-        new Particles().show(Particles.ParticleType.PORTAL, particleLocation, new Float[]{0.0f, 0.0f, 0.0f}, 2, 2500);
+        particles.show(Particles.ParticleType.PORTAL, particleLocation, new Float[]{0.0f, 0.0f, 0.0f}, 2, 2500);
 
-        new CommonString().messageSend(getPlugin(), player, true, RB_FZ_SUCCESS);
+        commonString.messageSend(getPlugin(), player, true, RB_FZ_SUCCESS);
 
     }
 
-    public static boolean rocketSaddleCheck(ItemStack saddle) {
+    public boolean rocketSaddleCheck(ItemStack saddle) {
 
         if (saddle != null && saddle.hasItemMeta()) {
             ItemMeta saddleMeta = saddle.getItemMeta();

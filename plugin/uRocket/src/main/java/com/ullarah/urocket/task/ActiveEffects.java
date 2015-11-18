@@ -19,6 +19,7 @@ public class ActiveEffects {
     public void task() {
 
         Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+        GamemodeCheck gamemodeCheck = new GamemodeCheck();
 
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
                 () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
@@ -28,7 +29,7 @@ public class ActiveEffects {
 
                             Player player = Bukkit.getPlayer(entry.getKey());
 
-                            if (new GamemodeCheck().check(player, GameMode.SURVIVAL, GameMode.ADVENTURE))
+                            if (gamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE))
                                 if (player.getWorld().getName().equals("world"))
                                     if (rocketVariant.containsKey(player.getUniqueId())) if (player.isFlying()) {
 

@@ -25,6 +25,7 @@ public class RocketParticles {
     public void task() {
 
         Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+        GamemodeCheck gamemodeCheck = new GamemodeCheck();
 
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
                 () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
@@ -33,7 +34,7 @@ public class RocketParticles {
 
                                 Player player = Bukkit.getPlayer(uuid);
 
-                                if (new GamemodeCheck().check(player, GameMode.SURVIVAL, GameMode.ADVENTURE))
+                                if (gamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE))
                                     if (player.isFlying() || rocketVariant.get(player.getUniqueId()) == RUNNER)
                                         if (!player.isSneaking()) if (rocketVariant.containsKey(player.getUniqueId())) {
 

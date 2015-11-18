@@ -16,6 +16,7 @@ public class RocketRepair {
     public void task() {
 
         Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+        RocketFunctions rocketFunctions = new RocketFunctions();
 
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
                 () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
@@ -27,7 +28,7 @@ public class RocketRepair {
                             Player player = Bukkit.getPlayer(entry.getKey());
                             ItemStack rocketBoots = player.getInventory().getBoots();
 
-                            int repairRate = RocketFunctions.getBootRepairRate(rocketBoots.getType());
+                            int repairRate = rocketFunctions.getBootRepairRate(rocketBoots.getType());
 
                             if (repairRate > 0 && player.isFlying()) {
 

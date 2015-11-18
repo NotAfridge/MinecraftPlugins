@@ -1,5 +1,6 @@
 package com.ullarah.urocket.event;
 
+import com.ullarah.urocket.RocketFunctions;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Pig;
@@ -11,7 +12,6 @@ import org.bukkit.event.entity.HorseJumpEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import static com.ullarah.urocket.RocketFunctions.rocketSaddleCheck;
 import static com.ullarah.urocket.RocketInit.rocketEntity;
 
 public class EntityFlying implements Listener {
@@ -19,13 +19,15 @@ public class EntityFlying implements Listener {
     @EventHandler
     public void enableFlyingHorse(HorseJumpEvent event) {
 
+        RocketFunctions rocketFunctions = new RocketFunctions();
+
         if (rocketEntity.containsKey(event.getEntity().getUniqueId())) {
 
             Horse horse = event.getEntity();
 
             ItemStack saddle = event.getEntity().getInventory().getSaddle();
 
-            if (rocketSaddleCheck(saddle)) {
+            if (rocketFunctions.rocketSaddleCheck(saddle)) {
 
                 Vector horseVelocity = horse.getVelocity();
                 double horseJump = event.getPower() * event.getEntity().getJumpStrength();

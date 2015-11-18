@@ -13,12 +13,12 @@ import java.util.Collections;
 
 public class RepairTank implements NewRecipe {
 
-    public static ItemStack tank() {
+    public ItemStack tank() {
 
         ItemStack tank = new ItemStack(Material.FURNACE, 1);
 
         ItemMeta tankMeta = tank.getItemMeta();
-        tankMeta.setDisplayName(ChatColor.RED + "Rocket Repair Tank");
+        tankMeta.setDisplayName(ChatColor.RED + "Rocket Boot Repair Tank");
         tankMeta.setLore(Collections.singletonList(ChatColor.YELLOW + "Fuel it with normal furnace items!"));
         tankMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
