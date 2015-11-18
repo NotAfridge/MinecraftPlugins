@@ -1,9 +1,5 @@
 package com.ullarah.ujoinquit;
 
-import com.ullarah.ujoinquit.event.MessageClick;
-import com.ullarah.ujoinquit.event.OptionClick;
-import com.ullarah.ujoinquit.event.PlayerJoin;
-import com.ullarah.ujoinquit.event.PlayerQuit;
 import com.ullarah.ujoinquit.function.PluginRegisters;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -16,7 +12,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.ullarah.ujoinquit.JoinQuitFunctions.*;
 import static com.ullarah.ujoinquit.function.PluginRegisters.RegisterType.EVENT;
 
 public class JoinQuitInit extends JavaPlugin {
@@ -58,29 +53,26 @@ public class JoinQuitInit extends JavaPlugin {
     @Override
     public void onEnable() {
 
+        JoinQuitFunctions joinQuitFunctions = new JoinQuitFunctions();
+
         setPlugin(this);
 
         getConfig().options().copyDefaults(true);
         saveConfig();
 
-        updateMessageHashMap();
+        joinQuitFunctions.updateMessageHashMap();
 
-        setPlayerConfigFile(updatePlayerConfigFile());
+        setPlayerConfigFile(joinQuitFunctions.updatePlayerConfigFile());
         setPlayerConfig(YamlConfiguration.loadConfiguration(getPlayerConfigFile()));
 
         joinChar = getConfig().getString("joinChar");
         quitChar = getConfig().getString("quitChar");
 
-        updatePlayerMessageIndex();
+        joinQuitFunctions.updatePlayerMessageIndex();
 
         getCommand("jq").setExecutor(new JoinQuitExecutor());
 
-        new PluginRegisters().register(getPlugin(), EVENT,
-                new MessageClick(),
-                new OptionClick(),
-                new PlayerJoin(),
-                new PlayerQuit()
-        );
+        new PluginRegisters().registerAll(getPlugin(), EVENT);
 
     }
 

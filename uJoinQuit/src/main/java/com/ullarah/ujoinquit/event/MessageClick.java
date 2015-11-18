@@ -1,5 +1,6 @@
 package com.ullarah.ujoinquit.event;
 
+import com.ullarah.ujoinquit.JoinQuitFunctions;
 import com.ullarah.ujoinquit.function.PermissionCheck;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -7,9 +8,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import static com.ullarah.ujoinquit.JoinQuitFunctions.messageType.JOIN;
-import static com.ullarah.ujoinquit.JoinQuitFunctions.messageType.QUIT;
-import static com.ullarah.ujoinquit.JoinQuitFunctions.setMessage;
+import static com.ullarah.ujoinquit.JoinQuitFunctions.Message.JOIN;
+import static com.ullarah.ujoinquit.JoinQuitFunctions.Message.QUIT;
 
 public class MessageClick implements Listener {
 
@@ -33,8 +33,12 @@ public class MessageClick implements Listener {
                 if (clickedItem != Material.AIR
                         && (clickedItem == Material.STAINED_GLASS_PANE || clickedItem == Material.THIN_GLASS)) {
 
-                    if (inventoryTitle.matches(".*Join Message")) setMessage(player, JOIN, event.getRawSlot());
-                    if (inventoryTitle.matches(".*Quit Message")) setMessage(player, QUIT, event.getRawSlot());
+                    JoinQuitFunctions joinQuitFunctions = new JoinQuitFunctions();
+
+                    if (inventoryTitle.matches(".*Join Message"))
+                        joinQuitFunctions.setMessage(player, JOIN, event.getRawSlot());
+                    if (inventoryTitle.matches(".*Quit Message"))
+                        joinQuitFunctions.setMessage(player, QUIT, event.getRawSlot());
 
                     event.getCursor().setType(Material.AIR);
                     player.closeInventory();

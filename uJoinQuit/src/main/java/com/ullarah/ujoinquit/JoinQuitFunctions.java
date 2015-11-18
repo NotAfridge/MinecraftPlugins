@@ -25,7 +25,9 @@ import static com.ullarah.ujoinquit.JoinQuitInit.*;
 
 public class JoinQuitFunctions {
 
-    public static void listMessages(Player player, messageType type) {
+    private CommonString commonString = new CommonString();
+
+    public void listMessages(Player player, Message type) {
 
         String typeString = type.toString().substring(0, 1) + type.toString().substring(1).toLowerCase();
 
@@ -59,7 +61,7 @@ public class JoinQuitFunctions {
 
     }
 
-    public static String replacePlayerString(Player player, String message) {
+    public String replacePlayerString(Player player, String message) {
 
         if (lastPlayer.equals(player.getPlayerListName())) lastPlayer = "nobody";
 
@@ -89,20 +91,18 @@ public class JoinQuitFunctions {
 
     }
 
-    public static void updateMessageHashMap() {
+    public void updateMessageHashMap() {
 
-        for (String list : Arrays.asList("joinMessages", "quitMessages"))
-            for (String message : getPlugin().getConfig().getStringList(list)) {
-
-                messageType.valueOf(messageType.getEnum(list).name()).getList().add(message);
-            }
+        for (Message type : Message.values())
+            for (String message : getPlugin().getConfig().getStringList(type.getType()))
+                type.getList().add(message);
 
         getPlugin().getLogger().log(Level.INFO,
                 "Joins: " + joinMessages.size() + " | " + "Quits: " + quitMessages.size());
 
     }
 
-    public static File updatePlayerConfigFile() {
+    public File updatePlayerConfigFile() {
 
         File file = new File(getPlugin().getDataFolder() + File.separator + "player.yml");
 
@@ -120,7 +120,7 @@ public class JoinQuitFunctions {
 
     }
 
-    public static void updatePlayerMessageIndex() {
+    public void updatePlayerMessageIndex() {
 
         for (String uuid : getPlayerConfig().getKeys(false)) {
 
@@ -137,16 +137,13 @@ public class JoinQuitFunctions {
 
     }
 
-    public static String getMessage(Player player, messageType type) {
+    public String getMessage(Player player, Message type) {
 
-        int messageIndex = getPlayerConfig().getInt(player.getUniqueId().toString()
-                + "." + type.toString().toLowerCase());
-
-        return type.getList().get(messageIndex);
+        return type.getList().get(getPlayerConfig().getInt(player.getUniqueId().toString() + "." + type.toString().toLowerCase()));
 
     }
 
-    public static void setMessage(Player player, messageType type, Integer index) {
+    public void setMessage(Player player, Message type, Integer index) {
 
         try {
 
@@ -169,18 +166,18 @@ public class JoinQuitFunctions {
             }
 
             String messageType = type.toString().substring(0, 1) + type.toString().substring(1).toLowerCase();
-            new CommonString().messageSend(getPlugin(), player, true, new String[]{messageType + " message changed!"});
+            commonString.messageSend(getPlugin(), player, true, messageType + " message changed!");
 
         } catch (IOException e) {
 
-            new CommonString().messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Error saving changes!"});
+            commonString.messageSend(getPlugin(), player, true, ChatColor.RED + "Error saving changes!");
             e.printStackTrace();
 
         }
 
     }
 
-    public static void setLocation(Player player) {
+    public void setLocation(Player player) {
 
         try {
 
@@ -192,18 +189,18 @@ public class JoinQuitFunctions {
 
             playerJoinLocation.put(playerUUID, player.getEyeLocation());
 
-            new CommonString().messageSend(getPlugin(), player, true, new String[]{"Join location changed!"});
+            commonString.messageSend(getPlugin(), player, true, "Join location changed!");
 
         } catch (IOException e) {
 
-            new CommonString().messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Error saving changes!"});
+            commonString.messageSend(getPlugin(), player, true, ChatColor.RED + "Error saving changes!");
             e.printStackTrace();
 
         }
 
     }
 
-    public static void showExtra(Player player) {
+    public void showExtra(Player player) {
 
         Inventory options = Bukkit.createInventory(null, InventoryType.HOPPER,
                 "" + ChatColor.DARK_GREEN + ChatColor.BOLD + "Extra Options");
@@ -227,7 +224,7 @@ public class JoinQuitFunctions {
 
     }
 
-    public static void clearMessage(Player player) {
+    public void clearMessage(Player player) {
 
         try {
 
@@ -241,34 +238,27 @@ public class JoinQuitFunctions {
             playerQuitMessage.remove(playerUUID);
             playerJoinLocation.remove(playerUUID);
 
-            new CommonString().messageSend(getPlugin(), player, true, new String[]{"All settings cleared!"});
+            commonString.messageSend(getPlugin(), player, true, "All settings cleared!");
 
         } catch (IOException e) {
 
-            new CommonString().messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Error saving changes!"});
+            commonString.messageSend(getPlugin(), player, true, ChatColor.RED + "Error saving changes!");
             e.printStackTrace();
 
         }
 
     }
 
-    public static void displayHelp(Player player) {
+    public void displayHelp(Player player) {
 
-        new CommonString().messageSend(getPlugin(), player, true, new String[]{"Custom Join and Quit Messages"});
+        commonString.messageSend(getPlugin(), player, true, "Custom Join and Quit Messages");
 
         TextComponent allOptions = new TextComponent(new CommonString().pluginPrefix(getPlugin()) + "Click an option: ");
 
-        TextComponent joinOption = new TextComponent(
-                ChatColor.AQUA + "[" + ChatColor.DARK_AQUA + "Set Join" + ChatColor.AQUA + "] ");
-
-        TextComponent quitOption = new TextComponent(
-                ChatColor.AQUA + "[" + ChatColor.DARK_AQUA + "Set Quit" + ChatColor.AQUA + "] ");
-
-        TextComponent extraOption = new TextComponent(
-                ChatColor.GREEN + "[" + ChatColor.DARK_GREEN + "Extra" + ChatColor.GREEN + "] ");
-
-        TextComponent clearOption = new TextComponent(
-                ChatColor.RED + "[" + ChatColor.DARK_RED + "Clear" + ChatColor.RED + "] ");
+        TextComponent joinOption = new TextComponent(ChatColor.AQUA + "[" + ChatColor.DARK_AQUA + "Set Join" + ChatColor.AQUA + "] ");
+        TextComponent quitOption = new TextComponent(ChatColor.AQUA + "[" + ChatColor.DARK_AQUA + "Set Quit" + ChatColor.AQUA + "] ");
+        TextComponent extraOption = new TextComponent(ChatColor.GREEN + "[" + ChatColor.DARK_GREEN + "Extra" + ChatColor.GREEN + "] ");
+        TextComponent clearOption = new TextComponent(ChatColor.RED + "[" + ChatColor.DARK_RED + "Clear" + ChatColor.RED + "] ");
 
         joinOption.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/jq join"));
         quitOption.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/jq quit"));
@@ -300,7 +290,7 @@ public class JoinQuitFunctions {
 
     }
 
-    private static ItemStack translateChatToPane(ChatColor chatColor) {
+    private ItemStack translateChatToPane(ChatColor chatColor) {
 
         short paneColour = 0;
 
@@ -376,25 +366,25 @@ public class JoinQuitFunctions {
 
     }
 
-    public enum messageType {
+    public enum Message {
 
-        JOIN(joinMessages, "joinMessages"), QUIT(quitMessages, "quitMessages");
+        JOIN(joinMessages, "joinMessages"),
+        QUIT(quitMessages, "quitMessages");
 
         private final List<String> list;
         private final String type;
 
-        messageType(List<String> getList, String getType) {
-            list = getList;
-            type = getType;
-        }
-
-        public static messageType getEnum(String messageString) {
-            for (messageType m : messageType.values()) if (messageString.equals(m.type)) return m;
-            return null;
+        Message(List<String> getList, String getType) {
+            this.list = getList;
+            this.type = getType;
         }
 
         public List<String> getList() {
             return list;
+        }
+
+        public String getType() {
+            return type;
         }
 
     }

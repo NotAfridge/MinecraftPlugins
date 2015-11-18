@@ -1,5 +1,6 @@
 package com.ullarah.ujoinquit.event;
 
+import com.ullarah.ujoinquit.JoinQuitFunctions;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,9 +10,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.UUID;
 
-import static com.ullarah.ujoinquit.JoinQuitFunctions.getMessage;
-import static com.ullarah.ujoinquit.JoinQuitFunctions.messageType.QUIT;
-import static com.ullarah.ujoinquit.JoinQuitFunctions.replacePlayerString;
+import static com.ullarah.ujoinquit.JoinQuitFunctions.Message.QUIT;
 import static com.ullarah.ujoinquit.JoinQuitInit.playerQuitMessage;
 import static com.ullarah.ujoinquit.JoinQuitInit.quitChar;
 
@@ -25,7 +24,9 @@ public class PlayerQuit implements Listener {
 
         if (playerQuitMessage.containsKey(playerUUID)) {
 
-            String message = replacePlayerString(player, getMessage(player, QUIT));
+            JoinQuitFunctions joinQuitFunctions = new JoinQuitFunctions();
+
+            String message = joinQuitFunctions.replacePlayerString(player, joinQuitFunctions.getMessage(player, QUIT));
             event.setQuitMessage(ChatColor.translateAlternateColorCodes('&', quitChar + message));
 
         }

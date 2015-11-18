@@ -29,12 +29,14 @@ public class OptionClick implements Listener {
 
                 if (event.getCurrentItem().getType() != AIR) {
 
+                    JoinQuitFunctions joinQuitFunctions = new JoinQuitFunctions();
+
                     event.getCursor().setType(Material.AIR);
 
                     switch (event.getCurrentItem().getType()) {
 
                         case COMPASS:
-                            JoinQuitFunctions.setLocation(player);
+                            joinQuitFunctions.setLocation(player);
                             break;
 
                     }
