@@ -36,6 +36,12 @@ public class ToggleFlight implements Listener {
 
         if (gamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
 
+            if (rocketTimeout.contains(player.getUniqueId())) {
+                player.setFlying(false);
+                event.setCancelled(true);
+                return;
+            }
+
             ItemStack rocketBoots = player.getInventory().getBoots();
             ItemStack rocketFuelJacket = player.getInventory().getChestplate();
 

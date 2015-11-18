@@ -15,6 +15,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
@@ -306,6 +307,24 @@ public class RocketFunctions {
         }
 
         commonString.messageSend(getPlugin(), player, true, FuelRequired(single.name().toLowerCase()));
+        rocketTimeout.add(player.getUniqueId());
+
+        new BukkitRunnable() {
+            int c = 5;
+
+            @Override
+            public void run() {
+                if (c <= 0) {
+                    rocketTimeout.remove(player.getUniqueId());
+                    this.cancel();
+                    return;
+                }
+                player.setFlying(false);
+                c--;
+            }
+
+        }.runTaskTimer(getPlugin(), 0, 20);
+
         return false;
 
     }

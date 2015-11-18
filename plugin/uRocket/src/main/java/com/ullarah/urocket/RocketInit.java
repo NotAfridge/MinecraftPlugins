@@ -31,6 +31,7 @@ public class RocketInit extends JavaPlugin {
     public static final HashSet<UUID> rocketZones = new HashSet<>();
     public static final HashSet<UUID> rocketJacket = new HashSet<>();
     public static final HashSet<UUID> rocketEffects = new HashSet<>();
+    public static final HashSet<UUID> rocketTimeout = new HashSet<>();
     public static final HashSet<HashSet<Location>> rocketFire = new HashSet<>();
     public static final ConcurrentHashMap<Location, Material> rocketGlow = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, EntityType> rocketEntity = new ConcurrentHashMap<>();
