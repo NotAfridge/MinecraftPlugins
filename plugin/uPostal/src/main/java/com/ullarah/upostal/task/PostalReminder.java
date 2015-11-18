@@ -22,8 +22,8 @@ public class PostalReminder {
                         if (receiverPlayer.getUniqueId().equals(player)) {
 
                             String message = ChatColor.YELLOW + "You have new items in your inbox!";
-                            CommonString.messageSend(getPlugin(), receiverPlayer, true, new String[]{message});
-                            TitleSubtitle.subtitle(receiverPlayer, 5, message);
+                            new CommonString().messageSend(getPlugin(), receiverPlayer, true, new String[]{message});
+                            new TitleSubtitle().subtitle(receiverPlayer, 5, message);
                             break;
 
                         }

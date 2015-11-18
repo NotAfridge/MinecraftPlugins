@@ -1,5 +1,6 @@
 package com.ullarah.ujoinquit;
 
+import com.ullarah.ulib.function.CommonString;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -21,8 +22,6 @@ import java.util.*;
 import java.util.logging.Level;
 
 import static com.ullarah.ujoinquit.JoinQuitInit.*;
-import static com.ullarah.ulib.function.CommonString.messageSend;
-import static com.ullarah.ulib.function.CommonString.pluginPrefix;
 
 public class JoinQuitFunctions {
 
@@ -88,8 +87,10 @@ public class JoinQuitFunctions {
     public static void updateMessageHashMap() {
 
         for (String list : Arrays.asList("joinMessages", "quitMessages"))
-            for (String message : getPlugin().getConfig().getStringList(list))
+            for (String message : getPlugin().getConfig().getStringList(list)) {
+
                 messageType.valueOf(messageType.getEnum(list).name()).getList().add(message);
+            }
 
         getPlugin().getLogger().log(Level.INFO,
                 "Joins: " + joinMessages.size() + " | " + "Quits: " + quitMessages.size());
@@ -163,11 +164,11 @@ public class JoinQuitFunctions {
             }
 
             String messageType = type.toString().substring(0, 1) + type.toString().substring(1).toLowerCase();
-            messageSend(getPlugin(), player, true, new String[]{messageType + " message changed!"});
+            new CommonString().messageSend(getPlugin(), player, true, new String[]{messageType + " message changed!"});
 
         } catch (IOException e) {
 
-            messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Error saving changes!"});
+            new CommonString().messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Error saving changes!"});
             e.printStackTrace();
 
         }
@@ -186,11 +187,11 @@ public class JoinQuitFunctions {
 
             playerJoinLocation.put(playerUUID, player.getEyeLocation());
 
-            messageSend(getPlugin(), player, true, new String[]{"Join location changed!"});
+            new CommonString().messageSend(getPlugin(), player, true, new String[]{"Join location changed!"});
 
         } catch (IOException e) {
 
-            messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Error saving changes!"});
+            new CommonString().messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Error saving changes!"});
             e.printStackTrace();
 
         }
@@ -235,11 +236,11 @@ public class JoinQuitFunctions {
             playerQuitMessage.remove(playerUUID);
             playerJoinLocation.remove(playerUUID);
 
-            messageSend(getPlugin(), player, true, new String[]{"All settings cleared!"});
+            new CommonString().messageSend(getPlugin(), player, true, new String[]{"All settings cleared!"});
 
         } catch (IOException e) {
 
-            messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Error saving changes!"});
+            new CommonString().messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Error saving changes!"});
             e.printStackTrace();
 
         }
@@ -248,9 +249,9 @@ public class JoinQuitFunctions {
 
     public static void displayHelp(Player player) {
 
-        messageSend(getPlugin(), player, true, new String[]{"Custom Join and Quit Messages"});
+        new CommonString().messageSend(getPlugin(), player, true, new String[]{"Custom Join and Quit Messages"});
 
-        TextComponent allOptions = new TextComponent(pluginPrefix(getPlugin()) + "Click an option: ");
+        TextComponent allOptions = new TextComponent(new CommonString().pluginPrefix(getPlugin()) + "Click an option: ");
 
         TextComponent joinOption = new TextComponent(
                 ChatColor.AQUA + "[" + ChatColor.DARK_AQUA + "Set Join" + ChatColor.AQUA + "] ");

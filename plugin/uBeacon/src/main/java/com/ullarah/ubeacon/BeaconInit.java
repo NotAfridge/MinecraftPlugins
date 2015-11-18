@@ -11,9 +11,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import static com.ullarah.ulib.function.PluginRegisters.RegisterType.EVENT;
-import static com.ullarah.ulib.function.PluginRegisters.RegisterType.RECIPE;
-import static com.ullarah.ulib.function.PluginRegisters.RegisterType.TASK;
+import static com.ullarah.ulib.function.PluginRegisters.RegisterType.*;
 
 public class BeaconInit extends JavaPlugin {
 
@@ -40,17 +38,17 @@ public class BeaconInit extends JavaPlugin {
 
         setPlugin(this);
 
-        PluginRegisters.register(getPlugin(), TASK,
+        new PluginRegisters().register(getPlugin(), TASK,
                 new BeaconChange()
         );
 
-        PluginRegisters.register(getPlugin(), EVENT,
+        new PluginRegisters().register(getPlugin(), EVENT,
                 new BeaconDestroy(),
                 new BeaconOpen(),
                 new BeaconPlace()
         );
 
-        PluginRegisters.register(getPlugin(), RECIPE,
+        new PluginRegisters().register(getPlugin(), RECIPE,
                 new BeaconCustom(),
                 new BeaconRainbow()
         );

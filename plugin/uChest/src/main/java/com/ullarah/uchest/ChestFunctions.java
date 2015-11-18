@@ -1,5 +1,6 @@
 package com.ullarah.uchest;
 
+import com.ullarah.ulib.function.CommonString;
 import com.ullarah.ulib.function.Experience;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -20,8 +21,6 @@ import java.util.concurrent.TimeUnit;
 
 import static com.ullarah.uchest.ChestFunctions.validStorage.VAULT;
 import static com.ullarah.uchest.ChestInit.*;
-import static com.ullarah.ulib.function.CommonString.messageSend;
-import static com.ullarah.ulib.function.CommonString.pluginPrefix;
 
 public class ChestFunctions {
 
@@ -63,20 +62,20 @@ public class ChestFunctions {
 
                 getVaultEconomy().depositPlayer(player, amount);
 
-                messageSend(getPlugin(), player, true, new String[]{
-                        amount > 0 ? pluginPrefix(getPlugin()) + "You gained " + ChatColor.GREEN +
-                                "$" + decimalFormat.format(amount) : pluginPrefix(getPlugin()) + "You gained no money."
+                new CommonString().messageSend(getPlugin(), player, true, new String[]{
+                        amount > 0 ? new CommonString().pluginPrefix(getPlugin()) + "You gained " + ChatColor.GREEN +
+                                "$" + decimalFormat.format(amount) : new CommonString().pluginPrefix(getPlugin()) + "You gained no money."
                 });
 
             }
 
             if (type.equals("XP")) {
 
-                Experience.addExperience(player, amount);
+                new Experience().addExperience(player, amount);
 
-                messageSend(getPlugin(), player, true, new String[]{
-                        amount > 0 ? pluginPrefix(getPlugin()) + "You gained " + ChatColor.GREEN +
-                                decimalFormat.format(amount) + " XP" : pluginPrefix(getPlugin()) + "You gained no XP."
+                new CommonString().messageSend(getPlugin(), player, true, new String[]{
+                        amount > 0 ? new CommonString().pluginPrefix(getPlugin()) + "You gained " + ChatColor.GREEN +
+                                decimalFormat.format(amount) + " XP" : new CommonString().pluginPrefix(getPlugin()) + "You gained no XP."
                 });
 
             }
@@ -90,7 +89,7 @@ public class ChestFunctions {
         final Player player = (Player) sender;
         int playerLevel = player.getLevel();
 
-        if (playerLevel < chestAccessLevel) messageSend(getPlugin(), player, true, new String[]{
+        if (playerLevel < chestAccessLevel) new CommonString().messageSend(getPlugin(), player, true, new String[]{
                 "You need more than " + chestAccessLevel + " levels to open this chest."
         });
         else if (chestConvertLockout.contains(player.getUniqueId())) {
@@ -132,7 +131,7 @@ public class ChestFunctions {
             if (minute > 0) timeLeft += minute + minuteString + " ";
             if (second > 0) timeLeft += second + secondString;
 
-            messageSend(getPlugin(), player, true, new String[]{
+            new CommonString().messageSend(getPlugin(), player, true, new String[]{
                     "You are currently locked out from conversion chests.",
                     "Try again in " + timeLeft
             });
@@ -154,7 +153,7 @@ public class ChestFunctions {
         final Player player = (Player) sender;
         int playerLevel = player.getLevel();
 
-        if (playerLevel < randomAccessLevel) messageSend(getPlugin(), player, true, new String[]{
+        if (playerLevel < randomAccessLevel) new CommonString().messageSend(getPlugin(), player, true, new String[]{
                 "You need more than " + randomAccessLevel + " levels to open this chest."
         });
         else if (chestRandomLockout.contains(player.getUniqueId())) {
@@ -196,7 +195,7 @@ public class ChestFunctions {
             if (minute > 0) timeLeft += minute + minuteString + " ";
             if (second > 0) timeLeft += second + secondString;
 
-            messageSend(getPlugin(), player, true, new String[]{
+            new CommonString().messageSend(getPlugin(), player, true, new String[]{
                     "You are currently locked out the random chest.",
                     "Try again in " + timeLeft
             });
@@ -271,7 +270,7 @@ public class ChestFunctions {
 
             if (player.getLevel() <= holdingAccessLevel) {
 
-                messageSend(getPlugin(), player, true, new String[]{
+                new CommonString().messageSend(getPlugin(), player, true, new String[]{
                         "You need more than " + holdingAccessLevel + " levels to open this chest."
                 });
 

@@ -1,5 +1,6 @@
 package com.ullarah.upostal.command.inbox;
 
+import com.ullarah.ulib.function.CommonString;
 import com.ullarah.ulib.function.TitleSubtitle;
 import com.ullarah.upostal.task.PostalReminder;
 import org.bukkit.Bukkit;
@@ -20,8 +21,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.ullarah.ulib.function.CommonString.messageMaintenance;
-import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.upostal.PostalInit.*;
 
 public class Update {
@@ -98,14 +97,14 @@ public class Update {
 
                 } catch (IOException e) {
 
-                    messageSend(getPlugin(), player, true, new String[]{
+                    new CommonString().messageSend(getPlugin(), player, true, new String[]{
                             ChatColor.RED + "Inbox Update Error!"
                     });
 
                 }
 
                 if (inboxOwnerBusy.isEmpty()) if (newItems)
-                    messageSend(getPlugin(), player, true, new String[]{ChatColor.GREEN + "Items sent successfully!"});
+                    new CommonString().messageSend(getPlugin(), player, true, new String[]{ChatColor.GREEN + "Items sent successfully!"});
 
                 if (newItems) {
 
@@ -115,8 +114,8 @@ public class Update {
 
                             inboxChanged.put(receiver, PostalReminder.task(receiver));
                             String message = ChatColor.YELLOW + "You have new items in your inbox!";
-                            messageSend(getPlugin(), receiverPlayer, true, new String[]{message});
-                            TitleSubtitle.subtitle(receiverPlayer, 5, message);
+                            new CommonString().messageSend(getPlugin(), receiverPlayer, true, new String[]{message});
+                            new TitleSubtitle().subtitle(receiverPlayer, 5, message);
                             break;
 
                         }
@@ -135,11 +134,11 @@ public class Update {
 
             } catch (IOException e) {
 
-                messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Inbox Update Error!"});
+                new CommonString().messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Inbox Update Error!"});
 
             }
 
-        } else messageMaintenance(getPlugin(), player);
+        } else new CommonString().messageMaintenance(getPlugin(), player);
 
     }
 

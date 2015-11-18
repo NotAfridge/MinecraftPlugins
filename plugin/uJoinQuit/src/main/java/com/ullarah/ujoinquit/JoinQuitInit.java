@@ -75,7 +75,7 @@ public class JoinQuitInit extends JavaPlugin {
 
         getCommand("jq").setExecutor(new JoinQuitExecutor());
 
-        PluginRegisters.register(getPlugin(), EVENT,
+        new PluginRegisters().register(getPlugin(), EVENT,
                 new MessageClick(),
                 new OptionClick(),
                 new PlayerJoin(),

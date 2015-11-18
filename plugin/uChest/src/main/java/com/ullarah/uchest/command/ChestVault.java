@@ -1,6 +1,7 @@
 package com.ullarah.uchest.command;
 
 import com.ullarah.uchest.ChestFunctions;
+import com.ullarah.ulib.function.CommonString;
 import com.ullarah.ulib.function.PlayerProfile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,43 +15,43 @@ import java.io.IOException;
 
 import static com.ullarah.uchest.ChestFunctions.validStorage.VAULT;
 import static com.ullarah.uchest.ChestInit.*;
-import static com.ullarah.ulib.function.CommonString.*;
 
 public class ChestVault {
 
     public void runCommand(CommandSender sender, String[] args) {
 
-        if (args.length == 0) if (!(sender instanceof Player)) messageNoConsole(getPlugin(), sender);
+        if (args.length == 0) if (!(sender instanceof Player)) new CommonString().messageNoConsole(getPlugin(), sender);
         else if (!getMaintenanceCheck()) {
 
             if (chestTypeEnabled.get("vchest")) ChestCreation.create(sender, VAULT, true);
-            else messageSend(getPlugin(), sender, true, new String[]{"Vault Chest is currently unavailable."});
+            else
+                new CommonString().messageSend(getPlugin(), sender, true, new String[]{"Vault Chest is currently unavailable."});
 
-        } else messageMaintenance(getPlugin(), sender);
+        } else new CommonString().messageMaintenance(getPlugin(), sender);
 
         else try {
 
             switch (ChestFunctions.validCommands.valueOf(args[0].toUpperCase())) {
 
                 case VIEW:
-                    if (!(sender instanceof Player)) messageNoConsole(getPlugin(), sender);
+                    if (!(sender instanceof Player)) new CommonString().messageNoConsole(getPlugin(), sender);
                     else if (sender.hasPermission("chest.view")) {
                         if (args.length == 2) {
                             try {
-                                ChestPrepare.prepare(Bukkit.getPlayer(PlayerProfile.lookup(args[1]).getId()),
+                                ChestPrepare.prepare(Bukkit.getPlayer(new PlayerProfile().lookup(args[1]).getId()),
                                         (Player) sender, VAULT);
                             } catch (Exception e) {
-                                messageSend(getPlugin(), sender, true, new String[]{
+                                new CommonString().messageSend(getPlugin(), sender, true, new String[]{
                                         ChatColor.RED + "Cannot view vault chest at this time. Try again later!"
                                 });
                             }
                         } else
-                            messageSend(getPlugin(), sender, true, new String[]{ChatColor.YELLOW + "/vchest view <player>"});
-                    } else messagePermDeny(getPlugin(), sender);
+                            new CommonString().messageSend(getPlugin(), sender, true, new String[]{ChatColor.YELLOW + "/vchest view <player>"});
+                    } else new CommonString().messagePermDeny(getPlugin(), sender);
                     break;
 
                 case UPGRADE:
-                    if (!(sender instanceof Player)) messageNoConsole(getPlugin(), sender);
+                    if (!(sender instanceof Player)) new CommonString().messageNoConsole(getPlugin(), sender);
                     else {
                         Player player = (Player) sender;
                         if (player.getLevel() >= 50) {
@@ -66,7 +67,7 @@ public class ChestVault {
 
                                 if (chestPlayerSlot >= 54) {
 
-                                    messageSend(getPlugin(), player, true, new String[]{
+                                    new CommonString().messageSend(getPlugin(), player, true, new String[]{
                                             ChatColor.AQUA + "You have the maximum number of slots!"
                                     });
 
@@ -80,19 +81,19 @@ public class ChestVault {
                                         try {
                                             chestConfig.save(chestFile);
                                         } catch (IOException e) {
-                                            messageSend(getPlugin(), player, true, new String[]{
+                                            new CommonString().messageSend(getPlugin(), player, true, new String[]{
                                                     ChatColor.RED + "Slot Update Error!"
                                             });
                                         }
 
-                                        messageSend(getPlugin(), player, true, new String[]{
+                                        new CommonString().messageSend(getPlugin(), player, true, new String[]{
                                                 ChatColor.YELLOW + "You upgraded your vault! You now have " +
                                                         ChatColor.GREEN + (chestPlayerSlot + 9) + ChatColor.YELLOW + " slots!"
                                         });
 
                                     } else {
 
-                                        messageSend(getPlugin(), player, true, new String[]{
+                                        new CommonString().messageSend(getPlugin(), player, true, new String[]{
                                                 ChatColor.YELLOW + "You need at least" +
                                                         ChatColor.GOLD + " 50xp levels " + ChatColor.YELLOW + "to upgrade!"
                                         });
@@ -103,7 +104,7 @@ public class ChestVault {
 
                             }
 
-                        } else messageSend(getPlugin(), player, true, new String[]{
+                        } else new CommonString().messageSend(getPlugin(), player, true, new String[]{
                                 ChatColor.YELLOW + "You need at least" + ChatColor.GOLD +
                                         " 50xp levels " + ChatColor.YELLOW + "to upgrade!"
                         });
@@ -111,14 +112,14 @@ public class ChestVault {
                     break;
 
                 default:
-                    if (!(sender instanceof Player)) messageNoConsole(getPlugin(), sender);
+                    if (!(sender instanceof Player)) new CommonString().messageNoConsole(getPlugin(), sender);
                     else ChestCreation.create(sender, VAULT, true);
 
             }
 
         } catch (IllegalArgumentException e) {
 
-            if (!(sender instanceof Player)) messageNoConsole(getPlugin(), sender);
+            if (!(sender instanceof Player)) new CommonString().messageNoConsole(getPlugin(), sender);
             else if (!args[0].equalsIgnoreCase("view")) DisplayHelp.runHelp(sender);
 
         }

@@ -1,5 +1,6 @@
 package com.ullarah.uchest.command;
 
+import com.ullarah.ulib.function.CommonString;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -12,7 +13,6 @@ import java.util.Arrays;
 import static com.ullarah.uchest.ChestFunctions.createItemStack;
 import static com.ullarah.uchest.ChestFunctions.validCommands;
 import static com.ullarah.uchest.ChestInit.*;
-import static com.ullarah.ulib.function.CommonString.*;
 
 public class ChestMenu {
 
@@ -97,18 +97,18 @@ public class ChestMenu {
 
     public void runCommand(CommandSender sender, String[] args) {
 
-        String consoleTools = pluginPrefix(getPlugin()) + ChatColor.WHITE + "maintenance | toggle";
+        String consoleTools = new CommonString().pluginPrefix(getPlugin()) + ChatColor.WHITE + "maintenance | toggle";
 
         if (args.length == 0) if (!(sender instanceof Player)) sender.sendMessage(consoleTools);
         else if (!getMaintenanceCheck()) showChestMenu(sender);
-        else messageMaintenance(getPlugin(), sender);
+        else new CommonString().messageMaintenance(getPlugin(), sender);
 
         else try {
 
             switch (validCommands.valueOf(args[0].toUpperCase())) {
 
                 case HELP:
-                    if (!(sender instanceof Player)) messageNoConsole(getPlugin(), sender);
+                    if (!(sender instanceof Player)) new CommonString().messageNoConsole(getPlugin(), sender);
                     else DisplayHelp.runHelp(sender);
                     break;
 

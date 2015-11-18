@@ -1,5 +1,6 @@
 package com.ullarah.upostal.command.inbox;
 
+import com.ullarah.ulib.function.CommonString;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -11,7 +12,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.upostal.PostalInit.*;
 
 public class View {
@@ -24,7 +24,7 @@ public class View {
 
         if (inboxOwnerBusy.contains(inboxUUID) || inboxViewerBusy.contains(inboxUUID)) {
 
-            messageSend(getPlugin(), inboxViewer, true, new String[]{"This inbox is currently busy. Try again later."});
+            new CommonString().messageSend(getPlugin(), inboxViewer, true, new String[]{"This inbox is currently busy. Try again later."});
 
         } else {
 

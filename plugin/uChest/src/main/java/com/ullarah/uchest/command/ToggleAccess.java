@@ -1,12 +1,11 @@
 package com.ullarah.uchest.command;
 
+import com.ullarah.ulib.function.CommonString;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import static com.ullarah.uchest.ChestInit.chestTypeEnabled;
 import static com.ullarah.uchest.ChestInit.getPlugin;
-import static com.ullarah.ulib.function.CommonString.messagePermDeny;
-import static com.ullarah.ulib.function.CommonString.messageSend;
 
 public class ToggleAccess {
 
@@ -20,7 +19,7 @@ public class ToggleAccess {
                     case 0:
                         getPlugin().getConfig().set(args[1].toLowerCase() + "enabled", false);
                         chestTypeEnabled.put(args[1].toLowerCase(), false);
-                        messageSend(getPlugin(), sender, true, new String[]{
+                        new CommonString().messageSend(getPlugin(), sender, true, new String[]{
                                 ChatColor.YELLOW + args[1].toLowerCase() + ChatColor.RED + " is now disabled."
                         });
                         break;
@@ -28,7 +27,7 @@ public class ToggleAccess {
                     case 1:
                         getPlugin().getConfig().set(args[1] + "enabled", true);
                         chestTypeEnabled.put(args[1].toLowerCase(), true);
-                        messageSend(getPlugin(), sender, true, new String[]{
+                        new CommonString().messageSend(getPlugin(), sender, true, new String[]{
                                 ChatColor.YELLOW + args[1].toLowerCase() + ChatColor.GREEN + " is now enabled."
                         });
                         break;
@@ -37,13 +36,13 @@ public class ToggleAccess {
 
                 getPlugin().saveConfig();
 
-            } else messageSend(getPlugin(), sender, true, new String[]{
+            } else new CommonString().messageSend(getPlugin(), sender, true, new String[]{
                     ChatColor.RED + "That type of chest does not exist!"
             });
-            else messageSend(getPlugin(), sender, true, new String[]{
+            else new CommonString().messageSend(getPlugin(), sender, true, new String[]{
                     ChatColor.YELLOW + "/chest toggle <chest type> <on|off>"
             });
-        else messagePermDeny(getPlugin(), sender);
+        else new CommonString().messagePermDeny(getPlugin(), sender);
 
     }
 

@@ -64,7 +64,7 @@ public class PostalInit extends JavaPlugin {
         getConfig().options().copyDefaults(true);
         saveConfig();
 
-        PluginRegisters.register(getPlugin(), EVENT,
+        new PluginRegisters().register(getPlugin(), EVENT,
                 new InboxClick(),
                 new InboxClose(),
                 new InboxDrag(),

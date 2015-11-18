@@ -14,7 +14,7 @@ public class DisplayHelp {
 
             Player player = (Player) sender;
 
-            CommonString.messageSend(ChestInit.getPlugin(), player, false, new String[]{
+            new CommonString().messageSend(ChestInit.getPlugin(), player, false, new String[]{
                     ChatColor.AQUA + " uChest Help" + ChatColor.WHITE + " - Use /chest to read descriptions!",
                     " " + ChatColor.STRIKETHROUGH + "----------------------------------------------------",
                     ChatColor.GOLD + " /chest   - " + ChatColor.YELLOW + "Mixed Chest Menu",
@@ -29,7 +29,7 @@ public class DisplayHelp {
 
             if (sender.hasPermission("chest.staff")) {
 
-                CommonString.messageSend(ChestInit.getPlugin(), player, false, new String[]{
+                new CommonString().messageSend(ChestInit.getPlugin(), player, false, new String[]{
                         " " + ChatColor.STRIKETHROUGH + "-------------------" + ChatColor.RED + " Staff Commands "
                                 + ChatColor.WHITE + ChatColor.STRIKETHROUGH + "-------------------",
                         ChatColor.GOLD + " /chest maintenance <on|off>",

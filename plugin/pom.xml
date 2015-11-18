@@ -9,9 +9,11 @@
     <packaging>pom</packaging>
 
     <parent>
+
         <groupId>com.ullarah</groupId>
         <artifactId>main</artifactId>
         <version>1.0</version>
+
     </parent>
 
     <modules>
@@ -25,6 +27,8 @@
         <module>uPostal</module>
         <module>uRocket</module>
         <module>uTab</module>
+        <module>uTeleport</module>
+        <module>uWatch</module>
         <module>uWild</module>
 
     </modules>
@@ -101,7 +105,8 @@
         <dependency>
             <groupId>com.ullarah</groupId>
             <artifactId>ulib</artifactId>
-            <version>0.3.1</version>
+            <version>0.3.2</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>

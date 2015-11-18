@@ -1,12 +1,14 @@
 package com.ullarah.ubeacon.event;
 
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -23,14 +25,10 @@ public class BeaconOpen implements Listener {
         Player player = event.getPlayer();
         Block block = event.getClickedBlock();
 
-        World world = player.getWorld();
-        Location blockLocation = block.getLocation();
-
-        System.out.println(block.getType().toString());
-
         if (block.getType() == Material.BEACON) {
 
-            System.out.println("tetetetetete");
+            World world = player.getWorld();
+            Location blockLocation = block.getLocation();
 
             List<String> beaconList = getPlugin().getConfig().getStringList("beacons");
 

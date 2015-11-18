@@ -21,7 +21,7 @@ public class OptionClick implements Listener {
         String inventoryTitle = event.getClickedInventory().getTitle();
 
         if (inventoryTitle.matches(".*Extra Options")
-                && PermissionCheck.check(player, "jq.access", "jq.extra")) {
+                && new PermissionCheck().check(player, "jq.access", "jq.extra")) {
 
             if (event.getClickedInventory() == null) return;
 

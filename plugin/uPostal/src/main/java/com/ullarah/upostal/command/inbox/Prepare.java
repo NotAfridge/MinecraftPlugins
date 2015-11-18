@@ -1,5 +1,6 @@
 package com.ullarah.upostal.command.inbox;
 
+import com.ullarah.ulib.function.CommonString;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -9,8 +10,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import static com.ullarah.ulib.function.CommonString.messageMaintenance;
-import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.upostal.PostalInit.*;
 
 public class Prepare {
@@ -39,11 +38,11 @@ public class Prepare {
                     }
 
                     if (inboxBlacklist)
-                        messageSend(getPlugin(), player, true, new String[]{
+                        new CommonString().messageSend(getPlugin(), player, true, new String[]{
                                 ChatColor.RED + "Your inbox has been blacklisted."
                         });
                     else if (inboxPlayerStock.isEmpty())
-                        messageSend(getPlugin(), player, true, new String[]{
+                        new CommonString().messageSend(getPlugin(), player, true, new String[]{
                                 "You have no items in your inbox!"
                         });
                     else View.run(inboxPlayerStock, player, inboxPlayerUUID, inboxPlayerName, inboxPlayerSlot);
@@ -51,16 +50,17 @@ public class Prepare {
                 } else {
 
                     if (inboxBlacklist)
-                        messageSend(getPlugin(), player, true, new String[]{
+                        new CommonString().messageSend(getPlugin(), player, true, new String[]{
                                 ChatColor.RED + "Their inbox has been blacklisted."
                         });
                     else View.run(inboxPlayerStock, player, inboxPlayerUUID, inboxPlayerName, inboxPlayerSlot);
 
                 }
 
-            } else messageSend(getPlugin(), player, true, new String[]{"That player does not have an inbox!"});
+            } else
+                new CommonString().messageSend(getPlugin(), player, true, new String[]{"That player does not have an inbox!"});
 
-        } else messageMaintenance(getPlugin(), player);
+        } else new CommonString().messageMaintenance(getPlugin(), player);
 
     }
 

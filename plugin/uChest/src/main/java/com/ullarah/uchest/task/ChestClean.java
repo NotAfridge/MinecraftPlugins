@@ -20,7 +20,7 @@ public class ChestClean {
 
                 if (displayClearMessage) {
                     Bukkit.getLogger().info("[" + getPlugin().getName() + "] " + "Cleaning Donation Chest Items...");
-                    Broadcast.sendMessage(getPlugin(), false, new String[]{
+                    new Broadcast().sendMessage(getPlugin(), false, new String[]{
                             ChatColor.YELLOW + "Donation Chest has been emptied!",
                             ChatColor.YELLOW + "Leftovers have gone to the Swap Chest!"
                     });

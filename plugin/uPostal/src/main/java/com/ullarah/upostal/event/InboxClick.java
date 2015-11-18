@@ -30,7 +30,7 @@ public class InboxClick implements Listener {
             if (event.getClickedInventory() == null) return;
 
             String inboxOwner = stripColor(event.getClickedInventory().getTitle().replace("Inbox: ", ""));
-            UUID inboxUUID = PlayerProfile.lookup(inboxOwner).getId();
+            UUID inboxUUID = new PlayerProfile().lookup(inboxOwner).getId();
 
             File inboxFile = new File(getInboxDataPath(), inboxUUID.toString() + ".yml");
             FileConfiguration inboxConfig = YamlConfiguration.loadConfiguration(inboxFile);

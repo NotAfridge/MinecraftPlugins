@@ -1,12 +1,11 @@
 package com.ullarah.uchest.command;
 
+import com.ullarah.ulib.function.CommonString;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import static com.ullarah.uchest.ChestInit.getPlugin;
 import static com.ullarah.uchest.ChestInit.setMaintenanceCheck;
-import static com.ullarah.ulib.function.CommonString.messagePermDeny;
-import static com.ullarah.ulib.function.CommonString.messageSend;
 
 public class Maintenance {
 
@@ -19,7 +18,7 @@ public class Maintenance {
                 case 0:
                     getPlugin().getConfig().set("maintenance", false);
                     setMaintenanceCheck(false);
-                    messageSend(getPlugin(), sender, true, new String[]{
+                    new CommonString().messageSend(getPlugin(), sender, true, new String[]{
                             ChatColor.GREEN + "Maintenance mode is now off."
                     });
                     break;
@@ -27,7 +26,7 @@ public class Maintenance {
                 case 1:
                     getPlugin().getConfig().set("maintenance", true);
                     setMaintenanceCheck(true);
-                    messageSend(getPlugin(), sender, true, new String[]{
+                    new CommonString().messageSend(getPlugin(), sender, true, new String[]{
                             ChatColor.RED + "Maintenance mode is now on."
                     });
                     break;
@@ -36,9 +35,9 @@ public class Maintenance {
 
             getPlugin().saveConfig();
 
-        } else messageSend(getPlugin(), sender, true, new String[]{
+        } else new CommonString().messageSend(getPlugin(), sender, true, new String[]{
                 ChatColor.YELLOW + "/chest maintenance <on|off>"});
-        else messagePermDeny(getPlugin(), sender);
+        else new CommonString().messagePermDeny(getPlugin(), sender);
 
     }
 

@@ -41,12 +41,6 @@ public class ChestInit extends JavaPlugin {
     public static final ConcurrentHashMap<UUID, Integer> chestRandomLockoutTimer = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, BukkitTask> chestRandomTask = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, Integer> registerMap = new ConcurrentHashMap<>();
-    private static final Inventory chestDonationInventory = Bukkit.createInventory(getChestDonationHolder(), 54,
-            ChatColor.DARK_GREEN + "Donation Chest");
-    private static final Inventory chestRandomInventory = Bukkit.createInventory(getChestRandomHolder(), 54,
-            ChatColor.DARK_GREEN + "Random Chest");
-    private static final Inventory chestSwapInventory = Bukkit.createInventory(getChestSwapHolder(), 54,
-            ChatColor.DARK_GREEN + "Swap Chest");
     public static Boolean chestSwapBusy;
     public static ItemStack[] chestSwapItemStack;
     public static Player chestSwapPlayer;
@@ -60,8 +54,14 @@ public class ChestInit extends JavaPlugin {
     private static Economy vaultEconomy;
     private static Boolean maintenanceCheck;
     private static InventoryHolder chestDonationHolder = ChestInit::getChestDonationInventory;
+    private static final Inventory chestDonationInventory = Bukkit.createInventory(getChestDonationHolder(), 54,
+            ChatColor.DARK_GREEN + "Donation Chest");
     private static InventoryHolder chestRandomHolder = ChestInit::getChestRandomInventory;
+    private static final Inventory chestRandomInventory = Bukkit.createInventory(getChestRandomHolder(), 54,
+            ChatColor.DARK_GREEN + "Random Chest");
     private static InventoryHolder chestSwapHolder = ChestInit::getChestSwapInventory;
+    private static final Inventory chestSwapInventory = Bukkit.createInventory(getChestSwapHolder(), 54,
+            ChatColor.DARK_GREEN + "Swap Chest");
 
     public static Plugin getPlugin() {
         return plugin;
@@ -135,7 +135,7 @@ public class ChestInit extends JavaPlugin {
         getConfig().options().copyDefaults(true);
         saveConfig();
 
-        registerMap.put(EVENT.toString(), PluginRegisters.register(getPlugin(), EVENT,
+        registerMap.put(EVENT.toString(), new PluginRegisters().register(getPlugin(), EVENT,
                 new ChestClick(),
                 new ChestClose(),
                 new ChestDrag(),
@@ -147,7 +147,7 @@ public class ChestInit extends JavaPlugin {
                 new PlayerJoin()
         ));
 
-        registerMap.put(TASK.toString(), PluginRegisters.register(getPlugin(), TASK,
+        registerMap.put(TASK.toString(), new PluginRegisters().register(getPlugin(), TASK,
                 new ChestAnnounce(),
                 new ChestClean()
         ));

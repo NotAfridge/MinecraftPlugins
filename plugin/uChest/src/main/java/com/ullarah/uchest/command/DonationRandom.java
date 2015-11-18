@@ -1,5 +1,6 @@
 package com.ullarah.uchest.command;
 
+import com.ullarah.ulib.function.CommonString;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -12,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.ullarah.uchest.ChestInit.*;
-import static com.ullarah.ulib.function.CommonString.messagePermDeny;
-import static com.ullarah.ulib.function.CommonString.messageSend;
 
 public class DonationRandom {
 
@@ -42,7 +41,7 @@ public class DonationRandom {
 
             for (Player player : Bukkit.getOnlinePlayers()) {
 
-                messageSend(getPlugin(), player, true, new String[]{
+                new CommonString().messageSend(getPlugin(), player, true, new String[]{
                         ChatColor.GREEN + "Donation Chest has been randomized with new items!",
                         ChatColor.GREEN + "Quick! Use /dchest to open it up!",
                 });
@@ -50,7 +49,7 @@ public class DonationRandom {
                 if (lockedSeconds > 0) {
                     String end = lockedSeconds + " seconds.";
                     if (lockedSeconds == 1) end = "second.";
-                    messageSend(getPlugin(), player, true, new String[]{
+                    new CommonString().messageSend(getPlugin(), player, true, new String[]{
                             "" + ChatColor.GRAY + ChatColor.ITALIC + "You are restricted to one item every " + end
                     });
                 }
@@ -60,7 +59,7 @@ public class DonationRandom {
             chestDonateLock = true;
             chestDonateCountdown();
 
-        } else messagePermDeny(getPlugin(), sender);
+        } else new CommonString().messagePermDeny(getPlugin(), sender);
 
     }
 

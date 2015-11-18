@@ -1,5 +1,6 @@
 package com.ullarah.ujoinquit;
 
+import com.ullarah.ulib.function.CommonString;
 import com.ullarah.ulib.function.PermissionCheck;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,8 +11,6 @@ import static com.ullarah.ujoinquit.JoinQuitFunctions.*;
 import static com.ullarah.ujoinquit.JoinQuitFunctions.messageType.JOIN;
 import static com.ullarah.ujoinquit.JoinQuitFunctions.messageType.QUIT;
 import static com.ullarah.ujoinquit.JoinQuitInit.getPlugin;
-import static com.ullarah.ulib.function.CommonString.messageNoConsole;
-import static com.ullarah.ulib.function.CommonString.messagePermDeny;
 
 class JoinQuitExecutor implements CommandExecutor {
 
@@ -20,7 +19,7 @@ class JoinQuitExecutor implements CommandExecutor {
 
         if (!(sender instanceof Player)) {
 
-            messageNoConsole(getPlugin(), sender);
+            new CommonString().messageNoConsole(getPlugin(), sender);
             return true;
 
         } else {
@@ -31,18 +30,18 @@ class JoinQuitExecutor implements CommandExecutor {
             else switch (args[0].toUpperCase()) {
 
                 case "JOIN":
-                    if (PermissionCheck.check(player, "jq.access", "jq.join")) listMessages(player, JOIN);
-                    else messagePermDeny(getPlugin(), sender);
+                    if (new PermissionCheck().check(player, "jq.access", "jq.join")) listMessages(player, JOIN);
+                    else new CommonString().messagePermDeny(getPlugin(), sender);
                     break;
 
                 case "QUIT":
-                    if (PermissionCheck.check(player, "jq.access", "jq.quit")) listMessages(player, QUIT);
-                    else messagePermDeny(getPlugin(), sender);
+                    if (new PermissionCheck().check(player, "jq.access", "jq.quit")) listMessages(player, QUIT);
+                    else new CommonString().messagePermDeny(getPlugin(), sender);
                     break;
 
                 case "EXTRA":
-                    if (PermissionCheck.check(player, "jq.access", "jq.extra")) showExtra(player);
-                    else messagePermDeny(getPlugin(), sender);
+                    if (new PermissionCheck().check(player, "jq.access", "jq.extra")) showExtra(player);
+                    else new CommonString().messagePermDeny(getPlugin(), sender);
                     break;
 
                 case "CLEAR":

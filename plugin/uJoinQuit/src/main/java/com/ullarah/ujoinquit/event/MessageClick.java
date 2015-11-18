@@ -22,7 +22,7 @@ public class MessageClick implements Listener {
         String inventoryTitle = event.getClickedInventory().getTitle();
 
         if (inventoryTitle.matches(".*(Join|Quit) Message")
-                && PermissionCheck.check(player, "jq.access", "jq.join", "jq.quit")) {
+                && new PermissionCheck().check(player, "jq.access", "jq.join", "jq.quit")) {
 
             if (event.getClickedInventory() == null) return;
 

@@ -1,5 +1,6 @@
 package com.ullarah.upostal.command;
 
+import com.ullarah.ulib.function.CommonString;
 import com.ullarah.ulib.function.PlayerProfile;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -10,8 +11,6 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.IOException;
 
-import static com.ullarah.ulib.function.CommonString.messageMaintenance;
-import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.upostal.PostalInit.*;
 
 public class Blacklist {
@@ -27,7 +26,7 @@ public class Blacklist {
                     try {
 
                         File inboxFile = new File(getInboxDataPath(),
-                                PlayerProfile.lookup(args[1]).getId().toString() + ".yml");
+                                new PlayerProfile().lookup(args[1]).getId().toString() + ".yml");
 
                         if (inboxFile.exists()) {
 
@@ -39,14 +38,14 @@ public class Blacklist {
                             if (inboxBlacklist) {
 
                                 inboxConfig.set("blacklist", false);
-                                messageSend(getPlugin(), (Player) sender, true, new String[]{
+                                new CommonString().messageSend(getPlugin(), (Player) sender, true, new String[]{
                                         ChatColor.GREEN + inboxPlayerName + " no longer blacklisted."
                                 });
 
                             } else {
 
                                 inboxConfig.set("blacklist", true);
-                                messageSend(getPlugin(), (Player) sender, true, new String[]{
+                                new CommonString().messageSend(getPlugin(), (Player) sender, true, new String[]{
                                         ChatColor.RED + inboxPlayerName + " is now blacklisted."
                                 });
 
@@ -54,7 +53,7 @@ public class Blacklist {
 
                             inboxConfig.save(inboxFile);
 
-                        } else messageSend(getPlugin(), (Player) sender, true, new String[]{
+                        } else new CommonString().messageSend(getPlugin(), (Player) sender, true, new String[]{
                                 "That player does not have an inbox!"});
 
                     } catch (IOException e) {
@@ -63,12 +62,12 @@ public class Blacklist {
 
                     }
 
-                } else messageSend(getPlugin(), (Player) sender, true, new String[]{
+                } else new CommonString().messageSend(getPlugin(), (Player) sender, true, new String[]{
                         ChatColor.YELLOW + "/postal blacklist <player>"});
 
             }
 
-        } else messageMaintenance(getPlugin(), sender);
+        } else new CommonString().messageMaintenance(getPlugin(), sender);
 
     }
 

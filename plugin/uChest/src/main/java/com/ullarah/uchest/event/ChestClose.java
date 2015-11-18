@@ -1,5 +1,6 @@
 package com.ullarah.uchest.event;
 
+import com.ullarah.ulib.function.CommonString;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -15,7 +16,6 @@ import java.io.IOException;
 
 import static com.ullarah.uchest.ChestFunctions.convertItem;
 import static com.ullarah.uchest.ChestInit.*;
-import static com.ullarah.ulib.function.CommonString.messageSend;
 
 public class ChestClose implements Listener {
 
@@ -75,7 +75,7 @@ public class ChestClose implements Listener {
                 holdConfig.set("item", chestInventory.getContents());
                 holdConfig.save(holdFile);
 
-            } else messageSend(getPlugin(), chestPlayer, true, new String[]{
+            } else new CommonString().messageSend(getPlugin(), chestPlayer, true, new String[]{
                     ChatColor.RED + "Error saving holding chest contents."
             });
 
@@ -93,7 +93,7 @@ public class ChestClose implements Listener {
                 vaultConfig.set("item", chestInventory.getContents());
                 vaultConfig.save(vaultFile);
 
-            } else messageSend(getPlugin(), chestPlayer, true, new String[]{
+            } else new CommonString().messageSend(getPlugin(), chestPlayer, true, new String[]{
                     ChatColor.RED + "Error saving vault chest contents."
             });
 

@@ -84,7 +84,7 @@ public class Collection {
             final String auctionBoxName = args[2].toLowerCase();
             final String auctionBoxReceiver = args[1];
 
-            final UUID receiverUUID = PlayerProfile.lookup(auctionBoxReceiver).getId();
+            final UUID receiverUUID = new PlayerProfile().lookup(auctionBoxReceiver).getId();
 
             if (Bukkit.getPlayer(receiverUUID).isOnline()) {
 
@@ -137,17 +137,14 @@ public class Collection {
 
             final String finalAuctionText = auctionText;
 
-            Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(getPlugin(), new Runnable() {
-                public void run() {
-                    winner.sendMessage(new String[]{
+            Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(getPlugin(),
+                    () -> winner.sendMessage(new String[]{
                             getMsgPrefix() + "You have won " + ChatColor.LIGHT_PURPLE +
                                     auctions.size() + ChatColor.RESET + finalAuctionText,
                             getMsgPrefix() + ChatColor.GREEN + StringUtils.join(auctions, ","),
                             getMsgPrefix() + "Use '" + ChatColor.YELLOW + "/acollect auctionname" +
                                     ChatColor.RESET + "' to collect them."
-                    });
-                }
-            }, 40);
+                    }), 40);
 
         }
 

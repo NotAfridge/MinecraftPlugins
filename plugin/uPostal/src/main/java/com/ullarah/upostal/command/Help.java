@@ -1,11 +1,10 @@
 package com.ullarah.upostal.command;
 
+import com.ullarah.ulib.function.CommonString;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static com.ullarah.ulib.function.CommonString.messageNoConsole;
-import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.upostal.PostalInit.getPlugin;
 
 public class Help {
@@ -16,7 +15,7 @@ public class Help {
 
             Player player = (Player) sender;
 
-            messageSend(getPlugin(), player, false, new String[]{
+            new CommonString().messageSend(getPlugin(), player, false, new String[]{
                     ChatColor.AQUA + " uPostal Help",
                     " " + ChatColor.STRIKETHROUGH + "----------------------------------------------------",
                     ChatColor.GOLD + " /inbox " + ChatColor.YELLOW + "- Opens up your inbox.",
@@ -26,7 +25,7 @@ public class Help {
 
             if (sender.hasPermission("postal.staff")) {
 
-                messageSend(getPlugin(), player, false, new String[]{
+                new CommonString().messageSend(getPlugin(), player, false, new String[]{
                         ChatColor.GOLD + " /postal blacklist <player>" + ChatColor.YELLOW + " - Blacklist the players inbox.",
                         ChatColor.GOLD + " /postal clear <player>" + ChatColor.YELLOW + " - Clear the players inbox.",
                         ChatColor.GOLD + " /postal maintenance <on|off>" + ChatColor.YELLOW + " - Toggles maintenance mode."
@@ -34,7 +33,7 @@ public class Help {
 
             }
 
-        } else messageNoConsole(getPlugin(), sender);
+        } else new CommonString().messageNoConsole(getPlugin(), sender);
 
     }
 

@@ -19,14 +19,16 @@ public class ChestAnnounce {
 
             Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
                     () -> {
-                        if (displayClearMessage) Broadcast.sendMessage(getPlugin(), false, new String[]{ChatColor.AQUA
+                        if (displayClearMessage)
+                            new Broadcast().sendMessage(getPlugin(), false, new String[]{ChatColor.AQUA
                                 + "10 minutes left until the Donation Chest is emptied!"});
                     },
                     0, chestCountdownWarning);
 
             Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
                     () -> {
-                        if (displayClearMessage) Broadcast.sendMessage(getPlugin(), false, new String[]{ChatColor.RED
+                        if (displayClearMessage)
+                            new Broadcast().sendMessage(getPlugin(), false, new String[]{ChatColor.RED
                                 + "60 seconds left until the Donation Chest is emptied!"});
                     },
                     0, chestCountdownCritical);

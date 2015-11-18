@@ -27,7 +27,7 @@ public class InboxClose implements Listener {
         if (chestInventory.getName().matches("§4Inbox: §3(.*)")) {
 
             String inboxOwner = stripColor(event.getInventory().getTitle().replace("Inbox: ", ""));
-            UUID inboxUUID = PlayerProfile.lookup(inboxOwner).getId();
+            UUID inboxUUID = new PlayerProfile().lookup(inboxOwner).getId();
 
             File inboxConfigFile = new File(getInboxDataPath(), inboxUUID.toString() + ".yml");
             FileConfiguration inboxConfig = YamlConfiguration.loadConfiguration(inboxConfigFile);

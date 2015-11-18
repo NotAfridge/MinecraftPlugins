@@ -1,5 +1,6 @@
 package com.ullarah.upostal.command.inbox;
 
+import com.ullarah.ulib.function.CommonString;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -9,8 +10,6 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.IOException;
 
-import static com.ullarah.ulib.function.CommonString.messageMaintenance;
-import static com.ullarah.ulib.function.CommonString.messageSend;
 import static com.ullarah.upostal.PostalInit.*;
 
 public class Upgrade {
@@ -31,7 +30,7 @@ public class Upgrade {
 
                 if (inboxPlayerSlot >= 54) {
 
-                    messageSend(getPlugin(), player, true, new String[]{
+                    new CommonString().messageSend(getPlugin(), player, true, new String[]{
                             ChatColor.AQUA + "You have the maximum number of slots!"
                     });
 
@@ -45,17 +44,17 @@ public class Upgrade {
                         try {
                             inboxConfig.save(inboxFile);
                         } catch (IOException e) {
-                            messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Slot Update Error!"});
+                            new CommonString().messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Slot Update Error!"});
                         }
 
-                        messageSend(getPlugin(), player, true, new String[]{
+                        new CommonString().messageSend(getPlugin(), player, true, new String[]{
                                 ChatColor.YELLOW + "You upgraded your inbox! You now have " +
                                         ChatColor.GREEN + (inboxPlayerSlot + 9) + ChatColor.YELLOW + " slots!"
                         });
 
                     } else {
 
-                        messageSend(getPlugin(), player, true, new String[]{
+                        new CommonString().messageSend(getPlugin(), player, true, new String[]{
                                 ChatColor.YELLOW + "You need at least" +
                                         ChatColor.GOLD + " 50xp levels " + ChatColor.YELLOW + "to upgrade!"
                         });
@@ -66,7 +65,7 @@ public class Upgrade {
 
             }
 
-        } else messageMaintenance(getPlugin(), sender);
+        } else new CommonString().messageMaintenance(getPlugin(), sender);
 
     }
 
