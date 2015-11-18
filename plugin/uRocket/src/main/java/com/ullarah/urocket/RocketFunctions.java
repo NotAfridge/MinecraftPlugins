@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 import static com.ullarah.urocket.RocketEnhancement.Enhancement;
 import static com.ullarah.urocket.RocketInit.*;
 import static com.ullarah.urocket.RocketLanguage.*;
+import static org.bukkit.Material.AIR;
 
 public class RocketFunctions {
 
@@ -297,8 +298,31 @@ public class RocketFunctions {
                     fuelInventory = Bukkit.createInventory(player, fuelSize, "" + ChatColor.DARK_RED + ChatColor.BOLD + "Rocket Boot Fuel Jacket");
                     fuelInventory.setContents(itemStack.toArray(new ItemStack[itemStack.size()]));
 
-                    if (fuelInventory.contains(block)) return true;
-                    if (fuelInventory.contains(single)) return true;
+                    ItemStack rocketBoots = player.getInventory().getBoots();
+                    int fuelCost = 0;
+
+                    switch (rocketBoots.getType()) {
+
+                        case LEATHER_BOOTS:
+                            fuelCost = 1 + getBootPowerLevel(rocketBoots);
+                            break;
+
+                        case IRON_BOOTS:
+                            fuelCost = 2 + getBootPowerLevel(rocketBoots);
+                            break;
+
+                        case GOLD_BOOTS:
+                            fuelCost = 3 + getBootPowerLevel(rocketBoots);
+                            break;
+
+                        case DIAMOND_BOOTS:
+                            fuelCost = 4 + getBootPowerLevel(rocketBoots);
+                            break;
+
+                    }
+
+                    if (fuelInventory.containsAtLeast(new ItemStack(block), fuelCost)) return true;
+                    if (fuelInventory.containsAtLeast(new ItemStack(single), fuelCost)) return true;
 
                 }
 
@@ -352,8 +376,10 @@ public class RocketFunctions {
                     fuelInventory = Bukkit.createInventory(player, fuelSize, "" + ChatColor.DARK_RED + ChatColor.BOLD + "Rocket Boot Fuel Jacket");
                     fuelInventory.setContents(itemStack.toArray(new ItemStack[itemStack.size()]));
 
-                    if (!blockStacks.split(fuelInventory, block, single, cost, (9 - cost)))
+                    if (!blockStacks.split(fuelInventory, block, single, cost, (9 - cost))) {
+                        commonString.messageSend(getPlugin(), player, true, FuelOutage(single.toString().toLowerCase()));
                         disableRocketBoots(player, true, true, true, true, true, true);
+                    }
 
                     try {
 
@@ -603,7 +629,7 @@ public class RocketFunctions {
 
         Location centerBlock = new CenterBlock().variable(player, blockLocation, 0.475);
 
-        centerBlock.getBlock().setType(Material.AIR);
+        centerBlock.getBlock().setType(AIR);
         world.spawn(centerBlock, EnderCrystal.class);
 
         int cBX = centerBlock.getBlockX();

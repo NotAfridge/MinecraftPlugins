@@ -81,7 +81,7 @@ public final class RocketLanguage {
     }
 
     public static String FuelRequired(String type) {
-        return ChatColor.YELLOW + "You need " + type + " to launch these boots!";
+        return ChatColor.YELLOW + "You need more " + type + " to launch these boots!";
     }
 
     public static String FuelLow(String type) {

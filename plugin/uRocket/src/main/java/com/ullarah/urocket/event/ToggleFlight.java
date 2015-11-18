@@ -183,7 +183,7 @@ public class ToggleFlight implements Listener {
                                                     break;
 
                                                 case BOOST:
-                                                    player.setVelocity(player.getVelocity().setY(6));
+                                                    player.setVelocity(player.getVelocity().setY(10));
 
                                                 default:
                                                     player.setVelocity(bootVariant.getVector());
