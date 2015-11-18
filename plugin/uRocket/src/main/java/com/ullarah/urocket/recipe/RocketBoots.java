@@ -1,6 +1,6 @@
 package com.ullarah.urocket.recipe;
 
-import com.ullarah.ulib.function.NewRecipe;
+import com.ullarah.urocket.function.NewRecipe;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -10,7 +10,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ullarah.urocket.RocketLanguage.RB_USELESS;
+import static com.ullarah.urocket.init.RocketLanguage.RB_USELESS;
 
 public class RocketBoots implements NewRecipe {
 
@@ -26,7 +26,7 @@ public class RocketBoots implements NewRecipe {
 
     }
 
-    private static ItemStack boots(Material bootMaterial, boolean hasVariant, boolean hasEnhancement) {
+    private ItemStack boots(Material bootMaterial, boolean hasVariant, boolean hasEnhancement) {
 
         Material bootType = Material.getMaterial(bootMaterial.name().replaceAll("_(.*)", "") + "_BOOTS");
         ItemStack boots = new ItemStack(bootType, 1);

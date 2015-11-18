@@ -1,7 +1,7 @@
 package com.ullarah.urocket.event;
 
-import com.ullarah.ulib.function.CommonString;
-import com.ullarah.ulib.function.GamemodeCheck;
+import com.ullarah.urocket.function.CommonString;
+import com.ullarah.urocket.function.GamemodeCheck;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,17 +10,20 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 
 import static com.ullarah.urocket.RocketInit.getPlugin;
 import static com.ullarah.urocket.RocketInit.rocketVariant;
-import static com.ullarah.urocket.RocketLanguage.RB_CONSUME_FLY;
-import static com.ullarah.urocket.RocketLanguage.RB_CONSUME_HIDDEN;
+import static com.ullarah.urocket.init.RocketLanguage.RB_CONSUME_FLY;
+import static com.ullarah.urocket.init.RocketLanguage.RB_CONSUME_HIDDEN;
 
 public class PlayerConsume implements Listener {
 
     @EventHandler
     public void playerEating(PlayerItemConsumeEvent event) {
 
+        CommonString commonString = new CommonString();
+        GamemodeCheck gamemodeCheck = new GamemodeCheck();
+
         Player player = event.getPlayer();
 
-        if (new GamemodeCheck().check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
+        if (gamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
 
             if (player.isFlying()) {
 
@@ -30,12 +33,12 @@ public class PlayerConsume implements Listener {
 
                         case HEALTH:
                             event.setCancelled(true);
-                            new CommonString().messageSend(getPlugin(), player, true, RB_CONSUME_FLY);
+                            commonString.messageSend(getPlugin(), player, true, RB_CONSUME_FLY);
                             break;
 
                         case STEALTH:
                             event.setCancelled(true);
-                            new CommonString().messageSend(getPlugin(), player, true, RB_CONSUME_HIDDEN);
+                            commonString.messageSend(getPlugin(), player, true, RB_CONSUME_HIDDEN);
                             break;
 
                         default:

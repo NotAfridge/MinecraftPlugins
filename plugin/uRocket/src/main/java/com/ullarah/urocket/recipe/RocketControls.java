@@ -1,6 +1,6 @@
 package com.ullarah.urocket.recipe;
 
-import com.ullarah.ulib.function.NewRecipe;
+import com.ullarah.urocket.function.NewRecipe;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -13,12 +13,12 @@ import java.util.Collections;
 
 public class RocketControls implements NewRecipe {
 
-    public static ItemStack control() {
+    public ItemStack control() {
 
         ItemStack control = new ItemStack(Material.TRIPWIRE_HOOK, 1);
         ItemMeta controlMeta = control.getItemMeta();
 
-        controlMeta.setDisplayName(ChatColor.RED + "Rocket Control");
+        controlMeta.setDisplayName(ChatColor.RED + "Rocket Boot Control");
         controlMeta.setLore(Collections.singletonList(ChatColor.YELLOW + "Take control of your Rocket Boots!"));
 
         controlMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);

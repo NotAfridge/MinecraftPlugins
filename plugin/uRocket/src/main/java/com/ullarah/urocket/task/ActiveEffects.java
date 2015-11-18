@@ -1,6 +1,6 @@
 package com.ullarah.urocket.task;
 
-import com.ullarah.ulib.function.GamemodeCheck;
+import com.ullarah.urocket.function.GamemodeCheck;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -11,14 +11,15 @@ import java.util.Map;
 import java.util.UUID;
 
 import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.RocketVariant.Variant;
-import static com.ullarah.urocket.RocketVariant.Variant.STEALTH;
+import static com.ullarah.urocket.init.RocketVariant.Variant;
+import static com.ullarah.urocket.init.RocketVariant.Variant.STEALTH;
 
 public class ActiveEffects {
 
     public void task() {
 
         Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+        GamemodeCheck gamemodeCheck = new GamemodeCheck();
 
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
                 () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
@@ -28,7 +29,7 @@ public class ActiveEffects {
 
                             Player player = Bukkit.getPlayer(entry.getKey());
 
-                            if (new GamemodeCheck().check(player, GameMode.SURVIVAL, GameMode.ADVENTURE))
+                            if (gamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE))
                                 if (player.getWorld().getName().equals("world"))
                                     if (rocketVariant.containsKey(player.getUniqueId())) if (player.isFlying()) {
 

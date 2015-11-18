@@ -14,6 +14,11 @@ commands:
     usage: |
       <command> : Shows Help.
       <command> chest : Shows Rocket Components.
+      <command> fuel : Show contents of fuel jacket.
+  fuel:
+    description: Display fuel jacket.
+    usage: |
+      <command> : Show contents of fuel jacket.
 
 permissions:
   rocket.staff:

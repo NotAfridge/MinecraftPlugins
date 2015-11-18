@@ -1,6 +1,6 @@
 package com.ullarah.urocket.task;
 
-import com.ullarah.ulib.function.GamemodeCheck;
+import com.ullarah.urocket.function.GamemodeCheck;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.bukkit.Bukkit;
@@ -15,9 +15,9 @@ import java.util.Random;
 import java.util.UUID;
 
 import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.RocketVariant.Variant;
-import static com.ullarah.urocket.RocketVariant.Variant.NOTE;
-import static com.ullarah.urocket.RocketVariant.Variant.SOUND;
+import static com.ullarah.urocket.init.RocketVariant.Variant;
+import static com.ullarah.urocket.init.RocketVariant.Variant.NOTE;
+import static com.ullarah.urocket.init.RocketVariant.Variant.SOUND;
 import static org.bukkit.Note.Tone;
 import static org.bukkit.Note.natural;
 
@@ -26,6 +26,7 @@ public class NotePlaying {
     public void task() {
 
         Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+        GamemodeCheck gamemodeCheck = new GamemodeCheck();
 
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
                 () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
@@ -34,7 +35,7 @@ public class NotePlaying {
 
                         Player player = Bukkit.getPlayer(uuid);
 
-                        if (new GamemodeCheck().check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
+                        if (gamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
 
                             if (player.isFlying()) {
 

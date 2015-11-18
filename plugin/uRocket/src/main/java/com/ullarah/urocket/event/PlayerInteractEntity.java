@@ -1,5 +1,6 @@
 package com.ullarah.urocket.event;
 
+import com.ullarah.urocket.RocketFunctions;
 import org.bukkit.Material;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.Player;
@@ -10,13 +11,14 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
 
-import static com.ullarah.urocket.RocketFunctions.rocketSaddleCheck;
 import static com.ullarah.urocket.RocketInit.rocketEntity;
 
 public class PlayerInteractEntity implements Listener {
 
     @EventHandler
     public void playerInteraction(PlayerInteractEntityEvent event) {
+
+        RocketFunctions rocketFunctions = new RocketFunctions();
 
         if (event.getRightClicked() instanceof Pig) {
 
@@ -40,7 +42,7 @@ public class PlayerInteractEntity implements Listener {
 
                 }
 
-            } else if (rocketSaddleCheck(inHand)) rocketEntity.put(pigUUID, pig.getType());
+            } else if (rocketFunctions.rocketSaddleCheck(inHand)) rocketEntity.put(pigUUID, pig.getType());
 
         }
 

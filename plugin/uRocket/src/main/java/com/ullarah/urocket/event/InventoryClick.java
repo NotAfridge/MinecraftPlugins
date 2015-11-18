@@ -1,5 +1,6 @@
 package com.ullarah.urocket.event;
 
+import com.ullarah.urocket.RocketFunctions;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Horse;
@@ -12,17 +13,19 @@ import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.HorseInventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
-import static com.ullarah.urocket.RocketFunctions.interactRocketBoots;
-import static com.ullarah.urocket.RocketFunctions.rocketSaddleCheck;
 import static com.ullarah.urocket.RocketInit.rocketEntity;
-import static com.ullarah.urocket.RocketLanguage.RB_USELESS;
+import static com.ullarah.urocket.RocketInit.rocketJacket;
+import static com.ullarah.urocket.init.RocketLanguage.RB_USELESS;
 
 public class InventoryClick implements Listener {
 
     @EventHandler
     public void playerInventoryClick(InventoryClickEvent event) {
+
+        RocketFunctions rocketFunctions = new RocketFunctions();
 
         if (event.getClickedInventory() == null) return;
 
@@ -39,9 +42,31 @@ public class InventoryClick implements Listener {
             }
 
             if (event.getSlotType().equals(InventoryType.SlotType.ARMOR) && event.getRawSlot() == 8)
-                interactRocketBoots(event, event.getWhoClicked().getItemOnCursor());
+                rocketFunctions.interactRocketBoots(event, event.getWhoClicked().getItemOnCursor());
 
-            if (event.isShiftClick()) interactRocketBoots(event, event.getCurrentItem());
+            if (event.getSlotType().equals(InventoryType.SlotType.ARMOR) && event.getRawSlot() == 6) {
+
+                Player player = (Player) event.getWhoClicked();
+                ItemStack itemCursor = event.getCursor();
+                ItemStack itemCurrent = event.getCurrentItem();
+
+                if (itemCursor.hasItemMeta()) if (itemCursor.getItemMeta().hasDisplayName())
+                    if (itemCursor.getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Boot Fuel Jacket")) {
+                        rocketJacket.add(player.getUniqueId());
+                        return;
+                    }
+
+                if (itemCurrent.hasItemMeta()) if (itemCurrent.getItemMeta().hasDisplayName())
+                    if (itemCurrent.getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Boot Fuel Jacket"))
+                        if (player.isFlying()) {
+                            rocketJacket.remove(player.getUniqueId());
+                            rocketFunctions.disableRocketBoots(player, true, true, true, true, true, false);
+                            return;
+                        }
+
+            }
+
+            if (event.isShiftClick()) rocketFunctions.interactRocketBoots(event, event.getCurrentItem());
 
         }
 
@@ -53,17 +78,44 @@ public class InventoryClick implements Listener {
                 UUID horseUUID = horse.getUniqueId();
                 ItemStack saddle = event.getWhoClicked().getItemOnCursor();
 
-                if (rocketSaddleCheck(saddle)) {
-
+                if (rocketFunctions.rocketSaddleCheck(saddle))
                     if (!rocketEntity.containsKey(horseUUID)) rocketEntity.put(horseUUID, horse.getType());
-
-                } else {
-
-                    if (rocketEntity.containsKey(horseUUID)) rocketEntity.remove(horseUUID);
-
-                }
+                    else if (rocketEntity.containsKey(horseUUID)) rocketEntity.remove(horseUUID);
 
             }
+
+        }
+
+    }
+
+    @EventHandler
+    public void fuelInventoryClick(InventoryClickEvent event) {
+
+        if (event.getClickedInventory() == null) return;
+
+        String inventoryName = "" + ChatColor.DARK_RED + ChatColor.BOLD + "Rocket Boot Fuel Jacket";
+
+        if (inventoryName.equals(event.getInventory().getTitle())) {
+
+            ArrayList<Material> allowedMaterial = new ArrayList<Material>() {{
+                add(Material.AIR);
+                add(Material.COAL);
+                add(Material.COAL_BLOCK);
+                add(Material.LOG);
+                add(Material.WOOD);
+                add(Material.REDSTONE_BLOCK);
+                add(Material.REDSTONE);
+                add(Material.GLOWSTONE);
+                add(Material.GLOWSTONE_DUST);
+            }};
+
+            if (!allowedMaterial.contains(event.getCurrentItem().getType())) event.setCancelled(true);
+            if (!allowedMaterial.contains(event.getCursor().getType())) event.setCancelled(true);
+
+            if (event.getClick().isShiftClick())
+                if (event.getClickedInventory() == event.getWhoClicked().getInventory())
+                    if (!allowedMaterial.contains(event.getCurrentItem().getType()))
+                        event.setCancelled(true);
 
         }
 

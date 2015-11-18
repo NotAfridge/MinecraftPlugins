@@ -11,9 +11,9 @@ import org.bukkit.plugin.Plugin;
 import java.util.Map;
 import java.util.UUID;
 
-import static com.ullarah.urocket.RocketEnhancement.Enhancement;
-import static com.ullarah.urocket.RocketEnhancement.Enhancement.SOLAR;
 import static com.ullarah.urocket.RocketInit.*;
+import static com.ullarah.urocket.init.RocketEnhancement.Enhancement;
+import static com.ullarah.urocket.init.RocketEnhancement.Enhancement.SOLAR;
 
 public class RocketSolarCheck {
 

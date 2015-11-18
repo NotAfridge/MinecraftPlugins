@@ -1,6 +1,6 @@
 package com.ullarah.urocket.recipe;
 
-import com.ullarah.ulib.function.NewRecipe;
+import com.ullarah.urocket.function.NewRecipe;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -13,12 +13,12 @@ import java.util.Arrays;
 
 public class RocketSaddle implements NewRecipe {
 
-    public static ItemStack saddle() {
+    public ItemStack saddle() {
 
         ItemStack saddle = new ItemStack(Material.SADDLE, 1);
 
         ItemMeta saddleMeta = saddle.getItemMeta();
-        saddleMeta.setDisplayName(ChatColor.RED + "Rocket Saddle");
+        saddleMeta.setDisplayName(ChatColor.RED + "Rocket Boot Saddle");
         saddleMeta.setLore(Arrays.asList(
                 ChatColor.YELLOW + "Make pigs fly...",
                 ChatColor.YELLOW + "...maybe horses too!")

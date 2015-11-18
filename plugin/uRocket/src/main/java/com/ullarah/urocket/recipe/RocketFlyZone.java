@@ -1,6 +1,6 @@
 package com.ullarah.urocket.recipe;
 
-import com.ullarah.ulib.function.NewRecipe;
+import com.ullarah.urocket.function.NewRecipe;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -13,12 +13,12 @@ import java.util.Collections;
 
 public class RocketFlyZone implements NewRecipe {
 
-    public static ItemStack zone() {
+    public ItemStack zone() {
 
         ItemStack zone = new ItemStack(Material.ENDER_PORTAL_FRAME, 1);
 
         ItemMeta zoneMeta = zone.getItemMeta();
-        zoneMeta.setDisplayName(ChatColor.RED + "Rocket Fly Zone Controller");
+        zoneMeta.setDisplayName(ChatColor.RED + "Rocket Boot Fly Zone Controller");
         zoneMeta.setLore(Collections.singletonList(ChatColor.YELLOW + "Stop players flying in your area!"));
 
         zoneMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);

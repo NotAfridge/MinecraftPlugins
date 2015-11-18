@@ -1,6 +1,6 @@
 package com.ullarah.urocket.recipe;
 
-import com.ullarah.ulib.function.NewRecipe;
+import com.ullarah.urocket.function.NewRecipe;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -28,7 +28,7 @@ public class RocketBooster implements NewRecipe {
         ItemStack booster = new ItemStack(Material.TNT, 1);
         ItemMeta boosterMeta = booster.getItemMeta();
 
-        boosterMeta.setDisplayName(ChatColor.RED + "Rocket Booster");
+        boosterMeta.setDisplayName(ChatColor.RED + "Rocket Boot Booster");
         boosterMeta.setLore(Collections.singletonList(ChatColor.YELLOW + "Rocket Level " + level.toUpperCase()));
 
         boosterMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);

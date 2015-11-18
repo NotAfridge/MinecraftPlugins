@@ -1,7 +1,8 @@
 package com.ullarah.urocket.event;
 
-import com.ullarah.ulib.function.CommonString;
-import com.ullarah.ulib.function.EntityLocation;
+import com.ullarah.urocket.RocketFunctions;
+import com.ullarah.urocket.function.CommonString;
+import com.ullarah.urocket.function.EntityLocation;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,15 +21,17 @@ import org.bukkit.util.Vector;
 import java.util.List;
 import java.util.Set;
 
-import static com.ullarah.urocket.RocketFunctions.attachRocketBoots;
 import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.RocketLanguage.*;
+import static com.ullarah.urocket.init.RocketLanguage.*;
 import static org.bukkit.Material.BEACON;
 
 public class PlayerInteract implements Listener {
 
     @EventHandler
     public void playerInteraction(PlayerInteractEvent event) {
+
+        RocketFunctions rocketFunctions = new RocketFunctions();
+        CommonString commonString = new CommonString();
 
         Player player = event.getPlayer();
         Action action = event.getAction();
@@ -86,7 +89,7 @@ public class PlayerInteract implements Listener {
                                 if (!stationList.contains(station)) {
 
                                     event.setCancelled(true);
-                                    new CommonString().messageSend(getPlugin(), player, true, RB_RS_PLACE_ERROR);
+                                    commonString.messageSend(getPlugin(), player, true, RB_RS_PLACE_ERROR);
 
                                 } else if (player.isSneaking()) {
 
@@ -95,13 +98,13 @@ public class PlayerInteract implements Listener {
 
                                     if (new EntityLocation().getNearbyEntities(new Location(world, eX, eY + 1, eZ), 1).length != 0) {
 
-                                        new CommonString().messageSend(getPlugin(), player, true, RB_RS_ENTITY);
+                                        commonString.messageSend(getPlugin(), player, true, RB_RS_ENTITY);
 
                                     } else {
 
                                         if (standList.contains(stand))
 
-                                            new CommonString().messageSend(getPlugin(), player, true, RB_RS_EXIST);
+                                            commonString.messageSend(getPlugin(), player, true, RB_RS_EXIST);
 
                                         else {
 
@@ -110,7 +113,7 @@ public class PlayerInteract implements Listener {
                                             getPlugin().getConfig().set("stands", standList);
                                             getPlugin().saveConfig();
 
-                                            new CommonString().messageSend(getPlugin(), player, true, RB_RS_PLACE_SUCCESS);
+                                            commonString.messageSend(getPlugin(), player, true, RB_RS_PLACE_SUCCESS);
 
                                         }
 
@@ -122,7 +125,7 @@ public class PlayerInteract implements Listener {
 
                                 player.updateInventory();
                                 event.setCancelled(true);
-                                new CommonString().messageSend(getPlugin(), player, true, RB_RS_PLACE_ERROR);
+                                commonString.messageSend(getPlugin(), player, true, RB_RS_PLACE_ERROR);
 
                             }
 
@@ -130,7 +133,7 @@ public class PlayerInteract implements Listener {
 
                             player.updateInventory();
                             event.setCancelled(true);
-                            new CommonString().messageSend(getPlugin(), player, true, PlacementDeny("Repair Stands"));
+                            commonString.messageSend(getPlugin(), player, true, PlacementDeny("Repair Stands"));
 
                         }
 
@@ -145,9 +148,17 @@ public class PlayerInteract implements Listener {
                     if (rocketLore.matches(ChatColor.YELLOW + "Rocket Level I{0,3}V?X?"))
                         if (!rocketUsage.contains(player.getUniqueId())) {
                             if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK))
-                                attachRocketBoots(player, rocketBoots);
+                                rocketFunctions.attachRocketBoots(player, rocketBoots);
                             else event.setCancelled(true);
                         }
+
+                }
+
+                if (rocketItem.equals(ChatColor.RED + "Rocket Boot Fuel Jacket")) {
+
+                    if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK))
+                        rocketJacket.add(player.getUniqueId());
+                    else event.setCancelled(true);
 
                 }
 

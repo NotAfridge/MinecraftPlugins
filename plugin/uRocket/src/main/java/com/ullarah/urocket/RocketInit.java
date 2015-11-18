@@ -1,7 +1,9 @@
 package com.ullarah.urocket;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.ullarah.ulib.function.PluginRegisters;
+import com.ullarah.urocket.function.PluginRegisters;
+import com.ullarah.urocket.init.RocketEnhancement;
+import com.ullarah.urocket.init.RocketVariant;
 import com.ullarah.urocket.recipe.*;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.lang3.StringUtils;
@@ -18,11 +20,9 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 
-import static com.ullarah.ulib.function.PluginRegisters.RegisterType.*;
-import static com.ullarah.urocket.RocketEnhancement.Enhancement;
-import static com.ullarah.urocket.RocketFunctions.disableRocketBoots;
-import static com.ullarah.urocket.RocketFunctions.reloadFlyZones;
-import static com.ullarah.urocket.RocketVariant.Variant;
+import static com.ullarah.urocket.function.PluginRegisters.RegisterType.*;
+import static com.ullarah.urocket.init.RocketEnhancement.Enhancement;
+import static com.ullarah.urocket.init.RocketVariant.Variant;
 
 public class RocketInit extends JavaPlugin {
 
@@ -31,7 +31,9 @@ public class RocketInit extends JavaPlugin {
     public static final HashSet<UUID> rocketUsage = new HashSet<>();
     public static final HashSet<UUID> rocketWater = new HashSet<>();
     public static final HashSet<UUID> rocketZones = new HashSet<>();
+    public static final HashSet<UUID> rocketJacket = new HashSet<>();
     public static final HashSet<UUID> rocketEffects = new HashSet<>();
+    public static final HashSet<UUID> rocketTimeout = new HashSet<>();
     public static final HashSet<HashSet<Location>> rocketFire = new HashSet<>();
     public static final ConcurrentHashMap<Location, Material> rocketGlow = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, EntityType> rocketEntity = new ConcurrentHashMap<>();
@@ -103,7 +105,11 @@ public class RocketInit extends JavaPlugin {
                 new RepairTank(),
                 new RepairStand(),
                 new RocketFlyZone(),
-                new RocketSaddle()
+                new RocketSaddle(),
+                new RocketFuelJacket(Material.LEATHER_CHESTPLATE),
+                new RocketFuelJacket(Material.IRON_CHESTPLATE),
+                new RocketFuelJacket(Material.GOLD_CHESTPLATE),
+                new RocketFuelJacket(Material.DIAMOND_CHESTPLATE)
         ));
 
         for (Material material : new ArrayList<Material>() {{
@@ -135,6 +141,7 @@ public class RocketInit extends JavaPlugin {
         new RocketEnhancement().init();
 
         getCommand("rocket").setExecutor(new RocketExecutor());
+        getCommand("fuel").setExecutor(new RocketExecutor());
 
         getConfig().options().copyDefaults(true);
         saveConfig();
@@ -154,7 +161,7 @@ public class RocketInit extends JavaPlugin {
             }
         }
 
-        reloadFlyZones(true);
+        new RocketFunctions().reloadFlyZones(true);
         int zoneList = registerMap.get("zone") != null ? registerMap.get("zone") : 0;
 
         Bukkit.getLogger().log(Level.INFO, "[" + pluginName + "] "
@@ -174,7 +181,7 @@ public class RocketInit extends JavaPlugin {
     public void onDisable() {
 
         for (UUID uuid : rocketUsage)
-            disableRocketBoots(Bukkit.getPlayer(uuid), false, false, false, false, false, false);
+            new RocketFunctions().disableRocketBoots(Bukkit.getPlayer(uuid), false, false, false, false, false, false);
 
     }
 

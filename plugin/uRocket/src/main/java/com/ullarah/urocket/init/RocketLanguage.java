@@ -1,4 +1,4 @@
-package com.ullarah.urocket;
+package com.ullarah.urocket.init;
 
 import org.bukkit.ChatColor;
 
@@ -7,8 +7,6 @@ public final class RocketLanguage {
     public static final String RB_NAME = ChatColor.RED + "Rocket Boots";
 
     public static final String RB_NOT_FOUND = ChatColor.RED + "Not Found";
-    public static final String RB_NOT_WORKING = ChatColor.YELLOW + "Not Working";
-
     public static final String RB_VARIANT = "Variant: " + ChatColor.AQUA;
     public static final String RB_ENHANCE = "Enhancement: " + ChatColor.AQUA;
 
@@ -56,6 +54,9 @@ public final class RocketLanguage {
     public static final String RB_FZ_ENTRY = ChatColor.RED + "You have entered a No-Fly Zone!";
     public static final String RB_FZ_CURRENT = ChatColor.RED + "You are currently in a No-Fly Zone!";
 
+    public static final String RB_JACKET_CREATE_ERROR = ChatColor.RED + "Error creating fuel contents.";
+    public static final String RB_JACKET_SAVE_ERROR = ChatColor.RED + "Error saving fuel contents.";
+
     public static final String RB_MOD_ERROR = ChatColor.RED + "You cannot modify Rocket Equipment!";
 
     public static final String RB_GAMEMODE_ERROR = ChatColor.RED + "Rocket Boots do not work in this gamemode!";
@@ -80,7 +81,7 @@ public final class RocketLanguage {
     }
 
     public static String FuelRequired(String type) {
-        return ChatColor.YELLOW + "You need " + type + " to launch these boots!";
+        return ChatColor.YELLOW + "You need more " + type + " to launch these boots!";
     }
 
     public static String FuelLow(String type) {

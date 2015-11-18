@@ -44,7 +44,7 @@ public class StandBreak implements Listener {
                         standEntity.getWorld().dropItemNaturally(entityLocation, standBoots);
                 }
 
-                standEntity.getWorld().dropItemNaturally(entityLocation, RepairStand.stand());
+                standEntity.getWorld().dropItemNaturally(entityLocation, new RepairStand().stand());
 
                 standList.remove(newStandList.indexOf(standNew));
                 standEntity.setHealth(0.0);

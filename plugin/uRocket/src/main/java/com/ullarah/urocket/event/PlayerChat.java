@@ -1,6 +1,6 @@
 package com.ullarah.urocket.event;
 
-import com.ullarah.ulib.function.CommonString;
+import com.ullarah.urocket.function.CommonString;
 import org.apache.commons.io.output.StringBuilderWriter;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -11,12 +11,14 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import java.util.Random;
 
 import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.RocketLanguage.RB_HIDDEN;
+import static com.ullarah.urocket.init.RocketLanguage.RB_HIDDEN;
 
 public class PlayerChat implements Listener {
 
     @EventHandler
     public void variantChangeSpeak(AsyncPlayerChatEvent event) {
+
+        CommonString commonString = new CommonString();
 
         Player player = event.getPlayer();
 
@@ -31,7 +33,7 @@ public class PlayerChat implements Listener {
                     break;
 
                 case STEALTH:
-                    new CommonString().messageSend(getPlugin(), player, true, RB_HIDDEN);
+                    commonString.messageSend(getPlugin(), player, true, RB_HIDDEN);
                     event.setCancelled(true);
                     break;
 
