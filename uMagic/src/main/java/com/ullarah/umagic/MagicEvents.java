@@ -66,11 +66,15 @@ public class MagicEvents implements Listener {
                             switch (block.getData()) {
 
                                 case 0:
-                                    block.setTypeIdAndData(162, (byte) 13, true);
+                                case 4:
+                                case 8:
+                                    block.setTypeIdAndData(162, (byte) 12, true);
                                     break;
 
                                 case 1:
-                                    block.setTypeIdAndData(162, (byte) 12, true);
+                                case 5:
+                                case 9:
+                                    block.setTypeIdAndData(162, (byte) 13, true);
                                     break;
 
                             }
