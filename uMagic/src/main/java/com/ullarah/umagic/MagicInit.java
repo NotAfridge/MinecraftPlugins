@@ -19,25 +19,30 @@ public class MagicInit extends JavaPlugin {
         MagicInit.worldGuard = worldGuard;
     }
 
-    @Override
     public void onEnable() {
 
         PluginManager pluginManager = getServer().getPluginManager();
         Plugin pluginWorldGuard = pluginManager.getPlugin("WorldGuard");
 
         if (pluginWorldGuard != null) {
+
             setWorldGuard((WorldGuardPlugin) pluginWorldGuard);
-            getServer().addRecipe(MagicRecipe.hoeRecipe());
+
+            getServer().addRecipe(new MagicRecipe().hoeRecipe());
             getServer().getPluginManager().registerEvents(new MagicEvents(), this);
+
         } else {
-            Bukkit.getLogger().log(Level.SEVERE, "WorldGuard not found, disabling uMagic!");
+
+            Bukkit.getLogger().log(Level.SEVERE, "WorldGuard plugin not found. Disabling uMagic.");
             pluginManager.disablePlugin(this);
+
         }
 
     }
 
-    @Override
     public void onDisable() {
+
+
     }
 
 }

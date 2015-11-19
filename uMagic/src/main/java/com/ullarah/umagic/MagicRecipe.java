@@ -12,7 +12,7 @@ import static org.bukkit.Material.SPECKLED_MELON;
 
 public class MagicRecipe {
 
-    public static ItemStack hoe() {
+    public ItemStack hoe() {
 
         ItemStack hoeStack = new ItemStack(DIAMOND_HOE, 1);
         ItemMeta hoeMeta = hoeStack.getItemMeta();
@@ -28,7 +28,7 @@ public class MagicRecipe {
 
     }
 
-    public static ShapedRecipe hoeRecipe() {
+    public ShapedRecipe hoeRecipe() {
 
         ShapedRecipe hoeRecipe = new ShapedRecipe(hoe());
         hoeRecipe.shape(" M ", "MHM", " M ");
