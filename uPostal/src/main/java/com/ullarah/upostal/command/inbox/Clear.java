@@ -11,50 +11,44 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.ullarah.upostal.PostalInit.*;
+import static com.ullarah.upostal.PostalInit.getInboxDataPath;
+import static com.ullarah.upostal.PostalInit.getPlugin;
 
 public class Clear {
 
-    public static void run(CommandSender sender, String[] args) {
+    public void run(CommandSender sender, String[] args) {
 
-        if (!getMaintenanceCheck()) {
+        CommonString commonString = new CommonString();
 
-            if (sender.hasPermission("postal.clear")) {
+        if (!sender.hasPermission("postal.clear")) {
+            commonString.messagePermDeny(getPlugin(), sender);
+            return;
+        }
 
-                if (!getMaintenanceCheck()) if (args.length >= 2) {
+        if (args.length >= 2) {
 
-                    File inboxFile = new File(getInboxDataPath(), new PlayerProfile().lookup(args[1]).getId().toString() + ".yml");
+            File inboxFile = new File(getInboxDataPath(), new PlayerProfile().lookup(args[1]).getId().toString() + ".yml");
 
-                    if (inboxFile.exists()) {
+            if (inboxFile.exists()) {
 
-                        try {
+                try {
 
-                            FileConfiguration inboxConfig = YamlConfiguration.loadConfiguration(inboxFile);
-                            inboxConfig.set("item", new ArrayList<>());
-                            inboxConfig.save(inboxFile);
+                    FileConfiguration inboxConfig = YamlConfiguration.loadConfiguration(inboxFile);
+                    inboxConfig.set("item", new ArrayList<>());
+                    inboxConfig.save(inboxFile);
 
-                            new CommonString().messageSend(getPlugin(), sender, true, new String[]{
-                                    ChatColor.GREEN + "Inbox cleared successfully!"
-                            });
+                    commonString.messageSend(getPlugin(), sender, ChatColor.GREEN + "Inbox cleared successfully!");
 
-                        } catch (IOException e) {
+                } catch (IOException e) {
 
-                            new CommonString().messageSend(getPlugin(), sender, true, new String[]{
-                                    ChatColor.RED + "Inbox Clear Error!"
-                            });
-                            e.printStackTrace();
+                    commonString.messageSend(getPlugin(), sender, ChatColor.RED + "Inbox clear error!");
+                    e.printStackTrace();
 
-                        }
+                }
 
-                    } else
-                        new CommonString().messageSend(getPlugin(), sender, true, new String[]{"That player does not have an inbox!"});
+            } else commonString.messageSend(getPlugin(), sender, "That player does not have an inbox!");
 
-                } else
-                    new CommonString().messageSend(getPlugin(), sender, true, new String[]{ChatColor.YELLOW + "/postal clear <player>"});
-
-            } else new CommonString().messagePermDeny(getPlugin(), sender);
-
-        } else new CommonString().messageMaintenance(getPlugin(), sender);
+        } else commonString.messageSend(getPlugin(), sender, ChatColor.YELLOW + "/postal clear <player>");
 
     }
 

@@ -10,62 +10,47 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.IOException;
 
-import static com.ullarah.upostal.PostalInit.*;
+import static com.ullarah.upostal.PostalInit.getInboxDataPath;
+import static com.ullarah.upostal.PostalInit.getPlugin;
 
 public class Upgrade {
 
-    public static void run(CommandSender sender) {
+    public void run(CommandSender sender) {
 
-        if (!getMaintenanceCheck()) {
+        CommonString commonString = new CommonString();
+        Player player = (Player) sender;
 
-            Player player = (Player) sender;
+        File inboxFile = new File(getInboxDataPath(), player.getUniqueId().toString() + ".yml");
 
-            File inboxFile = new File(getInboxDataPath(), player.getUniqueId().toString() + ".yml");
+        if (inboxFile.exists()) {
 
-            if (inboxFile.exists()) {
+            FileConfiguration inboxConfig = YamlConfiguration.loadConfiguration(inboxFile);
 
-                FileConfiguration inboxConfig = YamlConfiguration.loadConfiguration(inboxFile);
+            int inboxPlayerSlot = inboxConfig.getInt("slot");
 
-                int inboxPlayerSlot = inboxConfig.getInt("slot");
-
-                if (inboxPlayerSlot >= 54) {
-
-                    new CommonString().messageSend(getPlugin(), player, true, new String[]{
-                            ChatColor.AQUA + "You have the maximum number of slots!"
-                    });
-
-                } else {
-
-                    if (player.getLevel() >= 50) {
-
-                        inboxConfig.set("slot", inboxPlayerSlot + 9);
-                        player.setLevel(player.getLevel() - 50);
-
-                        try {
-                            inboxConfig.save(inboxFile);
-                        } catch (IOException e) {
-                            new CommonString().messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Slot Update Error!"});
-                        }
-
-                        new CommonString().messageSend(getPlugin(), player, true, new String[]{
-                                ChatColor.YELLOW + "You upgraded your inbox! You now have " +
-                                        ChatColor.GREEN + (inboxPlayerSlot + 9) + ChatColor.YELLOW + " slots!"
-                        });
-
-                    } else {
-
-                        new CommonString().messageSend(getPlugin(), player, true, new String[]{
-                                ChatColor.YELLOW + "You need at least" +
-                                        ChatColor.GOLD + " 50xp levels " + ChatColor.YELLOW + "to upgrade!"
-                        });
-
-                    }
-
-                }
-
+            if (inboxPlayerSlot >= 54) {
+                commonString.messageSend(getPlugin(), player, ChatColor.AQUA + "You have the maximum number of slots!");
+                return;
             }
 
-        } else new CommonString().messageMaintenance(getPlugin(), sender);
+            if (player.getLevel() >= 50) {
+
+                inboxConfig.set("slot", inboxPlayerSlot + 9);
+                player.setLevel(player.getLevel() - 50);
+
+                try {
+                    inboxConfig.save(inboxFile);
+                    commonString.messageSend(getPlugin(), player,
+                            ChatColor.YELLOW + "You upgraded your inbox! You now have " +
+                                    ChatColor.GREEN + (inboxPlayerSlot + 9) + ChatColor.YELLOW + " slots!");
+                } catch (IOException e) {
+                    commonString.messageSend(getPlugin(), player, ChatColor.RED + "Slot Update Error!");
+                }
+
+            } else commonString.messageSend(getPlugin(), player,
+                    ChatColor.YELLOW + "You need at least" + ChatColor.GOLD + " 50xp levels " + ChatColor.YELLOW + "to upgrade!");
+
+        }
 
     }
 

@@ -1,10 +1,6 @@
 package com.ullarah.upostal;
 
-import com.ullarah.upostal.event.InboxClick;
-import com.ullarah.upostal.event.InboxClose;
-import com.ullarah.upostal.event.InboxDrag;
-import com.ullarah.upostal.event.JoinRegister;
-import com.ullarah.upostal.function.PluginRegisters;
+import com.ullarah.upostal.function.EventRegister;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -16,8 +12,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
 
-import static com.ullarah.upostal.function.PluginRegisters.RegisterType.EVENT;
-
 public class PostalInit extends JavaPlugin {
 
     public static final ArrayList<UUID> inboxViewerBusy = new ArrayList<>();
@@ -25,12 +19,7 @@ public class PostalInit extends JavaPlugin {
     public static final HashMap<UUID, BukkitTask> inboxChanged = new HashMap<>();
 
     private static Plugin plugin;
-    private static String msgPrefix = null;
-    private static String msgPermDeny = null;
-    private static String msgNoConsole = null;
     private static String inboxDataPath;
-    private static Boolean maintenanceCheck;
-    private static String maintenanceMessage;
 
     public static Plugin getPlugin() {
         return plugin;
@@ -48,14 +37,6 @@ public class PostalInit extends JavaPlugin {
         PostalInit.inboxDataPath = dataPath;
     }
 
-    public static Boolean getMaintenanceCheck() {
-        return maintenanceCheck;
-    }
-
-    public static void setMaintenanceCheck(Boolean maintenanceCheck) {
-        PostalInit.maintenanceCheck = maintenanceCheck;
-    }
-
     public void onEnable() {
 
         setPlugin(this);
@@ -64,18 +45,11 @@ public class PostalInit extends JavaPlugin {
         getConfig().options().copyDefaults(true);
         saveConfig();
 
-        new PluginRegisters().register(getPlugin(), EVENT,
-                new InboxClick(),
-                new InboxClose(),
-                new InboxDrag(),
-                new JoinRegister()
-        );
+        new EventRegister().registerAll(getPlugin());
 
         getCommand("postal").setExecutor(new PostalExecutor());
         getCommand("post").setExecutor(new PostalExecutor());
         getCommand("inbox").setExecutor(new PostalExecutor());
-
-        setMaintenanceCheck(PostalInit.getPlugin().getConfig().getBoolean("maintenance"));
 
     }
 

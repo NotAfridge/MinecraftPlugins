@@ -25,120 +25,116 @@ import static com.ullarah.upostal.PostalInit.*;
 
 public class Update {
 
-    public static void run(UUID sender, UUID receiver, Inventory inventory) {
+    public void run(UUID sender, UUID receiver, Inventory inventory) {
 
+        CommonString commonString = new CommonString();
+        TitleSubtitle titleSubtitle = new TitleSubtitle();
         Player player = Bukkit.getPlayer(sender);
 
-        if (!getMaintenanceCheck()) {
+        File inboxFile = new File(getInboxDataPath(), receiver.toString() + ".yml");
+        FileConfiguration inboxConfig = YamlConfiguration.loadConfiguration(inboxFile);
+
+        if (!sender.equals(receiver)) {
 
             boolean newItems = false;
             String fromString = "" + ChatColor.GRAY + ChatColor.ITALIC + "From: " + player.getPlayerListName();
 
-            File inboxFile = new File(getInboxDataPath(), receiver.toString() + ".yml");
-            FileConfiguration inboxConfig = YamlConfiguration.loadConfiguration(inboxFile);
+            try {
 
-            if (!sender.equals(receiver)) {
+                ArrayList<ItemStack> itemList = new ArrayList<>();
 
-                try {
+                if (!inboxConfig.getList("item").isEmpty())
+                    itemList.addAll(inboxConfig.getList("item").stream().map(item
+                            -> (ItemStack) item).collect(Collectors.toList()));
 
-                    ArrayList<ItemStack> itemList = new ArrayList<>();
+                for (ItemStack item : inventory.getContents()) {
 
-                    if (!inboxConfig.getList("item").isEmpty())
-                        itemList.addAll(inboxConfig.getList("item").stream()
-                                .map(item -> (ItemStack) item).collect(Collectors.toList()));
+                    if (item != null) {
 
-                    for (ItemStack item : inventory.getContents()) {
+                        newItems = true;
 
-                        if (item != null) {
+                        if (item.hasItemMeta()) {
 
-                            newItems = true;
+                            if (item.getItemMeta().hasDisplayName()) {
 
-                            if (item.hasItemMeta()) {
+                                if (item.getItemMeta().getDisplayName().equals(ChatColor.WHITE + "Slot Taken")
+                                        && item.getType() == Material.STAINED_GLASS_PANE) {
 
-                                if (item.getItemMeta().hasDisplayName()) {
-
-                                    if (item.getItemMeta().getDisplayName().equals(ChatColor.WHITE + "Slot Taken")
-                                            && item.getType() == Material.STAINED_GLASS_PANE) {
-
-                                        newItems = false;
-                                        continue;
-
-                                    }
+                                    newItems = false;
+                                    continue;
 
                                 }
 
-                                List<String> itemLore = new ArrayList<>();
-
-                                if (item.getItemMeta().hasLore()) {
-                                    itemLore = item.getItemMeta().getLore();
-                                    itemLore.add(fromString);
-                                } else itemLore.add(fromString);
-
-                                ItemMeta itemMeta = item.getItemMeta();
-                                itemMeta.setLore(itemLore);
-                                item.setItemMeta(itemMeta);
-
-                            } else {
-
-                                ItemMeta itemMeta = item.getItemMeta();
-                                itemMeta.setLore(Collections.singletonList(fromString));
-                                item.setItemMeta(itemMeta);
-
                             }
 
-                            itemList.add(item);
+                            List<String> itemLore = new ArrayList<>();
+
+                            if (item.getItemMeta().hasLore()) {
+                                itemLore = item.getItemMeta().getLore();
+                                itemLore.add(fromString);
+                            } else itemLore.add(fromString);
+
+                            ItemMeta itemMeta = item.getItemMeta();
+                            itemMeta.setLore(itemLore);
+                            item.setItemMeta(itemMeta);
+
+                        } else {
+
+                            ItemMeta itemMeta = item.getItemMeta();
+                            itemMeta.setLore(Collections.singletonList(fromString));
+                            item.setItemMeta(itemMeta);
 
                         }
 
-                    }
-
-                    inboxConfig.set("item", itemList);
-                    inboxConfig.save(inboxFile);
-
-                } catch (IOException e) {
-
-                    new CommonString().messageSend(getPlugin(), player, true, new String[]{
-                            ChatColor.RED + "Inbox Update Error!"
-                    });
-
-                }
-
-                if (inboxOwnerBusy.isEmpty()) if (newItems)
-                    new CommonString().messageSend(getPlugin(), player, true, new String[]{ChatColor.GREEN + "Items sent successfully!"});
-
-                if (newItems) {
-
-                    for (Player receiverPlayer : Bukkit.getServer().getOnlinePlayers()) {
-
-                        if (receiverPlayer.getUniqueId().equals(receiver)) {
-
-                            inboxChanged.put(receiver, PostalReminder.task(receiver));
-                            String message = ChatColor.YELLOW + "You have new items in your inbox!";
-                            new CommonString().messageSend(getPlugin(), receiverPlayer, true, new String[]{message});
-                            new TitleSubtitle().subtitle(receiverPlayer, 5, message);
-                            break;
-
-                        }
+                        itemList.add(item);
 
                     }
 
                 }
-
-            } else try {
-
-                List<ItemStack> itemList = new ArrayList<>();
-                for (ItemStack item : inventory.getContents()) if (item != null) itemList.add(item);
 
                 inboxConfig.set("item", itemList);
                 inboxConfig.save(inboxFile);
 
             } catch (IOException e) {
 
-                new CommonString().messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Inbox Update Error!"});
+                commonString.messageSend(getPlugin(), player, ChatColor.RED + "Inbox Update Error!");
 
             }
 
-        } else new CommonString().messageMaintenance(getPlugin(), player);
+            if (inboxOwnerBusy.isEmpty()) if (newItems)
+                commonString.messageSend(getPlugin(), player, ChatColor.GREEN + "Items sent successfully!");
+
+            if (newItems) {
+
+                for (Player receiverPlayer : Bukkit.getServer().getOnlinePlayers()) {
+
+                    if (receiverPlayer.getUniqueId().equals(receiver)) {
+
+                        inboxChanged.put(receiver, new PostalReminder().task(receiver));
+                        String message = ChatColor.YELLOW + "You have new items in your inbox!";
+                        commonString.messageSend(getPlugin(), receiverPlayer, message);
+                        titleSubtitle.subtitle(receiverPlayer, message);
+                        break;
+
+                    }
+
+                }
+
+            }
+
+        } else try {
+
+            List<ItemStack> itemList = new ArrayList<>();
+            for (ItemStack item : inventory.getContents()) if (item != null) itemList.add(item);
+
+            inboxConfig.set("item", itemList);
+            inboxConfig.save(inboxFile);
+
+        } catch (IOException e) {
+
+            commonString.messageSend(getPlugin(), player, ChatColor.RED + "Inbox Update Error!");
+
+        }
 
     }
 

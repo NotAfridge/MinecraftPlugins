@@ -41,54 +41,58 @@ public class InboxClick implements Listener {
 
             boolean isOwner = inboxViewerUUID.equals(inboxOwnerUUID);
 
-            if (event.getClick().isRightClick()) event.setCancelled(true);
-            else {
+            if (event.getClick().isRightClick()) {
+                event.setCancelled(true);
+                return;
+            }
 
-                ItemStack hand = event.getWhoClicked().getItemOnCursor();
-                ItemStack item = event.getCurrentItem();
+            ItemStack hand = event.getWhoClicked().getItemOnCursor();
+            ItemStack item = event.getCurrentItem();
 
-                if (event.getRawSlot() > inboxSlotSizeRaw && isOwner && hand.getType() == Material.AIR)
-                    event.setCancelled(true);
+            if (event.getRawSlot() > inboxSlotSizeRaw && isOwner && hand.getType() == Material.AIR) {
+                event.setCancelled(true);
+                return;
+            }
 
-                if (event.getRawSlot() <= inboxSlotSizeRaw && isOwner && hand.getType() != Material.AIR)
-                    event.setCancelled(true);
+            if (event.getRawSlot() <= inboxSlotSizeRaw && isOwner && hand.getType() != Material.AIR) {
+                event.setCancelled(true);
+                return;
+            }
 
-                if (item.getType() != Material.AIR) {
+            if (item.getType() != Material.AIR) {
 
-                    if (item.hasItemMeta()) {
+                if (item.hasItemMeta()) {
 
-                        if (item.getItemMeta().hasDisplayName()) {
+                    if (item.getItemMeta().hasDisplayName()) {
 
-                            if (item.getItemMeta().getDisplayName().equals(
-                                    ChatColor.WHITE + "Slot Taken")
-                                    && item.getType() == Material.STAINED_GLASS_PANE) {
-                                event.getCursor().setType(Material.AIR);
-                                event.setCancelled(true);
-                            }
-
+                        if (item.getItemMeta().getDisplayName().equals(
+                                ChatColor.WHITE + "Slot Taken")
+                                && item.getType() == Material.STAINED_GLASS_PANE) {
+                            event.getCursor().setType(Material.AIR);
+                            event.setCancelled(true);
                         }
 
-                        if (item.getItemMeta().hasLore()) {
+                    }
 
-                            if (event.getRawSlot() < inboxSlotSizeRaw && isOwner) {
+                    if (item.getItemMeta().hasLore()) {
 
-                                ItemMeta meta = item.getItemMeta();
-                                List<String> lore = item.getItemMeta().getLore();
+                        if (event.getRawSlot() < inboxSlotSizeRaw && isOwner) {
 
-                                if (lore.size() <= 1) meta.setLore(null);
-                                else {
+                            ItemMeta meta = item.getItemMeta();
+                            List<String> lore = item.getItemMeta().getLore();
 
-                                    item.getItemMeta().getLore().stream().filter(line -> line.matches
-                                            ("" + ChatColor.GRAY + ChatColor.ITALIC + "From: .*"))
-                                            .forEach(line -> lore.remove(lore.size() - 1));
+                            if (lore.size() <= 1) meta.setLore(null);
+                            else {
 
-                                    meta.setLore(lore);
+                                item.getItemMeta().getLore().stream().filter(line -> line.matches
+                                        ("" + ChatColor.GRAY + ChatColor.ITALIC + "From: .*"))
+                                        .forEach(line -> lore.remove(lore.size() - 1));
 
-                                }
-
-                                item.setItemMeta(meta);
+                                meta.setLore(lore);
 
                             }
+
+                            item.setItemMeta(meta);
 
                         }
 

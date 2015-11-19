@@ -10,7 +10,7 @@ public class JoinRegister implements Listener {
     @EventHandler
     public void event(final PlayerJoinEvent event) {
 
-        Register.create(event.getPlayer());
+        new Register().create(event.getPlayer());
 
     }
 

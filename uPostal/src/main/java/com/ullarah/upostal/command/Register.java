@@ -15,7 +15,7 @@ import static com.ullarah.upostal.PostalInit.getPlugin;
 
 public class Register {
 
-    public static void create(CommandSender sender) {
+    public void create(CommandSender sender) {
 
         try {
 
