@@ -44,7 +44,7 @@ public class AnvilCreate implements Listener {
                     if (itemOne.getItemMeta().hasLore() && itemTwo.getItemMeta().hasLore())
                         if (itemOne.getItemMeta().hasDisplayName() && itemTwo.getItemMeta().hasDisplayName()) {
 
-                            String boosterNameMatch = ChatColor.RED + "Rocket Booster";
+                            String boosterNameMatch = ChatColor.RED + "Rocket Boot Booster";
                             String boosterLoreMatch = ChatColor.YELLOW + "Rocket Level V";
 
                             String boosterSlotOneName = itemOne.getItemMeta().getDisplayName();
@@ -59,7 +59,7 @@ public class AnvilCreate implements Listener {
                                     ItemStack boosterTen = new ItemStack(Material.TNT, 1);
                                     ItemMeta boosterTenMeta = boosterTen.getItemMeta();
 
-                                    boosterTenMeta.setDisplayName(ChatColor.RED + "Rocket Booster");
+                                    boosterTenMeta.setDisplayName(boosterNameMatch);
                                     boosterTenMeta.setLore(Collections.singletonList(ChatColor.YELLOW + "Rocket Level X"));
                                     boosterTenMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 

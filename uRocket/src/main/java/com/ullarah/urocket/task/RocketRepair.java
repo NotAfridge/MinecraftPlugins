@@ -33,9 +33,11 @@ public class RocketRepair {
                             if (repairRate > 0 && player.isFlying()) {
 
                                 short currentDurability = rocketBoots.getDurability();
-                                rocketBoots.setDurability((short) (currentDurability - repairRate));
 
-                                player.playSound(player.getLocation(), Sound.ANVIL_USE, 0.35f, 1.75f);
+                                if (currentDurability > 0) {
+                                    rocketBoots.setDurability((short) (currentDurability - repairRate));
+                                    player.playSound(player.getLocation(), Sound.ANVIL_USE, 0.35f, 1.75f);
+                                }
 
                             }
 
