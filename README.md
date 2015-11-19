@@ -11,17 +11,17 @@ All the plugins. In one place. Such lazy. Easy.
 Don't come complaining to me if things aren't working.  
 [Use the wiki for more information](https://github.com/Ullarah/MinecraftPlugins/wiki)
 
-| Plugin    | Status          |
-| --------- | --------------- |
-| uAuction  | Requires Recode |
-| uBeacon   | In Progress     |
-| uChest    | Ready           |
-| uJoinQuit | Ready           |
-| uLottery  | Ready           |
-| uMagic    | Ready           |
-| uPostal   | Ready           |
-| uRocket   | Ready           |
-| uTab      | Ready           |
-| uTeleport | Ready           |
-| uWatch    | Do Not Use      |
-| uWild     | In Progress     |
+| Plugin    | Status          | Description                           |
+| --------- | --------------- | ------------------------------------- |
+| uAuction  | Requires Recode | Simple item auctions.                 |
+| uBeacon   | In Progress     | Rainbow and Custom beacons.           |
+| uChest    | Ready           | Various useful chests.                |
+| uJoinQuit | Ready           | Custom Join/Quit messages.            |
+| uLottery  | Ready           | Passive death lottery.                |
+| uMagic    | Ready           | Magical hoe to change various blocks. |
+| uPostal   | Ready           | Item Postal service between players.  |
+| uRocket   | Ready           | Rocket Boots for player flying.       |
+| uTab      | Ready           | Tab list header and footer.           |
+| uTeleport | Ready           | Teleport history for players.         |
+| uWatch    | Do Not Use      | Player information and tracker.       |
+| uWild     | In Progress     | Various animal and mob changes.       |
