@@ -1,5 +1,6 @@
 package com.ullarah.uchest.event;
 
+import com.ullarah.uchest.ChestFunctions;
 import com.ullarah.uchest.function.CommonString;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -14,26 +15,29 @@ import org.bukkit.inventory.ItemStack;
 import java.io.File;
 import java.io.IOException;
 
-import static com.ullarah.uchest.ChestFunctions.convertItem;
 import static com.ullarah.uchest.ChestInit.*;
 
 public class ChestClose implements Listener {
 
+    private final CommonString commonString = new CommonString();
+
     @EventHandler
-    public void event(final InventoryCloseEvent event) throws IOException {
+    public void event(final InventoryCloseEvent event) {
+
+        ChestFunctions chestFunctions = new ChestFunctions();
 
         Inventory chestInventory = event.getInventory();
         Player chestPlayer = (Player) event.getPlayer();
 
         if (chestInventory.getName().matches("§2Experience Chest")) {
             ItemStack[] expItems = chestInventory.getContents();
-            convertItem(chestPlayer, "XP", expItems);
+            chestFunctions.convertItem(chestPlayer, "XP", expItems);
             chestInventory.clear();
         }
 
         if (chestInventory.getName().matches("§2Money Chest")) {
             ItemStack[] moneyItems = chestInventory.getContents();
-            convertItem(chestPlayer, "MONEY", moneyItems);
+            chestFunctions.convertItem(chestPlayer, "MONEY", moneyItems);
             chestInventory.clear();
         }
 
@@ -63,41 +67,27 @@ public class ChestClose implements Listener {
             chestSwapBusy = false;
         }
 
-        if (chestInventory.getName().matches("§2Hold Chest")) {
+        if (chestInventory.getName().matches("§2Hold Chest")) openHoldVault(chestPlayer, chestInventory, "hold");
+        if (chestInventory.getName().matches("§2Vault Chest")) openHoldVault(chestPlayer, chestInventory, "vault");
 
-            File holdFile = new File(getPlugin().getDataFolder() + File.separator + "hold",
-                    chestPlayer.getUniqueId().toString() + ".yml");
+    }
 
-            if (holdFile.exists()) {
+    private void openHoldVault(Player chestPlayer, Inventory chestInventory, String type) {
 
-                FileConfiguration holdConfig = YamlConfiguration.loadConfiguration(holdFile);
+        File vaultFile = new File(getPlugin().getDataFolder() + File.separator + type, chestPlayer.getUniqueId().toString() + ".yml");
 
-                holdConfig.set("item", chestInventory.getContents());
-                holdConfig.save(holdFile);
+        if (vaultFile.exists()) {
 
-            } else new CommonString().messageSend(getPlugin(), chestPlayer, true, new String[]{
-                    ChatColor.RED + "Error saving holding chest contents."
-            });
+            FileConfiguration vaultConfig = YamlConfiguration.loadConfiguration(vaultFile);
+            vaultConfig.set("item", chestInventory.getContents());
 
-        }
-
-        if (chestInventory.getName().matches("§2Vault Chest")) {
-
-            File vaultFile = new File(getPlugin().getDataFolder() + File.separator + "vault",
-                    chestPlayer.getUniqueId().toString() + ".yml");
-
-            if (vaultFile.exists()) {
-
-                FileConfiguration vaultConfig = YamlConfiguration.loadConfiguration(vaultFile);
-
-                vaultConfig.set("item", chestInventory.getContents());
+            try {
                 vaultConfig.save(vaultFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-            } else new CommonString().messageSend(getPlugin(), chestPlayer, true, new String[]{
-                    ChatColor.RED + "Error saving vault chest contents."
-            });
-
-        }
+        } else commonString.messageSend(getPlugin(), chestPlayer, ChatColor.RED + "Error saving vault chest contents.");
 
     }
 

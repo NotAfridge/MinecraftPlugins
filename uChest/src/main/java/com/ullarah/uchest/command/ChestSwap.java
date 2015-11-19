@@ -10,19 +10,20 @@ public class ChestSwap {
 
     public void runCommand(CommandSender sender, String[] args) {
 
-        if (!(sender instanceof Player)) new CommonString().messageNoConsole(getPlugin(), sender);
-        else if (!getMaintenanceCheck()) {
+        CommonString commonString = new CommonString();
 
-            if (chestTypeEnabled.get("schest")) {
+        if (!(sender instanceof Player)) {
+            commonString.messageNoConsole(getPlugin(), sender);
+            return;
+        }
 
-                if (chestSwapBusy)
-                    new CommonString().messageSend(getPlugin(), sender, true, new String[]{"The swap chest is busy. Try again later!"});
-                else ((Player) sender).openInventory(getChestSwapHolder().getInventory());
+        if (chestTypeEnabled.get("schest")) {
 
-            } else
-                new CommonString().messageSend(getPlugin(), sender, true, new String[]{"Swap Chest is currently unavailable."});
+            if (chestSwapBusy)
+                commonString.messageSend(getPlugin(), sender, "The swap chest is busy. Try again later!");
+            else ((Player) sender).openInventory(getChestSwapHolder().getInventory());
 
-        } else new CommonString().messageMaintenance(getPlugin(), sender);
+        } else commonString.messageSend(getPlugin(), sender, "Swap Chest is currently unavailable.");
 
     }
 

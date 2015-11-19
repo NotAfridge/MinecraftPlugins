@@ -44,18 +44,6 @@ public class CommonString {
     }
 
     /**
-     * An under maintenance message
-     *
-     * @param plugin the plugin object
-     * @param sender the sender who receives the message
-     */
-    public void messageMaintenance(Plugin plugin, CommandSender sender) {
-
-        sender.sendMessage(pluginPrefix(plugin) + ChatColor.RED + "Currently under maintenance.");
-
-    }
-
-    /**
      * A message that is sent to a {@code CommandSender} object
      *
      * @param plugin   the plugin object
@@ -71,15 +59,13 @@ public class CommonString {
 
     /**
      * A message that is sent to a {@code CommandSender} object
-     *
      * @param plugin  the plugin object
      * @param sender  the sender who receives the message
-     * @param prefix  the prefix of the current plugin
      * @param message the message to send
      */
-    public void messageSend(Plugin plugin, CommandSender sender, boolean prefix, String message) {
+    public void messageSend(Plugin plugin, CommandSender sender, String message) {
 
-        sender.sendMessage(prefix ? pluginPrefix(plugin) + message : message);
+        sender.sendMessage(pluginPrefix(plugin) + message);
 
     }
 
@@ -99,15 +85,13 @@ public class CommonString {
 
     /**
      * A message that is sent to a {@code Player} object
-     *
-     * @param plugin  the plugin object
+     *  @param plugin  the plugin object
      * @param player  the sender who receives the message
-     * @param prefix  the prefix of the current plugin
      * @param message the message to send
      */
-    public void messageSend(Plugin plugin, Player player, boolean prefix, String message) {
+    public void messageSend(Plugin plugin, Player player, String message) {
 
-        player.sendMessage(prefix ? pluginPrefix(plugin) + message : message);
+        player.sendMessage(pluginPrefix(plugin) + message);
 
     }
 

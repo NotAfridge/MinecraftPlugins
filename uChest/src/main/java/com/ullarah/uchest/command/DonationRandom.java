@@ -1,7 +1,6 @@
 package com.ullarah.uchest.command;
 
 import com.ullarah.uchest.function.CommonString;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -16,54 +15,56 @@ import static com.ullarah.uchest.ChestInit.*;
 
 public class DonationRandom {
 
-    public static void fillDonationChest(CommandSender sender) {
+    public void fillDonationChest(CommandSender sender) {
 
-        if (sender.hasPermission("chest.random") || !(sender instanceof Player)) {
+        CommonString commonString = new CommonString();
 
-            for (int i = 0; i < getChestDonationInventory().getSize(); i++) {
+        if (!sender.hasPermission("chest.random")) {
+            commonString.messagePermDeny(getPlugin(), sender);
+            return;
+        }
 
-                java.util.Random chestRandomItem = new java.util.Random();
+        for (int i = 0; i < getChestDonationInventory().getSize(); i++) {
 
-                if (chestRandomItem.nextInt() > 50) {
+            java.util.Random chestRandomItem = new java.util.Random();
 
-                    java.util.Random randomItem = new java.util.Random();
-                    List<String> materialList = new ArrayList<>(
-                            getPlugin().getConfig().getConfigurationSection("materials").getKeys(false));
+            if (chestRandomItem.nextInt() > 50) {
 
-                    getChestDonationInventory().setItem(i, new ItemStack(Material.getMaterial(
-                            materialList.get(randomItem.nextInt(materialList.size())))));
+                List<String> materialList = new ArrayList<>(
+                        getPlugin().getConfig().getConfigurationSection("materials").getKeys(false));
 
-                }
-
-            }
-
-            int lockedSeconds = getPlugin().getConfig().getInt("unlock");
-
-            for (Player player : Bukkit.getOnlinePlayers()) {
-
-                new CommonString().messageSend(getPlugin(), player, true, new String[]{
-                        ChatColor.GREEN + "Donation Chest has been randomized with new items!",
-                        ChatColor.GREEN + "Quick! Use /dchest to open it up!",
-                });
-
-                if (lockedSeconds > 0) {
-                    String end = lockedSeconds + " seconds.";
-                    if (lockedSeconds == 1) end = "second.";
-                    new CommonString().messageSend(getPlugin(), player, true, new String[]{
-                            "" + ChatColor.GRAY + ChatColor.ITALIC + "You are restricted to one item every " + end
-                    });
-                }
+                getChestDonationInventory().setItem(i, new ItemStack(Material.getMaterial(
+                        materialList.get(new java.util.Random().nextInt(materialList.size())))));
 
             }
 
-            chestDonateLock = true;
-            chestDonateCountdown();
+        }
 
-        } else new CommonString().messagePermDeny(getPlugin(), sender);
+        int lockedSeconds = getPlugin().getConfig().getInt("unlock");
+
+        for (Player player : getPlugin().getServer().getOnlinePlayers()) {
+
+            commonString.messageSend(getPlugin(), player, true, new String[]{
+                    ChatColor.GREEN + "Donation Chest has been randomized with new items!",
+                    ChatColor.GREEN + "Quick! Use /dchest to open it up!",
+            });
+
+            if (lockedSeconds > 0) {
+                String end = lockedSeconds + " seconds.";
+                if (lockedSeconds == 1) end = "second.";
+                commonString.messageSend(getPlugin(), player, "" + ChatColor.GRAY +
+                        ChatColor.ITALIC + "You are restricted to one item every " + end);
+            }
+
+        }
+
+        chestDonateLock = true;
+        chestDonateCountdown();
 
     }
 
-    private static void chestDonateCountdown() {
+    private void chestDonateCountdown() {
+
         new BukkitRunnable() {
             int c = getPlugin().getConfig().getInt("donatelock");
 
@@ -77,6 +78,7 @@ public class DonationRandom {
                 c--;
             }
         }.runTaskTimer(getPlugin(), 0, 20);
+
     }
 
 }

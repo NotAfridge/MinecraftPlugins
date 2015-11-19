@@ -8,13 +8,15 @@ import org.bukkit.entity.Player;
 
 public class DisplayHelp {
 
-    public static void runHelp(CommandSender sender) {
+    public void runHelp(CommandSender sender) {
 
         if (sender instanceof Player) {
 
+            CommonString commonString = new CommonString();
+
             Player player = (Player) sender;
 
-            new CommonString().messageSend(ChestInit.getPlugin(), player, false, new String[]{
+            commonString.messageSend(ChestInit.getPlugin(), player, false, new String[]{
                     ChatColor.AQUA + " uChest Help" + ChatColor.WHITE + " - Use /chest to read descriptions!",
                     " " + ChatColor.STRIKETHROUGH + "----------------------------------------------------",
                     ChatColor.GOLD + " /chest   - " + ChatColor.YELLOW + "Mixed Chest Menu",
@@ -29,12 +31,10 @@ public class DisplayHelp {
 
             if (sender.hasPermission("chest.staff")) {
 
-                new CommonString().messageSend(ChestInit.getPlugin(), player, false, new String[]{
+                commonString.messageSend(ChestInit.getPlugin(), player, false, new String[]{
                         " " + ChatColor.STRIKETHROUGH + "-------------------" + ChatColor.RED + " Staff Commands "
                                 + ChatColor.WHITE + ChatColor.STRIKETHROUGH + "-------------------",
-                        ChatColor.GOLD + " /chest maintenance <on|off>",
-                        ChatColor.YELLOW + "   Puts the chest system in maintenance mode",
-                        ChatColor.GOLD + " /chest toggle [dhmprsvx]chest",
+                        ChatColor.GOLD + " /chest toggle [dhmrsvx]chest",
                         ChatColor.YELLOW + "   Toggles the chest type access",
                         ChatColor.GOLD + " /dchest random",
                         ChatColor.YELLOW + "   Will override items in chest with random items",

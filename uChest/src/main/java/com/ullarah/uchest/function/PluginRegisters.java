@@ -1,60 +1,13 @@
 package com.ullarah.uchest.function;
 
-import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import java.security.CodeSource;
-import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 public class PluginRegisters {
-
-    /**
-     * Registers different types for minecraft reference
-     *
-     * @param plugin  the current plugin used
-     * @param type    the type of object that is being registered
-     * @param objects the objects to register against the plugin
-     * @return the number of valid registrations
-     */
-    public int register(Plugin plugin, RegisterType type, Object... objects) {
-
-        int amount = 0;
-
-        for (Object object : objects) {
-
-            try {
-
-                switch (type) {
-
-                    case EVENT:
-                        plugin.getServer().getPluginManager().registerEvents((Listener) object, plugin);
-                        break;
-
-                    case TASK:
-                        object.getClass().getMethod(type.toString()).invoke(object.getClass().newInstance());
-                        break;
-
-                }
-
-                amount++;
-
-            } catch (Exception e) {
-
-                Bukkit.getLogger().log(Level.SEVERE, "[" + plugin.getName() + "] Register Error: "
-                        + "[" + type.toString().toUpperCase() + "] " + object.getClass().getCanonicalName());
-
-                e.printStackTrace();
-
-            }
-
-        }
-
-        return amount;
-
-    }
 
     /**
      * Registers all different types for minecraft reference

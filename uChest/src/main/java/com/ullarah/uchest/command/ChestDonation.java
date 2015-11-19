@@ -12,52 +12,42 @@ public class ChestDonation {
 
     public void runCommand(CommandSender sender, String[] args) {
 
+        CommonString commonString = new CommonString();
         String consoleTools = new CommonString().pluginPrefix(getPlugin()) + ChatColor.WHITE + "random | reset";
 
         if (args.length == 0) {
 
-            if (!(sender instanceof Player)) new CommonString().messageNoConsole(getPlugin(), sender);
-            else if (!getMaintenanceCheck()) {
+            if (!(sender instanceof Player)) {
+                new CommonString().messageNoConsole(getPlugin(), sender);
+                return;
+            }
 
-                if (chestTypeEnabled.get("dchest")) ((Player) sender).openInventory(getChestDonationHolder().getInventory());
-                else
-                    new CommonString().messageSend(getPlugin(), sender, true, new String[]{"Donation Chest is currently unavailable."});
-
-            } else new CommonString().messageMaintenance(getPlugin(), sender);
+            if (chestTypeEnabled.get("dchest"))
+                ((Player) sender).openInventory(getChestDonationHolder().getInventory());
+            else commonString.messageSend(getPlugin(), sender, "Donation Chest is currently unavailable.");
 
         } else try {
 
             switch (validCommands.valueOf(args[0].toUpperCase())) {
 
                 case RANDOM:
-                    if (!getMaintenanceCheck())
-                        DonationRandom.fillDonationChest(sender);
-                    else
-                        new CommonString().messageMaintenance(getPlugin(), sender);
+                    new DonationRandom().fillDonationChest(sender);
                     break;
 
                 case RESET:
-                    if (!getMaintenanceCheck())
-                        DonationReset.resetDonationChest(sender);
-                    else
-                        new CommonString().messageMaintenance(getPlugin(), sender);
+                    new DonationReset().resetDonationChest(sender);
                     break;
 
                 default:
-                    if (!(sender instanceof Player))
-                        sender.sendMessage(consoleTools);
-                    else
-                        ((Player) sender).openInventory(getChestDonationHolder().getInventory());
+                    if (!(sender instanceof Player)) sender.sendMessage(consoleTools);
+                    else ((Player) sender).openInventory(getChestDonationHolder().getInventory());
 
             }
 
         } catch (IllegalArgumentException e) {
 
-            if (!(sender instanceof Player))
-                sender.sendMessage(consoleTools);
-            else {
-                DisplayHelp.runHelp(sender);
-            }
+            if (!(sender instanceof Player)) sender.sendMessage(consoleTools);
+            else new DisplayHelp().runHelp(sender);
 
         }
 

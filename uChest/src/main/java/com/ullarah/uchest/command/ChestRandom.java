@@ -1,24 +1,27 @@
 package com.ullarah.uchest.command;
 
+import com.ullarah.uchest.ChestFunctions;
 import com.ullarah.uchest.function.CommonString;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static com.ullarah.uchest.ChestFunctions.openRandomChest;
-import static com.ullarah.uchest.ChestInit.*;
+import static com.ullarah.uchest.ChestInit.chestTypeEnabled;
+import static com.ullarah.uchest.ChestInit.getPlugin;
 
 public class ChestRandom {
 
     public void runCommand(CommandSender sender, String[] args) {
 
-        if (!(sender instanceof Player)) new CommonString().messageNoConsole(getPlugin(), sender);
-        else if (!getMaintenanceCheck()) {
+        CommonString commonString = new CommonString();
+        ChestFunctions chestFunctions = new ChestFunctions();
 
-            if (chestTypeEnabled.get("rchest")) openRandomChest(sender);
-            else
-                new CommonString().messageSend(getPlugin(), sender, true, new String[]{"Random Chest is currently unavailable."});
+        if (!(sender instanceof Player)) {
+            commonString.messageNoConsole(getPlugin(), sender);
+            return;
+        }
 
-        } else new CommonString().messageMaintenance(getPlugin(), sender);
+        if (chestTypeEnabled.get("rchest")) chestFunctions.openRandomChest(sender);
+        else commonString.messageSend(getPlugin(), sender, "Random Chest is currently unavailable.");
 
     }
 

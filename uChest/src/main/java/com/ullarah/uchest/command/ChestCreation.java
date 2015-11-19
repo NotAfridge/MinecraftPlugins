@@ -13,16 +13,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.ullarah.uchest.ChestInit.getPlugin;
-import static com.ullarah.uchest.command.ChestPrepare.prepare;
 
 public class ChestCreation {
 
-    public static void create(CommandSender sender, validStorage type, Boolean display) {
+    public void create(CommandSender sender, validStorage type, Boolean display) {
+
+        CommonString commonString = new CommonString();
 
         Player player = (Player) sender;
 
-        File chestFile = new File(getPlugin().getDataFolder() + File.separator + type.toString(),
-                player.getUniqueId().toString() + ".yml");
+        File chestFile = new File(getPlugin().getDataFolder() + File.separator + type.toString(), player.getUniqueId().toString() + ".yml");
 
         if (!chestFile.exists()) {
 
@@ -38,7 +38,7 @@ public class ChestCreation {
             if (!chestFileNew.exists()) try {
                 chestFileCreation = chestFileNew.createNewFile();
             } catch (IOException e) {
-                new CommonString().messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Error creating chest."});
+                commonString.messageSend(getPlugin(), player, ChatColor.RED + "Error creating chest.");
                 e.printStackTrace();
             }
 
@@ -55,18 +55,18 @@ public class ChestCreation {
                     chestConfig.save(chestFileNew);
 
                 } catch (IOException e) {
-                    new CommonString().messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Error saving chest."});
+                    commonString.messageSend(getPlugin(), player, ChatColor.RED + "Error saving chest.");
                     e.printStackTrace();
                 }
 
             } else {
-                new CommonString().messageSend(getPlugin(), player, true, new String[]{ChatColor.RED + "Error creating chest."});
+                commonString.messageSend(getPlugin(), player, ChatColor.RED + "Error creating chest.");
                 player.closeInventory();
             }
 
         }
 
-        if (display) prepare(player, null, type);
+        if (display) new ChestPrepare().prepare(player, null, type);
 
     }
 

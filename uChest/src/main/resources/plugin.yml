@@ -10,18 +10,18 @@ commands:
   chest:
     description: Views the global chest menu.
     usage: |
-      <command> maintenance : Puts the system in/out of maintenance mode.
       <command> toggle <chest> : Puts the chest type in/out of service.
-      <command> reset : Clears the entire donation chest.
   dchest:
     description: Views the donation chest.
     usage: |
       <command> : Views the donation chest.
       <command> random : Places random items in the donation chest.
+      <command> reset : Clears the entire donation chest.
   hchest:
     description: Views the holding chest.
     usage: |
       <command> : Views the holding chest.
+      <command> view <player>: Views the holding chest of a player.
   mchest:
     description: Views the money chest.
     usage: |
@@ -39,6 +39,7 @@ commands:
     usage: |
       <command> : Views the vault chest.
       <command> upgrade : Upgrades the vault chest slots.
+      <command> view <player>: Views the vault chest of a player.
   xchest:
     description: Views the experience chest.
     usage: |
@@ -50,7 +51,6 @@ permissions:
   chest.staff:
     description: Grants all of the staff commands.
     children:
-      chest.maintenance: true
       chest.random: true
       chest.reset: true
       chest.view: true

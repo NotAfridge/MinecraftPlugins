@@ -1,9 +1,6 @@
 package com.ullarah.uchest;
 
-import com.ullarah.uchest.event.*;
 import com.ullarah.uchest.function.PluginRegisters;
-import com.ullarah.uchest.task.ChestAnnounce;
-import com.ullarah.uchest.task.ChestClean;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
@@ -135,22 +132,8 @@ public class ChestInit extends JavaPlugin {
         getConfig().options().copyDefaults(true);
         saveConfig();
 
-        registerMap.put(EVENT.toString(), new PluginRegisters().register(getPlugin(), EVENT,
-                new ChestClick(),
-                new ChestClose(),
-                new ChestDrag(),
-                new ChestInteract(),
-                new ChestInteract(),
-                new ChestOpen(),
-                new PlayerDeath(),
-                new PlayerQuit(),
-                new PlayerJoin()
-        ));
-
-        registerMap.put(TASK.toString(), new PluginRegisters().register(getPlugin(), TASK,
-                new ChestAnnounce(),
-                new ChestClean()
-        ));
+        registerMap.put(EVENT.toString(), new PluginRegisters().registerAll(getPlugin(), EVENT));
+        registerMap.put(TASK.toString(), new PluginRegisters().registerAll(getPlugin(), TASK));
 
         setMaintenanceCheck(getPlugin().getConfig().getBoolean("maintenance"));
 

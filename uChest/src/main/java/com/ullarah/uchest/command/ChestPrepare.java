@@ -1,5 +1,6 @@
 package com.ullarah.uchest.command;
 
+import com.ullarah.uchest.ChestFunctions;
 import com.ullarah.uchest.function.CommonString;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,15 +14,17 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-import static com.ullarah.uchest.ChestFunctions.chestView;
 import static com.ullarah.uchest.ChestFunctions.validStorage;
 import static com.ullarah.uchest.ChestFunctions.validStorage.HOLD;
 import static com.ullarah.uchest.ChestInit.getPlugin;
 
 public class ChestPrepare {
 
-    public static void prepare(Player owner, Player viewer, validStorage type) {
+    public void prepare(Player owner, Player viewer, validStorage type) {
+
+        CommonString commonString = new CommonString();
 
         UUID chestUUID = owner.getUniqueId();
 
@@ -49,9 +52,7 @@ public class ChestPrepare {
             try {
                 chestConfig.save(chestFile);
             } catch (IOException e) {
-                new CommonString().messageSend(getPlugin(), owner, true, new String[]{
-                        ChatColor.RED + "Error saving existing " + type + " chest."
-                });
+                commonString.messageSend(getPlugin(), owner, ChatColor.RED + "Error saving existing " + type + " chest.");
                 e.printStackTrace();
             }
 
@@ -66,15 +67,15 @@ public class ChestPrepare {
                         type.toString().substring(1) + " Chest - " + chestConfig.get("name"));
 
         if (chestConfig.get("item") != null) {
-            ArrayList<ItemStack> itemStack = new ArrayList<>();
 
-            for (Object inboxCurrentItem : chestConfig.getList("item"))
-                itemStack.add((ItemStack) inboxCurrentItem);
+            ArrayList<ItemStack> itemStack = chestConfig.getList("item").stream().map(inboxCurrentItem
+                    -> (ItemStack) inboxCurrentItem).collect(Collectors.toCollection(ArrayList::new));
 
             chestInventory.setContents(itemStack.toArray(new ItemStack[itemStack.size()]));
+
         }
 
-        chestView(owner, viewer, chestInventory, type);
+        new ChestFunctions().chestView(owner, viewer, chestInventory, type);
 
     }
 

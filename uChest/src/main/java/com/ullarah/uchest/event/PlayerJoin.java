@@ -13,8 +13,10 @@ public class PlayerJoin implements Listener {
     @EventHandler
     public void event(final PlayerJoinEvent event) {
 
-        ChestCreation.create(event.getPlayer(), HOLD, false);
-        ChestCreation.create(event.getPlayer(), VAULT, false);
+        ChestCreation chestCreation = new ChestCreation();
+
+        chestCreation.create(event.getPlayer(), HOLD, false);
+        chestCreation.create(event.getPlayer(), VAULT, false);
 
     }
 
