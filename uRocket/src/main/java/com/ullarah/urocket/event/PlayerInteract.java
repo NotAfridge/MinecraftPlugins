@@ -67,7 +67,7 @@ public class PlayerInteract implements Listener {
 
                 String rocketItem = rocketMeta.getDisplayName();
 
-                if (rocketItem.equals(ChatColor.RED + "Rocket Repair Stand")) {
+                if (rocketItem.equals(ChatColor.RED + "Rocket Boot Repair Stand")) {
 
                     if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
 

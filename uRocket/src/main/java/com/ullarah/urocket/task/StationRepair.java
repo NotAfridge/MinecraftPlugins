@@ -81,7 +81,7 @@ public class StationRepair {
 
                                         } else {
 
-                                            String bootDurabilityMessage = "" + ChatColor.YELLOW + bootHealthNew + " / 195";
+                                            String bootDurabilityMessage = "" + ChatColor.YELLOW + bootHealthNew + " / " + bootMaterialDurability;
                                             String bootEstimationMessage = "Full Repair Estimate: " + ChatColor.YELLOW + bootRepairMinute;
 
                                             commonString.messageSend(getPlugin(), player, true, new String[]{

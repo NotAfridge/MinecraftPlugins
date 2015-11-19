@@ -36,7 +36,7 @@ public class BlockPlace implements Listener {
 
             if (event.getItemInHand().getItemMeta().hasDisplayName()) {
 
-                String rocketItem = event.getItemInHand().getItemMeta().getDisplayName();
+                String rocketItemName = event.getItemInHand().getItemMeta().getDisplayName();
 
                 Player player = event.getPlayer();
                 Block block = event.getBlock();
@@ -53,7 +53,7 @@ public class BlockPlace implements Listener {
                     switch (block.getType()) {
 
                         case BEACON:
-                            if (rocketItem.equals(ChatColor.RED + "Rocket Repair Station")) {
+                            if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Repair Station")) {
 
                                 if (block.getRelative(BlockFace.DOWN).getType() == Material.FURNACE) {
 
@@ -88,7 +88,7 @@ public class BlockPlace implements Listener {
                             break;
 
                         case FURNACE:
-                            if (rocketItem.equals(ChatColor.RED + "Rocket Repair Tank")) {
+                            if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Repair Tank")) {
 
                                 List<String> tankList = getPlugin().getConfig().getStringList("tanks");
                                 tankList.add(player.getUniqueId().toString() + "|" + world.getName() + "|" + bX + "|" + bY + "|" + bZ);
@@ -100,7 +100,7 @@ public class BlockPlace implements Listener {
                             break;
 
                         case ENDER_PORTAL_FRAME:
-                            if (rocketItem.equals(ChatColor.RED + "Rocket Fly Zone Controller")) {
+                            if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Fly Zone Controller")) {
 
                                 Boolean isFlyZone = false;
 
@@ -137,14 +137,14 @@ public class BlockPlace implements Listener {
                             break;
 
                         case NOTE_BLOCK:
-                            if (ChatColor.stripColor(rocketItem).equals("Variant Booster")) {
+                            if (rocketItemName.equals("Rocket Boot Variant")) {
                                 event.setCancelled(true);
                                 commonString.messageSend(getPlugin(), player, true, PlacementDeny("Variants"));
                             }
                             break;
 
                         case TNT:
-                            if (rocketItem.equals(ChatColor.RED + "Rocket Booster")) {
+                            if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Booster")) {
                                 event.setCancelled(true);
                                 commonString.messageSend(getPlugin(), player, true, PlacementDeny("Boosters"));
                             }
@@ -159,27 +159,27 @@ public class BlockPlace implements Listener {
                     switch (block.getType()) {
 
                         case BEACON:
-                            if (rocketItem.equals(ChatColor.RED + "Rocket Repair Station"))
+                            if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Repair Station"))
                                 commonString.messageSend(getPlugin(), player, true, WorldPlacementDeny("Repair Stations"));
                             break;
 
                         case FURNACE:
-                            if (rocketItem.equals(ChatColor.RED + "Rocket Repair Tank"))
+                            if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Repair Tank"))
                                 commonString.messageSend(getPlugin(), player, true, WorldPlacementDeny("Repair Tanks"));
                             break;
 
                         case ENDER_PORTAL_FRAME:
-                            if (rocketItem.equals(ChatColor.RED + "Rocket Fly Zone Controller"))
+                            if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Fly Zone Controller"))
                                 commonString.messageSend(getPlugin(), player, true, WorldPlacementDeny("Fly Zone Controllers"));
                             break;
 
                         case NOTE_BLOCK:
-                            if (ChatColor.stripColor(rocketItem).equals("Variant Booster"))
+                            if (rocketItemName.equals(ChatColor.AQUA + "Rocket Boot Variant"))
                                 commonString.messageSend(getPlugin(), player, true, PlacementDeny("Variants"));
                             break;
 
                         case TNT:
-                            if (rocketItem.equals(ChatColor.RED + "Rocket Booster"))
+                            if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Booster"))
                                 commonString.messageSend(getPlugin(), player, true, PlacementDeny("Boosters"));
                             break;
 

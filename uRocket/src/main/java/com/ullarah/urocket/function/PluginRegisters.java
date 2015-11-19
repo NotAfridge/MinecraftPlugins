@@ -30,17 +30,9 @@ public class PluginRegisters {
 
                 switch (type) {
 
-                    case EVENT:
-                        plugin.getServer().getPluginManager().registerEvents((Listener) object, plugin);
-                        break;
-
                     case RECIPE:
                         ShapedRecipe newRecipe = ((NewRecipe) object).recipe();
                         plugin.getServer().addRecipe(newRecipe);
-                        break;
-
-                    case TASK:
-                        object.getClass().getMethod(type.toString()).invoke(object.getClass().newInstance());
                         break;
 
                 }
@@ -107,11 +99,6 @@ public class PluginRegisters {
 
                             case EVENT:
                                 plugin.getServer().getPluginManager().registerEvents((Listener) classInstance, plugin);
-                                break;
-
-                            case RECIPE:
-                                ShapedRecipe newRecipe = ((NewRecipe) classInstance).recipe();
-                                plugin.getServer().addRecipe(newRecipe);
                                 break;
 
                             case TASK:
