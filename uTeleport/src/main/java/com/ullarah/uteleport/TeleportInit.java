@@ -2,7 +2,6 @@ package com.ullarah.uteleport;
 
 import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -29,14 +28,12 @@ public class TeleportInit extends JavaPlugin {
 
         setPlugin(this);
 
-        PluginManager pluginManager = getServer().getPluginManager();
-
         getConfig().options().copyDefaults(true);
         saveConfig();
 
         getCommand("utp").setExecutor(new TeleportCommands());
 
-        pluginManager.registerEvents(new TeleportEvents(), getPlugin());
+        getServer().getPluginManager().registerEvents(new TeleportEvents(), getPlugin());
 
     }
 

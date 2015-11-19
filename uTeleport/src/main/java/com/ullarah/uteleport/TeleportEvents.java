@@ -19,26 +19,24 @@ public class TeleportEvents implements Listener {
     @EventHandler
     public void playerTeleport(final PlayerTeleportEvent event) {
 
-        Player player = event.getPlayer();
-        UUID playerUUID = player.getUniqueId();
-
         TeleportCause cause = event.getCause();
-
-        Location locationFrom = event.getFrom();
-        Location locationTo = event.getTo();
-
-        double posFromX = (int) locationFrom.getX();
-        double posFromY = (int) locationFrom.getY();
-        double posFromZ = (int) locationFrom.getZ();
-
-        boolean validTeleport = !locationFrom.getWorld().equals(locationTo.getWorld())
-                || locationFrom.distance(locationTo) > getPlugin().getConfig().getDouble("distance");
 
         if (cause.equals(COMMAND) || cause.equals(PLUGIN)) {
 
+            Player player = event.getPlayer();
+            UUID playerUUID = player.getUniqueId();
+
             if (!historyBlock.contains(playerUUID)) {
 
-                if (validTeleport) {
+                Location locationFrom = event.getFrom();
+                Location locationTo = event.getTo();
+
+                if (!locationFrom.getWorld().equals(locationTo.getWorld())
+                        || locationFrom.distance(locationTo) > getPlugin().getConfig().getDouble("distance")) {
+
+                    double posFromX = (int) locationFrom.getX();
+                    double posFromY = (int) locationFrom.getY();
+                    double posFromZ = (int) locationFrom.getZ();
 
                     if (historyMap.containsKey(playerUUID)) {
 

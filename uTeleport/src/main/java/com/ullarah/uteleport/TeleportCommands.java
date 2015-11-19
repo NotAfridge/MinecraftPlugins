@@ -42,127 +42,130 @@ public class TeleportCommands implements CommandExecutor {
             return true;
         }
 
+        if (!historyMap.containsKey(player.getUniqueId())) {
+            commonString.messageSend(getPlugin(), player, true, "No teleport history found.");
+            return true;
+        }
+
+        ArrayList<Location> locations = new ArrayList<>();
+        ArrayList<Date> dates = new ArrayList<>();
+
         ConcurrentHashMap<ArrayList<Location>, ArrayList<Date>> locationMap = historyMap.get(player.getUniqueId());
 
-        if (!historyMap.containsKey(player.getUniqueId())) {
+        for (Map.Entry<ArrayList<Location>, ArrayList<Date>> entry : locationMap.entrySet()) {
 
-            commonString.messageSend(getPlugin(), player, true, "No teleport history found.");
+            ArrayList<Location> historyLocation = entry.getKey();
+            ArrayList<Date> historyDate = entry.getValue();
 
-        } else {
+            locations = historyLocation;
+            dates = historyDate;
 
-            ArrayList<Location> locations = new ArrayList<>();
-            ArrayList<Date> dates = new ArrayList<>();
+        }
 
-            for (Map.Entry<ArrayList<Location>, ArrayList<Date>> entry : locationMap.entrySet()) {
+        if (args.length == 2) {
 
-                ArrayList<Location> historyLocation = entry.getKey();
-                ArrayList<Date> historyDate = entry.getValue();
+            if (args[0].equals("go")) {
 
-                locations = historyLocation;
-                dates = historyDate;
+                String[] pos = args[1].split(",");
+
+                World world = Bukkit.getWorld(pos[0]);
+                Double posX = Double.parseDouble(pos[1]);
+                Double posY = Double.parseDouble(pos[2]);
+                Double posZ = Double.parseDouble(pos[3]);
+
+                Location location = new Location(world, posX, posY, posZ, 0, 0);
+
+                if (!locations.contains(location)) {
+                    commonString.messageSend(getPlugin(), player, true, ChatColor.RED + "Teleport entry not found.");
+                    return true;
+                }
+
+                if (historyBlock.contains(player.getUniqueId())) {
+                    commonString.messageSend(getPlugin(), player, true, ChatColor.RED + "Slow down there...");
+                    return true;
+                }
+
+                historyBlock.add(player.getUniqueId());
+
+                new BukkitRunnable() {
+                    int b = getPlugin().getConfig().getInt("timeout");
+
+                    @Override
+                    public void run() {
+                        if (b <= 0) {
+                            historyBlock.remove(player.getUniqueId());
+                            this.cancel();
+                            return;
+                        }
+                        b--;
+                    }
+                }.runTaskTimer(getPlugin(), 0, 20);
+
+                commonString.messageSend(getPlugin(), player, true, ChatColor.GREEN + "Teleporting...");
+                player.teleport(location);
 
             }
 
-            if (args.length == 2) {
+        } else {
 
-                if (args[0].equals("go")) {
+            commonString.messageSend(getPlugin(), player, true,
+                    "Teleport History - Click " +
+                            ChatColor.LIGHT_PURPLE + "[" + ChatColor.DARK_PURPLE + "TP" + ChatColor.LIGHT_PURPLE + "]" +
+                            ChatColor.RESET + " for teleportation.");
 
-                    String[] pos = args[1].split(",");
+            for (Location location : locations) {
 
-                    World world = Bukkit.getWorld(pos[0]);
-                    Double posX = Double.parseDouble(pos[1]);
-                    Double posY = Double.parseDouble(pos[2]);
-                    Double posZ = Double.parseDouble(pos[3]);
+                String worldName;
 
-                    Location location = new Location(world, posX, posY, posZ, 0, 0);
+                switch (location.getWorld().getName()) {
 
-                    if (locations.contains(location)) {
-                        if (historyBlock.contains(player.getUniqueId()))
-                            commonString.messageSend(getPlugin(), player, true, ChatColor.RED + "Slow down there...");
-                        else {
-                            historyBlock.add(player.getUniqueId());
-                            new BukkitRunnable() {
-                                int b = getPlugin().getConfig().getInt("timeout");
+                    case "world":
+                        worldName = "Overworld";
+                        break;
 
-                                @Override
-                                public void run() {
-                                    if (b <= 0) {
-                                        historyBlock.remove(player.getUniqueId());
-                                        this.cancel();
-                                        return;
-                                    }
-                                    b--;
-                                }
-                            }.runTaskTimer(getPlugin(), 0, 20);
-                            commonString.messageSend(getPlugin(), player, true, ChatColor.GREEN + "Teleporting...");
-                            player.teleport(location);
-                        }
-                    } else
-                        commonString.messageSend(getPlugin(), player, true, ChatColor.RED + "Teleport entry not found.");
+                    case "world_nether":
+                        worldName = "Nether";
+                        break;
+
+                    case "world_the_end":
+                        worldName = "End";
+                        break;
+
+                    default:
+                        worldName = "Unknown";
+                        break;
 
                 }
 
-            } else {
+                TextComponent spacer = new TextComponent(" ");
 
-                commonString.messageSend(getPlugin(), player, true,
-                        "Teleport History - Click " +
-                                ChatColor.LIGHT_PURPLE + "[" + ChatColor.DARK_PURPLE + "TP" + ChatColor.LIGHT_PURPLE + "]" +
-                                ChatColor.RESET + " for teleportation.");
+                TextComponent teleport = new TextComponent(
+                        ChatColor.LIGHT_PURPLE + "[" + ChatColor.DARK_PURPLE + "TP" + ChatColor.LIGHT_PURPLE + "]");
 
-                for (Location location : locations) {
+                String dateTime = new SimpleDateFormat("dd-MM hh:mm").format(dates.get(locations.indexOf(location)));
 
-                    String dateTime = new SimpleDateFormat("dd-MM hh:mm").format(dates.get(locations.indexOf(location)));
-                    String worldName;
+                TextComponent position = new TextComponent(
+                        ChatColor.YELLOW + " [" + ChatColor.GOLD + dateTime + ChatColor.YELLOW + "] " +
+                                ChatColor.WHITE + "World: " + ChatColor.AQUA + worldName + ChatColor.GOLD + " " +
+                                ChatColor.WHITE + "X: " + ChatColor.AQUA + (int) location.getX() + " " +
+                                ChatColor.WHITE + "Y: " + ChatColor.AQUA + (int) location.getY() + " " +
+                                ChatColor.WHITE + "Z: " + ChatColor.AQUA + (int) location.getZ()
+                );
 
-                    switch (location.getWorld().getName()) {
+                int posX = (int) location.getX();
+                int posY = (int) location.getY();
+                int posZ = (int) location.getZ();
 
-                        case "world":
-                            worldName = "Overworld";
-                            break;
+                String teleportCommand = "/utp go " + location.getWorld().getName() + "," + posX + "," + posY + "," + posZ;
+                teleport.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, teleportCommand));
 
-                        case "world_nether":
-                            worldName = "Nether";
-                            break;
+                teleport.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                        new ComponentBuilder(ChatColor.YELLOW + "Click to teleport to this location").create()));
 
-                        case "world_the_end":
-                            worldName = "End";
-                            break;
+                spacer.addExtra(teleport);
+                spacer.addExtra(position);
 
-                        default:
-                            worldName = "Unknown";
-                            break;
-
-                    }
-
-                    int posX = (int) location.getX();
-                    int posY = (int) location.getY();
-                    int posZ = (int) location.getZ();
-
-                    TextComponent spacer = new TextComponent(" ");
-
-                    TextComponent teleport = new TextComponent(
-                            ChatColor.LIGHT_PURPLE + "[" + ChatColor.DARK_PURPLE + "TP" + ChatColor.LIGHT_PURPLE + "]");
-
-                    TextComponent position = new TextComponent(
-                            ChatColor.YELLOW + " [" + ChatColor.GOLD + dateTime + ChatColor.YELLOW + "] " +
-                                    ChatColor.WHITE + "World: " + ChatColor.AQUA + worldName + ChatColor.GOLD + " " +
-                                    ChatColor.WHITE + "X: " + ChatColor.AQUA + (int) location.getX() + " " +
-                                    ChatColor.WHITE + "Y: " + ChatColor.AQUA + (int) location.getY() + " " +
-                                    ChatColor.WHITE + "Z: " + ChatColor.AQUA + (int) location.getZ()
-                    );
-
-                    String teleportCommand = "/utp go " + location.getWorld().getName() + "," + posX + "," + posY + "," + posZ;
-                    teleport.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, teleportCommand));
-
-                    teleport.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                            new ComponentBuilder(ChatColor.YELLOW + "Click to teleport to this location").create()));
-
-                    spacer.addExtra(teleport);
-                    spacer.addExtra(position);
-
-                    player.spigot().sendMessage(spacer);
-
-                }
+                player.spigot().sendMessage(spacer);
 
             }
 
