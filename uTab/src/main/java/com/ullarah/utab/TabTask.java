@@ -1,21 +1,21 @@
 package com.ullarah.utab;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
-import static com.ullarah.utab.TabFunctions.*;
 import static com.ullarah.utab.TabInit.*;
 
 class TabTask {
 
-    public static void startTabTimer() {
+    public void startTabTimer() {
 
-        BukkitTask tabTask = Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
-                () -> Bukkit.getScheduler().runTask(getPlugin(), () -> {
+        TabFunctions tabFunctions = new TabFunctions();
 
-                    for (Player player : Bukkit.getOnlinePlayers())
-                        sendHeaderFooter(player, getCurrentHeader(), getCurrentFooter());
+        BukkitTask tabTask = getPlugin().getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
+                () -> getPlugin().getServer().getScheduler().runTask(getPlugin(), () -> {
+
+                    for (Player player : getPlugin().getServer().getOnlinePlayers())
+                        tabFunctions.sendHeaderFooter(player, tabFunctions.getCurrentHeader(), tabFunctions.getCurrentFooter());
 
                     if (headerMessageCurrent < headerMessageTotal) headerMessageCurrent++;
                     else headerMessageCurrent = 0;

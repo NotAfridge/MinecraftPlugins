@@ -16,7 +16,7 @@ class TabFunctions {
 
     private static Field tabField;
 
-    public static void sendHeaderFooter(Player player, String header, String footer) {
+    public void sendHeaderFooter(Player player, String header, String footer) {
 
         header = header.replaceAll("\\{player\\}", player.getPlayerListName());
         footer = footer.replaceAll("\\{player\\}", player.getPlayerListName());
@@ -47,7 +47,7 @@ class TabFunctions {
 
     }
 
-    public static String getCurrentHeader() {
+    public String getCurrentHeader() {
 
         try {
             return ChatColor.translateAlternateColorCodes('&', (String) getHeaderMessages().get(headerMessageCurrent));
@@ -57,7 +57,7 @@ class TabFunctions {
 
     }
 
-    public static String getCurrentFooter() {
+    public String getCurrentFooter() {
 
         try {
             return ChatColor.translateAlternateColorCodes('&', (String) getFooterMessages().get(footerMessageCurrent));
@@ -67,7 +67,7 @@ class TabFunctions {
 
     }
 
-    public static boolean reloadTabConfig() {
+    public boolean reloadTabConfig() {
 
         try {
 

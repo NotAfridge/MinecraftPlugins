@@ -9,10 +9,6 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.List;
 
-import static com.ullarah.utab.TabFunctions.reloadTabConfig;
-import static com.ullarah.utab.TabFunctions.sendHeaderFooter;
-import static com.ullarah.utab.TabTask.startTabTimer;
-
 public class TabInit extends JavaPlugin {
 
     public static int headerMessageTotal = 0;
@@ -22,11 +18,10 @@ public class TabInit extends JavaPlugin {
 
     private static Plugin plugin;
     private static BukkitTask tabTask;
-
     private static List headerMessages;
     private static List footerMessages;
-
     private static int tabTimer;
+    private final TabFunctions tabFunctions = new TabFunctions();
 
     public static Plugin getPlugin() {
         return plugin;
@@ -80,15 +75,14 @@ public class TabInit extends JavaPlugin {
         pluginManager.registerEvents(new TabEvents(), getPlugin());
 
         getCommand("utab").setExecutor(new TabCommands());
-
-        if (reloadTabConfig()) startTabTimer();
+        if (tabFunctions.reloadTabConfig()) new TabTask().startTabTimer();
 
     }
 
     public void onDisable() {
 
         getTabTask().cancel();
-        for (Player player : Bukkit.getOnlinePlayers()) sendHeaderFooter(player, "", "");
+        for (Player player : Bukkit.getOnlinePlayers()) tabFunctions.sendHeaderFooter(player, "", "");
 
     }
 
