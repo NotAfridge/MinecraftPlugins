@@ -1,6 +1,5 @@
 package com.ullarah.ulottery;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -41,14 +40,16 @@ class LotteryEvents implements Listener {
     @EventHandler
     public void playerQuit(final PlayerQuitEvent event) {
 
-        if (Bukkit.getOnlinePlayers().size() < totalPlayerPause && !deathLotteryPaused) deathLotteryPaused = true;
+        if (getPlugin().getServer().getOnlinePlayers().size() < totalPlayerPause && !deathLotteryPaused)
+            deathLotteryPaused = true;
 
     }
 
     @EventHandler
     public void playerJoin(final PlayerJoinEvent event) {
 
-        if (Bukkit.getOnlinePlayers().size() >= totalPlayerPause && deathLotteryPaused) deathLotteryPaused = false;
+        if (getPlugin().getServer().getOnlinePlayers().size() >= totalPlayerPause && deathLotteryPaused)
+            deathLotteryPaused = false;
 
     }
 

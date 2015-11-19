@@ -1,9 +1,9 @@
 package com.ullarah.ulottery;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
@@ -14,7 +14,7 @@ class LotteryTask {
 
     public static void deathLotteryStart() {
 
-        Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(), () -> {
+        getPlugin().getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(), () -> {
 
             if (!deathLotteryPaused) {
 
@@ -25,12 +25,14 @@ class LotteryTask {
 
                     if (deathLotteryBank > 0) {
 
-                        Player player = (Player) Bukkit.getOnlinePlayers().toArray()[
-                                new Random().nextInt(Bukkit.getOnlinePlayers().size())];
+                        Collection onlinePlayers = getPlugin().getServer().getOnlinePlayers();
+
+                        Player player = (Player) onlinePlayers.toArray()[
+                                new Random().nextInt(onlinePlayers.size())];
 
                         economy.depositPlayer(player, deathLotteryBank);
 
-                        Bukkit.broadcastMessage(ChatColor.YELLOW + player.getPlayerListName()
+                        getPlugin().getServer().broadcastMessage(ChatColor.YELLOW + player.getPlayerListName()
                                 + ChatColor.RESET + " won " + ChatColor.GREEN + "$" + deathLotteryBank
                                 + ChatColor.RESET + " from the Death Lottery!");
 

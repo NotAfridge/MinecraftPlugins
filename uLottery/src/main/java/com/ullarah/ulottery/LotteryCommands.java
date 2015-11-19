@@ -123,7 +123,7 @@ class LotteryCommands implements CommandExecutor {
 
         }
 
-        return false;
+        return true;
 
     }
 

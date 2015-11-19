@@ -6,7 +6,7 @@ author: Ullarah
 
 main: ${project.groupId}.${project.artifactId}.LotteryInit
 
-depend: [Vault]
+softdepend: [Vault]
 
 commands:
   dlot:

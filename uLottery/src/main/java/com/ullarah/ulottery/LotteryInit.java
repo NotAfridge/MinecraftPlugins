@@ -1,13 +1,14 @@
 package com.ullarah.ulottery;
 
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
 
 import static com.ullarah.ulottery.LotteryTask.deathLotteryStart;
 
@@ -39,17 +40,31 @@ public class LotteryInit extends JavaPlugin {
 
         setPlugin(this);
 
-        getCommand("dlot").setExecutor(new LotteryCommands());
+        PluginManager pluginManager = getPlugin().getServer().getPluginManager();
 
-        getServer().getPluginManager().registerEvents(new LotteryEvents(), getPlugin());
+        Plugin pluginVault = pluginManager.getPlugin("Vault");
 
-        deathLotteryStart();
+        if (pluginVault != null) {
 
-        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager()
-                .getRegistration(net.milkbowl.vault.economy.Economy.class);
-        if (economyProvider != null) economy = economyProvider.getProvider();
+            getCommand("dlot").setExecutor(new LotteryCommands());
 
-        if (Bukkit.getOnlinePlayers().size() < totalPlayerPause) deathLotteryPaused = true;
+            pluginManager.registerEvents(new LotteryEvents(), getPlugin());
+
+            deathLotteryStart();
+
+            RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager()
+                    .getRegistration(net.milkbowl.vault.economy.Economy.class);
+            if (economyProvider != null) economy = economyProvider.getProvider();
+
+            if (getPlugin().getServer().getOnlinePlayers().size() < totalPlayerPause)
+                deathLotteryPaused = true;
+
+        } else {
+
+            getPlugin().getLogger().log(Level.SEVERE, "Vault plugin not found. Disabling uLottery.");
+            pluginManager.disablePlugin(getPlugin());
+
+        }
 
     }
 
