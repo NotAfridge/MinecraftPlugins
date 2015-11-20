@@ -28,6 +28,8 @@ public class RocketRepair {
                             Player player = Bukkit.getPlayer(entry.getKey());
                             ItemStack rocketBoots = player.getInventory().getBoots();
 
+                            if (rocketBoots == null) return;
+
                             int repairRate = rocketFunctions.getBootRepairRate(rocketBoots.getType());
 
                             if (repairRate > 0 && player.isFlying()) {
