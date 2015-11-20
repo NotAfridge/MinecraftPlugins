@@ -1,8 +1,8 @@
 package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketFunctions;
+import com.ullarah.urocket.function.AreaCheck;
 import com.ullarah.urocket.function.CommonString;
-import com.ullarah.urocket.function.InsideCuboid;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -30,7 +30,7 @@ public class BlockPlace implements Listener {
 
         RocketFunctions rocketFunctions = new RocketFunctions();
         CommonString commonString = new CommonString();
-        InsideCuboid insideCuboid = new InsideCuboid();
+        AreaCheck areaCheck = new AreaCheck();
 
         if (event.getItemInHand().hasItemMeta()) {
 
@@ -113,7 +113,7 @@ public class BlockPlace implements Listener {
                                         Location zoneStart = rocketLocation.getKey();
                                         Location zoneEnd = rocketLocation.getValue();
 
-                                        if (insideCuboid.check(location, zoneStart, zoneEnd)) isFlyZone = true;
+                                        if (areaCheck.cuboid(location, zoneStart, zoneEnd)) isFlyZone = true;
 
                                     }
 

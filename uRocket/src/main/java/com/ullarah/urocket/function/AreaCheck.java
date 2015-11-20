@@ -1,8 +1,9 @@
 package com.ullarah.urocket.function;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 
-public class InsideCuboid {
+public class AreaCheck {
 
     /**
      * Cuboid location check
@@ -12,7 +13,7 @@ public class InsideCuboid {
      * @param end      the cuboid end location
      * @return is the location of the object within the cuboid
      */
-    public boolean check(Location location, Location start, Location end) {
+    public boolean cuboid(Location location, Location start, Location end) {
 
         int x1 = Math.min(start.getBlockX(), end.getBlockX());
         int y1 = Math.min(start.getBlockY(), end.getBlockY());
@@ -25,6 +26,19 @@ public class InsideCuboid {
         return location.getBlockX() >= x1 && location.getBlockX() <= x2
                 && location.getBlockY() >= y1 && location.getBlockY() <= y2
                 && location.getBlockZ() >= z1 && location.getBlockZ() <= z2;
+
+    }
+
+    public boolean above(Location location, Material material) {
+
+        for (double l = location.getY() + 1; l < 256; l++) {
+
+            new Location(location.getWorld(), location.getX(), l, location.getY());
+            if (!location.getBlock().getType().equals(material)) return false;
+
+        }
+
+        return true;
 
     }
 

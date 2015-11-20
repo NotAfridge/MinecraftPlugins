@@ -1,9 +1,6 @@
 package com.ullarah.urocket.event;
 
-import com.ullarah.urocket.function.CommonString;
-import com.ullarah.urocket.function.GamemodeCheck;
-import com.ullarah.urocket.function.GroundFire;
-import com.ullarah.urocket.function.TitleSubtitle;
+import com.ullarah.urocket.function.*;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -28,6 +25,7 @@ public class PlayerMove implements Listener {
 
         CommonString commonString = new CommonString();
         TitleSubtitle titleSubtitle = new TitleSubtitle();
+        AreaCheck areaCheck = new AreaCheck();
         GroundFire groundFire = new GroundFire();
 
         final Player player = event.getPlayer();
@@ -151,12 +149,12 @@ public class PlayerMove implements Listener {
                         if (new Random().nextInt(500) == 1) {
                             if (!player.getInventory().getBoots().getType().equals(Material.LEATHER_BOOTS)) {
                                 if (player.isFlying()) {
-
-                                    world.strikeLightning(location);
-                                    player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 1.5f, 0.75f);
-                                    rocketSprint.put(player.getUniqueId(), "AIR");
-                                    commonString.messageSend(getPlugin(), player, true, RB_STRIKE);
-
+                                    if (areaCheck.above(location, Material.AIR)) {
+                                        world.strikeLightning(location);
+                                        player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 1.5f, 0.75f);
+                                        rocketSprint.put(player.getUniqueId(), "AIR");
+                                        commonString.messageSend(getPlugin(), player, true, RB_STRIKE);
+                                    }
                                 }
                             }
                         }

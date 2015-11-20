@@ -1,7 +1,7 @@
 package com.ullarah.urocket.event;
 
+import com.ullarah.urocket.function.AreaCheck;
 import com.ullarah.urocket.function.CommonString;
-import com.ullarah.urocket.function.InsideCuboid;
 import com.ullarah.urocket.function.TitleSubtitle;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -25,7 +25,7 @@ public class ZoneCheck implements Listener {
 
         CommonString commonString = new CommonString();
         TitleSubtitle titleSubtitle = new TitleSubtitle();
-        InsideCuboid insideCuboid = new InsideCuboid();
+        AreaCheck areaCheck = new AreaCheck();
 
         for (Map.Entry<UUID, ConcurrentHashMap<Location, Location>> rocketZone : rocketZoneLocations.entrySet())
             for (Map.Entry<Location, Location> rocketLocation : rocketZone.getValue().entrySet()) {
@@ -36,7 +36,7 @@ public class ZoneCheck implements Listener {
                 Location zoneStart = rocketLocation.getKey();
                 Location zoneEnd = rocketLocation.getValue();
 
-                if (insideCuboid.check(location, zoneStart, zoneEnd)) {
+                if (areaCheck.cuboid(location, zoneStart, zoneEnd)) {
 
                     if (!rocketZones.contains(player.getUniqueId())) {
 
