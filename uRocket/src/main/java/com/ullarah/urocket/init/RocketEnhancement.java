@@ -28,7 +28,7 @@ public class RocketEnhancement {
         REPAIR(ChatColor.RED + "Self Repair", ANVIL),
         FUEL(ChatColor.YELLOW + "Fuel Efficient", SPONGE),
         SOLAR(ChatColor.WHITE + "Solar Power", DAYLIGHT_DETECTOR),
-        JUNK(ChatColor.GREEN + "Garbage Disposal", DROPPER);
+        UNLIMITED(ChatColor.LIGHT_PURPLE + "Unlimited Flight", BEDROCK);
 
         private final String name;
         private final Material material;

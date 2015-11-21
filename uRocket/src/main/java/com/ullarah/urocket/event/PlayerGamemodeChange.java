@@ -34,7 +34,7 @@ public class PlayerGamemodeChange implements Listener {
                     commonString.messageSend(getPlugin(), player, true, RB_GAMEMODE_ERROR);
                     titleSubtitle.subtitle(player, 1, RB_GAMEMODE_ERROR);
 
-                    rocketFunctions.disableRocketBoots(player, false, false, false, false, false, true);
+                    rocketFunctions.disableRocketBoots(player, false, false, false, false, false);
 
                 }
 

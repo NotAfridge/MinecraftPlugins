@@ -34,7 +34,7 @@ public class PlayerWorldChange implements Listener {
                     commonString.messageSend(getPlugin(), player, true, RB_WORLD_CHANGE);
                 }
 
-                rocketFunctions.disableRocketBoots(player, false, false, false, false, false, true);
+                rocketFunctions.disableRocketBoots(player, false, false, false, false, false);
 
             }
 

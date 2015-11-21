@@ -181,7 +181,7 @@ public class RocketInit extends JavaPlugin {
     public void onDisable() {
 
         for (UUID uuid : rocketUsage)
-            new RocketFunctions().disableRocketBoots(Bukkit.getPlayer(uuid), false, false, false, false, false, false);
+            new RocketFunctions().disableRocketBoots(Bukkit.getPlayer(uuid), false, false, false, false, false);
 
     }
 

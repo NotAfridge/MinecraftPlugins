@@ -40,7 +40,7 @@ public class RocketFunctions {
     private final RomanNumeralToInteger romanNumeralToInteger = new RomanNumeralToInteger();
 
     public void disableRocketBoots(Player player, Boolean keepUsage, Boolean keepPower, Boolean keepFlight,
-                                   Boolean keepVariant, Boolean keepEnhancement, Boolean disableMessage) {
+                                   Boolean keepVariant, Boolean keepEnhancement) {
 
         UUID playerUUID = player.getUniqueId();
 
@@ -53,7 +53,6 @@ public class RocketFunctions {
         if (rocketRepair.containsKey(playerUUID)) rocketRepair.remove(playerUUID);
 
         if (!keepEnhancement && rocketEnhancement.containsKey(playerUUID)) rocketEnhancement.remove(playerUUID);
-
         if (!keepVariant && rocketVariant.containsKey(playerUUID)) {
 
             switch (rocketVariant.get(playerUUID)) {
@@ -103,8 +102,6 @@ public class RocketFunctions {
             player.setNoDamageTicks(100);
             player.setFallDistance(0);
 
-            if (disableMessage) commonString.messageSend(getPlugin(), player, true, RB_DEACTIVATE);
-
         }
 
     }
@@ -118,7 +115,7 @@ public class RocketFunctions {
         if (gamemodeCheck.check(player, GameMode.CREATIVE, GameMode.SPECTATOR)) {
             event.setCancelled(true);
             player.closeInventory();
-            disableRocketBoots(player, false, false, false, false, false, true);
+            disableRocketBoots(player, false, false, false, false, false);
             commonString.messageSend(getPlugin(), player, true, RB_GAMEMODE_ERROR);
             return;
         }
@@ -165,7 +162,7 @@ public class RocketFunctions {
             player.closeInventory();
 
         } else if (rocketPower.containsKey(player.getUniqueId()))
-            disableRocketBoots(player, false, false, false, false, false, true);
+            disableRocketBoots(player, false, false, false, false, false);
 
     }
 
@@ -173,7 +170,7 @@ public class RocketFunctions {
 
         if (gamemodeCheck.check(player, GameMode.CREATIVE, GameMode.SPECTATOR)) {
             commonString.messageSend(getPlugin(), player, true, RB_GAMEMODE_ERROR);
-            disableRocketBoots(player, false, false, false, false, false, true);
+            disableRocketBoots(player, false, false, false, false, false);
             return;
         }
 
@@ -255,13 +252,13 @@ public class RocketFunctions {
 
         if (rocketVariant.get(playerUUID) == null || rocketEnhancement.get(playerUUID) == null) {
             commonString.messageSend(getPlugin(), player, true, RB_FAIL_ATTACH);
-            disableRocketBoots(player, false, false, false, false, false, true);
+            disableRocketBoots(player, false, false, false, false, false);
             return;
         }
 
         if (rocketVariant.get(playerUUID) != Variant.ORIGINAL && player.getWorld().getName().equals("world_nether")) {
             commonString.messageSend(getPlugin(), player, true, RB_NETHER);
-            disableRocketBoots(player, false, false, false, false, false, true);
+            disableRocketBoots(player, false, false, false, false, false);
             return;
         }
 
@@ -380,7 +377,7 @@ public class RocketFunctions {
 
                     if (!blockStacks.split(fuelInventory, block, single, cost, (9 - cost))) {
                         commonString.messageSend(getPlugin(), player, true, FuelOutage(single.toString().toLowerCase()));
-                        disableRocketBoots(player, true, true, true, true, true, true);
+                        disableRocketBoots(player, true, true, true, true, true);
                     }
 
                     try {

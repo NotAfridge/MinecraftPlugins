@@ -1,12 +1,14 @@
 package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketFunctions;
+import com.ullarah.urocket.function.CommonString;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.CraftingInventory;
@@ -16,8 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import static com.ullarah.urocket.RocketInit.rocketEntity;
-import static com.ullarah.urocket.RocketInit.rocketJacket;
+import static com.ullarah.urocket.RocketInit.*;
 import static com.ullarah.urocket.init.RocketLanguage.RB_USELESS;
 
 public class InventoryClick implements Listener {
@@ -26,10 +27,16 @@ public class InventoryClick implements Listener {
     public void playerInventoryClick(InventoryClickEvent event) {
 
         RocketFunctions rocketFunctions = new RocketFunctions();
+        CommonString commonString = new CommonString();
 
         if (event.getClickedInventory() == null) return;
 
         if (event.getInventory() instanceof CraftingInventory) {
+
+            Player player = (Player) event.getWhoClicked();
+            UUID playerUUID = player.getUniqueId();
+            ItemStack itemCursor = event.getCursor();
+            ItemStack itemCurrent = event.getCurrentItem();
 
             if (event.getSlotType() == InventoryType.SlotType.RESULT) {
 
@@ -41,32 +48,54 @@ public class InventoryClick implements Listener {
 
             }
 
-            if (event.getSlotType().equals(InventoryType.SlotType.ARMOR) && event.getRawSlot() == 8)
-                rocketFunctions.interactRocketBoots(event, event.getWhoClicked().getItemOnCursor());
+            if (event.getSlotType().equals(InventoryType.SlotType.ARMOR)) switch (event.getRawSlot()) {
 
-            if (event.getSlotType().equals(InventoryType.SlotType.ARMOR) && event.getRawSlot() == 6) {
-
-                Player player = (Player) event.getWhoClicked();
-                ItemStack itemCursor = event.getCursor();
-                ItemStack itemCurrent = event.getCurrentItem();
-
-                if (itemCursor.hasItemMeta()) if (itemCursor.getItemMeta().hasDisplayName())
-                    if (itemCursor.getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Boot Fuel Jacket")) {
-                        rocketJacket.add(player.getUniqueId());
-                        return;
-                    }
-
-                if (itemCurrent.hasItemMeta()) if (itemCurrent.getItemMeta().hasDisplayName())
-                    if (itemCurrent.getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Boot Fuel Jacket"))
-                        if (player.isFlying()) {
-                            rocketJacket.remove(player.getUniqueId());
-                            rocketFunctions.disableRocketBoots(player, true, true, true, true, true, false);
+                case 6:
+                    if (rocketFunctions.isValidFuelJacket(itemCursor)) {
+                        if (event.getAction().equals(InventoryAction.SWAP_WITH_CURSOR)) {
+                            if (rocketFunctions.isValidFuelJacket(itemCurrent))
+                                commonString.messageSend(getPlugin(), player, true, "Fuel Jacket Swapped");
+                            else {
+                                rocketJacket.add(playerUUID);
+                                commonString.messageSend(getPlugin(), player, true, "Fuel Jacket Attached");
+                            }
                             return;
                         }
+                        rocketJacket.add(playerUUID);
+                        commonString.messageSend(getPlugin(), player, true, "Fuel Jacket Attached");
+                    } else {
+                        rocketJacket.remove(playerUUID);
+                        if (player.isFlying()) player.setFlying(false);
+                    }
+                    break;
+
+                case 8:
+                    if (rocketFunctions.isValidRocketBoots(itemCursor)) {
+                        if (event.getAction().equals(InventoryAction.SWAP_WITH_CURSOR)) {
+                            if (rocketFunctions.isValidRocketBoots(itemCurrent))
+                                rocketFunctions.disableRocketBoots(player, false, false, true, false, false);
+                            else {
+                                rocketFunctions.disableRocketBoots(player, false, false, false, false, false);
+                                return;
+                            }
+                        }
+                        rocketFunctions.interactRocketBoots(event, itemCursor);
+                    } else rocketFunctions.disableRocketBoots(player, false, false, false, false, false);
+                    break;
 
             }
 
-            if (event.isShiftClick()) rocketFunctions.interactRocketBoots(event, event.getCurrentItem());
+            if (event.isShiftClick()) {
+
+                if (rocketFunctions.isValidFuelJacket(itemCurrent)) if (event.getRawSlot() != 6) {
+                    rocketJacket.add(player.getUniqueId());
+                    commonString.messageSend(getPlugin(), player, true, "Fuel Jacket Attached");
+                }
+
+                if (rocketFunctions.isValidRocketBoots(itemCurrent)) if (event.getRawSlot() != 8)
+                    rocketFunctions.interactRocketBoots(event, itemCurrent);
+
+            }
 
         }
 
@@ -101,12 +130,12 @@ public class InventoryClick implements Listener {
                 add(Material.AIR);
                 add(Material.COAL);
                 add(Material.COAL_BLOCK);
-                add(Material.LOG);
-                add(Material.WOOD);
-                add(Material.REDSTONE_BLOCK);
                 add(Material.REDSTONE);
-                add(Material.GLOWSTONE);
+                add(Material.REDSTONE_BLOCK);
                 add(Material.GLOWSTONE_DUST);
+                add(Material.GLOWSTONE);
+                add(Material.WOOD);
+                add(Material.LOG);
             }};
 
             if (!allowedMaterial.contains(event.getCurrentItem().getType())) event.setCancelled(true);

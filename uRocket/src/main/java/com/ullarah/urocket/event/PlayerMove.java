@@ -145,7 +145,7 @@ public class PlayerMove implements Listener {
                         if (player.isFlying() && player.getWorld().getName().equals("world_nether"))
                             rocketFire.add(groundFire.setFire(player, "SINGLE", Material.NETHERRACK));
 
-                    if (world.getName().equals("world") && (world.hasStorm() || world.isThundering()))
+                    if (world.getName().equals("world") && (world.hasStorm()))
                         if (new Random().nextInt(500) == 1) {
                             if (!player.getInventory().getBoots().getType().equals(Material.LEATHER_BOOTS)) {
                                 if (player.isFlying()) {

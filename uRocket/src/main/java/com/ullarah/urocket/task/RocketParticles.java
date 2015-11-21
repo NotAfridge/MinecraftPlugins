@@ -17,7 +17,7 @@ import java.util.UUID;
 
 import static com.ullarah.urocket.RocketInit.*;
 import static com.ullarah.urocket.init.RocketVariant.Variant;
-import static com.ullarah.urocket.init.RocketVariant.Variant.*;
+import static com.ullarah.urocket.init.RocketVariant.Variant.RUNNER;
 import static org.bukkit.Material.LEATHER_BOOTS;
 
 public class RocketParticles {
@@ -39,6 +39,7 @@ public class RocketParticles {
                                         if (!player.isSneaking()) if (rocketVariant.containsKey(player.getUniqueId())) {
 
                                             Variant bootVariant = rocketVariant.get(player.getUniqueId());
+                                            boolean showParticle = true;
 
                                             float x = (float) player.getLocation().getX();
                                             float y = (float) (player.getLocation().getY() - 1);
@@ -48,24 +49,26 @@ public class RocketParticles {
                                             float oY = (float) -0.5;
                                             float oZ = (float) 0.125;
 
-                                            PacketPlayOutWorldParticles packet = null;
+                                            PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
+                                                    bootVariant.getParticleType(),
+                                                    true, x, y, z, oX, oY, oZ,
+                                                    bootVariant.getParticleSpeed(),
+                                                    bootVariant.getParticleAmount(),
+                                                    null);
 
-                                            if (rocketSprint.containsKey(player.getUniqueId())) {
+                                            switch (bootVariant) {
 
-                                                packet = new PacketPlayOutWorldParticles(
-                                                        EnumParticle.SMOKE_LARGE,
-                                                        true, x, y, z, oX, oY, oZ, 0, 5, null);
+                                                case DRUNK:
+                                                    packet = new PacketPlayOutWorldParticles(
+                                                            bootVariant.getParticleType(),
+                                                            false, x, (float) (y + 0.85), z,
+                                                            .392f, .823f, .321f,
+                                                            bootVariant.getParticleSpeed(),
+                                                            bootVariant.getParticleAmount(),
+                                                            null);
+                                                    break;
 
-                                            } else {
-
-                                                packet = new PacketPlayOutWorldParticles(
-                                                        bootVariant.getParticleType(),
-                                                        true, x, y, z, oX, oY, oZ,
-                                                        bootVariant.getParticleSpeed(),
-                                                        bootVariant.getParticleAmount(),
-                                                        null);
-
-                                                if (bootVariant.equals(RAINBOW)) {
+                                                case RAINBOW:
                                                     ItemStack rocketBoots = player.getInventory().getBoots();
                                                     if (rocketBoots.getType() == LEATHER_BOOTS) {
                                                         LeatherArmorMeta armorMeta = (LeatherArmorMeta) rocketBoots.getItemMeta();
@@ -76,22 +79,24 @@ public class RocketParticles {
                                                         ));
                                                         rocketBoots.setItemMeta(armorMeta);
                                                     }
-                                                }
+                                                    break;
 
-                                                if (bootVariant.equals(DRUNK)) {
+                                                case RUNNER:
                                                     packet = new PacketPlayOutWorldParticles(
-                                                            bootVariant.getParticleType(),
-                                                            false, x, (float) (y + 0.85), z,
-                                                            .392f, .823f, .321f,
-                                                            bootVariant.getParticleSpeed(),
-                                                            bootVariant.getParticleAmount(),
-                                                            null);
-                                                }
+                                                            EnumParticle.SMOKE_LARGE,
+                                                            true, x, y, z, oX, oY, oZ, 0, 5, null);
+                                                    break;
+
+                                                case STEALTH:
+                                                    showParticle = false;
+                                                    break;
 
                                             }
 
-                                            for (Player serverPlayer : player.getWorld().getPlayers())
-                                                ((CraftPlayer) serverPlayer).getHandle().playerConnection.sendPacket(packet);
+                                            if (showParticle) {
+                                                for (Player serverPlayer : player.getWorld().getPlayers())
+                                                    ((CraftPlayer) serverPlayer).getHandle().playerConnection.sendPacket(packet);
+                                            }
 
                                         }
 

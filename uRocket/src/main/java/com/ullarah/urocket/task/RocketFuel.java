@@ -39,12 +39,12 @@ public class RocketFuel {
 
                             boolean isFuelEfficient = false;
                             boolean isSolarPowered = false;
-                            boolean isJunkPowered = false;
+                            boolean isUnlimited = false;
 
                             if (rocketEnhancement.containsKey(uuid)) {
                                 isFuelEfficient = (rocketEnhancement.get(uuid).equals(FUEL));
                                 isSolarPowered = (rocketEnhancement.get(uuid).equals(SOLAR));
-                                isJunkPowered = (rocketEnhancement.get(uuid).equals(JUNK));
+                                isUnlimited = (rocketEnhancement.get(uuid).equals(UNLIMITED));
                             }
 
                             if (rocketVariant.containsKey(player.getUniqueId())) {
@@ -58,10 +58,12 @@ public class RocketFuel {
                                 double getHealthFromBoots = 0;
                                 int getFoodLevelFromBoots = 0;
                                 int itemFuelCost = 0;
+                                int malfunctionRate = 0;
 
                                 switch (bootMaterial) {
 
                                     case LEATHER_BOOTS:
+                                        malfunctionRate = 500;
                                         itemFuelCost = 1 + rocketFunctions.getBootPowerLevel(rocketBoots);
                                         getHealthFromBoots = (player.getHealth() - 3.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 4);
@@ -71,6 +73,7 @@ public class RocketFuel {
                                         break;
 
                                     case IRON_BOOTS:
+                                        malfunctionRate = 1000;
                                         itemFuelCost = 2 + rocketFunctions.getBootPowerLevel(rocketBoots);
                                         getHealthFromBoots = (player.getHealth() - 2.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 3);
@@ -80,6 +83,7 @@ public class RocketFuel {
                                         break;
 
                                     case GOLD_BOOTS:
+                                        malfunctionRate = 1500;
                                         itemFuelCost = 3 + rocketFunctions.getBootPowerLevel(rocketBoots);
                                         getHealthFromBoots = (player.getHealth() - 1.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 2);
@@ -89,6 +93,7 @@ public class RocketFuel {
                                         break;
 
                                     case DIAMOND_BOOTS:
+                                        malfunctionRate = 2000;
                                         itemFuelCost = 4 + rocketFunctions.getBootPowerLevel(rocketBoots);
                                         getHealthFromBoots = (player.getHealth() - 0.5);
                                         getFoodLevelFromBoots = (player.getFoodLevel() - 1);
@@ -105,7 +110,7 @@ public class RocketFuel {
                                         if (player.getHealth() <= 1.0 || player.getFoodLevel() <= 2) {
 
                                             commonString.messageSend(getPlugin(), player, true, RB_HUNGRY);
-                                            rocketFunctions.disableRocketBoots(player, false, true, false, true, true, true);
+                                            rocketFunctions.disableRocketBoots(player, false, true, false, true, true);
 
                                         } else {
 
@@ -119,7 +124,7 @@ public class RocketFuel {
                                         if (getVaultEconomy().getBalance(player) <= 10.0) {
 
                                             commonString.messageSend(getPlugin(), player, true, RB_MONEY);
-                                            rocketFunctions.disableRocketBoots(player, false, true, false, true, true, true);
+                                            rocketFunctions.disableRocketBoots(player, false, true, false, true, true);
 
                                         } else {
 
@@ -186,44 +191,32 @@ public class RocketFuel {
                                         }
                                         break;
 
-                                    case TREE:
-                                        if (random.nextInt(10) == 5) {
+                                }
 
-                                            player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 0.6f, 0.65f);
-                                            commonString.messageSend(getPlugin(), player, true, RB_MALFUNCTION);
-                                            rocketFunctions.disableRocketBoots(player, true, true, true, true, true, true);
+                                if (!isUnlimited && random.nextInt(malfunctionRate) == 1) {
 
-                                        }
-                                        break;
-
-                                    case FURY:
-                                        if (random.nextInt(10) == 5) {
-
-                                            player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 0.6f, 0.65f);
-                                            commonString.messageSend(getPlugin(), player, true, RB_MALFUNCTION);
-                                            rocketFunctions.disableRocketBoots(player, true, true, true, true, true, true);
-
-                                        }
-                                        break;
+                                    player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 0.6f, 0.65f);
+                                    commonString.messageSend(getPlugin(), player, true, RB_MALFUNCTION);
+                                    rocketFunctions.disableRocketBoots(player, true, true, true, true, true);
 
                                 }
 
                                 Material fuelBlock = bootVariant.getFuelBlock();
                                 Material fuelSingle = bootVariant.getFuelSingle();
 
-                                if (fuelBlock != null || fuelSingle != null) if (!isJunkPowered)
+                                if (!isUnlimited && fuelBlock != null && fuelSingle != null)
                                     rocketFunctions.removeFuel(player, fuelBlock, fuelSingle, itemFuelCost);
 
                             }
 
                             if (player.getLocation().getY() >= 250) {
 
-                                rocketFunctions.disableRocketBoots(player, true, true, true, true, true, true);
+                                rocketFunctions.disableRocketBoots(player, true, true, true, true, true);
                                 commonString.messageSend(getPlugin(), player, true, RB_HIGH);
 
                             } else if (player.getLocation().getY() <= 0) {
 
-                                rocketFunctions.disableRocketBoots(player, true, true, true, true, true, true);
+                                rocketFunctions.disableRocketBoots(player, true, true, true, true, true);
                                 commonString.messageSend(getPlugin(), player, true, RB_LOW);
 
                             }

@@ -14,7 +14,7 @@ public final class RocketLanguage {
     public static final String RB_LEVEL = ChatColor.YELLOW + "Rocket Level ";
     public static final String RB_MALFUNCTION = ChatColor.RED + "Your boots have malfunctioned!";
 
-    public static final String RB_ACTIVATE = "Rocket Boots Activated!";
+    public static final String RB_ACTIVATE = "Rocket Boots Activated";
     public static final String RB_DEACTIVATE = "Rocket Boots Deactivated";
     public static final String RB_DISABLE = "Disabling Rocket Boots!";
     public static final String RB_FAIL_ATTACH = ChatColor.RED + "Rocket Boots failed to attach!";

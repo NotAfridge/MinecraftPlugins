@@ -21,6 +21,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.ullarah.urocket.RocketInit.*;
+import static com.ullarah.urocket.init.RocketEnhancement.Enhancement.UNLIMITED;
 import static com.ullarah.urocket.init.RocketLanguage.*;
 
 public class RocketLowFuel {
@@ -40,6 +41,9 @@ public class RocketLowFuel {
                         Player player = Bukkit.getPlayer(uuid);
 
                         if (player.isFlying()) {
+
+                            if (rocketEnhancement.containsKey(uuid))
+                                if (rocketEnhancement.get(uuid).equals(UNLIMITED)) return;
 
                             boolean fuelLow = false;
                             String fuelType = "";
@@ -83,32 +87,32 @@ public class RocketLowFuel {
                                 case TREE:
                                     fuelType = "wood";
                                     assert fuelInventory != null;
-                                    if (!fuelInventory.containsAtLeast(new ItemStack(Material.WOOD), 16))
-                                        if (!fuelInventory.containsAtLeast(new ItemStack(Material.LOG), 1))
+                                    if (!fuelInventory.containsAtLeast(new ItemStack(Material.WOOD), 15))
+                                        if (!fuelInventory.containsAtLeast(new ItemStack(Material.LOG), 3))
                                             fuelLow = true;
                                     break;
 
                                 case FURY:
                                     fuelType = "redstone";
                                     assert fuelInventory != null;
-                                    if (!fuelInventory.containsAtLeast(new ItemStack(Material.REDSTONE), 16))
-                                        if (!fuelInventory.containsAtLeast(new ItemStack(Material.REDSTONE_BLOCK), 1))
+                                    if (!fuelInventory.containsAtLeast(new ItemStack(Material.REDSTONE), 15))
+                                        if (!fuelInventory.containsAtLeast(new ItemStack(Material.REDSTONE_BLOCK), 3))
                                             fuelLow = true;
                                     break;
 
                                 case GLOW:
                                     fuelType = "glowstone";
                                     assert fuelInventory != null;
-                                    if (!fuelInventory.containsAtLeast(new ItemStack(Material.GLOWSTONE_DUST), 16))
-                                        if (!fuelInventory.containsAtLeast(new ItemStack(Material.GLOWSTONE), 1))
+                                    if (!fuelInventory.containsAtLeast(new ItemStack(Material.GLOWSTONE_DUST), 15))
+                                        if (!fuelInventory.containsAtLeast(new ItemStack(Material.GLOWSTONE), 3))
                                             fuelLow = true;
                                     break;
 
                                 default:
                                     fuelType = "coal";
                                     assert fuelInventory != null;
-                                    if (!fuelInventory.containsAtLeast(new ItemStack(Material.COAL), 16))
-                                        if (!fuelInventory.containsAtLeast(new ItemStack(Material.COAL_BLOCK), 1))
+                                    if (!fuelInventory.containsAtLeast(new ItemStack(Material.COAL), 15))
+                                        if (!fuelInventory.containsAtLeast(new ItemStack(Material.COAL_BLOCK), 3))
                                             fuelLow = true;
                                     break;
 
