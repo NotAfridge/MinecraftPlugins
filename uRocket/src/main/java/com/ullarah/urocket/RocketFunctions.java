@@ -474,7 +474,7 @@ public class RocketFunctions {
 
         boolean fastRepair = false;
 
-        if (isValidRocketBoots(boots)) {
+        if (isValidRocketBoots(boots)) if (boots.getItemMeta().getLore().size() == 3) {
             String enhancementLore = boots.getItemMeta().getLore().get(2);
             Enhancement enhancement = Enhancement.getEnum(enhancementLore);
             if (enhancement != null) if (enhancement.equals(Enhancement.FASTREP)) fastRepair = true;
