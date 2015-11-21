@@ -26,6 +26,7 @@ public class RocketEnhancement {
 
         NOTHING(ChatColor.DARK_GRAY + "Nothing", BEDROCK),
         REPAIR(ChatColor.RED + "Self Repair", ANVIL),
+        FASTREP(ChatColor.GOLD + "Fast Repair", FURNACE),
         FUEL(ChatColor.YELLOW + "Fuel Efficient", SPONGE),
         SOLAR(ChatColor.WHITE + "Solar Power", DAYLIGHT_DETECTOR),
         STABLE(ChatColor.BLUE + "Stabiliser", SLIME_BLOCK),

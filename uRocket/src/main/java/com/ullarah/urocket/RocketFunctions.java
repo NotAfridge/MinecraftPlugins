@@ -472,22 +472,30 @@ public class RocketFunctions {
 
     public int getBootRepairRate(ItemStack boots) {
 
+        boolean fastRepair = false;
+
+        if (isValidRocketBoots(boots)) {
+            String enhancementLore = boots.getItemMeta().getLore().get(2);
+            Enhancement enhancement = Enhancement.getEnum(enhancementLore);
+            if (enhancement != null) if (enhancement.equals(Enhancement.FASTREP)) fastRepair = true;
+        }
+
         switch (getBootPowerLevel(boots)) {
 
             case 1:
-                return 5;
+                return fastRepair ? 20 : 5;
 
             case 2:
-                return 4;
+                return fastRepair ? 17 : 4;
 
             case 3:
-                return 3;
+                return fastRepair ? 15 : 3;
 
             case 4:
-                return 2;
+                return fastRepair ? 13 : 2;
 
             case 5:
-                return 1;
+                return fastRepair ? 10 : 1;
 
         }
 
