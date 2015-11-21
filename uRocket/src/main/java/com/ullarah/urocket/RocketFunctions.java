@@ -375,6 +375,9 @@ public class RocketFunctions {
                     fuelInventory = Bukkit.createInventory(player, fuelSize, "" + ChatColor.DARK_RED + ChatColor.BOLD + "Rocket Boot Fuel Jacket");
                     fuelInventory.setContents(itemStack.toArray(new ItemStack[itemStack.size()]));
 
+                    for (ItemStack item : fuelInventory.getContents())
+                        if (item.getAmount() <= 0) item.setType(Material.AIR);
+
                     if (!blockStacks.split(fuelInventory, block, single, cost, (9 - cost))) {
                         commonString.messageSend(getPlugin(), player, true, FuelOutage(single.toString().toLowerCase()));
                         disableRocketBoots(player, true, true, true, true, true);

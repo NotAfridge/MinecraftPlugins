@@ -54,19 +54,23 @@ public class RocketLowFuel {
 
                             Inventory fuelInventory = null;
 
-                            if (fuelFile.exists()) {
+                            if (bootVariant.getFuelSingle() != null && bootVariant.getFuelBlock() != null) {
 
-                                ArrayList<Object> jacketSizeType = rocketFunctions.fuelJacketType(player.getInventory().getChestplate().getType());
+                                if (fuelFile.exists()) {
 
-                                if (fuelConfig.get((String) jacketSizeType.get(1)) != null) {
+                                    ArrayList<Object> jacketSizeType = rocketFunctions.fuelJacketType(player.getInventory().getChestplate().getType());
 
-                                    ArrayList<ItemStack> itemStack = new ArrayList<>();
-                                    itemStack.addAll(fuelConfig.getList((String) jacketSizeType.get(1)).stream().map(fuelCurrentItem
-                                            -> (ItemStack) fuelCurrentItem).collect(Collectors.toList()));
+                                    if (fuelConfig.get((String) jacketSizeType.get(1)) != null) {
 
-                                    fuelInventory = Bukkit.createInventory(player, (int) jacketSizeType.get(0),
-                                            "" + ChatColor.DARK_RED + ChatColor.BOLD + "Rocket Boot Fuel Jacket");
-                                    fuelInventory.setContents(itemStack.toArray(new ItemStack[itemStack.size()]));
+                                        ArrayList<ItemStack> itemStack = new ArrayList<>();
+                                        itemStack.addAll(fuelConfig.getList((String) jacketSizeType.get(1)).stream().map(fuelCurrentItem
+                                                -> (ItemStack) fuelCurrentItem).collect(Collectors.toList()));
+
+                                        fuelInventory = Bukkit.createInventory(player, (int) jacketSizeType.get(0),
+                                                "" + ChatColor.DARK_RED + ChatColor.BOLD + "Rocket Boot Fuel Jacket");
+                                        fuelInventory.setContents(itemStack.toArray(new ItemStack[itemStack.size()]));
+
+                                    }
 
                                 }
 
