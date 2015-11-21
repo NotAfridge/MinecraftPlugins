@@ -40,11 +40,13 @@ public class RocketFuel {
                             boolean isFuelEfficient = false;
                             boolean isSolarPowered = false;
                             boolean isUnlimited = false;
+                            boolean isStable = false;
 
                             if (rocketEnhancement.containsKey(uuid)) {
-                                isFuelEfficient = (rocketEnhancement.get(uuid).equals(FUEL));
-                                isSolarPowered = (rocketEnhancement.get(uuid).equals(SOLAR));
-                                isUnlimited = (rocketEnhancement.get(uuid).equals(UNLIMITED));
+                                isFuelEfficient = rocketEnhancement.get(uuid).equals(FUEL);
+                                isSolarPowered = rocketEnhancement.get(uuid).equals(SOLAR);
+                                isUnlimited = rocketEnhancement.get(uuid).equals(UNLIMITED);
+                                isStable = rocketEnhancement.get(uuid).equals(STABLE);
                             }
 
                             if (rocketVariant.containsKey(player.getUniqueId())) {
@@ -193,12 +195,14 @@ public class RocketFuel {
 
                                 }
 
-                                if (!isUnlimited && random.nextInt(malfunctionRate) == 1) {
+                                if (!isUnlimited) if (!isStable) {
+                                    if (random.nextInt(malfunctionRate) == 1) {
 
-                                    player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 0.6f, 0.65f);
-                                    commonString.messageSend(getPlugin(), player, true, RB_MALFUNCTION);
-                                    rocketFunctions.disableRocketBoots(player, true, true, true, true, true);
+                                        player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 0.6f, 0.65f);
+                                        commonString.messageSend(getPlugin(), player, true, RB_MALFUNCTION);
+                                        rocketFunctions.disableRocketBoots(player, true, true, true, true, true);
 
+                                    }
                                 }
 
                                 Material fuelBlock = bootVariant.getFuelBlock();
