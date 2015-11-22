@@ -2,9 +2,7 @@ package com.ullarah.urocket.task;
 
 import com.ullarah.urocket.RocketFunctions;
 import com.ullarah.urocket.function.CommonString;
-import org.apache.commons.io.output.StringBuilderWriter;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -142,31 +140,6 @@ public class RocketFuel {
                                             }
 
                                         }
-                                        break;
-
-                                    case AGENDA:
-                                        StringBuilderWriter agendaMessage = new StringBuilderWriter();
-
-                                        String[] letterArray = {"G", "A", "Y", "A", "G", "E", "N", "D", "A"};
-                                        ChatColor[] colourArray = {
-                                                ChatColor.YELLOW, ChatColor.AQUA, ChatColor.BLUE,
-                                                ChatColor.GOLD, ChatColor.GREEN, ChatColor.LIGHT_PURPLE,
-                                                ChatColor.RED, ChatColor.WHITE
-                                        };
-
-                                        int i = 0;
-                                        for (int x = 0; x < 2; x++) {
-                                            while (i < 10) {
-                                                for (String letterCurrent : letterArray) {
-                                                    String m = "" + colourArray[new Random().nextInt(colourArray.length)]
-                                                            + ChatColor.BOLD + ChatColor.MAGIC + letterCurrent;
-                                                    agendaMessage.append(m);
-                                                }
-                                                i++;
-                                            }
-                                        }
-
-                                        commonString.messageSend(getPlugin(), player, false, agendaMessage.toString());
                                         break;
 
                                     case DRUNK:

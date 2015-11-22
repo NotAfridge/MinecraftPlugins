@@ -91,12 +91,6 @@ public class RocketVariant {
                 Sound.ENDERMAN_TELEPORT, 1.25f, 0.25f, new Vector(0, 0.5, 0),
                 Material.COAL, Material.COAL_BLOCK
         ),
-        AGENDA(
-                ChatColor.LIGHT_PURPLE + "Gay Agenda", new Material[]{Material.GOLDEN_APPLE, Material.MAGMA_CREAM, Material.SPECKLED_MELON},
-                EnumParticle.SPELL_WITCH, new Random().nextInt(25), new Random().nextInt(25), null,
-                Sound.NOTE_BASS, 1.0f, 0.5f, new Vector(0, 1.25, 0),
-                Material.COAL, Material.COAL_BLOCK
-        ),
         MONEY(
                 ChatColor.GREEN + "Robin Hood", new Material[]{Material.EMERALD, Material.DIAMOND, Material.GOLD_INGOT},
                 EnumParticle.VILLAGER_HAPPY, 0, 5, null,

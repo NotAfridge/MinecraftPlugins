@@ -38,10 +38,6 @@ public class PlayerChat implements Listener {
                     event.setCancelled(true);
                     break;
 
-                case AGENDA:
-                    event.setMessage(ChatColor.LIGHT_PURPLE + message);
-                    break;
-
                 case DRUNK:
                     StringBuilderWriter drunkMessage = new StringBuilderWriter();
                     for (String letter : message.split("")) {
