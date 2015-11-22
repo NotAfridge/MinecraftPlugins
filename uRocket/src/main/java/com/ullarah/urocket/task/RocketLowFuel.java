@@ -58,15 +58,18 @@ public class RocketLowFuel {
 
                                 if (fuelFile.exists()) {
 
-                                    ArrayList<Object> jacketSizeType = rocketFunctions.fuelJacketType(player.getInventory().getChestplate().getType());
+                                    Material jacket = player.getInventory().getChestplate().getType();
 
-                                    if (fuelConfig.get((String) jacketSizeType.get(1)) != null) {
+                                    int jacketSize = rocketFunctions.getFuelJacketSize(jacket);
+                                    String jacketType = rocketFunctions.getFuelJacketConfigString(jacket);
+
+                                    if (fuelConfig.get(jacketType) != null) {
 
                                         ArrayList<ItemStack> itemStack = new ArrayList<>();
-                                        itemStack.addAll(fuelConfig.getList((String) jacketSizeType.get(1)).stream().map(fuelCurrentItem
+                                        itemStack.addAll(fuelConfig.getList(jacketType).stream().map(fuelCurrentItem
                                                 -> (ItemStack) fuelCurrentItem).collect(Collectors.toList()));
 
-                                        fuelInventory = Bukkit.createInventory(player, (int) jacketSizeType.get(0),
+                                        fuelInventory = Bukkit.createInventory(player, jacketSize,
                                                 "" + ChatColor.DARK_RED + ChatColor.BOLD + "Rocket Boot Fuel Jacket");
                                         fuelInventory.setContents(itemStack.toArray(new ItemStack[itemStack.size()]));
 

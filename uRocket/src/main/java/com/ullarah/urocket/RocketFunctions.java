@@ -273,61 +273,83 @@ public class RocketFunctions {
 
     }
 
-    public boolean checkFuel(Player player, Material single, Material block) {
+    public File getFuelFile(Player player) {
+
+        return new File(getPlugin().getDataFolder() + File.separator + "fuel", player.getUniqueId().toString() + ".yml");
+
+    }
+
+    public FileConfiguration getFuelConfig(Player player) {
+
+        File fuelFile = getFuelFile(player);
+        FileConfiguration fuelConfig = YamlConfiguration.loadConfiguration(fuelFile);
+
+        if (fuelFile.exists()) return fuelConfig;
+
+        return null;
+
+    }
+
+    public Inventory getFuelInventory(Player player) {
 
         if (isValidFuelJacket(player.getInventory().getChestplate())) {
 
-            File fuelFile = new File(getPlugin().getDataFolder() + File.separator + "fuel", player.getUniqueId().toString() + ".yml");
-            FileConfiguration fuelConfig = YamlConfiguration.loadConfiguration(fuelFile);
+            FileConfiguration fuelConfig = getFuelConfig(player);
+            Material jacket = player.getInventory().getChestplate().getType();
 
-            if (fuelFile.exists()) {
+            int jacketSize = getFuelJacketSize(jacket);
+            String jacketType = getFuelJacketConfigString(jacket);
 
-                ArrayList<Object> jacketSizeType = fuelJacketType(player.getInventory().getChestplate().getType());
+            if (fuelConfig.get(jacketType) != null) {
 
-                int fuelSize = (int) jacketSizeType.get(0);
-                String fuelType = (String) jacketSizeType.get(1);
+                Inventory fuelInventory;
+                ArrayList<ItemStack> itemStack = new ArrayList<>();
 
-                if (fuelConfig.get(fuelType) != null) {
+                itemStack.addAll(fuelConfig.getList(jacketType).stream().map(fuelCurrentItem
+                        -> (ItemStack) fuelCurrentItem).collect(Collectors.toList()));
 
-                    Inventory fuelInventory;
+                fuelInventory = Bukkit.createInventory(player, jacketSize, "" + ChatColor.DARK_RED + ChatColor.BOLD + "Rocket Boot Fuel Jacket");
+                fuelInventory.setContents(itemStack.toArray(new ItemStack[itemStack.size()]));
 
-                    ArrayList<ItemStack> itemStack = new ArrayList<>();
-                    itemStack.addAll(fuelConfig.getList(fuelType).stream().map(fuelCurrentItem -> (ItemStack) fuelCurrentItem).collect(Collectors.toList()));
-
-                    fuelInventory = Bukkit.createInventory(player, fuelSize, "" + ChatColor.DARK_RED + ChatColor.BOLD + "Rocket Boot Fuel Jacket");
-                    fuelInventory.setContents(itemStack.toArray(new ItemStack[itemStack.size()]));
-
-                    ItemStack rocketBoots = player.getInventory().getBoots();
-                    int fuelCost = 0;
-
-                    switch (rocketBoots.getType()) {
-
-                        case LEATHER_BOOTS:
-                            fuelCost = 1 + getBootPowerLevel(rocketBoots);
-                            break;
-
-                        case IRON_BOOTS:
-                            fuelCost = 2 + getBootPowerLevel(rocketBoots);
-                            break;
-
-                        case GOLD_BOOTS:
-                            fuelCost = 3 + getBootPowerLevel(rocketBoots);
-                            break;
-
-                        case DIAMOND_BOOTS:
-                            fuelCost = 4 + getBootPowerLevel(rocketBoots);
-                            break;
-
-                    }
-
-                    if (fuelInventory.containsAtLeast(new ItemStack(block), fuelCost)) return true;
-                    if (fuelInventory.containsAtLeast(new ItemStack(single), fuelCost)) return true;
-
-                }
+                return fuelInventory;
 
             }
 
         }
+
+        return null;
+
+    }
+
+    public boolean fuelCheck(Player player, Material single, Material block) {
+
+        Inventory fuelInventory = getFuelInventory(player);
+        ItemStack rocketBoots = player.getInventory().getBoots();
+
+        int fuelCost = 0;
+
+        switch (rocketBoots.getType()) {
+
+            case LEATHER_BOOTS:
+                fuelCost = 1 + getBootPowerLevel(rocketBoots);
+                break;
+
+            case IRON_BOOTS:
+                fuelCost = 2 + getBootPowerLevel(rocketBoots);
+                break;
+
+            case GOLD_BOOTS:
+                fuelCost = 3 + getBootPowerLevel(rocketBoots);
+                break;
+
+            case DIAMOND_BOOTS:
+                fuelCost = 4 + getBootPowerLevel(rocketBoots);
+                break;
+
+        }
+
+        if (fuelInventory.containsAtLeast(new ItemStack(block), fuelCost)) return true;
+        if (fuelInventory.containsAtLeast(new ItemStack(single), fuelCost)) return true;
 
         commonString.messageSend(getPlugin(), player, true, FuelRequired(single.name().toLowerCase()));
         rocketTimeout.add(player.getUniqueId());
@@ -352,53 +374,29 @@ public class RocketFunctions {
 
     }
 
-    public void removeFuel(Player player, Material block, Material single, int cost) {
+    public void fuelRemove(Player player, Material block, Material single, int cost) {
 
-        if (isValidFuelJacket(player.getInventory().getChestplate())) {
+        Inventory fuelInventory = getFuelInventory(player);
 
-            File fuelFile = new File(getPlugin().getDataFolder() + File.separator + "fuel", player.getUniqueId().toString() + ".yml");
-            FileConfiguration fuelConfig = YamlConfiguration.loadConfiguration(fuelFile);
+        for (ItemStack item : fuelInventory.getContents())
+            if (item != null) if (item.getAmount() <= 0) item.setType(Material.AIR);
 
-            if (fuelFile.exists()) {
+        if (!blockStacks.split(fuelInventory, block, single, cost, (9 - cost))) {
+            commonString.messageSend(getPlugin(), player, true, FuelOutage(single.toString().toLowerCase()));
+            disableRocketBoots(player, true, true, true, true, true);
+        }
 
-                ArrayList<Object> jacketSizeType = fuelJacketType(player.getInventory().getChestplate().getType());
+        try {
 
-                int fuelSize = (int) jacketSizeType.get(0);
-                String fuelType = (String) jacketSizeType.get(1);
+            Material jacketType = player.getInventory().getChestplate().getType();
+            FileConfiguration fuelConfig = getFuelConfig(player);
 
-                if (fuelConfig.get(fuelType) != null) {
+            fuelConfig.set(getFuelJacketConfigString(jacketType), fuelInventory.getContents());
+            fuelConfig.save(getFuelFile(player));
 
-                    ArrayList<ItemStack> itemStack = new ArrayList<>();
-                    itemStack.addAll(fuelConfig.getList(fuelType).stream().map(fuelCurrentItem -> (ItemStack) fuelCurrentItem).collect(Collectors.toList()));
-
-                    Inventory fuelInventory;
-                    fuelInventory = Bukkit.createInventory(player, fuelSize, "" + ChatColor.DARK_RED + ChatColor.BOLD + "Rocket Boot Fuel Jacket");
-                    fuelInventory.setContents(itemStack.toArray(new ItemStack[itemStack.size()]));
-
-                    for (ItemStack item : fuelInventory.getContents())
-                        if (item != null) if (item.getAmount() <= 0) item.setType(Material.AIR);
-
-                    if (!blockStacks.split(fuelInventory, block, single, cost, (9 - cost))) {
-                        commonString.messageSend(getPlugin(), player, true, FuelOutage(single.toString().toLowerCase()));
-                        disableRocketBoots(player, true, true, true, true, true);
-                    }
-
-                    try {
-
-                        fuelConfig.set(fuelType, fuelInventory.getContents());
-                        fuelConfig.save(fuelFile);
-
-                    } catch (IOException e) {
-
-                        commonString.messageSend(getPlugin(), player, true, RB_JACKET_SAVE_ERROR);
-                        e.printStackTrace();
-
-                    }
-
-                }
-
-            }
-
+        } catch (IOException e) {
+            commonString.messageSend(getPlugin(), player, true, RB_JACKET_SAVE_ERROR);
+            e.printStackTrace();
         }
 
     }
@@ -416,35 +414,47 @@ public class RocketFunctions {
 
     }
 
-    public ArrayList<Object> fuelJacketType(Material type) {
-
-        ArrayList<Object> jacketSizeType = new ArrayList<>();
+    public String getFuelJacketConfigString(Material type) {
 
         switch (type) {
 
             case LEATHER_CHESTPLATE:
-                jacketSizeType.add(9);
-                jacketSizeType.add("leather");
-                break;
+                return "leather";
 
             case IRON_CHESTPLATE:
-                jacketSizeType.add(18);
-                jacketSizeType.add("iron");
-                break;
+                return "iron";
 
             case GOLD_CHESTPLATE:
-                jacketSizeType.add(27);
-                jacketSizeType.add("gold");
-                break;
+                return "gold";
 
             case DIAMOND_CHESTPLATE:
-                jacketSizeType.add(36);
-                jacketSizeType.add("diamond");
-                break;
+                return "diamond";
 
         }
 
-        return jacketSizeType;
+        return null;
+
+    }
+
+    public int getFuelJacketSize(Material type) {
+
+        switch (type) {
+
+            case LEATHER_CHESTPLATE:
+                return 9;
+
+            case IRON_CHESTPLATE:
+                return 18;
+
+            case GOLD_CHESTPLATE:
+                return 27;
+
+            case DIAMOND_CHESTPLATE:
+                return 36;
+
+        }
+
+        return 0;
 
     }
 
@@ -671,7 +681,7 @@ public class RocketFunctions {
 
     }
 
-    public boolean rocketSaddleCheck(ItemStack saddle) {
+    public boolean isValidRocketSaddle(ItemStack saddle) {
 
         if (saddle != null && saddle.hasItemMeta()) {
             ItemMeta saddleMeta = saddle.getItemMeta();

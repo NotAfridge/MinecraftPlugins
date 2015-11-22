@@ -209,7 +209,7 @@ public class RocketFuel {
                                 Material fuelSingle = bootVariant.getFuelSingle();
 
                                 if (!isUnlimited && fuelBlock != null && fuelSingle != null)
-                                    rocketFunctions.removeFuel(player, fuelBlock, fuelSingle, itemFuelCost);
+                                    rocketFunctions.fuelRemove(player, fuelBlock, fuelSingle, itemFuelCost);
 
                             }
 

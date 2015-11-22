@@ -120,7 +120,7 @@ public class ToggleFlight implements Listener {
                                     if (!rocketSprint.containsKey(player.getUniqueId())) {
 
                                         if (!isUnlimited) if (fuelSingle != null && fuelBlock != null)
-                                            if (!rocketFunctions.checkFuel(player, fuelSingle, fuelBlock)) {
+                                            if (!rocketFunctions.fuelCheck(player, fuelSingle, fuelBlock)) {
                                                 player.setFlying(false);
                                                 event.setCancelled(true);
                                                 return;

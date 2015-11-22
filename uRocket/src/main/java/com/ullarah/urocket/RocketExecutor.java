@@ -5,6 +5,7 @@ import com.ullarah.urocket.command.DisplayHelp;
 import com.ullarah.urocket.function.CommonString;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -108,19 +109,19 @@ class RocketExecutor implements CommandExecutor {
 
                         if (fuelFile.exists()) {
 
-                            ArrayList<Object> jacketSizeType = rocketFunctions.fuelJacketType(player.getInventory().getChestplate().getType());
+                            Material jacket = player.getInventory().getChestplate().getType();
 
-                            int fuelSize = (int) jacketSizeType.get(0);
-                            String fuelType = (String) jacketSizeType.get(1);
+                            int jacketSize = rocketFunctions.getFuelJacketSize(jacket);
+                            String jacketType = rocketFunctions.getFuelJacketConfigString(jacket);
 
-                            if (fuelConfig.get(fuelType) != null) {
+                            if (fuelConfig.get(jacketType) != null) {
 
                                 Inventory fuelInventory;
                                 ArrayList<ItemStack> itemStack = new ArrayList<>();
-                                itemStack.addAll(fuelConfig.getList(fuelType).stream().map(fuelCurrentItem
+                                itemStack.addAll(fuelConfig.getList(jacketType).stream().map(fuelCurrentItem
                                         -> (ItemStack) fuelCurrentItem).collect(Collectors.toList()));
 
-                                fuelInventory = Bukkit.createInventory(player, fuelSize,
+                                fuelInventory = Bukkit.createInventory(player, jacketSize,
                                         "" + ChatColor.DARK_RED + ChatColor.BOLD + "Rocket Boot Fuel Jacket");
                                 fuelInventory.setContents(itemStack.toArray(new ItemStack[itemStack.size()]));
 

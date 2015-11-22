@@ -107,7 +107,7 @@ public class InventoryClick implements Listener {
                 UUID horseUUID = horse.getUniqueId();
                 ItemStack saddle = event.getWhoClicked().getItemOnCursor();
 
-                if (rocketFunctions.rocketSaddleCheck(saddle))
+                if (rocketFunctions.isValidRocketSaddle(saddle))
                     if (!rocketEntity.containsKey(horseUUID)) rocketEntity.put(horseUUID, horse.getType());
                     else if (rocketEntity.containsKey(horseUUID)) rocketEntity.remove(horseUUID);
 

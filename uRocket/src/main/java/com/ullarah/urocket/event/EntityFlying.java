@@ -27,7 +27,7 @@ public class EntityFlying implements Listener {
 
             ItemStack saddle = event.getEntity().getInventory().getSaddle();
 
-            if (rocketFunctions.rocketSaddleCheck(saddle)) {
+            if (rocketFunctions.isValidRocketSaddle(saddle)) {
 
                 Vector horseVelocity = horse.getVelocity();
                 double horseJump = event.getPower() * event.getEntity().getJumpStrength();
