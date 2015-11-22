@@ -1,5 +1,6 @@
 package com.ullarah.urocket.event;
 
+import com.ullarah.urocket.RocketFunctions;
 import com.ullarah.urocket.function.CommonString;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -20,6 +21,7 @@ public class JacketClose implements Listener {
     @EventHandler
     public void event(final InventoryCloseEvent event) {
 
+        RocketFunctions rocketFunctions = new RocketFunctions();
         CommonString commonString = new CommonString();
 
         Inventory fuelInventory = event.getInventory();
@@ -27,8 +29,7 @@ public class JacketClose implements Listener {
         if (fuelInventory.getName().matches("§4§lRocket Boot Fuel Jacket")) {
 
             Player player = (Player) event.getPlayer();
-
-            File fuelFile = new File(getPlugin().getDataFolder() + File.separator + "fuel", player.getUniqueId().toString() + ".yml");
+            File fuelFile = rocketFunctions.getFuelFile(player);
 
             if (fuelFile.exists()) {
 

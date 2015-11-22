@@ -1,5 +1,6 @@
 package com.ullarah.urocket.command;
 
+import com.ullarah.urocket.RocketFunctions;
 import com.ullarah.urocket.function.CommonString;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -18,11 +19,11 @@ public class FuelCreation {
 
     public static void create(CommandSender sender) {
 
+        RocketFunctions rocketFunctions = new RocketFunctions();
         CommonString commonString = new CommonString();
 
         Player player = (Player) sender;
-
-        File fuelFile = new File(getPlugin().getDataFolder() + File.separator + "fuel", player.getUniqueId().toString() + ".yml");
+        File fuelFile = rocketFunctions.getFuelFile(player);
 
         if (!fuelFile.exists()) {
 
@@ -45,6 +46,7 @@ public class FuelCreation {
             if (fuelFileCreation) {
 
                 FileConfiguration fuelConfig = YamlConfiguration.loadConfiguration(fuelFileNew);
+
                 fuelConfig.set("leather", new ArrayList<>());
                 fuelConfig.set("iron", new ArrayList<>());
                 fuelConfig.set("gold", new ArrayList<>());
@@ -58,10 +60,8 @@ public class FuelCreation {
                 }
 
             } else {
-
                 commonString.messageSend(getPlugin(), player, true, RB_JACKET_CREATE_ERROR);
                 player.closeInventory();
-
             }
 
         }
