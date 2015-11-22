@@ -83,8 +83,6 @@ public class PlayerChat implements Listener {
                     break;
 
                 default:
-                    System.out.println("trigger");
-                    event.setMessage(ChatColor.GREEN + message);
                     break;
 
             }
