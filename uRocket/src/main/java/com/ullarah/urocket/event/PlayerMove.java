@@ -87,7 +87,7 @@ public class PlayerMove implements Listener {
                         if (!rocketRepair.containsKey(player.getUniqueId())) {
                             titleSubtitle.subtitle(player, 3, RB_STATION_START);
                             commonString.messageSend(getPlugin(), player, true, RB_STATION_START);
-                            player.getWorld().playSound(player.getEyeLocation(), Sound.ORB_PICKUP, 0.8f, 0.5f);
+                            player.getWorld().playSound(player.getEyeLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.8f, 0.5f);
                             rocketRepair.put(player.getUniqueId(), bStation);
                         }
 
@@ -151,7 +151,7 @@ public class PlayerMove implements Listener {
                                 if (player.isFlying()) {
                                     if (areaCheck.above(location, Material.AIR)) {
                                         world.strikeLightning(location);
-                                        player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 1.5f, 0.75f);
+                                        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_BLAST, 1.5f, 0.75f);
                                         rocketSprint.put(player.getUniqueId(), "AIR");
                                         commonString.messageSend(getPlugin(), player, true, RB_STRIKE);
                                     }

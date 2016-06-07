@@ -59,7 +59,7 @@ public class ZoneCheck implements Listener {
                                                 RB_FZ_ENTRY, RB_DISABLE
                                         });
 
-                                        player.getWorld().playSound(player.getLocation(), Sound.FIZZ, 0.5f, 0.75f);
+                                        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_TWINKLE, 0.5f, 0.75f);
 
                                     }
 

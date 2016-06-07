@@ -2,14 +2,14 @@ package com.ullarah.urocket;
 
 import com.ullarah.urocket.function.*;
 import com.ullarah.urocket.init.RocketVariant.Variant;
-import net.minecraft.server.v1_8_R3.EnumParticle;
-import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
+import net.minecraft.server.v1_9_R2.EnumParticle;
+import net.minecraft.server.v1_9_R2.PacketPlayOutWorldParticles;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_9_R2.entity.CraftPlayer;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -279,7 +279,7 @@ public class RocketFunctions {
 
     }
 
-    public FileConfiguration getFuelConfig(Player player) {
+    private FileConfiguration getFuelConfig(Player player) {
 
         File fuelFile = getFuelFile(player);
         FileConfiguration fuelConfig = YamlConfiguration.loadConfiguration(fuelFile);
@@ -290,7 +290,7 @@ public class RocketFunctions {
 
     }
 
-    public Inventory getFuelInventory(Player player) {
+    private Inventory getFuelInventory(Player player) {
 
         if (isValidFuelJacket(player.getInventory().getChestplate())) {
 
@@ -667,7 +667,7 @@ public class RocketFunctions {
 
         Location particleLocation = new Location(world, cBX + 0.5, cBY + 1.2, cBZ + 0.5);
 
-        world.playSound(centerBlock, Sound.WITHER_IDLE, 1.25f, 0.55f);
+        world.playSound(centerBlock, Sound.ENTITY_WITHER_AMBIENT, 1.25f, 0.55f);
 
         PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
                 EnumParticle.PORTAL, false,

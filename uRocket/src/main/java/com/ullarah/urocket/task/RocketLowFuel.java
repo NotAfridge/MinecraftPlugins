@@ -130,7 +130,7 @@ public class RocketLowFuel {
                                 commonString.messageSend(getPlugin(), player, true, new String[]{
                                         FuelLow(fuelType), RB_FUEL_WARNING
                                 });
-                                player.getWorld().playSound(player.getLocation(), Sound.ORB_PICKUP, 0.5f, 1.3f);
+                                player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.5f, 1.3f);
                             }
 
                         }

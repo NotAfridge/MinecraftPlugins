@@ -3,10 +3,10 @@ package com.ullarah.urocket.task;
 import com.ullarah.urocket.RocketFunctions;
 import com.ullarah.urocket.function.CommonString;
 import com.ullarah.urocket.function.TitleSubtitle;
-import net.minecraft.server.v1_8_R3.EnumParticle;
-import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
+import net.minecraft.server.v1_9_R2.EnumParticle;
+import net.minecraft.server.v1_9_R2.PacketPlayOutWorldParticles;
 import org.bukkit.*;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_9_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -77,7 +77,7 @@ public class StationRepair {
                                             commonString.messageSend(getPlugin(), player, true, repairDone);
                                             titleSubtitle.title(player, 5, repairDone);
 
-                                            player.getWorld().playSound(player.getEyeLocation(), Sound.LEVEL_UP, 0.8f, 1.0f);
+                                            player.getWorld().playSound(player.getEyeLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.8f, 1.0f);
 
                                         } else {
 
@@ -95,7 +95,7 @@ public class StationRepair {
                                             float y = (float) player.getLocation().getY();
                                             float z = (float) player.getLocation().getZ();
 
-                                            player.getWorld().playSound(player.getLocation(), Sound.PORTAL_TRIGGER, 0.5f, 1.5f);
+                                            player.getWorld().playSound(player.getLocation(), Sound.BLOCK_PORTAL_TRIGGER, 0.5f, 1.5f);
 
                                             PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.PORTAL, true, x, y, z, 0, 0, 0, 1, 500, null);
 
@@ -107,14 +107,14 @@ public class StationRepair {
                                     } else {
 
                                         commonString.messageSend(getPlugin(), player, true, "Rocket Boots are already at full durability!");
-                                        player.getWorld().playSound(player.getEyeLocation(), Sound.LEVEL_UP, 0.8f, 1.0f);
+                                        player.getWorld().playSound(player.getEyeLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.8f, 1.0f);
 
                                     }
 
                                 } else {
 
                                     commonString.messageSend(getPlugin(), player, true, ChatColor.RED + "Rocket Boots failed to repair!");
-                                    player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 0.5f, 0.5f);
+                                    player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_BLAST, 0.5f, 0.5f);
                                     rocketRepair.remove(player.getUniqueId());
 
                                 }
@@ -122,7 +122,7 @@ public class StationRepair {
                             } else {
 
                                 commonString.messageSend(getPlugin(), player, true, ChatColor.RED + "Repair Tank ran out of fuel!");
-                                player.getWorld().playSound(player.getEyeLocation(), Sound.ANVIL_BREAK, 0.6f, 1.0f);
+                                player.getWorld().playSound(player.getEyeLocation(), Sound.BLOCK_ANVIL_BREAK, 0.6f, 1.0f);
                                 rocketRepair.remove(player.getUniqueId());
 
                             }

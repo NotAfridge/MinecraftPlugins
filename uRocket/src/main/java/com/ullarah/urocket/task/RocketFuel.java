@@ -171,7 +171,7 @@ public class RocketFuel {
                                 if (!isUnlimited) if (!isStable) {
                                     if (random.nextInt(malfunctionRate) == 1) {
 
-                                        player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 0.6f, 0.65f);
+                                        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_BLAST, 0.6f, 0.65f);
                                         commonString.messageSend(getPlugin(), player, true, RB_MALFUNCTION);
                                         rocketFunctions.disableRocketBoots(player, true, true, true, true, true);
 

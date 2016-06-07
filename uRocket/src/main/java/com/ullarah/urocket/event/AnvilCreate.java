@@ -80,19 +80,19 @@ public class AnvilCreate implements Listener {
 
                                             for (Player onlinePlayer : Bukkit.getOnlinePlayers())
                                                 onlinePlayer.playSound(onlinePlayer.getEyeLocation(),
-                                                        Sound.BLAZE_DEATH, 0.8f, 0.8f);
+                                                        Sound.ENTITY_BLAZE_DEATH, 0.8f, 0.8f);
 
                                             for (Player onlinePlayer : Bukkit.getOnlinePlayers())
                                                 onlinePlayer.playSound(onlinePlayer.getEyeLocation(),
-                                                        Sound.WITHER_DEATH, 0.5f, 0.6f);
+                                                        Sound.ENTITY_WITHER_DEATH, 0.5f, 0.6f);
 
                                             for (Player onlinePlayer : Bukkit.getOnlinePlayers())
                                                 onlinePlayer.playSound(onlinePlayer.getEyeLocation(),
-                                                        Sound.GHAST_SCREAM2, 0.8f, 0.8f);
+                                                        Sound.ENTITY_GHAST_HURT, 0.8f, 0.8f);
 
                                             for (Player onlinePlayer : Bukkit.getOnlinePlayers())
                                                 onlinePlayer.playSound(onlinePlayer.getEyeLocation(),
-                                                        Sound.AMBIENCE_THUNDER, 0.8f, 0.8f);
+                                                        Sound.ENTITY_LIGHTNING_THUNDER, 0.8f, 0.8f);
 
                                         }
 

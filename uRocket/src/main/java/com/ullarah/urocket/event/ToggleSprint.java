@@ -42,7 +42,7 @@ public class ToggleSprint implements Listener {
                                 RB_COOLDOWN_HEAT, RB_COOLDOWN_LAND
                         });
 
-                        player.getWorld().playSound(player.getLocation(), Sound.FIREWORK_BLAST, 0.5f, 0.75f);
+                        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_BLAST, 0.5f, 0.75f);
 
                     } else if (rocketVariant.get(playerUUID) == RUNNER) {
 
@@ -53,7 +53,7 @@ public class ToggleSprint implements Listener {
                             rocketFunctions.changeBootDurability(player, boots);
 
                         player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, bootPower * 120, bootPower * 3, true, false), true);
-                        player.getWorld().playSound(player.getEyeLocation(), Sound.PISTON_EXTEND, 1.25f, 0.75f);
+                        player.getWorld().playSound(player.getEyeLocation(), Sound.BLOCK_PISTON_EXTEND, 1.25f, 0.75f);
 
                     } else {
 
