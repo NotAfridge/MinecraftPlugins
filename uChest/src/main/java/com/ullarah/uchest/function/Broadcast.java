@@ -9,7 +9,8 @@ public class Broadcast {
     /**
      * Broadcasts a message to all players,
      * with plugin name and optional log to console.
-     *  @param plugin   the plugin object, to grab the name of the plugin
+     *
+     * @param plugin   the plugin object, to grab the name of the plugin
      * @param messages the messages, in a string array
      */
     public void sendMessage(Plugin plugin, String[] messages) {

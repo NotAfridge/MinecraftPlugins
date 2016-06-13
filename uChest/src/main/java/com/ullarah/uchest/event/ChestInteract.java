@@ -1,5 +1,6 @@
 package com.ullarah.uchest.event;
 
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryInteractEvent;
@@ -12,7 +13,8 @@ public class ChestInteract implements Listener {
 
         Inventory chestInventory = event.getInventory();
 
-        if (chestInventory.getName().matches("§6§lMixed Chests")) event.setCancelled(true);
+        if (chestInventory.getName().matches("" + ChatColor.GOLD + ChatColor.BOLD + "Mixed Chests"))
+            event.setCancelled(true);
 
     }
 

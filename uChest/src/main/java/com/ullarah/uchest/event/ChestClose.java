@@ -2,6 +2,7 @@ package com.ullarah.uchest.event;
 
 import com.ullarah.uchest.ChestFunctions;
 import com.ullarah.uchest.function.CommonString;
+import com.ullarah.uchest.function.PlayerProfile;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -14,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 
 import static com.ullarah.uchest.ChestInit.*;
 
@@ -29,19 +31,19 @@ public class ChestClose implements Listener {
         Inventory chestInventory = event.getInventory();
         Player chestPlayer = (Player) event.getPlayer();
 
-        if (chestInventory.getName().matches("§2Experience Chest")) {
+        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Experience Chest")) {
             ItemStack[] expItems = chestInventory.getContents();
             chestFunctions.convertItem(chestPlayer, "XP", expItems);
             chestInventory.clear();
         }
 
-        if (chestInventory.getName().matches("§2Money Chest")) {
+        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Money Chest")) {
             ItemStack[] moneyItems = chestInventory.getContents();
             chestFunctions.convertItem(chestPlayer, "MONEY", moneyItems);
             chestInventory.clear();
         }
 
-        if (chestInventory.getName().matches("§2Random Chest")) {
+        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Random Chest")) {
             chestRandomTask.entrySet().stream().filter(e ->
                     chestPlayer.getUniqueId().equals(e.getKey())).forEach(e -> {
 
@@ -51,7 +53,7 @@ public class ChestClose implements Listener {
             });
         }
 
-        if (chestInventory.getName().matches("§2Swap Chest")) {
+        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Swap Chest")) {
             ItemStack[] checkItems = chestInventory.getContents();
 
             for (ItemStack item : checkItems)
@@ -67,14 +69,27 @@ public class ChestClose implements Listener {
             chestSwapBusy = false;
         }
 
-        if (chestInventory.getName().matches("§2Hold Chest")) openHoldVault(chestPlayer, chestInventory, "hold");
-        if (chestInventory.getName().matches("§2Vault Chest")) openHoldVault(chestPlayer, chestInventory, "vault");
+        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Hold Chest"))
+            openChestType(chestPlayer, chestPlayer.getUniqueId(), chestInventory, "hold");
+        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Vault Chest"))
+            openChestType(chestPlayer, chestPlayer.getUniqueId(), chestInventory, "vault");
+
+        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Hold Chest - (.*)")) {
+            String chestOwner = chestInventory.getName().substring(15);
+            UUID chestOwnerUUID = new PlayerProfile().lookup(chestOwner).getId();
+            openChestType(chestPlayer, chestOwnerUUID, chestInventory, "hold");
+        }
+        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Vault Chest - (.*)")) {
+            String chestOwner = chestInventory.getName().substring(15);
+            UUID chestOwnerUUID = new PlayerProfile().lookup(chestOwner).getId();
+            openChestType(chestPlayer, chestOwnerUUID, chestInventory, "vault");
+        }
 
     }
 
-    private void openHoldVault(Player chestPlayer, Inventory chestInventory, String type) {
+    private void openChestType(Player player, UUID chestPlayer, Inventory chestInventory, String type) {
 
-        File vaultFile = new File(getPlugin().getDataFolder() + File.separator + type, chestPlayer.getUniqueId().toString() + ".yml");
+        File vaultFile = new File(getPlugin().getDataFolder() + File.separator + type, chestPlayer.toString() + ".yml");
 
         if (vaultFile.exists()) {
 
@@ -87,7 +102,7 @@ public class ChestClose implements Listener {
                 e.printStackTrace();
             }
 
-        } else commonString.messageSend(getPlugin(), chestPlayer, ChatColor.RED + "Error saving vault chest contents.");
+        } else commonString.messageSend(getPlugin(), player, ChatColor.RED + "Error saving vault chest contents.");
 
     }
 

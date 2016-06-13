@@ -1,5 +1,6 @@
 package com.ullarah.uchest.event;
 
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -12,7 +13,8 @@ public class ChestDrag implements Listener {
 
         Inventory chestInventory = event.getInventory();
 
-        if (chestInventory.getName().matches("§2Donation Chest")) event.setCancelled(true);
+        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Donation Chest"))
+            event.setCancelled(true);
 
     }
 

@@ -2,6 +2,7 @@ package com.ullarah.upostal.event;
 
 import com.ullarah.upostal.command.inbox.Update;
 import com.ullarah.upostal.function.PlayerProfile;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
@@ -19,7 +20,7 @@ public class InboxClose implements Listener {
     @EventHandler
     public void event(final InventoryCloseEvent event) {
 
-        if (event.getInventory().getName().matches("§4Inbox: §3(.*)")) {
+        if (event.getInventory().getName().matches(ChatColor.DARK_RED + "Inbox: " + ChatColor.DARK_AQUA + "(.*)")) {
 
             String inboxOwner = stripColor(event.getInventory().getTitle().replace("Inbox: ", ""));
             UUID inboxUUID = new PlayerProfile().lookup(inboxOwner).getId();

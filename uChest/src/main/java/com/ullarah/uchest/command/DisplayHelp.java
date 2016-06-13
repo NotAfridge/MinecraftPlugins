@@ -19,7 +19,7 @@ public class DisplayHelp {
             commonString.messageSend(ChestInit.getPlugin(), player, false, new String[]{
                     ChatColor.AQUA + " uChest Help" + ChatColor.WHITE + " - Use /chest to read descriptions!",
                     " " + ChatColor.STRIKETHROUGH + "----------------------------------------------------",
-                    ChatColor.GOLD + " /chest   - " + ChatColor.YELLOW + "Mixed Chest Menu",
+                    ChatColor.GOLD + " /chest  - " + ChatColor.YELLOW + "Mixed Chest Main Menu",
                     ChatColor.GOLD + " /dchest - " + ChatColor.YELLOW + "Donation Chest",
                     ChatColor.GOLD + " /hchest - " + ChatColor.YELLOW + "Hold Chest",
                     ChatColor.GOLD + " /mchest - " + ChatColor.YELLOW + "Money Chest",
@@ -31,10 +31,12 @@ public class DisplayHelp {
 
             if (sender.hasPermission("chest.staff")) {
 
+                String chests = ChestInit.allowMoneyChest ? "[dhmrsvx]" : "[dhrsvx]";
+
                 commonString.messageSend(ChestInit.getPlugin(), player, false, new String[]{
                         " " + ChatColor.STRIKETHROUGH + "-------------------" + ChatColor.RED + " Staff Commands "
                                 + ChatColor.WHITE + ChatColor.STRIKETHROUGH + "-------------------",
-                        ChatColor.GOLD + " /chest toggle [dhmrsvx]chest",
+                        ChatColor.GOLD + " /chest toggle " + chests + "chest",
                         ChatColor.YELLOW + "   Toggles the chest type access",
                         ChatColor.GOLD + " /dchest random",
                         ChatColor.YELLOW + "   Will override items in chest with random items",

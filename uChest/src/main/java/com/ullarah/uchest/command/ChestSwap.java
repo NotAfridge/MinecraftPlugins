@@ -17,11 +17,21 @@ public class ChestSwap {
             return;
         }
 
+        Player player = ((Player) sender).getPlayer();
+
         if (chestTypeEnabled.get("schest")) {
 
             if (chestSwapBusy)
                 commonString.messageSend(getPlugin(), sender, "The swap chest is busy. Try again later!");
-            else ((Player) sender).openInventory(getChestSwapHolder().getInventory());
+            else {
+                int accessLevel = getPlugin().getConfig().getInt("schest.access");
+                if (player.getLevel() < accessLevel) {
+                    String s = accessLevel > 1 ? "s" : "";
+                    commonString.messageSend(getPlugin(), player, "You need more than " + accessLevel + " level" + s + " to open this chest.");
+                    return;
+                }
+                ((Player) sender).openInventory(getChestSwapHolder().getInventory());
+            }
 
         } else commonString.messageSend(getPlugin(), sender, "Swap Chest is currently unavailable.");
 

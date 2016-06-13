@@ -91,6 +91,12 @@ class PostalExecutor implements CommandExecutor {
                     clear.run(sender, args);
                     break;
 
+                case "VIEW":
+                    break;
+
+                case "EDIT":
+                    break;
+
                 default:
                     if (!(sender instanceof Player)) commonString.messageNoConsole(getPlugin(), sender);
                     else help.display(sender);

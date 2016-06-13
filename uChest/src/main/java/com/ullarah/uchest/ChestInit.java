@@ -5,6 +5,8 @@ import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -16,10 +18,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.io.File;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 
@@ -32,24 +32,19 @@ public class ChestInit extends JavaPlugin {
     public static final Set<UUID> chestConvertLockout = new HashSet<>();
     public static final Set<UUID> chestRandomLockout = new HashSet<>();
     public static final Set<UUID> chestDonateLockout = new HashSet<>();
-    public static final ConcurrentHashMap<UUID, Integer> chestConvertLockoutCount = new ConcurrentHashMap<>();
-    public static final ConcurrentHashMap<UUID, Integer> chestRandomLockoutCount = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Integer> chestConvertLockoutTimer = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Integer> chestRandomLockoutTimer = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, BukkitTask> chestRandomTask = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, Integer> registerMap = new ConcurrentHashMap<>();
+    public static FileConfiguration materialConfig;
     public static Boolean chestSwapBusy;
     public static ItemStack[] chestSwapItemStack;
     public static Player chestSwapPlayer;
-    public static Integer chestAccessLevel;
-    public static Integer holdingAccessLevel;
-    public static Integer randomAccessLevel;
     public static Boolean allowMoneyChest = false;
     public static Boolean chestDonateLock = false;
     public static Boolean displayClearMessage = false;
     private static Plugin plugin;
     private static Economy vaultEconomy;
-    private static Boolean maintenanceCheck;
     private static InventoryHolder chestDonationHolder = ChestInit::getChestDonationInventory;
     private static final Inventory chestDonationInventory = Bukkit.createInventory(getChestDonationHolder(), 54,
             ChatColor.DARK_GREEN + "Donation Chest");
@@ -68,20 +63,20 @@ public class ChestInit extends JavaPlugin {
         ChestInit.plugin = plugin;
     }
 
-    public static Boolean getMaintenanceCheck() {
-        return maintenanceCheck;
-    }
-
-    public static void setMaintenanceCheck(Boolean maintenanceCheck) {
-        ChestInit.maintenanceCheck = maintenanceCheck;
-    }
-
     public static Economy getVaultEconomy() {
         return vaultEconomy;
     }
 
     private static void setVaultEconomy(Economy vaultEconomy) {
         ChestInit.vaultEconomy = vaultEconomy;
+    }
+
+    public static FileConfiguration getMaterialConfig() {
+        return materialConfig;
+    }
+
+    private static void setMaterialConfig(FileConfiguration materialConfig) {
+        ChestInit.materialConfig = materialConfig;
     }
 
     public static InventoryHolder getChestDonationHolder() {
@@ -135,17 +130,6 @@ public class ChestInit extends JavaPlugin {
         registerMap.put(EVENT.toString(), new PluginRegisters().registerAll(getPlugin(), EVENT));
         registerMap.put(TASK.toString(), new PluginRegisters().registerAll(getPlugin(), TASK));
 
-        setMaintenanceCheck(getPlugin().getConfig().getBoolean("maintenance"));
-
-        chestAccessLevel = getPlugin().getConfig().getInt("chestaccess");
-        holdingAccessLevel = getPlugin().getConfig().getInt("holdaccess");
-        randomAccessLevel = getPlugin().getConfig().getInt("ranaccess");
-
-        for (String t : new String[]{"", "d", "h", "m", "r", "s", "v", "x"}) {
-            getCommand(t + "chest").setExecutor(new ChestExecutor());
-            chestTypeEnabled.put(t + "chest", getPlugin().getConfig().getBoolean(t + "chestenabled"));
-        }
-
         setChestDonationHolder(chestDonationHolder);
         setChestRandomHolder(chestRandomHolder);
         setChestSwapHolder(chestSwapHolder);
@@ -161,6 +145,25 @@ public class ChestInit extends JavaPlugin {
                 pluginList.add("Vault");
             }
         }
+
+        ArrayList<String> chestCommands = new ArrayList<String>() {{
+            add("");
+            add("d");
+            add("h");
+            add("r");
+            add("s");
+            add("v");
+            add("x");
+        }};
+        if (allowMoneyChest) chestCommands.add("m");
+        for (String t : chestCommands) {
+            getCommand(t + "chest").setExecutor(new ChestExecutor());
+            chestTypeEnabled.put(t + "chest", getPlugin().getConfig().getBoolean(t + "chest.enabled"));
+        }
+
+        File materialFile = new File(getDataFolder(), "material.yml");
+        if (!materialFile.exists()) saveResource("material.yml", false);
+        setMaterialConfig(YamlConfiguration.loadConfiguration(materialFile));
 
         Bukkit.getLogger().log(Level.INFO, "[" + plugin.getName() + "] "
                 + "Events: " + registerMap.get(EVENT.toString()) + " | "

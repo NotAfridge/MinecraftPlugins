@@ -59,6 +59,7 @@ public class CommonString {
 
     /**
      * A message that is sent to a {@code CommandSender} object
+     *
      * @param plugin  the plugin object
      * @param sender  the sender who receives the message
      * @param message the message to send
@@ -85,7 +86,8 @@ public class CommonString {
 
     /**
      * A message that is sent to a {@code Player} object
-     *  @param plugin  the plugin object
+     *
+     * @param plugin  the plugin object
      * @param player  the sender who receives the message
      * @param message the message to send
      */

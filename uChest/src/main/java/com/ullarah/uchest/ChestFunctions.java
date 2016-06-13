@@ -40,7 +40,7 @@ public class ChestFunctions {
 
                 int itemAmount = item.getAmount();
 
-                double itemValue = getPlugin().getConfig().getConfigurationSection("materials").getDouble(itemMaterial);
+                double itemValue = ChestInit.getMaterialConfig().getDouble(itemMaterial);
                 double maxDurability = item.getType().getMaxDurability();
                 double durability = item.getDurability();
 
@@ -59,21 +59,15 @@ public class ChestFunctions {
         if (hasItems) {
 
             if (type.equals("MONEY")) {
-
                 getVaultEconomy().depositPlayer(player, amount);
                 commonString.messageSend(getPlugin(), player, amount > 0
-                        ? new CommonString().pluginPrefix(getPlugin()) + "You gained " + ChatColor.GREEN + "$" +
-                        decimalFormat.format(amount) : commonString.pluginPrefix(getPlugin()) + "You gained no money.");
-
+                        ? "You gained " + ChatColor.GREEN + "$" + decimalFormat.format(amount) : "You gained no money.");
             }
 
             if (type.equals("XP")) {
-
                 new Experience().addExperience(player, amount);
                 commonString.messageSend(getPlugin(), player, amount > 0
-                        ? new CommonString().pluginPrefix(getPlugin()) + "You gained " + ChatColor.GREEN +
-                        decimalFormat.format(amount) + " XP" : commonString.pluginPrefix(getPlugin()) + "You gained no XP.");
-
+                        ? "You gained " + ChatColor.GREEN + decimalFormat.format(amount) + " XP" : "You gained no XP.");
             }
 
         }
@@ -84,13 +78,19 @@ public class ChestFunctions {
 
         final Player player = (Player) sender;
 
-        if (player.getLevel() < chestAccessLevel) {
-            commonString.messageSend(getPlugin(), player, "You need more than " + chestAccessLevel + " levels to open this chest.");
+        int accessMoney = getPlugin().getConfig().getInt("mchest.access");
+        int accessExperience = getPlugin().getConfig().getInt("xchest.access");
+
+        int accessLevel = (type.equals("MONEY") ? accessMoney : accessExperience);
+
+        if (player.getLevel() < accessLevel) {
+            String s = accessLevel > 1 ? "s" : "";
+            commonString.messageSend(getPlugin(), player, "You need more than " + accessLevel + " level" + s + " to open this chest.");
             return;
         }
 
         if (chestConvertLockout.contains(player.getUniqueId())) {
-            chestLockout(player, "convertlock", chestConvertLockoutTimer, chestConvertLockout);
+            chestLockout(player, (type.equals("MONEY") ? "m" : "x") + "chest.lockout", chestConvertLockoutTimer, chestConvertLockout);
             return;
         }
 
@@ -104,27 +104,26 @@ public class ChestFunctions {
 
         final Player player = (Player) sender;
         int playerLevel = player.getLevel();
+        int accessLevel = getPlugin().getConfig().getInt("rchest.access");
 
-        if (playerLevel < randomAccessLevel) {
-            commonString.messageSend(getPlugin(), player, "You need more than " + randomAccessLevel + " levels to open this chest.");
+        if (playerLevel < accessLevel) {
+            String s = accessLevel > 1 ? "s" : "";
+            commonString.messageSend(getPlugin(), player, "You need more than " + accessLevel + " level" + s + " to open this chest.");
             return;
         }
 
         if (chestRandomLockout.contains(player.getUniqueId())) {
-            chestLockout(player, "ranlock", chestRandomLockoutTimer, chestRandomLockout);
+            chestLockout(player, "rchest.lockout", chestRandomLockoutTimer, chestRandomLockout);
             return;
         }
 
-        player.setLevel(playerLevel - randomAccessLevel);
+        player.setLevel(playerLevel - accessLevel);
         Inventory randomInventory = getChestRandomHolder().getInventory();
 
-        int randomTimer = getPlugin().getConfig().getInt("rantimer");
+        int randomTimer = getPlugin().getConfig().getInt("rchest.timer");
 
         player.openInventory(randomInventory);
         chestLockoutEntry(player, chestRandomLockoutTimer, chestRandomLockout);
-
-        for (int i = 45; i < 54; i++)
-            randomInventory.setItem(i, new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 5));
 
         BukkitTask task = new BukkitRunnable() {
 
@@ -142,12 +141,20 @@ public class ChestFunctions {
 
                 }
 
-                changeChest(randomInventory, (c * 100) / randomTimer);
+                Random randomSlot = new Random();
+
+                List<String> materialList = new ArrayList<>(ChestInit.getMaterialConfig().getKeys(false));
+
+                for (int i = 0; i < 54; i++) getChestRandomInventory().setItem(i, null);
+
+                getChestRandomInventory().setItem(randomSlot.nextInt(54),
+                        new ItemStack(Material.getMaterial(materialList.get(randomSlot.nextInt(materialList.size())))));
+
                 c--;
 
             }
 
-        }.runTaskTimer(getPlugin(), 5, 20);
+        }.runTaskTimer(getPlugin(), 5, 25);
 
         chestRandomTask.put(player.getUniqueId(), task);
 
@@ -205,36 +212,24 @@ public class ChestFunctions {
 
     }
 
-    public void changeChest(Inventory randomInventory, int percent) {
+    public void chestView(Player player, UUID uuid, Inventory inventory, validStorage type) {
 
-        Random randomSlot = new Random();
-        ItemStack redGlass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 14);
+        UUID viewerUUID = player.getUniqueId();
 
-        List<String> materialList = new ArrayList<>(getPlugin().getConfig().getConfigurationSection("materials").getKeys(false));
+        if (viewerUUID.equals(uuid)) {
 
-        for (int i = 0; i < 45; i++) getChestRandomInventory().setItem(i, null);
+            int accessHold = getPlugin().getConfig().getInt("hchest.access");
+            int accessVault = getPlugin().getConfig().getInt("vchest.access");
 
-        getChestRandomInventory().setItem(randomSlot.nextInt(44),
-                new ItemStack(Material.getMaterial(materialList.get(randomSlot.nextInt(materialList.size())))));
+            int accessLevel = (type == VAULT ? accessVault : accessHold);
 
-        int itemSlot = 53;
-        for (int p = percent; p > 0; p -= 10) {
-            randomInventory.setItem(itemSlot, redGlass);
-            itemSlot--;
-        }
-
-    }
-
-    public void chestView(Player player, Player viewer, Inventory inventory, validStorage type) {
-
-        if (viewer == null) {
-
-            if (player.getLevel() < holdingAccessLevel) {
-                commonString.messageSend(getPlugin(), player, "You need more than " + holdingAccessLevel + " levels to open this chest.");
+            if (player.getLevel() < accessLevel) {
+                String s = accessLevel > 1 ? "s" : "";
+                commonString.messageSend(getPlugin(), player, "You need more than " + accessLevel + " level" + s + " to open this chest.");
                 return;
             }
 
-            if (type == VAULT) player.setLevel(player.getLevel() - holdingAccessLevel);
+            if (type == VAULT) player.setLevel(player.getLevel() - accessLevel);
             player.openInventory(inventory);
 
         } else player.openInventory(inventory);

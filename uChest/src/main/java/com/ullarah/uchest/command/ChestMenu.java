@@ -1,6 +1,7 @@
 package com.ullarah.uchest.command;
 
 import com.ullarah.uchest.ChestFunctions;
+import com.ullarah.uchest.ChestInit;
 import com.ullarah.uchest.function.CommonString;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,7 +13,7 @@ import org.bukkit.inventory.Inventory;
 import java.util.Arrays;
 
 import static com.ullarah.uchest.ChestFunctions.validCommands;
-import static com.ullarah.uchest.ChestInit.*;
+import static com.ullarah.uchest.ChestInit.getPlugin;
 
 public class ChestMenu {
 
@@ -24,15 +25,23 @@ public class ChestMenu {
         Inventory chestGUI = Bukkit.getServer().createInventory(null, 9, "" + ChatColor.GOLD + ChatColor.BOLD + "Mixed Chests");
         String menuColour = "" + ChatColor.GREEN + ChatColor.BOLD;
 
-        chestGUI.setItem(0, chestFunctions.createItemStack(Material.JUKEBOX, menuColour + "Donation Chest", Arrays.asList(
+        int chestItemSlot = 0;
+
+        chestGUI.setItem(chestItemSlot, chestFunctions.createItemStack(Material.JUKEBOX,
+                menuColour + "Donation Chest", Arrays.asList(
+                        accessLevelRequirement("dchest"),
+                        ChatColor.RESET + "",
                         ChatColor.WHITE + "Opens the donation chest.",
                         ChatColor.WHITE + "Give what you can, take what you need!",
                         ChatColor.RESET + "",
                         ChatColor.RED + "This chest is player supported!")
         ));
 
-        chestGUI.setItem(1, chestFunctions.createItemStack(Material.CHEST, menuColour + "Hold Chest", Arrays.asList(
-                        ChatColor.YELLOW + "[ Minimum of " + holdingAccessLevel + " levels to use! ]",
+        chestItemSlot++;
+
+        chestGUI.setItem(chestItemSlot, chestFunctions.createItemStack(Material.CHEST,
+                menuColour + "Hold Chest", Arrays.asList(
+                        accessLevelRequirement("hchest"),
                         ChatColor.RESET + "",
                         ChatColor.WHITE + "Opens your personal hold chest.",
                         ChatColor.WHITE + "Store more items on the go!",
@@ -46,17 +55,24 @@ public class ChestMenu {
                         "" + ChatColor.AQUA + ChatColor.ITALIC + "Upgrade Levels: 15, 25, 50, 75, 100")
         ));
 
-        chestGUI.setItem(2, chestFunctions.createItemStack(Material.EMERALD_BLOCK, menuColour + "Money Chest", Arrays.asList(
-                        ChatColor.YELLOW + "[ Minimum of " + chestAccessLevel + " levels to use! ]",
-                        ChatColor.RESET + "",
-                        ChatColor.WHITE + "Opens the money chest.",
-                        ChatColor.WHITE + "Allows you to convert items to money!",
-                        ChatColor.RESET + "",
-                        ChatColor.RED + "Some items do not return money!")
-        ));
+        chestItemSlot++;
 
-        chestGUI.setItem(3, chestFunctions.createItemStack(Material.SPONGE, menuColour + "Random Chest", Arrays.asList(
-                        ChatColor.YELLOW + "[ Will remove " + randomAccessLevel + " levels to open! ]",
+        if (ChestInit.allowMoneyChest) {
+            chestGUI.setItem(chestItemSlot, chestFunctions.createItemStack(Material.EMERALD_BLOCK,
+                    menuColour + "Money Chest", Arrays.asList(
+                            accessLevelRequirement("mchest"),
+                            ChatColor.RESET + "",
+                            ChatColor.WHITE + "Opens the money chest.",
+                            ChatColor.WHITE + "Allows you to convert items to money!",
+                            ChatColor.RESET + "",
+                            ChatColor.RED + "Some items do not return money!")
+            ));
+            chestItemSlot++;
+        }
+
+        chestGUI.setItem(chestItemSlot, chestFunctions.createItemStack(Material.SPONGE,
+                menuColour + "Random Chest", Arrays.asList(
+                        accessLevelRequirement("rchest"),
                         ChatColor.RESET + "",
                         ChatColor.WHITE + "Opens the random chest.",
                         ChatColor.WHITE + "Random items in random slots,",
@@ -66,15 +82,23 @@ public class ChestMenu {
                         ChatColor.RED + "Time is represented by coloured glass!")
         ));
 
-        chestGUI.setItem(4, chestFunctions.createItemStack(Material.GLASS, menuColour + "Swap Chest", Arrays.asList(
+        chestItemSlot++;
+
+        chestGUI.setItem(chestItemSlot, chestFunctions.createItemStack(Material.GLASS,
+                menuColour + "Swap Chest", Arrays.asList(
+                        accessLevelRequirement("schest"),
+                        ChatColor.RESET + "",
                         ChatColor.WHITE + "Opens the swapping chest.",
                         ChatColor.WHITE + "Put random items in, get random items out!",
                         ChatColor.RESET + "",
                         ChatColor.RED + "This chest is player supported!")
         ));
 
-        chestGUI.setItem(5, chestFunctions.createItemStack(Material.ENDER_CHEST, menuColour + "Vault Chest", Arrays.asList(
-                        ChatColor.YELLOW + "[ Will remove " + holdingAccessLevel + " levels to open! ]",
+        chestItemSlot++;
+
+        chestGUI.setItem(chestItemSlot, chestFunctions.createItemStack(Material.ENDER_CHEST,
+                menuColour + "Vault Chest", Arrays.asList(
+                        accessLevelRequirement("vchest"),
                         ChatColor.RESET + "",
                         ChatColor.WHITE + "Opens your personal vault chest.",
                         ChatColor.WHITE + "Safely store your items away at a price!",
@@ -82,8 +106,11 @@ public class ChestMenu {
                         ChatColor.DARK_AQUA + "Upgrade your vault using " + ChatColor.AQUA + "/vchest upgrade")
         ));
 
-        chestGUI.setItem(6, chestFunctions.createItemStack(Material.SEA_LANTERN, menuColour + "Experience Chest", Arrays.asList(
-                        ChatColor.YELLOW + "[ Minimum of " + chestAccessLevel + " levels to use! ]",
+        chestItemSlot++;
+
+        chestGUI.setItem(chestItemSlot, chestFunctions.createItemStack(Material.SEA_LANTERN,
+                menuColour + "Experience Chest", Arrays.asList(
+                        accessLevelRequirement("xchest"),
                         ChatColor.RESET + "",
                         ChatColor.WHITE + "Opens the experience chest.",
                         ChatColor.WHITE + "Allows you to convert items to XP!",
@@ -92,6 +119,19 @@ public class ChestMenu {
         ));
 
         player.openInventory(chestGUI);
+
+    }
+
+    private String accessLevelRequirement(String type) {
+
+        int accessLevel = getPlugin().getConfig().getInt(type + ".access");
+        boolean accessRemoveLevel = getPlugin().getConfig().getBoolean(type + ".removelevel");
+
+        if (accessLevel > 0) {
+            String s = accessLevel > 1 ? "s" : "";
+            if (accessRemoveLevel) return ChatColor.YELLOW + "[ Will remove " + accessLevel + " level" + s + " ]";
+            else return ChatColor.YELLOW + "[ Minimum of " + accessLevel + " level" + s + " ]";
+        } else return ChatColor.YELLOW + "[ No requirements ]";
 
     }
 

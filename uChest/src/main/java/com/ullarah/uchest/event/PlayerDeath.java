@@ -20,26 +20,30 @@ public class PlayerDeath implements Listener {
     @EventHandler
     public void event(final PlayerDeathEvent event) throws IOException {
 
-        Player chestPlayer = event.getEntity();
-        Location chestPlayerLocation = chestPlayer.getEyeLocation();
+        if (!getPlugin().getConfig().getBoolean("hchest.keepondeath")) {
 
-        File holdingFile = new File(getPlugin().getDataFolder() + File.separator + "hold",
-                chestPlayer.getUniqueId().toString() + ".yml");
+            Player chestPlayer = event.getEntity();
+            Location chestPlayerLocation = chestPlayer.getEyeLocation();
 
-        if (holdingFile.exists()) {
+            File holdingFile = new File(getPlugin().getDataFolder() + File.separator + "hold",
+                    chestPlayer.getUniqueId().toString() + ".yml");
 
-            FileConfiguration holdingChest = YamlConfiguration.loadConfiguration(holdingFile);
+            if (holdingFile.exists()) {
 
-            if (holdingChest.get("item") != null)
-                holdingChest.getList("item").stream().filter(holdingCurrentItem -> holdingCurrentItem != null)
-                        .forEach(holdingCurrentItem -> chestPlayer.getWorld()
-                                .dropItemNaturally(chestPlayerLocation, (ItemStack) holdingCurrentItem));
+                FileConfiguration holdingChest = YamlConfiguration.loadConfiguration(holdingFile);
 
-            holdingChest.set("slots", 9);
-            holdingChest.set("item", new ArrayList<>());
+                if (holdingChest.get("item") != null)
+                    holdingChest.getList("item").stream().filter(holdingCurrentItem -> holdingCurrentItem != null)
+                            .forEach(holdingCurrentItem -> chestPlayer.getWorld()
+                                    .dropItemNaturally(chestPlayerLocation, (ItemStack) holdingCurrentItem));
 
-            holdingChest.save(holdingFile);
-            chestPlayer.closeInventory();
+                holdingChest.set("slots", 9);
+                holdingChest.set("item", new ArrayList<>());
+
+                holdingChest.save(holdingFile);
+                chestPlayer.closeInventory();
+
+            }
 
         }
 

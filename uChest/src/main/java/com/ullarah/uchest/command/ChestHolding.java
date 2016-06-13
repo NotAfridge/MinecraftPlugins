@@ -26,7 +26,7 @@ public class ChestHolding {
         if (args.length == 0) {
 
             if (chestTypeEnabled.get("hchest")) new ChestCreation().create(sender, HOLD, true);
-            commonString.messageSend(getPlugin(), sender, "Hold Chest is currently unavailable.");
+            else commonString.messageSend(getPlugin(), sender, "Hold Chest is currently unavailable.");
             return;
 
         }
@@ -46,7 +46,7 @@ public class ChestHolding {
                         return;
                     }
 
-                    new ChestPrepare().prepare(Bukkit.getPlayer(new PlayerProfile().lookup(args[1]).getId()), (Player) sender, HOLD);
+                    new ChestPrepare().prepare((Player) sender, new PlayerProfile().lookup(args[1]).getId(), HOLD);
                     break;
 
                 default:

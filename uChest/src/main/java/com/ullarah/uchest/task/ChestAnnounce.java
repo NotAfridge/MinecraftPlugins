@@ -8,27 +8,35 @@ import static com.ullarah.uchest.ChestInit.getPlugin;
 
 public class ChestAnnounce {
 
-    private final long chestCountdownFinal = getPlugin().getConfig().getLong("countdown") * 20;
+    private final long chestCountdownFinal = getPlugin().getConfig().getLong("dchest.clean") * 20;
+    private final boolean chestRandomEnabled = getPlugin().getConfig().getBoolean("dchest.enabled");
+
+    private final long chestCountdownWarning = getPlugin().getConfig().getLong("dchest.warning") * 20;
+    private final long chestCountdownCritical = getPlugin().getConfig().getLong("dchest.critical") * 20;
 
     public void task() {
 
-        if (chestCountdownFinal > 0) {
+        if (chestRandomEnabled && chestCountdownFinal > 0) {
 
             Broadcast broadcast = new Broadcast();
 
             getPlugin().getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
                     () -> {
+                        String s = (chestCountdownWarning * 20) > 1 ? "s" : "";
                         if (displayClearMessage)
                             broadcast.sendMessage(getPlugin(), new String[]{ChatColor.AQUA
-                                + "10 minutes left until the Donation Chest is emptied!"});
+                                    + String.valueOf(chestCountdownWarning * 20) +
+                                    " minute" + s + " left until the Donation Chest is emptied!"});
                     },
                     0, (chestCountdownFinal - 600) * 20);
 
             getPlugin().getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
                     () -> {
+                        String s = (chestCountdownCritical * 20) > 1 ? "s" : "";
                         if (displayClearMessage)
                             broadcast.sendMessage(getPlugin(), new String[]{ChatColor.RED
-                                + "60 seconds left until the Donation Chest is emptied!"});
+                                    + String.valueOf(chestCountdownCritical * 20) +
+                                    " minute" + s + " left until the Donation Chest is emptied!"});
                     },
                     0, (chestCountdownFinal - 60) * 20);
 

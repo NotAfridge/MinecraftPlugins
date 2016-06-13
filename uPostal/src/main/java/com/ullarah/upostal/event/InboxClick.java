@@ -25,7 +25,7 @@ public class InboxClick implements Listener {
 
         if (event.getClickedInventory() == null) return;
 
-        if (event.getClickedInventory().getName().matches("§4Inbox: §3(.*)")) {
+        if (event.getClickedInventory().getName().matches(ChatColor.DARK_RED + "Inbox: " + ChatColor.DARK_AQUA + "(.*)")) {
 
             if (event.getClickedInventory() == null) return;
 

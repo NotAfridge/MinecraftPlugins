@@ -66,7 +66,7 @@ public class ChestCreation {
 
         }
 
-        if (display) new ChestPrepare().prepare(player, null, type);
+        if (display) new ChestPrepare().prepare(player, player.getUniqueId(), type);
 
     }
 

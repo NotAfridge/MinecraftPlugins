@@ -11,31 +11,24 @@ public class PlayerProfile {
     public profile lookup(String name) {
 
         OfflinePlayer player = Bukkit.getOfflinePlayer(name);
+        return (player.hasPlayedBefore()) ? fromPlayer(player) : null;
 
-        return (player.hasPlayedBefore()) ?
-                fromPlayer(player) : null;
     }
 
     private profile fromPlayer(OfflinePlayer player) {
-        return new profile(player.getUniqueId(), player.getName());
+        return new profile(player.getUniqueId());
     }
 
     public class profile {
 
         private final UUID id;
-        private final String name;
 
-        public profile(UUID id, String name) {
+        public profile(UUID id) {
             this.id = id;
-            this.name = name;
         }
 
         public UUID getId() {
             return id;
-        }
-
-        public String getName() {
-            return name;
         }
 
     }

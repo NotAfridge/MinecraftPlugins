@@ -2,6 +2,7 @@ package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketFunctions;
 import com.ullarah.urocket.function.CommonString;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -26,7 +27,7 @@ public class JacketClose implements Listener {
 
         Inventory fuelInventory = event.getInventory();
 
-        if (fuelInventory.getName().matches("§4§lRocket Boot Fuel Jacket")) {
+        if (fuelInventory.getName().matches("" + ChatColor.DARK_RED + ChatColor.BOLD + "Rocket Boot Fuel Jacket")) {
 
             Player player = (Player) event.getPlayer();
             File fuelFile = rocketFunctions.getFuelFile(player);

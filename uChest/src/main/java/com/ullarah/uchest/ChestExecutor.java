@@ -16,12 +16,13 @@ class ChestExecutor implements CommandExecutor {
             put("Menu", "");
             put("Donation", "d");
             put("Holding", "h");
-            put("Money", "m");
             put("Random", "r");
             put("Swap", "s");
             put("Vault", "v");
             put("Experience", "x");
         }};
+
+        if (ChestInit.allowMoneyChest) chestCommands.put("Money", "m");
 
         chestCommands.entrySet().stream().filter(
                 newCommand -> command.getName().equalsIgnoreCase(

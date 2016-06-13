@@ -22,24 +22,24 @@ import static com.ullarah.uchest.ChestInit.getPlugin;
 
 public class ChestPrepare {
 
-    public void prepare(Player owner, Player viewer, validStorage type) {
+    public void prepare(Player player, UUID uuid, validStorage type) {
 
         CommonString commonString = new CommonString();
 
-        UUID chestUUID = owner.getUniqueId();
-
-        File chestFile = new File(getPlugin().getDataFolder() + File.separator + type, chestUUID.toString() + ".yml");
+        File chestFile = new File(getPlugin().getDataFolder() + File.separator + type, uuid.toString() + ".yml");
         FileConfiguration chestConfig = YamlConfiguration.loadConfiguration(chestFile);
 
         Inventory chestInventory;
 
-        if (viewer == null) {
+        UUID viewerUUID = player.getUniqueId();
 
-            int playerLevel = owner.getLevel();
+        if (viewerUUID.equals(uuid)) {
+
+            int playerLevel = player.getLevel();
             int playerSlotLevel = chestConfig.getInt("slots");
             String playerName = chestConfig.getString("name");
 
-            if (!owner.getPlayerListName().equals(playerName)) chestConfig.set("name", owner.getPlayerListName());
+            if (!player.getPlayerListName().equals(playerName)) chestConfig.set("name", player.getPlayerListName());
 
             if (type == HOLD) {
                 if (playerLevel >= 15 && playerSlotLevel == 9) chestConfig.set("slots", 18);
@@ -52,17 +52,17 @@ public class ChestPrepare {
             try {
                 chestConfig.save(chestFile);
             } catch (IOException e) {
-                commonString.messageSend(getPlugin(), owner, ChatColor.RED + "Error saving existing " + type + " chest.");
+                commonString.messageSend(getPlugin(), player, ChatColor.RED + "Error saving existing " + type + " chest.");
                 e.printStackTrace();
             }
 
             chestInventory = Bukkit.createInventory(
-                    owner, chestConfig.getInt("slots"), ChatColor.DARK_GREEN +
+                    player, chestConfig.getInt("slots"), ChatColor.DARK_GREEN +
                             type.toString().substring(0, 1).toUpperCase() +
                             type.toString().substring(1) + " Chest");
 
         } else chestInventory = Bukkit.createInventory(
-                owner, chestConfig.getInt("slots"), ChatColor.DARK_GREEN +
+                player, chestConfig.getInt("slots"), ChatColor.DARK_GREEN +
                         type.toString().substring(0, 1).toUpperCase() +
                         type.toString().substring(1) + " Chest - " + chestConfig.get("name"));
 
@@ -75,7 +75,7 @@ public class ChestPrepare {
 
         }
 
-        new ChestFunctions().chestView(owner, viewer, chestInventory, type);
+        new ChestFunctions().chestView(player, uuid, chestInventory, type);
 
     }
 

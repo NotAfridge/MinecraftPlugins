@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 
 import static com.ullarah.uchest.ChestFunctions.validStorage.VAULT;
 import static com.ullarah.uchest.ChestInit.chestTypeEnabled;
@@ -31,7 +32,7 @@ public class ChestVault {
         if (args.length == 0) {
 
             if (chestTypeEnabled.get("vchest")) new ChestCreation().create(sender, VAULT, true);
-            commonString.messageSend(getPlugin(), sender, "Vault Chest is currently unavailable.");
+            else commonString.messageSend(getPlugin(), sender, "Vault Chest is currently unavailable.");
             return;
 
         }
@@ -51,15 +52,16 @@ public class ChestVault {
                         return;
                     }
 
-                    new ChestPrepare().prepare(Bukkit.getPlayer(new PlayerProfile().lookup(args[1]).getId()), (Player) sender, VAULT);
+                    new ChestPrepare().prepare((Player) sender, new PlayerProfile().lookup(args[1]).getId(), VAULT);
                     break;
 
                 case UPGRADE:
                     Player player = (Player) sender;
+                    int upgradeLevel = getPlugin().getConfig().getInt("vchest.upgradelevel");
 
-                    if (player.getLevel() < 50) {
-                        commonString.messageSend(getPlugin(), player, ChatColor.YELLOW + "You need at least" +
-                                ChatColor.GOLD + " 50xp levels " + ChatColor.YELLOW + "to upgrade!");
+                    if (player.getLevel() < upgradeLevel) {
+                        commonString.messageSend(getPlugin(), player, ChatColor.YELLOW + "You need at least " +
+                                ChatColor.GOLD + upgradeLevel + "xp levels " + ChatColor.YELLOW + "to upgrade!");
                         return;
                     }
 
@@ -77,10 +79,10 @@ public class ChestVault {
 
                         }
 
-                        if (player.getLevel() >= 50) {
+                        if (player.getLevel() >= upgradeLevel) {
 
                             chestConfig.set("slot", chestPlayerSlot + 9);
-                            player.setLevel(player.getLevel() - 50);
+                            player.setLevel(player.getLevel() - upgradeLevel);
 
                             try {
                                 chestConfig.save(chestFile);

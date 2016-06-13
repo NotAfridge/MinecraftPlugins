@@ -1,6 +1,8 @@
 package com.ullarah.uchest.event;
 
 import com.ullarah.uchest.ChestFunctions;
+import com.ullarah.uchest.ChestInit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,7 +19,7 @@ public class ChestClick implements Listener {
 
         new BukkitRunnable() {
 
-            int c = getPlugin().getConfig().getInt("unlock");
+            int c = getPlugin().getConfig().getInt("dchest.random.itemsecond");
 
             @Override
             public void run() {
@@ -44,7 +46,7 @@ public class ChestClick implements Listener {
 
         if (chestInventory == null) return;
 
-        if (chestInventory.getName().matches("§2Donation Chest")) {
+        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Donation Chest")) {
             if (chestDonateLock && event.getRawSlot() <= 53)
                 if (chestDonateLockout.contains(chestPlayer.getUniqueId())) {
 
@@ -54,13 +56,13 @@ public class ChestClick implements Listener {
                 } else chestDonatePlayerUnlock(chestPlayer);
         }
 
-        if (chestInventory.getName().matches("§2Random Chest"))
-            if (event.getCurrentItem().getAmount() >= 1 && event.getRawSlot() >= 45) {
+        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Random Chest"))
+            if (event.getCurrentItem().getAmount() >= 1 && event.getRawSlot() >= 54) {
                 event.setCancelled(true);
                 event.getCursor().setType(Material.AIR);
             }
 
-        if (chestInventory.getName().matches("§6§lMixed Chests")) {
+        if (chestInventory.getName().matches("" + ChatColor.GOLD + ChatColor.BOLD + "Mixed Chests")) {
 
             event.setCancelled(true);
             event.getCursor().setType(Material.AIR);
@@ -77,23 +79,27 @@ public class ChestClick implements Listener {
                     break;
 
                 case 2:
-                    chestFunctions.openChestDelay(chestPlayer, "mchest");
+                    if (ChestInit.allowMoneyChest) chestFunctions.openChestDelay(chestPlayer, "mchest");
+                    else chestFunctions.openChestDelay(chestPlayer, "rchest");
                     break;
 
                 case 3:
-                    chestFunctions.openChestDelay(chestPlayer, "rchest");
-                    break;
-
-                case 4:
+                    if (ChestInit.allowMoneyChest) chestFunctions.openChestDelay(chestPlayer, "rchest");
                     chestFunctions.openChestDelay(chestPlayer, "schest");
                     break;
 
-                case 5:
+                case 4:
+                    if (ChestInit.allowMoneyChest) chestFunctions.openChestDelay(chestPlayer, "schest");
                     chestFunctions.openChestDelay(chestPlayer, "vchest");
                     break;
 
-                case 6:
+                case 5:
+                    if (ChestInit.allowMoneyChest) chestFunctions.openChestDelay(chestPlayer, "vchest");
                     chestFunctions.openChestDelay(chestPlayer, "xchest");
+                    break;
+
+                case 6:
+                    if (ChestInit.allowMoneyChest) chestFunctions.openChestDelay(chestPlayer, "xchest");
                     break;
 
             }
