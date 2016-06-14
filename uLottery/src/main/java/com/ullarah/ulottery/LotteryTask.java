@@ -1,7 +1,8 @@
 package com.ullarah.ulottery;
 
-import org.bukkit.ChatColor;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
 import java.util.Map;
@@ -30,10 +31,23 @@ class LotteryTask {
                         Player player = (Player) onlinePlayers.toArray()[
                                 new Random().nextInt(onlinePlayers.size())];
 
-                        economy.depositPlayer(player, deathLotteryBank);
+                        World world = player.getWorld();
+                        Location location = player.getLocation();
+
+                        String winnings;
+
+                        if (economy != null) {
+                            economy.depositPlayer(player, deathLotteryBank);
+                            winnings = "$" + deathLotteryBank;
+                        } else {
+                            Bukkit.getWorld(world.getName()).dropItemNaturally(
+                                    location, new ItemStack(winItemMaterial, deathLotteryBank));
+                            String s = deathLotteryBank > 1 ? "s" : "";
+                            winnings = deathLotteryBank + " " + winItemMaterial.name().replace("_"," ").toLowerCase() + s;
+                        }
 
                         getPlugin().getServer().broadcastMessage(ChatColor.YELLOW + player.getPlayerListName()
-                                + ChatColor.RESET + " won " + ChatColor.GREEN + "$" + deathLotteryBank
+                                + ChatColor.RESET + " won " + ChatColor.GREEN + winnings
                                 + ChatColor.RESET + " from the Death Lottery!");
 
                         recentWinnerName = player.getPlayerListName();
@@ -41,7 +55,7 @@ class LotteryTask {
 
                     }
 
-                    deathCountdown = 60;
+                    deathCountdown = deathCountdownReset;
                     deathDuration = 0;
                     deathLotteryBank = 0;
 

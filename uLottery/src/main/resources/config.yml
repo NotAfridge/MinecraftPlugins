@@ -1,0 +1,9 @@
+activeplayers: 5
+countdown: 60
+suspension: 30
+vault:
+  enable: false
+  addamount: 5
+item:
+  addamount: 2
+  material: EMERALD

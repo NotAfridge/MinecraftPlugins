@@ -19,12 +19,14 @@ class LotteryEvents implements Listener {
         if (!deathLotteryPaused) {
 
             recentDeathName = player.getPlayerListName();
-            deathCountdown = 60;
+            deathCountdown = deathCountdownReset;
 
             playerDeathPrevious.put(player.getUniqueId(), playerDeathPrevious.containsKey(player.getUniqueId())
-                    ? playerDeathPrevious.get(player.getUniqueId()) + 5 : 30);
+                    ? playerDeathPrevious.get(player.getUniqueId()) + 5 : deathSuspension);
 
-            if (!playerDeathSuspension.containsKey(player.getUniqueId())) deathLotteryBank = deathLotteryBank + 5;
+            if (!playerDeathSuspension.containsKey(player.getUniqueId()))
+                deathLotteryBank += economy != null ? winVaultAmount : winItemAmount;
+
             playerDeathSuspension.put(player.getUniqueId(), playerDeathPrevious.get(player.getUniqueId()));
 
             String deathMessage = event.getDeathMessage().split(" ", 2)[1];

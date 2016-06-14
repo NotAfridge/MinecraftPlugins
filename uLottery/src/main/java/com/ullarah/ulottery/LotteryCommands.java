@@ -3,7 +3,7 @@ package com.ullarah.ulottery;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,19 +17,26 @@ class LotteryCommands implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 
-        String separator = ChatColor.RESET + " - ";
+        String sep = ChatColor.RESET + " - ";
         String minute = "Minute";
         String hour = "Hour";
 
         String deathBank = ChatColor.RED + "Nobody has died yet!";
-        if (deathLotteryBank > 0)
-            deathBank = ChatColor.YELLOW + "Bank: " + ChatColor.GREEN + "$" + deathLotteryBank;
+        if (deathLotteryBank > 0) {
+            String bank = ChatColor.YELLOW + "Bank: " + ChatColor.GREEN;
+            deathBank = economy != null ? bank + "$" + deathLotteryBank :
+                    bank + deathLotteryBank + " " + winItemMaterial.name().replace("_", " ").toLowerCase()
+                            + (deathLotteryBank > 1 ? "s" : "");
+        }
 
         String deathRecent = "";
-        if (!recentDeathName.equals("")) deathRecent = separator + ChatColor.YELLOW + "Recent Death: " + ChatColor.RED;
+        if (!recentDeathName.equals("")) deathRecent = sep + ChatColor.YELLOW + "Recent Death: " + ChatColor.RED;
 
-        String deathWinner = ChatColor.YELLOW + "Recent Winner: " + ChatColor.RED + recentWinnerName +
-                separator + ChatColor.GREEN + "$" + recentWinnerAmount;
+        String winner = ChatColor.YELLOW + "Recent Winner: " + ChatColor.RED + recentWinnerName +
+                sep + ChatColor.GREEN;
+        String deathWinner = economy != null ? winner + "$" + recentWinnerAmount :
+                winner + recentWinnerAmount + " " +  winItemMaterial.name().replace("_", " ").toLowerCase()
+                        + (recentWinnerAmount > 1 ? "s" : "");
 
         String deathCountdownMessage = ChatColor.YELLOW + "Countdown: " + ChatColor.RED + deathCountdown;
         String deathDurationMessage = "";
@@ -38,12 +45,12 @@ class LotteryCommands implements CommandExecutor {
             int deathDurationHour = deathDuration / 60;
             int deathDurationMinute = deathDuration % 60;
 
-            if (deathDurationHour > 1) hour = "Hours";
-            if (deathDurationMinute > 1) minute = "Minutes";
+            if (deathDurationHour > 1) hour += "s";
+            if (deathDurationMinute > 1) minute += "s";
 
             String deathHourMinute = deathDuration / 60 < 1 ? deathDuration + " Minutes" :
                     String.format("%d " + hour + " %02d " + minute, deathDuration / 60, deathDuration % 60);
-            deathDurationMessage = ChatColor.YELLOW + "Duration: " + ChatColor.RED + deathHourMinute + separator;
+            deathDurationMessage = ChatColor.YELLOW + "Duration: " + ChatColor.RED + deathHourMinute + sep;
         }
 
         String deathTimeout = "";
@@ -53,19 +60,19 @@ class LotteryCommands implements CommandExecutor {
 
         if (command.getName().equalsIgnoreCase("dlot")) {
 
-            if (deathCountdown > 1) minute = "Minutes";
+            if (deathCountdown > 1) minute += "s";
 
             if (commandSender instanceof ConsoleCommandSender) {
 
-                String consoleString = "" + ChatColor.RED + ChatColor.BOLD + "DEATH LOTTERY" + ChatColor.RESET +
-                        ChatColor.stripColor(separator + deathBank + deathRecent + recentDeathName);
+                String consoleString = "" + ChatColor.RED + ChatColor.BOLD + "Death Lottery" + ChatColor.RESET +
+                        ChatColor.stripColor(sep + deathBank + deathRecent + recentDeathName);
 
                 if (deathLotteryBank > 0) {
                     if (recentWinnerAmount > 0)
-                        commandSender.sendMessage(consoleString + ChatColor.stripColor(separator + deathCountdownMessage + " " +
-                                minute + separator + deathWinner));
+                        commandSender.sendMessage(consoleString + ChatColor.stripColor(sep + deathCountdownMessage + " " +
+                                minute + sep + deathWinner));
                     else
-                        commandSender.sendMessage(consoleString + ChatColor.stripColor(separator + deathCountdownMessage + " " + minute));
+                        commandSender.sendMessage(consoleString + ChatColor.stripColor(sep + deathCountdownMessage + " " + minute));
                 } else commandSender.sendMessage(consoleString);
 
                 if (deathLotteryPaused) commandSender.sendMessage(pauseMessage);
@@ -77,19 +84,25 @@ class LotteryCommands implements CommandExecutor {
                 if (playerDeathSuspension.containsKey(((Player) commandSender).getUniqueId())) {
 
                     Integer playerTimeout = playerDeathSuspension.get(((Player) commandSender).getUniqueId());
-                    if (playerTimeout > 1) minute = "Minutes";
+                    if (playerTimeout > 1) minute += "s";
                     deathTimeout = ChatColor.YELLOW + "Suspension: " + ChatColor.RED + playerTimeout + " " + minute;
 
                 }
 
+                String winType = economy != null ? "$" + winVaultAmount :
+                        winItemAmount + " " + winItemMaterial.name().replace("_", " ").toLowerCase()
+                                + (winItemAmount > 1 ? "s" : "");
+
+                String suspensionAmount = String.valueOf(deathSuspension);
+                String countdownAmount = String.valueOf(deathCountdownReset);
+
                 player.sendMessage(new String[]{
-                        "" + ChatColor.RED + ChatColor.BOLD + "DEATH LOTTERY" +
-                                ChatColor.RESET + " - " + ChatColor.DARK_AQUA + "An experiment by Ullarah",
+                        "" + ChatColor.RED + ChatColor.BOLD + "Death Lottery",
                         ChatColor.STRIKETHROUGH + "----------------------------------------------------",
-                        "When you die, " + ChatColor.GREEN + "$5" + ChatColor.RESET + " goes into the Death Lottery bank.",
+                        "When you die, " + ChatColor.GREEN + winType + ChatColor.RESET + " will go to the Death Lottery bank.",
                         "You are then " + ChatColor.RED + "suspended" + ChatColor.RESET +
-                                " from Death Lottery for " + ChatColor.YELLOW + "30+ minutes" + ChatColor.RESET + ".",
-                        "Nobody dies in an hour? The money goes to a random player!",
+                                " from Death Lottery for " + ChatColor.YELLOW + suspensionAmount + " minutes" + ChatColor.RESET + ".",
+                        "If nobody dies in " + ChatColor.YELLOW + countdownAmount + " minutes" + ChatColor.RESET + ", a random player will win!",
                         ChatColor.STRIKETHROUGH + "----------------------------------------------------"
                 });
 
