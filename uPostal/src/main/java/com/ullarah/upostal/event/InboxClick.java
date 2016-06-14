@@ -81,14 +81,19 @@ public class InboxClick implements Listener {
                             ItemMeta meta = item.getItemMeta();
                             List<String> lore = item.getItemMeta().getLore();
 
-                            if (lore.size() <= 1) meta.setLore(null);
-                            else {
+                            String loreMatch = "" + ChatColor.GRAY + ChatColor.ITALIC + "From: .*";
 
-                                item.getItemMeta().getLore().stream().filter(line -> line.matches
-                                        ("" + ChatColor.GRAY + ChatColor.ITALIC + "From: .*"))
-                                        .forEach(line -> lore.remove(lore.size() - 1));
+                            if (item.getItemMeta().getLore().get(0).matches(loreMatch)) {
 
-                                meta.setLore(lore);
+                                if (lore.size() <= 1) meta.setLore(null);
+                                else {
+
+                                    item.getItemMeta().getLore().stream().filter(line -> line.matches(loreMatch))
+                                            .forEach(line -> lore.remove(lore.size() - 1));
+
+                                    meta.setLore(lore);
+
+                                }
 
                             }
 
