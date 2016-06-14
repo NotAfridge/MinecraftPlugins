@@ -1,15 +1,18 @@
 # Ullarahs Minecraft Plugins
-All the plugins. In one place. Such lazy. Easy.
+Various minecraft plugins used on a private server.
 
  * Clone the repo
  * Run 'mvn'
-   * This will automatically install the shared lib
-   * Will also create shaded jars in a jar directory
- * Do whatever you want with the jars
+   * Shaded jars will be created in a /jar/ directory
+ * Place the plugin jars you want to use in your /plugins/ directory
  * Pat yourself on the back
  
-Don't come complaining to me if things aren't working.  
-[Use the wiki for more information](https://github.com/Ullarah/MinecraftPlugins/wiki)
+*Don't come complaining to me if things aren't working.  
+These plugins can be used for developmental purposes.*
+
+**WorldEdit, WorldGuard and Vault may be required for some plugins.**
+
+[The wiki may contain more information.](https://github.com/Ullarah/MinecraftPlugins/wiki)
 
 | Plugin    | Status          | Description                           |
 | --------- | --------------- | ------------------------------------- |
