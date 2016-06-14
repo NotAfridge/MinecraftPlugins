@@ -12,9 +12,8 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.Random;
 
-public class Events implements Listener {
+public class WildEvent implements Listener {
 
-    @SuppressWarnings("unused")
     @EventHandler
     public void mobSpawn(final CreatureSpawnEvent event){
 
@@ -22,26 +21,34 @@ public class Events implements Listener {
 
         if( new Random().nextInt(99) + 1 > 50 ) {
 
-            entity.setMetadata("uWild", new FixedMetadataValue(Init.getPlugin(), true));
+            entity.setMetadata("uWild", new FixedMetadataValue(WildInit.getPlugin(), true));
 
             switch (event.getEntityType()) {
 
                 case CREEPER:
                     entity.setCustomName("Treeper");
-                    entity.setCustomNameVisible(true);
                     break;
 
                 case CHICKEN:
                     entity.setCustomName("Unstable Chicken");
-                    entity.setCustomNameVisible(true);
+                    break;
+
+                case SHEEP:
+                    entity.setCustomName("Time Sheep");
+                    break;
+
+                case COW:
+                    entity.setCustomName("Cow of Zeus");
                     break;
 
             }
+
+            entity.setCustomNameVisible(true);
+
         }
 
     }
 
-    @SuppressWarnings("unused")
     @EventHandler
     public void mobDeath(final EntityDeathEvent event){
 
@@ -54,13 +61,23 @@ public class Events implements Listener {
             case CREEPER:
                 if (entity.getCustomName().equalsIgnoreCase("Treeper")) {
                     world.createExplosion(location, 0.0F);
-                    world.generateTree(location, TreeType.TREE);
+                    world.generateTree(location, new Random().nextInt(10) == 5 ? TreeType.BIG_TREE : TreeType.TREE);
                 }
                 break;
 
             case CHICKEN:
                 if (entity.getCustomName().equalsIgnoreCase("Unstable Chicken"))
                     world.createExplosion(location, 2.0F, true);
+                break;
+
+            case SHEEP:
+                if (entity.getCustomName().equalsIgnoreCase("Time Sheep"))
+                    world.setTime(new Random().nextInt(10));
+                break;
+
+            case COW:
+                if (entity.getCustomName().equalsIgnoreCase("Cow of Zeus"))
+                    world.strikeLightning(location);
                 break;
 
         }

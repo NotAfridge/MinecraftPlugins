@@ -4,4 +4,4 @@ description: ${project.description}
 
 author: Ullarah
 
-main: ${project.groupId}.${project.artifactId}.Init
+main: ${project.groupId}.${project.artifactId}.WildInit
