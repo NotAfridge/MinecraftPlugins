@@ -1,6 +1,7 @@
 package com.ullarah.upostal;
 
 import com.ullarah.upostal.command.Blacklist;
+import com.ullarah.upostal.command.Modify;
 import com.ullarah.upostal.command.Help;
 import com.ullarah.upostal.command.inbox.Clear;
 import com.ullarah.upostal.command.inbox.Prepare;
@@ -70,36 +71,31 @@ class PostalExecutor implements CommandExecutor {
 
     private void postalCommands(CommandSender sender, String[] args) {
 
-        Help help = new Help();
-        Blacklist blacklist = new Blacklist();
-        Clear clear = new Clear();
-
         String consoleTools = new CommonString().pluginPrefix(getPlugin()) + "blacklist | clear";
 
         if (args.length == 0) if (!(sender instanceof Player)) sender.sendMessage(consoleTools);
-        else help.display(sender);
+        else new Help().display(sender);
 
         else try {
 
             switch (args[0].toUpperCase()) {
 
                 case "BLACKLIST":
-                    blacklist.toggle(sender, args);
+                    new Blacklist().toggle(sender, args);
+                    break;
+
+                case "MODIFY":
+                    if (!(sender instanceof Player)) commonString.messageNoConsole(getPlugin(), sender);
+                    else new Modify().inbox(sender, args);
                     break;
 
                 case "CLEAR":
-                    clear.run(sender, args);
-                    break;
-
-                case "VIEW":
-                    break;
-
-                case "EDIT":
+                    new Clear().run(sender, args);
                     break;
 
                 default:
                     if (!(sender instanceof Player)) commonString.messageNoConsole(getPlugin(), sender);
-                    else help.display(sender);
+                    else new Help().display(sender);
                     break;
 
             }

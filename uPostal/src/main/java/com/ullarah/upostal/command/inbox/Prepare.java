@@ -17,7 +17,6 @@ public class Prepare {
     public void run(Player player, UUID inbox) {
 
         CommonString commonString = new CommonString();
-        View view = new View();
         File inboxFile = new File(getInboxDataPath(), inbox.toString() + ".yml");
 
         if (inboxFile.exists()) {
@@ -47,8 +46,6 @@ public class Prepare {
                     return;
                 }
 
-                view.run(inboxPlayerStock, player, inboxPlayerUUID, inboxPlayerName, inboxPlayerSlot);
-
             } else {
 
                 if (inboxBlacklist) {
@@ -56,9 +53,9 @@ public class Prepare {
                     return;
                 }
 
-                view.run(inboxPlayerStock, player, inboxPlayerUUID, inboxPlayerName, inboxPlayerSlot);
-
             }
+
+            new View().run(inboxPlayerStock, player, inboxPlayerUUID, inboxPlayerName, inboxPlayerSlot);
 
         } else commonString.messageSend(getPlugin(), player, "That player does not have an inbox!");
 

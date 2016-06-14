@@ -11,8 +11,9 @@ commands:
     description: Main Postal Commands.
     usage: |
       <command> help : Shows help to player.
-      <command> blacklist [player] : Blacklists the players inbox.
-      <command> clear [player] : Clears the players inbox.
+      <command> blacklist <player> : Blacklists the players inbox.
+      <command> modify <player> : View the players inbox.
+      <command> clear <player> : Clears the players inbox.
   post:
     description: Inbox of other Player
     usage: |
@@ -24,14 +25,9 @@ commands:
       <command> upgrade : Upgrades your inbox.
 
 permissions:
-  postal.player:
-    description: Grant all of the player commands
-    children:
-      postal.view.self: true
   postal.staff:
     description: Grant all of the staff commands
     children:
       postal.blacklist: true
+      postal.modify: true
       postal.clear: true
-      postal.view.self: true
-      postal.view.player: true

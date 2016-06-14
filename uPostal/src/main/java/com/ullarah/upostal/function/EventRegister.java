@@ -19,8 +19,6 @@ public class EventRegister {
      */
     public void registerAll(Plugin plugin) {
 
-        int amount = 0;
-
         try {
 
             CodeSource codeSource = plugin.getClass().getProtectionDomain().getCodeSource();
@@ -55,8 +53,6 @@ public class EventRegister {
                                 break;
 
                         }
-
-                        amount++;
 
                     }
 

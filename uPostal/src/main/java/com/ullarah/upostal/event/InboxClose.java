@@ -35,6 +35,7 @@ public class InboxClose implements Listener {
 
             if (inboxViewerBusy.contains(inboxOwnerUUID)) inboxViewerBusy.remove(inboxOwnerUUID);
             if (inboxOwnerBusy.contains(inboxOwnerUUID)) inboxOwnerBusy.remove(inboxOwnerUUID);
+            if (inboxModification.contains(inboxOwnerUUID)) inboxModification.remove(inboxOwnerUUID);
 
             if (inboxChanged.containsKey(inboxUUID)) {
                 inboxChanged.get(inboxUUID).cancel();

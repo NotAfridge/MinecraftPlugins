@@ -16,6 +16,7 @@ public class PostalInit extends JavaPlugin {
 
     public static final ArrayList<UUID> inboxViewerBusy = new ArrayList<>();
     public static final ArrayList<UUID> inboxOwnerBusy = new ArrayList<>();
+    public static final ArrayList<UUID> inboxModification = new ArrayList<>();
     public static final HashMap<UUID, BukkitTask> inboxChanged = new HashMap<>();
 
     private static Plugin plugin;

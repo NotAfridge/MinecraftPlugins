@@ -46,7 +46,8 @@ public class View {
                 inboxTakenMeta.setDisplayName(ChatColor.WHITE + "Slot Taken");
                 inboxTaken.setItemMeta(inboxTakenMeta);
 
-                if (inboxUUID.equals(inboxViewer.getUniqueId())) inboxItemStack.add((ItemStack) inboxCurrentItem);
+                if (inboxUUID.equals(inboxViewer.getUniqueId()) || inboxModification.contains(inboxUUID))
+                    inboxItemStack.add((ItemStack) inboxCurrentItem);
                 else inboxItemStack.add(inboxTaken);
 
             }
