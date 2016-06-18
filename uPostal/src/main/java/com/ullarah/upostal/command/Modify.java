@@ -10,9 +10,7 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.util.UUID;
 
-import static com.ullarah.upostal.PostalInit.getInboxDataPath;
-import static com.ullarah.upostal.PostalInit.getPlugin;
-import static com.ullarah.upostal.PostalInit.inboxModification;
+import static com.ullarah.upostal.PostalInit.*;
 
 public class Modify {
 
@@ -37,7 +35,7 @@ public class Modify {
             else commonString.messageSend(getPlugin(), (Player) sender, "That player does not have an inbox!");
 
         } else
-            commonString.messageSend(getPlugin(), (Player) sender, ChatColor.YELLOW + "/postal view <player>");
+            commonString.messageSend(getPlugin(), (Player) sender, ChatColor.YELLOW + "/postal modify <player>");
 
     }
 
