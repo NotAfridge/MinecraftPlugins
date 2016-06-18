@@ -3,7 +3,7 @@ package com.ullarah.ulottery;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -45,11 +45,13 @@ class LotteryCommands implements CommandExecutor {
             int deathDurationHour = deathDuration / 60;
             int deathDurationMinute = deathDuration % 60;
 
-            if (deathDurationHour > 1) hour += "s";
-            if (deathDurationMinute > 1) minute += "s";
+            String dHour = hour;
+            String dMinute = minute;
+            if (deathDurationHour > 1) dHour += "s";
+            if (deathDurationMinute > 1) dMinute += "s";
 
             String deathHourMinute = deathDuration / 60 < 1 ? deathDuration + " Minutes" :
-                    String.format("%d " + hour + " %02d " + minute, deathDuration / 60, deathDuration % 60);
+                    String.format("%d " + dHour + " %02d " + dMinute, deathDuration / 60, deathDuration % 60);
             deathDurationMessage = ChatColor.YELLOW + "Duration: " + ChatColor.RED + deathHourMinute + sep;
         }
 
@@ -60,7 +62,8 @@ class LotteryCommands implements CommandExecutor {
 
         if (command.getName().equalsIgnoreCase("dlot")) {
 
-            if (deathCountdown > 1) minute += "s";
+            String cMinute = minute;
+            if (deathCountdown > 1) cMinute += "s";
 
             if (commandSender instanceof ConsoleCommandSender) {
 
@@ -70,9 +73,9 @@ class LotteryCommands implements CommandExecutor {
                 if (deathLotteryBank > 0) {
                     if (recentWinnerAmount > 0)
                         commandSender.sendMessage(consoleString + ChatColor.stripColor(sep + deathCountdownMessage + " " +
-                                minute + sep + deathWinner));
+                                cMinute + sep + deathWinner));
                     else
-                        commandSender.sendMessage(consoleString + ChatColor.stripColor(sep + deathCountdownMessage + " " + minute));
+                        commandSender.sendMessage(consoleString + ChatColor.stripColor(sep + deathCountdownMessage + " " + cMinute));
                 } else commandSender.sendMessage(consoleString);
 
                 if (deathLotteryPaused) commandSender.sendMessage(pauseMessage);
@@ -84,8 +87,11 @@ class LotteryCommands implements CommandExecutor {
                 if (playerDeathSuspension.containsKey(((Player) commandSender).getUniqueId())) {
 
                     Integer playerTimeout = playerDeathSuspension.get(((Player) commandSender).getUniqueId());
-                    if (playerTimeout > 1) minute += "s";
-                    deathTimeout = ChatColor.YELLOW + "Suspension: " + ChatColor.RED + playerTimeout + " " + minute;
+
+                    String sMinute = minute;
+                    if (playerTimeout > 1) sMinute += "s";
+
+                    deathTimeout = ChatColor.YELLOW + "Suspension: " + ChatColor.RED + playerTimeout + " " + sMinute;
 
                 }
 
