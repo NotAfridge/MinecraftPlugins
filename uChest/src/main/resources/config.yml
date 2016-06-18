@@ -1,45 +1,83 @@
+# This is the main config file, obviously!
+
+# access      - Player XP Level Required
+# removelevel - Will accessing remove the XP levels?
+# lockout     - The amount of time before a player can access it again
+# enabled     - Wether or not the chest is enabled on startup
+
+# Donation Chest
 dchest:
   access: 0
   removelevel: false
+  lockout: 0
+# clean    - When will the donation chest remove all items in seconds
+# warning  - When will the clean warning appear (minus the clean amount)
+# critical - When will the critical warning appear (minus the clean amount)
   clean: 10800
   warning: 900
   critical: 60
   random:
+# timer      - In minutes when to grab a random number
+# chance     - If the random number hits the half of the total it will randomise
+# itemsecond - How many seconds in between a player can grab another item
+# countdown  - How long does the randomise restriction last in seconds
+    timer: 300
     chance: 100
     itemsecond: 3
     countdown: 30
   enabled: true
 
+# Enchantment Chest
+echest:
+  access: 5
+  removelevel: true
+  lockout: 120
+# unsafe - Should unsafe enchants be allowed on items? Careful with this!
+  unsafe: false
+  enabled: true
+
+# Holding Chest
 hchest:
   access: 5
   removelevel: false
+  lockout: 0
+# keepondeath - Negates the hold chest being reset on death
   keepondeath: true
   enabled: true
 
+# Money Chest [uses Vault]
 mchest:
   access: 10
   removelevel: false
   lockout: 300
   enabled: true
 
+# Random Chest
 rchest:
   access: 5
   removelevel: true
   lockout: 300
+# timer - How long a player can stay in the chest before it closes
   timer: 15
   enabled: true
 
+# Swap Chest
 schest:
   access: 2
   removelevel: true
+  lockout: 120
   enabled: true
 
+# Vault Chest
 vchest:
   access: 5
   removelevel: true
+  lockout: 0
+# upgradelevel - How much XP levels a player requires to get a new slot row
   upgradelevel: 25
   enabled: true
 
+# Experience Chest
 xchest:
   access: 10
   removelevel: false

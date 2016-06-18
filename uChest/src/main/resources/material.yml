@@ -1,3 +1,9 @@
+# This file needs a massive overhaul.
+# Unfortunately I don't have the skills or time
+# to figure out the correct values.
+#
+# This may be changed in the future.
+
 ACACIA_DOOR          : 0.0
 ACACIA_FENCE         : 0.0
 ACACIA_FENCE_GATE    : 0.0

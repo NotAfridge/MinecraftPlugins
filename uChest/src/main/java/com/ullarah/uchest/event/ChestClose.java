@@ -33,6 +33,11 @@ public class ChestClose implements Listener {
         Inventory chestInventory = event.getInventory();
         Player chestPlayer = (Player) event.getPlayer();
 
+        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Enchantment Chest")) {
+            chestFunctions.enchantItem(chestPlayer, chestInventory.getItem(2));
+            chestInventory.clear();
+        }
+
         if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Experience Chest")) {
             ItemStack[] expItems = chestInventory.getContents();
             chestFunctions.convertItem(chestPlayer, XP, expItems);

@@ -1,7 +1,6 @@
 package com.ullarah.uchest.event;
 
 import com.ullarah.uchest.ChestFunctions;
-import com.ullarah.uchest.ChestInit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -24,11 +23,11 @@ public class ChestClick implements Listener {
             @Override
             public void run() {
                 if (c <= 0) {
-                    chestDonateLockout.remove(player.getUniqueId());
+                    chestLockoutMap.get("dchest_itemlock").remove(player.getUniqueId());
                     this.cancel();
                     return;
                 }
-                chestDonateLockout.add(player.getUniqueId());
+                chestLockoutMap.get("dchest_itemlock").put(player.getUniqueId(), c);
                 c--;
             }
 
@@ -48,7 +47,7 @@ public class ChestClick implements Listener {
 
         if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Donation Chest")) {
             if (chestDonateLock && event.getRawSlot() <= 53)
-                if (chestDonateLockout.contains(chestPlayer.getUniqueId())) {
+                if (chestLockoutMap.get("dchest_itemlock").containsKey(chestPlayer.getUniqueId())) {
 
                     event.setCancelled(true);
                     event.getCursor().setType(Material.AIR);
@@ -60,6 +59,17 @@ public class ChestClick implements Listener {
             if (event.getCurrentItem().getAmount() >= 1 && event.getRawSlot() >= 54) {
                 event.setCancelled(true);
                 event.getCursor().setType(Material.AIR);
+            }
+
+        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Enchantment Chest"))
+            switch (event.getRawSlot()) {
+                case 0:
+                case 1:
+                case 3:
+                case 4:
+                    event.setCancelled(true);
+                    event.getCursor().setType(Material.AIR);
+                    break;
             }
 
         if (chestInventory.getName().matches("" + ChatColor.GOLD + ChatColor.BOLD + "Mixed Chests")) {
@@ -75,31 +85,31 @@ public class ChestClick implements Listener {
                     break;
 
                 case 1:
-                    chestFunctions.openChestDelay(chestPlayer, "hchest");
+                    chestFunctions.openChestDelay(chestPlayer, "echest");
                     break;
 
                 case 2:
-                    if (ChestInit.allowMoneyChest) chestFunctions.openChestDelay(chestPlayer, "mchest");
-                    else chestFunctions.openChestDelay(chestPlayer, "rchest");
+                    chestFunctions.openChestDelay(chestPlayer, "hchest");
                     break;
 
                 case 3:
-                    if (ChestInit.allowMoneyChest) chestFunctions.openChestDelay(chestPlayer, "rchest");
-                    chestFunctions.openChestDelay(chestPlayer, "schest");
+                    chestFunctions.openChestDelay(chestPlayer, "mchest");
                     break;
 
                 case 4:
-                    if (ChestInit.allowMoneyChest) chestFunctions.openChestDelay(chestPlayer, "schest");
-                    chestFunctions.openChestDelay(chestPlayer, "vchest");
+                    chestFunctions.openChestDelay(chestPlayer, "rchest");
                     break;
 
                 case 5:
-                    if (ChestInit.allowMoneyChest) chestFunctions.openChestDelay(chestPlayer, "vchest");
-                    chestFunctions.openChestDelay(chestPlayer, "xchest");
+                    chestFunctions.openChestDelay(chestPlayer, "schest");
                     break;
 
                 case 6:
-                    if (ChestInit.allowMoneyChest) chestFunctions.openChestDelay(chestPlayer, "xchest");
+                    chestFunctions.openChestDelay(chestPlayer, "vchest");
+                    break;
+
+                case 7:
+                    chestFunctions.openChestDelay(chestPlayer, "xchest");
                     break;
 
             }

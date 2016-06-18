@@ -5,11 +5,10 @@ import com.ullarah.uchest.function.CommonString;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static com.ullarah.uchest.ChestFunctions.validConvert.MONEY;
 import static com.ullarah.uchest.ChestInit.chestTypeEnabled;
 import static com.ullarah.uchest.ChestInit.getPlugin;
 
-public class ChestMoney {
+public class ChestEnchantment {
 
     public void runCommand(CommandSender sender, String[] args) {
 
@@ -21,8 +20,8 @@ public class ChestMoney {
             return;
         }
 
-        if (chestTypeEnabled.get("mchest")) chestFunctions.openConvertChest(sender, MONEY);
-        else commonString.messageSend(getPlugin(), sender, "Money Chest is currently unavailable.");
+        if (chestTypeEnabled.get("echest")) chestFunctions.openEnchantmentChest(sender);
+        else commonString.messageSend(getPlugin(), sender, "Enchantment Chest is currently unavailable.");
 
     }
 

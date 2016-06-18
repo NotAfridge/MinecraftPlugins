@@ -17,6 +17,10 @@ commands:
       <command> : Views the donation chest.
       <command> random : Places random items in the donation chest.
       <command> reset : Clears the entire donation chest.
+  echest:
+    description: Views the enchantment chest.
+    usage: |
+      <command> : Views the enchantment chest.
   hchest:
     description: Views the holding chest.
     usage: |

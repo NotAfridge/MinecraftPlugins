@@ -1,5 +1,6 @@
 package com.ullarah.uchest.command;
 
+import com.ullarah.uchest.ChestFunctions;
 import com.ullarah.uchest.function.CommonString;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -23,12 +24,14 @@ public class ChestDonation {
             }
 
             Player player = ((Player) sender).getPlayer();
+            String chestType = "dchest";
 
-            if (chestTypeEnabled.get("dchest")) {
+            if (chestTypeEnabled.get(chestType)) {
 
                 int playerLevel = player.getLevel();
-                int accessLevel = getPlugin().getConfig().getInt("dchest.access");
-                boolean removeLevel = getPlugin().getConfig().getBoolean("dchest.removelevel");
+                int accessLevel = getPlugin().getConfig().getInt(chestType + ".access");
+                int lockTimer = getPlugin().getConfig().getInt(chestType + ".lockout");
+                boolean removeLevel = getPlugin().getConfig().getBoolean(chestType + ".removelevel");
 
                 if (playerLevel < accessLevel) {
                     String s = accessLevel > 1 ? "s" : "";
@@ -36,9 +39,12 @@ public class ChestDonation {
                     return;
                 }
 
-                if (removeLevel) player.setLevel(playerLevel - accessLevel);
+                if (!chestLockoutMap.get(chestType).containsKey(player.getUniqueId())) {
+                    if (removeLevel) player.setLevel(playerLevel - accessLevel);
+                    ((Player) sender).openInventory(getChestDonationHolder().getInventory());
+                }
 
-                ((Player) sender).openInventory(getChestDonationHolder().getInventory());
+                if (lockTimer > 0) new ChestFunctions().chestLockout(player, lockTimer, chestType);
 
             } else commonString.messageSend(getPlugin(), sender, "Donation Chest is currently unavailable.");
 

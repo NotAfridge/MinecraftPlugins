@@ -22,23 +22,23 @@ public class ChestAnnounce {
 
             getPlugin().getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
                     () -> {
-                        String s = (chestCountdownWarning * 20) > 1 ? "s" : "";
+                        String s = (chestCountdownWarning) > 1 ? "s" : "";
                         if (displayClearMessage)
                             broadcast.sendMessage(getPlugin(), new String[]{ChatColor.AQUA
-                                    + String.valueOf(chestCountdownWarning * 20) +
+                                    + String.valueOf(chestCountdownWarning) +
                                     " minute" + s + " left until the Donation Chest is emptied!"});
                     },
-                    0, (chestCountdownFinal - 600) * 20);
+                    0, chestCountdownFinal - chestCountdownWarning);
 
             getPlugin().getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
                     () -> {
-                        String s = (chestCountdownCritical * 20) > 1 ? "s" : "";
+                        String s = (chestCountdownCritical) > 1 ? "s" : "";
                         if (displayClearMessage)
                             broadcast.sendMessage(getPlugin(), new String[]{ChatColor.RED
-                                    + String.valueOf(chestCountdownCritical * 20) +
+                                    + String.valueOf(chestCountdownCritical) +
                                     " minute" + s + " left until the Donation Chest is emptied!"});
                     },
-                    0, (chestCountdownFinal - 60) * 20);
+                    0, chestCountdownFinal - chestCountdownCritical);
 
         }
 

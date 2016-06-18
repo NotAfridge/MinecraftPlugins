@@ -15,14 +15,14 @@ class ChestExecutor implements CommandExecutor {
         HashMap<String, String> chestCommands = new HashMap<String, String>() {{
             put("Menu", "");
             put("Donation", "d");
+            put("Enchantment", "e");
             put("Holding", "h");
+            put("Money", "m");
             put("Random", "r");
             put("Swap", "s");
             put("Vault", "v");
             put("Experience", "x");
         }};
-
-        if (ChestInit.allowMoneyChest) chestCommands.put("Money", "m");
 
         chestCommands.entrySet().stream().filter(
                 newCommand -> command.getName().equalsIgnoreCase(

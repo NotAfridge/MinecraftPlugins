@@ -32,11 +32,11 @@ These plugins can be used for developmental purposes.*
 ## Future Possibilities?
 - uChest:
   - [ ] Change materials.yml into components
-    - [ ] Seperate each item, with custom folder for unique items
+    - [ ] Separate each item, with custom folder for unique items
     - [ ] Conversion amount for each type
     - [ ] Donation chest random inclusion setting
-  - [ ] Add new chest called Enchantment Chest
-    - [ ] Set as hopper type single entry only
-    - [ ] Random enchantments based on config
-      - [ ] Possible unsafe enhancts setting
-  - [ ] Place lockout feature on all chests
+  - [X] Add new chest called Enchantment Chest
+    - [X] Set as hopper type single entry only
+    - [X] Random enchantments based on config
+      - [X] Possible unsafe enhancts setting
+  - [X] Place lockout feature on all chests

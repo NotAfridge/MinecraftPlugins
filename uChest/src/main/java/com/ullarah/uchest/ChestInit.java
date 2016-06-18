@@ -29,18 +29,13 @@ import static com.ullarah.uchest.function.PluginRegisters.RegisterType.TASK;
 public class ChestInit extends JavaPlugin {
 
     public static final HashMap<String, Boolean> chestTypeEnabled = new HashMap<>();
-    public static final Set<UUID> chestConvertLockout = new HashSet<>();
-    public static final Set<UUID> chestRandomLockout = new HashSet<>();
-    public static final Set<UUID> chestDonateLockout = new HashSet<>();
-    public static final ConcurrentHashMap<UUID, Integer> chestConvertLockoutTimer = new ConcurrentHashMap<>();
-    public static final ConcurrentHashMap<UUID, Integer> chestRandomLockoutTimer = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<String, ConcurrentHashMap<UUID, Integer>> chestLockoutMap = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, BukkitTask> chestRandomTask = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, Integer> registerMap = new ConcurrentHashMap<>();
     public static FileConfiguration materialConfig;
     public static Boolean chestSwapBusy;
     public static ItemStack[] chestSwapItemStack;
     public static Player chestSwapPlayer;
-    public static Boolean allowMoneyChest = false;
     public static Boolean chestDonateLock = false;
     public static Boolean displayClearMessage = false;
     private static Plugin plugin;
@@ -124,8 +119,11 @@ public class ChestInit extends JavaPlugin {
 
         Set<String> pluginList = new HashSet<>();
 
-        getConfig().options().copyDefaults(true);
-        saveConfig();
+        new ArrayList<String>() {{
+            add("config.yml");
+            add("material.yml");
+        }}.stream().filter(r -> !new File(getPlugin().getDataFolder(), r).exists())
+                .forEachOrdered(r -> getPlugin().saveResource(r, false));
 
         registerMap.put(EVENT.toString(), new PluginRegisters().registerAll(getPlugin(), EVENT));
         registerMap.put(TASK.toString(), new PluginRegisters().registerAll(getPlugin(), TASK));
@@ -141,29 +139,28 @@ public class ChestInit extends JavaPlugin {
                     net.milkbowl.vault.economy.Economy.class);
             if (economyProvider != null) {
                 setVaultEconomy(economyProvider.getProvider());
-                allowMoneyChest = true;
                 pluginList.add("Vault");
             }
         }
 
-        ArrayList<String> chestCommands = new ArrayList<String>() {{
+        for (String t : new ArrayList<String>() {{
             add("");
             add("d");
+            add("e");
             add("h");
+            add("m");
             add("r");
             add("s");
             add("v");
             add("x");
-        }};
-        if (allowMoneyChest) chestCommands.add("m");
-        for (String t : chestCommands) {
-            getCommand(t + "chest").setExecutor(new ChestExecutor());
+        }}) {
+            chestLockoutMap.put(t + "chest", new ConcurrentHashMap<>());
             chestTypeEnabled.put(t + "chest", getPlugin().getConfig().getBoolean(t + "chest.enabled"));
+            getCommand(t + "chest").setExecutor(new ChestExecutor());
         }
 
-        File materialFile = new File(getDataFolder(), "material.yml");
-        if (!materialFile.exists()) saveResource("material.yml", false);
-        setMaterialConfig(YamlConfiguration.loadConfiguration(materialFile));
+        chestLockoutMap.put("dchest_itemlock", new ConcurrentHashMap<>());
+        setMaterialConfig(YamlConfiguration.loadConfiguration(new File(getDataFolder(), "material.yml")));
 
         Bukkit.getLogger().log(Level.INFO, "[" + plugin.getName() + "] "
                 + "Events: " + registerMap.get(EVENT.toString()) + " | "

@@ -1,6 +1,5 @@
 package com.ullarah.uchest.command;
 
-import com.ullarah.uchest.ChestInit;
 import com.ullarah.uchest.function.CommonString;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -44,10 +43,7 @@ public class ToggleAccess {
 
             getPlugin().saveConfig();
 
-        } else {
-            String chests = ChestInit.allowMoneyChest ? "[dhmrsvx]" : "[dhrsvx]";
-            commonString.messageSend(getPlugin(), sender, ChatColor.YELLOW + "/chest toggle " + chests + "chest");
-        }
+        } else commonString.messageSend(getPlugin(), sender, ChatColor.YELLOW + "/chest toggle [dehmrsvx]chest");
 
     }
 

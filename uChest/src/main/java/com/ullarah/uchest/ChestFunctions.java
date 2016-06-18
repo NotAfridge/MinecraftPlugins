@@ -6,7 +6,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -14,10 +16,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -79,21 +78,48 @@ public class ChestFunctions {
 
     }
 
+    public void enchantItem(Player player, ItemStack item) {
+
+        boolean useUnsafe = getPlugin().getConfig().getBoolean("echest.unsafe");
+        ItemMeta itemMeta = item.getItemMeta();
+
+        if (item.getAmount() > 1) {
+            commonString.messageSend(getPlugin(), player, "You are only allowed to enchant a single item.");
+            player.getWorld().dropItemNaturally(player.getLocation(), item);
+            return;
+        }
+
+        if (itemMeta.hasEnchants()) {
+            commonString.messageSend(getPlugin(), player, "This item already has an enchantment.");
+            player.getWorld().dropItemNaturally(player.getLocation(), item);
+            return;
+        }
+
+        List<Enchantment> allEnchants = new ArrayList<>();
+        for (Enchantment enchant : Enchantment.values()) {
+            if (useUnsafe) allEnchants.add(enchant);
+            else if (enchant.canEnchantItem(item)) allEnchants.add(enchant);
+        }
+
+        if (allEnchants.size() >= 1) {
+            Collections.shuffle(allEnchants);
+            Enchantment gotEnchant = allEnchants.get(0);
+            item.addEnchantment(gotEnchant, 1 + (int) (Math.random() * ((gotEnchant.getMaxLevel() - 1) + 1)));
+        }
+
+        player.getWorld().dropItemNaturally(player.getLocation(), item);
+
+    }
+
     public void openConvertChest(CommandSender sender, validConvert type) {
 
         final Player player = (Player) sender;
         int playerLevel = player.getLevel();
+        String chestType = type == MONEY ? "mchest" : "xchest";
 
-        int lockTimer = getPlugin().getConfig().getInt((type == MONEY ? "m" : "x") + "chest.lockout");
-
-        int accessMoney = getPlugin().getConfig().getInt("mchest.access");
-        int accessExperience = getPlugin().getConfig().getInt("xchest.access");
-
-        boolean removeMoney = getPlugin().getConfig().getBoolean("mchest.removelevel");
-        boolean removeExperience = getPlugin().getConfig().getBoolean("xchest.removelevel");
-
-        int accessLevel = (type == MONEY ? accessMoney : accessExperience);
-        boolean removeLevel = (type == MONEY ? removeMoney : removeExperience);
+        int lockTimer = getPlugin().getConfig().getInt(chestType + ".lockout");
+        int accessLevel = getPlugin().getConfig().getInt(chestType + ".access");
+        boolean removeLevel = getPlugin().getConfig().getBoolean(chestType + ".removelevel");
 
         if (player.getLevel() < accessLevel) {
             String s = accessLevel > 1 ? "s" : "";
@@ -101,14 +127,51 @@ public class ChestFunctions {
             return;
         }
 
-        if (removeLevel) player.setLevel(playerLevel - accessLevel);
-
-        if (!chestConvertLockoutTimer.containsKey(player.getUniqueId())) {
+        if (!chestLockoutMap.get(chestType).containsKey(player.getUniqueId())) {
+            if (removeLevel) player.setLevel(playerLevel - accessLevel);
             Inventory chestExpInventory = Bukkit.createInventory(player, 27, ChatColor.DARK_GREEN + (type == MONEY ? "Money" : "Experience") + " Chest");
             player.openInventory(chestExpInventory);
         }
 
-        if (lockTimer > 0) chestLockout(player, lockTimer, chestConvertLockoutTimer);
+        if (lockTimer > 0) chestLockout(player, lockTimer, chestType);
+
+    }
+
+    public void openEnchantmentChest(CommandSender sender) {
+
+        final Player player = (Player) sender;
+        int playerLevel = player.getLevel();
+        String chestType = "echest";
+
+        int lockTimer = getPlugin().getConfig().getInt(chestType + ".lockout");
+        int accessLevel = getPlugin().getConfig().getInt(chestType + ".access");
+        boolean removeLevel = getPlugin().getConfig().getBoolean(chestType + ".removelevel");
+
+        if (player.getLevel() < accessLevel) {
+            String s = accessLevel > 1 ? "s" : "";
+            commonString.messageSend(getPlugin(), player, "You need more than " + accessLevel + " level" + s + " to open this chest.");
+            return;
+        }
+
+        if (!chestLockoutMap.get(chestType).containsKey(player.getUniqueId())) {
+            Inventory chestEnchantInventory = Bukkit.createInventory(player, InventoryType.HOPPER, ChatColor.DARK_GREEN + "Enchantment Chest");
+
+            ItemStack blockedItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 8);
+            ItemMeta blockedItemMeta = blockedItem.getItemMeta();
+
+            blockedItemMeta.setDisplayName(ChatColor.DARK_GRAY + "Use middle slot!");
+            blockedItem.setItemMeta(blockedItemMeta);
+
+            chestEnchantInventory.setItem(0, blockedItem);
+            chestEnchantInventory.setItem(1, blockedItem);
+            chestEnchantInventory.setItem(3, blockedItem);
+            chestEnchantInventory.setItem(4, blockedItem);
+
+            if (removeLevel) player.setLevel(playerLevel - accessLevel);
+            player.openInventory(chestEnchantInventory);
+        }
+
+        if (lockTimer > 0) chestLockout(player, lockTimer, chestType);
 
     }
 
@@ -116,9 +179,10 @@ public class ChestFunctions {
 
         final Player player = (Player) sender;
         int playerLevel = player.getLevel();
-        int accessLevel = getPlugin().getConfig().getInt("rchest.access");
-        int lockTimer = getPlugin().getConfig().getInt("rchest.lockout");
-        boolean removeLevel = getPlugin().getConfig().getBoolean("rchest.removelevel");
+        String chestType = "rchest";
+        int accessLevel = getPlugin().getConfig().getInt(chestType + ".access");
+        int lockTimer = getPlugin().getConfig().getInt(chestType + ".lockout");
+        boolean removeLevel = getPlugin().getConfig().getBoolean(chestType + ".removelevel");
 
         if (playerLevel < accessLevel) {
             String s = accessLevel > 1 ? "s" : "";
@@ -126,16 +190,16 @@ public class ChestFunctions {
             return;
         }
 
-        if (removeLevel) player.setLevel(playerLevel - accessLevel);
-
-        if (!chestRandomLockoutTimer.containsKey(player.getUniqueId()))
+        if (!chestLockoutMap.get(chestType).containsKey(player.getUniqueId())) {
+            if (removeLevel) player.setLevel(playerLevel - accessLevel);
             player.openInventory(getChestRandomHolder().getInventory());
+        }
 
-        if (lockTimer > 0) chestLockout(player, lockTimer, chestRandomLockoutTimer);
+        if (lockTimer > 0) chestLockout(player, lockTimer, chestType);
 
         BukkitTask task = new BukkitRunnable() {
 
-            int c = getPlugin().getConfig().getInt("rchest.timer");
+            int c = getPlugin().getConfig().getInt(chestType + ".timer");
 
             @Override
             public void run() {
@@ -168,11 +232,13 @@ public class ChestFunctions {
 
     }
 
-    private void chestLockout(Player player, Integer lockTimer, ConcurrentHashMap<UUID, Integer> lockMap) {
+    public void chestLockout(Player player, Integer lockTimer, String lockChest) {
 
-        if (!lockMap.containsKey(player.getUniqueId())) {
+        ConcurrentHashMap<UUID, Integer> timerMap = chestLockoutMap.get(lockChest);
 
-            lockMap.put(player.getUniqueId(), lockTimer);
+        if (!timerMap.containsKey(player.getUniqueId())) {
+
+            timerMap.put(player.getUniqueId(), lockTimer);
 
             new BukkitRunnable() {
 
@@ -183,14 +249,15 @@ public class ChestFunctions {
 
                     if (c <= 0) {
 
-                        lockMap.remove(player.getUniqueId());
+                        timerMap.remove(player.getUniqueId());
                         this.cancel();
                         return;
 
                     }
 
                     c--;
-                    lockMap.replace(player.getUniqueId(), c);
+                    timerMap.replace(player.getUniqueId(), c);
+                    chestLockoutMap.replace(lockChest, timerMap);
 
                 }
 
@@ -198,7 +265,7 @@ public class ChestFunctions {
 
         }
 
-        int getCurrentLockTime = lockMap.get(player.getUniqueId());
+        int getCurrentLockTime = timerMap.get(player.getUniqueId());
 
         String minuteString = " Minute";
         String secondString = " Second";
@@ -228,14 +295,11 @@ public class ChestFunctions {
 
             int playerLevel = player.getLevel();
 
-            int accessHold = getPlugin().getConfig().getInt("hchest.access");
-            int accessVault = getPlugin().getConfig().getInt("vchest.access");
+            String chestType = type == VAULT ? "vchest" : "hchest";
 
-            boolean removeHold = getPlugin().getConfig().getBoolean("hchest.removelevel");
-            boolean removeVault = getPlugin().getConfig().getBoolean("vchest.removelevel");
-
-            int accessLevel = (type == VAULT ? accessVault : accessHold);
-            boolean removeLevel = (type == VAULT ? removeVault : removeHold);
+            int lockTimer = getPlugin().getConfig().getInt(chestType + ".lockout");
+            int accessLevel = getPlugin().getConfig().getInt(chestType + ".access");
+            boolean removeLevel = getPlugin().getConfig().getBoolean(chestType + ".removelevel");
 
             if (player.getLevel() < accessLevel) {
                 String s = accessLevel > 1 ? "s" : "";
@@ -243,8 +307,12 @@ public class ChestFunctions {
                 return;
             }
 
-            if (removeLevel) player.setLevel(playerLevel - accessLevel);
-            player.openInventory(inventory);
+            if (!chestLockoutMap.get(chestType).containsKey(player.getUniqueId())) {
+                if (removeLevel) player.setLevel(playerLevel - accessLevel);
+                player.openInventory(inventory);
+            }
+
+            if (lockTimer > 0) chestLockout(player, lockTimer, chestType);
 
         } else player.openInventory(inventory);
 
