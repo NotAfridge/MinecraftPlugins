@@ -23,8 +23,20 @@ These plugins can be used for developmental purposes.*
 | uLottery  | Ready           | Passive death lottery.                |
 | uMagic    | Ready           | Magical hoe to change various blocks. |
 | uPostal   | Ready           | Item Postal service between players.  |
-| uRocket   | Ready           | Rocket Boots for player flying.       |
+| uRocket   | Requires Recode | Rocket Boots for player flying.       |
 | uTab      | Ready           | Tab list header and footer.           |
 | uTeleport | Ready           | Teleport history for players.         |
 | uWatch    | Do Not Use      | Player information and tracker.       |
 | uWild     | In Progress     | Various animal and mob changes.       |
+
+## Future Possibilities?
+- uChest:
+  - [ ] Change materials.yml into components
+    - [ ] Seperate each item, with custom folder for unique items
+    - [ ] Conversion amount for each type
+    - [ ] Donation chest random inclusion setting
+  - [ ] Add new chest called Enchantment Chest
+    - [ ] Set as hopper type single entry only
+    - [ ] Random enchantments based on config
+      - [ ] Possible unsafe enhancts setting
+  - [ ] Place lockout feature on all chests
