@@ -17,6 +17,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
+import static com.ullarah.uchest.ChestFunctions.validConvert.MONEY;
+import static com.ullarah.uchest.ChestFunctions.validConvert.XP;
 import static com.ullarah.uchest.ChestInit.*;
 
 public class ChestClose implements Listener {
@@ -33,13 +35,13 @@ public class ChestClose implements Listener {
 
         if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Experience Chest")) {
             ItemStack[] expItems = chestInventory.getContents();
-            chestFunctions.convertItem(chestPlayer, "XP", expItems);
+            chestFunctions.convertItem(chestPlayer, XP, expItems);
             chestInventory.clear();
         }
 
         if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Money Chest")) {
             ItemStack[] moneyItems = chestInventory.getContents();
-            chestFunctions.convertItem(chestPlayer, "MONEY", moneyItems);
+            chestFunctions.convertItem(chestPlayer, MONEY, moneyItems);
             chestInventory.clear();
         }
 

@@ -5,7 +5,7 @@ dchest:
   warning: 900
   critical: 60
   random:
-    chance: 50
+    chance: 100
     itemsecond: 3
     countdown: 30
   enabled: true
@@ -18,7 +18,7 @@ hchest:
 
 mchest:
   access: 10
-  removelevel: true
+  removelevel: false
   lockout: 300
   enabled: true
 
@@ -30,8 +30,8 @@ rchest:
   enabled: true
 
 schest:
-  access: 0
-  removelevel: false
+  access: 2
+  removelevel: true
   enabled: true
 
 vchest:
@@ -42,6 +42,6 @@ vchest:
 
 xchest:
   access: 10
-  removelevel: true
+  removelevel: false
   lockout: 300
   enabled: true

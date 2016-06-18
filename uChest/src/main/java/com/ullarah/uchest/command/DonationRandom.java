@@ -15,7 +15,7 @@ import static com.ullarah.uchest.ChestInit.*;
 
 public class DonationRandom {
 
-    CommonString commonString = new CommonString();
+    final CommonString commonString = new CommonString();
 
     public void checkPermission(CommandSender sender) {
 

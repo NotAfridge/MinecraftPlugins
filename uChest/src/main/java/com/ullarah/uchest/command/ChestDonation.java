@@ -25,13 +25,21 @@ public class ChestDonation {
             Player player = ((Player) sender).getPlayer();
 
             if (chestTypeEnabled.get("dchest")) {
+
+                int playerLevel = player.getLevel();
                 int accessLevel = getPlugin().getConfig().getInt("dchest.access");
-                if (player.getLevel() < accessLevel) {
+                boolean removeLevel = getPlugin().getConfig().getBoolean("dchest.removelevel");
+
+                if (playerLevel < accessLevel) {
                     String s = accessLevel > 1 ? "s" : "";
                     commonString.messageSend(getPlugin(), player, "You need more than " + accessLevel + " level" + s + " to open this chest.");
                     return;
                 }
+
+                if (removeLevel) player.setLevel(playerLevel - accessLevel);
+
                 ((Player) sender).openInventory(getChestDonationHolder().getInventory());
+
             } else commonString.messageSend(getPlugin(), sender, "Donation Chest is currently unavailable.");
 
         } else try {

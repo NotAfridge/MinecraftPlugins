@@ -14,10 +14,15 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
+import static com.ullarah.uchest.ChestFunctions.validConvert.MONEY;
+import static com.ullarah.uchest.ChestFunctions.validConvert.XP;
 import static com.ullarah.uchest.ChestFunctions.validStorage.VAULT;
 import static com.ullarah.uchest.ChestInit.*;
 
@@ -25,7 +30,7 @@ public class ChestFunctions {
 
     private final CommonString commonString = new CommonString();
 
-    public void convertItem(Player player, String type, ItemStack[] items) {
+    public void convertItem(Player player, validConvert type, ItemStack[] items) {
 
         DecimalFormat decimalFormat = new DecimalFormat(".##");
 
@@ -44,7 +49,7 @@ public class ChestFunctions {
                 double maxDurability = item.getType().getMaxDurability();
                 double durability = item.getDurability();
 
-                if (type.equals("MONEY")) itemValue /= 5;
+                if (type == MONEY) itemValue /= 5;
                 if (item.getType().getMaxDurability() > 0)
                     itemValue = itemValue - (itemValue * (durability / maxDurability));
 
@@ -58,13 +63,13 @@ public class ChestFunctions {
 
         if (hasItems) {
 
-            if (type.equals("MONEY")) {
+            if (type == MONEY) {
                 getVaultEconomy().depositPlayer(player, amount);
                 commonString.messageSend(getPlugin(), player, amount > 0
                         ? "You gained " + ChatColor.GREEN + "$" + decimalFormat.format(amount) : "You gained no money.");
             }
 
-            if (type.equals("XP")) {
+            if (type == XP) {
                 new Experience().addExperience(player, amount);
                 commonString.messageSend(getPlugin(), player, amount > 0
                         ? "You gained " + ChatColor.GREEN + decimalFormat.format(amount) + " XP" : "You gained no XP.");
@@ -74,14 +79,21 @@ public class ChestFunctions {
 
     }
 
-    public void openConvertChest(CommandSender sender, String type) {
+    public void openConvertChest(CommandSender sender, validConvert type) {
 
         final Player player = (Player) sender;
+        int playerLevel = player.getLevel();
+
+        int lockTimer = getPlugin().getConfig().getInt((type == MONEY ? "m" : "x") + "chest.lockout");
 
         int accessMoney = getPlugin().getConfig().getInt("mchest.access");
         int accessExperience = getPlugin().getConfig().getInt("xchest.access");
 
-        int accessLevel = (type.equals("MONEY") ? accessMoney : accessExperience);
+        boolean removeMoney = getPlugin().getConfig().getBoolean("mchest.removelevel");
+        boolean removeExperience = getPlugin().getConfig().getBoolean("xchest.removelevel");
+
+        int accessLevel = (type == MONEY ? accessMoney : accessExperience);
+        boolean removeLevel = (type == MONEY ? removeMoney : removeExperience);
 
         if (player.getLevel() < accessLevel) {
             String s = accessLevel > 1 ? "s" : "";
@@ -89,14 +101,14 @@ public class ChestFunctions {
             return;
         }
 
-        if (chestConvertLockout.contains(player.getUniqueId())) {
-            chestLockout(player, (type.equals("MONEY") ? "m" : "x") + "chest.lockout", chestConvertLockoutTimer, chestConvertLockout);
-            return;
+        if (removeLevel) player.setLevel(playerLevel - accessLevel);
+
+        if (!chestConvertLockoutTimer.containsKey(player.getUniqueId())) {
+            Inventory chestExpInventory = Bukkit.createInventory(player, 27, ChatColor.DARK_GREEN + (type == MONEY ? "Money" : "Experience") + " Chest");
+            player.openInventory(chestExpInventory);
         }
 
-        Inventory chestExpInventory = Bukkit.createInventory(player, 27, ChatColor.DARK_GREEN + (type.equals("MONEY") ? "Money" : "Experience") + " Chest");
-        player.openInventory(chestExpInventory);
-        chestLockoutEntry(player, chestConvertLockoutTimer, chestConvertLockout);
+        if (lockTimer > 0) chestLockout(player, lockTimer, chestConvertLockoutTimer);
 
     }
 
@@ -105,6 +117,8 @@ public class ChestFunctions {
         final Player player = (Player) sender;
         int playerLevel = player.getLevel();
         int accessLevel = getPlugin().getConfig().getInt("rchest.access");
+        int lockTimer = getPlugin().getConfig().getInt("rchest.lockout");
+        boolean removeLevel = getPlugin().getConfig().getBoolean("rchest.removelevel");
 
         if (playerLevel < accessLevel) {
             String s = accessLevel > 1 ? "s" : "";
@@ -112,22 +126,16 @@ public class ChestFunctions {
             return;
         }
 
-        if (chestRandomLockout.contains(player.getUniqueId())) {
-            chestLockout(player, "rchest.lockout", chestRandomLockoutTimer, chestRandomLockout);
-            return;
-        }
+        if (removeLevel) player.setLevel(playerLevel - accessLevel);
 
-        player.setLevel(playerLevel - accessLevel);
-        Inventory randomInventory = getChestRandomHolder().getInventory();
+        if (!chestRandomLockoutTimer.containsKey(player.getUniqueId()))
+            player.openInventory(getChestRandomHolder().getInventory());
 
-        int randomTimer = getPlugin().getConfig().getInt("rchest.timer");
-
-        player.openInventory(randomInventory);
-        chestLockoutEntry(player, chestRandomLockoutTimer, chestRandomLockout);
+        if (lockTimer > 0) chestLockout(player, lockTimer, chestRandomLockoutTimer);
 
         BukkitTask task = new BukkitRunnable() {
 
-            int c = randomTimer;
+            int c = getPlugin().getConfig().getInt("rchest.timer");
 
             @Override
             public void run() {
@@ -160,15 +168,15 @@ public class ChestFunctions {
 
     }
 
-    public void chestLockout(Player player, String configTimer, ConcurrentHashMap<UUID, Integer> lockMap, Set<UUID> lockSet) {
+    private void chestLockout(Player player, Integer lockTimer, ConcurrentHashMap<UUID, Integer> lockMap) {
 
         if (!lockMap.containsKey(player.getUniqueId())) {
 
-            lockMap.put(player.getUniqueId(), getPlugin().getConfig().getInt(configTimer));
+            lockMap.put(player.getUniqueId(), lockTimer);
 
             new BukkitRunnable() {
 
-                int c = lockMap.get(player.getUniqueId());
+                int c = lockTimer;
 
                 @Override
                 public void run() {
@@ -176,13 +184,13 @@ public class ChestFunctions {
                     if (c <= 0) {
 
                         lockMap.remove(player.getUniqueId());
-                        lockSet.remove(player.getUniqueId());
                         this.cancel();
                         return;
 
                     }
 
-                    lockMap.replace(player.getUniqueId(), c--);
+                    c--;
+                    lockMap.replace(player.getUniqueId(), c);
 
                 }
 
@@ -198,15 +206,15 @@ public class ChestFunctions {
         long minute = TimeUnit.SECONDS.toMinutes(getCurrentLockTime) - (TimeUnit.SECONDS.toHours(getCurrentLockTime) * 60);
         long second = TimeUnit.SECONDS.toSeconds(getCurrentLockTime) - (TimeUnit.SECONDS.toMinutes(getCurrentLockTime) * 60);
 
-        if (minute > 1) minuteString = minuteString + "s";
-        if (second > 1) secondString = secondString + "s";
+        if (minute > 1) minuteString += "s";
+        if (second > 1) secondString += "s";
 
         String timeLeft = ChatColor.YELLOW + "";
 
-        if (minute > 0) timeLeft += minute + minuteString + " ";
-        if (second > 0) timeLeft += second + secondString;
+        if (minute > 0) timeLeft += minute + minuteString + " " + second + secondString;
+        else timeLeft += second + secondString;
 
-        commonString.messageSend(getPlugin(), player, true, new String[]{
+        if (getCurrentLockTime <= (lockTimer - 2)) commonString.messageSend(getPlugin(), player, true, new String[]{
                 "You are currently locked out from this chest.", "Try again in " + timeLeft
         });
 
@@ -218,10 +226,16 @@ public class ChestFunctions {
 
         if (viewerUUID.equals(uuid)) {
 
+            int playerLevel = player.getLevel();
+
             int accessHold = getPlugin().getConfig().getInt("hchest.access");
             int accessVault = getPlugin().getConfig().getInt("vchest.access");
 
+            boolean removeHold = getPlugin().getConfig().getBoolean("hchest.removelevel");
+            boolean removeVault = getPlugin().getConfig().getBoolean("vchest.removelevel");
+
             int accessLevel = (type == VAULT ? accessVault : accessHold);
+            boolean removeLevel = (type == VAULT ? removeVault : removeHold);
 
             if (player.getLevel() < accessLevel) {
                 String s = accessLevel > 1 ? "s" : "";
@@ -229,7 +243,7 @@ public class ChestFunctions {
                 return;
             }
 
-            if (type == VAULT) player.setLevel(player.getLevel() - accessLevel);
+            if (removeLevel) player.setLevel(playerLevel - accessLevel);
             player.openInventory(inventory);
 
         } else player.openInventory(inventory);
@@ -256,19 +270,6 @@ public class ChestFunctions {
 
     }
 
-    private void chestLockoutEntry(Player player, ConcurrentHashMap<UUID, Integer> lockMap, Set<UUID> lockSet) {
-
-        if (lockMap.containsKey(player.getUniqueId())) {
-
-            Integer count = lockMap.get(player.getUniqueId());
-
-            if (count < 2) lockMap.put(player.getUniqueId(), count + 1);
-            else lockSet.add(player.getUniqueId());
-
-        } else lockMap.put(player.getUniqueId(), 1);
-
-    }
-
     public enum validCommands {
         HELP, TOGGLE, RANDOM, RESET, VIEW, UPGRADE
     }
@@ -279,6 +280,20 @@ public class ChestFunctions {
         private final String type;
 
         validStorage(String getType) {
+            type = getType;
+        }
+
+        public String toString() {
+            return type;
+        }
+    }
+
+    public enum validConvert {
+        XP("xp"), MONEY("money");
+
+        private final String type;
+
+        validConvert(String getType) {
             type = getType;
         }
 

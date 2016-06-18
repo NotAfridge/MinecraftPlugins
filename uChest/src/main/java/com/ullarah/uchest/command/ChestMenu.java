@@ -10,7 +10,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static com.ullarah.uchest.ChestFunctions.validCommands;
 import static com.ullarah.uchest.ChestInit.getPlugin;
@@ -39,20 +41,35 @@ public class ChestMenu {
 
         chestItemSlot++;
 
+        List<String> holdChestMessage = new ArrayList<>();
+
+        List<String> holdChestStartMessage = Arrays.asList(
+                accessLevelRequirement("hchest"),
+                ChatColor.RESET + "",
+                ChatColor.WHITE + "Opens your personal hold chest.",
+                ChatColor.WHITE + "Store more items on the go!"
+        );
+
+        List<String> holdChestDeathMessage = Arrays.asList(
+                ChatColor.RESET + "",
+                ChatColor.RED + "Chest will reset back to 9 slots,",
+                ChatColor.RED + "and drop it's contents on death!"
+        );
+
+        List<String> holdChestEndMessage = Arrays.asList(
+                ChatColor.RESET + "",
+                ChatColor.GREEN + "Hold chest will upgrade",
+                ChatColor.GREEN + "automatically as you gain XP!",
+                ChatColor.RESET + "",
+                "" + ChatColor.AQUA + ChatColor.ITALIC + "Upgrade Levels: 15, 25, 50, 75, 100"
+        );
+
+        holdChestMessage.addAll(holdChestStartMessage);
+        if (getPlugin().getConfig().getBoolean("hchest.keepondeath")) holdChestMessage.addAll(holdChestDeathMessage);
+        holdChestMessage.addAll(holdChestEndMessage);
+
         chestGUI.setItem(chestItemSlot, chestFunctions.createItemStack(Material.CHEST,
-                menuColour + "Hold Chest", Arrays.asList(
-                        accessLevelRequirement("hchest"),
-                        ChatColor.RESET + "",
-                        ChatColor.WHITE + "Opens your personal hold chest.",
-                        ChatColor.WHITE + "Store more items on the go!",
-                        ChatColor.RESET + "",
-                        ChatColor.RED + "Chest will reset back to 9 slots,",
-                        ChatColor.RED + "and drop it's contents on death!",
-                        ChatColor.RESET + "",
-                        ChatColor.GREEN + "Hold chest will upgrade",
-                        ChatColor.GREEN + "automatically as you gain XP!",
-                        ChatColor.RESET + "",
-                        "" + ChatColor.AQUA + ChatColor.ITALIC + "Upgrade Levels: 15, 25, 50, 75, 100")
+                menuColour + "Hold Chest", holdChestMessage
         ));
 
         chestItemSlot++;
@@ -70,6 +87,8 @@ public class ChestMenu {
             chestItemSlot++;
         }
 
+        int rChestTimer = getPlugin().getConfig().getInt("rchest.timer");
+
         chestGUI.setItem(chestItemSlot, chestFunctions.createItemStack(Material.SPONGE,
                 menuColour + "Random Chest", Arrays.asList(
                         accessLevelRequirement("rchest"),
@@ -79,7 +98,7 @@ public class ChestMenu {
                         ChatColor.WHITE + "at short random intervals!",
                         ChatColor.RESET + "",
                         ChatColor.RED + "You have to be quick to grab them!",
-                        ChatColor.RED + "Time is represented by coloured glass!")
+                        ChatColor.RED + "You have " + ChatColor.YELLOW + rChestTimer + " seconds" + ChatColor.RED + "!")
         ));
 
         chestItemSlot++;
