@@ -31,10 +31,10 @@ These plugins can be used for developmental purposes.*
 
 ## Future Possibilities?
 - uChest:
-  - [ ] Change materials.yml into components
+  - [X] Change materials.yml into components
     - [ ] Separate each item, with custom folder for unique items
-    - [ ] Conversion amount for each type
-    - [ ] Donation chest random inclusion setting
+    - [X] Conversion amount for each type
+    - [X] Donation chest random inclusion setting
   - [X] Add new chest called Enchantment Chest
     - [X] Set as hopper type single entry only
     - [X] Random enchantments based on config

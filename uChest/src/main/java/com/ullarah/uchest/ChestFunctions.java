@@ -39,19 +39,27 @@ public class ChestFunctions {
 
             if (item != null) {
 
-                String itemMaterial = item.getType().name();
+                double itemValue = 0;
 
-                int itemAmount = item.getAmount();
+                for (Map.Entry<ItemStack, Object[]> m : materialMap.entrySet()) {
 
-                double itemValue = ChestInit.getMaterialConfig().getDouble(itemMaterial);
+                    List<ItemStack> itemMap = new ArrayList<>();
+
+                    if (item.equals(m.getKey())) itemMap.add(m.getKey());
+
+                    for (ItemStack i : itemMap)
+                        if (item.getDurability() == i.getDurability())
+                            itemValue = type == MONEY ? (double) m.getValue()[2] : (double) m.getValue()[3];
+
+                }
+
                 double maxDurability = item.getType().getMaxDurability();
                 double durability = item.getDurability();
 
-                if (type == MONEY) itemValue /= 5;
                 if (item.getType().getMaxDurability() > 0)
-                    itemValue = itemValue - (itemValue * (durability / maxDurability));
+                    itemValue -= (itemValue * (durability / maxDurability));
 
-                amount += itemValue * itemAmount;
+                amount += itemValue * item.getAmount();
 
                 hasItems = true;
 
@@ -201,17 +209,17 @@ public class ChestFunctions {
             return;
         }
 
-        if (player.hasPermission("chest.bypass")) {
-            player.openInventory(getChestRandomHolder().getInventory());
-            return;
-        }
+        if (player.hasPermission("chest.bypass")) player.openInventory(getChestRandomHolder().getInventory());
+        else {
 
-        if (!chestLockoutMap.get(chestType).containsKey(player.getUniqueId())) {
-            if (removeLevel) player.setLevel(playerLevel - accessLevel);
-            player.openInventory(getChestRandomHolder().getInventory());
-        }
+            if (!chestLockoutMap.get(chestType).containsKey(player.getUniqueId())) {
+                if (removeLevel) player.setLevel(playerLevel - accessLevel);
+                player.openInventory(getChestRandomHolder().getInventory());
+            }
 
-        if (lockTimer > 0) chestLockout(player, lockTimer, chestType);
+            if (lockTimer > 0) chestLockout(player, lockTimer, chestType);
+
+        }
 
         BukkitTask task = new BukkitRunnable() {
 
@@ -229,14 +237,12 @@ public class ChestFunctions {
 
                 }
 
-                Random randomSlot = new Random();
+                getChestRandomInventory().clear();
 
-                List<String> materialList = new ArrayList<>(ChestInit.getMaterialConfig().getKeys(false));
+                List<ItemStack> materialKeys = new ArrayList<>(materialMap.keySet());
 
-                for (int i = 0; i < 54; i++) getChestRandomInventory().setItem(i, null);
-
-                getChestRandomInventory().setItem(randomSlot.nextInt(54),
-                        new ItemStack(Material.getMaterial(materialList.get(randomSlot.nextInt(materialList.size())))));
+                getChestRandomInventory().setItem(new Random().nextInt(54),
+                        materialKeys.get(new Random().nextInt(materialKeys.size())));
 
                 c--;
 

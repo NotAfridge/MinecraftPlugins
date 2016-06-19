@@ -2,7 +2,6 @@ package com.ullarah.uchest.command;
 
 import com.ullarah.uchest.function.CommonString;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -10,6 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static com.ullarah.uchest.ChestInit.*;
 
@@ -32,14 +32,12 @@ public class DonationRandom {
 
         for (int i = 0; i < getChestDonationInventory().getSize(); i++) {
 
-            java.util.Random chestRandomItem = new java.util.Random();
+            Random chestRandomItem = new Random();
 
-            if (chestRandomItem.nextInt() > 50) {
+            if (chestRandomItem.nextInt(100) > 50) {
 
-                List<String> materialList = new ArrayList<>(getMaterialConfig().getKeys(false));
-
-                getChestDonationInventory().setItem(i, new ItemStack(Material.getMaterial(
-                        materialList.get(new java.util.Random().nextInt(materialList.size())))));
+                List<ItemStack> materialKeys = new ArrayList<>(materialMap.keySet());
+                getChestDonationInventory().setItem(i, materialKeys.get(new Random().nextInt(materialKeys.size())));
 
             }
 

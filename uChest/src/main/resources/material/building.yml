@@ -1,0 +1,42 @@
+# m - Material name (id)
+# v - Variation of block (byte)
+# d - Include when donation is randomised? (dchest)
+# r - Include in random chest? (rchest)
+# e - Return value of money given (vault/economy)
+# x - Return value of experience given (xp)
+
+STONE:     { m: STONE, v: 0, d: true, r: true, e: 0.1, x: 0.2 }
+GRANITE:   { m: STONE, v: 1, d: true, r: true, e: 0.2, x: 0.3 }
+PGRANITE:  { m: STONE, v: 2, d: true, r: true, e: 0.4, x: 0.5 }
+DIORITE:   { m: STONE, v: 3, d: true, r: true, e: 0.2, x: 0.3 }
+PDIORITE:  { m: STONE, v: 4, d: true, r: true, e: 0.4, x: 0.5 }
+ANDESITE:  { m: STONE, v: 5, d: true, r: true, e: 0.2, x: 0.3 }
+PANDESITE: { m: STONE, v: 6, d: true, r: true, e: 0.4, x: 0.5 }
+
+GRASS:   { m: GRASS, v: 0, d: true, r: true, e: 0.4, x: 0.5 }
+DIRT:    { m: DIRT,  v: 0, d: true, r: true, e: 0.4, x: 0.5 }
+DCOARSE: { m: DIRT,  v: 1, d: true, r: true, e: 0.4, x: 0.5 }
+PODZOL:  { m: DIRT,  v: 2, d: true, r: true, e: 0.4, x: 0.5 }
+
+PL_OAK:    { m: WOOD, v: 0, d: true, r: true, e: 0.4, x: 0.5 }
+PL_SPRUCE: { m: WOOD, v: 1, d: true, r: true, e: 0.4, x: 0.5 }
+PL_BIRCH:  { m: WOOD, v: 2, d: true, r: true, e: 0.4, x: 0.5 }
+PL_JUNGLE: { m: WOOD, v: 3, d: true, r: true, e: 0.4, x: 0.5 }
+PL_ACACIA: { m: WOOD, v: 4, d: true, r: true, e: 0.4, x: 0.5 }
+PL_DOAK:   { m: WOOD, v: 5, d: true, r: true, e: 0.4, x: 0.5 }
+
+#BEDROCK: { m: BEDROCK, v: 0, d: true, r: true, e: 0.4, x: 0.5 }
+
+SAND:  { m: SAND, v: 0, d: true, r: true, e: 0.4, x: 0.5 }
+RSAND: { m: SAND, v: 1, d: true, r: true, e: 0.4, x: 0.5 }
+
+GRAVEL: { m: GRAVEL, v: 0, d: true, r: true, e: 0.4, x: 0.5 }
+
+ORE_COAL:    { m: COAL_ORE,     v: 0, d: true, r: true, e: 0.4, x: 0.5 }
+ORE_IRON:    { m: IRON_ORE,     v: 0, d: true, r: true, e: 0.4, x: 0.5 }
+ORE_GOLD:    { m: GOLD_ORE,     v: 0, d: true, r: true, e: 0.4, x: 0.5 }
+ORE_LAPIS:   { m: LAPIS_ORE,    v: 0, d: true, r: true, e: 0.4, x: 0.5 }
+ORE_QUARTZ:  { m: QUARTZ_ORE,   v: 0, d: true, r: true, e: 0.4, x: 0.5 }
+ORE_RSTONE:  { m: REDSTONE_ORE, v: 0, d: true, r: true, e: 0.4, x: 0.5 }
+ORE_DIAMOND: { m: DIAMOND_ORE,  v: 0, d: true, r: true, e: 0.4, x: 0.5 }
+ORE_EMERALD: { m: EMERALD_ORE,  v: 0, d: true, r: true, e: 0.4, x: 0.5 }

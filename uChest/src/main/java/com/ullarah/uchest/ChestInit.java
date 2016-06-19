@@ -5,6 +5,7 @@ import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -31,8 +32,8 @@ public class ChestInit extends JavaPlugin {
     public static final HashMap<String, Boolean> chestTypeEnabled = new HashMap<>();
     public static final ConcurrentHashMap<String, ConcurrentHashMap<UUID, Integer>> chestLockoutMap = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, BukkitTask> chestRandomTask = new ConcurrentHashMap<>();
+    public static final HashMap<ItemStack, Object[]> materialMap = new HashMap<>();
     private static final ConcurrentHashMap<String, Integer> registerMap = new ConcurrentHashMap<>();
-    public static FileConfiguration materialConfig;
     public static Boolean chestSwapBusy;
     public static ItemStack[] chestSwapItemStack;
     public static Player chestSwapPlayer;
@@ -64,14 +65,6 @@ public class ChestInit extends JavaPlugin {
 
     private static void setVaultEconomy(Economy vaultEconomy) {
         ChestInit.vaultEconomy = vaultEconomy;
-    }
-
-    public static FileConfiguration getMaterialConfig() {
-        return materialConfig;
-    }
-
-    private static void setMaterialConfig(FileConfiguration materialConfig) {
-        ChestInit.materialConfig = materialConfig;
     }
 
     public static InventoryHolder getChestDonationHolder() {
@@ -121,9 +114,10 @@ public class ChestInit extends JavaPlugin {
 
         new ArrayList<String>() {{
             add("config.yml");
-            add("material.yml");
         }}.stream().filter(r -> !new File(getPlugin().getDataFolder(), r).exists())
                 .forEachOrdered(r -> getPlugin().saveResource(r, false));
+
+        initMaterials();
 
         registerMap.put(EVENT.toString(), new PluginRegisters().registerAll(getPlugin(), EVENT));
         registerMap.put(TASK.toString(), new PluginRegisters().registerAll(getPlugin(), TASK));
@@ -160,7 +154,6 @@ public class ChestInit extends JavaPlugin {
         }
 
         chestLockoutMap.put("dchest_itemlock", new ConcurrentHashMap<>());
-        setMaterialConfig(YamlConfiguration.loadConfiguration(new File(getDataFolder(), "material.yml")));
 
         Bukkit.getLogger().log(Level.INFO, "[" + plugin.getName() + "] "
                 + "Events: " + registerMap.get(EVENT.toString()) + " | "
@@ -180,6 +173,63 @@ public class ChestInit extends JavaPlugin {
     }
 
     public void onDisable() {
+    }
+
+    private void initMaterials() {
+
+        boolean materialFileCreation = true;
+
+        File dataDir = getPlugin().getDataFolder();
+        if (!dataDir.exists()) materialFileCreation = dataDir.mkdir();
+
+        File materialDir = new File(dataDir + File.separator + "material");
+        if (!materialDir.exists()) materialFileCreation = materialDir.mkdir();
+
+        if (materialFileCreation) {
+
+            String[] materialFiles = {"brewing.yml", "building.yml", "combat.yml", "decoration.yml", "foodstuffs.yml",
+                    "materials.yml", "miscellaneous.yml", "redstone.yml", "tools.yml", "transportation.yml", "custom.yml"};
+
+            int materialCount = 0;
+
+            for (String f : materialFiles) {
+
+                if (!new File(materialDir, f).exists())
+                    getPlugin().saveResource("material" + File.separator + f, false);
+
+                File materialConfigFile = new File(materialDir + File.separator + f);
+
+                if (materialConfigFile.exists()) {
+
+                    FileConfiguration materialConfig = YamlConfiguration.loadConfiguration(materialConfigFile);
+
+                    for (String m : new ArrayList<>(materialConfig.getKeys(false))) {
+
+                        Object[] materialObject = {
+                                materialConfig.getBoolean(m + ".d"),
+                                materialConfig.getBoolean(m + ".r"),
+                                materialConfig.getDouble(m + ".e"),
+                                materialConfig.getDouble(m + ".x")
+                        };
+
+                        materialMap.put(new ItemStack(
+                                Material.getMaterial(materialConfig.getString(m + ".m")), 1,
+                                (short) materialConfig.getInt(m + ".v")), materialObject
+                        );
+
+                        materialCount++;
+
+                    }
+
+                }
+
+            }
+
+            Bukkit.getLogger().log(Level.INFO, "[" + plugin.getName() + "] "
+                    + "Loaded " + materialCount + " items from " + materialFiles.length + " files.");
+
+        }
+
     }
 
 }
