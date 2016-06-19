@@ -11,6 +11,7 @@ public class ChestRandom {
 
     private final boolean chestRandomEnabled = getPlugin().getConfig().getBoolean("dchest.enabled");
     private final long chestRandomChance = getPlugin().getConfig().getInt("dchest.random.chance");
+    private final long chestRandomTimer = getPlugin().getConfig().getInt("dchest.random.timer") * 20;
 
     public void task() {
 
@@ -23,7 +24,7 @@ public class ChestRandom {
                         new DonationRandom().chestRandomFill();
                     }
 
-            }, 300, 300);
+            }, chestRandomTimer, chestRandomTimer);
 
     }
 
