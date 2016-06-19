@@ -8,7 +8,6 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -81,13 +80,16 @@ public class ChestFunctions {
     public void enchantItem(Player player, ItemStack item) {
 
         boolean useUnsafe = getPlugin().getConfig().getBoolean("echest.unsafe");
-        ItemMeta itemMeta = item.getItemMeta();
+
+        if (item == null) return;
 
         if (item.getAmount() > 1) {
             commonString.messageSend(getPlugin(), player, "You are only allowed to enchant a single item.");
             player.getWorld().dropItemNaturally(player.getLocation(), item);
             return;
         }
+
+        ItemMeta itemMeta = item.getItemMeta();
 
         if (itemMeta.hasEnchants()) {
             commonString.messageSend(getPlugin(), player, "This item already has an enchantment.");
@@ -154,7 +156,7 @@ public class ChestFunctions {
         }
 
         if (!chestLockoutMap.get(chestType).containsKey(player.getUniqueId())) {
-            Inventory chestEnchantInventory = Bukkit.createInventory(player, InventoryType.HOPPER, ChatColor.DARK_GREEN + "Enchantment Chest");
+            Inventory chestEnchantInventory = Bukkit.createInventory(player, 9, ChatColor.DARK_GREEN + "Enchantment Chest");
 
             ItemStack blockedItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 8);
             ItemMeta blockedItemMeta = blockedItem.getItemMeta();
@@ -162,10 +164,8 @@ public class ChestFunctions {
             blockedItemMeta.setDisplayName(ChatColor.DARK_GRAY + "Use middle slot!");
             blockedItem.setItemMeta(blockedItemMeta);
 
-            chestEnchantInventory.setItem(0, blockedItem);
-            chestEnchantInventory.setItem(1, blockedItem);
-            chestEnchantInventory.setItem(3, blockedItem);
-            chestEnchantInventory.setItem(4, blockedItem);
+            int[] blockedSlots = {0, 1, 2, 3, 5, 6, 7, 8};
+            for (int b : blockedSlots) chestEnchantInventory.setItem(b, blockedItem);
 
             if (removeLevel) player.setLevel(playerLevel - accessLevel);
             player.openInventory(chestEnchantInventory);
