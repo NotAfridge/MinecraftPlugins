@@ -38,6 +38,11 @@ public class ChestSwap {
                     return;
                 }
 
+                if (player.hasPermission("chest.bypass")) {
+                    ((Player) sender).openInventory(getChestSwapHolder().getInventory());
+                    return;
+                }
+
                 if (!chestLockoutMap.get(chestType).containsKey(player.getUniqueId())) {
                     if (removeLevel) player.setLevel(playerLevel - accessLevel);
                     ((Player) sender).openInventory(getChestSwapHolder().getInventory());

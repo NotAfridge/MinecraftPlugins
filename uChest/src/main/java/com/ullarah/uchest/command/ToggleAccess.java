@@ -20,7 +20,7 @@ public class ToggleAccess {
 
         if (args.length == 2) {
 
-            if (!args[1].toLowerCase().matches("[dhmrsvx]chest")) {
+            if (!args[1].toLowerCase().matches("[dehmrsvx]chest")) {
                 commonString.messageSend(getPlugin(), sender, ChatColor.RED + "That type of chest does not exist!");
                 return;
             }

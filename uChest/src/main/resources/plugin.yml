@@ -55,6 +55,7 @@ permissions:
   chest.staff:
     description: Grants all of the staff commands.
     children:
+      chest.bypass: true
       chest.random: true
       chest.reset: true
       chest.view: true

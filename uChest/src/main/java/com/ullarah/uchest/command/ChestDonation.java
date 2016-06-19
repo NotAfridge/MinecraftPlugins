@@ -39,6 +39,11 @@ public class ChestDonation {
                     return;
                 }
 
+                if (player.hasPermission("chest.bypass")) {
+                    player.openInventory(getChestDonationHolder().getInventory());
+                    return;
+                }
+
                 if (!chestLockoutMap.get(chestType).containsKey(player.getUniqueId())) {
                     if (removeLevel) player.setLevel(playerLevel - accessLevel);
                     ((Player) sender).openInventory(getChestDonationHolder().getInventory());

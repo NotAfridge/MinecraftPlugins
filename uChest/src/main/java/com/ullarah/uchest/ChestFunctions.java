@@ -129,9 +129,15 @@ public class ChestFunctions {
             return;
         }
 
+        Inventory chestExpInventory = Bukkit.createInventory(player, 27, ChatColor.DARK_GREEN + (type == MONEY ? "Money" : "Experience") + " Chest");
+
+        if (player.hasPermission("chest.bypass")) {
+            player.openInventory(chestExpInventory);
+            return;
+        }
+
         if (!chestLockoutMap.get(chestType).containsKey(player.getUniqueId())) {
             if (removeLevel) player.setLevel(playerLevel - accessLevel);
-            Inventory chestExpInventory = Bukkit.createInventory(player, 27, ChatColor.DARK_GREEN + (type == MONEY ? "Money" : "Experience") + " Chest");
             player.openInventory(chestExpInventory);
         }
 
@@ -155,18 +161,23 @@ public class ChestFunctions {
             return;
         }
 
+        Inventory chestEnchantInventory = Bukkit.createInventory(player, 9, ChatColor.DARK_GREEN + "Enchantment Chest");
+
+        ItemStack blockedItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 8);
+        ItemMeta blockedItemMeta = blockedItem.getItemMeta();
+
+        blockedItemMeta.setDisplayName(ChatColor.DARK_GRAY + "Use middle slot!");
+        blockedItem.setItemMeta(blockedItemMeta);
+
+        int[] blockedSlots = {0, 1, 2, 3, 5, 6, 7, 8};
+        for (int b : blockedSlots) chestEnchantInventory.setItem(b, blockedItem);
+
+        if (player.hasPermission("chest.bypass")) {
+            player.openInventory(chestEnchantInventory);
+            return;
+        }
+
         if (!chestLockoutMap.get(chestType).containsKey(player.getUniqueId())) {
-            Inventory chestEnchantInventory = Bukkit.createInventory(player, 9, ChatColor.DARK_GREEN + "Enchantment Chest");
-
-            ItemStack blockedItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 8);
-            ItemMeta blockedItemMeta = blockedItem.getItemMeta();
-
-            blockedItemMeta.setDisplayName(ChatColor.DARK_GRAY + "Use middle slot!");
-            blockedItem.setItemMeta(blockedItemMeta);
-
-            int[] blockedSlots = {0, 1, 2, 3, 5, 6, 7, 8};
-            for (int b : blockedSlots) chestEnchantInventory.setItem(b, blockedItem);
-
             if (removeLevel) player.setLevel(playerLevel - accessLevel);
             player.openInventory(chestEnchantInventory);
         }
@@ -187,6 +198,11 @@ public class ChestFunctions {
         if (playerLevel < accessLevel) {
             String s = accessLevel > 1 ? "s" : "";
             commonString.messageSend(getPlugin(), player, "You need more than " + accessLevel + " level" + s + " to open this chest.");
+            return;
+        }
+
+        if (player.hasPermission("chest.bypass")) {
+            player.openInventory(getChestRandomHolder().getInventory());
             return;
         }
 
@@ -304,6 +320,11 @@ public class ChestFunctions {
             if (player.getLevel() < accessLevel) {
                 String s = accessLevel > 1 ? "s" : "";
                 commonString.messageSend(getPlugin(), player, "You need more than " + accessLevel + " level" + s + " to open this chest.");
+                return;
+            }
+
+            if (player.hasPermission("chest.bypass")) {
+                player.openInventory(inventory);
                 return;
             }
 
