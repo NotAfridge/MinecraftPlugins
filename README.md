@@ -3,8 +3,8 @@ Various minecraft plugins used on a private server.
 
  * Clone the repo
  * Run 'mvn'
-   * Shaded jars will be created in a /jar/ directory
- * Place the plugin jars you want to use in your /plugins/ directory
+   * Created jars will be placed in a /jar/ directory
+ * Put them in your /plugins/ directory
  * Pat yourself on the back
  
 *Don't come complaining to me if things aren't working.  
@@ -28,15 +28,3 @@ These plugins can be used for developmental purposes.*
 | uTeleport | Ready           | Teleport history for players.         |
 | uWatch    | Do Not Use      | Player information and tracker.       |
 | uWild     | In Progress     | Various animal and mob changes.       |
-
-## Future Possibilities?
-- uChest:
-  - [X] Change materials.yml into components
-    - [ ] Separate each item, with custom folder for unique items
-    - [X] Conversion amount for each type
-    - [X] Donation chest random inclusion setting
-  - [X] Add new chest called Enchantment Chest
-    - [X] Set as hopper type single entry only
-    - [X] Random enchantments based on config
-      - [X] Possible unsafe enhancts setting
-  - [X] Place lockout feature on all chests
