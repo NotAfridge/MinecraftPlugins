@@ -33,6 +33,8 @@ public class ChestClean {
                     });
                 }
 
+                new ChestAnnounce().task();
+
             }, 0, chestCountdownFinal);
 
     }

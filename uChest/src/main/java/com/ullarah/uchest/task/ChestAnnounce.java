@@ -5,14 +5,15 @@ import org.bukkit.ChatColor;
 
 import static com.ullarah.uchest.ChestInit.displayClearMessage;
 import static com.ullarah.uchest.ChestInit.getPlugin;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class ChestAnnounce {
 
-    private final long chestCountdownFinal = getPlugin().getConfig().getLong("dchest.clean") * 20;
+    private final long chestCountdownFinal = getPlugin().getConfig().getLong("dchest.clean");
     private final boolean chestRandomEnabled = getPlugin().getConfig().getBoolean("dchest.enabled");
 
-    private final long chestCountdownWarning = getPlugin().getConfig().getLong("dchest.warning") * 20;
-    private final long chestCountdownCritical = getPlugin().getConfig().getLong("dchest.critical") * 20;
+    private final long chestCountdownWarning = getPlugin().getConfig().getLong("dchest.warning");
+    private final long chestCountdownCritical = getPlugin().getConfig().getLong("dchest.critical");
 
     public void task() {
 
@@ -20,25 +21,28 @@ public class ChestAnnounce {
 
             Broadcast broadcast = new Broadcast();
 
-            getPlugin().getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
+            long minuteWarning = SECONDS.toMinutes(chestCountdownWarning) - (SECONDS.toHours(chestCountdownWarning) * 60);
+            long minuteCritical = SECONDS.toMinutes(chestCountdownCritical) - (SECONDS.toHours(chestCountdownCritical) * 60);
+
+            getPlugin().getServer().getScheduler().runTaskLaterAsynchronously(getPlugin(),
                     () -> {
                         String s = (chestCountdownWarning) > 1 ? "s" : "";
                         if (displayClearMessage)
                             broadcast.sendMessage(getPlugin(), new String[]{ChatColor.AQUA
-                                    + String.valueOf(chestCountdownWarning) +
+                                    + String.valueOf(minuteWarning) +
                                     " minute" + s + " left until the Donation Chest is emptied!"});
                     },
-                    0, chestCountdownFinal - chestCountdownWarning);
+                    (chestCountdownFinal - chestCountdownWarning) * 20);
 
-            getPlugin().getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
+            getPlugin().getServer().getScheduler().runTaskLaterAsynchronously(getPlugin(),
                     () -> {
                         String s = (chestCountdownCritical) > 1 ? "s" : "";
                         if (displayClearMessage)
                             broadcast.sendMessage(getPlugin(), new String[]{ChatColor.RED
-                                    + String.valueOf(chestCountdownCritical) +
+                                    + String.valueOf(minuteCritical) +
                                     " minute" + s + " left until the Donation Chest is emptied!"});
                     },
-                    0, chestCountdownFinal - chestCountdownCritical);
+                    (chestCountdownFinal - chestCountdownCritical) * 20);
 
         }
 

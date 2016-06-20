@@ -17,12 +17,12 @@ import org.bukkit.scheduler.BukkitTask;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
 
 import static com.ullarah.uchest.ChestFunctions.validConvert.MONEY;
 import static com.ullarah.uchest.ChestFunctions.validConvert.XP;
 import static com.ullarah.uchest.ChestFunctions.validStorage.VAULT;
 import static com.ullarah.uchest.ChestInit.*;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class ChestFunctions {
 
@@ -293,8 +293,8 @@ public class ChestFunctions {
         String minuteString = " Minute";
         String secondString = " Second";
 
-        long minute = TimeUnit.SECONDS.toMinutes(getCurrentLockTime) - (TimeUnit.SECONDS.toHours(getCurrentLockTime) * 60);
-        long second = TimeUnit.SECONDS.toSeconds(getCurrentLockTime) - (TimeUnit.SECONDS.toMinutes(getCurrentLockTime) * 60);
+        long minute = SECONDS.toMinutes(getCurrentLockTime) - (SECONDS.toHours(getCurrentLockTime) * 60);
+        long second = SECONDS.toSeconds(getCurrentLockTime) - (SECONDS.toMinutes(getCurrentLockTime) * 60);
 
         if (minute > 1) minuteString += "s";
         if (second > 1) secondString += "s";
