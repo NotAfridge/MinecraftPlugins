@@ -212,12 +212,21 @@ public class ChestInit extends JavaPlugin {
                                 materialConfig.getDouble(m + ".x")
                         };
 
-                        materialMap.put(new ItemStack(
-                                Material.getMaterial(materialConfig.getString(m + ".m")), 1,
-                                (short) materialConfig.getInt(m + ".v")), materialObject
-                        );
+                        try {
 
-                        materialCount++;
+                            materialMap.put(new ItemStack(
+                                    Material.getMaterial(materialConfig.getString(m + ".m")), 1,
+                                    (short) materialConfig.getInt(m + ".v")), materialObject
+                            );
+
+                            materialCount++;
+
+                        } catch (Exception e) {
+
+                            Bukkit.getLogger().log(Level.WARNING, "[" + plugin.getName() + "] "
+                                    + "Material Load Error: " + m + " (" + f + ")");
+
+                        }
 
                     }
 

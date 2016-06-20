@@ -141,7 +141,7 @@ RSSANDSTONE: { m: RED_SANDSTONE, v: 2, d: true, r: true, e: 0.9, x: 1.3 }
 PURPUR_BLOCK:  { m: PURPUR_BLOCK,  v: 0, d: true, r: true, e: 0.6, x: 1.5 }
 PURPUR_PILLAR: { m: PURPUR_PILLAR, v: 0, d: true, r: true, e: 1.4, x: 2.4 }
 END_BLOCK:     { m: END_BRICKS,    v: 0, d: true, r: true, e: 1.8, x: 2.0 }
-END_STONE:     { m: END_STONE,     v: 0, d: true, r: true, e: 0.9, x: 1.2 }
+END_STONE:     { m: ENDER_STONE,   v: 0, d: true, r: true, e: 0.9, x: 1.2 }
 
 BONE_BLOCK: { m: BONE_BLOCK, v: 0, d: true, r: true, e: 0.7, x: 1.1 }
 
@@ -185,7 +185,7 @@ STAIR_QB: { m: QUARTZ_STAIRS,       v: 0, d: true, r: true, e: 0.2, x: 0.22 }
 STAIR_RS: { m: RED_SANDSTONE_STAIRS, v: 0, d: true, r: true, e: 0.2,  x: 0.22 }
 STAIR_PS: { m: PURPUR_STAIRS,        v: 0, d: true, r: true, e: 1.85, x: 2.25 }
 
-SNOW: { m: SNOW,       v: 0, d: true, r: true, e: 0.4, x: 0.6 }
+SNOW: { m: SNOW_BLOCK, v: 0, d: true, r: true, e: 0.4, x: 0.6 }
 ICE:  { m: ICE,        v: 0, d: true, r: true, e: 0.4, x: 0.5 }
 PICE: { m: PACKED_ICE, v: 0, d: true, r: true, e: 0.6, x: 0.7 }
 
