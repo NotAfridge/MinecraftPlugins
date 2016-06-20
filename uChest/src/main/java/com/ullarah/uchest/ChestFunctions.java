@@ -240,8 +240,9 @@ public class ChestFunctions {
                 getChestRandomInventory().clear();
 
                 List<ItemStack> materialKeys = new ArrayList<>(materialMap.keySet());
+                ItemStack itemStack = materialKeys.get(new Random().nextInt(materialKeys.size()));
 
-                getChestRandomInventory().setItem(new Random().nextInt(54),
+                if ((boolean) materialMap.get(itemStack)[1]) getChestRandomInventory().setItem(new Random().nextInt(54),
                         materialKeys.get(new Random().nextInt(materialKeys.size())));
 
                 c--;
