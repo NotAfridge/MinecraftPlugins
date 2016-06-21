@@ -44,10 +44,10 @@ GATE_J: { m: JUNGLE_FENCE_GATE,   v: 0, d: true, r: true, e: 1.3, x: 1.4 }
 GATE_D: { m: DARK_OAK_FENCE_GATE, v: 0, d: true, r: true, e: 1.3, x: 1.4 }
 GATE_A: { m: ACACIA_FENCE_GATE,   v: 0, d: true, r: true, e: 1.3, x: 1.4 }
 
-DOOR_O: { m: WOOD_DOOR,       v: 0, d: true, r: true, e: 0.6, x: 0.7 }
-DOOR_S: { m: SPRUCE_DOOR,     v: 0, d: true, r: true, e: 0.6, x: 0.7 }
-DOOR_B: { m: BIRCH_DOOR,      v: 0, d: true, r: true, e: 0.6, x: 0.7 }
-DOOR_J: { m: JUNGLE_DOOR,     v: 0, d: true, r: true, e: 0.6, x: 0.7 }
-DOOR_D: { m: DARK_OAK_DOOR,   v: 0, d: true, r: true, e: 0.6, x: 0.7 }
-DOOR_A: { m: ACACIA_DOOR,     v: 0, d: true, r: true, e: 0.6, x: 0.7 }
-DOOR_I: { m: IRON_DOOR_BLOCK, v: 0, d: true, r: true, e: 0.6, x: 0.7 }
+DOOR_O: { m: WOOD_DOOR,          v: 0, d: true, r: true, e: 0.6, x: 0.7 }
+DOOR_S: { m: SPRUCE_DOOR_ITEM,   v: 0, d: true, r: true, e: 0.6, x: 0.7 }
+DOOR_B: { m: BIRCH_DOOR_ITEM,    v: 0, d: true, r: true, e: 0.6, x: 0.7 }
+DOOR_J: { m: JUNGLE_DOOR_ITEM,   v: 0, d: true, r: true, e: 0.6, x: 0.7 }
+DOOR_D: { m: DARK_OAK_DOOR_ITEM, v: 0, d: true, r: true, e: 0.6, x: 0.7 }
+DOOR_A: { m: ACACIA_DOOR_ITEM,   v: 0, d: true, r: true, e: 0.6, x: 0.7 }
+DOOR_I: { m: IRON_DOOR,          v: 0, d: true, r: true, e: 0.6, x: 0.7 }
