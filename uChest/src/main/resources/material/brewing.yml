@@ -19,3 +19,7 @@ RABITFOOT: { m: RABBIT_FOOT,    v: 0, d: true, r: true, e: 1.0, x: 1.1 }
 
 GLASS_BOT: { m: GLASS_BOTTLE,   v: 0, d: true, r: true, e: 0.4,  x: 0.5 }
 DRAGN_BOT: { m: DRAGONS_BREATH, v: 0, d: true, r: true, e: 4.15, x: 4.5 }
+
+POTION:  { m: POTION,           v: 0, d: true, r: true, e: 1.85, x: 2.0 }
+SPOTION: { m: SPLASH_POTION,    v: 0, d: true, r: true, e: 1.95, x: 2.1 }
+LPOTION: { m: LINGERING_POTION, v: 0, d: true, r: true, e: 2.05, x: 2.2 }

@@ -12,10 +12,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -39,6 +42,7 @@ public class ChestInit extends JavaPlugin {
     public static Player chestSwapPlayer;
     public static Boolean chestDonateLock = false;
     public static Boolean displayClearMessage = false;
+    private static Integer materialCount = 0;
     private static Plugin plugin;
     private static Economy vaultEconomy;
     private static InventoryHolder chestDonationHolder = ChestInit::getChestDonationInventory;
@@ -190,8 +194,6 @@ public class ChestInit extends JavaPlugin {
             String[] materialFiles = {"brewing.yml", "building.yml", "combat.yml", "decoration.yml", "foodstuffs.yml",
                     "materials.yml", "miscellaneous.yml", "redstone.yml", "tools.yml", "transportation.yml", "custom.yml"};
 
-            int materialCount = 0;
-
             for (String f : materialFiles) {
 
                 if (!new File(materialDir, f).exists())
@@ -205,6 +207,15 @@ public class ChestInit extends JavaPlugin {
 
                     for (String m : new ArrayList<>(materialConfig.getKeys(false))) {
 
+                        Material materialCurrent = Material.getMaterial(materialConfig.getString(m + ".m"));
+
+                        Set<Material> itemEffected = new HashSet<Material>() {{
+                            add(Material.POTION);
+                            add(Material.SPLASH_POTION);
+                            add(Material.LINGERING_POTION);
+                            add(Material.TIPPED_ARROW);
+                        }};
+
                         Object[] materialObject = {
                                 materialConfig.getBoolean(m + ".d"),
                                 materialConfig.getBoolean(m + ".r"),
@@ -214,17 +225,24 @@ public class ChestInit extends JavaPlugin {
 
                         try {
 
-                            ItemStack itemStackMaterial = new ItemStack(
-                                    Material.getMaterial(materialConfig.getString(m + ".m")), 1,
-                                    (short) materialConfig.getInt(m + ".v"));
+                            if (itemEffected.contains(materialCurrent)) {
 
-                            if (materialMap.containsKey(itemStackMaterial)) {
-                                Bukkit.getLogger().log(Level.WARNING, "[" + plugin.getName() + "] "
-                                        + "Material Duplicate: " + m + " (" + f + ")");
-                            } else {
-                                materialMap.put(itemStackMaterial, materialObject);
-                                materialCount++;
-                            }
+                                for (PotionType potion : PotionType.values()) {
+
+                                    ItemStack newItemStack = new ItemStack(materialCurrent, 1,
+                                            (short) materialConfig.getInt(m + ".v"));
+
+                                    PotionMeta itemPotionMeta = (PotionMeta) newItemStack.getItemMeta();
+                                    itemPotionMeta.setBasePotionData(new PotionData(potion));
+                                    newItemStack.setItemMeta(itemPotionMeta);
+
+                                    addMaterial(newItemStack, materialObject, m, f);
+
+                                }
+
+                            } else
+                                addMaterial(new ItemStack(materialCurrent, 1,
+                                        (short) materialConfig.getInt(m + ".v")), materialObject, m, f);
 
                         } catch (Exception e) {
 
@@ -242,6 +260,18 @@ public class ChestInit extends JavaPlugin {
             Bukkit.getLogger().log(Level.INFO, "[" + plugin.getName() + "] "
                     + "Loaded " + materialCount + " items from " + materialFiles.length + " files.");
 
+        }
+
+    }
+
+    private void addMaterial(ItemStack materialItem, Object[] materialObject, String materialType, String materialFile) {
+
+        if (materialMap.containsKey(materialItem)) {
+            Bukkit.getLogger().log(Level.WARNING, "[" + plugin.getName() + "] "
+                    + "Material Duplicate: " + materialType + " (" + materialFile + ")");
+        } else {
+            materialMap.put(materialItem, materialObject);
+            materialCount++;
         }
 
     }

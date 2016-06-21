@@ -8,6 +8,7 @@
 BOW:    { m: BOW,            v: 0, d: true, r: true, e: 0.4, x: 0.5 }
 ARROW:  { m: ARROW,          v: 0, d: true, r: true, e: 0.1, x: 0.2 }
 SARROW: { m: SPECTRAL_ARROW, v: 0, d: true, r: true, e: 0.3, x: 0.4 }
+TARROW: { m: TIPPED_ARROW,   v: 0, d: true, r: true, e: 0.5, x: 0.6 }
 SHIELD: { m: SHIELD,         v: 0, d: true, r: true, e: 5.3, x: 5.4 }
 
 SWORD_W: { m: WOOD_SWORD,    v: 0, d: true, r: true, e: 0.4,  x: 0.5 }

@@ -32,9 +32,7 @@ public class DonationRandom {
 
         for (int i = 0; i < getChestDonationInventory().getSize(); i++) {
 
-            Random chestRandomItem = new Random();
-
-            if (chestRandomItem.nextInt(100) > 50) {
+            if (new Random().nextInt(100) > 50) {
 
                 List<ItemStack> materialKeys = new ArrayList<>(materialMap.keySet());
                 ItemStack itemStack = materialKeys.get(new Random().nextInt(materialKeys.size()));

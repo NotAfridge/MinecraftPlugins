@@ -74,12 +74,12 @@ IRONBAR:   { m: IRON_FENCE,  v: 0, d: true, r: true, e: 17.1, x: 17.6 }
 VINES:     { m: VINE,        v: 0, d: true, r: true, e: 0.3,  x: 0.4  }
 LILYPAD:   { m: WATER_LILY,  v: 0, d: true, r: true, e: 0.3,  x: 0.4  }
 
-MEG_STONE:   { m: MONSTER_EGG, v: 0, d: true, r: true, e: 0.4, x: 0.6 }
-MEG_CSTONE:  { m: MONSTER_EGG, v: 1, d: true, r: true, e: 0.4, x: 0.6 }
-MEG_SSTONE:  { m: MONSTER_EGG, v: 2, d: true, r: true, e: 0.4, x: 0.6 }
-MEG_MSTONE:  { m: MONSTER_EGG, v: 3, d: true, r: true, e: 0.4, x: 0.6 }
-MEG_CRSTONE: { m: MONSTER_EGG, v: 4, d: true, r: true, e: 0.4, x: 0.6 }
-MEG_CHSTONE: { m: MONSTER_EGG, v: 5, d: true, r: true, e: 0.4, x: 0.6 }
+MEG_STONE:   { m: MONSTER_EGG, v: 0, d: false, r: false, e: 0.4, x: 0.6 }
+MEG_CSTONE:  { m: MONSTER_EGG, v: 1, d: false, r: false, e: 0.4, x: 0.6 }
+MEG_SSTONE:  { m: MONSTER_EGG, v: 2, d: false, r: false, e: 0.4, x: 0.6 }
+MEG_MSTONE:  { m: MONSTER_EGG, v: 3, d: false, r: false, e: 0.4, x: 0.6 }
+MEG_CRSTONE: { m: MONSTER_EGG, v: 4, d: false, r: false, e: 0.4, x: 0.6 }
+MEG_CHSTONE: { m: MONSTER_EGG, v: 5, d: false, r: false, e: 0.4, x: 0.6 }
 
 EN_TABLE:   { m: ENCHANTMENT_TABLE,  v: 0, d: true,  r: true,  e: 7.1,  x: 7.4  }
 EN_PORTAL:  { m: ENDER_PORTAL_FRAME, v: 0, d: false, r: false, e: 10.1, x: 10.2 }
