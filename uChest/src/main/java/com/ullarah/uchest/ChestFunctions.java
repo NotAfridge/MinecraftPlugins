@@ -39,19 +39,8 @@ public class ChestFunctions {
 
             if (item != null) {
 
-                double itemValue = 0;
-
-                for (Map.Entry<ItemStack, Object[]> m : materialMap.entrySet()) {
-
-                    List<ItemStack> itemMap = new ArrayList<>();
-
-                    if (item.equals(m.getKey())) itemMap.add(m.getKey());
-
-                    for (ItemStack i : itemMap)
-                        if (item.getDurability() == i.getDurability())
-                            itemValue = type == MONEY ? (double) m.getValue()[2] : (double) m.getValue()[3];
-
-                }
+                Object[] materialObject = materialMap.get(new ItemStack(item.getType(), 1, item.getDurability()));
+                double itemValue = type == MONEY ? (double) materialObject[2] : (double) materialObject[3];
 
                 double maxDurability = item.getType().getMaxDurability();
                 double durability = item.getDurability();
@@ -60,7 +49,6 @@ public class ChestFunctions {
                     itemValue -= (itemValue * (durability / maxDurability));
 
                 amount += itemValue * item.getAmount();
-
                 hasItems = true;
 
             }
@@ -70,6 +58,13 @@ public class ChestFunctions {
         if (hasItems) {
 
             if (type == MONEY) {
+                if(getVaultEconomy() == null) {
+                    for (ItemStack item : items)
+                        if (item != null) player.getWorld().dropItemNaturally(player.getLocation(), item);
+                    commonString.messageSend(getPlugin(), player, "Money Chest is currently unavailable.");
+                    return;
+                }
+
                 getVaultEconomy().depositPlayer(player, amount);
                 commonString.messageSend(getPlugin(), player, amount > 0
                         ? "You gained " + ChatColor.GREEN + "$" + decimalFormat.format(amount) : "You gained no money.");
