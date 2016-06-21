@@ -16,7 +16,7 @@ PANDESITE: { m: STONE, v: 6, d: true, r: true, e: 0.4, x: 0.5 }
 COBBLEST:  { m: COBBLESTONE,       v: 0, d: true, r: true, e: 0.17, x: 0.19 }
 MCOBBLEST: { m: MOSSY_COBBLESTONE, v: 0, d: true, r: true, e: 0.3,  x: 0.4  }
 OBSIDIAN:  { m: OBSIDIAN,          v: 0, d: true, r: true, e: 0.65, x: 0.8  }
-BRICK:     { m: BRICK,             v: 0, d: true, r: true, e: 0.6,  x: 2.9  }
+BRICK:     { m: BRICK,             v: 0, d: true, r: true, e: 2.6,  x: 2.9  }
 
 STONE_BRICK:   { m: SMOOTH_BRICK, v: 0, d: true, r: true, e: 0.4,  x: 0.8  }
 MSTONE_BRICK:  { m: SMOOTH_BRICK, v: 1, d: true, r: true, e: 0.8,  x: 0.2  }
@@ -61,13 +61,12 @@ ORE_RSTONE:  { m: REDSTONE_ORE, v: 0, d: true, r: true, e: 0.3, x: 0.4  }
 ORE_DIAMOND: { m: DIAMOND_ORE,  v: 0, d: true, r: true, e: 8.7, x: 10.2 }
 ORE_EMERALD: { m: EMERALD_ORE,  v: 0, d: true, r: true, e: 5.4, x: 6.5  }
 
-OBL_COAL:    { m: COAL_BLOCK,     v: 0, d: true, r: true, e: 6.3,  x: 9.9  }
-OBL_IRON:    { m: IRON_BLOCK,     v: 0, d: true, r: true, e: 14.4, x: 25.2 }
-OBL_GOLD:    { m: GOLD_BLOCK,     v: 0, d: true, r: true, e: 18.9, x: 30.6 }
-OBL_LAPIS:   { m: LAPIS_BLOCK,    v: 0, d: true, r: true, e: 3.6,  x: 4.5  }
-OBL_RSTONE:  { m: REDSTONE_BLOCK, v: 0, d: true, r: true, e: 2.7,  x: 3.6  }
-OBL_DIAMOND: { m: DIAMOND_BLOCK,  v: 0, d: true, r: true, e: 78.3, x: 91.8 }
-OBL_EMERALD: { m: EMERALD_BLOCK,  v: 0, d: true, r: true, e: 48.6, x: 58.5 }
+OBL_COAL:    { m: COAL_BLOCK,    v: 0, d: true, r: true, e: 6.3,  x: 9.9  }
+OBL_IRON:    { m: IRON_BLOCK,    v: 0, d: true, r: true, e: 14.4, x: 25.2 }
+OBL_GOLD:    { m: GOLD_BLOCK,    v: 0, d: true, r: true, e: 18.9, x: 30.6 }
+OBL_LAPIS:   { m: LAPIS_BLOCK,   v: 0, d: true, r: true, e: 3.6,  x: 4.5  }
+OBL_DIAMOND: { m: DIAMOND_BLOCK, v: 0, d: true, r: true, e: 78.3, x: 91.8 }
+OBL_EMERALD: { m: EMERALD_BLOCK, v: 0, d: true, r: true, e: 48.6, x: 58.5 }
 
 SPONGE:  { m: SPONGE, v: 0, d: true, r: true, e: 4.1, x: 4.8 }
 WSPONGE: { m: SPONGE, v: 1, d: true, r: true, e: 4.2, x: 4.9 }
