@@ -214,12 +214,17 @@ public class ChestInit extends JavaPlugin {
 
                         try {
 
-                            materialMap.put(new ItemStack(
+                            ItemStack itemStackMaterial = new ItemStack(
                                     Material.getMaterial(materialConfig.getString(m + ".m")), 1,
-                                    (short) materialConfig.getInt(m + ".v")), materialObject
-                            );
+                                    (short) materialConfig.getInt(m + ".v"));
 
-                            materialCount++;
+                            if (materialMap.containsKey(itemStackMaterial)) {
+                                Bukkit.getLogger().log(Level.WARNING, "[" + plugin.getName() + "] "
+                                        + "Material Duplicate: " + m + " (" + f + ")");
+                            } else {
+                                materialMap.put(itemStackMaterial, materialObject);
+                                materialCount++;
+                            }
 
                         } catch (Exception e) {
 
