@@ -1,1 +1,41 @@
-# Existing Materials
+# m - Material name (id)
+# v - Variation of block (byte)
+# d - Include when donation is randomised? (dchest)
+# r - Include in random chest? (rchest)
+# e - Return value of money given (vault/economy)
+# x - Return value of experience given (xp)
+
+BOW:    { m: BOW,            v: 0, d: true, r: true, e: 0.4, x: 0.5 }
+ARROW:  { m: ARROW,          v: 0, d: true, r: true, e: 0.1, x: 0.2 }
+SARROW: { m: SPECTRAL_ARROW, v: 0, d: true, r: true, e: 0.3, x: 0.4 }
+SHIELD: { m: SHIELD,         v: 0, d: true, r: true, e: 5.3, x: 5.4 }
+
+SWORD_I: { m: IRON_SWORD,    v: 0, d: true, r: true, e: 5.15, x: 5.5 }
+SWORD_W: { m: WOOD_SWORD,    v: 0, d: true, r: true, e: 0.4,  x: 0.5 }
+SWORD_S: { m: STONE_SWORD,   v: 0, d: true, r: true, e: 0.5,  x: 0.6 }
+SWORD_D: { m: DIAMOND_SWORD, v: 0, d: true, r: true, e: 8.35, x: 8.5 }
+SWORD_G: { m: GOLD_SWORD,    v: 0, d: true, r: true, e: 3.1,  x: 3.5 }
+
+CAP_L: { m: LEATHER_HELMET,   v: 0, d: true, r: true, e: 5.8,  x: 6.0 }
+CAP_C: { m: CHAINMAIL_HELMET, v: 0, d: true, r: true, e: 2.2,  x: 2.6 }
+CAP_I: { m: IRON_HELMET,      v: 0, d: true, r: true, e: 14.4, x: 15.0 }
+CAP_D: { m: DIAMOND_HELMET,   v: 0, d: true, r: true, e: 24.9, x: 25.5 }
+CAP_G: { m: GOLD_HELMET,      v: 0, d: true, r: true, e: 9.5,  x: 10.0 }
+
+CPLATE_L: { m: LEATHER_CHESTPLATE,   v: 0, d: true, r: true, e: 9.0,   x: 9.6 }
+CPLATE_C: { m: CHAINMAIL_CHESTPLATE, v: 0, d: true, r: true, e: 3.65,  x: 4.0 }
+CPLATE_I: { m: IRON_CHESTPLATE,      v: 0, d: true, r: true, e: 20.4,  x: 21.5 }
+CPLATE_D: { m: DIAMOND_CHESTPLATE,   v: 0, d: true, r: true, e: 39.75, x: 40.5 }
+CPLATE_G: { m: GOLD_CHESTPLATE,      v: 0, d: true, r: true, e: 15.6,  x: 16.0 }
+
+LEG_L: { m: LEATHER_LEGGINGS,   v: 0, d: true, r: true, e: 7.9,  x: 8.4 }
+LEG_C: { m: CHAINMAIL_LEGGINGS, v: 0, d: true, r: true, e: 2.8,  x: 3.1 }
+LEG_I: { m: IRON_LEGGINGS,      v: 0, d: true, r: true, e: 20.5, x: 21.0 }
+LEG_D: { m: DIAMOND_LEGGINGS,   v: 0, d: true, r: true, e: 34.7, x: 35.0 }
+LEG_G: { m: GOLD_LEGGINGS,      v: 0, d: true, r: true, e: 15.6, x: 16.0 }
+
+BOOT_L: { m: LEATHER_BOOTS,   v: 0, d: true, r: true, e: 3.1,  x: 4.8 }
+BOOT_C: { m: CHAINMAIL_BOOTS, v: 0, d: true, r: true, e: 1.9,  x: 2.2 }
+BOOT_I: { m: IRON_BOOTS,      v: 0, d: true, r: true, e: 11.4, x: 12.0 }
+BOOT_D: { m: DIAMOND_BOOTS,   v: 0, d: true, r: true, e: 19.5, x: 20.0 }
+BOOT_G: { m: GOLD_BOOTS,      v: 0, d: true, r: true, e: 9.5,  x: 10.0 }
