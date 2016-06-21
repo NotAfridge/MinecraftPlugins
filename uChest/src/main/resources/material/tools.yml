@@ -1,1 +1,38 @@
-# Existing Materials
+# m - Material name (id)
+# v - Variation of block (byte)
+# d - Include when donation is randomised? (dchest)
+# r - Include in random chest? (rchest)
+# e - Return value of money given (vault/economy)
+# x - Return value of experience given (xp)
+
+FLINTSTEEL: { m: FLINT_AND_STEEL, v: 0, d: true, r: true, e: 0.2, x: 0.3 }
+COMPASS:    { m: COMPASS,         v: 0, d: true, r: true, e: 1.8, x: 2.0 }
+FISHNROD:   { m: FISHING_ROD,     v: 0, d: true, r: true, e: 0.9, x: 1.2 }
+CLOCK:      { m: WATCH,           v: 0, d: true, r: true, e: 0.5, x: 0.6 }
+SHEARS:     { m: SHEARS,          v: 0, d: true, r: true, e: 5.1, x: 5.2 }
+LEAD:       { m: LEASH,           v: 0, d: true, r: true, e: 0.4, x: 0.5 }
+NAMETAG:    { m: NAME_TAG,        v: 0, d: true, r: true, e: 0.2, x: 0.3 }
+
+SHOVEL_W: { m: WOOD_SPADE,    v: 0, d: true, r: true, e: 0.2, x: 0.3 }
+SHOVEL_S: { m: STONE_SPADE,   v: 0, d: true, r: true, e: 0.5, x: 0.6 }
+SHOVEL_I: { m: IRON_SPADE,    v: 0, d: true, r: true, e: 2.7, x: 3.0 }
+SHOVEL_G: { m: GOLD_SPADE,    v: 0, d: true, r: true, e: 4.3, x: 4.5 }
+SHOVEL_D: { m: DIAMOND_SPADE, v: 0, d: true, r: true, e: 4.7, x: 5.2 }
+
+PICKAXE_W: { m: WOOD_PICKAXE,    v: 0, d: true, r: true, e: 0.4,  x: 0.5  }
+PICKAXE_S: { m: STONE_PICKAXE,   v: 0, d: true, r: true, e: 0.9,  x: 1.1  }
+PICKAXE_I: { m: IRON_PICKAXE,    v: 0, d: true, r: true, e: 8.8,  x: 9.0  }
+PICKAXE_G: { m: GOLD_PICKAXE,    v: 0, d: true, r: true, e: 9.3,  x: 9.5  }
+PICKAXE_D: { m: DIAMOND_PICKAXE, v: 0, d: true, r: true, e: 13.2, x: 13.5 }
+
+AXE_W: { m: WOOD_AXE,    v: 0, d: true, r: true, e: 0.2, x: 0.4 }
+AXE_S: { m: STONE_AXE,   v: 0, d: true, r: true, e: 0.6, x: 0.8 }
+AXE_I: { m: IRON_AXE,    v: 0, d: true, r: true, e: 8.7, x: 9.1 }
+AXE_G: { m: GOLD_AXE,    v: 0, d: true, r: true, e: 2.2, x: 2.8 }
+AXE_D: { m: DIAMOND_AXE, v: 0, d: true, r: true, e: 4.1, x: 4.4 }
+
+HOE_W: { m: WOOD_HOE,    v: 0, d: true, r: true, e: 0.3, x: 0.5  }
+HOE_S: { m: STONE_HOE,   v: 0, d: true, r: true, e: 0.7, x: 0.9  }
+HOE_I: { m: IRON_HOE,    v: 0, d: true, r: true, e: 5.7, x: 6.1  }
+HOE_G: { m: GOLD_HOE,    v: 0, d: true, r: true, e: 5.0, x: 5.6  }
+HOE_D: { m: DIAMOND_HOE, v: 0, d: true, r: true, e: 9.6, x: 10.0 }
