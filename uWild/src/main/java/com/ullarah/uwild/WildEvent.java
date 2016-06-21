@@ -1,12 +1,14 @@
 package com.ullarah.uwild;
 
 import org.bukkit.*;
+import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.ArrayList;
@@ -46,6 +48,7 @@ public class WildEvent implements Listener {
                         isWild = true;
                         entityArray.add(ChatColor.GREEN + "Treeper");
                         entityArray.add(ChatColor.BLUE + "H2O Creeper");
+                        entityArray.add(ChatColor.RED + "Volcanic Creeper");
                         entityWildType = entityArray.get(new Random().nextInt(entityArray.size()));
                         break;
 
@@ -75,7 +78,7 @@ public class WildEvent implements Listener {
 
                     entity.setMetadata("uWild", new FixedMetadataValue(WildInit.getPlugin(), true));
                     entity.setCustomName(entityWildType);
-                    entity.setCustomNameVisible(true);
+                    entity.setCustomNameVisible(false);
 
                     switch (event.getEntityType()) {
 
@@ -86,7 +89,7 @@ public class WildEvent implements Listener {
 
                                 passenger.setSilent(true);
                                 passenger.setCustomName(ChatColor.YELLOW + "Spyker");
-                                passenger.setCustomNameVisible(true);
+                                passenger.setCustomNameVisible(false);
 
                                 entity.setPassenger(passenger);
                                 entity.setSilent(true);
@@ -103,8 +106,8 @@ public class WildEvent implements Listener {
                                 pigOne.setCustomName(ChatColor.LIGHT_PURPLE + "Oinkers");
                                 pigTwo.setCustomName(ChatColor.LIGHT_PURPLE + "Oinkers");
 
-                                pigOne.setCustomNameVisible(true);
-                                pigTwo.setCustomNameVisible(true);
+                                pigOne.setCustomNameVisible(false);
+                                pigTwo.setCustomNameVisible(false);
 
                                 pigOne.setPassenger(pigTwo);
                                 entity.setPassenger(pigOne);
@@ -123,33 +126,23 @@ public class WildEvent implements Listener {
     }
 
     @EventHandler
+    public void mobExplode(final EntityExplodeEvent event){
+
+        if (event.getEntity() instanceof Creeper) creeperDeath(event.getEntity());
+
+    }
+
+    @EventHandler
     public void mobDeath(final EntityDeathEvent event){
 
         Entity entity = event.getEntity();
         Location location = entity.getLocation();
         World world = location.getWorld();
 
-        int locX = (int) location.getX();
-        int locY = (int) location.getY();
-        int locZ = (int) location.getZ();
-
         if(entity.hasMetadata("uWild")) switch (event.getEntityType()) {
 
             case CREEPER:
-                if (entity.getCustomName().matches(ChatColor.GREEN + "Treeper")) {
-
-                    world.createExplosion(location, 0.0F);
-                    world.generateTree(location, new Random().nextInt(10) == 5 ? TreeType.BIG_TREE : TreeType.TREE);
-
-                }
-
-                if (entity.getCustomName().matches(ChatColor.BLUE + "H2O Creeper")) {
-
-                    world.createExplosion(location, 0.0F);
-                    world.getBlockAt(locX, locY, locZ).setType(Material.WATER);
-                    world.getBlockAt(locX, locY + 1, locZ).setType(Material.WATER);
-
-                }
+                creeperDeath(entity);
                 break;
 
             case CHICKEN:
@@ -171,6 +164,40 @@ public class WildEvent implements Listener {
                 if (entity.getCustomName().matches(ChatColor.LIGHT_PURPLE + "Oinkers"))
                     world.spawnParticle(Particle.DRAGON_BREATH, location, 500, 3.0, 3.0, 3.0);
                 break;
+
+        }
+
+    }
+
+    private void creeperDeath(Entity entity) {
+
+        Location location = entity.getLocation();
+        World world = location.getWorld();
+
+        int locX = (int) location.getX();
+        int locY = (int) location.getY();
+        int locZ = (int) location.getZ();
+
+        if (entity.getCustomName().matches(ChatColor.GREEN + "Treeper")) {
+
+            world.createExplosion(location, 0.0F);
+            world.generateTree(location, new Random().nextInt(10) == 5 ? TreeType.BIG_TREE : TreeType.TREE);
+
+        }
+
+        if (entity.getCustomName().matches(ChatColor.BLUE + "H2O Creeper")) {
+
+            world.createExplosion(location, 0.0F);
+            world.getBlockAt(locX, locY, locZ).setType(Material.WATER);
+            world.getBlockAt(locX, locY + 1, locZ).setType(Material.WATER);
+
+        }
+
+        if (entity.getCustomName().matches(ChatColor.RED + "Volcanic Creeper")) {
+
+            world.createExplosion(location, 0.0F);
+            world.getBlockAt(locX, locY, locZ).setType(Material.LAVA);
+            world.getBlockAt(locX, locY + 1, locZ).setType(Material.LAVA);
 
         }
 
