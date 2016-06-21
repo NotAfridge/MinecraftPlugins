@@ -1,1 +1,48 @@
-# Existing Materials
+# m - Material name (id)
+# v - Variation of block (byte)
+# d - Include when donation is randomised? (dchest)
+# r - Include in random chest? (rchest)
+# e - Return value of money given (vault/economy)
+# x - Return value of experience given (xp)
+
+BEACON: { m: BEACON, v: 0, d: true, r: true, e: 74.75, x: 75.0 }
+
+BUCKET_E: { m: BUCKET,       v: 0, d: true, r: true, e: 1.5, x: 1.7 }
+BUCKET_W: { m: WATER_BUCKET, v: 0, d: true, r: true, e: 0.9, x: 1.0 }
+BUCKET_L: { m: LAVA_BUCKET,  v: 0, d: true, r: true, e: 0.7, x: 0.9 }
+BUCKET_M: { m: MILK_BUCKET,  v: 0, d: true, r: true, e: 0.5, x: 0.6 }
+
+SNOWBALL:  { m: SNOW_BALL,  v: 0, d: true, r: true, e: 0.5, x: 0.7 }
+SLIMEBALL: { m: SLIME_BALL, v: 0, d: true, r: true, e: 1.7, x: 1.9 }
+
+PAPER:   { m: PAPER,          v: 0, d: true, r: true, e: 0.1, x: 0.2 }
+MAP:     { m: EMPTY_MAP,      v: 0, d: true, r: true, e: 2.6, x: 2.8 }
+BOOK:    { m: BOOK,           v: 0, d: true, r: true, e: 1.0, x: 1.2 }
+BOOK_WQ: { m: BOOK_AND_QUILL, v: 0, d: true, r: true, e: 1.2, x: 1.5 }
+
+BONE: { m: BONE, v: 0, d: true, r: true, e: 0.4, x: 0.5 }
+
+END_PEARL: { m: ENDER_PEARL,  v: 0, d: true, r: true, e: 4.4, x: 4.6 }
+END_EYE:   { m: EYE_OF_ENDER, v: 0, d: true, r: true, e: 5.0, x: 5.2 }
+
+EXP_BOTTLE: { m: EXP_BOTTLE, v: 0, d: true, r: true, e: 0.5, x: 0.8 }
+
+FCHARGE: { m: FIREBALL,        v: 0, d: true, r: true, e: 0.7, x: 0.8 }
+FW_STAR: { m: FIREWORK_CHARGE, v: 0, d: true, r: true, e: 0.8, x: 0.9 }
+
+HA_IRON:    { m: IRON_BARDING,    v: 0, d: true, r: true, e: 12.2, x: 12.8 }
+HA_GOLD:    { m: GOLD_BARDING,    v: 0, d: true, r: true, e: 7.8,  x: 8.5  }
+HA_DIAMOND: { m: DIAMOND_BARDING, v: 0, d: true, r: true, e: 37.5, x: 38.0 }
+
+R_13:      { m: GOLD_RECORD,  v: 0, d: true, r: true, e: 0.7, x: 0.8 }
+R_CAT:     { m: GREEN_RECORD, v: 0, d: true, r: true, e: 0.7, x: 0.8 }
+R_BLOCKS:  { m: RECORD_3,     v: 0, d: true, r: true, e: 1.0, x: 1.2 }
+R_CHIRP:   { m: RECORD_4,     v: 0, d: true, r: true, e: 1.0, x: 1.2 }
+R_FAR:     { m: RECORD_5,     v: 0, d: true, r: true, e: 1.0, x: 1.2 }
+R_MALL:    { m: RECORD_6,     v: 0, d: true, r: true, e: 1.0, x: 1.2 }
+R_MELLOHI: { m: RECORD_7,     v: 0, d: true, r: true, e: 1.0, x: 1.2 }
+R_STAL:    { m: RECORD_8,     v: 0, d: true, r: true, e: 1.0, x: 1.2 }
+R_STRAD:   { m: RECORD_9,     v: 0, d: true, r: true, e: 1.0, x: 1.2 }
+R_WARD:    { m: RECORD_10,    v: 0, d: true, r: true, e: 1.0, x: 1.2 }
+R_11:      { m: RECORD_11,    v: 0, d: true, r: true, e: 1.2, x: 1.5 }
+R_WAIT:    { m: RECORD_12,    v: 0, d: true, r: true, e: 1.0, x: 1.2 }
