@@ -5,7 +5,7 @@
 # e - Return value of money given (vault/economy)
 # x - Return value of experience given (xp)
 
-APPLE:   { m: APPLE,        v: 0, d: true, r: true, e: 0.4,  x: 0.5 }
+APPLE:   { m: APPLE,        v: 0, d: true, r: true, e: 0.4,  x: 0.5  }
 GAPPLE:  { m: GOLDEN_APPLE, v: 0, d: true, r: true, e: 27.0, x: 28.5 }
 SGAPPLE: { m: GOLDEN_APPLE, v: 1, d: true, r: true, e: 32.5, x: 34.3 }
 
@@ -26,11 +26,11 @@ POTATO:  { m: POTATO,           v: 0, d: true, r: true, e: 0.5, x: 0.6 }
 BPOTATO: { m: BAKED_POTATO,     v: 0, d: true, r: true, e: 0.1, x: 0.2 }
 PPOTATO: { m: POISONOUS_POTATO, v: 0, d: true, r: true, e: 0.7, x: 0.9 }
 
-NEMOFISH: { m: FISH, v: 2, d: true, r: true, e: 1.9, x: 2.7 }
-PUFFFISH: { m: FISH, v: 3, d: true, r: true, e: 2.1, x: 3.2 }
+NEMOFISH: { m: RAW_FISH, v: 2, d: true, r: true, e: 1.9, x: 2.7 }
+PUFFFISH: { m: RAW_FISH, v: 3, d: true, r: true, e: 2.1, x: 3.2 }
 
-RW_FISH:    { m: FISH,        v: 0, d: true, r: true, e: 0.9, x: 1.1 }
-RW_SALMON:  { m: FISH,        v: 1, d: true, r: true, e: 1.1, x: 1.4 }
+RW_FISH:    { m: RAW_FISH,    v: 0, d: true, r: true, e: 0.9, x: 1.1 }
+RW_SALMON:  { m: RAW_FISH,    v: 1, d: true, r: true, e: 1.1, x: 1.4 }
 RW_PORK:    { m: PORK,        v: 0, d: true, r: true, e: 0.5, x: 0.6 }
 RW_BEEF:    { m: RAW_BEEF,    v: 0, d: true, r: true, e: 0.4, x: 0.5 }
 RW_CHICKEN: { m: RAW_CHICKEN, v: 0, d: true, r: true, e: 0.3, x: 0.4 }
