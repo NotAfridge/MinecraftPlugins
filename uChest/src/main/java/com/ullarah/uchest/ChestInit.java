@@ -54,6 +54,8 @@ public class ChestInit extends JavaPlugin {
     private static InventoryHolder chestSwapHolder = ChestInit::getChestSwapInventory;
     private static final Inventory chestSwapInventory = Bukkit.createInventory(getChestSwapHolder(), 54,
             ChatColor.DARK_GREEN + "Swap Chest");
+    private static final Inventory chestShuffleInventory = Bukkit.createInventory(null, 54,
+            ChatColor.DARK_GREEN + "Shuffle Chest");
 
     public static Plugin getPlugin() {
         return plugin;
@@ -107,6 +109,10 @@ public class ChestInit extends JavaPlugin {
         return chestSwapInventory;
     }
 
+    public static Inventory getChestShuffleInventory() {
+        return chestShuffleInventory;
+    }
+
     public void onEnable() {
 
         setPlugin(this);
@@ -116,10 +122,8 @@ public class ChestInit extends JavaPlugin {
 
         Set<String> pluginList = new HashSet<>();
 
-        new ArrayList<String>() {{
-            add("config.yml");
-        }}.stream().filter(r -> !new File(getPlugin().getDataFolder(), r).exists())
-                .forEachOrdered(r -> getPlugin().saveResource(r, false));
+        if (!new File(getPlugin().getDataFolder(), "config.yml").exists())
+            getPlugin().saveResource("config.yml", false);
 
         initMaterials();
 
@@ -141,20 +145,10 @@ public class ChestInit extends JavaPlugin {
             }
         }
 
-        for (String t : new ArrayList<String>() {{
-            add("");
-            add("d");
-            add("e");
-            add("h");
-            add("m");
-            add("r");
-            add("s");
-            add("v");
-            add("x");
-        }}) {
-            chestLockoutMap.put(t + "chest", new ConcurrentHashMap<>());
-            chestTypeEnabled.put(t + "chest", getPlugin().getConfig().getBoolean(t + "chest.enabled"));
-            getCommand(t + "chest").setExecutor(new ChestExecutor());
+        for (String c : new String[]{"", "d", "e", "h", "m", "r", "s", "v", "w", "x"}) {
+            chestLockoutMap.put(c + "chest", new ConcurrentHashMap<>());
+            chestTypeEnabled.put(c + "chest", getPlugin().getConfig().getBoolean(c + "chest.enabled"));
+            getCommand(c + "chest").setExecutor(new ChestExecutor());
         }
 
         chestLockoutMap.put("dchest_itemlock", new ConcurrentHashMap<>());
@@ -217,6 +211,7 @@ public class ChestInit extends JavaPlugin {
                         }};
 
                         Object[] materialObject = {
+                                materialConfig.getBoolean(m + ".s"),
                                 materialConfig.getBoolean(m + ".d"),
                                 materialConfig.getBoolean(m + ".r"),
                                 materialConfig.getDouble(m + ".e"),

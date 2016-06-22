@@ -76,6 +76,20 @@ public class ChestClick implements Listener {
                     break;
             }
 
+        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Shuffle Chest")) {
+            if (event.getCurrentItem().getAmount() >= 1 && event.getRawSlot() >= 54) {
+                event.setCancelled(true);
+                event.getCursor().setType(Material.AIR);
+            }
+            if (event.getRawSlot() <= 54) {
+                Player player = (Player) event.getWhoClicked();
+                player.getWorld().dropItemNaturally(player.getLocation(), event.getCurrentItem());
+                event.getCursor().setType(Material.AIR);
+                event.setCancelled(true);
+                player.closeInventory();
+            }
+        }
+
         if (chestInventory.getName().matches("" + ChatColor.GOLD + ChatColor.BOLD + "Mixed Chests")) {
 
             event.setCancelled(true);
@@ -113,6 +127,10 @@ public class ChestClick implements Listener {
                     break;
 
                 case 7:
+                    chestFunctions.openChestDelay(chestPlayer, "wchest");
+                    break;
+
+                case 8:
                     chestFunctions.openChestDelay(chestPlayer, "xchest");
                     break;
 

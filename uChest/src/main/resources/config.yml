@@ -50,7 +50,7 @@ mchest:
   access: 10
   removelevel: false
   lockout: 300
-  enabled: true
+  enabled: false
 
 # Random Chest
 rchest:
@@ -61,11 +61,13 @@ rchest:
   timer: 15
   enabled: true
 
-# Swap Chest
+# Shuffle Chest
 schest:
   access: 2
   removelevel: true
   lockout: 120
+# timer - How fast the chest shuffles, in seconds (uses double).
+  timer: 0.5
   enabled: true
 
 # Vault Chest
@@ -75,6 +77,13 @@ vchest:
   lockout: 0
 # upgradelevel - How much XP levels a player requires to get a new slot row
   upgradelevel: 25
+  enabled: true
+
+# Swap Chest
+wchest:
+  access: 2
+  removelevel: false
+  lockout: 120
   enabled: true
 
 # Experience Chest

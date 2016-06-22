@@ -19,7 +19,7 @@ public class ChestSwap {
         }
 
         Player player = ((Player) sender).getPlayer();
-        String chestType = "schest";
+        String chestType = "wchest";
 
         if (chestTypeEnabled.get(chestType)) {
 

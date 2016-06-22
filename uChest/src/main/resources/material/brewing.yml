@@ -1,25 +1,26 @@
 # m - Material name (id)
 # v - Variation of block (byte)
+# s - Include in shuffle chest? (schest)
 # d - Include when donation is randomised? (dchest)
 # r - Include in random chest? (rchest)
 # e - Return value of money given (vault/economy)
 # x - Return value of experience given (xp)
 
-GHAST_TEAR:    { m: GHAST_TEAR,           v: 0, d: true, r: true, e: 3.1,  x: 3.5  }
-FERM_SPID_EYE: { m: FERMENTED_SPIDER_EYE, v: 0, d: true, r: true, e: 1.3,  x: 1.5  }
-BLAZE_POWDER:  { m: BLAZE_POWDER,         v: 0, d: true, r: true, e: 0.01, x: 0.01 }
-MAGMA_CREAM:   { m: MAGMA_CREAM,          v: 0, d: true, r: true, e: 0.4,  x: 0.5  }
+GHAST_TEAR:    { m: GHAST_TEAR,           v: 0, s: true, d: true, r: true, e: 3.1,  x: 3.5  }
+FERM_SPID_EYE: { m: FERMENTED_SPIDER_EYE, v: 0, s: true, d: true, r: true, e: 1.3,  x: 1.5  }
+BLAZE_POWDER:  { m: BLAZE_POWDER,         v: 0, s: true, d: true, r: true, e: 0.01, x: 0.01 }
+MAGMA_CREAM:   { m: MAGMA_CREAM,          v: 0, s: true, d: true, r: true, e: 0.4,  x: 0.5  }
 
-BREW_STAND: { m: BREWING_STAND, v: 0, d: true, r: true, e: 1.8,  x: 2.0  }
-CAULDRON:   { m: CAULDRON,      v: 0, d: true, r: true, e: 12.6, x: 13.0 }
+BREW_STAND: { m: BREWING_STAND, v: 0, s: true, d: true, r: true, e: 1.8,  x: 2.0  }
+CAULDRON:   { m: CAULDRON,      v: 0, s: true, d: true, r: true, e: 12.6, x: 13.0 }
 
-GLISMELON: { m: SPECKLED_MELON, v: 0, d: true, r: true, e: 0.9, x: 1.0 }
-GOLDCARRT: { m: GOLDEN_CARROT,  v: 0, d: true, r: true, e: 5.3, x: 5.5 }
-RABITFOOT: { m: RABBIT_FOOT,    v: 0, d: true, r: true, e: 1.0, x: 1.1 }
+GLISMELON: { m: SPECKLED_MELON, v: 0, s: true, d: true, r: true, e: 0.9, x: 1.0 }
+GOLDCARRT: { m: GOLDEN_CARROT,  v: 0, s: true, d: true, r: true, e: 5.3, x: 5.5 }
+RABITFOOT: { m: RABBIT_FOOT,    v: 0, s: true, d: true, r: true, e: 1.0, x: 1.1 }
 
-GLASS_BOT: { m: GLASS_BOTTLE,   v: 0, d: true, r: true, e: 0.4,  x: 0.5 }
-DRAGN_BOT: { m: DRAGONS_BREATH, v: 0, d: true, r: true, e: 4.15, x: 4.5 }
+GLASS_BOT: { m: GLASS_BOTTLE,   v: 0, s: true, d: true, r: true, e: 0.4,  x: 0.5 }
+DRAGN_BOT: { m: DRAGONS_BREATH, v: 0, s: true, d: true, r: true, e: 4.15, x: 4.5 }
 
-POTION:  { m: POTION,           v: 0, d: true, r: true, e: 1.85, x: 2.0 }
-SPOTION: { m: SPLASH_POTION,    v: 0, d: true, r: true, e: 1.95, x: 2.1 }
-LPOTION: { m: LINGERING_POTION, v: 0, d: true, r: true, e: 2.05, x: 2.2 }
+POTION:  { m: POTION,           v: 0, s: true, d: true, r: true, e: 1.85, x: 2.0 }
+SPOTION: { m: SPLASH_POTION,    v: 0, s: true, d: true, r: true, e: 1.95, x: 2.1 }
+LPOTION: { m: LINGERING_POTION, v: 0, s: true, d: true, r: true, e: 2.05, x: 2.2 }

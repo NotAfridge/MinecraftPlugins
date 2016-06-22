@@ -20,7 +20,7 @@ public class ToggleAccess {
 
         if (args.length == 2) {
 
-            if (!args[1].toLowerCase().matches("[dehmrsvx]chest")) {
+            if (!args[1].toLowerCase().matches("[dehmrsvwx]chest")) {
                 commonString.messageSend(getPlugin(), sender, ChatColor.RED + "That type of chest does not exist!");
                 return;
             }
@@ -43,7 +43,7 @@ public class ToggleAccess {
 
             getPlugin().saveConfig();
 
-        } else commonString.messageSend(getPlugin(), sender, ChatColor.YELLOW + "/chest toggle [dehmrsvx]chest");
+        } else commonString.messageSend(getPlugin(), sender, ChatColor.YELLOW + "/chest toggle [dehmrsvwx]chest");
 
     }
 

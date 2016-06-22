@@ -102,14 +102,15 @@ public class ChestMenu {
                         ChatColor.RED + "You have " + ChatColor.YELLOW + rChestTimer + " seconds" + ChatColor.RED + "!")
         ));
 
-        chestGUI.setItem(5, chestFunctions.createItemStack(Material.GLASS,
-                menuColour + "Swap Chest", Arrays.asList(
+        chestGUI.setItem(5, chestFunctions.createItemStack(Material.JACK_O_LANTERN,
+                menuColour + "Shuffle Chest", Arrays.asList(
                         accessLevelRequirement("schest"),
                         ChatColor.RESET + "",
-                        ChatColor.WHITE + "Opens the swapping chest.",
-                        ChatColor.WHITE + "Put random items in, get random items out!",
+                        ChatColor.WHITE + "Displays a random assortment of items.",
+                        ChatColor.WHITE + "Shuffles them around very quickly!",
                         ChatColor.RESET + "",
-                        ChatColor.RED + "This chest is player supported!")
+                        ChatColor.GREEN + "You gotta be quick with this one!",
+                        ChatColor.GREEN + "Item will drop at your location.")
         ));
 
         chestGUI.setItem(6, chestFunctions.createItemStack(Material.ENDER_CHEST,
@@ -122,7 +123,17 @@ public class ChestMenu {
                         ChatColor.DARK_AQUA + "Upgrade your vault using " + ChatColor.AQUA + "/vchest upgrade")
         ));
 
-        chestGUI.setItem(7, chestFunctions.createItemStack(Material.SEA_LANTERN,
+        chestGUI.setItem(7, chestFunctions.createItemStack(Material.GLASS,
+                menuColour + "Swap Chest", Arrays.asList(
+                        accessLevelRequirement("wchest"),
+                        ChatColor.RESET + "",
+                        ChatColor.WHITE + "Opens the swapping chest.",
+                        ChatColor.WHITE + "Put random items in, get random items out!",
+                        ChatColor.RESET + "",
+                        ChatColor.RED + "This chest is player supported!")
+        ));
+
+        chestGUI.setItem(8, chestFunctions.createItemStack(Material.SEA_LANTERN,
                 menuColour + "Experience Chest", Arrays.asList(
                         accessLevelRequirement("xchest"),
                         ChatColor.RESET + "",

@@ -1,1 +1,9 @@
-# Custom Materials
+# m - Material name (id)
+# v - Variation of block (byte)
+# s - Include in shuffle chest? (schest)
+# d - Include when donation is randomised? (dchest)
+# r - Include in random chest? (rchest)
+# e - Return value of money given (vault/economy)
+# x - Return value of experience given (xp)
+
+# EXAMPLE: { m: MATERIALNAME, v: 0, s: true, d: true, r: true, e: 0.5, x: 0.5 }

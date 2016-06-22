@@ -18,7 +18,7 @@ public class ChestClean {
 
                 Broadcast broadcast = new Broadcast();
 
-                boolean isSwapEnabled = getPlugin().getConfig().getBoolean("schest.enabled");
+                boolean isSwapEnabled = getPlugin().getConfig().getBoolean("wchest.enabled");
 
                 if (isSwapEnabled) chestSwapItemStack = getChestDonationInventory().getContents();
                 getChestDonationInventory().clear();

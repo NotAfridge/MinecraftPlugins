@@ -25,8 +25,9 @@ public class DisplayHelp {
                     ChatColor.GOLD + " /hchest - " + ChatColor.YELLOW + "Hold Chest",
                     ChatColor.GOLD + " /mchest - " + ChatColor.YELLOW + "Money Chest",
                     ChatColor.GOLD + " /rchest - " + ChatColor.YELLOW + "Random Chest",
-                    ChatColor.GOLD + " /schest - " + ChatColor.YELLOW + "Swap Chest",
+                    ChatColor.GOLD + " /schest - " + ChatColor.YELLOW + "Shuffle Chest",
                     ChatColor.GOLD + " /vchest - " + ChatColor.YELLOW + "Vault Chest",
+                    ChatColor.GOLD + " /wchest - " + ChatColor.YELLOW + "Swap Chest",
                     ChatColor.GOLD + " /xchest - " + ChatColor.YELLOW + "Experience Chest"
             });
 
@@ -35,7 +36,7 @@ public class DisplayHelp {
                 commonString.messageSend(ChestInit.getPlugin(), player, false, new String[]{
                         " " + ChatColor.STRIKETHROUGH + "-------------------" + ChatColor.RED + " Staff Commands "
                                 + ChatColor.WHITE + ChatColor.STRIKETHROUGH + "-------------------",
-                        ChatColor.GOLD + " /chest toggle [dehmrsvx]chest",
+                        ChatColor.GOLD + " /chest toggle [dehmrsvwx]chest",
                         ChatColor.YELLOW + "   Toggles the chest type access",
                         ChatColor.GOLD + " /dchest random",
                         ChatColor.YELLOW + "   Will override items in chest with random items",

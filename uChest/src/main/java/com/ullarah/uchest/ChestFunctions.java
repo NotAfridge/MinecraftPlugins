@@ -40,7 +40,7 @@ public class ChestFunctions {
             if (item != null) {
 
                 Object[] materialObject = materialMap.get(new ItemStack(item.getType(), 1, item.getDurability()));
-                double itemValue = type == MONEY ? (double) materialObject[2] : (double) materialObject[3];
+                double itemValue = type == MONEY ? (double) materialObject[3] : (double) materialObject[4];
 
                 double maxDurability = item.getType().getMaxDurability();
                 double durability = item.getDurability();
@@ -216,6 +216,9 @@ public class ChestFunctions {
 
         }
 
+        List<ItemStack> materialKeys = new ArrayList<>(materialMap.keySet());
+        ItemStack itemStack = materialKeys.get(new Random().nextInt(materialKeys.size()));
+
         BukkitTask task = new BukkitRunnable() {
 
             int c = getPlugin().getConfig().getInt(chestType + ".timer");
@@ -234,10 +237,7 @@ public class ChestFunctions {
 
                 getChestRandomInventory().clear();
 
-                List<ItemStack> materialKeys = new ArrayList<>(materialMap.keySet());
-                ItemStack itemStack = materialKeys.get(new Random().nextInt(materialKeys.size()));
-
-                if ((boolean) materialMap.get(itemStack)[1]) getChestRandomInventory().setItem(new Random().nextInt(54),
+                if ((boolean) materialMap.get(itemStack)[2]) getChestRandomInventory().setItem(new Random().nextInt(54),
                         materialKeys.get(new Random().nextInt(materialKeys.size())));
 
                 c--;
@@ -247,6 +247,35 @@ public class ChestFunctions {
         }.runTaskTimer(getPlugin(), 5, 25);
 
         chestRandomTask.put(player.getUniqueId(), task);
+
+    }
+
+    public void openShuffleChest(CommandSender sender) {
+
+        final Player player = (Player) sender;
+        int playerLevel = player.getLevel();
+        String chestType = "schest";
+        int accessLevel = getPlugin().getConfig().getInt(chestType + ".access");
+        int lockTimer = getPlugin().getConfig().getInt(chestType + ".lockout");
+        boolean removeLevel = getPlugin().getConfig().getBoolean(chestType + ".removelevel");
+
+        if (playerLevel < accessLevel) {
+            String s = accessLevel > 1 ? "s" : "";
+            commonString.messageSend(getPlugin(), player, "You need more than " + accessLevel + " level" + s + " to open this chest.");
+            return;
+        }
+
+        if (player.hasPermission("chest.bypass")) player.openInventory(getChestShuffleInventory());
+        else {
+
+            if (!chestLockoutMap.get(chestType).containsKey(player.getUniqueId())) {
+                if (removeLevel) player.setLevel(playerLevel - accessLevel);
+                player.openInventory(getChestShuffleInventory());
+            }
+
+            if (lockTimer > 0) chestLockout(player, lockTimer, chestType);
+
+        }
 
     }
 

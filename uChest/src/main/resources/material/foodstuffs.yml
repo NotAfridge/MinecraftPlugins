@@ -1,49 +1,50 @@
 # m - Material name (id)
 # v - Variation of block (byte)
+# s - Include in shuffle chest? (schest)
 # d - Include when donation is randomised? (dchest)
 # r - Include in random chest? (rchest)
 # e - Return value of money given (vault/economy)
 # x - Return value of experience given (xp)
 
-APPLE:   { m: APPLE,        v: 0, d: true, r: true, e: 0.4,  x: 0.5  }
-GAPPLE:  { m: GOLDEN_APPLE, v: 0, d: true, r: true, e: 27.0, x: 28.5 }
-SGAPPLE: { m: GOLDEN_APPLE, v: 1, d: true, r: true, e: 32.5, x: 34.3 }
+APPLE:   { m: APPLE,        v: 0, s: true, d: true, r: true, e: 0.4,  x: 0.5  }
+GAPPLE:  { m: GOLDEN_APPLE, v: 0, s: true, d: true, r: true, e: 27.0, x: 28.5 }
+SGAPPLE: { m: GOLDEN_APPLE, v: 1, s: true, d: true, r: true, e: 32.5, x: 34.3 }
 
-MUSHSTEW: { m: MUSHROOM_SOUP, v: 0, d: true, r: true, e: 0.4, x: 0.5 }
-RABISTEW: { m: RABBIT_STEW,   v: 0, d: true, r: true, e: 0.5, x: 0.6 }
-BEETSOUP: { m: BEETROOT_SOUP, v: 0, d: true, r: true, e: 0.3, x: 0.4 }
+MUSHSTEW: { m: MUSHROOM_SOUP, v: 0, s: true, d: true, r: true, e: 0.4, x: 0.5 }
+RABISTEW: { m: RABBIT_STEW,   v: 0, s: true, d: true, r: true, e: 0.5, x: 0.6 }
+BEETSOUP: { m: BEETROOT_SOUP, v: 0, s: true, d: true, r: true, e: 0.3, x: 0.4 }
 
-BREAD:  { m: BREAD,       v: 0, d: true, r: true, e: 0.4, x: 0.5 }
-CAKE:   { m: CAKE,        v: 0, d: true, r: true, e: 0.6, x: 0.7 }
-COOKIE: { m: COOKIE,      v: 0, d: true, r: true, e: 0.4, x: 0.5 }
-PUMPIE: { m: PUMPKIN_PIE, v: 0, d: true, r: true, e: 0.5, x: 0.6 }
+BREAD:  { m: BREAD,       v: 0, s: true, d: true, r: true, e: 0.4, x: 0.5 }
+CAKE:   { m: CAKE,        v: 0, s: true, d: true, r: true, e: 0.6, x: 0.7 }
+COOKIE: { m: COOKIE,      v: 0, s: true, d: true, r: true, e: 0.4, x: 0.5 }
+PUMPIE: { m: PUMPKIN_PIE, v: 0, s: true, d: true, r: true, e: 0.5, x: 0.6 }
 
-MELON:  { m: MELON,    v: 0, d: true, r: true, e: 0.1, x: 0.2 }
-CARROT: { m: CARROT,   v: 0, d: true, r: true, e: 0.4, x: 0.5 }
-BEET:   { m: BEETROOT, v: 0, d: true, r: true, e: 0.2, x: 0.3 }
+MELON:  { m: MELON,    v: 0, s: true, d: true, r: true, e: 0.1, x: 0.2 }
+CARROT: { m: CARROT,   v: 0, s: true, d: true, r: true, e: 0.4, x: 0.5 }
+BEET:   { m: BEETROOT, v: 0, s: true, d: true, r: true, e: 0.2, x: 0.3 }
 
-POTATO:  { m: POTATO,           v: 0, d: true, r: true, e: 0.5, x: 0.6 }
-BPOTATO: { m: BAKED_POTATO,     v: 0, d: true, r: true, e: 0.1, x: 0.2 }
-PPOTATO: { m: POISONOUS_POTATO, v: 0, d: true, r: true, e: 0.7, x: 0.9 }
+POTATO:  { m: POTATO,           v: 0, s: true, d: true, r: true, e: 0.5, x: 0.6 }
+BPOTATO: { m: BAKED_POTATO,     v: 0, s: true, d: true, r: true, e: 0.1, x: 0.2 }
+PPOTATO: { m: POISONOUS_POTATO, v: 0, s: true, d: true, r: true, e: 0.7, x: 0.9 }
 
-NEMOFISH: { m: RAW_FISH, v: 2, d: true, r: true, e: 1.9, x: 2.7 }
-PUFFFISH: { m: RAW_FISH, v: 3, d: true, r: true, e: 2.1, x: 3.2 }
+NEMOFISH: { m: RAW_FISH, v: 2, s: true, d: true, r: true, e: 1.9, x: 2.7 }
+PUFFFISH: { m: RAW_FISH, v: 3, s: true, d: true, r: true, e: 2.1, x: 3.2 }
 
-RW_FISH:    { m: RAW_FISH,    v: 0, d: true, r: true, e: 0.9, x: 1.1 }
-RW_SALMON:  { m: RAW_FISH,    v: 1, d: true, r: true, e: 1.1, x: 1.4 }
-RW_PORK:    { m: PORK,        v: 0, d: true, r: true, e: 0.5, x: 0.6 }
-RW_BEEF:    { m: RAW_BEEF,    v: 0, d: true, r: true, e: 0.4, x: 0.5 }
-RW_CHICKEN: { m: RAW_CHICKEN, v: 0, d: true, r: true, e: 0.3, x: 0.4 }
-RW_RABBIT:  { m: RABBIT,      v: 0, d: true, r: true, e: 0.3, x: 0.4 }
-RW_MUTTON:  { m: MUTTON,      v: 0, d: true, r: true, e: 0.4, x: 0.5 }
+RW_FISH:    { m: RAW_FISH,    v: 0, s: true, d: true, r: true, e: 0.9, x: 1.1 }
+RW_SALMON:  { m: RAW_FISH,    v: 1, s: true, d: true, r: true, e: 1.1, x: 1.4 }
+RW_PORK:    { m: PORK,        v: 0, s: true, d: true, r: true, e: 0.5, x: 0.6 }
+RW_BEEF:    { m: RAW_BEEF,    v: 0, s: true, d: true, r: true, e: 0.4, x: 0.5 }
+RW_CHICKEN: { m: RAW_CHICKEN, v: 0, s: true, d: true, r: true, e: 0.3, x: 0.4 }
+RW_RABBIT:  { m: RABBIT,      v: 0, s: true, d: true, r: true, e: 0.3, x: 0.4 }
+RW_MUTTON:  { m: MUTTON,      v: 0, s: true, d: true, r: true, e: 0.4, x: 0.5 }
 
-CK_FISH:    { m: COOKED_FISH,    v: 0, d: true, r: true, e: 1.2, x: 1.5 }
-CK_SALMON:  { m: COOKED_FISH,    v: 1, d: true, r: true, e: 1.6, x: 1.8 }
-CK_PORK:    { m: GRILLED_PORK,   v: 0, d: true, r: true, e: 0.7, x: 0.9 }
-CK_BEEF:    { m: COOKED_BEEF,    v: 0, d: true, r: true, e: 0.7, x: 0.9 }
-CK_CHICKEN: { m: COOKED_CHICKEN, v: 0, d: true, r: true, e: 0.6, x: 0.8 }
-CK_RABBIT:  { m: COOKED_RABBIT,  v: 0, d: true, r: true, e: 0.6, x: 0.8 }
-CK_MUTTON:  { m: COOKED_MUTTON,  v: 0, d: true, r: true, e: 0.7, x: 0.9 }
+CK_FISH:    { m: COOKED_FISH,    v: 0, s: true, d: true, r: true, e: 1.2, x: 1.5 }
+CK_SALMON:  { m: COOKED_FISH,    v: 1, s: true, d: true, r: true, e: 1.6, x: 1.8 }
+CK_PORK:    { m: GRILLED_PORK,   v: 0, s: true, d: true, r: true, e: 0.7, x: 0.9 }
+CK_BEEF:    { m: COOKED_BEEF,    v: 0, s: true, d: true, r: true, e: 0.7, x: 0.9 }
+CK_CHICKEN: { m: COOKED_CHICKEN, v: 0, s: true, d: true, r: true, e: 0.6, x: 0.8 }
+CK_RABBIT:  { m: COOKED_RABBIT,  v: 0, s: true, d: true, r: true, e: 0.6, x: 0.8 }
+CK_MUTTON:  { m: COOKED_MUTTON,  v: 0, s: true, d: true, r: true, e: 0.7, x: 0.9 }
 
-ROTFLESH: { m: ROTTEN_FLESH, v: 0, d: true, r: true, e: 0.1, x: 0.2 }
-SPIDEYE:  { m: SPIDER_EYE,   v: 0, d: true, r: true, e: 0.2, x: 0.3 }
+ROTFLESH: { m: ROTTEN_FLESH, v: 0, s: true, d: true, r: true, e: 0.1, x: 0.2 }
+SPIDEYE:  { m: SPIDER_EYE,   v: 0, s: true, d: true, r: true, e: 0.2, x: 0.3 }

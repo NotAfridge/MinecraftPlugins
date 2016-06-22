@@ -35,15 +35,19 @@ commands:
     usage: |
       <command> : Views the random chest.
   schest:
-    description: Views the swapping chest.
+    description: Views the shuffle chest.
     usage: |
-      <command> : Views the swapping chest.
+      <command> : Views the shuffle chest.
   vchest:
     description: Views the vault chest.
     usage: |
       <command> : Views the vault chest.
       <command> upgrade : Upgrades the vault chest slots.
       <command> view <player>: Views the vault chest of a player.
+  wchest:
+    description: Views the swapping chest.
+    usage: |
+      <command> : Views the swapping chest.
   xchest:
     description: Views the experience chest.
     usage: |
