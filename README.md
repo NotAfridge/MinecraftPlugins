@@ -1,4 +1,4 @@
-# Ullarahs Minecraft Plugins
+# Ullarahs Minecraft Plugins [![Build Status](https://drone.io/github.com/Ullarah/MinecraftPlugins/status.png)](https://drone.io/github.com/Ullarah/MinecraftPlugins/latest)
 Various minecraft plugins used on a private server.
 
  * Clone the repo
