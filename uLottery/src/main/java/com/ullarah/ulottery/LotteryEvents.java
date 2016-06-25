@@ -2,6 +2,7 @@ package com.ullarah.ulottery;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -11,7 +12,7 @@ import static com.ullarah.ulottery.LotteryInit.*;
 
 class LotteryEvents implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void playerDeath(final PlayerDeathEvent event) {
 
         Player player = event.getEntity();
