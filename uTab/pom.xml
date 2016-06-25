@@ -7,7 +7,7 @@
 
     <name>uTab</name>
     <description>Header and Footer</description>
-    <version>0.2.5</version>
+    <version>0.2.6</version>
 
     <parent>
         <groupId>com.ullarah</groupId>

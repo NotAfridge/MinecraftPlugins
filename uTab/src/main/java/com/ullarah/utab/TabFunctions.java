@@ -26,8 +26,8 @@ class TabFunctions {
 
         try {
 
-            IChatBaseComponent headerMessage = IChatBaseComponent.ChatSerializer.a("{'text':' " + header + " '}");
-            IChatBaseComponent footerMessage = IChatBaseComponent.ChatSerializer.a("{'text':' " + footer + " '}");
+            IChatBaseComponent headerMessage = IChatBaseComponent.ChatSerializer.a("{\"text\":\" " + header + " \"}");
+            IChatBaseComponent footerMessage = IChatBaseComponent.ChatSerializer.a("{\"text\":\" " + footer + " \"}");
 
             PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter(headerMessage);
 
