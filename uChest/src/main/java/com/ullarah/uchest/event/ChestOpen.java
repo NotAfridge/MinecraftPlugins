@@ -1,6 +1,5 @@
 package com.ullarah.uchest.event;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -9,6 +8,7 @@ import org.bukkit.inventory.Inventory;
 
 import static com.ullarah.uchest.ChestInit.chestSwapBusy;
 import static com.ullarah.uchest.ChestInit.chestSwapPlayer;
+import static com.ullarah.uchest.init.ChestLanguage.N_WCHEST;
 
 public class ChestOpen implements Listener {
 
@@ -18,7 +18,7 @@ public class ChestOpen implements Listener {
         Inventory chestInventory = event.getInventory();
         Player chestPlayer = (Player) event.getPlayer();
 
-        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Swap Chest")) {
+        if (chestInventory.getName().matches(N_WCHEST)) {
             chestSwapPlayer = chestPlayer;
             chestSwapBusy = true;
             chestInventory.clear();

@@ -1,6 +1,6 @@
 package com.ullarah.uchest.command;
 
-import com.ullarah.uchest.ChestFunctions.validStorage;
+import com.ullarah.uchest.ChestFunctions.ValidChest;
 import com.ullarah.uchest.function.CommonString;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -16,7 +16,7 @@ import static com.ullarah.uchest.ChestInit.getPlugin;
 
 public class ChestCreation {
 
-    public void create(CommandSender sender, validStorage type, Boolean display) {
+    public void create(CommandSender sender, ValidChest type, Boolean display) {
 
         CommonString commonString = new CommonString();
 

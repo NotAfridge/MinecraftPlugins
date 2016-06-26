@@ -5,7 +5,7 @@ import com.ullarah.uchest.function.CommonString;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static com.ullarah.uchest.ChestFunctions.validConvert.MONEY;
+import static com.ullarah.uchest.ChestFunctions.ValidChest.MONEY;
 import static com.ullarah.uchest.ChestInit.chestTypeEnabled;
 import static com.ullarah.uchest.ChestInit.getPlugin;
 

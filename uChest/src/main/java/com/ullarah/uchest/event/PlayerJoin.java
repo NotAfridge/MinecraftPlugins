@@ -5,8 +5,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import static com.ullarah.uchest.ChestFunctions.validStorage.HOLD;
-import static com.ullarah.uchest.ChestFunctions.validStorage.VAULT;
+import static com.ullarah.uchest.ChestFunctions.ValidChest.HOLD;
+import static com.ullarah.uchest.ChestFunctions.ValidChest.VAULT;
 
 public class PlayerJoin implements Listener {
 

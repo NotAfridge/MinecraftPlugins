@@ -16,13 +16,13 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.ullarah.uchest.ChestFunctions.validStorage;
-import static com.ullarah.uchest.ChestFunctions.validStorage.HOLD;
+import static com.ullarah.uchest.ChestFunctions.ValidChest;
+import static com.ullarah.uchest.ChestFunctions.ValidChest.HOLD;
 import static com.ullarah.uchest.ChestInit.getPlugin;
 
 public class ChestPrepare {
 
-    public void prepare(Player player, UUID uuid, validStorage type) {
+    public void prepare(Player player, UUID uuid, ValidChest type) {
 
         CommonString commonString = new CommonString();
 

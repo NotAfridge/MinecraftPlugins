@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.IOException;
 
-import static com.ullarah.uchest.ChestFunctions.validStorage.VAULT;
+import static com.ullarah.uchest.ChestFunctions.ValidChest.VAULT;
 import static com.ullarah.uchest.ChestInit.chestTypeEnabled;
 import static com.ullarah.uchest.ChestInit.getPlugin;
 

@@ -18,17 +18,16 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.ullarah.uchest.ChestFunctions.validConvert.MONEY;
-import static com.ullarah.uchest.ChestFunctions.validConvert.XP;
-import static com.ullarah.uchest.ChestFunctions.validStorage.VAULT;
+import static com.ullarah.uchest.ChestFunctions.ValidChest.*;
 import static com.ullarah.uchest.ChestInit.*;
+import static com.ullarah.uchest.init.ChestLanguage.N_ECHEST;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class ChestFunctions {
 
     private final CommonString commonString = new CommonString();
 
-    public void convertItem(Player player, validConvert type, ItemStack[] items) {
+    public void convertItem(Player player, ValidChest type, ItemStack[] items) {
 
         DecimalFormat decimalFormat = new DecimalFormat(".##");
 
@@ -37,7 +36,7 @@ public class ChestFunctions {
 
         for (ItemStack item : items) {
 
-            if (item != null) {
+            if (materialMap.containsKey(item)) {
 
                 Object[] materialObject = materialMap.get(new ItemStack(item.getType(), 1, item.getDurability()));
                 double itemValue = type == MONEY ? (double) materialObject[3] : (double) materialObject[4];
@@ -116,7 +115,7 @@ public class ChestFunctions {
 
     }
 
-    public void openConvertChest(CommandSender sender, validConvert type) {
+    public void openConvertChest(CommandSender sender, ValidChest type) {
 
         final Player player = (Player) sender;
         int playerLevel = player.getLevel();
@@ -164,16 +163,15 @@ public class ChestFunctions {
             return;
         }
 
-        Inventory chestEnchantInventory = Bukkit.createInventory(player, 9, ChatColor.DARK_GREEN + "Enchantment Chest");
+        Inventory chestEnchantInventory = Bukkit.createInventory(player, 9, N_ECHEST);
 
-        ItemStack blockedItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 8);
+        ItemStack blockedItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15);
         ItemMeta blockedItemMeta = blockedItem.getItemMeta();
 
-        blockedItemMeta.setDisplayName(ChatColor.DARK_GRAY + "Use middle slot!");
+        blockedItemMeta.setDisplayName(ChatColor.GRAY + "Use Middle Slot");
         blockedItem.setItemMeta(blockedItemMeta);
 
-        int[] blockedSlots = {0, 1, 2, 3, 5, 6, 7, 8};
-        for (int b : blockedSlots) chestEnchantInventory.setItem(b, blockedItem);
+        for (int b : new int[]{0, 1, 2, 3, 5, 6, 7, 8}) chestEnchantInventory.setItem(b, blockedItem);
 
         if (player.hasPermission("chest.bypass")) {
             player.openInventory(chestEnchantInventory);
@@ -334,7 +332,7 @@ public class ChestFunctions {
 
     }
 
-    public void chestView(Player player, UUID uuid, Inventory inventory, validStorage type) {
+    public void chestView(Player player, UUID uuid, Inventory inventory, ValidChest type) {
 
         UUID viewerUUID = player.getUniqueId();
 
@@ -394,26 +392,12 @@ public class ChestFunctions {
         HELP, TOGGLE, RANDOM, RESET, VIEW, UPGRADE
     }
 
-    public enum validStorage {
-        HOLD("hold"), VAULT("vault");
+    public enum ValidChest {
+        HOLD("hold"), VAULT("vault"), XP("xp"), MONEY("money");
 
         private final String type;
 
-        validStorage(String getType) {
-            type = getType;
-        }
-
-        public String toString() {
-            return type;
-        }
-    }
-
-    public enum validConvert {
-        XP("xp"), MONEY("money");
-
-        private final String type;
-
-        validConvert(String getType) {
+        ValidChest(String getType) {
             type = getType;
         }
 

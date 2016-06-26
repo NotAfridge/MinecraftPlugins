@@ -7,7 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static com.ullarah.uchest.ChestFunctions.validStorage.HOLD;
+import static com.ullarah.uchest.ChestFunctions.ValidChest.HOLD;
 import static com.ullarah.uchest.ChestInit.chestTypeEnabled;
 import static com.ullarah.uchest.ChestInit.getPlugin;
 

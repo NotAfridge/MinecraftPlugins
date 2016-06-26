@@ -1,6 +1,7 @@
 package com.ullarah.uchest.event;
 
 import com.ullarah.uchest.ChestFunctions;
+import com.ullarah.uchest.ChestFunctions.ValidChest;
 import com.ullarah.uchest.function.CommonString;
 import com.ullarah.uchest.function.PlayerProfile;
 import org.bukkit.ChatColor;
@@ -17,9 +18,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-import static com.ullarah.uchest.ChestFunctions.validConvert.MONEY;
-import static com.ullarah.uchest.ChestFunctions.validConvert.XP;
+import static com.ullarah.uchest.ChestFunctions.ValidChest.*;
 import static com.ullarah.uchest.ChestInit.*;
+import static com.ullarah.uchest.init.ChestLanguage.*;
 
 public class ChestClose implements Listener {
 
@@ -33,24 +34,22 @@ public class ChestClose implements Listener {
         Inventory chestInventory = event.getInventory();
         Player chestPlayer = (Player) event.getPlayer();
 
-        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Enchantment Chest")) {
+        if (chestInventory.getName().matches(N_ECHEST)) {
             chestFunctions.enchantItem(chestPlayer, chestInventory.getItem(4));
             chestInventory.clear();
         }
 
-        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Experience Chest")) {
-            ItemStack[] expItems = chestInventory.getContents();
-            chestFunctions.convertItem(chestPlayer, XP, expItems);
+        if (chestInventory.getName().matches(N_XCHEST)) {
+            chestFunctions.convertItem(chestPlayer, XP, chestInventory.getContents());
             chestInventory.clear();
         }
 
-        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Money Chest")) {
-            ItemStack[] moneyItems = chestInventory.getContents();
-            chestFunctions.convertItem(chestPlayer, MONEY, moneyItems);
+        if (chestInventory.getName().matches(N_MCHEST)) {
+            chestFunctions.convertItem(chestPlayer, MONEY, chestInventory.getContents());
             chestInventory.clear();
         }
 
-        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Random Chest")) {
+        if (chestInventory.getName().matches(N_RCHEST)) {
             chestRandomTask.entrySet().stream().filter(e ->
                     chestPlayer.getUniqueId().equals(e.getKey())).forEach(e -> {
 
@@ -60,7 +59,7 @@ public class ChestClose implements Listener {
             });
         }
 
-        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Swap Chest")) {
+        if (chestInventory.getName().matches(N_WCHEST)) {
             ItemStack[] checkItems = chestInventory.getContents();
 
             for (ItemStack item : checkItems)
@@ -76,35 +75,35 @@ public class ChestClose implements Listener {
             chestSwapBusy = false;
         }
 
-        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Hold Chest"))
-            openChestType(chestPlayer, chestPlayer.getUniqueId(), chestInventory, "hold");
-        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Vault Chest"))
-            openChestType(chestPlayer, chestPlayer.getUniqueId(), chestInventory, "vault");
-
-        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Hold Chest - (.*)")) {
+        if (chestInventory.getName().matches(N_HCHEST))
+            openChestType(chestPlayer, chestPlayer.getUniqueId(), chestInventory, HOLD);
+        if (chestInventory.getName().matches(N_HCHEST + " - (.*)")) {
             String chestOwner = chestInventory.getName().substring(15);
             UUID chestOwnerUUID = new PlayerProfile().lookup(chestOwner).getId();
-            openChestType(chestPlayer, chestOwnerUUID, chestInventory, "hold");
+            openChestType(chestPlayer, chestOwnerUUID, chestInventory, HOLD);
         }
-        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Vault Chest - (.*)")) {
+
+        if (chestInventory.getName().matches(N_VCHEST))
+            openChestType(chestPlayer, chestPlayer.getUniqueId(), chestInventory, VAULT);
+        if (chestInventory.getName().matches(N_VCHEST + " - (.*)")) {
             String chestOwner = chestInventory.getName().substring(15);
             UUID chestOwnerUUID = new PlayerProfile().lookup(chestOwner).getId();
-            openChestType(chestPlayer, chestOwnerUUID, chestInventory, "vault");
+            openChestType(chestPlayer, chestOwnerUUID, chestInventory, VAULT);
         }
 
     }
 
-    private void openChestType(Player player, UUID chestPlayer, Inventory chestInventory, String type) {
+    private void openChestType(Player player, UUID chestPlayer, Inventory chestInventory, ValidChest type) {
 
-        File vaultFile = new File(getPlugin().getDataFolder() + File.separator + type, chestPlayer.toString() + ".yml");
+        File chestFile = new File(getPlugin().getDataFolder() + File.separator + type, chestPlayer.toString() + ".yml");
 
-        if (vaultFile.exists()) {
+        if (chestFile.exists()) {
 
-            FileConfiguration vaultConfig = YamlConfiguration.loadConfiguration(vaultFile);
-            vaultConfig.set("item", chestInventory.getContents());
+            FileConfiguration chestConfig = YamlConfiguration.loadConfiguration(chestFile);
+            chestConfig.set("item", chestInventory.getContents());
 
             try {
-                vaultConfig.save(vaultFile);
+                chestConfig.save(chestFile);
             } catch (IOException e) {
                 e.printStackTrace();
             }

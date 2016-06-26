@@ -11,6 +11,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import static com.ullarah.uchest.ChestInit.*;
+import static com.ullarah.uchest.init.ChestLanguage.*;
 
 public class ChestClick implements Listener {
 
@@ -45,7 +46,7 @@ public class ChestClick implements Listener {
 
         if (chestInventory == null) return;
 
-        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Donation Chest")) {
+        if (chestInventory.getName().matches(N_DCHEST)) {
             if (chestDonateLock && event.getRawSlot() <= 53)
                 if (chestLockoutMap.get("dchest_itemlock").containsKey(chestPlayer.getUniqueId())) {
 
@@ -55,13 +56,13 @@ public class ChestClick implements Listener {
                 } else chestDonatePlayerUnlock(chestPlayer);
         }
 
-        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Random Chest"))
+        if (chestInventory.getName().matches(N_RCHEST))
             if (event.getCurrentItem().getAmount() >= 1 && event.getRawSlot() >= 54) {
                 event.setCancelled(true);
                 event.getCursor().setType(Material.AIR);
             }
 
-        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Enchantment Chest"))
+        if (chestInventory.getName().matches(N_ECHEST))
             switch (event.getRawSlot()) {
                 case 0:
                 case 1:
@@ -76,7 +77,7 @@ public class ChestClick implements Listener {
                     break;
             }
 
-        if (chestInventory.getName().matches(ChatColor.DARK_GREEN + "Shuffle Chest")) {
+        if (chestInventory.getName().matches(N_SCHEST)) {
             if (event.getCurrentItem().getAmount() >= 1 && event.getRawSlot() >= 54) {
                 event.setCancelled(true);
                 event.getCursor().setType(Material.AIR);
