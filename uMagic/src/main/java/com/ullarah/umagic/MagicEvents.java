@@ -43,18 +43,7 @@ public class MagicEvents implements Listener {
             if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_AIR) return;
 
             Block block = event.getClickedBlock();
-            LocalPlayer localPlayer = getWorldGuard().wrapPlayer(player);
-
-            World world = getPlugin().getServer().getWorld(getPlugin().getConfig().getString("world"));
-
-            if (!block.getWorld().equals(world)) return;
-            if (block.getLocation().getBlockY() <= 5) return;
-
-            RegionManager regionManager = getWorldGuard().getRegionManager(block.getWorld());
-            ApplicableRegionSet applicableRegionSet = regionManager.getApplicableRegions(block.getLocation());
-
-            if (applicableRegionSet.getRegions().isEmpty()) return;
-            for (ProtectedRegion r : applicableRegionSet.getRegions()) if (!r.isOwner(localPlayer)) return;
+            if (!checkBlock(player, block)) return;
 
             String warning = " " + ChatColor.RED + ChatColor.BOLD + "WARNING: " + ChatColor.YELLOW;
 
@@ -329,6 +318,24 @@ public class MagicEvents implements Listener {
             block.getWorld().playSound(block.getLocation(), Sound.UI_BUTTON_CLICK, 0.75f, 0.75f);
 
         }
+
+    }
+
+    private boolean checkBlock(Player player, Block block) {
+
+        LocalPlayer localPlayer = getWorldGuard().wrapPlayer(player);
+        World world = getPlugin().getServer().getWorld(getPlugin().getConfig().getString("world"));
+
+        if (!block.getWorld().equals(world)) return false;
+        if (block.getLocation().getBlockY() <= 5) return false;
+
+        RegionManager regionManager = getWorldGuard().getRegionManager(block.getWorld());
+        ApplicableRegionSet applicableRegionSet = regionManager.getApplicableRegions(block.getLocation());
+
+        if (applicableRegionSet.getRegions().isEmpty()) return false;
+        for (ProtectedRegion r : applicableRegionSet.getRegions()) if (!r.isOwner(localPlayer)) return false;
+
+        return true;
 
     }
 
