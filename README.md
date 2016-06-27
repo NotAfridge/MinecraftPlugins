@@ -25,5 +25,4 @@ These plugins can be used for developmental purposes.*
 | uRocket   | Ready           | Rocket Boots for player flying.       |
 | uTab      | Ready           | Tab list header and footer.           |
 | uTeleport | Ready           | Teleport history for players.         |
-| uWatch    | Do Not Use      | Player information and tracker.       |
 | uWild     | In Progress     | Various animal and mob changes.       |
