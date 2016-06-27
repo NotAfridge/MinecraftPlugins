@@ -16,14 +16,13 @@ These plugins can be used for developmental purposes.*
 
 | Plugin    | Status          | Description                           |
 | --------- | --------------- | ------------------------------------- |
-| uAuction  | Requires Recode | Simple item auctions.                 |
-| uBeacon   | In Progress     | Rainbow and Custom beacons.           |
+| uBeacon   | Requires Recode | Rainbow and Custom beacons.           |
 | uChest    | Ready           | Various useful chests.                |
 | uJoinQuit | Ready           | Custom Join/Quit messages.            |
 | uLottery  | Ready           | Passive death lottery.                |
 | uMagic    | Ready           | Magical hoe to change various blocks. |
 | uPostal   | Ready           | Item Postal service between players.  |
-| uRocket   | Requires Recode | Rocket Boots for player flying.       |
+| uRocket   | Ready           | Rocket Boots for player flying.       |
 | uTab      | Ready           | Tab list header and footer.           |
 | uTeleport | Ready           | Teleport history for players.         |
 | uWatch    | Do Not Use      | Player information and tracker.       |
