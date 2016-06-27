@@ -1,6 +1,9 @@
 package com.ullarah.ulottery;
 
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -46,9 +49,13 @@ class LotteryTask {
                             winnings = deathLotteryBank + " " + winItemMaterial.name().replace("_"," ").toLowerCase() + s;
                         }
 
-                        getPlugin().getServer().broadcastMessage(ChatColor.YELLOW + player.getPlayerListName()
-                                + ChatColor.RESET + " won " + ChatColor.GREEN + winnings
-                                + ChatColor.RESET + " from the Death Lottery!");
+                        for (Object playerOnline : onlinePlayers) {
+                            Player currentPlayer = (Player) playerOnline;
+                            currentPlayer.sendMessage(ChatColor.GOLD + "[" + getPlugin().getName() + "] " +
+                                    ChatColor.YELLOW + player.getPlayerListName()
+                                    + ChatColor.RESET + " won " + ChatColor.GREEN + winnings
+                                    + ChatColor.RESET + " from the Death Lottery!");
+                        }
 
                         recentWinnerName = player.getPlayerListName();
                         recentWinnerAmount = deathLotteryBank;
@@ -80,7 +87,7 @@ class LotteryTask {
 
             }
 
-        }, 1200, 1200);
+        }, deathCountdownReset * 20, deathCountdownReset * 20);
 
     }
 
