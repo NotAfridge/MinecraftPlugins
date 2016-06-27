@@ -1,10 +1,12 @@
 package com.ullarah.umagic;
 
-import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -63,15 +65,18 @@ public class MagicEvents implements Listener {
                 case EMERALD_BLOCK:
                     player.sendMessage(bedrockWarning);
                     block.setType(Material.BEDROCK);
+                    block.setMetadata("uMagic.ch", new FixedMetadataValue(getPlugin(), true));
                     break;
 
                 case BEDROCK:
-                    player.sendMessage(barrierWarning);
-                    block.setType(Material.BARRIER);
+                    if (block.hasMetadata("uMagic.ch")) {
+                        player.sendMessage(barrierWarning);
+                        block.setType(Material.BARRIER);
+                    }
                     break;
 
                 case BARRIER:
-                    block.setType(Material.EMERALD_BLOCK);
+                    if (block.hasMetadata("uMagic.ch")) block.setType(Material.EMERALD_BLOCK);
                     break;
 
                 case REDSTONE_LAMP_OFF:
@@ -323,17 +328,12 @@ public class MagicEvents implements Listener {
 
     private boolean checkBlock(Player player, Block block) {
 
-        LocalPlayer localPlayer = getWorldGuard().wrapPlayer(player);
-        World world = getPlugin().getServer().getWorld(getPlugin().getConfig().getString("world"));
-
-        if (!block.getWorld().equals(world)) return false;
-        if (block.getLocation().getBlockY() <= 5) return false;
-
         RegionManager regionManager = getWorldGuard().getRegionManager(block.getWorld());
         ApplicableRegionSet applicableRegionSet = regionManager.getApplicableRegions(block.getLocation());
 
         if (applicableRegionSet.getRegions().isEmpty()) return false;
-        for (ProtectedRegion r : applicableRegionSet.getRegions()) if (!r.isOwner(localPlayer)) return false;
+        for (ProtectedRegion r : applicableRegionSet.getRegions())
+            if (!r.isOwner(getWorldGuard().wrapPlayer(player))) return false;
 
         return true;
 
