@@ -35,6 +35,9 @@ public class MagicInit extends JavaPlugin {
         PluginManager pluginManager = getServer().getPluginManager();
         Plugin pluginWorldGuard = pluginManager.getPlugin("WorldGuard");
 
+        getConfig().options().copyDefaults(true);
+        saveConfig();
+
         if (pluginWorldGuard != null) {
 
             setWorldGuard((WorldGuardPlugin) pluginWorldGuard);

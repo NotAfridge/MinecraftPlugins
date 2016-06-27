@@ -4,10 +4,7 @@ import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -48,7 +45,10 @@ public class MagicEvents implements Listener {
             Block block = event.getClickedBlock();
             LocalPlayer localPlayer = getWorldGuard().wrapPlayer(player);
 
-            if (block.getLocation().getBlockY() <= 10) return;
+            World world = getPlugin().getServer().getWorld(getPlugin().getConfig().getString("world"));
+
+            if (!block.getWorld().equals(world)) return;
+            if (block.getLocation().getBlockY() <= 5) return;
 
             RegionManager regionManager = getWorldGuard().getRegionManager(block.getWorld());
             ApplicableRegionSet applicableRegionSet = regionManager.getApplicableRegions(block.getLocation());
