@@ -3,12 +3,13 @@ package com.ullarah.ubeacon.event;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+
+import java.util.List;
 
 import static com.ullarah.ubeacon.BeaconInit.getMsgPrefix;
 import static com.ullarah.ubeacon.BeaconInit.getPlugin;
@@ -20,44 +21,34 @@ public class BeaconPlace implements Listener {
 
         Player player = event.getPlayer();
         Block block = event.getBlock();
-
-        World world = player.getWorld();
         Location blockLocation = block.getLocation();
 
         if (block.getType() == Material.BEACON) {
 
             if (event.getItemInHand().hasItemMeta()) {
 
-                String customBeacon = event.getItemInHand().getItemMeta().getDisplayName();
+                if (event.getItemInHand().getItemMeta().hasDisplayName()) {
 
-                if (customBeacon.matches(ChatColor.LIGHT_PURPLE + "(Custom|Rainbow) Beacon")) {
+                    String customBeacon = event.getItemInHand().getItemMeta().getDisplayName();
 
-                    String beaconType = ChatColor.stripColor(customBeacon).replace(" Beacon","").toLowerCase();
+                    if (customBeacon.matches(ChatColor.LIGHT_PURPLE + "Rainbow Beacon")) {
 
-                    String playerUUID = player.getUniqueId().toString();
-                    String beaconLocation = "X" + blockLocation.getBlockX()
-                            + "Y" + blockLocation.getBlockY()
-                            + "Z" + blockLocation.getBlockZ();
+                        List<String> beaconList = getPlugin().getConfig().getStringList("beacons");
 
-                    //getPlugin().getConfig().createSection("beacons.player");
-                    //getPlugin().getConfig().createSection("beacons.player." + playerUUID);
+                        beaconList.add(player.getUniqueId().toString()
+                                + "|" + player.getWorld().getName()
+                                + "|" + blockLocation.getBlockX()
+                                + "|" + blockLocation.getBlockY()
+                                + "|" + blockLocation.getBlockZ()
+                        );
 
-                    //getPlugin().getConfig().createSection("beacons.player." + playerUUID + "." + world.getName());
-                    //getPlugin().getConfig().createSection("beacons.player." + playerUUID + "." + world.getName()
-                    //        + "." + beaconLocation);
+                        getPlugin().getConfig().set("beacons", beaconList);
 
-                    getPlugin().getConfig().set("beacons.player." + playerUUID + "." + world.getName()
-                            + "." + beaconLocation + ".type", beaconType);
+                        getPlugin().saveConfig();
 
-                    if (beaconType.equals("custom")) {
-                        getPlugin().getConfig().set("beacons.player." + playerUUID + "." + world.getName()
-                                        + "." + beaconLocation + ".data",
-                                new int[]{-1, -1, -1, -1, -1});
+                        player.sendMessage(getMsgPrefix() + "Beacon successfully created!");
+
                     }
-
-                    getPlugin().saveConfig();
-
-                    player.sendMessage(getMsgPrefix() + "Beacon successfully created!");
 
                 }
 

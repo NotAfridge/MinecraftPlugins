@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 public class BeaconRainbow implements NewRecipe {
 
-    public static ItemStack rainbow() {
+    private static ItemStack rainbow() {
 
         ItemStack beacon = new ItemStack(Material.BEACON, 1);
 

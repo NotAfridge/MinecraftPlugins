@@ -1,10 +1,8 @@
 package com.ullarah.ubeacon;
 
 import com.ullarah.ubeacon.event.BeaconDestroy;
-import com.ullarah.ubeacon.event.BeaconOpen;
 import com.ullarah.ubeacon.event.BeaconPlace;
 import com.ullarah.ubeacon.function.PluginRegisters;
-import com.ullarah.ubeacon.recipe.BeaconCustom;
 import com.ullarah.ubeacon.recipe.BeaconRainbow;
 import com.ullarah.ubeacon.task.BeaconChange;
 import org.bukkit.ChatColor;
@@ -44,12 +42,10 @@ public class BeaconInit extends JavaPlugin {
 
         new PluginRegisters().register(getPlugin(), EVENT,
                 new BeaconDestroy(),
-                new BeaconOpen(),
                 new BeaconPlace()
         );
 
         new PluginRegisters().register(getPlugin(), RECIPE,
-                new BeaconCustom(),
                 new BeaconRainbow()
         );
 

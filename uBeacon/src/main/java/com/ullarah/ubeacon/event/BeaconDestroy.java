@@ -26,17 +26,17 @@ public class BeaconDestroy implements Listener {
         World world = player.getWorld();
         Location blockLocation = block.getLocation();
 
+        List<String> beaconList = getPlugin().getConfig().getStringList("beacons");
+
         if (block.getType() == Material.STAINED_GLASS) {
 
-            List<String> beaconList = getPlugin().getConfig().getStringList("beacons");
-
-            String rainbowBeacon = player.getUniqueId().toString() + "|"
+            String beacon = player.getUniqueId().toString() + "|"
                     + world.getName() + "|"
                     + blockLocation.getBlockX() + "|"
                     + (blockLocation.getBlockY() - 1) + "|"
-                    + blockLocation.getBlockZ() + "|";
+                    + blockLocation.getBlockZ();
 
-            if (beaconList.contains(rainbowBeacon)) {
+            if (beaconList.contains(beacon)) {
 
                 player.sendMessage(getMsgPrefix() + "Destroy the beacon first.");
                 event.setCancelled(true);
@@ -46,8 +46,6 @@ public class BeaconDestroy implements Listener {
         }
 
         if (block.getType() == Material.BEACON) {
-
-            List<String> beaconList = getPlugin().getConfig().getStringList("beacons");
 
             String beacon = player.getUniqueId().toString() + "|"
                     + world.getName() + "|"
