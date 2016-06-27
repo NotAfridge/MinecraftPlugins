@@ -57,7 +57,7 @@ public class ChestFunctions {
         if (hasItems) {
 
             if (type == MONEY) {
-                if(getVaultEconomy() == null) {
+                if (getVaultEconomy() == null) {
                     for (ItemStack item : items)
                         if (item != null) player.getWorld().dropItemNaturally(player.getLocation(), item);
                     commonString.messageSend(getPlugin(), player, "Money Chest is currently unavailable.");
@@ -202,12 +202,12 @@ public class ChestFunctions {
             return;
         }
 
-        if (player.hasPermission("chest.bypass")) player.openInventory(getChestRandomHolder().getInventory());
+        if (player.hasPermission("chest.bypass")) player.openInventory(getChestRandomInventory());
         else {
 
             if (!chestLockoutMap.get(chestType).containsKey(player.getUniqueId())) {
                 if (removeLevel) player.setLevel(playerLevel - accessLevel);
-                player.openInventory(getChestRandomHolder().getInventory());
+                player.openInventory(getChestRandomInventory());
             }
 
             if (lockTimer > 0) chestLockout(player, lockTimer, chestType);
@@ -235,7 +235,8 @@ public class ChestFunctions {
 
                 getChestRandomInventory().clear();
 
-                if ((boolean) materialMap.get(itemStack)[2]) getChestRandomInventory().setItem(new Random().nextInt(54),
+                if ((boolean) materialMap.get(itemStack)[2]) getChestRandomInventory().setItem(
+                        new Random().nextInt(getChestRandomInventory().getSize()),
                         materialKeys.get(new Random().nextInt(materialKeys.size())));
 
                 c--;

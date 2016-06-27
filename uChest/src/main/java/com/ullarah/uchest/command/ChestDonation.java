@@ -40,13 +40,13 @@ public class ChestDonation {
                 }
 
                 if (player.hasPermission("chest.bypass")) {
-                    player.openInventory(getChestDonationHolder().getInventory());
+                    player.openInventory(getChestDonationInventory());
                     return;
                 }
 
                 if (!chestLockoutMap.get(chestType).containsKey(player.getUniqueId())) {
                     if (removeLevel) player.setLevel(playerLevel - accessLevel);
-                    ((Player) sender).openInventory(getChestDonationHolder().getInventory());
+                    ((Player) sender).openInventory(getChestDonationInventory());
                 }
 
                 if (lockTimer > 0) new ChestFunctions().chestLockout(player, lockTimer, chestType);
@@ -67,7 +67,7 @@ public class ChestDonation {
 
                 default:
                     if (!(sender instanceof Player)) sender.sendMessage(consoleTools);
-                    else ((Player) sender).openInventory(getChestDonationHolder().getInventory());
+                    else ((Player) sender).openInventory(getChestDonationInventory());
 
             }
 

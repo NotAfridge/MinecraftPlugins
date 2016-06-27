@@ -11,7 +11,7 @@ import static com.ullarah.uchest.ChestFunctions.ValidChest.HOLD;
 import static com.ullarah.uchest.ChestInit.chestTypeEnabled;
 import static com.ullarah.uchest.ChestInit.getPlugin;
 
-public class ChestHolding {
+public class ChestHold {
 
     public void runCommand(CommandSender sender, String[] args) {
 
@@ -46,6 +46,20 @@ public class ChestHolding {
                     }
 
                     new ChestPrepare().prepare((Player) sender, new PlayerProfile().lookup(args[1]).getId(), HOLD);
+                    break;
+
+                case RESET:
+                    if (!sender.hasPermission("chest.reset")) {
+                        commonString.messagePermDeny(getPlugin(), sender);
+                        return;
+                    }
+
+                    if (args.length != 2) {
+                        commonString.messageSend(getPlugin(), sender, ChatColor.YELLOW + "/hchest reset <player>");
+                        return;
+                    }
+
+                    new ChestPrepare().reset((Player) sender, new PlayerProfile().lookup(args[1]).getId(), HOLD);
                     break;
 
                 default:

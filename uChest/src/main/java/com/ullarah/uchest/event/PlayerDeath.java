@@ -1,6 +1,5 @@
 package com.ullarah.uchest.event;
 
-import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -23,24 +22,23 @@ public class PlayerDeath implements Listener {
         if (!getPlugin().getConfig().getBoolean("hchest.keepondeath")) {
 
             Player chestPlayer = event.getEntity();
-            Location chestPlayerLocation = chestPlayer.getEyeLocation();
 
-            File holdingFile = new File(getPlugin().getDataFolder() + File.separator + "hold",
+            File holdFile = new File(getPlugin().getDataFolder() + File.separator + "hold",
                     chestPlayer.getUniqueId().toString() + ".yml");
 
-            if (holdingFile.exists()) {
+            if (holdFile.exists()) {
 
-                FileConfiguration holdingChest = YamlConfiguration.loadConfiguration(holdingFile);
+                FileConfiguration holdChest = YamlConfiguration.loadConfiguration(holdFile);
 
-                if (holdingChest.get("item") != null)
-                    holdingChest.getList("item").stream().filter(holdingCurrentItem -> holdingCurrentItem != null)
-                            .forEach(holdingCurrentItem -> chestPlayer.getWorld()
-                                    .dropItemNaturally(chestPlayerLocation, (ItemStack) holdingCurrentItem));
+                if (holdChest.get("item") != null)
+                    holdChest.getList("item").stream().filter(holdCurrentItem -> holdCurrentItem != null)
+                            .forEach(holdCurrentItem -> chestPlayer.getWorld()
+                                    .dropItemNaturally(chestPlayer.getEyeLocation(), (ItemStack) holdCurrentItem));
 
-                holdingChest.set("slots", 9);
-                holdingChest.set("item", new ArrayList<>());
+                holdChest.set("slots", 9);
+                holdChest.set("item", new ArrayList<>());
 
-                holdingChest.save(holdingFile);
+                holdChest.save(holdFile);
                 chestPlayer.closeInventory();
 
             }

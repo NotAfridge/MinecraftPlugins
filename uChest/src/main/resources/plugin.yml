@@ -22,10 +22,11 @@ commands:
     usage: |
       <command> : Views the enchantment chest.
   hchest:
-    description: Views the holding chest.
+    description: Views the hold chest.
     usage: |
-      <command> : Views the holding chest.
-      <command> view <player>: Views the holding chest of a player.
+      <command> : Views the hold chest.
+      <command> view <player>: Views the hold chest of a player.
+      <command> reset <player>: Resets the hold chest of a player.
   mchest:
     description: Views the money chest.
     usage: |
@@ -44,6 +45,7 @@ commands:
       <command> : Views the vault chest.
       <command> upgrade : Upgrades the vault chest slots.
       <command> view <player>: Views the vault chest of a player.
+      <command> reset <player>: Resets the vault chest of a player.
   wchest:
     description: Views the swapping chest.
     usage: |

@@ -53,6 +53,20 @@ public class ChestVault {
                     new ChestPrepare().prepare((Player) sender, new PlayerProfile().lookup(args[1]).getId(), VAULT);
                     break;
 
+                case RESET:
+                    if (!sender.hasPermission("chest.reset")) {
+                        commonString.messagePermDeny(getPlugin(), sender);
+                        return;
+                    }
+
+                    if (args.length != 2) {
+                        commonString.messageSend(getPlugin(), sender, ChatColor.YELLOW + "/vchest reset <player>");
+                        return;
+                    }
+
+                    new ChestPrepare().reset((Player) sender, new PlayerProfile().lookup(args[1]).getId(), VAULT);
+                    break;
+
                 case UPGRADE:
                     Player player = (Player) sender;
                     int upgradeLevel = getPlugin().getConfig().getInt("vchest.upgradelevel");

@@ -16,10 +16,9 @@ public class ChestOpen implements Listener {
     public void event(final InventoryOpenEvent event) {
 
         Inventory chestInventory = event.getInventory();
-        Player chestPlayer = (Player) event.getPlayer();
 
         if (chestInventory.getName().matches(N_WCHEST)) {
-            chestSwapPlayer = chestPlayer;
+            chestSwapPlayer = (Player) event.getPlayer();
             chestSwapBusy = true;
             chestInventory.clear();
         }

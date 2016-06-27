@@ -37,7 +37,6 @@ public class ChestInit extends JavaPlugin {
     public static final ConcurrentHashMap<UUID, BukkitTask> chestRandomTask = new ConcurrentHashMap<>();
     public static final HashMap<ItemStack, Object[]> materialMap = new HashMap<>();
     private static final ConcurrentHashMap<String, Integer> registerMap = new ConcurrentHashMap<>();
-    private static final Inventory chestShuffleInventory = Bukkit.createInventory(null, 54, N_SCHEST);
     public static Boolean chestSwapBusy;
     public static ItemStack[] chestSwapItemStack;
     public static Player chestSwapPlayer;
@@ -46,12 +45,13 @@ public class ChestInit extends JavaPlugin {
     private static Integer materialCount = 0;
     private static Plugin plugin;
     private static Economy vaultEconomy;
+    private static Inventory chestDonationInventory;
     private static InventoryHolder chestDonationHolder = ChestInit::getChestDonationInventory;
-    private static final Inventory chestDonationInventory = Bukkit.createInventory(getChestDonationHolder(), 54, N_DCHEST);
+    private static Inventory chestRandomInventory;
     private static InventoryHolder chestRandomHolder = ChestInit::getChestRandomInventory;
-    private static final Inventory chestRandomInventory = Bukkit.createInventory(getChestRandomHolder(), 54, N_RCHEST);
+    private static Inventory chestShuffleInventory;
+    private static Inventory chestSwapInventory;
     private static InventoryHolder chestSwapHolder = ChestInit::getChestSwapInventory;
-    private static final Inventory chestSwapInventory = Bukkit.createInventory(getChestSwapHolder(), 54, N_WCHEST);
 
     public static Plugin getPlugin() {
         return plugin;
@@ -97,16 +97,32 @@ public class ChestInit extends JavaPlugin {
         return chestDonationInventory;
     }
 
+    private static void setChestDonationInventory(Inventory inventory) {
+        chestDonationInventory = inventory;
+    }
+
     public static Inventory getChestRandomInventory() {
         return chestRandomInventory;
     }
 
-    private static Inventory getChestSwapInventory() {
+    private static void setChestRandomInventory(Inventory inventory) {
+        chestRandomInventory = inventory;
+    }
+
+    public static Inventory getChestSwapInventory() {
         return chestSwapInventory;
+    }
+
+    private static void setChestSwapInventory(Inventory inventory) {
+        chestSwapInventory = inventory;
     }
 
     public static Inventory getChestShuffleInventory() {
         return chestShuffleInventory;
+    }
+
+    private static void setChestShuffleInventory(Inventory inventory) {
+        chestShuffleInventory = inventory;
     }
 
     public void onEnable() {
@@ -125,6 +141,18 @@ public class ChestInit extends JavaPlugin {
 
         registerMap.put(EVENT.toString(), new PluginRegisters().registerAll(getPlugin(), EVENT));
         registerMap.put(TASK.toString(), new PluginRegisters().registerAll(getPlugin(), TASK));
+
+        setChestDonationInventory(Bukkit.createInventory(getChestDonationHolder(),
+                getPlugin().getConfig().getInt("dchest.size"), N_DCHEST));
+
+        setChestRandomInventory(Bukkit.createInventory(getChestRandomHolder(),
+                getPlugin().getConfig().getInt("rchest.size"), N_RCHEST));
+
+        setChestShuffleInventory(Bukkit.createInventory(null,
+                getPlugin().getConfig().getInt("schest.size"), N_SCHEST));
+
+        setChestSwapInventory(Bukkit.createInventory(getChestSwapHolder(),
+                getPlugin().getConfig().getInt("wchest.size"), N_WCHEST));
 
         setChestDonationHolder(chestDonationHolder);
         setChestRandomHolder(chestRandomHolder);
