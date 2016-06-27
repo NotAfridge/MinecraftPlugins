@@ -10,7 +10,16 @@ import java.util.logging.Level;
 
 public class MagicInit extends JavaPlugin {
 
+    private static Plugin plugin;
     private static WorldGuardPlugin worldGuard;
+
+    public static Plugin getPlugin() {
+        return plugin;
+    }
+
+    private static void setPlugin(Plugin plugin) {
+        MagicInit.plugin = plugin;
+    }
 
     public static WorldGuardPlugin getWorldGuard() {
         return worldGuard;
@@ -20,6 +29,8 @@ public class MagicInit extends JavaPlugin {
     }
 
     public void onEnable() {
+
+        setPlugin(this);
 
         PluginManager pluginManager = getServer().getPluginManager();
         Plugin pluginWorldGuard = pluginManager.getPlugin("WorldGuard");
