@@ -23,8 +23,8 @@ public class PlayerInteractEntity implements Listener {
         if (event.getRightClicked() instanceof Pig) {
 
             Pig pig = (Pig) event.getRightClicked();
-            ItemStack inHand = event.getPlayer().getItemInHand();
             Player player = event.getPlayer();
+            ItemStack inHand = player.getInventory().getItemInMainHand();
             UUID pigUUID = pig.getUniqueId();
 
             if (pig.hasSaddle()) {

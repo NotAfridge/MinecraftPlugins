@@ -31,6 +31,7 @@ public class StandChange implements Listener {
         SignText signText = new SignText();
 
         Player player = event.getPlayer();
+        ItemStack inHand = player.getInventory().getItemInMainHand();
         World world = player.getWorld();
         Location standLocation = event.getRightClicked().getLocation();
         Block fuelBlock = world.getBlockAt(standLocation.getBlockX(), standLocation.getBlockY() - 2, standLocation.getBlockZ());
@@ -43,20 +44,20 @@ public class StandChange implements Listener {
 
             if (standList.contains(stand)) {
 
-                if (player.getItemInHand().hasItemMeta()) {
+                if (inHand.hasItemMeta()) {
 
-                    if (player.getItemInHand().getItemMeta().hasDisplayName()) {
+                    if (inHand.getItemMeta().hasDisplayName()) {
 
-                        if (player.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Boots")) {
+                        if (inHand.getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Boots")) {
 
                             ItemStack standItem = event.getArmorStandItem();
 
                             if (standItem != null) {
 
-                                int bootMaterialDurability = rocketFunctions.getBootDurability(player.getItemInHand());
-                                int bootDurability = (bootMaterialDurability - player.getItemInHand().getDurability());
+                                int bootMaterialDurability = rocketFunctions.getBootDurability(inHand);
+                                int bootDurability = (bootMaterialDurability - inHand.getDurability());
 
-                                String bootType = ChatColor.stripColor(player.getItemInHand().getItemMeta().getLore().get(0));
+                                String bootType = ChatColor.stripColor(inHand.getItemMeta().getLore().get(0));
 
                                 signText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
                                         new String[]{
@@ -79,7 +80,7 @@ public class StandChange implements Listener {
 
                 } else {
 
-                    if (player.getItemInHand().getType() != Material.AIR) {
+                    if (inHand.getType() != Material.AIR) {
 
                         commonString.messageSend(getPlugin(), player, true, RB_RS_CHANGE);
                         event.setCancelled(true);

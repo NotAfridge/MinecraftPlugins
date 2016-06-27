@@ -35,8 +35,9 @@ public class PlayerInteract implements Listener {
 
         Player player = event.getPlayer();
         Action action = event.getAction();
+        ItemStack inHand = player.getInventory().getItemInMainHand();
 
-        if (action.equals(Action.RIGHT_CLICK_AIR)) if (player.getItemInHand().getType().equals(Material.CARROT_STICK)) {
+        if (action.equals(Action.RIGHT_CLICK_AIR)) if (inHand.getType().equals(Material.CARROT_STICK)) {
 
             if (player.getVehicle() instanceof Pig) {
 
@@ -58,12 +59,11 @@ public class PlayerInteract implements Listener {
 
         }
 
-        if (player.getItemInHand().hasItemMeta()) {
+        if (inHand.hasItemMeta()) {
 
-            ItemStack rocketBoots = player.getItemInHand();
-            ItemMeta rocketMeta = rocketBoots.getItemMeta();
+            ItemMeta rocketMeta = inHand.getItemMeta();
 
-            if (player.getItemInHand().getItemMeta().hasDisplayName()) {
+            if (inHand.getItemMeta().hasDisplayName()) {
 
                 String rocketItem = rocketMeta.getDisplayName();
 
@@ -148,7 +148,7 @@ public class PlayerInteract implements Listener {
                     if (rocketLore.matches(ChatColor.YELLOW + "Rocket Level I{0,3}V?X?"))
                         if (!rocketUsage.contains(player.getUniqueId())) {
                             if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK))
-                                rocketFunctions.attachRocketBoots(player, rocketBoots);
+                                rocketFunctions.attachRocketBoots(player, inHand);
                             else event.setCancelled(true);
                         }
 

@@ -6,8 +6,8 @@
     <artifactId>urocket</artifactId>
 
     <name>uRocket</name>
-    <description>Mixed Rockets</description>
-    <version>1.8.7</version>
+    <description>Rocket Boots for flying</description>
+    <version>1.8.8</version>
 
     <parent>
         <groupId>com.ullarah</groupId>
