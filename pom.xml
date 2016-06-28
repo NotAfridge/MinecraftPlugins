@@ -12,6 +12,7 @@
     <modules>
 
         <module>uBeacon</module>
+        <module>uBroadcast</module>
         <module>uChest</module>
         <module>uJoinQuit</module>
         <module>uLottery</module>
