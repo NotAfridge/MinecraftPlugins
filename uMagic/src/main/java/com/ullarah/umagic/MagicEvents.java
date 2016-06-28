@@ -10,6 +10,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -22,15 +24,35 @@ import static org.bukkit.Material.DIAMOND_HOE;
 @SuppressWarnings("deprecation")
 public class MagicEvents implements Listener {
 
+    private String magicWarning = ChatColor.GOLD + "[" + getPlugin().getName() + "] "
+            + ChatColor.RED + ChatColor.BOLD + "WARNING: " + ChatColor.YELLOW;
+
     @EventHandler
-    public void redstoneBlock(BlockRedstoneEvent event) {
+    public void blockRedstone(BlockRedstoneEvent event) {
 
         if (event.getBlock().hasMetadata("uMagic.rlon")) event.setNewCurrent(15);
 
     }
 
     @EventHandler
-    public void changeBlock(PlayerInteractEvent event) {
+    public void blockBreak(BlockBreakEvent event) {
+
+        if (event.getBlock().hasMetadata("uMagic.wl")) {
+            event.getPlayer().sendMessage(magicWarning + "Floating carpet detected, convert back using Magic Hoe.");
+            event.setCancelled(true);
+        }
+
+    }
+
+    @EventHandler
+    public void blockPhysics(BlockPhysicsEvent event) {
+
+        if (event.getBlock().hasMetadata("uMagic.wl")) event.setCancelled(true);
+
+    }
+
+    @EventHandler
+    public void playerInteract(PlayerInteractEvent event) {
 
         Player player = event.getPlayer();
 
@@ -53,11 +75,9 @@ public class MagicEvents implements Listener {
                 return;
             }
 
-            String warning = " " + ChatColor.RED + ChatColor.BOLD + "WARNING: " + ChatColor.YELLOW;
-
-            String placeWarning = warning + "Glitch block created. Do not place blocks next to it.";
-            String barrierWarning = warning + "Barrier block created. Be careful with these.";
-            String bedrockWarning = warning + "Bedrock block created. Be careful with these.";
+            String placeWarning = magicWarning + "Piston glitch block. Do not place blocks next to it.";
+            String bedrockWarning = magicWarning + "Block converted to Bedrock. Be careful!";
+            String barrierWarning = magicWarning + "Block converted to Barrier. Be careful!";
 
             double bX = block.getLocation().getX() + 0.5;
             double bY = block.getLocation().getY() + 1;
@@ -106,6 +126,22 @@ public class MagicEvents implements Listener {
                 case SPRUCE_WOOD_STAIRS:
                 case WOOD_STAIRS:
                     block.setData(block.getData() >= 7 ? (byte) 0 : (byte) (block.getData() + 1));
+                    break;
+
+                case WOOL:
+                    byte woolData = block.getData();
+                    block.setType(Material.CARPET);
+                    block.setData(woolData);
+                    block.setMetadata("uMagic.wl", new FixedMetadataValue(getPlugin(), true));
+                    break;
+
+                case CARPET:
+                    if (block.hasMetadata("uMagic.wl")) {
+                        byte carpetData = block.getData();
+                        block.setType(Material.WOOL);
+                        block.setData(carpetData);
+                        block.removeMetadata("uMagic.wl", getPlugin());
+                    }
                     break;
 
                 case LOG:
