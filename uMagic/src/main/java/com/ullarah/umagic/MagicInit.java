@@ -24,6 +24,7 @@ public class MagicInit extends JavaPlugin {
     public static WorldGuardPlugin getWorldGuard() {
         return worldGuard;
     }
+
     private static void setWorldGuard(WorldGuardPlugin worldGuard) {
         MagicInit.worldGuard = worldGuard;
     }

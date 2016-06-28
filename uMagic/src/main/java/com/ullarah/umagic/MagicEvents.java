@@ -3,10 +3,7 @@ package com.ullarah.umagic;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -42,10 +39,19 @@ public class MagicEvents implements Listener {
 
         if (checkMagicHoe(inMainHand) ? checkMagicHoe(inMainHand) : checkMagicHoe(inOffHand)) {
 
+            if (!player.getGameMode().equals(GameMode.SURVIVAL)) {
+                event.setCancelled(true);
+                return;
+            }
+
             if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_AIR) return;
 
             Block block = event.getClickedBlock();
-            if (!checkBlock(player, block)) return;
+
+            if (!checkBlock(player, block)) {
+                event.setCancelled(true);
+                return;
+            }
 
             String warning = " " + ChatColor.RED + ChatColor.BOLD + "WARNING: " + ChatColor.YELLOW;
 
@@ -321,6 +327,7 @@ public class MagicEvents implements Listener {
 
             player.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, bX, bY, bZ, 10);
             block.getWorld().playSound(block.getLocation(), Sound.UI_BUTTON_CLICK, 0.75f, 0.75f);
+            event.setCancelled(true);
 
         }
 
