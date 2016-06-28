@@ -9,10 +9,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPhysicsEvent;
-import org.bukkit.event.block.BlockRedstoneEvent;
+import org.bukkit.event.block.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -24,22 +21,38 @@ import static org.bukkit.Material.DIAMOND_HOE;
 @SuppressWarnings("deprecation")
 public class MagicEvents implements Listener {
 
+    private MagicFunctions magicFunctions = new MagicFunctions();
+
     private String magicWarning = ChatColor.GOLD + "[" + getPlugin().getName() + "] "
             + ChatColor.RED + ChatColor.BOLD + "WARNING: " + ChatColor.YELLOW;
 
     @EventHandler
     public void blockRedstone(BlockRedstoneEvent event) {
 
-        if (event.getBlock().hasMetadata("uMagic.rlon")) event.setNewCurrent(15);
+        if (event.getBlock().hasMetadata("uMagic.rl")) event.setNewCurrent(15);
 
     }
 
     @EventHandler
     public void blockBreak(BlockBreakEvent event) {
 
+        if (event.getBlock().hasMetadata("uMagic.rl")) magicFunctions.removeMetadata(event.getBlock().getLocation());
+
         if (event.getBlock().hasMetadata("uMagic.wl")) {
             event.getPlayer().sendMessage(magicWarning + "Floating carpet detected, convert back using Magic Hoe.");
             event.setCancelled(true);
+        }
+
+        if (event.getBlock().hasMetadata("uMagic.pi")) {
+            magicFunctions.removeMetadata(event.getBlock().getLocation());
+            event.getPlayer().getWorld().dropItemNaturally(
+                    event.getPlayer().getLocation(), new ItemStack(Material.PISTON_BASE, 1));
+        }
+
+        if (event.getBlock().hasMetadata("uMagic.ps")) {
+            magicFunctions.removeMetadata(event.getBlock().getLocation());
+            event.getPlayer().getWorld().dropItemNaturally(
+                    event.getPlayer().getLocation(), new ItemStack(Material.PISTON_STICKY_BASE, 1));
         }
 
     }
@@ -48,6 +61,24 @@ public class MagicEvents implements Listener {
     public void blockPhysics(BlockPhysicsEvent event) {
 
         if (event.getBlock().hasMetadata("uMagic.wl")) event.setCancelled(true);
+        if (event.getBlock().hasMetadata("uMagic.pi")) event.setCancelled(true);
+        if (event.getBlock().hasMetadata("uMagic.ps")) event.setCancelled(true);
+
+    }
+
+    @EventHandler
+    public void blockPistonExtend(BlockPistonExtendEvent event) {
+
+        if (event.getBlock().hasMetadata("uMagic.pi")) event.setCancelled(true);
+        if (event.getBlock().hasMetadata("uMagic.ps")) event.setCancelled(true);
+
+    }
+
+    @EventHandler
+    public void blockPistonRetract(BlockPistonRetractEvent event) {
+
+        if (event.getBlock().hasMetadata("uMagic.pi")) event.setCancelled(true);
+        if (event.getBlock().hasMetadata("uMagic.ps")) event.setCancelled(true);
 
     }
 
@@ -75,7 +106,6 @@ public class MagicEvents implements Listener {
                 return;
             }
 
-            String placeWarning = magicWarning + "Piston glitch block. Do not place blocks next to it.";
             String bedrockWarning = magicWarning + "Block converted to Bedrock. Be careful!";
             String barrierWarning = magicWarning + "Block converted to Barrier. Be careful!";
 
@@ -92,6 +122,7 @@ public class MagicEvents implements Listener {
                     player.sendMessage(bedrockWarning);
                     block.setType(Material.BEDROCK);
                     block.setMetadata("uMagic.ch", new FixedMetadataValue(getPlugin(), true));
+                    magicFunctions.saveMetadata(block.getLocation(), "uMagic.ch");
                     break;
 
                 case BEDROCK:
@@ -102,13 +133,18 @@ public class MagicEvents implements Listener {
                     break;
 
                 case BARRIER:
-                    if (block.hasMetadata("uMagic.ch")) block.setType(Material.EMERALD_BLOCK);
+                    if (block.hasMetadata("uMagic.ch")) {
+                        block.setType(Material.EMERALD_BLOCK);
+                        block.removeMetadata("uMagic.ch", getPlugin());
+                        magicFunctions.removeMetadata(block.getLocation());
+                    }
                     break;
 
                 case REDSTONE_LAMP_OFF:
-                    block.setMetadata("uMagic.rlon", new FixedMetadataValue(getPlugin(), true));
+                    block.setMetadata("uMagic.rl", new FixedMetadataValue(getPlugin(), true));
                     blockUnder.setType(Material.REDSTONE_BLOCK, true);
                     block.getRelative(BlockFace.DOWN).setType(blockUnderOriginal, true);
+                    magicFunctions.saveMetadata(block.getLocation(), "uMagic.rl");
                     break;
 
                 case ACACIA_STAIRS:
@@ -133,6 +169,7 @@ public class MagicEvents implements Listener {
                     block.setType(Material.CARPET);
                     block.setData(woolData);
                     block.setMetadata("uMagic.wl", new FixedMetadataValue(getPlugin(), true));
+                    magicFunctions.saveMetadata(block.getLocation(), "uMagic.wl");
                     break;
 
                 case CARPET:
@@ -141,6 +178,7 @@ public class MagicEvents implements Listener {
                         block.setType(Material.WOOL);
                         block.setData(carpetData);
                         block.removeMetadata("uMagic.wl", getPlugin());
+                        magicFunctions.removeMetadata(block.getLocation());
                     }
                     break;
 
@@ -217,7 +255,7 @@ public class MagicEvents implements Listener {
                     break;
 
                 case PISTON_BASE:
-                    player.sendMessage(placeWarning);
+                    block.setMetadata("uMagic.pi", new FixedMetadataValue(getPlugin(), true));
                     switch (event.getAction()) {
 
                         case RIGHT_CLICK_BLOCK:
@@ -285,7 +323,7 @@ public class MagicEvents implements Listener {
                     break;
 
                 case PISTON_STICKY_BASE:
-                    player.sendMessage(placeWarning);
+                    block.setMetadata("uMagic.ps", new FixedMetadataValue(getPlugin(), true));
                     switch (event.getAction()) {
 
                         case RIGHT_CLICK_BLOCK:
@@ -405,5 +443,6 @@ public class MagicEvents implements Listener {
         return false;
 
     }
+
 
 }

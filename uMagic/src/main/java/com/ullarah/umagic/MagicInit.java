@@ -53,6 +53,8 @@ public class MagicInit extends JavaPlugin {
 
         }
 
+        new MagicFunctions().initMetadata();
+
     }
 
     public void onDisable() {
