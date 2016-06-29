@@ -263,6 +263,7 @@ public class MagicEvents implements Listener {
                     break;
 
                 case PISTON_BASE:
+                    if (block.hasMetadata("uMagic.pi")) break;
                     block.setMetadata("uMagic.pi", new FixedMetadataValue(getPlugin(), true));
                     magicFunctions.saveMetadata(block.getLocation(), "uMagic.pi");
                     switch (event.getAction()) {
@@ -333,6 +334,7 @@ public class MagicEvents implements Listener {
                     break;
 
                 case PISTON_STICKY_BASE:
+                    if (block.hasMetadata("uMagic.ps")) break;
                     block.setMetadata("uMagic.ps", new FixedMetadataValue(getPlugin(), true));
                     magicFunctions.saveMetadata(block.getLocation(), "uMagic.ps");
                     switch (event.getAction()) {
