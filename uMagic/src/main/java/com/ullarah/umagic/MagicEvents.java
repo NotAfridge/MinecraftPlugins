@@ -45,13 +45,13 @@ public class MagicEvents implements Listener {
 
         if (event.getBlock().hasMetadata("uMagic.pi")) {
             magicFunctions.removeMetadata(event.getBlock().getLocation());
-            event.getPlayer().getWorld().dropItemNaturally(
+            if (event.getBlock().getTypeId() == 34) event.getPlayer().getWorld().dropItemNaturally(
                     event.getPlayer().getLocation(), new ItemStack(Material.PISTON_BASE, 1));
         }
 
         if (event.getBlock().hasMetadata("uMagic.ps")) {
             magicFunctions.removeMetadata(event.getBlock().getLocation());
-            event.getPlayer().getWorld().dropItemNaturally(
+            if (event.getBlock().getTypeId() == 34) event.getPlayer().getWorld().dropItemNaturally(
                     event.getPlayer().getLocation(), new ItemStack(Material.PISTON_STICKY_BASE, 1));
         }
 
@@ -290,8 +290,9 @@ public class MagicEvents implements Listener {
                             break;
 
                         case LEFT_CLICK_BLOCK:
+                            byte originalData = block.getData();
                             block.setTypeId(34);
-                            switch (block.getData()) {
+                            switch (originalData) {
 
                                 case 0:
                                     block.setData((byte) 0);
@@ -359,8 +360,9 @@ public class MagicEvents implements Listener {
                             break;
 
                         case LEFT_CLICK_BLOCK:
+                            byte originalData = block.getData();
                             block.setTypeId(34);
-                            switch (block.getData()) {
+                            switch (originalData) {
 
                                 case 0:
                                     block.setData((byte) 8);
