@@ -22,7 +22,7 @@ import static org.bukkit.Material.DIAMOND_HOE;
 public class MagicEvents implements Listener {
 
     private MagicFunctions magicFunctions = new MagicFunctions();
-
+    private FixedMetadataValue metadataValue = new FixedMetadataValue(getPlugin(), true);
     private String magicWarning = ChatColor.GOLD + "[" + getPlugin().getName() + "] "
             + ChatColor.RED + ChatColor.BOLD + "WARNING: " + ChatColor.YELLOW;
 
@@ -36,24 +36,21 @@ public class MagicEvents implements Listener {
     @EventHandler
     public void blockBreak(BlockBreakEvent event) {
 
-        if (event.getBlock().hasMetadata("uMagic.rl")) magicFunctions.removeMetadata(event.getBlock().getLocation());
-        if (event.getBlock().hasMetadata("uMagic.sg")) magicFunctions.removeMetadata(event.getBlock().getLocation());
+        Block block = event.getBlock();
 
-        if (event.getBlock().hasMetadata("uMagic.wl")) {
+        if (block.hasMetadata("uMagic.rl")) {
+            block.removeMetadata("uMagic.rl", getPlugin());
+            magicFunctions.removeMetadata(block.getLocation());
+        }
+
+        if (block.hasMetadata("uMagic.sg")) {
+            block.removeMetadata("uMagic.sg", getPlugin());
+            magicFunctions.removeMetadata(block.getLocation());
+        }
+
+        if (block.hasMetadata("uMagic.wl")) {
             event.getPlayer().sendMessage(magicWarning + "Floating carpet detected, convert back using Magic Hoe.");
             event.setCancelled(true);
-        }
-
-        if (event.getBlock().hasMetadata("uMagic.pi")) {
-            magicFunctions.removeMetadata(event.getBlock().getLocation());
-            if (event.getBlock().getTypeId() == 34) event.getPlayer().getWorld().dropItemNaturally(
-                    event.getPlayer().getLocation(), new ItemStack(Material.PISTON_BASE, 1));
-        }
-
-        if (event.getBlock().hasMetadata("uMagic.ps")) {
-            magicFunctions.removeMetadata(event.getBlock().getLocation());
-            if (event.getBlock().getTypeId() == 34) event.getPlayer().getWorld().dropItemNaturally(
-                    event.getPlayer().getLocation(), new ItemStack(Material.PISTON_STICKY_BASE, 1));
         }
 
     }
@@ -61,26 +58,10 @@ public class MagicEvents implements Listener {
     @EventHandler
     public void blockPhysics(BlockPhysicsEvent event) {
 
-        if (event.getBlock().hasMetadata("uMagic.wl")) event.setCancelled(true);
-        if (event.getBlock().hasMetadata("uMagic.pi")) event.setCancelled(true);
-        if (event.getBlock().hasMetadata("uMagic.ps")) event.setCancelled(true);
-        if (event.getBlock().hasMetadata("uMagic.sg")) event.setCancelled(true);
+        Block block = event.getBlock();
 
-    }
-
-    @EventHandler
-    public void blockPistonExtend(BlockPistonExtendEvent event) {
-
-        if (event.getBlock().hasMetadata("uMagic.pi")) event.setCancelled(true);
-        if (event.getBlock().hasMetadata("uMagic.ps")) event.setCancelled(true);
-
-    }
-
-    @EventHandler
-    public void blockPistonRetract(BlockPistonRetractEvent event) {
-
-        if (event.getBlock().hasMetadata("uMagic.pi")) event.setCancelled(true);
-        if (event.getBlock().hasMetadata("uMagic.ps")) event.setCancelled(true);
+        if (block.hasMetadata("uMagic.wl")) event.setCancelled(true);
+        if (block.hasMetadata("uMagic.sg")) event.setCancelled(true);
 
     }
 
@@ -122,14 +103,14 @@ public class MagicEvents implements Listener {
 
                 case SAND:
                 case GRAVEL:
-                    block.setMetadata("uMagic.sg", new FixedMetadataValue(getPlugin(), true));
+                    block.setMetadata("uMagic.sg", metadataValue);
                     magicFunctions.saveMetadata(block.getLocation(), "uMagic.sg");
                     break;
 
                 case EMERALD_BLOCK:
                     player.sendMessage(bedrockWarning);
                     block.setType(Material.BEDROCK);
-                    block.setMetadata("uMagic.ch", new FixedMetadataValue(getPlugin(), true));
+                    block.setMetadata("uMagic.ch", metadataValue);
                     magicFunctions.saveMetadata(block.getLocation(), "uMagic.ch");
                     break;
 
@@ -149,7 +130,7 @@ public class MagicEvents implements Listener {
                     break;
 
                 case REDSTONE_LAMP_OFF:
-                    block.setMetadata("uMagic.rl", new FixedMetadataValue(getPlugin(), true));
+                    block.setMetadata("uMagic.rl", metadataValue);
                     blockUnder.setType(Material.REDSTONE_BLOCK, true);
                     block.getRelative(BlockFace.DOWN).setType(blockUnderOriginal, true);
                     magicFunctions.saveMetadata(block.getLocation(), "uMagic.rl");
@@ -176,7 +157,7 @@ public class MagicEvents implements Listener {
                     byte woolData = block.getData();
                     block.setType(Material.CARPET);
                     block.setData(woolData);
-                    block.setMetadata("uMagic.wl", new FixedMetadataValue(getPlugin(), true));
+                    block.setMetadata("uMagic.wl", metadataValue);
                     magicFunctions.saveMetadata(block.getLocation(), "uMagic.wl");
                     break;
 
@@ -262,148 +243,6 @@ public class MagicEvents implements Listener {
                     }
                     break;
 
-                case PISTON_BASE:
-                    if (block.hasMetadata("uMagic.pi")) break;
-                    block.setMetadata("uMagic.pi", new FixedMetadataValue(getPlugin(), true));
-                    magicFunctions.saveMetadata(block.getLocation(), "uMagic.pi");
-                    switch (event.getAction()) {
-
-                        case RIGHT_CLICK_BLOCK:
-                            switch (block.getData()) {
-
-                                case 0:
-                                    block.setData((byte) 8);
-                                    break;
-
-                                case 1:
-                                    block.setData((byte) 9);
-                                    break;
-
-                                case 2:
-                                    block.setData((byte) 10);
-                                    break;
-
-                                case 3:
-                                    block.setData((byte) 11);
-                                    break;
-
-                                case 4:
-                                    block.setData((byte) 12);
-                                    break;
-
-                                case 5:
-                                    block.setData((byte) 13);
-                                    break;
-
-                            }
-                            break;
-
-                        case LEFT_CLICK_BLOCK:
-                            byte originalData = block.getData();
-                            block.setTypeId(34);
-                            switch (originalData) {
-
-                                case 0:
-                                    block.setData((byte) 0);
-                                    break;
-
-                                case 1:
-                                    block.setData((byte) 1);
-                                    break;
-
-                                case 2:
-                                    block.setData((byte) 2);
-                                    break;
-
-                                case 3:
-                                    block.setData((byte) 3);
-                                    break;
-
-                                case 4:
-                                    block.setData((byte) 4);
-                                    break;
-
-                                case 5:
-                                    block.setData((byte) 5);
-                                    break;
-
-                            }
-                            break;
-
-                    }
-                    break;
-
-                case PISTON_STICKY_BASE:
-                    if (block.hasMetadata("uMagic.ps")) break;
-                    block.setMetadata("uMagic.ps", new FixedMetadataValue(getPlugin(), true));
-                    magicFunctions.saveMetadata(block.getLocation(), "uMagic.ps");
-                    switch (event.getAction()) {
-
-                        case RIGHT_CLICK_BLOCK:
-                            switch (block.getData()) {
-
-                                case 0:
-                                    block.setData((byte) 8);
-                                    break;
-
-                                case 1:
-                                    block.setData((byte) 9);
-                                    break;
-
-                                case 2:
-                                    block.setData((byte) 10);
-                                    break;
-
-                                case 3:
-                                    block.setData((byte) 11);
-                                    break;
-
-                                case 4:
-                                    block.setData((byte) 12);
-                                    break;
-
-                                case 5:
-                                    block.setData((byte) 13);
-                                    break;
-
-                            }
-                            break;
-
-                        case LEFT_CLICK_BLOCK:
-                            byte originalData = block.getData();
-                            block.setTypeId(34);
-                            switch (originalData) {
-
-                                case 0:
-                                    block.setData((byte) 8);
-                                    break;
-
-                                case 1:
-                                    block.setData((byte) 9);
-                                    break;
-
-                                case 2:
-                                    block.setData((byte) 10);
-                                    break;
-
-                                case 3:
-                                    block.setData((byte) 11);
-                                    break;
-
-                                case 4:
-                                    block.setData((byte) 12);
-                                    break;
-
-                                case 5:
-                                    block.setData((byte) 13);
-                                    break;
-
-                            }
-                            break;
-
-                    }
-                    break;
-
                 case HUGE_MUSHROOM_1:
                 case HUGE_MUSHROOM_2:
                     block.setData(block.getData() < 15 ? block.getData() == 10 ?
@@ -413,7 +252,7 @@ public class MagicEvents implements Listener {
 
             }
 
-            player.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, bX, bY, bZ, 10);
+            player.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, bX, bY, bZ, 15);
             block.getWorld().playSound(block.getLocation(), Sound.UI_BUTTON_CLICK, 0.75f, 0.75f);
             event.setCancelled(true);
 
