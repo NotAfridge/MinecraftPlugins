@@ -19,9 +19,7 @@ public class MagicFunctions {
 
     public void initMetadata() {
 
-        File[] metadataFiles = loadMetadata().listFiles();
-
-        for (File file : metadataFiles) {
+        for (File file : loadMetadata().listFiles()) {
 
             FileConfiguration metadataConfig = YamlConfiguration.loadConfiguration(file);
 
@@ -60,16 +58,6 @@ public class MagicFunctions {
 
         File metadataFile = new File(loadMetadata(),
                 location.getBlockX() + "." + location.getBlockY() + "." + location.getBlockZ() + ".yml");
-
-        if (!metadataFile.exists()) {
-
-            try {
-                metadataFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
 
         FileConfiguration metadataConfig = YamlConfiguration.loadConfiguration(metadataFile);
 

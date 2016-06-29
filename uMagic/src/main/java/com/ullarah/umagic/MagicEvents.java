@@ -256,6 +256,7 @@ public class MagicEvents implements Listener {
 
                 case PISTON_BASE:
                     block.setMetadata("uMagic.pi", new FixedMetadataValue(getPlugin(), true));
+                    magicFunctions.saveMetadata(block.getLocation(), "uMagic.pi");
                     switch (event.getAction()) {
 
                         case RIGHT_CLICK_BLOCK:
@@ -324,6 +325,7 @@ public class MagicEvents implements Listener {
 
                 case PISTON_STICKY_BASE:
                     block.setMetadata("uMagic.ps", new FixedMetadataValue(getPlugin(), true));
+                    magicFunctions.saveMetadata(block.getLocation(), "uMagic.ps");
                     switch (event.getAction()) {
 
                         case RIGHT_CLICK_BLOCK:
@@ -408,6 +410,8 @@ public class MagicEvents implements Listener {
     }
 
     private boolean checkBlock(Player player, Block block) {
+
+        if (player.hasPermission("magic.bypass")) return true;
 
         RegionManager regionManager = getWorldGuard().getRegionManager(block.getWorld());
         ApplicableRegionSet applicableRegionSet = regionManager.getApplicableRegions(block.getLocation());

@@ -7,3 +7,7 @@ author: Ullarah
 softdepend: [WorldEdit, WorldGuard]
 
 main: ${project.groupId}.${project.artifactId}.MagicInit
+
+permissions:
+  magic.bypass:
+    description: Bypass WorldGuard region access.
