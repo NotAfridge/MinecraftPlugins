@@ -37,6 +37,7 @@ public class MagicEvents implements Listener {
     public void blockBreak(BlockBreakEvent event) {
 
         if (event.getBlock().hasMetadata("uMagic.rl")) magicFunctions.removeMetadata(event.getBlock().getLocation());
+        if (event.getBlock().hasMetadata("uMagic.sg")) magicFunctions.removeMetadata(event.getBlock().getLocation());
 
         if (event.getBlock().hasMetadata("uMagic.wl")) {
             event.getPlayer().sendMessage(magicWarning + "Floating carpet detected, convert back using Magic Hoe.");
@@ -63,6 +64,7 @@ public class MagicEvents implements Listener {
         if (event.getBlock().hasMetadata("uMagic.wl")) event.setCancelled(true);
         if (event.getBlock().hasMetadata("uMagic.pi")) event.setCancelled(true);
         if (event.getBlock().hasMetadata("uMagic.ps")) event.setCancelled(true);
+        if (event.getBlock().hasMetadata("uMagic.sg")) event.setCancelled(true);
 
     }
 
@@ -117,6 +119,12 @@ public class MagicEvents implements Listener {
             Material blockUnderOriginal = blockUnder.getType();
 
             switch (block.getType()) {
+
+                case SAND:
+                case GRAVEL:
+                    block.setMetadata("uMagic.sg", new FixedMetadataValue(getPlugin(), true));
+                    magicFunctions.saveMetadata(block.getLocation(), "uMagic.sg");
+                    break;
 
                 case EMERALD_BLOCK:
                     player.sendMessage(bedrockWarning);
