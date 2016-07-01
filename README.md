@@ -14,15 +14,16 @@ These plugins can be used for developmental purposes.*
 
 [The wiki may contain more information.](https://github.com/Ullarah/MinecraftPlugins/wiki)
 
-| Plugin    | Status          | Description                           |
-| --------- | --------------- | ------------------------------------- |
-| uBeacon   | Requires Recode | Rainbow and Custom beacons.           |
-| uChest    | Ready           | Various useful chests.                |
-| uJoinQuit | Ready           | Custom Join/Quit messages.            |
-| uLottery  | Ready           | Passive death lottery.                |
-| uMagic    | Ready           | Magical hoe to change various blocks. |
-| uPostal   | Ready           | Item Postal service between players.  |
-| uRocket   | Ready           | Rocket Boots for player flying.       |
-| uTab      | Ready           | Tab list header and footer.           |
-| uTeleport | Ready           | Teleport history for players.         |
-| uWild     | In Progress     | Various animal and mob changes.       |
+| Plugin     | Status      | Description                           |
+| ---------- | ------------| ------------------------------------- |
+| uBeacon    | Ready       | Simple rainbow beacons.               |
+| uBroadcast | Ready       | Server broadcast over LAN.            |
+| uChest     | Ready       | Various useful chests.                |
+| uJoinQuit  | Ready       | Custom Join/Quit messages.            |
+| uLottery   | Ready       | Passive death lottery.                |
+| uMagic     | Ready       | Magical hoe to change various blocks. |
+| uPostal    | Ready       | Item Postal service between players.  |
+| uRocket    | Ready       | Rocket Boots for player flying.       |
+| uTab       | Ready       | Tab list header and footer.           |
+| uTeleport  | Ready       | Teleport history for players.         |
+| uWild      | In Progress | Various animal and mob changes.       |
