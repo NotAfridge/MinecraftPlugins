@@ -12,12 +12,14 @@ import static org.bukkit.Material.SPECKLED_MELON;
 
 public class MagicRecipe {
 
+    public static String hoeName = ChatColor.AQUA + "Magical Hoe";
+
     public ItemStack hoe() {
 
         ItemStack hoeStack = new ItemStack(DIAMOND_HOE, 1);
         ItemMeta hoeMeta = hoeStack.getItemMeta();
 
-        hoeMeta.setDisplayName(ChatColor.AQUA + "Magical Hoe");
+        hoeMeta.setDisplayName(hoeName);
 
         hoeMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         hoeStack.setItemMeta(hoeMeta);

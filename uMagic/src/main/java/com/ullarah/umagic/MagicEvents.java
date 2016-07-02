@@ -9,13 +9,17 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.*;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPhysicsEvent;
+import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import static com.ullarah.umagic.MagicInit.getPlugin;
 import static com.ullarah.umagic.MagicInit.getWorldGuard;
+import static com.ullarah.umagic.MagicRecipe.hoeName;
 import static org.bukkit.Material.DIAMOND_HOE;
 
 @SuppressWarnings("deprecation")
@@ -26,10 +30,15 @@ public class MagicEvents implements Listener {
     private String magicWarning = ChatColor.GOLD + "[" + getPlugin().getName() + "] "
             + ChatColor.RED + ChatColor.BOLD + "WARNING: " + ChatColor.YELLOW;
 
+    private String metaSand = "uMagic.sg";
+    private String metaLamp = "uMagic.rl";
+    private String metaWool = "uMagic.wl";
+    private String metaEmBr = "uMagic.ch";
+
     @EventHandler
     public void blockRedstone(BlockRedstoneEvent event) {
 
-        if (event.getBlock().hasMetadata("uMagic.rl")) event.setNewCurrent(15);
+        if (event.getBlock().hasMetadata(metaLamp)) event.setNewCurrent(15);
 
     }
 
@@ -38,19 +47,24 @@ public class MagicEvents implements Listener {
 
         Block block = event.getBlock();
 
-        if (block.hasMetadata("uMagic.rl")) {
-            block.removeMetadata("uMagic.rl", getPlugin());
+        if (block.hasMetadata(metaLamp)) {
+            block.removeMetadata(metaLamp, getPlugin());
             magicFunctions.removeMetadata(block.getLocation());
         }
 
-        if (block.hasMetadata("uMagic.sg")) {
-            block.removeMetadata("uMagic.sg", getPlugin());
+        if (block.hasMetadata(metaSand)) {
+            block.removeMetadata(metaSand, getPlugin());
             magicFunctions.removeMetadata(block.getLocation());
         }
 
-        if (block.hasMetadata("uMagic.wl")) {
+        if (block.hasMetadata(metaWool)) {
             event.getPlayer().sendMessage(magicWarning + "Floating carpet detected, convert back using Magic Hoe.");
             event.setCancelled(true);
+        }
+
+        if (block.hasMetadata(metaEmBr)) {
+            block.removeMetadata(metaEmBr, getPlugin());
+            magicFunctions.removeMetadata(block.getLocation());
         }
 
     }
@@ -60,8 +74,8 @@ public class MagicEvents implements Listener {
 
         Block block = event.getBlock();
 
-        if (block.hasMetadata("uMagic.wl")) event.setCancelled(true);
-        if (block.hasMetadata("uMagic.sg")) event.setCancelled(true);
+        if (block.hasMetadata(metaWool)) event.setCancelled(true);
+        if (block.hasMetadata(metaSand)) event.setCancelled(true);
 
     }
 
@@ -103,37 +117,37 @@ public class MagicEvents implements Listener {
 
                 case SAND:
                 case GRAVEL:
-                    block.setMetadata("uMagic.sg", metadataValue);
-                    magicFunctions.saveMetadata(block.getLocation(), "uMagic.sg");
+                    block.setMetadata(metaSand, metadataValue);
+                    magicFunctions.saveMetadata(block.getLocation(), metaSand);
                     break;
 
                 case EMERALD_BLOCK:
                     player.sendMessage(bedrockWarning);
                     block.setType(Material.BEDROCK);
-                    block.setMetadata("uMagic.ch", metadataValue);
-                    magicFunctions.saveMetadata(block.getLocation(), "uMagic.ch");
+                    block.setMetadata(metaEmBr, metadataValue);
+                    magicFunctions.saveMetadata(block.getLocation(), metaEmBr);
                     break;
 
                 case BEDROCK:
-                    if (block.hasMetadata("uMagic.ch")) {
+                    if (block.hasMetadata(metaEmBr)) {
                         player.sendMessage(barrierWarning);
                         block.setType(Material.BARRIER);
                     }
                     break;
 
                 case BARRIER:
-                    if (block.hasMetadata("uMagic.ch")) {
+                    if (block.hasMetadata(metaEmBr)) {
                         block.setType(Material.EMERALD_BLOCK);
-                        block.removeMetadata("uMagic.ch", getPlugin());
+                        block.removeMetadata(metaEmBr, getPlugin());
                         magicFunctions.removeMetadata(block.getLocation());
                     }
                     break;
 
                 case REDSTONE_LAMP_OFF:
-                    block.setMetadata("uMagic.rl", metadataValue);
+                    block.setMetadata(metaLamp, metadataValue);
                     blockUnder.setType(Material.REDSTONE_BLOCK, true);
                     block.getRelative(BlockFace.DOWN).setType(blockUnderOriginal, true);
-                    magicFunctions.saveMetadata(block.getLocation(), "uMagic.rl");
+                    magicFunctions.saveMetadata(block.getLocation(), metaLamp);
                     break;
 
                 case ACACIA_STAIRS:
@@ -157,16 +171,16 @@ public class MagicEvents implements Listener {
                     byte woolData = block.getData();
                     block.setType(Material.CARPET);
                     block.setData(woolData);
-                    block.setMetadata("uMagic.wl", metadataValue);
-                    magicFunctions.saveMetadata(block.getLocation(), "uMagic.wl");
+                    block.setMetadata(metaWool, metadataValue);
+                    magicFunctions.saveMetadata(block.getLocation(), metaWool);
                     break;
 
                 case CARPET:
-                    if (block.hasMetadata("uMagic.wl")) {
+                    if (block.hasMetadata(metaWool)) {
                         byte carpetData = block.getData();
                         block.setType(Material.WOOL);
                         block.setData(carpetData);
-                        block.removeMetadata("uMagic.wl", getPlugin());
+                        block.removeMetadata(metaWool, getPlugin());
                         magicFunctions.removeMetadata(block.getLocation());
                     }
                     break;
@@ -283,7 +297,7 @@ public class MagicEvents implements Listener {
 
                 if (item.getItemMeta().hasDisplayName()) {
 
-                    if (item.getItemMeta().getDisplayName().equals(ChatColor.AQUA + "Magical Hoe")) {
+                    if (item.getItemMeta().getDisplayName().equals(hoeName)) {
 
                         return true;
 

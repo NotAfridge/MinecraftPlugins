@@ -1,9 +1,6 @@
 package com.ullarah.umagic;
 
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,10 +9,17 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
 
 import static com.ullarah.umagic.MagicInit.getPlugin;
 
 public class MagicFunctions {
+
+    private String world = "world";
+    private String locX = "loc.X";
+    private String locY = "loc.Y";
+    private String locZ = "loc.Z";
+    private String data = "data";
 
     public void initMetadata() {
 
@@ -23,20 +27,20 @@ public class MagicFunctions {
 
             FileConfiguration metadataConfig = YamlConfiguration.loadConfiguration(file);
 
-            World world = getPlugin().getServer().getWorld(metadataConfig.getString("world"));
+            World metaWorld = getPlugin().getServer().getWorld(metadataConfig.getString(world));
 
-            double lX = metadataConfig.getDouble("loc.X");
-            double lY = metadataConfig.getDouble("loc.Y");
-            double lZ = metadataConfig.getDouble("loc.Z");
+            double lX = metadataConfig.getDouble(locX);
+            double lY = metadataConfig.getDouble(locY);
+            double lZ = metadataConfig.getDouble(locZ);
 
-            Location location = new Location(world, lX, lY, lZ);
+            Location location = new Location(metaWorld, lX, lY, lZ);
 
             Chunk chunk = location.getChunk();
             if (!chunk.isLoaded()) chunk.load();
 
-            String metadata = metadataConfig.getString("data");
+            String metadata = metadataConfig.getString(data);
 
-            Block block = world.getBlockAt(location);
+            Block block = metaWorld.getBlockAt(location);
 
             block.setMetadata(metadata, new FixedMetadataValue(getPlugin(), true));
 
@@ -56,16 +60,15 @@ public class MagicFunctions {
 
     public void saveMetadata(Location location, String metadata) {
 
-        File metadataFile = new File(loadMetadata(),
-                location.getBlockX() + "." + location.getBlockY() + "." + location.getBlockZ() + ".yml");
+        File metadataFile = getMetadata(location);
 
         FileConfiguration metadataConfig = YamlConfiguration.loadConfiguration(metadataFile);
 
-        metadataConfig.set("world", location.getWorld().getName());
-        metadataConfig.set("loc.X", location.getX());
-        metadataConfig.set("loc.Y", location.getY());
-        metadataConfig.set("loc.Z", location.getZ());
-        metadataConfig.set("data", metadata);
+        metadataConfig.set(world, location.getWorld().getName());
+        metadataConfig.set(locX, location.getX());
+        metadataConfig.set(locY, location.getY());
+        metadataConfig.set(locZ, location.getZ());
+        metadataConfig.set(data, metadata);
 
         try {
             metadataConfig.save(metadataFile);
@@ -77,10 +80,12 @@ public class MagicFunctions {
 
     public void removeMetadata(Location location) {
 
-        File metadataFile = new File(loadMetadata(),
-                location.getBlockX() + "." + location.getBlockY() + "." + location.getBlockZ() + ".yml");
+        File metadataFile = getMetadata(location);
 
-        metadataFile.delete();
+        boolean fileDeleted = metadataFile.delete();
+
+        if (!fileDeleted)
+            Bukkit.getLogger().log(Level.SEVERE, "Metadata file could not be deleted: " + metadataFile.toString());
 
     }
 
@@ -97,6 +102,13 @@ public class MagicFunctions {
         if (metadataFileCreation) return metadataDir;
 
         return null;
+
+    }
+
+    private File getMetadata(Location location) {
+
+        return new File(loadMetadata(),
+                location.getBlockX() + "." + location.getBlockY() + "." + location.getBlockZ() + ".yml");
 
     }
 
