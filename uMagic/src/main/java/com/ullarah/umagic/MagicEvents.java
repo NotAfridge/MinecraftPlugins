@@ -9,10 +9,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPhysicsEvent;
-import org.bukkit.event.block.BlockRedstoneEvent;
+import org.bukkit.event.block.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -34,6 +31,7 @@ public class MagicEvents implements Listener {
     private String metaLamp = "uMagic.rl";
     private String metaWool = "uMagic.wl";
     private String metaEmBr = "uMagic.ch";
+    private String metaLadd = "uMagic.ld";
 
     @EventHandler
     public void blockRedstone(BlockRedstoneEvent event) {
@@ -43,29 +41,28 @@ public class MagicEvents implements Listener {
     }
 
     @EventHandler
+    public void blockDamage(BlockDamageEvent event) {
+
+        Block block = event.getBlock();
+
+        for (String meta : new String[]{metaWool, metaLadd})
+            if (block.hasMetadata(meta)) {
+                event.getPlayer().sendMessage(magicWarning + "Magical block detected, convert back using Magic Hoe.");
+                event.setCancelled(true);
+            }
+
+    }
+
+    @EventHandler
     public void blockBreak(BlockBreakEvent event) {
 
         Block block = event.getBlock();
 
-        if (block.hasMetadata(metaLamp)) {
-            block.removeMetadata(metaLamp, getPlugin());
-            magicFunctions.removeMetadata(block.getLocation());
-        }
-
-        if (block.hasMetadata(metaSand)) {
-            block.removeMetadata(metaSand, getPlugin());
-            magicFunctions.removeMetadata(block.getLocation());
-        }
-
-        if (block.hasMetadata(metaWool)) {
-            event.getPlayer().sendMessage(magicWarning + "Floating carpet detected, convert back using Magic Hoe.");
-            event.setCancelled(true);
-        }
-
-        if (block.hasMetadata(metaEmBr)) {
-            block.removeMetadata(metaEmBr, getPlugin());
-            magicFunctions.removeMetadata(block.getLocation());
-        }
+        for (String meta : new String[]{metaSand, metaLamp, metaWool, metaEmBr, metaLadd})
+            if (block.hasMetadata(meta)) {
+                block.removeMetadata(meta, getPlugin());
+                magicFunctions.removeMetadata(block.getLocation());
+            }
 
     }
 
@@ -74,8 +71,8 @@ public class MagicEvents implements Listener {
 
         Block block = event.getBlock();
 
-        if (block.hasMetadata(metaWool)) event.setCancelled(true);
-        if (block.hasMetadata(metaSand)) event.setCancelled(true);
+        for (String meta : new String[]{metaSand, metaWool, metaLadd})
+            if (block.hasMetadata(meta)) event.setCancelled(true);
 
     }
 
@@ -113,7 +110,49 @@ public class MagicEvents implements Listener {
             Block blockUnder = block.getRelative(BlockFace.DOWN);
             Material blockUnderOriginal = blockUnder.getType();
 
+            byte originalData = block.getData();
+
             switch (block.getType()) {
+
+                case WOOD:
+                    for (BlockFace face : new BlockFace[]{BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST}) {
+                        Block blockNext = block.getRelative(face);
+
+                        if (blockNext.getType() == Material.GLASS || blockNext.getType() == Material.STAINED_GLASS) {
+                            block.setType(Material.LADDER);
+
+                            switch (face) {
+                                case NORTH:
+                                    block.setData((byte) 3);
+                                    break;
+
+                                case EAST:
+                                    block.setData((byte) 4);
+                                    break;
+
+                                case SOUTH:
+                                    block.setData((byte) 2);
+                                    break;
+
+                                case WEST:
+                                    block.setData((byte) 5);
+                                    break;
+                            }
+
+                            block.setMetadata(metaLadd, metadataValue);
+                            magicFunctions.saveMetadata(block.getLocation(), metaLadd);
+
+                        }
+                    }
+                    break;
+
+                case LADDER:
+                    if (block.hasMetadata(metaLadd)) {
+                        block.setType(Material.WOOD);
+                        block.removeMetadata(metaLadd, getPlugin());
+                        magicFunctions.removeMetadata(block.getLocation());
+                    }
+                    break;
 
                 case SAND:
                 case GRAVEL:
@@ -257,11 +296,15 @@ public class MagicEvents implements Listener {
                     }
                     break;
 
+                case STONE_BUTTON:
+                case WOOD_BUTTON:
+                    block.setData((byte) (originalData + 8));
+                    break;
+
                 case HUGE_MUSHROOM_1:
                 case HUGE_MUSHROOM_2:
                     block.setData(block.getData() < 15 ? block.getData() == 10 ?
                             (byte) 14 : (byte) (block.getData() + 1) : (byte) 0);
-
                     break;
 
             }
