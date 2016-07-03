@@ -32,6 +32,7 @@ public class MagicEvents implements Listener {
     private String metaWool = "uMagic.wl";
     private String metaEmBr = "uMagic.ch";
     private String metaLadd = "uMagic.ld";
+    private String metaRail = "uMagic.ra";
 
     @EventHandler
     public void blockRedstone(BlockRedstoneEvent event) {
@@ -58,7 +59,7 @@ public class MagicEvents implements Listener {
 
         Block block = event.getBlock();
 
-        for (String meta : new String[]{metaSand, metaLamp, metaWool, metaEmBr, metaLadd})
+        for (String meta : new String[]{metaSand, metaLamp, metaWool, metaEmBr, metaLadd, metaRail})
             if (block.hasMetadata(meta)) {
                 block.removeMetadata(meta, getPlugin());
                 magicFunctions.removeMetadata(block.getLocation());
@@ -71,7 +72,7 @@ public class MagicEvents implements Listener {
 
         Block block = event.getBlock();
 
-        for (String meta : new String[]{metaSand, metaWool, metaLadd})
+        for (String meta : new String[]{metaSand, metaWool, metaLadd, metaRail})
             if (block.hasMetadata(meta)) event.setCancelled(true);
 
     }
@@ -113,6 +114,11 @@ public class MagicEvents implements Listener {
             byte originalData = block.getData();
 
             switch (block.getType()) {
+
+                case RAILS:
+                    block.setMetadata(metaRail, metadataValue);
+                    magicFunctions.saveMetadata(block.getLocation(), metaRail);
+                    break;
 
                 case WOOD:
                     for (BlockFace face : new BlockFace[]{BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST}) {
