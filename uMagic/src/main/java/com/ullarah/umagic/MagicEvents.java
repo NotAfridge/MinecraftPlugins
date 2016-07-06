@@ -65,6 +65,16 @@ public class MagicEvents implements Listener {
                 magicFunctions.removeMetadata(block.getLocation());
             }
 
+        if (block.getType() == Material.GLASS || block.getType() == Material.STAINED_GLASS)
+            for (BlockFace face : new BlockFace[]{BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST}) {
+                Block blockNext = block.getRelative(face);
+                if (blockNext.hasMetadata(metaLadd)) {
+                    blockNext.setType(Material.WOOD);
+                    blockNext.removeMetadata(metaLadd, getPlugin());
+                    magicFunctions.removeMetadata(blockNext.getLocation());
+                }
+            }
+
     }
 
     @EventHandler
