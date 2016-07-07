@@ -47,6 +47,8 @@ public class MagicInit extends JavaPlugin {
             getServer().addRecipe(new MagicRecipe().hoeRecipe());
             new PluginRegisters().registerAll(getPlugin(), PluginRegisters.RegisterType.EVENT);
 
+            getCommand("hoe").setExecutor(new MagicExecutor());
+
         } else {
 
             Bukkit.getLogger().log(Level.SEVERE, "WorldGuard plugin not found. Disabling uMagic.");

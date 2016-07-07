@@ -12,7 +12,7 @@ public class MagicExecutor implements CommandExecutor {
 
         if (command.getName().equalsIgnoreCase("hoe")) {
 
-            if (!sender.hasPermission("magic.gethoe")) {
+            if (sender.hasPermission("magic.gethoe")) {
                 Player player = (Player) sender;
                 player.getWorld().dropItemNaturally(player.getLocation(), new MagicRecipe().hoe());
             }
