@@ -9,5 +9,9 @@ softdepend: [WorldEdit, WorldGuard]
 main: ${project.groupId}.${project.artifactId}.MagicInit
 
 permissions:
+  magic.usage:
+    description: Allows usage of the Magic Hoe
   magic.bypass:
     description: Bypass WorldGuard region access.
+  magic.gethoe:
+    description: Obtain a Magic Hoe without crafting.

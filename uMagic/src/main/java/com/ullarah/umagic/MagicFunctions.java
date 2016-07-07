@@ -1,25 +1,38 @@
 package com.ullarah.umagic;
 
-import org.bukkit.*;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import org.bukkit.Chunk;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 
-import static com.ullarah.umagic.MagicInit.getPlugin;
-
 public class MagicFunctions {
 
-    private String world = "world";
-    private String locX = "loc.X";
-    private String locY = "loc.Y";
-    private String locZ = "loc.Z";
-    private String data = "data";
+    public final String metaSand = "uMagic.sg";
+    public final String metaLamp = "uMagic.rl";
+    public final String metaWool = "uMagic.wl";
+    public final String metaEmBr = "uMagic.ch";
+    public final String metaLadd = "uMagic.ld";
+    public final String metaRail = "uMagic.ra";
+
+    private final String world = "world";
+    private final String locX = "loc.X";
+    private final String locY = "loc.Y";
+    private final String locZ = "loc.Z";
+    private final String data = "data";
 
     public void initMetadata() {
 
@@ -27,11 +40,11 @@ public class MagicFunctions {
 
             FileConfiguration metadataConfig = YamlConfiguration.loadConfiguration(file);
 
-            World metaWorld = getPlugin().getServer().getWorld(metadataConfig.getString(world));
+            World metaWorld = MagicInit.getPlugin().getServer().getWorld(metadataConfig.getString(world));
 
-            double lX = metadataConfig.getDouble(locX);
-            double lY = metadataConfig.getDouble(locY);
-            double lZ = metadataConfig.getDouble(locZ);
+            double lX = metadataConfig.getDouble(locX),
+                    lY = metadataConfig.getDouble(locY),
+                    lZ = metadataConfig.getDouble(locZ);
 
             Location location = new Location(metaWorld, lX, lY, lZ);
 
@@ -42,7 +55,7 @@ public class MagicFunctions {
 
             Block block = metaWorld.getBlockAt(location);
 
-            block.setMetadata(metadata, new FixedMetadataValue(getPlugin(), true));
+            block.setMetadata(metadata, new FixedMetadataValue(MagicInit.getPlugin(), true));
 
             if (block.getType() == Material.REDSTONE_LAMP_OFF) {
 
@@ -85,7 +98,8 @@ public class MagicFunctions {
         boolean fileDeleted = metadataFile.delete();
 
         if (!fileDeleted)
-            Bukkit.getLogger().log(Level.SEVERE, "Metadata file could not be deleted: " + metadataFile.toString());
+            MagicInit.getPlugin().getLogger().log(Level.SEVERE,
+                    "Metadata file could not be deleted: " + metadataFile.toString());
 
     }
 
@@ -93,7 +107,7 @@ public class MagicFunctions {
 
         boolean metadataFileCreation = true;
 
-        File dataDir = getPlugin().getDataFolder();
+        File dataDir = MagicInit.getPlugin().getDataFolder();
         if (!dataDir.exists()) metadataFileCreation = dataDir.mkdir();
 
         File metadataDir = new File(dataDir + File.separator + "metadata");
@@ -109,6 +123,45 @@ public class MagicFunctions {
 
         return new File(loadMetadata(),
                 location.getBlockX() + "." + location.getBlockY() + "." + location.getBlockZ() + ".yml");
+
+    }
+
+    public boolean checkBlock(Player player, Block block) {
+
+        if (player.hasPermission("magic.bypass")) return true;
+
+        RegionManager regionManager = MagicInit.getWorldGuard().getRegionManager(block.getWorld());
+        ApplicableRegionSet applicableRegionSet = regionManager.getApplicableRegions(block.getLocation());
+
+        if (applicableRegionSet.getRegions().isEmpty()) return false;
+        for (ProtectedRegion r : applicableRegionSet.getRegions())
+            if (!r.isOwner(MagicInit.getWorldGuard().wrapPlayer(player))) return false;
+
+        return true;
+
+    }
+
+    public boolean checkMagicHoe(ItemStack item) {
+
+        if (item.getType() == Material.DIAMOND_HOE) {
+
+            if (item.hasItemMeta()) {
+
+                if (item.getItemMeta().hasDisplayName()) {
+
+                    if (item.getItemMeta().getDisplayName().equals(MagicRecipe.hoeName)) {
+
+                        return true;
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        return false;
 
     }
 
