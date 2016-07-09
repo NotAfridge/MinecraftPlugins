@@ -1,14 +1,12 @@
 package com.ullarah.uchest.event;
 
+import com.ullarah.uchest.ChestInit;
+import com.ullarah.uchest.init.ChestLanguage;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
-
-import static com.ullarah.uchest.ChestInit.chestSwapBusy;
-import static com.ullarah.uchest.ChestInit.chestSwapPlayer;
-import static com.ullarah.uchest.init.ChestLanguage.N_WCHEST;
 
 public class ChestOpen implements Listener {
 
@@ -17,9 +15,9 @@ public class ChestOpen implements Listener {
 
         Inventory chestInventory = event.getInventory();
 
-        if (chestInventory.getName().matches(N_WCHEST)) {
-            chestSwapPlayer = (Player) event.getPlayer();
-            chestSwapBusy = true;
+        if (chestInventory.getName().matches(ChestLanguage.N_WCHEST)) {
+            ChestInit.chestSwapPlayer = (Player) event.getPlayer();
+            ChestInit.chestSwapBusy = true;
             chestInventory.clear();
         }
 

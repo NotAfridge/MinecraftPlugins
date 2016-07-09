@@ -1,13 +1,10 @@
 package com.ullarah.uchest.command;
 
 import com.ullarah.uchest.ChestFunctions;
+import com.ullarah.uchest.ChestInit;
 import com.ullarah.uchest.function.CommonString;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import static com.ullarah.uchest.ChestFunctions.ValidChest.MONEY;
-import static com.ullarah.uchest.ChestInit.chestTypeEnabled;
-import static com.ullarah.uchest.ChestInit.getPlugin;
 
 public class ChestMoney {
 
@@ -17,12 +14,13 @@ public class ChestMoney {
         ChestFunctions chestFunctions = new ChestFunctions();
 
         if (!(sender instanceof Player)) {
-            commonString.messageNoConsole(getPlugin(), sender);
+            commonString.messageNoConsole(ChestInit.getPlugin(), sender);
             return;
         }
 
-        if (chestTypeEnabled.get("mchest")) chestFunctions.openConvertChest(sender, MONEY);
-        else commonString.messageSend(getPlugin(), sender, "Money Chest is currently unavailable.");
+        if (ChestInit.chestTypeEnabled.get("mchest"))
+            chestFunctions.openConvertChest(sender, ChestFunctions.ValidChest.MONEY);
+        else commonString.messageSend(ChestInit.getPlugin(), sender, "Money Chest is currently unavailable.");
 
     }
 

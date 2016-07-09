@@ -1,11 +1,10 @@
 package com.ullarah.uchest.event;
 
+import com.ullarah.uchest.init.ChestLanguage;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
-
-import static com.ullarah.uchest.init.ChestLanguage.N_DCHEST;
 
 public class ChestDrag implements Listener {
 
@@ -14,7 +13,7 @@ public class ChestDrag implements Listener {
 
         Inventory chestInventory = event.getInventory();
 
-        if (chestInventory.getName().matches(N_DCHEST))
+        if (chestInventory.getName().matches(ChestLanguage.N_DCHEST))
             event.setCancelled(true);
 
     }

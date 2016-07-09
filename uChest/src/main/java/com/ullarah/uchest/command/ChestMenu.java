@@ -1,8 +1,8 @@
 package com.ullarah.uchest.command;
 
 import com.ullarah.uchest.ChestFunctions;
+import com.ullarah.uchest.ChestInit;
 import com.ullarah.uchest.function.CommonString;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -13,9 +13,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.ullarah.uchest.ChestFunctions.validCommands;
-import static com.ullarah.uchest.ChestInit.getPlugin;
-
 public class ChestMenu {
 
     private void showChestMenu(CommandSender sender) {
@@ -23,10 +20,10 @@ public class ChestMenu {
         ChestFunctions chestFunctions = new ChestFunctions();
 
         Player player = (Player) sender;
-        Inventory chestGUI = Bukkit.getServer().createInventory(null, 9, "" + ChatColor.GOLD + ChatColor.BOLD + "Mixed Chests");
+        Inventory chestGUI = ChestInit.getPlugin().getServer().createInventory(null, 9, "" + ChatColor.GOLD + ChatColor.BOLD + "Mixed Chests");
         String menuColour = "" + ChatColor.GREEN + ChatColor.BOLD;
 
-        chestGUI.setItem(0, chestFunctions.createItemStack(Material.JUKEBOX,
+        chestGUI.setItem(0, chestFunctions.createItemStack(getMenuIcon("jukebox"),
                 menuColour + "Donation Chest", Arrays.asList(
                         accessLevelRequirement("dchest"),
                         ChatColor.RESET + "",
@@ -36,7 +33,7 @@ public class ChestMenu {
                         ChatColor.RED + "This chest is player supported!")
         ));
 
-        chestGUI.setItem(1, chestFunctions.createItemStack(Material.WORKBENCH,
+        chestGUI.setItem(1, chestFunctions.createItemStack(getMenuIcon("echest"),
                 menuColour + "Enchantment Chest", Arrays.asList(
                         accessLevelRequirement("echest"),
                         ChatColor.RESET + "",
@@ -71,14 +68,15 @@ public class ChestMenu {
         );
 
         holdChestMessage.addAll(holdChestStartMessage);
-        if (getPlugin().getConfig().getBoolean("hchest.keepondeath")) holdChestMessage.addAll(holdChestDeathMessage);
+        if (ChestInit.getPlugin().getConfig().getBoolean("hchest.keepondeath"))
+            holdChestMessage.addAll(holdChestDeathMessage);
         holdChestMessage.addAll(holdChestEndMessage);
 
-        chestGUI.setItem(2, chestFunctions.createItemStack(Material.CHEST,
+        chestGUI.setItem(2, chestFunctions.createItemStack(getMenuIcon("hchest"),
                 menuColour + "Hold Chest", holdChestMessage
         ));
 
-        chestGUI.setItem(3, chestFunctions.createItemStack(Material.EMERALD_BLOCK,
+        chestGUI.setItem(3, chestFunctions.createItemStack(getMenuIcon("mchest"),
                 menuColour + "Money Chest", Arrays.asList(
                         accessLevelRequirement("mchest"),
                         ChatColor.RESET + "",
@@ -88,9 +86,9 @@ public class ChestMenu {
                         ChatColor.RED + "Some items do not return money!")
         ));
 
-        int rChestTimer = getPlugin().getConfig().getInt("rchest.timer");
+        int rChestTimer = ChestInit.getPlugin().getConfig().getInt("rchest.timer");
 
-        chestGUI.setItem(4, chestFunctions.createItemStack(Material.SPONGE,
+        chestGUI.setItem(4, chestFunctions.createItemStack(getMenuIcon("rchest"),
                 menuColour + "Random Chest", Arrays.asList(
                         accessLevelRequirement("rchest"),
                         ChatColor.RESET + "",
@@ -102,7 +100,7 @@ public class ChestMenu {
                         ChatColor.RED + "You have " + ChatColor.YELLOW + rChestTimer + " seconds" + ChatColor.RED + "!")
         ));
 
-        chestGUI.setItem(5, chestFunctions.createItemStack(Material.JACK_O_LANTERN,
+        chestGUI.setItem(5, chestFunctions.createItemStack(getMenuIcon("schest"),
                 menuColour + "Shuffle Chest", Arrays.asList(
                         accessLevelRequirement("schest"),
                         ChatColor.RESET + "",
@@ -113,7 +111,7 @@ public class ChestMenu {
                         ChatColor.GREEN + "Item will drop at your location.")
         ));
 
-        chestGUI.setItem(6, chestFunctions.createItemStack(Material.ENDER_CHEST,
+        chestGUI.setItem(6, chestFunctions.createItemStack(getMenuIcon("vchest"),
                 menuColour + "Vault Chest", Arrays.asList(
                         accessLevelRequirement("vchest"),
                         ChatColor.RESET + "",
@@ -123,7 +121,7 @@ public class ChestMenu {
                         ChatColor.DARK_AQUA + "Upgrade your vault using " + ChatColor.AQUA + "/vchest upgrade")
         ));
 
-        chestGUI.setItem(7, chestFunctions.createItemStack(Material.GLASS,
+        chestGUI.setItem(7, chestFunctions.createItemStack(getMenuIcon("wchest"),
                 menuColour + "Swap Chest", Arrays.asList(
                         accessLevelRequirement("wchest"),
                         ChatColor.RESET + "",
@@ -133,7 +131,7 @@ public class ChestMenu {
                         ChatColor.RED + "This chest is player supported!")
         ));
 
-        chestGUI.setItem(8, chestFunctions.createItemStack(Material.SEA_LANTERN,
+        chestGUI.setItem(8, chestFunctions.createItemStack(getMenuIcon("xchest"),
                 menuColour + "Experience Chest", Arrays.asList(
                         accessLevelRequirement("xchest"),
                         ChatColor.RESET + "",
@@ -149,8 +147,8 @@ public class ChestMenu {
 
     private String accessLevelRequirement(String type) {
 
-        int accessLevel = getPlugin().getConfig().getInt(type + ".access");
-        boolean accessRemoveLevel = getPlugin().getConfig().getBoolean(type + ".removelevel");
+        int accessLevel = ChestInit.getPlugin().getConfig().getInt(type + ".access");
+        boolean accessRemoveLevel = ChestInit.getPlugin().getConfig().getBoolean(type + ".removelevel");
 
         if (accessLevel > 0) {
             String s = accessLevel > 1 ? "s" : "";
@@ -160,11 +158,25 @@ public class ChestMenu {
 
     }
 
+    private Material getMenuIcon(String type) {
+
+        try {
+
+            return Material.getMaterial(ChestInit.getPlugin().getConfig().getString(type + ".icon").toUpperCase());
+
+        } catch (Exception e) {
+
+            return Material.CHEST;
+
+        }
+
+    }
+
     public void runCommand(CommandSender sender, String[] args) {
 
         CommonString commonString = new CommonString();
 
-        String consoleTools = commonString.pluginPrefix(getPlugin()) + ChatColor.WHITE + "toggle";
+        String consoleTools = commonString.pluginPrefix(ChestInit.getPlugin()) + ChatColor.WHITE + "toggle";
 
         if (args.length == 0) {
 
@@ -177,10 +189,10 @@ public class ChestMenu {
 
         } else try {
 
-            switch (validCommands.valueOf(args[0].toUpperCase())) {
+            switch (ChestFunctions.validCommands.valueOf(args[0].toUpperCase())) {
 
                 case HELP:
-                    if (!(sender instanceof Player)) commonString.messageNoConsole(getPlugin(), sender);
+                    if (!(sender instanceof Player)) commonString.messageNoConsole(ChestInit.getPlugin(), sender);
                     else new DisplayHelp().runHelp(sender);
                     break;
 

@@ -1,17 +1,16 @@
 package com.ullarah.uchest.task;
 
+import com.ullarah.uchest.ChestInit;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static com.ullarah.uchest.ChestInit.*;
-
 public class ChestShuffle {
 
-    private final boolean chestShuffleEnabled = getPlugin().getConfig().getBoolean("schest.enabled");
-    private final double chestShuffleTimer = getPlugin().getConfig().getDouble("schest.timer");
+    private final boolean chestShuffleEnabled = ChestInit.getPlugin().getConfig().getBoolean("schest.enabled");
+    private final double chestShuffleTimer = ChestInit.getPlugin().getConfig().getDouble("schest.timer");
 
     public void task() {
 
@@ -19,15 +18,16 @@ public class ChestShuffle {
 
             int shuffleTimer = (int) (chestShuffleTimer * 20);
 
-            List<ItemStack> materialKeys = new ArrayList<>(materialMap.keySet());
+            List<ItemStack> materialKeys = new ArrayList<>(ChestInit.materialMap.keySet());
 
-            getPlugin().getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(), () -> {
+            ChestInit.getPlugin().getServer().getScheduler().runTaskTimerAsynchronously(ChestInit.getPlugin(), () -> {
 
-                for (int i = 0; i < getChestShuffleInventory().getSize(); i++) {
+                for (int i = 0; i < ChestInit.getChestShuffleInventory().getSize(); i++) {
 
                     ItemStack itemStack = materialKeys.get(new Random().nextInt(materialKeys.size()));
 
-                    if ((boolean) materialMap.get(itemStack)[0]) getChestShuffleInventory().setItem(i, itemStack);
+                    if ((boolean) ChestInit.materialMap.get(itemStack)[0])
+                        ChestInit.getChestShuffleInventory().setItem(i, itemStack);
 
                 }
 

@@ -1,6 +1,6 @@
 package com.ullarah.uchest.function;
 
-import org.bukkit.Bukkit;
+import com.ullarah.uchest.ChestInit;
 import org.bukkit.OfflinePlayer;
 
 import java.util.UUID;
@@ -10,7 +10,7 @@ public class PlayerProfile {
     @SuppressWarnings("deprecation")
     public profile lookup(String name) {
 
-        OfflinePlayer player = Bukkit.getOfflinePlayer(name);
+        OfflinePlayer player = ChestInit.getPlugin().getServer().getOfflinePlayer(name);
         return (player.hasPlayedBefore()) ? fromPlayer(player) : null;
 
     }

@@ -1,13 +1,10 @@
 package com.ullarah.uchest.command;
 
 import com.ullarah.uchest.ChestFunctions;
+import com.ullarah.uchest.ChestInit;
 import com.ullarah.uchest.function.CommonString;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import static com.ullarah.uchest.ChestFunctions.ValidChest.XP;
-import static com.ullarah.uchest.ChestInit.chestTypeEnabled;
-import static com.ullarah.uchest.ChestInit.getPlugin;
 
 public class ChestExperience {
 
@@ -17,12 +14,13 @@ public class ChestExperience {
         ChestFunctions chestFunctions = new ChestFunctions();
 
         if (!(sender instanceof Player)) {
-            commonString.messageNoConsole(getPlugin(), sender);
+            commonString.messageNoConsole(ChestInit.getPlugin(), sender);
             return;
         }
 
-        if (chestTypeEnabled.get("xchest")) chestFunctions.openConvertChest(sender, XP);
-        else commonString.messageSend(getPlugin(), sender, "Experience Chest is currently unavailable.");
+        if (ChestInit.chestTypeEnabled.get("xchest"))
+            chestFunctions.openConvertChest(sender, ChestFunctions.ValidChest.XP);
+        else commonString.messageSend(ChestInit.getPlugin(), sender, "Experience Chest is currently unavailable.");
 
     }
 

@@ -1,38 +1,38 @@
 package com.ullarah.uchest.task;
 
+import com.ullarah.uchest.ChestInit;
 import com.ullarah.uchest.function.Broadcast;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
-import static com.ullarah.uchest.ChestInit.*;
-import static java.util.concurrent.TimeUnit.SECONDS;
+import java.util.concurrent.TimeUnit;
 
 public class ChestClean {
 
-    private final long chestCountdownFinal = getPlugin().getConfig().getLong("dchest.clean");
-    private final boolean chestRandomEnabled = getPlugin().getConfig().getBoolean("dchest.enabled");
+    private final long chestCountdownFinal = ChestInit.getPlugin().getConfig().getLong("dchest.clean");
+    private final boolean chestRandomEnabled = ChestInit.getPlugin().getConfig().getBoolean("dchest.enabled");
 
-    private final long chestCountdownWarning = getPlugin().getConfig().getLong("dchest.warning");
-    private final long chestCountdownCritical = getPlugin().getConfig().getLong("dchest.critical");
+    private final long chestCountdownWarning = ChestInit.getPlugin().getConfig().getLong("dchest.warning");
+    private final long chestCountdownCritical = ChestInit.getPlugin().getConfig().getLong("dchest.critical");
 
     public void task() {
 
         if (chestRandomEnabled && chestCountdownFinal > 0)
-            getPlugin().getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(), () -> {
+            ChestInit.getPlugin().getServer().getScheduler().runTaskTimerAsynchronously(ChestInit.getPlugin(), () -> {
 
                 Broadcast broadcast = new Broadcast();
 
-                boolean isSwapEnabled = getPlugin().getConfig().getBoolean("wchest.enabled");
+                boolean isSwapEnabled = ChestInit.getPlugin().getConfig().getBoolean("wchest.enabled");
 
-                if (isSwapEnabled) chestSwapItemStack = getChestDonationInventory().getContents();
-                getChestDonationInventory().clear();
+                if (isSwapEnabled) ChestInit.chestSwapItemStack = ChestInit.getChestDonationInventory().getContents();
+                ChestInit.getChestDonationInventory().clear();
 
-                if (displayClearMessage) {
-                    Bukkit.getLogger().info("[" + getPlugin().getName() + "] " + "Cleaning Donation Chest Items...");
-                    broadcast.sendMessage(getPlugin(), new String[]{
+                if (ChestInit.displayClearMessage) {
+                    ChestInit.getPlugin().getLogger().info("[" + ChestInit.getPlugin().getName() + "] "
+                            + "Cleaning Donation Chest Items...");
+                    broadcast.sendMessage(ChestInit.getPlugin(), new String[]{
                             ChatColor.YELLOW + "Donation Chest has been emptied!",
                     });
-                    if (isSwapEnabled) broadcast.sendMessage(getPlugin(), new String[]{
+                    if (isSwapEnabled) broadcast.sendMessage(ChestInit.getPlugin(), new String[]{
                             ChatColor.YELLOW + "Leftovers have gone to the Swap Chest!"
                     });
                 }
@@ -49,24 +49,24 @@ public class ChestClean {
 
             Broadcast broadcast = new Broadcast();
 
-            long minuteWarning = SECONDS.toMinutes(chestCountdownWarning) - (SECONDS.toHours(chestCountdownWarning) * 60);
-            long minuteCritical = SECONDS.toMinutes(chestCountdownCritical) - (SECONDS.toHours(chestCountdownCritical) * 60);
+            long minuteWarning = TimeUnit.SECONDS.toMinutes(chestCountdownWarning) - (TimeUnit.SECONDS.toHours(chestCountdownWarning) * 60);
+            long minuteCritical = TimeUnit.SECONDS.toMinutes(chestCountdownCritical) - (TimeUnit.SECONDS.toHours(chestCountdownCritical) * 60);
 
-            getPlugin().getServer().getScheduler().runTaskLaterAsynchronously(getPlugin(),
+            ChestInit.getPlugin().getServer().getScheduler().runTaskLaterAsynchronously(ChestInit.getPlugin(),
                     () -> {
-                        String s = (chestCountdownWarning) > 60 ? "s" : "";
-                        if (displayClearMessage)
-                            broadcast.sendMessage(getPlugin(), new String[]{ChatColor.AQUA
+                        String s = (minuteWarning) > 1 ? "s" : "";
+                        if (ChestInit.displayClearMessage)
+                            broadcast.sendMessage(ChestInit.getPlugin(), new String[]{ChatColor.AQUA
                                     + String.valueOf(minuteWarning) +
                                     " minute" + s + " left until the Donation Chest is emptied!"});
                     },
                     (chestCountdownFinal - chestCountdownWarning) * 20);
 
-            getPlugin().getServer().getScheduler().runTaskLaterAsynchronously(getPlugin(),
+            ChestInit.getPlugin().getServer().getScheduler().runTaskLaterAsynchronously(ChestInit.getPlugin(),
                     () -> {
-                        String s = (chestCountdownCritical) > 60 ? "s" : "";
-                        if (displayClearMessage)
-                            broadcast.sendMessage(getPlugin(), new String[]{ChatColor.RED
+                        String s = (minuteCritical) > 1 ? "s" : "";
+                        if (ChestInit.displayClearMessage)
+                            broadcast.sendMessage(ChestInit.getPlugin(), new String[]{ChatColor.RED
                                     + String.valueOf(minuteCritical) +
                                     " minute" + s + " left until the Donation Chest is emptied!"});
                     },

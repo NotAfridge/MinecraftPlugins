@@ -1,6 +1,7 @@
 package com.ullarah.uchest;
 
 import com.ullarah.uchest.function.PluginRegisters;
+import com.ullarah.uchest.init.ChestLanguage;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
@@ -25,10 +26,6 @@ import java.io.File;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
-
-import static com.ullarah.uchest.function.PluginRegisters.RegisterType.EVENT;
-import static com.ullarah.uchest.function.PluginRegisters.RegisterType.TASK;
-import static com.ullarah.uchest.init.ChestLanguage.*;
 
 public class ChestInit extends JavaPlugin {
 
@@ -139,20 +136,20 @@ public class ChestInit extends JavaPlugin {
 
         initMaterials();
 
-        registerMap.put(EVENT.toString(), new PluginRegisters().registerAll(getPlugin(), EVENT));
-        registerMap.put(TASK.toString(), new PluginRegisters().registerAll(getPlugin(), TASK));
+        for (PluginRegisters.RegisterType register : PluginRegisters.RegisterType.values())
+            registerMap.put(register.toString(), new PluginRegisters().registerAll(getPlugin(), register));
 
         setChestDonationInventory(Bukkit.createInventory(getChestDonationHolder(),
-                getPlugin().getConfig().getInt("dchest.size"), N_DCHEST));
+                getPlugin().getConfig().getInt("dchest.size"), ChestLanguage.N_DCHEST));
 
         setChestRandomInventory(Bukkit.createInventory(getChestRandomHolder(),
-                getPlugin().getConfig().getInt("rchest.size"), N_RCHEST));
+                getPlugin().getConfig().getInt("rchest.size"), ChestLanguage.N_RCHEST));
 
         setChestShuffleInventory(Bukkit.createInventory(null,
-                getPlugin().getConfig().getInt("schest.size"), N_SCHEST));
+                getPlugin().getConfig().getInt("schest.size"), ChestLanguage.N_SCHEST));
 
         setChestSwapInventory(Bukkit.createInventory(getChestSwapHolder(),
-                getPlugin().getConfig().getInt("wchest.size"), N_WCHEST));
+                getPlugin().getConfig().getInt("wchest.size"), ChestLanguage.N_WCHEST));
 
         setChestDonationHolder(chestDonationHolder);
         setChestRandomHolder(chestRandomHolder);
@@ -177,12 +174,12 @@ public class ChestInit extends JavaPlugin {
 
         chestLockoutMap.put("dchest_itemlock", new ConcurrentHashMap<>());
 
-        Bukkit.getLogger().log(Level.INFO, "[" + plugin.getName() + "] "
-                + "Events: " + registerMap.get(EVENT.toString()) + " | "
-                + "Tasks: " + registerMap.get(TASK.toString()));
+        getPlugin().getLogger().log(Level.INFO, "[" + plugin.getName() + "] "
+                + "Events: " + registerMap.get(PluginRegisters.RegisterType.EVENT.toString()) + " | "
+                + "Tasks: " + registerMap.get(PluginRegisters.RegisterType.TASK.toString()));
 
         if (pluginList.size() > 0)
-            Bukkit.getLogger().log(Level.INFO,
+            getPlugin().getLogger().log(Level.INFO,
                     "[" + plugin.getName() + "] Hooked: " + StringUtils.join(pluginList, ", "));
 
         new BukkitRunnable() {
@@ -265,7 +262,7 @@ public class ChestInit extends JavaPlugin {
 
                         } catch (Exception e) {
 
-                            Bukkit.getLogger().log(Level.WARNING, "[" + plugin.getName() + "] "
+                            ChestInit.getPlugin().getLogger().log(Level.WARNING, "[" + plugin.getName() + "] "
                                     + "Material Load Error: " + m + " (" + f + ")");
 
                         }
@@ -276,7 +273,7 @@ public class ChestInit extends JavaPlugin {
 
             }
 
-            Bukkit.getLogger().log(Level.INFO, "[" + plugin.getName() + "] "
+            ChestInit.getPlugin().getLogger().log(Level.INFO, "[" + plugin.getName() + "] "
                     + "Loaded " + materialCount + " items from " + materialFiles.length + " files.");
 
         }
@@ -286,7 +283,7 @@ public class ChestInit extends JavaPlugin {
     private void addMaterial(ItemStack materialItem, Object[] materialObject, String materialType, String materialFile) {
 
         if (materialMap.containsKey(materialItem)) {
-            Bukkit.getLogger().log(Level.WARNING, "[" + plugin.getName() + "] "
+            ChestInit.getPlugin().getLogger().log(Level.WARNING, "[" + plugin.getName() + "] "
                     + "Material Duplicate: " + materialType + " (" + materialFile + ")");
         } else {
             materialMap.put(materialItem, materialObject);

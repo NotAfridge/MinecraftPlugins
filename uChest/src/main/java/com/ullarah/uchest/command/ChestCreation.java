@@ -1,6 +1,7 @@
 package com.ullarah.uchest.command;
 
 import com.ullarah.uchest.ChestFunctions.ValidChest;
+import com.ullarah.uchest.ChestInit;
 import com.ullarah.uchest.function.CommonString;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -12,8 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.ullarah.uchest.ChestInit.getPlugin;
-
 public class ChestCreation {
 
     public void create(CommandSender sender, ValidChest type, Boolean display) {
@@ -22,13 +21,13 @@ public class ChestCreation {
 
         Player player = (Player) sender;
 
-        File chestFile = new File(getPlugin().getDataFolder() + File.separator + type.toString(), player.getUniqueId().toString() + ".yml");
+        File chestFile = new File(ChestInit.getPlugin().getDataFolder() + File.separator + type.toString(), player.getUniqueId().toString() + ".yml");
 
         if (!chestFile.exists()) {
 
             boolean chestFileCreation = false;
 
-            File dataDir = getPlugin().getDataFolder();
+            File dataDir = ChestInit.getPlugin().getDataFolder();
             if (!dataDir.exists()) chestFileCreation = dataDir.mkdir();
 
             File chestDir = new File(dataDir + File.separator + type.toString());
@@ -38,7 +37,7 @@ public class ChestCreation {
             if (!chestFileNew.exists()) try {
                 chestFileCreation = chestFileNew.createNewFile();
             } catch (IOException e) {
-                commonString.messageSend(getPlugin(), player, ChatColor.RED + "Error creating chest.");
+                commonString.messageSend(ChestInit.getPlugin(), player, ChatColor.RED + "Error creating chest.");
                 e.printStackTrace();
             }
 
@@ -55,12 +54,12 @@ public class ChestCreation {
                     chestConfig.save(chestFileNew);
 
                 } catch (IOException e) {
-                    commonString.messageSend(getPlugin(), player, ChatColor.RED + "Error saving chest.");
+                    commonString.messageSend(ChestInit.getPlugin(), player, ChatColor.RED + "Error saving chest.");
                     e.printStackTrace();
                 }
 
             } else {
-                commonString.messageSend(getPlugin(), player, ChatColor.RED + "Error creating chest.");
+                commonString.messageSend(ChestInit.getPlugin(), player, ChatColor.RED + "Error creating chest.");
                 player.closeInventory();
             }
 

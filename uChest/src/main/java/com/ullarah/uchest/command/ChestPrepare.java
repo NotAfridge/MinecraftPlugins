@@ -1,6 +1,7 @@
 package com.ullarah.uchest.command;
 
 import com.ullarah.uchest.ChestFunctions;
+import com.ullarah.uchest.ChestInit;
 import com.ullarah.uchest.function.CommonString;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,17 +17,13 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.ullarah.uchest.ChestFunctions.ValidChest;
-import static com.ullarah.uchest.ChestFunctions.ValidChest.HOLD;
-import static com.ullarah.uchest.ChestInit.getPlugin;
-
 public class ChestPrepare {
 
     final CommonString commonString = new CommonString();
 
-    public void prepare(Player player, UUID uuid, ValidChest type) {
+    public void prepare(Player player, UUID uuid, ChestFunctions.ValidChest type) {
 
-        File chestFile = new File(getPlugin().getDataFolder() + File.separator + type, uuid.toString() + ".yml");
+        File chestFile = new File(ChestInit.getPlugin().getDataFolder() + File.separator + type, uuid.toString() + ".yml");
         FileConfiguration chestConfig = YamlConfiguration.loadConfiguration(chestFile);
 
         Inventory chestInventory = player.getUniqueId().equals(uuid) ? ownedChest(player, type, chestConfig, chestFile)
@@ -45,17 +42,17 @@ public class ChestPrepare {
 
     }
 
-    public void reset(Player player, UUID uuid, ValidChest type) {
+    public void reset(Player player, UUID uuid, ChestFunctions.ValidChest type) {
 
-        File chestFile = new File(getPlugin().getDataFolder() + File.separator + type, uuid.toString() + ".yml");
+        File chestFile = new File(ChestInit.getPlugin().getDataFolder() + File.separator + type, uuid.toString() + ".yml");
         FileConfiguration chestConfig = YamlConfiguration.loadConfiguration(chestFile);
 
-        commonString.messageSend(getPlugin(), player, chestFile.delete() ? "" + ChatColor.RED + type + " chest is reset for "
+        commonString.messageSend(ChestInit.getPlugin(), player, chestFile.delete() ? "" + ChatColor.RED + type + " chest is reset for "
                 + ChatColor.YELLOW + chestConfig.getString("name") : ChatColor.RED + "Error removing " + type + " chest.");
 
     }
 
-    private Inventory ownedChest(Player player, ValidChest type, FileConfiguration config, File file) {
+    private Inventory ownedChest(Player player, ChestFunctions.ValidChest type, FileConfiguration config, File file) {
 
         int playerLevel = player.getLevel();
         int playerSlotLevel = config.getInt("slots");
@@ -63,7 +60,7 @@ public class ChestPrepare {
         if (!player.getPlayerListName().equals(config.getString("name")))
             config.set("name", player.getPlayerListName());
 
-        if (type == HOLD) {
+        if (type == ChestFunctions.ValidChest.HOLD) {
             if (playerLevel >= 15 && playerSlotLevel == 9) config.set("slots", 18);
             if (playerLevel >= 25 && playerSlotLevel == 18) config.set("slots", 27);
             if (playerLevel >= 50 && playerSlotLevel == 27) config.set("slots", 36);
@@ -74,7 +71,7 @@ public class ChestPrepare {
         try {
             config.save(file);
         } catch (IOException e) {
-            commonString.messageSend(getPlugin(), player, ChatColor.RED + "Error saving existing " + type + " chest.");
+            commonString.messageSend(ChestInit.getPlugin(), player, ChatColor.RED + "Error saving existing " + type + " chest.");
             e.printStackTrace();
         }
 
@@ -85,7 +82,7 @@ public class ChestPrepare {
 
     }
 
-    private Inventory modifyChest(Player player, ValidChest type, FileConfiguration config) {
+    private Inventory modifyChest(Player player, ChestFunctions.ValidChest type, FileConfiguration config) {
 
         return Bukkit.createInventory(
                 player, config.getInt("slots"), ChatColor.DARK_GREEN +

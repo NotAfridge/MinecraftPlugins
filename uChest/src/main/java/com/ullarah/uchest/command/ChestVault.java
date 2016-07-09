@@ -1,6 +1,7 @@
 package com.ullarah.uchest.command;
 
 import com.ullarah.uchest.ChestFunctions;
+import com.ullarah.uchest.ChestInit;
 import com.ullarah.uchest.function.CommonString;
 import com.ullarah.uchest.function.PlayerProfile;
 import org.bukkit.ChatColor;
@@ -12,10 +13,6 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.IOException;
 
-import static com.ullarah.uchest.ChestFunctions.ValidChest.VAULT;
-import static com.ullarah.uchest.ChestInit.chestTypeEnabled;
-import static com.ullarah.uchest.ChestInit.getPlugin;
-
 public class ChestVault {
 
     public void runCommand(CommandSender sender, String[] args) {
@@ -23,14 +20,15 @@ public class ChestVault {
         CommonString commonString = new CommonString();
 
         if (!(sender instanceof Player)) {
-            commonString.messageNoConsole(getPlugin(), sender);
+            commonString.messageNoConsole(ChestInit.getPlugin(), sender);
             return;
         }
 
         if (args.length == 0) {
 
-            if (chestTypeEnabled.get("vchest")) new ChestCreation().create(sender, VAULT, true);
-            else commonString.messageSend(getPlugin(), sender, "Vault Chest is currently unavailable.");
+            if (ChestInit.chestTypeEnabled.get("vchest"))
+                new ChestCreation().create(sender, ChestFunctions.ValidChest.VAULT, true);
+            else commonString.messageSend(ChestInit.getPlugin(), sender, "Vault Chest is currently unavailable.");
             return;
 
         }
@@ -41,43 +39,43 @@ public class ChestVault {
 
                 case VIEW:
                     if (!sender.hasPermission("chest.view")) {
-                        commonString.messagePermDeny(getPlugin(), sender);
+                        commonString.messagePermDeny(ChestInit.getPlugin(), sender);
                         return;
                     }
 
                     if (args.length != 2) {
-                        commonString.messageSend(getPlugin(), sender, ChatColor.YELLOW + "/vchest view <player>");
+                        commonString.messageSend(ChestInit.getPlugin(), sender, ChatColor.YELLOW + "/vchest view <player>");
                         return;
                     }
 
-                    new ChestPrepare().prepare((Player) sender, new PlayerProfile().lookup(args[1]).getId(), VAULT);
+                    new ChestPrepare().prepare((Player) sender, new PlayerProfile().lookup(args[1]).getId(), ChestFunctions.ValidChest.VAULT);
                     break;
 
                 case RESET:
                     if (!sender.hasPermission("chest.reset")) {
-                        commonString.messagePermDeny(getPlugin(), sender);
+                        commonString.messagePermDeny(ChestInit.getPlugin(), sender);
                         return;
                     }
 
                     if (args.length != 2) {
-                        commonString.messageSend(getPlugin(), sender, ChatColor.YELLOW + "/vchest reset <player>");
+                        commonString.messageSend(ChestInit.getPlugin(), sender, ChatColor.YELLOW + "/vchest reset <player>");
                         return;
                     }
 
-                    new ChestPrepare().reset((Player) sender, new PlayerProfile().lookup(args[1]).getId(), VAULT);
+                    new ChestPrepare().reset((Player) sender, new PlayerProfile().lookup(args[1]).getId(), ChestFunctions.ValidChest.VAULT);
                     break;
 
                 case UPGRADE:
                     Player player = (Player) sender;
-                    int upgradeLevel = getPlugin().getConfig().getInt("vchest.upgradelevel");
+                    int upgradeLevel = ChestInit.getPlugin().getConfig().getInt("vchest.upgradelevel");
 
                     if (player.getLevel() < upgradeLevel) {
-                        commonString.messageSend(getPlugin(), player, ChatColor.YELLOW + "You need at least " +
+                        commonString.messageSend(ChestInit.getPlugin(), player, ChatColor.YELLOW + "You need at least " +
                                 ChatColor.GOLD + upgradeLevel + "xp levels " + ChatColor.YELLOW + "to upgrade!");
                         return;
                     }
 
-                    File chestFile = new File(getPlugin().getDataFolder() + File.separator + "vault", player.getUniqueId().toString() + ".yml");
+                    File chestFile = new File(ChestInit.getPlugin().getDataFolder() + File.separator + "vault", player.getUniqueId().toString() + ".yml");
 
                     if (chestFile.exists()) {
 
@@ -86,7 +84,7 @@ public class ChestVault {
 
                         if (chestPlayerSlot >= 54) {
 
-                            commonString.messageSend(getPlugin(), player, ChatColor.AQUA + "You have the maximum number of slots!");
+                            commonString.messageSend(ChestInit.getPlugin(), player, ChatColor.AQUA + "You have the maximum number of slots!");
                             return;
 
                         }
@@ -99,10 +97,10 @@ public class ChestVault {
                             try {
                                 chestConfig.save(chestFile);
                             } catch (IOException e) {
-                                commonString.messageSend(getPlugin(), player, ChatColor.RED + "Slot Update Error!");
+                                commonString.messageSend(ChestInit.getPlugin(), player, ChatColor.RED + "Slot Update Error!");
                             }
 
-                            commonString.messageSend(getPlugin(), player,
+                            commonString.messageSend(ChestInit.getPlugin(), player,
                                     ChatColor.YELLOW + "You upgraded your vault! You now have " +
                                             ChatColor.GREEN + (chestPlayerSlot + 9) + ChatColor.YELLOW + " slots!");
 
@@ -112,7 +110,7 @@ public class ChestVault {
                     break;
 
                 default:
-                    new ChestCreation().create(sender, VAULT, true);
+                    new ChestCreation().create(sender, ChestFunctions.ValidChest.VAULT, true);
 
             }
 

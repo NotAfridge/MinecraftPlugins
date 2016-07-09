@@ -1,5 +1,6 @@
 package com.ullarah.uchest.event;
 
+import com.ullarah.uchest.ChestInit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -12,18 +13,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.ullarah.uchest.ChestInit.getPlugin;
-
 public class PlayerDeath implements Listener {
 
     @EventHandler
     public void event(final PlayerDeathEvent event) throws IOException {
 
-        if (!getPlugin().getConfig().getBoolean("hchest.keepondeath")) {
+        if (!ChestInit.getPlugin().getConfig().getBoolean("hchest.keepondeath")) {
 
             Player chestPlayer = event.getEntity();
 
-            File holdFile = new File(getPlugin().getDataFolder() + File.separator + "hold",
+            File holdFile = new File(ChestInit.getPlugin().getDataFolder() + File.separator + "hold",
                     chestPlayer.getUniqueId().toString() + ".yml");
 
             if (holdFile.exists()) {

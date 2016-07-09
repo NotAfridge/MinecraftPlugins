@@ -1,20 +1,18 @@
 package com.ullarah.uchest.event;
 
+import com.ullarah.uchest.ChestInit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
-
-import static com.ullarah.uchest.ChestInit.chestSwapBusy;
-import static com.ullarah.uchest.ChestInit.chestSwapPlayer;
 
 public class PlayerQuit implements Listener {
 
     @EventHandler
     public void event(final PlayerQuitEvent event) {
 
-        if (chestSwapPlayer == event.getPlayer()) {
-            chestSwapPlayer = null;
-            chestSwapBusy = false;
+        if (ChestInit.chestSwapPlayer == event.getPlayer()) {
+            ChestInit.chestSwapPlayer = null;
+            ChestInit.chestSwapBusy = false;
         }
 
     }

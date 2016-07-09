@@ -1,15 +1,12 @@
 package com.ullarah.uchest.command;
 
 import com.ullarah.uchest.ChestFunctions;
+import com.ullarah.uchest.ChestInit;
 import com.ullarah.uchest.function.CommonString;
 import com.ullarah.uchest.function.PlayerProfile;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import static com.ullarah.uchest.ChestFunctions.ValidChest.HOLD;
-import static com.ullarah.uchest.ChestInit.chestTypeEnabled;
-import static com.ullarah.uchest.ChestInit.getPlugin;
 
 public class ChestHold {
 
@@ -18,14 +15,15 @@ public class ChestHold {
         CommonString commonString = new CommonString();
 
         if (!(sender instanceof Player)) {
-            commonString.messageNoConsole(getPlugin(), sender);
+            commonString.messageNoConsole(ChestInit.getPlugin(), sender);
             return;
         }
 
         if (args.length == 0) {
 
-            if (chestTypeEnabled.get("hchest")) new ChestCreation().create(sender, HOLD, true);
-            else commonString.messageSend(getPlugin(), sender, "Hold Chest is currently unavailable.");
+            if (ChestInit.chestTypeEnabled.get("hchest"))
+                new ChestCreation().create(sender, ChestFunctions.ValidChest.HOLD, true);
+            else commonString.messageSend(ChestInit.getPlugin(), sender, "Hold Chest is currently unavailable.");
             return;
 
         }
@@ -36,34 +34,34 @@ public class ChestHold {
 
                 case VIEW:
                     if (!sender.hasPermission("chest.view")) {
-                        commonString.messagePermDeny(getPlugin(), sender);
+                        commonString.messagePermDeny(ChestInit.getPlugin(), sender);
                         return;
                     }
 
                     if (args.length != 2) {
-                        commonString.messageSend(getPlugin(), sender, ChatColor.YELLOW + "/hchest view <player>");
+                        commonString.messageSend(ChestInit.getPlugin(), sender, ChatColor.YELLOW + "/hchest view <player>");
                         return;
                     }
 
-                    new ChestPrepare().prepare((Player) sender, new PlayerProfile().lookup(args[1]).getId(), HOLD);
+                    new ChestPrepare().prepare((Player) sender, new PlayerProfile().lookup(args[1]).getId(), ChestFunctions.ValidChest.HOLD);
                     break;
 
                 case RESET:
                     if (!sender.hasPermission("chest.reset")) {
-                        commonString.messagePermDeny(getPlugin(), sender);
+                        commonString.messagePermDeny(ChestInit.getPlugin(), sender);
                         return;
                     }
 
                     if (args.length != 2) {
-                        commonString.messageSend(getPlugin(), sender, ChatColor.YELLOW + "/hchest reset <player>");
+                        commonString.messageSend(ChestInit.getPlugin(), sender, ChatColor.YELLOW + "/hchest reset <player>");
                         return;
                     }
 
-                    new ChestPrepare().reset((Player) sender, new PlayerProfile().lookup(args[1]).getId(), HOLD);
+                    new ChestPrepare().reset((Player) sender, new PlayerProfile().lookup(args[1]).getId(), ChestFunctions.ValidChest.HOLD);
                     break;
 
                 default:
-                    new ChestCreation().create(sender, HOLD, true);
+                    new ChestCreation().create(sender, ChestFunctions.ValidChest.HOLD, true);
 
             }
 

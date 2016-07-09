@@ -1,5 +1,6 @@
 package com.ullarah.uchest.command;
 
+import com.ullarah.uchest.ChestInit;
 import com.ullarah.uchest.function.CommonString;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -11,8 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static com.ullarah.uchest.ChestInit.*;
-
 public class DonationRandom {
 
     final CommonString commonString = new CommonString();
@@ -20,7 +19,7 @@ public class DonationRandom {
     public void checkPermission(CommandSender sender) {
 
         if (!sender.hasPermission("chest.random")) {
-            commonString.messagePermDeny(getPlugin(), sender);
+            commonString.messagePermDeny(ChestInit.getPlugin(), sender);
             return;
         }
 
@@ -30,38 +29,39 @@ public class DonationRandom {
 
     public void chestRandomFill() {
 
-        for (int i = 0; i < getChestDonationInventory().getSize(); i++) {
+        for (int i = 0; i < ChestInit.getChestDonationInventory().getSize(); i++) {
 
             if (new Random().nextInt(100) > 50) {
 
-                List<ItemStack> materialKeys = new ArrayList<>(materialMap.keySet());
+                List<ItemStack> materialKeys = new ArrayList<>(ChestInit.materialMap.keySet());
                 ItemStack itemStack = materialKeys.get(new Random().nextInt(materialKeys.size()));
 
-                if ((boolean) materialMap.get(itemStack)[1]) getChestDonationInventory().setItem(i, itemStack);
+                if ((boolean) ChestInit.materialMap.get(itemStack)[1])
+                    ChestInit.getChestDonationInventory().setItem(i, itemStack);
 
             }
 
         }
 
-        int restrictSeconds = getPlugin().getConfig().getInt("dchest.random.itemsecond");
+        int restrictSeconds = ChestInit.getPlugin().getConfig().getInt("dchest.random.itemsecond");
 
-        for (Player player : getPlugin().getServer().getOnlinePlayers()) {
+        for (Player player : ChestInit.getPlugin().getServer().getOnlinePlayers()) {
 
-            commonString.messageSend(getPlugin(), player, true, new String[]{
+            commonString.messageSend(ChestInit.getPlugin(), player, true, new String[]{
                     ChatColor.GREEN + "Donation Chest has been randomized with new items!",
-                    ChatColor.GREEN + "Quick! Use " + ChatColor.YELLOW + "/dchest" + ChatColor.GREEN + " to open it up!"
+                    ChatColor.GREEN + "Quick! Use " + ChatColor.YELLOW + "/chest" + ChatColor.GREEN + " to open it up!"
             });
 
             if (restrictSeconds > 0) {
                 String second = restrictSeconds + " seconds.";
                 if (restrictSeconds == 1) second = "second.";
-                commonString.messageSend(getPlugin(), player, "" + ChatColor.GRAY +
+                commonString.messageSend(ChestInit.getPlugin(), player, "" + ChatColor.GRAY +
                         ChatColor.ITALIC + "You are restricted to one item every " + second);
             }
 
         }
 
-        chestDonateLock = true;
+        ChestInit.chestDonateLock = true;
         chestDonateCountdown();
 
     }
@@ -69,18 +69,18 @@ public class DonationRandom {
     private void chestDonateCountdown() {
 
         new BukkitRunnable() {
-            int c = getPlugin().getConfig().getInt("dchest.random.countdown");
+            int c = ChestInit.getPlugin().getConfig().getInt("dchest.random.countdown");
 
             @Override
             public void run() {
                 if (c <= 0) {
-                    chestDonateLock = false;
+                    ChestInit.chestDonateLock = false;
                     this.cancel();
                     return;
                 }
                 c--;
             }
-        }.runTaskTimer(getPlugin(), 0, 20);
+        }.runTaskTimer(ChestInit.getPlugin(), 0, 20);
 
     }
 

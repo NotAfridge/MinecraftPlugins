@@ -42,10 +42,10 @@ public class DisplayHelp {
                         ChatColor.YELLOW + "   Will override items in chest with random items",
                         ChatColor.GOLD + " /dchest reset",
                         ChatColor.YELLOW + "   Clears the entire donation chest",
-                        ChatColor.GOLD + " /hchest view <player>",
-                        ChatColor.YELLOW + "   Views players hold chest",
-                        ChatColor.GOLD + " /vchest view <player>",
-                        ChatColor.YELLOW + "   Views players vault chest"
+                        ChatColor.GOLD + " /hchest <view|reset> <player>",
+                        ChatColor.YELLOW + "   Views/Resets players hold chest",
+                        ChatColor.GOLD + " /vchest <view|reset> <player>",
+                        ChatColor.YELLOW + "   Views/Resets players vault chest"
                 });
 
             }
