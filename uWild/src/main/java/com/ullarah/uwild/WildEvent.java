@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static org.bukkit.event.entity.CreatureSpawnEvent.*;
+import static org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
 public class WildEvent implements Listener {
 
@@ -178,27 +178,20 @@ public class WildEvent implements Listener {
         int locY = (int) location.getY();
         int locZ = (int) location.getZ();
 
+        world.createExplosion(location, 0.0F);
+
         if (entity.getCustomName().matches(ChatColor.GREEN + "Treeper")) {
-
-            world.createExplosion(location, 0.0F);
             world.generateTree(location, new Random().nextInt(10) == 5 ? TreeType.BIG_TREE : TreeType.TREE);
-
         }
 
         if (entity.getCustomName().matches(ChatColor.BLUE + "H2O Creeper")) {
-
-            world.createExplosion(location, 0.0F);
             world.getBlockAt(locX, locY, locZ).setType(Material.WATER);
             world.getBlockAt(locX, locY + 1, locZ).setType(Material.WATER);
-
         }
 
         if (entity.getCustomName().matches(ChatColor.RED + "Volcanic Creeper")) {
-
-            world.createExplosion(location, 0.0F);
             world.getBlockAt(locX, locY, locZ).setType(Material.LAVA);
             world.getBlockAt(locX, locY + 1, locZ).setType(Material.LAVA);
-
         }
 
     }
