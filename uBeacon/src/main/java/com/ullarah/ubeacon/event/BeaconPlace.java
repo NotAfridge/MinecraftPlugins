@@ -1,5 +1,6 @@
 package com.ullarah.ubeacon.event;
 
+import com.ullarah.ubeacon.BeaconInit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -10,9 +11,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
 import java.util.List;
-
-import static com.ullarah.ubeacon.BeaconInit.getMsgPrefix;
-import static com.ullarah.ubeacon.BeaconInit.getPlugin;
 
 public class BeaconPlace implements Listener {
 
@@ -33,7 +31,7 @@ public class BeaconPlace implements Listener {
 
                     if (customBeacon.matches(ChatColor.LIGHT_PURPLE + "Rainbow Beacon")) {
 
-                        List<String> beaconList = getPlugin().getConfig().getStringList("beacons");
+                        List<String> beaconList = BeaconInit.getPlugin().getConfig().getStringList("beacons");
 
                         beaconList.add(player.getUniqueId().toString()
                                 + "|" + player.getWorld().getName()
@@ -42,11 +40,11 @@ public class BeaconPlace implements Listener {
                                 + "|" + blockLocation.getBlockZ()
                         );
 
-                        getPlugin().getConfig().set("beacons", beaconList);
+                        BeaconInit.getPlugin().getConfig().set("beacons", beaconList);
 
-                        getPlugin().saveConfig();
+                        BeaconInit.getPlugin().saveConfig();
 
-                        player.sendMessage(getMsgPrefix() + "Beacon successfully created!");
+                        player.sendMessage(BeaconInit.getMsgPrefix() + "Beacon successfully created!");
 
                     }
 

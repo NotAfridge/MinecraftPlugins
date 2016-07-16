@@ -1,5 +1,6 @@
 package com.ullarah.ubeacon.event;
 
+import com.ullarah.ubeacon.BeaconInit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -12,9 +13,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-import static com.ullarah.ubeacon.BeaconInit.getMsgPrefix;
-import static com.ullarah.ubeacon.BeaconInit.getPlugin;
-
 public class BeaconDestroy implements Listener {
 
     @EventHandler
@@ -26,7 +24,7 @@ public class BeaconDestroy implements Listener {
         World world = player.getWorld();
         Location blockLocation = block.getLocation();
 
-        List<String> beaconList = getPlugin().getConfig().getStringList("beacons");
+        List<String> beaconList = BeaconInit.getPlugin().getConfig().getStringList("beacons");
 
         if (block.getType() == Material.STAINED_GLASS) {
 
@@ -38,7 +36,7 @@ public class BeaconDestroy implements Listener {
 
             if (beaconList.contains(beacon)) {
 
-                player.sendMessage(getMsgPrefix() + "Destroy the beacon first.");
+                player.sendMessage(BeaconInit.getMsgPrefix() + "Destroy the beacon first.");
                 event.setCancelled(true);
 
             }
@@ -57,8 +55,8 @@ public class BeaconDestroy implements Listener {
 
                 beaconList.remove(beacon);
                 world.getBlockAt(blockLocation).setType(Material.AIR);
-                getPlugin().getConfig().set("beacons", beaconList);
-                getPlugin().saveConfig();
+                BeaconInit.getPlugin().getConfig().set("beacons", beaconList);
+                BeaconInit.getPlugin().saveConfig();
 
                 world.getBlockAt(
                         blockLocation.getBlockX(),

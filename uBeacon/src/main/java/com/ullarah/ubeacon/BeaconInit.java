@@ -9,8 +9,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import static com.ullarah.ubeacon.function.PluginRegisters.RegisterType.*;
-
 public class BeaconInit extends JavaPlugin {
 
     private static String msgPrefix = null;
@@ -36,16 +34,16 @@ public class BeaconInit extends JavaPlugin {
 
         setPlugin(this);
 
-        new PluginRegisters().register(getPlugin(), TASK,
+        new PluginRegisters().register(getPlugin(), PluginRegisters.RegisterType.TASK,
                 new BeaconChange()
         );
 
-        new PluginRegisters().register(getPlugin(), EVENT,
+        new PluginRegisters().register(getPlugin(), PluginRegisters.RegisterType.EVENT,
                 new BeaconDestroy(),
                 new BeaconPlace()
         );
 
-        new PluginRegisters().register(getPlugin(), RECIPE,
+        new PluginRegisters().register(getPlugin(), PluginRegisters.RegisterType.RECIPE,
                 new BeaconRainbow()
         );
 

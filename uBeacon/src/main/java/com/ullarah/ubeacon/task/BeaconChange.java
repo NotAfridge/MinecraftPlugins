@@ -1,5 +1,6 @@
 package com.ullarah.ubeacon.task;
 
+import com.ullarah.ubeacon.BeaconInit;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -8,18 +9,16 @@ import org.bukkit.World;
 import java.util.List;
 import java.util.Random;
 
-import static com.ullarah.ubeacon.BeaconInit.getPlugin;
-
 public class BeaconChange {
 
-    private static final long beaconInterval = getPlugin().getConfig().getLong("interval") * 20;
+    private static final long beaconInterval = BeaconInit.getPlugin().getConfig().getLong("interval") * 20;
 
     @SuppressWarnings("deprecation")
     public static void task() {
 
-        Bukkit.getServer().getScheduler().runTaskTimer(getPlugin(), () -> {
+        Bukkit.getServer().getScheduler().runTaskTimer(BeaconInit.getPlugin(), () -> {
 
-            List<String> beaconList = getPlugin().getConfig().getStringList("beacons");
+            List<String> beaconList = BeaconInit.getPlugin().getConfig().getStringList("beacons");
 
             for (String beacon : beaconList) {
 
