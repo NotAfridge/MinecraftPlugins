@@ -8,9 +8,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import static com.ullarah.ujoinquit.JoinQuitFunctions.Message.JOIN;
-import static com.ullarah.ujoinquit.JoinQuitFunctions.Message.QUIT;
-
 public class MessageClick implements Listener {
 
     @EventHandler
@@ -36,9 +33,10 @@ public class MessageClick implements Listener {
                     JoinQuitFunctions joinQuitFunctions = new JoinQuitFunctions();
 
                     if (inventoryTitle.matches(".*Join Message"))
-                        joinQuitFunctions.setMessage(player, JOIN, event.getRawSlot());
+                        joinQuitFunctions.setMessage(player, JoinQuitFunctions.Message.JOIN, event.getRawSlot());
+
                     if (inventoryTitle.matches(".*Quit Message"))
-                        joinQuitFunctions.setMessage(player, QUIT, event.getRawSlot());
+                        joinQuitFunctions.setMessage(player, JoinQuitFunctions.Message.QUIT, event.getRawSlot());
 
                     event.getCursor().setType(Material.AIR);
                     player.closeInventory();

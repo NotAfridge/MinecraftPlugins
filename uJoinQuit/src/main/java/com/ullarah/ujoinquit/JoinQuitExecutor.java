@@ -7,10 +7,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static com.ullarah.ujoinquit.JoinQuitFunctions.Message.JOIN;
-import static com.ullarah.ujoinquit.JoinQuitFunctions.Message.QUIT;
-import static com.ullarah.ujoinquit.JoinQuitInit.getPlugin;
-
 class JoinQuitExecutor implements CommandExecutor {
 
     @Override
@@ -20,7 +16,7 @@ class JoinQuitExecutor implements CommandExecutor {
 
         if (!(sender instanceof Player)) {
 
-            commonString.messageNoConsole(getPlugin(), sender);
+            commonString.messageNoConsole(JoinQuitInit.getPlugin(), sender);
             return true;
 
         } else {
@@ -35,19 +31,19 @@ class JoinQuitExecutor implements CommandExecutor {
 
                 case "JOIN":
                     if (permissionCheck.check(player, "jq.access", "jq.join"))
-                        joinQuitFunctions.listMessages(player, JOIN);
-                    else commonString.messagePermDeny(getPlugin(), sender);
+                        joinQuitFunctions.listMessages(player, JoinQuitFunctions.Message.JOIN);
+                    else commonString.messagePermDeny(JoinQuitInit.getPlugin(), sender);
                     break;
 
                 case "QUIT":
                     if (permissionCheck.check(player, "jq.access", "jq.quit"))
-                        joinQuitFunctions.listMessages(player, QUIT);
-                    else commonString.messagePermDeny(getPlugin(), sender);
+                        joinQuitFunctions.listMessages(player, JoinQuitFunctions.Message.QUIT);
+                    else commonString.messagePermDeny(JoinQuitInit.getPlugin(), sender);
                     break;
 
                 case "EXTRA":
                     if (permissionCheck.check(player, "jq.access", "jq.extra")) joinQuitFunctions.showExtra(player);
-                    else commonString.messagePermDeny(getPlugin(), sender);
+                    else commonString.messagePermDeny(JoinQuitInit.getPlugin(), sender);
                     break;
 
                 case "CLEAR":

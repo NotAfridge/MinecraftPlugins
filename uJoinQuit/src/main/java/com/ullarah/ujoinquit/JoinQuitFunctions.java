@@ -21,17 +21,15 @@ import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 
-import static com.ullarah.ujoinquit.JoinQuitInit.*;
-
 public class JoinQuitFunctions {
 
     private CommonString commonString = new CommonString();
 
-    public void listMessages(Player player, Message type) {
+    void listMessages(Player player, Message type) {
 
         String typeString = type.toString().substring(0, 1) + type.toString().substring(1).toLowerCase();
 
-        Inventory chestGUI = getPlugin().getServer().createInventory(
+        Inventory chestGUI = JoinQuitInit.getPlugin().getServer().createInventory(
                 null, 54, "" + ChatColor.DARK_AQUA + ChatColor.BOLD + typeString + " Message");
 
         for (int i = 0; i < type.getList().size(); i++) {
@@ -63,7 +61,7 @@ public class JoinQuitFunctions {
 
     public String replacePlayerString(Player player, String message) {
 
-        if (lastPlayer.equals(player.getPlayerListName())) lastPlayer = "nobody";
+        if (JoinQuitInit.lastPlayer.equals(player.getPlayerListName())) JoinQuitInit.lastPlayer = "nobody";
 
         if (message.contains("{player}"))
             message = message.replaceAll("\\{player\\}", player.getPlayerListName());
@@ -75,7 +73,7 @@ public class JoinQuitFunctions {
             message = message.replaceAll("\\{u_player\\}", player.getPlayerListName().toUpperCase());
 
         if (message.contains("{p_player}"))
-            message = message.replaceAll("\\{p_player\\}", lastPlayer);
+            message = message.replaceAll("\\{p_player\\}", JoinQuitInit.lastPlayer);
 
         if (message.contains("{r_player}")) {
             String playerName = "nobody";
@@ -91,20 +89,20 @@ public class JoinQuitFunctions {
 
     }
 
-    public void updateMessageHashMap() {
+    void updateMessageHashMap() {
 
         for (Message type : Message.values())
-            for (String message : getPlugin().getConfig().getStringList(type.getType()))
+            for (String message : JoinQuitInit.getPlugin().getConfig().getStringList(type.getType()))
                 type.getList().add(message);
 
-        getPlugin().getLogger().log(Level.INFO,
-                "Joins: " + joinMessages.size() + " | " + "Quits: " + quitMessages.size());
+        JoinQuitInit.getPlugin().getLogger().log(Level.INFO,
+                "Joins: " + JoinQuitInit.joinMessages.size() + " | " + "Quits: " + JoinQuitInit.quitMessages.size());
 
     }
 
-    public File updatePlayerConfigFile() {
+    File updatePlayerConfigFile() {
 
-        File file = new File(getPlugin().getDataFolder() + File.separator + "player.yml");
+        File file = new File(JoinQuitInit.getPlugin().getDataFolder() + File.separator + "player.yml");
 
         if (!file.exists()) try {
 
@@ -120,18 +118,21 @@ public class JoinQuitFunctions {
 
     }
 
-    public void updatePlayerMessageIndex() {
+    void updatePlayerMessageIndex() {
 
-        for (String uuid : getPlayerConfig().getKeys(false)) {
+        for (String uuid : JoinQuitInit.getPlayerConfig().getKeys(false)) {
 
-            if (getPlayerConfig().contains(uuid + ".join"))
-                playerJoinMessage.put(UUID.fromString(uuid), getPlayerConfig().getInt(uuid + ".join"));
+            if (JoinQuitInit.getPlayerConfig().contains(uuid + ".join"))
+                JoinQuitInit.playerJoinMessage.put(UUID.fromString(uuid),
+                        JoinQuitInit.getPlayerConfig().getInt(uuid + ".join"));
 
-            if (getPlayerConfig().contains(uuid + ".quit"))
-                playerQuitMessage.put(UUID.fromString(uuid), getPlayerConfig().getInt(uuid + ".quit"));
+            if (JoinQuitInit.getPlayerConfig().contains(uuid + ".quit"))
+                JoinQuitInit.playerQuitMessage.put(UUID.fromString(uuid),
+                        JoinQuitInit.getPlayerConfig().getInt(uuid + ".quit"));
 
-            if (getPlayerConfig().contains(uuid + ".location"))
-                playerJoinLocation.put(UUID.fromString(uuid), (Location) getPlayerConfig().get(uuid + ".location"));
+            if (JoinQuitInit.getPlayerConfig().contains(uuid + ".location"))
+                JoinQuitInit.playerJoinLocation.put(UUID.fromString(uuid),
+                        (Location) JoinQuitInit.getPlayerConfig().get(uuid + ".location"));
 
         }
 
@@ -139,7 +140,8 @@ public class JoinQuitFunctions {
 
     public String getMessage(Player player, Message type) {
 
-        return type.getList().get(getPlayerConfig().getInt(player.getUniqueId().toString() + "." + type.toString().toLowerCase()));
+        return type.getList().get(JoinQuitInit.getPlayerConfig().getInt(player.getUniqueId().toString()
+                + "." + type.toString().toLowerCase()));
 
     }
 
@@ -148,29 +150,29 @@ public class JoinQuitFunctions {
         try {
 
             UUID playerUUID = player.getUniqueId();
-            YamlConfiguration config = getPlayerConfig();
+            YamlConfiguration config = JoinQuitInit.getPlayerConfig();
 
             config.set(playerUUID.toString() + "." + type.toString().toLowerCase(), index);
-            config.save(getPlayerConfigFile());
+            config.save(JoinQuitInit.getPlayerConfigFile());
 
             switch (type) {
 
                 case JOIN:
-                    playerJoinMessage.put(playerUUID, index);
+                    JoinQuitInit.playerJoinMessage.put(playerUUID, index);
                     break;
 
                 case QUIT:
-                    playerQuitMessage.put(playerUUID, index);
+                    JoinQuitInit.playerQuitMessage.put(playerUUID, index);
                     break;
 
             }
 
             String messageType = type.toString().substring(0, 1) + type.toString().substring(1).toLowerCase();
-            commonString.messageSend(getPlugin(), player, true, messageType + " message changed!");
+            commonString.messageSend(JoinQuitInit.getPlugin(), player, true, messageType + " message changed!");
 
         } catch (IOException e) {
 
-            commonString.messageSend(getPlugin(), player, true, ChatColor.RED + "Error saving changes!");
+            commonString.messageSend(JoinQuitInit.getPlugin(), player, true, ChatColor.RED + "Error saving changes!");
             e.printStackTrace();
 
         }
@@ -182,25 +184,25 @@ public class JoinQuitFunctions {
         try {
 
             UUID playerUUID = player.getUniqueId();
-            YamlConfiguration config = getPlayerConfig();
+            YamlConfiguration config = JoinQuitInit.getPlayerConfig();
 
             config.set(playerUUID.toString() + ".location", player.getEyeLocation());
-            config.save(getPlayerConfigFile());
+            config.save(JoinQuitInit.getPlayerConfigFile());
 
-            playerJoinLocation.put(playerUUID, player.getEyeLocation());
+            JoinQuitInit.playerJoinLocation.put(playerUUID, player.getEyeLocation());
 
-            commonString.messageSend(getPlugin(), player, true, "Join location changed!");
+            commonString.messageSend(JoinQuitInit.getPlugin(), player, true, "Join location changed!");
 
         } catch (IOException e) {
 
-            commonString.messageSend(getPlugin(), player, true, ChatColor.RED + "Error saving changes!");
+            commonString.messageSend(JoinQuitInit.getPlugin(), player, true, ChatColor.RED + "Error saving changes!");
             e.printStackTrace();
 
         }
 
     }
 
-    public void showExtra(Player player) {
+    void showExtra(Player player) {
 
         Inventory options = Bukkit.createInventory(null, InventoryType.HOPPER,
                 "" + ChatColor.DARK_GREEN + ChatColor.BOLD + "Extra Options");
@@ -224,41 +226,50 @@ public class JoinQuitFunctions {
 
     }
 
-    public void clearMessage(Player player) {
+    void clearMessage(Player player) {
 
         try {
 
             UUID playerUUID = player.getUniqueId();
-            YamlConfiguration config = getPlayerConfig();
+            YamlConfiguration config = JoinQuitInit.getPlayerConfig();
 
             config.set(playerUUID.toString(), null);
-            config.save(getPlayerConfigFile());
+            config.save(JoinQuitInit.getPlayerConfigFile());
 
-            playerJoinMessage.remove(playerUUID);
-            playerQuitMessage.remove(playerUUID);
-            playerJoinLocation.remove(playerUUID);
+            JoinQuitInit.playerJoinMessage.remove(playerUUID);
+            JoinQuitInit.playerQuitMessage.remove(playerUUID);
+            JoinQuitInit.playerJoinLocation.remove(playerUUID);
 
-            commonString.messageSend(getPlugin(), player, true, "All settings cleared!");
+            commonString.messageSend(JoinQuitInit.getPlugin(), player, true, "All settings cleared!");
 
         } catch (IOException e) {
 
-            commonString.messageSend(getPlugin(), player, true, ChatColor.RED + "Error saving changes!");
+            commonString.messageSend(JoinQuitInit.getPlugin(), player, true,
+                    ChatColor.RED + "Error saving changes!");
             e.printStackTrace();
 
         }
 
     }
 
-    public void displayHelp(Player player) {
+    void displayHelp(Player player) {
 
-        commonString.messageSend(getPlugin(), player, true, "Custom Join and Quit Messages");
+        commonString.messageSend(JoinQuitInit.getPlugin(), player, true, "Custom Join and Quit Messages");
 
-        TextComponent allOptions = new TextComponent(new CommonString().pluginPrefix(getPlugin()) + "Click an option: ");
+        TextComponent allOptions = new TextComponent(new CommonString().pluginPrefix(
+                JoinQuitInit.getPlugin()) + "Click an option: ");
 
-        TextComponent joinOption = new TextComponent(ChatColor.AQUA + "[" + ChatColor.DARK_AQUA + "Set Join" + ChatColor.AQUA + "] ");
-        TextComponent quitOption = new TextComponent(ChatColor.AQUA + "[" + ChatColor.DARK_AQUA + "Set Quit" + ChatColor.AQUA + "] ");
-        TextComponent extraOption = new TextComponent(ChatColor.GREEN + "[" + ChatColor.DARK_GREEN + "Extra" + ChatColor.GREEN + "] ");
-        TextComponent clearOption = new TextComponent(ChatColor.RED + "[" + ChatColor.DARK_RED + "Clear" + ChatColor.RED + "] ");
+        TextComponent joinOption = new TextComponent(
+                ChatColor.AQUA + "[" + ChatColor.DARK_AQUA + "Set Join" + ChatColor.AQUA + "] ");
+
+        TextComponent quitOption = new TextComponent(
+                ChatColor.AQUA + "[" + ChatColor.DARK_AQUA + "Set Quit" + ChatColor.AQUA + "] ");
+
+        TextComponent extraOption = new TextComponent(
+                ChatColor.GREEN + "[" + ChatColor.DARK_GREEN + "Extra" + ChatColor.GREEN + "] ");
+
+        TextComponent clearOption = new TextComponent(
+                ChatColor.RED + "[" + ChatColor.DARK_RED + "Clear" + ChatColor.RED + "] ");
 
         joinOption.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/jq join"));
         quitOption.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/jq quit"));
@@ -368,8 +379,8 @@ public class JoinQuitFunctions {
 
     public enum Message {
 
-        JOIN(joinMessages, "joinMessages"),
-        QUIT(quitMessages, "quitMessages");
+        JOIN(JoinQuitInit.joinMessages, "joinMessages"),
+        QUIT(JoinQuitInit.quitMessages, "quitMessages");
 
         private final List<String> list;
         private final String type;

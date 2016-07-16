@@ -8,8 +8,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import static org.bukkit.Material.AIR;
-
 public class OptionClick implements Listener {
 
     @EventHandler
@@ -27,7 +25,7 @@ public class OptionClick implements Listener {
 
             if (event.getRawSlot() >= 0 && event.getRawSlot() < 5) {
 
-                if (event.getCurrentItem().getType() != AIR) {
+                if (event.getCurrentItem().getType() != Material.AIR) {
 
                     JoinQuitFunctions joinQuitFunctions = new JoinQuitFunctions();
 

@@ -1,6 +1,7 @@
 package com.ullarah.ujoinquit.event;
 
 import com.ullarah.ujoinquit.JoinQuitFunctions;
+import com.ullarah.ujoinquit.JoinQuitInit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,9 +11,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.UUID;
 
-import static com.ullarah.ujoinquit.JoinQuitFunctions.Message.JOIN;
-import static com.ullarah.ujoinquit.JoinQuitInit.*;
-
 public class PlayerJoin implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -21,18 +19,21 @@ public class PlayerJoin implements Listener {
         Player player = event.getPlayer();
         UUID playerUUID = player.getUniqueId();
 
-        if (playerJoinMessage.containsKey(playerUUID)) {
+        if (JoinQuitInit.playerJoinMessage.containsKey(playerUUID)) {
 
             JoinQuitFunctions joinQuitFunctions = new JoinQuitFunctions();
 
-            String message = joinQuitFunctions.replacePlayerString(player, joinQuitFunctions.getMessage(player, JOIN));
-            event.setJoinMessage(ChatColor.translateAlternateColorCodes('&', joinChar + message));
+            String message = joinQuitFunctions.replacePlayerString(player,
+                    joinQuitFunctions.getMessage(player, JoinQuitFunctions.Message.JOIN));
 
-            lastPlayer = player.getPlayerListName();
+            event.setJoinMessage(ChatColor.translateAlternateColorCodes('&', JoinQuitInit.joinChar + message));
+
+            JoinQuitInit.lastPlayer = player.getPlayerListName();
 
         }
 
-        if (playerJoinLocation.containsKey(playerUUID)) player.teleport(playerJoinLocation.get(playerUUID));
+        if (JoinQuitInit.playerJoinLocation.containsKey(playerUUID))
+            player.teleport(JoinQuitInit.playerJoinLocation.get(playerUUID));
 
     }
 

@@ -1,6 +1,7 @@
 package com.ullarah.ujoinquit.event;
 
 import com.ullarah.ujoinquit.JoinQuitFunctions;
+import com.ullarah.ujoinquit.JoinQuitInit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,10 +11,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.UUID;
 
-import static com.ullarah.ujoinquit.JoinQuitFunctions.Message.QUIT;
-import static com.ullarah.ujoinquit.JoinQuitInit.playerQuitMessage;
-import static com.ullarah.ujoinquit.JoinQuitInit.quitChar;
-
 public class PlayerQuit implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -22,12 +19,14 @@ public class PlayerQuit implements Listener {
         Player player = event.getPlayer();
         UUID playerUUID = player.getUniqueId();
 
-        if (playerQuitMessage.containsKey(playerUUID)) {
+        if (JoinQuitInit.playerQuitMessage.containsKey(playerUUID)) {
 
             JoinQuitFunctions joinQuitFunctions = new JoinQuitFunctions();
 
-            String message = joinQuitFunctions.replacePlayerString(player, joinQuitFunctions.getMessage(player, QUIT));
-            event.setQuitMessage(ChatColor.translateAlternateColorCodes('&', quitChar + message));
+            String message = joinQuitFunctions.replacePlayerString(player,
+                    joinQuitFunctions.getMessage(player, JoinQuitFunctions.Message.QUIT));
+
+            event.setQuitMessage(ChatColor.translateAlternateColorCodes('&', JoinQuitInit.quitChar + message));
 
         }
 

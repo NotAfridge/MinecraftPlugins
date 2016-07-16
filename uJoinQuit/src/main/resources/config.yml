@@ -12,9 +12,10 @@ joinMessages:
   - Thought you would be back {player}!
   - Why hello there {player}!
   - '&6{player} is back for more exciting adventures!'
-  - Hi, {player} Mays here for...
   - What is this {player}? A joining message for ANTS?!
   - Maybe they're born with it, maybe it's {player}
+  - A wild {player} has appeared!
+  - '{player} approaches! Quick {r_player}, run!'
 quitMessages:
   - '&cBye bye, {player}!'
   - Seeya later, {player}!
@@ -27,3 +28,7 @@ quitMessages:
   - '&lBAM&f, and the {player} is gone!'
   - '{player} disappeared, just like that!'
   - Oops, looks like {player} accidentally quit!
+  - '{player} has fled!'
+  - '{player} drops a pin and runs...'
+  - 'Oh... Bye {player}! {r_player} is going to miss you!'
+  - 'About time... {player} finally left!'
