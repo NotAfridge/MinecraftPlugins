@@ -1,5 +1,6 @@
 package com.ullarah.upostal.command.inbox;
 
+import com.ullarah.upostal.PostalInit;
 import com.ullarah.upostal.function.CommonString;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -10,9 +11,6 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.IOException;
 
-import static com.ullarah.upostal.PostalInit.getInboxDataPath;
-import static com.ullarah.upostal.PostalInit.getPlugin;
-
 public class Upgrade {
 
     public void run(CommandSender sender) {
@@ -20,7 +18,7 @@ public class Upgrade {
         CommonString commonString = new CommonString();
         Player player = (Player) sender;
 
-        File inboxFile = new File(getInboxDataPath(), player.getUniqueId().toString() + ".yml");
+        File inboxFile = new File(PostalInit.getInboxDataPath(), player.getUniqueId().toString() + ".yml");
 
         if (inboxFile.exists()) {
 
@@ -29,7 +27,7 @@ public class Upgrade {
             int inboxPlayerSlot = inboxConfig.getInt("slot");
 
             if (inboxPlayerSlot >= 54) {
-                commonString.messageSend(getPlugin(), player, ChatColor.AQUA + "You have the maximum number of slots!");
+                commonString.messageSend(PostalInit.getPlugin(), player, ChatColor.AQUA + "You have the maximum number of slots!");
                 return;
             }
 
@@ -40,14 +38,14 @@ public class Upgrade {
 
                 try {
                     inboxConfig.save(inboxFile);
-                    commonString.messageSend(getPlugin(), player,
+                    commonString.messageSend(PostalInit.getPlugin(), player,
                             ChatColor.YELLOW + "You upgraded your inbox! You now have " +
                                     ChatColor.GREEN + (inboxPlayerSlot + 9) + ChatColor.YELLOW + " slots!");
                 } catch (IOException e) {
-                    commonString.messageSend(getPlugin(), player, ChatColor.RED + "Slot Update Error!");
+                    commonString.messageSend(PostalInit.getPlugin(), player, ChatColor.RED + "Slot Update Error!");
                 }
 
-            } else commonString.messageSend(getPlugin(), player,
+            } else commonString.messageSend(PostalInit.getPlugin(), player,
                     ChatColor.YELLOW + "You need at least" + ChatColor.GOLD + " 50xp levels " + ChatColor.YELLOW + "to upgrade!");
 
         }

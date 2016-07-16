@@ -1,5 +1,6 @@
 package com.ullarah.upostal.event;
 
+import com.ullarah.upostal.PostalInit;
 import com.ullarah.upostal.function.PlayerProfile;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -15,10 +16,7 @@ import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
-import static com.ullarah.upostal.PostalInit.getInboxDataPath;
-import static org.bukkit.ChatColor.stripColor;
-
-public class InboxClick implements Listener {
+class InboxClick implements Listener {
 
     @EventHandler
     public void event(final InventoryClickEvent event) {
@@ -29,10 +27,10 @@ public class InboxClick implements Listener {
 
             if (event.getClickedInventory() == null) return;
 
-            String inboxOwner = stripColor(event.getClickedInventory().getTitle().replace("Inbox: ", ""));
+            String inboxOwner = ChatColor.stripColor(event.getClickedInventory().getTitle().replace("Inbox: ", ""));
             UUID inboxUUID = new PlayerProfile().lookup(inboxOwner).getId();
 
-            File inboxFile = new File(getInboxDataPath(), inboxUUID.toString() + ".yml");
+            File inboxFile = new File(PostalInit.getInboxDataPath(), inboxUUID.toString() + ".yml");
             FileConfiguration inboxConfig = YamlConfiguration.loadConfiguration(inboxFile);
 
             UUID inboxViewerUUID = event.getClickedInventory().getViewers().get(0).getUniqueId();

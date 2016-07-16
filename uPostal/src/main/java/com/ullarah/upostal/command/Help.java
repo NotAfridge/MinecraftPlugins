@@ -1,11 +1,10 @@
 package com.ullarah.upostal.command;
 
+import com.ullarah.upostal.PostalInit;
 import com.ullarah.upostal.function.CommonString;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import static com.ullarah.upostal.PostalInit.getPlugin;
 
 public class Help {
 
@@ -35,7 +34,7 @@ public class Help {
 
             }
 
-        } else commonString.messageNoConsole(getPlugin(), sender);
+        } else commonString.messageNoConsole(PostalInit.getPlugin(), sender);
 
     }
 

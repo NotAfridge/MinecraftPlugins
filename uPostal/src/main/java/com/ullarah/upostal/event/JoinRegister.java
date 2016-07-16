@@ -5,7 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-public class JoinRegister implements Listener {
+class JoinRegister implements Listener {
 
     @EventHandler
     public void event(final PlayerJoinEvent event) {

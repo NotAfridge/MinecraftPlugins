@@ -1,5 +1,6 @@
 package com.ullarah.upostal.event;
 
+import com.ullarah.upostal.PostalInit;
 import com.ullarah.upostal.command.inbox.Update;
 import com.ullarah.upostal.function.PlayerProfile;
 import org.bukkit.ChatColor;
@@ -12,20 +13,17 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import java.io.File;
 import java.util.UUID;
 
-import static com.ullarah.upostal.PostalInit.*;
-import static org.bukkit.ChatColor.stripColor;
-
-public class InboxClose implements Listener {
+class InboxClose implements Listener {
 
     @EventHandler
     public void event(final InventoryCloseEvent event) {
 
         if (event.getInventory().getName().matches(ChatColor.DARK_RED + "Inbox: " + ChatColor.DARK_AQUA + "(.*)")) {
 
-            String inboxOwner = stripColor(event.getInventory().getTitle().replace("Inbox: ", ""));
+            String inboxOwner = ChatColor.stripColor(event.getInventory().getTitle().replace("Inbox: ", ""));
             UUID inboxUUID = new PlayerProfile().lookup(inboxOwner).getId();
 
-            File inboxConfigFile = new File(getInboxDataPath(), inboxUUID.toString() + ".yml");
+            File inboxConfigFile = new File(PostalInit.getInboxDataPath(), inboxUUID.toString() + ".yml");
             FileConfiguration inboxConfig = YamlConfiguration.loadConfiguration(inboxConfigFile);
 
             UUID inboxViewerUUID = event.getInventory().getViewers().get(0).getUniqueId();
@@ -33,13 +31,18 @@ public class InboxClose implements Listener {
 
             new Update().run(inboxViewerUUID, inboxOwnerUUID, event.getInventory());
 
-            if (inboxViewerBusy.contains(inboxOwnerUUID)) inboxViewerBusy.remove(inboxOwnerUUID);
-            if (inboxOwnerBusy.contains(inboxOwnerUUID)) inboxOwnerBusy.remove(inboxOwnerUUID);
-            if (inboxModification.contains(inboxOwnerUUID)) inboxModification.remove(inboxOwnerUUID);
+            if (PostalInit.inboxViewerBusy.contains(inboxOwnerUUID))
+                PostalInit.inboxViewerBusy.remove(inboxOwnerUUID);
 
-            if (inboxChanged.containsKey(inboxUUID)) {
-                inboxChanged.get(inboxUUID).cancel();
-                inboxChanged.remove(inboxUUID);
+            if (PostalInit.inboxOwnerBusy.contains(inboxOwnerUUID))
+                PostalInit.inboxOwnerBusy.remove(inboxOwnerUUID);
+
+            if (PostalInit.inboxModification.contains(inboxOwnerUUID))
+                PostalInit.inboxModification.remove(inboxOwnerUUID);
+
+            if (PostalInit.inboxChanged.containsKey(inboxUUID)) {
+                PostalInit.inboxChanged.get(inboxUUID).cancel();
+                PostalInit.inboxChanged.remove(inboxUUID);
             }
 
         }

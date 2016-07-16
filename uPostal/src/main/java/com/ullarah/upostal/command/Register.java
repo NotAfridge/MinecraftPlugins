@@ -1,5 +1,6 @@
 package com.ullarah.upostal.command;
 
+import com.ullarah.upostal.PostalInit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -10,9 +11,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import static com.ullarah.upostal.PostalInit.getInboxDataPath;
-import static com.ullarah.upostal.PostalInit.getPlugin;
-
 public class Register {
 
     public void create(CommandSender sender) {
@@ -22,11 +20,11 @@ public class Register {
             Player player = (Player) sender;
             UUID playerUUID = player.getUniqueId();
 
-            if (!new File(getInboxDataPath(), playerUUID.toString() + ".yml").exists()) {
+            if (!new File(PostalInit.getInboxDataPath(), playerUUID.toString() + ".yml").exists()) {
 
                 boolean dirCreation = true;
 
-                File dataDir = getPlugin().getDataFolder();
+                File dataDir = PostalInit.getPlugin().getDataFolder();
                 if (!dataDir.exists()) dirCreation = dataDir.mkdir();
 
                 File inboxDir = new File(dataDir + File.separator + "inbox");
@@ -57,7 +55,7 @@ public class Register {
 
             } else {
 
-                File inboxConfigFile = new File(getInboxDataPath(), playerUUID.toString() + ".yml");
+                File inboxConfigFile = new File(PostalInit.getInboxDataPath(), playerUUID.toString() + ".yml");
                 FileConfiguration inboxConfig = YamlConfiguration.loadConfiguration(inboxConfigFile);
 
                 if (!inboxConfig.getString("name").equals(player.getPlayerListName())) {

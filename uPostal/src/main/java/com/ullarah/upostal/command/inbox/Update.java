@@ -1,5 +1,6 @@
 package com.ullarah.upostal.command.inbox;
 
+import com.ullarah.upostal.PostalInit;
 import com.ullarah.upostal.function.CommonString;
 import com.ullarah.upostal.function.TitleSubtitle;
 import com.ullarah.upostal.task.PostalReminder;
@@ -21,8 +22,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.ullarah.upostal.PostalInit.*;
-
 public class Update {
 
     public void run(UUID sender, UUID receiver, Inventory inventory) {
@@ -31,12 +30,12 @@ public class Update {
         TitleSubtitle titleSubtitle = new TitleSubtitle();
         Player player = Bukkit.getPlayer(sender);
 
-        File inboxFile = new File(getInboxDataPath(), receiver.toString() + ".yml");
+        File inboxFile = new File(PostalInit.getInboxDataPath(), receiver.toString() + ".yml");
         FileConfiguration inboxConfig = YamlConfiguration.loadConfiguration(inboxFile);
 
         try {
 
-            if (!sender.equals(receiver) && !inboxModification.contains(receiver)) {
+            if (!sender.equals(receiver) && !PostalInit.inboxModification.contains(receiver)) {
 
                 boolean newItems = false;
 
@@ -95,8 +94,8 @@ public class Update {
                 inboxConfig.set("item", itemList);
                 inboxConfig.save(inboxFile);
 
-                if (inboxOwnerBusy.isEmpty()) if (newItems)
-                    commonString.messageSend(getPlugin(), player, ChatColor.GREEN + "Items sent successfully!");
+                if (PostalInit.inboxOwnerBusy.isEmpty()) if (newItems)
+                    commonString.messageSend(PostalInit.getPlugin(), player, ChatColor.GREEN + "Items sent successfully!");
 
                 if (newItems) {
 
@@ -104,9 +103,9 @@ public class Update {
 
                         if (receiverPlayer.getUniqueId().equals(receiver)) {
 
-                            inboxChanged.put(receiver, new PostalReminder().task(receiver));
+                            PostalInit.inboxChanged.put(receiver, new PostalReminder().task(receiver));
                             String message = ChatColor.YELLOW + "You have new items in your inbox!";
-                            commonString.messageSend(getPlugin(), receiverPlayer, message);
+                            commonString.messageSend(PostalInit.getPlugin(), receiverPlayer, message);
                             titleSubtitle.subtitle(receiverPlayer, message);
                             break;
 
@@ -127,7 +126,7 @@ public class Update {
 
         } catch (IOException e) {
 
-            commonString.messageSend(getPlugin(), player, ChatColor.RED + "Inbox Update Error!");
+            commonString.messageSend(PostalInit.getPlugin(), player, ChatColor.RED + "Inbox Update Error!");
 
         }
 
