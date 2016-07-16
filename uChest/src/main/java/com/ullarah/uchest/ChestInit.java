@@ -58,7 +58,7 @@ public class ChestInit extends JavaPlugin {
         ChestInit.plugin = plugin;
     }
 
-    public static Economy getVaultEconomy() {
+    static Economy getVaultEconomy() {
         return vaultEconomy;
     }
 
@@ -66,7 +66,7 @@ public class ChestInit extends JavaPlugin {
         ChestInit.vaultEconomy = vaultEconomy;
     }
 
-    public static InventoryHolder getChestDonationHolder() {
+    private static InventoryHolder getChestDonationHolder() {
         return chestDonationHolder;
     }
 
@@ -74,7 +74,7 @@ public class ChestInit extends JavaPlugin {
         ChestInit.chestDonationHolder = chestDonationHolder;
     }
 
-    public static InventoryHolder getChestRandomHolder() {
+    private static InventoryHolder getChestRandomHolder() {
         return chestRandomHolder;
     }
 
@@ -82,7 +82,7 @@ public class ChestInit extends JavaPlugin {
         ChestInit.chestRandomHolder = chestRandomHolder;
     }
 
-    public static InventoryHolder getChestSwapHolder() {
+    private static InventoryHolder getChestSwapHolder() {
         return chestSwapHolder;
     }
 
@@ -98,7 +98,7 @@ public class ChestInit extends JavaPlugin {
         chestDonationInventory = inventory;
     }
 
-    public static Inventory getChestRandomInventory() {
+    static Inventory getChestRandomInventory() {
         return chestRandomInventory;
     }
 
