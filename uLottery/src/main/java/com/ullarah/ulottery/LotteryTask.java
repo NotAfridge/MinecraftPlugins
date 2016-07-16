@@ -16,7 +16,7 @@ import static com.ullarah.ulottery.LotteryInit.*;
 
 class LotteryTask {
 
-    public static void deathLotteryStart() {
+    static void deathLotteryStart() {
 
         getPlugin().getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(), () -> {
 

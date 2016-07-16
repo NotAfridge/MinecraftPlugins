@@ -8,8 +8,6 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import static com.ullarah.ulottery.LotteryInit.*;
-
 class LotteryEvents implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -17,24 +15,27 @@ class LotteryEvents implements Listener {
 
         Player player = event.getEntity();
 
-        if (!deathLotteryPaused) {
+        if (!LotteryInit.deathLotteryPaused) {
 
-            recentDeathName = player.getPlayerListName();
-            deathCountdown = deathCountdownReset;
+            LotteryInit.recentDeathName = player.getPlayerListName();
+            LotteryInit.deathCountdown = LotteryInit.deathCountdownReset;
 
-            playerDeathPrevious.put(player.getUniqueId(), playerDeathPrevious.containsKey(player.getUniqueId())
-                    ? playerDeathPrevious.get(player.getUniqueId()) + 5 : deathSuspension);
+            LotteryInit.playerDeathPrevious.put(player.getUniqueId(),
+                    LotteryInit.playerDeathPrevious.containsKey(player.getUniqueId())
+                            ? LotteryInit.playerDeathPrevious.get(player.getUniqueId()) + 5 : LotteryInit.deathSuspension);
 
-            if (!playerDeathSuspension.containsKey(player.getUniqueId()))
-                deathLotteryBank += economy != null ? winVaultAmount : winItemAmount;
+            if (!LotteryInit.playerDeathSuspension.containsKey(player.getUniqueId()))
+                LotteryInit.deathLotteryBank += LotteryInit.economy != null
+                        ? LotteryInit.winVaultAmount : LotteryInit.winItemAmount;
 
-            playerDeathSuspension.put(player.getUniqueId(), playerDeathPrevious.get(player.getUniqueId()));
+            LotteryInit.playerDeathSuspension.put(player.getUniqueId(),
+                    LotteryInit.playerDeathPrevious.get(player.getUniqueId()));
 
             String deathMessage = event.getDeathMessage().split(" ", 2)[1];
             String deathMessageFix = deathMessage.substring(0, 1).toUpperCase() + deathMessage.substring(1);
 
             if (deathMessage.equals("died")) deathMessageFix = "Mysterious Forces...";
-            recentDeathReason = deathMessageFix;
+            LotteryInit.recentDeathReason = deathMessageFix;
 
         }
 
@@ -43,16 +44,18 @@ class LotteryEvents implements Listener {
     @EventHandler
     public void playerQuit(final PlayerQuitEvent event) {
 
-        if (getPlugin().getServer().getOnlinePlayers().size() < totalPlayerPause && !deathLotteryPaused)
-            deathLotteryPaused = true;
+        if (LotteryInit.getPlugin().getServer().getOnlinePlayers().size()
+                < LotteryInit.totalPlayerPause && !LotteryInit.deathLotteryPaused)
+            LotteryInit.deathLotteryPaused = true;
 
     }
 
     @EventHandler
     public void playerJoin(final PlayerJoinEvent event) {
 
-        if (getPlugin().getServer().getOnlinePlayers().size() >= totalPlayerPause && deathLotteryPaused)
-            deathLotteryPaused = false;
+        if (LotteryInit.getPlugin().getServer().getOnlinePlayers().size()
+                >= LotteryInit.totalPlayerPause && LotteryInit.deathLotteryPaused)
+            LotteryInit.deathLotteryPaused = false;
 
     }
 

@@ -10,8 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-import static com.ullarah.ulottery.LotteryInit.*;
-
 class LotteryCommands implements CommandExecutor {
 
     @Override
@@ -22,71 +20,75 @@ class LotteryCommands implements CommandExecutor {
         String hour = "Hour";
 
         String deathBank = ChatColor.RED + "Nobody has died yet!";
-        if (deathLotteryBank > 0) {
+        if (LotteryInit.deathLotteryBank > 0) {
             String bank = ChatColor.YELLOW + "Bank: " + ChatColor.GREEN;
-            deathBank = economy != null ? bank + "$" + deathLotteryBank :
-                    bank + deathLotteryBank + " " + winItemMaterial.name().replace("_", " ").toLowerCase()
-                            + (deathLotteryBank > 1 ? "s" : "");
+            deathBank = LotteryInit.economy != null ? bank + "$" + LotteryInit.deathLotteryBank :
+                    bank + LotteryInit.deathLotteryBank + " "
+                            + LotteryInit.winItemMaterial.name().replace("_", " ").toLowerCase()
+                            + (LotteryInit.deathLotteryBank > 1 ? "s" : "");
         }
 
         String deathRecent = "";
-        if (!recentDeathName.equals("")) deathRecent = sep + ChatColor.YELLOW + "Recent Death: " + ChatColor.RED;
+        if (!LotteryInit.recentDeathName.equals(""))
+            deathRecent = sep + ChatColor.YELLOW + "Recent Death: " + ChatColor.RED;
 
-        String winner = ChatColor.YELLOW + "Recent Winner: " + ChatColor.RED + recentWinnerName +
+        String winner = ChatColor.YELLOW + "Recent Winner: " + ChatColor.RED + LotteryInit.recentWinnerName +
                 sep + ChatColor.GREEN;
-        String deathWinner = economy != null ? winner + "$" + recentWinnerAmount :
-                winner + recentWinnerAmount + " " +  winItemMaterial.name().replace("_", " ").toLowerCase()
-                        + (recentWinnerAmount > 1 ? "s" : "");
+        String deathWinner = LotteryInit.economy != null ? winner + "$" + LotteryInit.recentWinnerAmount :
+                winner + LotteryInit.recentWinnerAmount + " "
+                        + LotteryInit.winItemMaterial.name().replace("_", " ").toLowerCase()
+                        + (LotteryInit.recentWinnerAmount > 1 ? "s" : "");
 
-        String deathCountdownMessage = ChatColor.YELLOW + "Countdown: " + ChatColor.RED + deathCountdown;
+        String deathCountdownMessage = ChatColor.YELLOW + "Countdown: " + ChatColor.RED + LotteryInit.deathCountdown;
         String deathDurationMessage = "";
 
-        if (deathDuration > 0) {
-            int deathDurationHour = deathDuration / 60;
-            int deathDurationMinute = deathDuration % 60;
+        if (LotteryInit.deathDuration > 0) {
+            int deathDurationHour = LotteryInit.deathDuration / 60;
+            int deathDurationMinute = LotteryInit.deathDuration % 60;
 
             String dHour = hour;
             String dMinute = minute;
             if (deathDurationHour > 1) dHour += "s";
             if (deathDurationMinute > 1) dMinute += "s";
 
-            String deathHourMinute = deathDuration / 60 < 1 ? deathDuration + " Minutes" :
-                    String.format("%d " + dHour + " %02d " + dMinute, deathDuration / 60, deathDuration % 60);
+            String deathHourMinute = LotteryInit.deathDuration / 60 < 1 ? LotteryInit.deathDuration + " Minutes" :
+                    String.format("%d " + dHour + " %02d "
+                            + dMinute, LotteryInit.deathDuration / 60, LotteryInit.deathDuration % 60);
             deathDurationMessage = ChatColor.YELLOW + "Duration: " + ChatColor.RED + deathHourMinute + sep;
         }
 
         String deathTimeout = "";
 
-        String pauseMessage = "There are less than " + ChatColor.YELLOW + totalPlayerPause + ChatColor.RESET +
-                " players. Death Lottery is paused.";
+        String pauseMessage = "There are less than " + ChatColor.YELLOW +
+                LotteryInit.totalPlayerPause + ChatColor.RESET + " players. Death Lottery is paused.";
 
         if (command.getName().equalsIgnoreCase("dlot")) {
 
             String cMinute = minute;
-            if (deathCountdown > 1) cMinute += "s";
+            if (LotteryInit.deathCountdown > 1) cMinute += "s";
 
             if (commandSender instanceof ConsoleCommandSender) {
 
                 String consoleString = "" + ChatColor.RED + ChatColor.BOLD + "Death Lottery" + ChatColor.RESET +
-                        ChatColor.stripColor(sep + deathBank + deathRecent + recentDeathName);
+                        ChatColor.stripColor(sep + deathBank + deathRecent + LotteryInit.recentDeathName);
 
-                if (deathLotteryBank > 0) {
-                    if (recentWinnerAmount > 0)
+                if (LotteryInit.deathLotteryBank > 0) {
+                    if (LotteryInit.recentWinnerAmount > 0)
                         commandSender.sendMessage(consoleString + ChatColor.stripColor(sep + deathCountdownMessage + " " +
                                 cMinute + sep + deathWinner));
                     else
                         commandSender.sendMessage(consoleString + ChatColor.stripColor(sep + deathCountdownMessage + " " + cMinute));
                 } else commandSender.sendMessage(consoleString);
 
-                if (deathLotteryPaused) commandSender.sendMessage(pauseMessage);
+                if (LotteryInit.deathLotteryPaused) commandSender.sendMessage(pauseMessage);
 
             } else {
 
                 Player player = (Player) commandSender;
 
-                if (playerDeathSuspension.containsKey(((Player) commandSender).getUniqueId())) {
+                if (LotteryInit.playerDeathSuspension.containsKey(((Player) commandSender).getUniqueId())) {
 
-                    Integer playerTimeout = playerDeathSuspension.get(((Player) commandSender).getUniqueId());
+                    Integer playerTimeout = LotteryInit.playerDeathSuspension.get(((Player) commandSender).getUniqueId());
 
                     String sMinute = minute;
                     if (playerTimeout > 1) sMinute += "s";
@@ -95,12 +97,12 @@ class LotteryCommands implements CommandExecutor {
 
                 }
 
-                String winType = economy != null ? "$" + winVaultAmount :
-                        winItemAmount + " " + winItemMaterial.name().replace("_", " ").toLowerCase()
-                                + (winItemAmount > 1 ? "s" : "");
+                String winType = LotteryInit.economy != null ? "$" + LotteryInit.winVaultAmount :
+                        LotteryInit.winItemAmount + " " + LotteryInit.winItemMaterial.name().replace("_", " ").toLowerCase()
+                                + (LotteryInit.winItemAmount > 1 ? "s" : "");
 
-                String suspensionAmount = String.valueOf(deathSuspension);
-                String countdownAmount = String.valueOf(deathCountdownReset);
+                String suspensionAmount = String.valueOf(LotteryInit.deathSuspension);
+                String countdownAmount = String.valueOf(LotteryInit.deathCountdownReset);
 
                 player.sendMessage(new String[]{
                         "" + ChatColor.RED + ChatColor.BOLD + "Death Lottery",
@@ -116,11 +118,11 @@ class LotteryCommands implements CommandExecutor {
 
                     TextComponent deathBankMessage = new TextComponent(deathBank);
                     TextComponent deathRecentMessage = new TextComponent(deathRecent);
-                    TextComponent deathNameHover = new TextComponent(recentDeathName);
+                    TextComponent deathNameHover = new TextComponent(LotteryInit.recentDeathName);
 
                     deathNameHover.setColor(net.md_5.bungee.api.ChatColor.RED);
                     deathNameHover.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                            new ComponentBuilder(recentDeathReason).create()));
+                            new ComponentBuilder(LotteryInit.recentDeathReason).create()));
 
                     deathBankMessage.addExtra(deathRecentMessage);
                     deathBankMessage.addExtra(deathNameHover);
@@ -129,14 +131,14 @@ class LotteryCommands implements CommandExecutor {
 
                 } else player.sendMessage(deathBank);
 
-                if (deathLotteryBank > 0) {
+                if (LotteryInit.deathLotteryBank > 0) {
                     commandSender.sendMessage(deathDurationMessage + deathCountdownMessage + " " + minute);
                     if (!deathTimeout.equals("")) commandSender.sendMessage(deathTimeout);
                 }
 
-                if (recentWinnerAmount > 0) commandSender.sendMessage(deathWinner);
+                if (LotteryInit.recentWinnerAmount > 0) commandSender.sendMessage(deathWinner);
 
-                if (deathLotteryPaused) commandSender.sendMessage(pauseMessage);
+                if (LotteryInit.deathLotteryPaused) commandSender.sendMessage(pauseMessage);
 
             }
 

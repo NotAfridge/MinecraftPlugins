@@ -11,30 +11,28 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 
-import static com.ullarah.ulottery.LotteryTask.deathLotteryStart;
-
 public class LotteryInit extends JavaPlugin {
 
-    public static Integer totalPlayerPause;
-    public static final ConcurrentHashMap<UUID, Integer> playerDeathSuspension = new ConcurrentHashMap<>();
-    public static final ConcurrentHashMap<UUID, Integer> playerDeathPrevious = new ConcurrentHashMap<>();
-    public static Economy economy = null;
-    public static Integer deathDuration = 0;
-    public static Integer deathCountdown;
-    public static Integer deathCountdownReset;
-    public static Integer deathSuspension;
-    public static Integer deathLotteryBank = 0;
-    public static Boolean deathLotteryPaused = false;
-    public static String recentDeathName = "";
-    public static String recentDeathReason = null;
-    public static String recentWinnerName = null;
-    public static Integer recentWinnerAmount = 0;
-    public static Integer winVaultAmount;
-    public static Integer winItemAmount;
-    public static Material winItemMaterial;
+    static final ConcurrentHashMap<UUID, Integer> playerDeathSuspension = new ConcurrentHashMap<>();
+    static final ConcurrentHashMap<UUID, Integer> playerDeathPrevious = new ConcurrentHashMap<>();
+    static Integer totalPlayerPause;
+    static Economy economy = null;
+    static Integer deathDuration = 0;
+    static Integer deathCountdown;
+    static Integer deathCountdownReset;
+    static Integer deathSuspension;
+    static Integer deathLotteryBank = 0;
+    static Boolean deathLotteryPaused = false;
+    static String recentDeathName = "";
+    static String recentDeathReason = null;
+    static String recentWinnerName = null;
+    static Integer recentWinnerAmount = 0;
+    static Integer winVaultAmount;
+    static Integer winItemAmount;
+    static Material winItemMaterial;
     private static Plugin plugin;
 
-    public static Plugin getPlugin() {
+    static Plugin getPlugin() {
         return plugin;
     }
 
@@ -78,7 +76,7 @@ public class LotteryInit extends JavaPlugin {
         if (getPlugin().getServer().getOnlinePlayers().size() < totalPlayerPause)
             deathLotteryPaused = true;
 
-        deathLotteryStart();
+        LotteryTask.deathLotteryStart();
 
     }
 
