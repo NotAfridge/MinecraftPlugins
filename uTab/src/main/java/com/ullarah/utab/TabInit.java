@@ -11,10 +11,10 @@ import java.util.List;
 
 public class TabInit extends JavaPlugin {
 
-    public static int headerMessageTotal = 0;
-    public static int headerMessageCurrent = 0;
-    public static int footerMessageTotal = 0;
-    public static int footerMessageCurrent = 0;
+    static int headerMessageTotal = 0;
+    static int headerMessageCurrent = 0;
+    static int footerMessageTotal = 0;
+    static int footerMessageCurrent = 0;
 
     private static Plugin plugin;
     private static BukkitTask tabTask;
@@ -23,7 +23,7 @@ public class TabInit extends JavaPlugin {
     private static int tabTimer;
     private final TabFunctions tabFunctions = new TabFunctions();
 
-    public static Plugin getPlugin() {
+    static Plugin getPlugin() {
         return plugin;
     }
 
@@ -31,35 +31,35 @@ public class TabInit extends JavaPlugin {
         TabInit.plugin = plugin;
     }
 
-    public static BukkitTask getTabTask() {
+    static BukkitTask getTabTask() {
         return tabTask;
     }
 
-    public static void setTabTask(BukkitTask task) {
+    static void setTabTask(BukkitTask task) {
         TabInit.tabTask = task;
     }
 
-    public static List getHeaderMessages() {
+    static List getHeaderMessages() {
         return headerMessages;
     }
 
-    public static void setHeaderMessages(List messages) {
+    static void setHeaderMessages(List messages) {
         TabInit.headerMessages = messages;
     }
 
-    public static List getFooterMessages() {
+    static List getFooterMessages() {
         return footerMessages;
     }
 
-    public static void setFooterMessages(List messages) {
+    static void setFooterMessages(List messages) {
         TabInit.footerMessages = messages;
     }
 
-    public static int getTabTimer() {
+    static int getTabTimer() {
         return tabTimer;
     }
 
-    public static void setTabTimer(int time) {
+    static void setTabTimer(int time) {
         TabInit.tabTimer = time * 20;
     }
 

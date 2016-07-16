@@ -10,13 +10,11 @@ import org.bukkit.entity.Player;
 
 import java.lang.reflect.Field;
 
-import static com.ullarah.utab.TabInit.*;
-
 class TabFunctions {
 
     private static Field tabField;
 
-    public void sendHeaderFooter(Player player, String header, String footer) {
+    void sendHeaderFooter(Player player, String header, String footer) {
 
         header = header.replaceAll("\\{player\\}", player.getPlayerListName());
         footer = footer.replaceAll("\\{player\\}", player.getPlayerListName());
@@ -47,44 +45,46 @@ class TabFunctions {
 
     }
 
-    public String getCurrentHeader() {
+    String getCurrentHeader() {
 
         try {
-            return ChatColor.translateAlternateColorCodes('&', (String) getHeaderMessages().get(headerMessageCurrent));
+            return ChatColor.translateAlternateColorCodes('&',
+                    (String) TabInit.getHeaderMessages().get(TabInit.headerMessageCurrent));
         } catch (Exception e) {
             return "";
         }
 
     }
 
-    public String getCurrentFooter() {
+    String getCurrentFooter() {
 
         try {
-            return ChatColor.translateAlternateColorCodes('&', (String) getFooterMessages().get(footerMessageCurrent));
+            return ChatColor.translateAlternateColorCodes('&',
+                    (String) TabInit.getFooterMessages().get(TabInit.footerMessageCurrent));
         } catch (Exception e) {
             return "";
         }
 
     }
 
-    public boolean reloadTabConfig() {
+    boolean reloadTabConfig() {
 
         try {
 
             for (Player player : Bukkit.getOnlinePlayers()) sendHeaderFooter(player, "", "");
 
-            headerMessageCurrent = 0;
-            footerMessageCurrent = 0;
+            TabInit.headerMessageCurrent = 0;
+            TabInit.footerMessageCurrent = 0;
 
-            getPlugin().reloadConfig();
+            TabInit.getPlugin().reloadConfig();
 
-            setTabTimer(getPlugin().getConfig().getInt("timer"));
+            TabInit.setTabTimer(TabInit.getPlugin().getConfig().getInt("timer"));
 
-            setHeaderMessages(getPlugin().getConfig().getStringList("header.messages"));
-            setFooterMessages(getPlugin().getConfig().getStringList("footer.messages"));
+            TabInit.setHeaderMessages(TabInit.getPlugin().getConfig().getStringList("header.messages"));
+            TabInit.setFooterMessages(TabInit.getPlugin().getConfig().getStringList("footer.messages"));
 
-            headerMessageTotal = getHeaderMessages().size() - 1;
-            footerMessageTotal = getFooterMessages().size() - 1;
+            TabInit.headerMessageTotal = TabInit.getHeaderMessages().size() - 1;
+            TabInit.footerMessageTotal = TabInit.getFooterMessages().size() - 1;
 
         } catch (Exception e) {
 

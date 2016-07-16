@@ -6,7 +6,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 class TabEvents implements Listener {
 
-    @SuppressWarnings("UnusedDeclaration")
     @EventHandler
     public void playerJoin(final PlayerJoinEvent event) {
 

@@ -7,7 +7,7 @@ import static com.ullarah.utab.TabInit.*;
 
 class TabTask {
 
-    public void startTabTimer() {
+    void startTabTimer() {
 
         TabFunctions tabFunctions = new TabFunctions();
 

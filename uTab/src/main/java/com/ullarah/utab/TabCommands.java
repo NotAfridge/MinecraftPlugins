@@ -5,8 +5,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import static com.ullarah.utab.TabInit.*;
-
 class TabCommands implements CommandExecutor {
 
     @Override
@@ -15,22 +13,22 @@ class TabCommands implements CommandExecutor {
         CommonString commonString = new CommonString();
 
         if (!sender.hasPermission("utab.commands")) {
-            commonString.messagePermDeny(getPlugin(), sender);
+            commonString.messagePermDeny(TabInit.getPlugin(), sender);
             return true;
         }
 
-        if (args.length == 0) commonString.messageSend(getPlugin(), sender,
-                " HT:" + headerMessageTotal + " HC:" + headerMessageCurrent
-                        + " FT:" + footerMessageTotal + " FC:" + footerMessageCurrent);
+        if (args.length == 0) commonString.messageSend(TabInit.getPlugin(), sender,
+                " HT:" + TabInit.headerMessageTotal + " HC:" + TabInit.headerMessageCurrent
+                        + " FT:" + TabInit.footerMessageTotal + " FC:" + TabInit.footerMessageCurrent);
         else switch (args[0].toUpperCase()) {
 
             case "RELOAD":
-                getTabTask().cancel();
+                TabInit.getTabTask().cancel();
 
                 new TabFunctions().reloadTabConfig();
                 new TabTask().startTabTimer();
 
-                commonString.messageSend(getPlugin(), sender, "Messages Reloaded");
+                commonString.messageSend(TabInit.getPlugin(), sender, "Messages Reloaded");
                 break;
 
         }
