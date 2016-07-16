@@ -15,17 +15,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
-
-public class WildEvent implements Listener {
+class WildEvent implements Listener {
 
     @EventHandler
     public void mobSpawn(final CreatureSpawnEvent event){
 
-        List<SpawnReason> spawnReasons = new ArrayList<>();
-        spawnReasons.add(SpawnReason.NATURAL);
-        spawnReasons.add(SpawnReason.SPAWNER_EGG);
-        spawnReasons.add(SpawnReason.CHUNK_GEN);
+        List<CreatureSpawnEvent.SpawnReason> spawnReasons = new ArrayList<>();
+        spawnReasons.add(CreatureSpawnEvent.SpawnReason.NATURAL);
+        spawnReasons.add(CreatureSpawnEvent.SpawnReason.SPAWNER_EGG);
+        spawnReasons.add(CreatureSpawnEvent.SpawnReason.CHUNK_GEN);
 
         if (spawnReasons.contains(event.getSpawnReason())) {
 

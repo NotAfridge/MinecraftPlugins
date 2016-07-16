@@ -8,7 +8,7 @@ public class WildInit extends JavaPlugin {
 
     private static Plugin plugin;
 
-    public static Plugin getPlugin() {
+    static Plugin getPlugin() {
         return plugin;
     }
 
