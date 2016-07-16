@@ -215,9 +215,6 @@ public class ChestFunctions {
 
         }
 
-        List<ItemStack> materialKeys = new ArrayList<>(ChestInit.materialMap.keySet());
-        ItemStack itemStack = materialKeys.get(new Random().nextInt(materialKeys.size()));
-
         BukkitTask task = new BukkitRunnable() {
 
             int c = ChestInit.getPlugin().getConfig().getInt(chestType + ".timer");
@@ -236,10 +233,10 @@ public class ChestFunctions {
 
                 ChestInit.getChestRandomInventory().clear();
 
-                if ((boolean) ChestInit.materialMap.get(itemStack)[2])
-                    ChestInit.getChestRandomInventory().setItem(
-                            new Random().nextInt(ChestInit.getChestRandomInventory().getSize()),
-                        materialKeys.get(new Random().nextInt(materialKeys.size())));
+                ItemStack itemStack = getRandomItem();
+                int chestSize = new Random().nextInt(ChestInit.getChestRandomInventory().getSize());
+
+                ChestInit.getChestRandomInventory().setItem(chestSize, itemStack);
 
                 c--;
 
@@ -248,6 +245,19 @@ public class ChestFunctions {
         }.runTaskTimer(ChestInit.getPlugin(), 5, 25);
 
         ChestInit.chestRandomTask.put(player.getUniqueId(), task);
+
+    }
+
+    private ItemStack getRandomItem() {
+
+        List<ItemStack> materialKeys = new ArrayList<>(ChestInit.materialMap.keySet());
+
+        ItemStack item = materialKeys.get(new Random().nextInt(materialKeys.size()));
+
+        if ((boolean) ChestInit.materialMap.get(item)[2]) return item;
+        else getRandomItem();
+
+        return new ItemStack(Material.AIR);
 
     }
 

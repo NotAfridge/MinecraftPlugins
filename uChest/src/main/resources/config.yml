@@ -32,8 +32,8 @@ dchest:
   enabled: true
 
 # Enchantment Chest
-echest: workbench
-  icon:
+echest:
+  icon: workbench
   access: 5
   removelevel: true
   lockout: 120
