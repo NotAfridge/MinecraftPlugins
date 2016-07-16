@@ -9,38 +9,37 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.ullarah.uteleport.TeleportInit.*;
-import static org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-import static org.bukkit.event.player.PlayerTeleportEvent.TeleportCause.COMMAND;
-import static org.bukkit.event.player.PlayerTeleportEvent.TeleportCause.PLUGIN;
-
-public class TeleportEvents implements Listener {
+class TeleportEvents implements Listener {
 
     @EventHandler
     public void playerTeleport(final PlayerTeleportEvent event) {
 
-        TeleportCause cause = event.getCause();
+        PlayerTeleportEvent.TeleportCause cause = event.getCause();
 
-        if (cause.equals(COMMAND) || cause.equals(PLUGIN)) {
+        List<PlayerTeleportEvent.TeleportCause> teleportCauses = new ArrayList<>();
+        teleportCauses.add(PlayerTeleportEvent.TeleportCause.COMMAND);
+        teleportCauses.add(PlayerTeleportEvent.TeleportCause.PLUGIN);
+
+        if (teleportCauses.contains(cause)) {
 
             Player player = event.getPlayer();
             UUID playerUUID = player.getUniqueId();
 
-            if (!historyBlock.contains(playerUUID)) {
+            if (!TeleportInit.historyBlock.contains(playerUUID)) {
 
                 Location locationFrom = event.getFrom();
                 Location locationTo = event.getTo();
 
                 if (!locationFrom.getWorld().equals(locationTo.getWorld())
-                        || locationFrom.distance(locationTo) > getPlugin().getConfig().getDouble("distance")) {
+                        || locationFrom.distance(locationTo) > TeleportInit.getPlugin().getConfig().getDouble("distance")) {
 
                     double posFromX = (int) locationFrom.getX();
                     double posFromY = (int) locationFrom.getY();
                     double posFromZ = (int) locationFrom.getZ();
 
-                    if (historyMap.containsKey(playerUUID)) {
+                    if (TeleportInit.historyMap.containsKey(playerUUID)) {
 
-                        ConcurrentHashMap<ArrayList<Location>, ArrayList<Date>> locationMap = historyMap.get(playerUUID);
+                        ConcurrentHashMap<ArrayList<Location>, ArrayList<Date>> locationMap = TeleportInit.historyMap.get(playerUUID);
 
                         ArrayList<Location> locations = new ArrayList<>();
                         ArrayList<Date> dates = new ArrayList<>();
@@ -50,7 +49,7 @@ public class TeleportEvents implements Listener {
                             ArrayList<Location> historyLocation = entry.getKey();
                             ArrayList<Date> historyDate = entry.getValue();
 
-                            if (historyLocation.size() >= getPlugin().getConfig().getInt("history")) {
+                            if (historyLocation.size() >= TeleportInit.getPlugin().getConfig().getInt("history")) {
                                 historyLocation.remove(0);
                                 historyDate.remove(0);
                             }
@@ -65,11 +64,11 @@ public class TeleportEvents implements Listener {
 
                         locationMap.put(locations, dates);
 
-                        historyMap.put(playerUUID, locationMap);
+                        TeleportInit.historyMap.put(playerUUID, locationMap);
 
                     } else {
 
-                        historyMap.put(playerUUID, new ConcurrentHashMap<ArrayList<Location>, ArrayList<Date>>() {{
+                        TeleportInit.historyMap.put(playerUUID, new ConcurrentHashMap<ArrayList<Location>, ArrayList<Date>>() {{
                             put(new ArrayList<Location>() {{
                                 add(new Location(locationFrom.getWorld(), posFromX, posFromY, posFromZ, 0, 0));
                             }}, new ArrayList<Date>() {{

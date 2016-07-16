@@ -21,9 +21,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.ullarah.uteleport.TeleportInit.*;
-
-public class TeleportCommands implements CommandExecutor {
+class TeleportCommands implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
@@ -31,26 +29,26 @@ public class TeleportCommands implements CommandExecutor {
         CommonString commonString = new CommonString();
 
         if (!(sender instanceof Player)) {
-            commonString.messageNoConsole(getPlugin(), sender);
+            commonString.messageNoConsole(TeleportInit.getPlugin(), sender);
             return true;
         }
 
         Player player = (Player) sender;
 
         if (!player.hasPermission("uteleport.use")) {
-            commonString.messagePermDeny(getPlugin(), player);
+            commonString.messagePermDeny(TeleportInit.getPlugin(), player);
             return true;
         }
 
-        if (!historyMap.containsKey(player.getUniqueId())) {
-            commonString.messageSend(getPlugin(), player, true, "No teleport history found.");
+        if (!TeleportInit.historyMap.containsKey(player.getUniqueId())) {
+            commonString.messageSend(TeleportInit.getPlugin(), player, true, "No teleport history found.");
             return true;
         }
 
         ArrayList<Location> locations = new ArrayList<>();
         ArrayList<Date> dates = new ArrayList<>();
 
-        ConcurrentHashMap<ArrayList<Location>, ArrayList<Date>> locationMap = historyMap.get(player.getUniqueId());
+        ConcurrentHashMap<ArrayList<Location>, ArrayList<Date>> locationMap = TeleportInit.historyMap.get(player.getUniqueId());
 
         for (Map.Entry<ArrayList<Location>, ArrayList<Date>> entry : locationMap.entrySet()) {
 
@@ -76,39 +74,39 @@ public class TeleportCommands implements CommandExecutor {
                 Location location = new Location(world, posX, posY, posZ, 0, 0);
 
                 if (!locations.contains(location)) {
-                    commonString.messageSend(getPlugin(), player, true, ChatColor.RED + "Teleport entry not found.");
+                    commonString.messageSend(TeleportInit.getPlugin(), player, true, ChatColor.RED + "Teleport entry not found.");
                     return true;
                 }
 
-                if (historyBlock.contains(player.getUniqueId())) {
-                    commonString.messageSend(getPlugin(), player, true, ChatColor.RED + "Slow down there...");
+                if (TeleportInit.historyBlock.contains(player.getUniqueId())) {
+                    commonString.messageSend(TeleportInit.getPlugin(), player, true, ChatColor.RED + "Slow down there...");
                     return true;
                 }
 
-                historyBlock.add(player.getUniqueId());
+                TeleportInit.historyBlock.add(player.getUniqueId());
 
                 new BukkitRunnable() {
-                    int b = getPlugin().getConfig().getInt("timeout");
+                    int b = TeleportInit.getPlugin().getConfig().getInt("timeout");
 
                     @Override
                     public void run() {
                         if (b <= 0) {
-                            historyBlock.remove(player.getUniqueId());
+                            TeleportInit.historyBlock.remove(player.getUniqueId());
                             this.cancel();
                             return;
                         }
                         b--;
                     }
-                }.runTaskTimer(getPlugin(), 0, 20);
+                }.runTaskTimer(TeleportInit.getPlugin(), 0, 20);
 
-                commonString.messageSend(getPlugin(), player, true, ChatColor.GREEN + "Teleporting...");
+                commonString.messageSend(TeleportInit.getPlugin(), player, true, ChatColor.GREEN + "Teleporting...");
                 player.teleport(location);
 
             }
 
         } else {
 
-            commonString.messageSend(getPlugin(), player, true,
+            commonString.messageSend(TeleportInit.getPlugin(), player, true,
                     "Teleport History - Click " +
                             ChatColor.LIGHT_PURPLE + "[" + ChatColor.DARK_PURPLE + "TP" + ChatColor.LIGHT_PURPLE + "]" +
                             ChatColor.RESET + " for teleportation.");

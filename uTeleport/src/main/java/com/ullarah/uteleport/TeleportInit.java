@@ -12,11 +12,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class TeleportInit extends JavaPlugin {
 
-    public static final ConcurrentHashMap<UUID, ConcurrentHashMap<ArrayList<Location>, ArrayList<Date>>> historyMap = new ConcurrentHashMap<>();
-    public static final HashSet<UUID> historyBlock = new HashSet<>();
+    static final ConcurrentHashMap<UUID, ConcurrentHashMap<ArrayList<Location>, ArrayList<Date>>> historyMap = new ConcurrentHashMap<>();
+    static final HashSet<UUID> historyBlock = new HashSet<>();
     private static Plugin plugin;
 
-    public static Plugin getPlugin() {
+    static Plugin getPlugin() {
         return plugin;
     }
 
