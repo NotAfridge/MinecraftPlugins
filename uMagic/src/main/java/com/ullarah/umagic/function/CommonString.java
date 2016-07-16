@@ -13,7 +13,7 @@ public class CommonString {
      * @param plugin the plugin object
      * @return a fancy prefix style string
      */
-    public String pluginPrefix(Plugin plugin) {
+    private String pluginPrefix(Plugin plugin) {
 
         return ChatColor.GOLD + "[" + plugin.getName() + "] " + ChatColor.WHITE;
 

@@ -8,11 +8,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class MagicRecipe {
+class MagicRecipe {
 
-    public static final String hoeName = ChatColor.AQUA + "Magical Hoe";
+    static final String hoeName = ChatColor.AQUA + "Magical Hoe";
 
-    public ItemStack hoe() {
+    ItemStack hoe() {
 
         ItemStack hoeStack = new ItemStack(Material.DIAMOND_HOE, 1);
         ItemMeta hoeMeta = hoeStack.getItemMeta();
@@ -28,7 +28,7 @@ public class MagicRecipe {
 
     }
 
-    public ShapedRecipe hoeRecipe() {
+    ShapedRecipe hoeRecipe() {
 
         ShapedRecipe hoeRecipe = new ShapedRecipe(hoe());
         hoeRecipe.shape(" M ", "MHM", " M ");

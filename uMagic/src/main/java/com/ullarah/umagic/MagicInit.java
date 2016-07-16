@@ -22,7 +22,7 @@ public class MagicInit extends JavaPlugin {
         MagicInit.plugin = plugin;
     }
 
-    public static WorldGuardPlugin getWorldGuard() {
+    static WorldGuardPlugin getWorldGuard() {
         return worldGuard;
     }
 

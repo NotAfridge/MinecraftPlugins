@@ -34,7 +34,7 @@ public class MagicFunctions {
     private final String locZ = "loc.Z";
     private final String data = "data";
 
-    public void initMetadata() {
+    void initMetadata() {
 
         for (File file : loadMetadata().listFiles()) {
 
@@ -128,7 +128,7 @@ public class MagicFunctions {
 
     public boolean checkBlock(Player player, Block block) {
 
-        if (player.hasPermission("magic.bypass")) return true;
+        if (player.hasPermission("umagic.bypass")) return true;
 
         RegionManager regionManager = MagicInit.getWorldGuard().getRegionManager(block.getWorld());
         ApplicableRegionSet applicableRegionSet = regionManager.getApplicableRegions(block.getLocation());

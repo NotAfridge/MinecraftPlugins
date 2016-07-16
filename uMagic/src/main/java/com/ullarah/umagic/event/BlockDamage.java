@@ -8,7 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDamageEvent;
 
-public class BlockDamage implements Listener {
+class BlockDamage implements Listener {
 
     @EventHandler
     public void event(BlockDamageEvent e) {

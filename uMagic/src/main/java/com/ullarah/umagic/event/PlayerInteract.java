@@ -13,7 +13,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class PlayerInteract implements Listener {
+class PlayerInteract implements Listener {
 
     @EventHandler
     public void playerInteract(PlayerInteractEvent event) {
@@ -26,7 +26,7 @@ public class PlayerInteract implements Listener {
 
         if (f.checkMagicHoe(inMainHand) ? f.checkMagicHoe(inMainHand) : f.checkMagicHoe(inOffHand)) {
 
-            if (!player.hasPermission("magic.usage")) {
+            if (!player.hasPermission("umagic.usage")) {
                 event.setCancelled(true);
                 return;
             }

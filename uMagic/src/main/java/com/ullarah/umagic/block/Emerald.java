@@ -16,10 +16,12 @@ public class Emerald {
         MagicFunctions f = new MagicFunctions();
         FixedMetadataValue m = new FixedMetadataValue(MagicInit.getPlugin(), true);
 
-        c.messageSend(MagicInit.getPlugin(), p, "Block converted to Bedrock. Be careful!");
-        b.setType(Material.BEDROCK);
-        b.setMetadata(f.metaEmBr, m);
-        f.saveMetadata(b.getLocation(), f.metaEmBr);
+        if (p.hasPermission("umagic.danger")) {
+            c.messageSend(MagicInit.getPlugin(), p, "Block converted to Bedrock. Be careful!");
+            b.setType(Material.BEDROCK);
+            b.setMetadata(f.metaEmBr, m);
+            f.saveMetadata(b.getLocation(), f.metaEmBr);
+        }
 
     }
 
