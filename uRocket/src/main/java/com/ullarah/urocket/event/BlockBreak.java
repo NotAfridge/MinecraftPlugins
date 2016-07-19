@@ -1,5 +1,6 @@
 package com.ullarah.urocket.event;
 
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.recipe.RepairStation;
 import com.ullarah.urocket.recipe.RepairTank;
 import org.bukkit.Location;
@@ -13,8 +14,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.ullarah.urocket.RocketInit.getPlugin;
 
 public class BlockBreak implements Listener {
 
@@ -34,7 +33,7 @@ public class BlockBreak implements Listener {
             int bY = blockLocation.getBlockY();
             int bZ = blockLocation.getBlockZ();
 
-            List<String> stationList = getPlugin().getConfig().getStringList("stations");
+            List<String> stationList = RocketInit.getPlugin().getConfig().getStringList("stations");
             List<String> newStationList = stationList.stream().map(station -> station.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
             String stationOriginal = player.getUniqueId().toString() + "|" + world.getName() + "|" + bX + "|" + bY + "|" + bZ;
@@ -55,7 +54,7 @@ public class BlockBreak implements Listener {
             int bY = blockLocation.getBlockY();
             int bZ = blockLocation.getBlockZ();
 
-            List<String> tankList = getPlugin().getConfig().getStringList("tanks");
+            List<String> tankList = RocketInit.getPlugin().getConfig().getStringList("tanks");
             List<String> newTankList = tankList.stream().map(tank -> tank.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
             String tankOriginal = player.getUniqueId().toString() + "|" + world.getName() + "|" + bX + "|" + bY + "|" + bZ;
@@ -66,14 +65,14 @@ public class BlockBreak implements Listener {
                 tankList.remove(newTankList.indexOf(tankNew));
                 world.getBlockAt(blockLocation).setType(Material.AIR);
 
-                getPlugin().getConfig().set("tanks", tankList);
-                getPlugin().saveConfig();
+                RocketInit.getPlugin().getConfig().set("tanks", tankList);
+                RocketInit.getPlugin().saveConfig();
 
                 Location blockStation = new Location(player.getWorld(), blockLocation.getX(), blockLocation.getY() + 1, blockLocation.getZ());
 
                 if (blockStation.getBlock().getType() == Material.BEACON) {
 
-                    List<String> stationList = getPlugin().getConfig().getStringList("stations");
+                    List<String> stationList = RocketInit.getPlugin().getConfig().getStringList("stations");
                     List<String> newStationList = stationList.stream().map(station -> station.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
                     String stationOriginal = player.getUniqueId().toString() + "|" + world.getName() + "|" + bX + "|" + bY + "|" + bZ;
@@ -92,16 +91,16 @@ public class BlockBreak implements Listener {
 
     }
 
-    public void removeRepairStation(World world, Player player, Location blockLocation, List<String> stationList,
-                                    List<String> newStationList, String stationOriginal, String stationNew) {
+    private void removeRepairStation(World world, Player player, Location blockLocation, List<String> stationList,
+                                     List<String> newStationList, String stationOriginal, String stationNew) {
 
         if (stationList.contains(stationOriginal) || player.hasPermission("rocket.remove")) {
 
             stationList.remove(newStationList.indexOf(stationNew));
 
             world.getBlockAt(blockLocation).setType(Material.AIR);
-            getPlugin().getConfig().set("stations", stationList);
-            getPlugin().saveConfig();
+            RocketInit.getPlugin().getConfig().set("stations", stationList);
+            RocketInit.getPlugin().saveConfig();
 
             world.createExplosion(blockLocation, 0.0f, false);
             world.dropItemNaturally(blockLocation, new RepairStation().station());

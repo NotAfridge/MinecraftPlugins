@@ -1,8 +1,10 @@
 package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketFunctions;
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.CommonString;
 import com.ullarah.urocket.function.SignText;
+import com.ullarah.urocket.init.RocketLanguage;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -16,10 +18,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.List;
-
-import static com.ullarah.urocket.RocketInit.getPlugin;
-import static com.ullarah.urocket.RocketInit.rocketRepairStand;
-import static com.ullarah.urocket.init.RocketLanguage.RB_RS_CHANGE;
 
 public class StandChange implements Listener {
 
@@ -38,7 +36,7 @@ public class StandChange implements Listener {
 
         if (fuelBlock.getType() == Material.BURNING_FURNACE) {
 
-            List<String> standList = getPlugin().getConfig().getStringList("stands");
+            List<String> standList = RocketInit.getPlugin().getConfig().getStringList("stands");
             String stand = player.getUniqueId().toString() + "|" + world.getName() + "|" + standLocation.getBlockX() + "|" + standLocation.getBlockY() + "|" + standLocation.getBlockZ();
             Location beaconSign = new Location(standLocation.getWorld(), standLocation.getX(), (standLocation.getY() - 1), standLocation.getZ());
 
@@ -70,7 +68,7 @@ public class StandChange implements Listener {
                                     put(0, "[Repair Status]");
                                 }});
 
-                                rocketRepairStand.put(event.getRightClicked().getUniqueId(), standLocation);
+                                RocketInit.rocketRepairStand.put(event.getRightClicked().getUniqueId(), standLocation);
 
                             }
 
@@ -82,7 +80,7 @@ public class StandChange implements Listener {
 
                     if (inHand.getType() != Material.AIR) {
 
-                        commonString.messageSend(getPlugin(), player, true, RB_RS_CHANGE);
+                        commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_CHANGE);
                         event.setCancelled(true);
 
                     } else {
@@ -94,7 +92,7 @@ public class StandChange implements Listener {
                             put(0, "[Repair Status]");
                         }});
 
-                        rocketRepairStand.remove(event.getRightClicked().getUniqueId());
+                        RocketInit.rocketRepairStand.remove(event.getRightClicked().getUniqueId());
 
                     }
 

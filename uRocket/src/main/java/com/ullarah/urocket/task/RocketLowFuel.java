@@ -1,8 +1,11 @@
 package com.ullarah.urocket.task;
 
 import com.ullarah.urocket.RocketFunctions;
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.CommonString;
 import com.ullarah.urocket.function.TitleSubtitle;
+import com.ullarah.urocket.init.RocketEnhancement;
+import com.ullarah.urocket.init.RocketLanguage;
 import com.ullarah.urocket.init.RocketVariant;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -20,15 +23,11 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.init.RocketEnhancement.Enhancement.UNLIMITED;
-import static com.ullarah.urocket.init.RocketLanguage.*;
-
 public class RocketLowFuel {
 
     public void task() {
 
-        Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+        Plugin plugin = Bukkit.getPluginManager().getPlugin(RocketInit.pluginName);
         RocketFunctions rocketFunctions = new RocketFunctions();
         CommonString commonString = new CommonString();
         TitleSubtitle titleSubtitle = new TitleSubtitle();
@@ -36,20 +35,21 @@ public class RocketLowFuel {
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
                 () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
 
-                    if (!rocketUsage.isEmpty()) for (UUID uuid : rocketUsage) {
+                    if (!RocketInit.rocketUsage.isEmpty()) for (UUID uuid : RocketInit.rocketUsage) {
 
                         Player player = Bukkit.getPlayer(uuid);
 
                         if (player.isFlying()) {
 
-                            if (rocketEnhancement.containsKey(uuid))
-                                if (rocketEnhancement.get(uuid).equals(UNLIMITED)) return;
+                            if (RocketInit.rocketEnhancement.containsKey(uuid))
+                                if (RocketInit.rocketEnhancement.get(uuid).equals(RocketEnhancement.Enhancement.UNLIMITED))
+                                    return;
 
                             boolean fuelLow = false;
                             String fuelType = "";
-                            RocketVariant.Variant bootVariant = rocketVariant.get(player.getUniqueId());
+                            RocketVariant.Variant bootVariant = RocketInit.rocketVariant.get(player.getUniqueId());
 
-                            File fuelFile = new File(getPlugin().getDataFolder() + File.separator + "fuel", player.getUniqueId().toString() + ".yml");
+                            File fuelFile = new File(RocketInit.getPlugin().getDataFolder() + File.separator + "fuel", player.getUniqueId().toString() + ".yml");
                             FileConfiguration fuelConfig = YamlConfiguration.loadConfiguration(fuelFile);
 
                             Inventory fuelInventory = null;
@@ -88,7 +88,7 @@ public class RocketLowFuel {
 
                                 case MONEY:
                                     fuelType = "money";
-                                    if (getVaultEconomy().getBalance(player) <= 20.0) fuelLow = true;
+                                    if (RocketInit.getVaultEconomy().getBalance(player) <= 20.0) fuelLow = true;
                                     break;
 
                                 case TREE:
@@ -126,9 +126,9 @@ public class RocketLowFuel {
                             }
 
                             if (fuelLow) {
-                                titleSubtitle.subtitle(player, 1, RB_FUEL_LOW);
-                                commonString.messageSend(getPlugin(), player, true, new String[]{
-                                        FuelLow(fuelType), RB_FUEL_WARNING
+                                titleSubtitle.subtitle(player, 1, RocketLanguage.RB_FUEL_LOW);
+                                commonString.messageSend(RocketInit.getPlugin(), player, true, new String[]{
+                                        RocketLanguage.FuelLow(fuelType), RocketLanguage.RB_FUEL_WARNING
                                 });
                                 player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.5f, 1.3f);
                             }

@@ -19,8 +19,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-import static com.ullarah.urocket.RocketInit.getPlugin;
-
 class RocketExecutor implements CommandExecutor {
 
     private final CommonString commonString = new CommonString();
@@ -41,7 +39,7 @@ class RocketExecutor implements CommandExecutor {
         DisplayComponentChest displayComponentChest = new DisplayComponentChest();
         DisplayHelp displayHelp = new DisplayHelp();
 
-        if (!(sender instanceof Player)) commonString.messageNoConsole(getPlugin(), sender);
+        if (!(sender instanceof Player)) commonString.messageNoConsole(RocketInit.getPlugin(), sender);
         else {
 
             if (args.length == 0) displayHelp.display(sender);
@@ -82,14 +80,14 @@ class RocketExecutor implements CommandExecutor {
 
     private void rocketFuel(CommandSender sender) {
 
-        if (!(sender instanceof Player)) commonString.messageNoConsole(getPlugin(), sender);
+        if (!(sender instanceof Player)) commonString.messageNoConsole(RocketInit.getPlugin(), sender);
         else {
 
             Player player = (Player) sender;
             ItemStack fuelJacket = player.getInventory().getChestplate();
 
             if (fuelJacket == null) {
-                commonString.messageSend(getPlugin(), player, true, ChatColor.RED + "Fuel Jacket not found!");
+                commonString.messageSend(RocketInit.getPlugin(), player, true, ChatColor.RED + "Fuel Jacket not found!");
                 return;
             }
 
@@ -100,11 +98,11 @@ class RocketExecutor implements CommandExecutor {
                     if (fuelJacketMeta.equals(ChatColor.RED + "Rocket Boot Fuel Jacket")) {
 
                         if (player.isFlying()) {
-                            commonString.messageSend(getPlugin(), player, true, ChatColor.RED + "Cannot access Fuel Jacket while flying!");
+                            commonString.messageSend(RocketInit.getPlugin(), player, true, ChatColor.RED + "Cannot access Fuel Jacket while flying!");
                             return;
                         }
 
-                        File fuelFile = new File(getPlugin().getDataFolder() + File.separator + "fuel", player.getUniqueId().toString() + ".yml");
+                        File fuelFile = new File(RocketInit.getPlugin().getDataFolder() + File.separator + "fuel", player.getUniqueId().toString() + ".yml");
                         FileConfiguration fuelConfig = YamlConfiguration.loadConfiguration(fuelFile);
 
                         if (fuelFile.exists()) {
@@ -137,7 +135,7 @@ class RocketExecutor implements CommandExecutor {
                 }
             }
 
-            commonString.messageSend(getPlugin(), player, true, ChatColor.RED + "Fuel Jacket not found!");
+            commonString.messageSend(RocketInit.getPlugin(), player, true, ChatColor.RED + "Fuel Jacket not found!");
 
         }
 

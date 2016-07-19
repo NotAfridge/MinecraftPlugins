@@ -1,8 +1,10 @@
 package com.ullarah.urocket.event;
 
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.AreaCheck;
 import com.ullarah.urocket.function.CommonString;
 import com.ullarah.urocket.function.TitleSubtitle;
+import com.ullarah.urocket.init.RocketLanguage;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -14,10 +16,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.init.RocketLanguage.RB_DISABLE;
-import static com.ullarah.urocket.init.RocketLanguage.RB_FZ_ENTRY;
-
 public class ZoneCheck implements Listener {
 
     @EventHandler
@@ -27,7 +25,7 @@ public class ZoneCheck implements Listener {
         TitleSubtitle titleSubtitle = new TitleSubtitle();
         AreaCheck areaCheck = new AreaCheck();
 
-        for (Map.Entry<UUID, ConcurrentHashMap<Location, Location>> rocketZone : rocketZoneLocations.entrySet())
+        for (Map.Entry<UUID, ConcurrentHashMap<Location, Location>> rocketZone : RocketInit.rocketZoneLocations.entrySet())
             for (Map.Entry<Location, Location> rocketLocation : rocketZone.getValue().entrySet()) {
 
                 Player player = event.getPlayer();
@@ -38,25 +36,25 @@ public class ZoneCheck implements Listener {
 
                 if (areaCheck.cuboid(location, zoneStart, zoneEnd)) {
 
-                    if (!rocketZones.contains(player.getUniqueId())) {
+                    if (!RocketInit.rocketZones.contains(player.getUniqueId())) {
 
                         if (!rocketZone.getKey().equals(player.getUniqueId())) {
 
-                            if (rocketPower.containsKey(player.getUniqueId())) {
+                            if (RocketInit.rocketPower.containsKey(player.getUniqueId())) {
 
                                 if (player.isFlying()) {
 
-                                    if (!rocketSprint.containsKey(player.getUniqueId())) {
+                                    if (!RocketInit.rocketSprint.containsKey(player.getUniqueId())) {
 
-                                        rocketSprint.put(player.getUniqueId(), "AIR");
-                                        rocketZones.add(player.getUniqueId());
+                                        RocketInit.rocketSprint.put(player.getUniqueId(), "AIR");
+                                        RocketInit.rocketZones.add(player.getUniqueId());
 
                                         player.setFlySpeed(0.05f);
 
-                                        titleSubtitle.subtitle(player, 3, RB_FZ_ENTRY);
+                                        titleSubtitle.subtitle(player, 3, RocketLanguage.RB_FZ_ENTRY);
 
-                                        commonString.messageSend(getPlugin(), player, true, new String[]{
-                                                RB_FZ_ENTRY, RB_DISABLE
+                                        commonString.messageSend(RocketInit.getPlugin(), player, true, new String[]{
+                                                RocketLanguage.RB_FZ_ENTRY, RocketLanguage.RB_DISABLE
                                         });
 
                                         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_TWINKLE, 0.5f, 0.75f);
@@ -71,7 +69,7 @@ public class ZoneCheck implements Listener {
 
                     }
 
-                } else rocketZones.remove(player.getUniqueId());
+                } else RocketInit.rocketZones.remove(player.getUniqueId());
 
             }
 

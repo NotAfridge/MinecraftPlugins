@@ -1,5 +1,7 @@
 package com.ullarah.urocket.task;
 
+import com.ullarah.urocket.RocketInit;
+import com.ullarah.urocket.init.RocketEnhancement;
 import net.minecraft.server.v1_10_R1.EnumParticle;
 import net.minecraft.server.v1_10_R1.Packet;
 import net.minecraft.server.v1_10_R1.PacketPlayOutWorldParticles;
@@ -11,31 +13,27 @@ import org.bukkit.plugin.Plugin;
 import java.util.Map;
 import java.util.UUID;
 
-import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.init.RocketEnhancement.Enhancement;
-import static com.ullarah.urocket.init.RocketEnhancement.Enhancement.SOLAR;
-
 public class RocketSolarCheck {
 
     public void task() {
 
-        Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+        Plugin plugin = Bukkit.getPluginManager().getPlugin(RocketInit.pluginName);
 
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
                 () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
 
-                    if (!rocketEnhancement.isEmpty())
-                        for (Map.Entry<UUID, Enhancement> entry : rocketEnhancement.entrySet()) {
+                    if (!RocketInit.rocketEnhancement.isEmpty())
+                        for (Map.Entry<UUID, RocketEnhancement.Enhancement> entry : RocketInit.rocketEnhancement.entrySet()) {
 
                             Player player = Bukkit.getPlayer(entry.getKey());
-                            Enhancement enhancement = entry.getValue();
+                            RocketEnhancement.Enhancement enhancement = entry.getValue();
 
-                            if (enhancement.equals(SOLAR) && player.isFlying()) {
+                            if (enhancement.equals(RocketEnhancement.Enhancement.SOLAR) && player.isFlying()) {
 
                                 boolean showSolarParticles = false;
 
                                 long time = player.getWorld().getTime();
-                                int flyBase = rocketPower.get(player.getUniqueId());
+                                int flyBase = RocketInit.rocketPower.get(player.getUniqueId());
 
                                 if (time >= 0 && time <= 12000) {
 

@@ -1,7 +1,11 @@
 package com.ullarah.urocket.task;
 
 import com.ullarah.urocket.RocketFunctions;
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.CommonString;
+import com.ullarah.urocket.init.RocketEnhancement;
+import com.ullarah.urocket.init.RocketLanguage;
+import com.ullarah.urocket.init.RocketVariant;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -13,23 +17,18 @@ import org.bukkit.util.Vector;
 import java.util.Random;
 import java.util.UUID;
 
-import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.init.RocketEnhancement.Enhancement.*;
-import static com.ullarah.urocket.init.RocketLanguage.*;
-import static com.ullarah.urocket.init.RocketVariant.Variant;
-
 public class RocketFuel {
 
     public void task() {
 
-        Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+        Plugin plugin = Bukkit.getPluginManager().getPlugin(RocketInit.pluginName);
         RocketFunctions rocketFunctions = new RocketFunctions();
         CommonString commonString = new CommonString();
 
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
                 () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
 
-                    if (!rocketUsage.isEmpty()) for (UUID uuid : rocketUsage) {
+                    if (!RocketInit.rocketUsage.isEmpty()) for (UUID uuid : RocketInit.rocketUsage) {
 
                         Player player = Bukkit.getPlayer(uuid);
 
@@ -40,19 +39,23 @@ public class RocketFuel {
                             boolean isUnlimited = false;
                             boolean isStable = false;
 
-                            if (rocketEnhancement.containsKey(uuid)) {
-                                isFuelEfficient = rocketEnhancement.get(uuid).equals(FUEL);
-                                isSolarPowered = rocketEnhancement.get(uuid).equals(SOLAR);
-                                isUnlimited = rocketEnhancement.get(uuid).equals(UNLIMITED);
-                                isStable = rocketEnhancement.get(uuid).equals(STABLE);
+                            if (RocketInit.rocketEnhancement.containsKey(uuid)) {
+                                isFuelEfficient = RocketInit.rocketEnhancement.get(uuid)
+                                        .equals(RocketEnhancement.Enhancement.FUEL);
+                                isSolarPowered = RocketInit.rocketEnhancement.get(uuid)
+                                        .equals(RocketEnhancement.Enhancement.SOLAR);
+                                isUnlimited = RocketInit.rocketEnhancement.get(uuid)
+                                        .equals(RocketEnhancement.Enhancement.UNLIMITED);
+                                isStable = RocketInit.rocketEnhancement.get(uuid)
+                                        .equals(RocketEnhancement.Enhancement.STABLE);
                             }
 
-                            if (rocketVariant.containsKey(player.getUniqueId())) {
+                            if (RocketInit.rocketVariant.containsKey(player.getUniqueId())) {
 
                                 Random random = new Random();
 
                                 ItemStack rocketBoots = player.getInventory().getBoots();
-                                Variant bootVariant = rocketVariant.get(player.getUniqueId());
+                                RocketVariant.Variant bootVariant = RocketInit.rocketVariant.get(player.getUniqueId());
                                 Material bootMaterial = rocketBoots.getType();
 
                                 double getHealthFromBoots = 0;
@@ -109,7 +112,7 @@ public class RocketFuel {
                                     case HEALTH:
                                         if (player.getHealth() <= 1.0 || player.getFoodLevel() <= 2) {
 
-                                            commonString.messageSend(getPlugin(), player, true, RB_HUNGRY);
+                                            commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_HUNGRY);
                                             rocketFunctions.disableRocketBoots(player, false, true, false, true, true);
 
                                         } else {
@@ -121,21 +124,21 @@ public class RocketFuel {
                                         break;
 
                                     case MONEY:
-                                        if (getVaultEconomy().getBalance(player) <= 10.0) {
+                                        if (RocketInit.getVaultEconomy().getBalance(player) <= 10.0) {
 
-                                            commonString.messageSend(getPlugin(), player, true, RB_MONEY);
+                                            commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_MONEY);
                                             rocketFunctions.disableRocketBoots(player, false, true, false, true, true);
 
                                         } else {
 
-                                            getVaultEconomy().withdrawPlayer(player, 5);
+                                            RocketInit.getVaultEconomy().withdrawPlayer(player, 5);
 
                                             for (int m = 0; m < 2; m++) {
 
                                                 int r = new Random().nextInt(Bukkit.getOnlinePlayers().size());
                                                 Player randomPlayer = (Player) Bukkit.getOnlinePlayers().toArray()[r];
 
-                                                getVaultEconomy().depositPlayer(randomPlayer, 1);
+                                                RocketInit.getVaultEconomy().depositPlayer(randomPlayer, 1);
 
                                             }
 
@@ -172,7 +175,7 @@ public class RocketFuel {
                                     if (random.nextInt(malfunctionRate) == 1) {
 
                                         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_BLAST, 0.6f, 0.65f);
-                                        commonString.messageSend(getPlugin(), player, true, RB_MALFUNCTION);
+                                        commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_MALFUNCTION);
                                         rocketFunctions.disableRocketBoots(player, true, true, true, true, true);
 
                                     }
@@ -189,12 +192,12 @@ public class RocketFuel {
                             if (player.getLocation().getY() >= 250) {
 
                                 rocketFunctions.disableRocketBoots(player, true, true, true, true, true);
-                                commonString.messageSend(getPlugin(), player, true, RB_HIGH);
+                                commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_HIGH);
 
                             } else if (player.getLocation().getY() <= 0) {
 
                                 rocketFunctions.disableRocketBoots(player, true, true, true, true, true);
-                                commonString.messageSend(getPlugin(), player, true, RB_LOW);
+                                commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_LOW);
 
                             }
 

@@ -1,36 +1,32 @@
 package com.ullarah.urocket.init;
 
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.PluginRegisters;
 import com.ullarah.urocket.recipe.RocketEnhance;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
-import static com.ullarah.urocket.RocketInit.getPlugin;
-import static com.ullarah.urocket.RocketInit.registerMap;
-import static com.ullarah.urocket.function.PluginRegisters.RegisterType.RECIPE;
-import static org.bukkit.Material.*;
-
 public class RocketEnhancement {
 
     public void init() {
 
-        registerMap.put("enhancement", 0);
+        RocketInit.registerMap.put("enhancement", 0);
         for (Enhancement enhancement : Enhancement.values())
-            registerMap.put("enhancement", registerMap.get("enhancement") +
-                    new PluginRegisters().register(getPlugin(), RECIPE,
+            RocketInit.registerMap.put("enhancement", RocketInit.registerMap.get("enhancement") +
+                    new PluginRegisters().register(RocketInit.getPlugin(), PluginRegisters.RegisterType.RECIPE,
                             new RocketEnhance(enhancement.getName(), enhancement.getMaterial())));
 
     }
 
     public enum Enhancement {
 
-        NOTHING(ChatColor.DARK_GRAY + "Nothing", BEDROCK),
-        REPAIR(ChatColor.RED + "Self Repair", ANVIL),
-        FASTREP(ChatColor.GOLD + "Fast Repair", FURNACE),
-        FUEL(ChatColor.YELLOW + "Fuel Efficient", SPONGE),
-        SOLAR(ChatColor.WHITE + "Solar Power", DAYLIGHT_DETECTOR),
-        STABLE(ChatColor.BLUE + "Stabiliser", SLIME_BLOCK),
-        UNLIMITED(ChatColor.LIGHT_PURPLE + "Unlimited Flight", BEDROCK);
+        NOTHING(ChatColor.DARK_GRAY + "Nothing", Material.BEDROCK),
+        REPAIR(ChatColor.RED + "Self Repair", Material.ANVIL),
+        FASTREP(ChatColor.GOLD + "Fast Repair", Material.FURNACE),
+        FUEL(ChatColor.YELLOW + "Fuel Efficient", Material.SPONGE),
+        SOLAR(ChatColor.WHITE + "Solar Power", Material.DAYLIGHT_DETECTOR),
+        STABLE(ChatColor.BLUE + "Stabiliser", Material.SLIME_BLOCK),
+        UNLIMITED(ChatColor.LIGHT_PURPLE + "Unlimited Flight", Material.BEDROCK);
 
         private final String name;
         private final Material material;

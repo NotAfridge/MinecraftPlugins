@@ -1,5 +1,6 @@
 package com.ullarah.urocket.task;
 
+import com.ullarah.urocket.RocketInit;
 import net.minecraft.server.v1_10_R1.EnumParticle;
 import net.minecraft.server.v1_10_R1.PacketPlayOutWorldParticles;
 import org.bukkit.Bukkit;
@@ -11,20 +12,17 @@ import org.bukkit.plugin.Plugin;
 import java.util.Map;
 import java.util.UUID;
 
-import static com.ullarah.urocket.RocketInit.pluginName;
-import static com.ullarah.urocket.RocketInit.rocketRepair;
-
 public class StationParticles {
 
     public void task() {
 
-        Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+        Plugin plugin = Bukkit.getPluginManager().getPlugin(RocketInit.pluginName);
 
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
                 () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
 
-                    if (!rocketRepair.isEmpty())
-                        for (Map.Entry<UUID, Location> repairStation : rocketRepair.entrySet()) {
+                    if (!RocketInit.rocketRepair.isEmpty())
+                        for (Map.Entry<UUID, Location> repairStation : RocketInit.rocketRepair.entrySet()) {
 
                             Player player = Bukkit.getPlayer(repairStation.getKey());
 

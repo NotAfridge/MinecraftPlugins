@@ -1,6 +1,7 @@
 package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketFunctions;
+import com.ullarah.urocket.RocketInit;
 import org.bukkit.Material;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.Player;
@@ -10,8 +11,6 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
-
-import static com.ullarah.urocket.RocketInit.rocketEntity;
 
 public class PlayerInteractEntity implements Listener {
 
@@ -36,13 +35,13 @@ public class PlayerInteractEntity implements Listener {
                         pig.setSaddle(false);
                         pig.getWorld().dropItemNaturally(pig.getEyeLocation(), new ItemStack(Material.SADDLE));
 
-                        if (rocketEntity.containsKey(pigUUID)) rocketEntity.remove(pigUUID);
+                        if (RocketInit.rocketEntity.containsKey(pigUUID)) RocketInit.rocketEntity.remove(pigUUID);
 
                     }
 
                 }
 
-            } else if (rocketFunctions.isValidRocketSaddle(inHand)) rocketEntity.put(pigUUID, pig.getType());
+            } else if (rocketFunctions.isValidRocketSaddle(inHand)) RocketInit.rocketEntity.put(pigUUID, pig.getType());
 
         }
 

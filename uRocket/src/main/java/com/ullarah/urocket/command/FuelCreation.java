@@ -1,7 +1,9 @@
 package com.ullarah.urocket.command;
 
 import com.ullarah.urocket.RocketFunctions;
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.CommonString;
+import com.ullarah.urocket.init.RocketLanguage;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -10,10 +12,6 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import static com.ullarah.urocket.RocketInit.getPlugin;
-import static com.ullarah.urocket.init.RocketLanguage.RB_JACKET_CREATE_ERROR;
-import static com.ullarah.urocket.init.RocketLanguage.RB_JACKET_SAVE_ERROR;
 
 public class FuelCreation {
 
@@ -29,7 +27,7 @@ public class FuelCreation {
 
             boolean fuelFileCreation = false;
 
-            File dataDir = getPlugin().getDataFolder();
+            File dataDir = RocketInit.getPlugin().getDataFolder();
             if (!dataDir.exists()) fuelFileCreation = dataDir.mkdir();
 
             File fuelDir = new File(dataDir + File.separator + "fuel");
@@ -39,7 +37,7 @@ public class FuelCreation {
             if (!fuelFileNew.exists()) try {
                 fuelFileCreation = fuelFileNew.createNewFile();
             } catch (IOException e) {
-                commonString.messageSend(getPlugin(), player, true, RB_JACKET_CREATE_ERROR);
+                commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_JACKET_CREATE_ERROR);
                 e.printStackTrace();
             }
 
@@ -55,12 +53,12 @@ public class FuelCreation {
                 try {
                     fuelConfig.save(fuelFileNew);
                 } catch (IOException e) {
-                    commonString.messageSend(getPlugin(), player, true, RB_JACKET_SAVE_ERROR);
+                    commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_JACKET_SAVE_ERROR);
                     e.printStackTrace();
                 }
 
             } else {
-                commonString.messageSend(getPlugin(), player, true, RB_JACKET_CREATE_ERROR);
+                commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_JACKET_CREATE_ERROR);
                 player.closeInventory();
             }
 

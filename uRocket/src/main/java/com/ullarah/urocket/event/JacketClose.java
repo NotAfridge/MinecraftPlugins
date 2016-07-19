@@ -1,7 +1,9 @@
 package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketFunctions;
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.CommonString;
+import com.ullarah.urocket.init.RocketLanguage;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -13,9 +15,6 @@ import org.bukkit.inventory.Inventory;
 
 import java.io.File;
 import java.io.IOException;
-
-import static com.ullarah.urocket.RocketInit.getPlugin;
-import static com.ullarah.urocket.init.RocketLanguage.RB_JACKET_SAVE_ERROR;
 
 public class JacketClose implements Listener {
 
@@ -62,12 +61,12 @@ public class JacketClose implements Listener {
 
                 } catch (IOException e) {
 
-                    commonString.messageSend(getPlugin(), player, true, RB_JACKET_SAVE_ERROR);
+                    commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_JACKET_SAVE_ERROR);
                     e.printStackTrace();
 
                 }
 
-            } else commonString.messageSend(getPlugin(), player, true, RB_JACKET_SAVE_ERROR);
+            } else commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_JACKET_SAVE_ERROR);
 
         }
 

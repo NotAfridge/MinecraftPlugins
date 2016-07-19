@@ -1,7 +1,9 @@
 package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketFunctions;
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.CommonString;
+import com.ullarah.urocket.init.RocketLanguage;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Horse;
@@ -17,9 +19,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.UUID;
-
-import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.init.RocketLanguage.RB_USELESS;
 
 public class InventoryClick implements Listener {
 
@@ -43,7 +42,7 @@ public class InventoryClick implements Listener {
                 ItemStack itemStack = event.getCurrentItem();
 
                 if (itemStack.hasItemMeta()) if (itemStack.getItemMeta().hasDisplayName())
-                    if (itemStack.getItemMeta().getDisplayName().equals(RB_USELESS))
+                    if (itemStack.getItemMeta().getDisplayName().equals(RocketLanguage.RB_USELESS))
                         event.setCancelled(true);
 
             }
@@ -54,17 +53,17 @@ public class InventoryClick implements Listener {
                     if (rocketFunctions.isValidFuelJacket(itemCursor)) {
                         if (event.getAction().equals(InventoryAction.SWAP_WITH_CURSOR)) {
                             if (rocketFunctions.isValidFuelJacket(itemCurrent))
-                                commonString.messageSend(getPlugin(), player, true, "Fuel Jacket Swapped");
+                                commonString.messageSend(RocketInit.getPlugin(), player, true, "Fuel Jacket Swapped");
                             else {
-                                rocketJacket.add(playerUUID);
-                                commonString.messageSend(getPlugin(), player, true, "Fuel Jacket Attached");
+                                RocketInit.rocketJacket.add(playerUUID);
+                                commonString.messageSend(RocketInit.getPlugin(), player, true, "Fuel Jacket Attached");
                             }
                             return;
                         }
-                        rocketJacket.add(playerUUID);
-                        commonString.messageSend(getPlugin(), player, true, "Fuel Jacket Attached");
+                        RocketInit.rocketJacket.add(playerUUID);
+                        commonString.messageSend(RocketInit.getPlugin(), player, true, "Fuel Jacket Attached");
                     } else {
-                        rocketJacket.remove(playerUUID);
+                        RocketInit.rocketJacket.remove(playerUUID);
                         if (player.isFlying()) player.setFlying(false);
                     }
                     break;
@@ -88,8 +87,8 @@ public class InventoryClick implements Listener {
             if (event.isShiftClick()) {
 
                 if (rocketFunctions.isValidFuelJacket(itemCurrent)) if (event.getRawSlot() != 6) {
-                    rocketJacket.add(player.getUniqueId());
-                    commonString.messageSend(getPlugin(), player, true, "Fuel Jacket Attached");
+                    RocketInit.rocketJacket.add(player.getUniqueId());
+                    commonString.messageSend(RocketInit.getPlugin(), player, true, "Fuel Jacket Attached");
                 }
 
                 if (rocketFunctions.isValidRocketBoots(itemCurrent)) if (event.getRawSlot() != 8)
@@ -108,8 +107,9 @@ public class InventoryClick implements Listener {
                 ItemStack saddle = event.getWhoClicked().getItemOnCursor();
 
                 if (rocketFunctions.isValidRocketSaddle(saddle))
-                    if (!rocketEntity.containsKey(horseUUID)) rocketEntity.put(horseUUID, horse.getType());
-                    else if (rocketEntity.containsKey(horseUUID)) rocketEntity.remove(horseUUID);
+                    if (!RocketInit.rocketEntity.containsKey(horseUUID))
+                        RocketInit.rocketEntity.put(horseUUID, horse.getType());
+                    else if (RocketInit.rocketEntity.containsKey(horseUUID)) RocketInit.rocketEntity.remove(horseUUID);
 
             }
 

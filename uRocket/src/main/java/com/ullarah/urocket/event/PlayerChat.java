@@ -1,6 +1,8 @@
 package com.ullarah.urocket.event;
 
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.CommonString;
+import com.ullarah.urocket.init.RocketLanguage;
 import org.apache.commons.io.output.StringBuilderWriter;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -12,9 +14,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import java.lang.reflect.Array;
 import java.util.Random;
 
-import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.init.RocketLanguage.RB_HIDDEN;
-
 public class PlayerChat implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -25,16 +24,16 @@ public class PlayerChat implements Listener {
         Player player = event.getPlayer();
         String message = event.getMessage();
 
-        if (player.isFlying() && rocketUsage.contains(player.getUniqueId())) {
+        if (player.isFlying() && RocketInit.rocketUsage.contains(player.getUniqueId())) {
 
-            switch (rocketVariant.get(player.getUniqueId())) {
+            switch (RocketInit.rocketVariant.get(player.getUniqueId())) {
 
                 case ZERO:
                     event.setMessage(ChatColor.MAGIC + message);
                     break;
 
                 case STEALTH:
-                    commonString.messageSend(getPlugin(), player, true, RB_HIDDEN);
+                    commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_HIDDEN);
                     event.setCancelled(true);
                     break;
 

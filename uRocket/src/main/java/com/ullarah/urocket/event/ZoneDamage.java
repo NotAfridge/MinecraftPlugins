@@ -1,8 +1,10 @@
 package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketFunctions;
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.CommonString;
 import com.ullarah.urocket.function.FakeExplosion;
+import com.ullarah.urocket.init.RocketLanguage;
 import com.ullarah.urocket.recipe.RocketFlyZone;
 import org.bukkit.Location;
 import org.bukkit.entity.EnderCrystal;
@@ -15,10 +17,6 @@ import org.bukkit.event.hanging.HangingBreakEvent;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.ullarah.urocket.RocketInit.getPlugin;
-import static com.ullarah.urocket.init.RocketLanguage.RB_FZ_REMOVE;
-import static org.bukkit.event.hanging.HangingBreakEvent.RemoveCause.EXPLOSION;
 
 public class ZoneDamage implements Listener {
 
@@ -39,7 +37,7 @@ public class ZoneDamage implements Listener {
             int eY = entityLocation.getBlockY();
             int eZ = entityLocation.getBlockZ();
 
-            List<String> zoneList = getPlugin().getConfig().getStringList("zones");
+            List<String> zoneList = RocketInit.getPlugin().getConfig().getStringList("zones");
             List<String> newZoneList = zoneList.stream().map(zone -> zone.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
             String zoneOriginal = event.getDamager().getUniqueId().toString() + "|" + zoneEntity.getWorld().getName() + "|" + eX + "|" + eY + "|" + eZ;
@@ -47,7 +45,7 @@ public class ZoneDamage implements Listener {
 
             if (zoneList.contains(zoneOriginal) || event.getDamager().hasPermission("rocket.remove")) {
 
-                commonString.messageSend(getPlugin(), event.getDamager(), true, RB_FZ_REMOVE);
+                commonString.messageSend(RocketInit.getPlugin(), event.getDamager(), true, RocketLanguage.RB_FZ_REMOVE);
 
                 zoneList.remove(newZoneList.indexOf(zoneNew));
                 zoneEntity.remove();
@@ -57,8 +55,8 @@ public class ZoneDamage implements Listener {
 
                 zoneEntity.getWorld().dropItemNaturally(entityLocation, new RocketFlyZone().zone());
 
-                getPlugin().getConfig().set("zones", zoneList);
-                getPlugin().saveConfig();
+                RocketInit.getPlugin().getConfig().set("zones", zoneList);
+                RocketInit.getPlugin().saveConfig();
 
                 rocketFunctions.reloadFlyZones(false);
 
@@ -76,12 +74,14 @@ public class ZoneDamage implements Listener {
 
     @EventHandler
     public void zoneCrystalExplosionEntity(EntityExplodeEvent event) {
-        if (event.getEntity() instanceof EnderCrystal) event.setCancelled(true);
+        if (event.getLocation().getWorld().getName().equals("world"))
+            if (event.getEntity() instanceof EnderCrystal) event.setCancelled(true);
     }
 
     @EventHandler
     public void zoneCrystalExplosionFrame(HangingBreakEvent event) {
-        if (event.getCause() == EXPLOSION) event.setCancelled(true);
+        if (event.getEntity().getWorld().getName().equals("world"))
+            if (event.getCause() == HangingBreakEvent.RemoveCause.EXPLOSION) event.setCancelled(true);
     }
 
 }

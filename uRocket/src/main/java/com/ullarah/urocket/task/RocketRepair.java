@@ -1,29 +1,27 @@
 package com.ullarah.urocket.task;
 
 import com.ullarah.urocket.RocketFunctions;
+import com.ullarah.urocket.RocketInit;
+import com.ullarah.urocket.init.RocketEnhancement;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
-import static com.ullarah.urocket.RocketInit.pluginName;
-import static com.ullarah.urocket.RocketInit.rocketEnhancement;
-import static com.ullarah.urocket.init.RocketEnhancement.Enhancement.REPAIR;
-
 public class RocketRepair {
 
     public void task() {
 
-        Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+        Plugin plugin = Bukkit.getPluginManager().getPlugin(RocketInit.pluginName);
         RocketFunctions rocketFunctions = new RocketFunctions();
 
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
                 () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
 
-                    if (!rocketEnhancement.isEmpty())
-                        rocketEnhancement.entrySet().stream().filter(entry -> rocketEnhancement.get(
-                                entry.getKey()).equals(REPAIR)).forEach(entry -> {
+                    if (!RocketInit.rocketEnhancement.isEmpty())
+                        RocketInit.rocketEnhancement.entrySet().stream().filter(entry -> RocketInit.rocketEnhancement.get(
+                                entry.getKey()).equals(RocketEnhancement.Enhancement.REPAIR)).forEach(entry -> {
 
                             Player player = Bukkit.getPlayer(entry.getKey());
                             ItemStack rocketBoots = player.getInventory().getBoots();

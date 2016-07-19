@@ -1,5 +1,6 @@
 package com.ullarah.urocket.init;
 
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.PluginRegisters;
 import com.ullarah.urocket.recipe.RocketVariants;
 import net.minecraft.server.v1_10_R1.EnumParticle;
@@ -12,18 +13,14 @@ import org.bukkit.util.Vector;
 
 import java.util.Random;
 
-import static com.ullarah.urocket.RocketInit.getPlugin;
-import static com.ullarah.urocket.RocketInit.registerMap;
-import static com.ullarah.urocket.function.PluginRegisters.RegisterType.RECIPE;
-
 public class RocketVariant {
 
     public void init() {
 
-        registerMap.put("variant", 0);
+        RocketInit.registerMap.put("variant", 0);
         for (Variant variant : Variant.values())
-            registerMap.put("variant", registerMap.get("variant") +
-                    new PluginRegisters().register(getPlugin(), RECIPE,
+            RocketInit.registerMap.put("variant", RocketInit.registerMap.get("variant") +
+                    new PluginRegisters().register(RocketInit.getPlugin(), PluginRegisters.RegisterType.RECIPE,
                             new RocketVariants(variant.getName(), variant.getMaterials())));
 
     }

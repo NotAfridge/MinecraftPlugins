@@ -1,7 +1,10 @@
 package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketFunctions;
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.CommonString;
+import com.ullarah.urocket.init.RocketLanguage;
+import com.ullarah.urocket.init.RocketVariant;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,10 +15,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.UUID;
-
-import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.init.RocketLanguage.*;
-import static com.ullarah.urocket.init.RocketVariant.Variant.RUNNER;
 
 public class ToggleSprint implements Listener {
 
@@ -30,21 +29,21 @@ public class ToggleSprint implements Listener {
             final Player player = event.getPlayer();
             UUID playerUUID = player.getUniqueId();
 
-            if (rocketPower.containsKey(playerUUID)) {
+            if (RocketInit.rocketPower.containsKey(playerUUID)) {
 
-                if (!rocketSprint.containsKey(playerUUID)) {
+                if (!RocketInit.rocketSprint.containsKey(playerUUID)) {
 
-                    if (player.isFlying() && rocketVariant.get(playerUUID) != RUNNER) {
+                    if (player.isFlying() && RocketInit.rocketVariant.get(playerUUID) != RocketVariant.Variant.RUNNER) {
 
-                        rocketSprint.put(playerUUID, "AIR");
+                        RocketInit.rocketSprint.put(playerUUID, "AIR");
 
-                        commonString.messageSend(getPlugin(), player, true, new String[]{
-                                RB_COOLDOWN_HEAT, RB_COOLDOWN_LAND
+                        commonString.messageSend(RocketInit.getPlugin(), player, true, new String[]{
+                                RocketLanguage.RB_COOLDOWN_HEAT, RocketLanguage.RB_COOLDOWN_LAND
                         });
 
                         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_BLAST, 0.5f, 0.75f);
 
-                    } else if (rocketVariant.get(playerUUID) == RUNNER) {
+                    } else if (RocketInit.rocketVariant.get(playerUUID) == RocketVariant.Variant.RUNNER) {
 
                         ItemStack boots = player.getInventory().getBoots();
                         int bootPower = rocketFunctions.getBootPowerLevel(boots);
@@ -57,8 +56,8 @@ public class ToggleSprint implements Listener {
 
                     } else {
 
-                        rocketSprint.put(playerUUID, "LAND");
-                        commonString.messageSend(getPlugin(), player, true, RB_SPRINT);
+                        RocketInit.rocketSprint.put(playerUUID, "LAND");
+                        commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_SPRINT);
 
                     }
 

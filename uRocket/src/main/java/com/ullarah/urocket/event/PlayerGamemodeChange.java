@@ -5,15 +5,12 @@ import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.CommonString;
 import com.ullarah.urocket.function.GamemodeCheck;
 import com.ullarah.urocket.function.TitleSubtitle;
+import com.ullarah.urocket.init.RocketLanguage;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
-
-import static com.ullarah.urocket.RocketInit.getPlugin;
-import static com.ullarah.urocket.RocketInit.rocketUsage;
-import static com.ullarah.urocket.init.RocketLanguage.RB_GAMEMODE_ERROR;
 
 public class PlayerGamemodeChange implements Listener {
 
@@ -27,12 +24,12 @@ public class PlayerGamemodeChange implements Listener {
 
         Player player = event.getPlayer();
 
-        if (!rocketUsage.isEmpty())
+        if (!RocketInit.rocketUsage.isEmpty())
             if (RocketInit.rocketUsage.contains(player.getUniqueId()))
                 if (gamemodeCheck.check(player, GameMode.CREATIVE, GameMode.SPECTATOR)) {
 
-                    commonString.messageSend(getPlugin(), player, true, RB_GAMEMODE_ERROR);
-                    titleSubtitle.subtitle(player, 1, RB_GAMEMODE_ERROR);
+                    commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_GAMEMODE_ERROR);
+                    titleSubtitle.subtitle(player, 1, RocketLanguage.RB_GAMEMODE_ERROR);
 
                     rocketFunctions.disableRocketBoots(player, false, false, false, false, false);
 

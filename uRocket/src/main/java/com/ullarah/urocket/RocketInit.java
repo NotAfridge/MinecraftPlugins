@@ -20,10 +20,6 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 
-import static com.ullarah.urocket.function.PluginRegisters.RegisterType.*;
-import static com.ullarah.urocket.init.RocketEnhancement.Enhancement;
-import static com.ullarah.urocket.init.RocketVariant.Variant;
-
 public class RocketInit extends JavaPlugin {
 
     public static final String pluginName = "uRocket";
@@ -39,8 +35,8 @@ public class RocketInit extends JavaPlugin {
     public static final ConcurrentHashMap<UUID, EntityType> rocketEntity = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, String> rocketSprint = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Integer> rocketPower = new ConcurrentHashMap<>();
-    public static final ConcurrentHashMap<UUID, Variant> rocketVariant = new ConcurrentHashMap<>();
-    public static final ConcurrentHashMap<UUID, Enhancement> rocketEnhancement = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<UUID, RocketVariant.Variant> rocketVariant = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<UUID, RocketEnhancement.Enhancement> rocketEnhancement = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Location> rocketRepair = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Location> rocketRepairStand = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, ConcurrentHashMap<Location, Location>> rocketZoneLocations = new ConcurrentHashMap<>();
@@ -94,7 +90,8 @@ public class RocketInit extends JavaPlugin {
 
         PluginRegisters pluginRegisters = new PluginRegisters();
 
-        registerMap.put(RECIPE.toString(), pluginRegisters.register(getPlugin(), RECIPE,
+        registerMap.put(PluginRegisters.RegisterType.RECIPE.toString(),
+                pluginRegisters.register(getPlugin(), PluginRegisters.RegisterType.RECIPE,
                 new RocketBooster("I", Material.REDSTONE_BLOCK),
                 new RocketBooster("II", Material.IRON_BLOCK),
                 new RocketBooster("III", Material.GOLD_BLOCK),
@@ -124,8 +121,9 @@ public class RocketInit extends JavaPlugin {
                 add(false);
             }}) {
 
-                registerMap.put(RECIPE.toString(), registerMap.get(RECIPE.toString()) +
-                        pluginRegisters.register(getPlugin(), RECIPE,
+                registerMap.put(PluginRegisters.RegisterType.RECIPE.toString(),
+                        registerMap.get(PluginRegisters.RegisterType.RECIPE.toString()) +
+                                pluginRegisters.register(getPlugin(), PluginRegisters.RegisterType.RECIPE,
                                 new RocketBoots(material, bool, bool),
                                 new RocketBoots(material, bool, !bool)
                         ));
@@ -134,8 +132,11 @@ public class RocketInit extends JavaPlugin {
 
         }
 
-        registerMap.put(EVENT.toString(), pluginRegisters.registerAll(getPlugin(), EVENT));
-        registerMap.put(TASK.toString(), pluginRegisters.registerAll(getPlugin(), TASK));
+        registerMap.put(PluginRegisters.RegisterType.EVENT.toString(),
+                pluginRegisters.registerAll(getPlugin(), PluginRegisters.RegisterType.EVENT));
+
+        registerMap.put(PluginRegisters.RegisterType.TASK.toString(),
+                pluginRegisters.registerAll(getPlugin(), PluginRegisters.RegisterType.TASK));
 
         new RocketVariant().init();
         new RocketEnhancement().init();

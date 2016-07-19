@@ -1,6 +1,7 @@
 package com.ullarah.urocket.task;
 
 import com.ullarah.urocket.RocketFunctions;
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.SignText;
 import net.minecraft.server.v1_10_R1.EnumParticle;
 import net.minecraft.server.v1_10_R1.PacketPlayOutWorldParticles;
@@ -15,23 +16,20 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.*;
 
-import static com.ullarah.urocket.RocketInit.pluginName;
-import static com.ullarah.urocket.RocketInit.rocketRepairStand;
-
 public class StationStandRepair {
 
     public void task() {
 
-        Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+        Plugin plugin = Bukkit.getPluginManager().getPlugin(RocketInit.pluginName);
         RocketFunctions rocketFunctions = new RocketFunctions();
         SignText signText = new SignText();
 
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
                 () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
 
-                    if (!rocketRepairStand.isEmpty()) {
+                    if (!RocketInit.rocketRepairStand.isEmpty()) {
 
-                        for (Map.Entry<UUID, Location> repairStand : rocketRepairStand.entrySet()) {
+                        for (Map.Entry<UUID, Location> repairStand : RocketInit.rocketRepairStand.entrySet()) {
 
                             Chunk chunk = repairStand.getValue().getWorld().getChunkAt(repairStand.getValue());
 
@@ -91,7 +89,7 @@ public class StationStandRepair {
                                                                     ChatColor.RED + bootType,
                                                                     "Fully Restored"});
 
-                                                    rocketRepairStand.remove(stand.getUniqueId());
+                                                    RocketInit.rocketRepairStand.remove(stand.getUniqueId());
 
                                                 } else {
 
@@ -110,7 +108,7 @@ public class StationStandRepair {
 
                                             } else {
                                                 signText.clearLine(beaconSign, new Integer[]{2, 3});
-                                                rocketRepairStand.remove(stand.getUniqueId());
+                                                RocketInit.rocketRepairStand.remove(stand.getUniqueId());
                                             }
 
                                         }
@@ -121,7 +119,7 @@ public class StationStandRepair {
                                                     put(2, "Repair Tank");
                                                     put(3, "Empty");
                                                 }});
-                                        rocketRepairStand.remove(stand.getUniqueId());
+                                        RocketInit.rocketRepairStand.remove(stand.getUniqueId());
                                     }
 
                                 }

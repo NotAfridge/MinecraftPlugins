@@ -29,16 +29,23 @@ public class AreaCheck {
 
     }
 
+    /**
+     * Check all blocks above for material
+     *
+     * @param location the location of the object
+     * @param material the material of the block
+     * @return returns true if block of material exists
+     */
     public boolean above(Location location, Material material) {
 
         for (double l = location.getY() + 1; l < 256; l++) {
 
-            new Location(location.getWorld(), location.getX(), l, location.getY());
-            if (!location.getBlock().getType().equals(material)) return false;
+            new Location(location.getWorld(), location.getX(), l, location.getZ());
+            if (location.getBlock().getType().equals(material)) return true;
 
         }
 
-        return true;
+        return false;
 
     }
 

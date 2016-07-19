@@ -1,12 +1,11 @@
 package com.ullarah.urocket.task;
 
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.GamemodeCheck;
+import com.ullarah.urocket.init.RocketVariant;
 import net.minecraft.server.v1_10_R1.EnumParticle;
 import net.minecraft.server.v1_10_R1.PacketPlayOutWorldParticles;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Instrument;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -14,24 +13,18 @@ import org.bukkit.plugin.Plugin;
 import java.util.Random;
 import java.util.UUID;
 
-import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.init.RocketVariant.Variant;
-import static com.ullarah.urocket.init.RocketVariant.Variant.NOTE;
-import static com.ullarah.urocket.init.RocketVariant.Variant.SOUND;
-import static org.bukkit.Note.Tone;
-import static org.bukkit.Note.natural;
-
 public class NotePlaying {
 
     public void task() {
 
-        Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+        Plugin plugin = Bukkit.getPluginManager().getPlugin(RocketInit.pluginName);
         GamemodeCheck gamemodeCheck = new GamemodeCheck();
 
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
                 () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
 
-                    if (!rocketUsage.isEmpty() && !rocketVariant.isEmpty()) for (UUID uuid : rocketUsage) {
+                    if (!RocketInit.rocketUsage.isEmpty() && !RocketInit.rocketVariant.isEmpty())
+                        for (UUID uuid : RocketInit.rocketUsage) {
 
                         Player player = Bukkit.getPlayer(uuid);
 
@@ -41,9 +34,9 @@ public class NotePlaying {
 
                                 if (!player.isSneaking()) {
 
-                                    if (rocketVariant.containsKey(player.getUniqueId())) {
+                                    if (RocketInit.rocketVariant.containsKey(player.getUniqueId())) {
 
-                                        Variant bootVariant = rocketVariant.get(player.getUniqueId());
+                                        RocketVariant.Variant bootVariant = RocketInit.rocketVariant.get(player.getUniqueId());
 
                                         switch (bootVariant) {
 
@@ -59,13 +52,13 @@ public class NotePlaying {
                                                     serverPlayer.playNote(
                                                             player.getLocation(),
                                                             Instrument.PIANO,
-                                                            natural(randomPianoOctave, Tone.valueOf(tones[randomTones]))
+                                                            Note.natural(randomPianoOctave, Note.Tone.valueOf(tones[randomTones]))
                                                     );
 
                                                     serverPlayer.playNote(
                                                             player.getLocation(),
                                                             Instrument.BASS_GUITAR,
-                                                            natural(randomBassOctave, Tone.valueOf(tones[randomTones]))
+                                                            Note.natural(randomBassOctave, Note.Tone.valueOf(tones[randomTones]))
                                                     );
 
                                                 }
@@ -93,7 +86,8 @@ public class NotePlaying {
 
                                         }
 
-                                        if (bootVariant == NOTE || bootVariant == SOUND) {
+                                        if (bootVariant == RocketVariant.Variant.NOTE
+                                                || bootVariant == RocketVariant.Variant.SOUND) {
 
                                             float x = (float) player.getLocation().getX();
                                             float y = (float) (player.getLocation().getY() - 1);
@@ -105,7 +99,7 @@ public class NotePlaying {
 
                                             PacketPlayOutWorldParticles packet;
 
-                                            if (rocketSprint.containsKey(player.getUniqueId()))
+                                            if (RocketInit.rocketSprint.containsKey(player.getUniqueId()))
                                                 packet = new PacketPlayOutWorldParticles(EnumParticle.SMOKE_LARGE,
                                                         true, x, y, z, oX, oY, oZ, 0, 5, null);
                                             else packet = new PacketPlayOutWorldParticles(bootVariant.getParticleType(),

@@ -1,11 +1,14 @@
 package com.ullarah.urocket.task;
 
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.GamemodeCheck;
+import com.ullarah.urocket.init.RocketVariant;
 import net.minecraft.server.v1_10_R1.EnumParticle;
 import net.minecraft.server.v1_10_R1.PacketPlayOutWorldParticles;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -15,30 +18,28 @@ import org.bukkit.plugin.Plugin;
 import java.util.Random;
 import java.util.UUID;
 
-import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.init.RocketVariant.Variant;
-import static com.ullarah.urocket.init.RocketVariant.Variant.RUNNER;
-import static org.bukkit.Material.LEATHER_BOOTS;
-
 public class RocketParticles {
 
     public void task() {
 
-        Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+        Plugin plugin = Bukkit.getPluginManager().getPlugin(RocketInit.pluginName);
         GamemodeCheck gamemodeCheck = new GamemodeCheck();
 
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
                 () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
 
-                            if (!rocketUsage.isEmpty() && !rocketVariant.isEmpty()) for (UUID uuid : rocketUsage) {
+                    if (!RocketInit.rocketUsage.isEmpty() && !RocketInit.rocketVariant.isEmpty())
+                        for (UUID uuid : RocketInit.rocketUsage) {
 
                                 Player player = Bukkit.getPlayer(uuid);
 
                                 if (gamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE))
-                                    if (player.isFlying() || rocketVariant.get(player.getUniqueId()) == RUNNER)
-                                        if (!player.isSneaking()) if (rocketVariant.containsKey(player.getUniqueId())) {
+                                    if (player.isFlying() || RocketInit.rocketVariant.get(player.getUniqueId())
+                                            == RocketVariant.Variant.RUNNER)
+                                        if (!player.isSneaking())
+                                            if (RocketInit.rocketVariant.containsKey(player.getUniqueId())) {
 
-                                            Variant bootVariant = rocketVariant.get(player.getUniqueId());
+                                                RocketVariant.Variant bootVariant = RocketInit.rocketVariant.get(player.getUniqueId());
                                             boolean showParticle = true;
 
                                             float x = (float) player.getLocation().getX();
@@ -70,7 +71,7 @@ public class RocketParticles {
 
                                                 case RAINBOW:
                                                     ItemStack rocketBoots = player.getInventory().getBoots();
-                                                    if (rocketBoots.getType() == LEATHER_BOOTS) {
+                                                    if (rocketBoots.getType() == Material.LEATHER_BOOTS) {
                                                         LeatherArmorMeta armorMeta = (LeatherArmorMeta) rocketBoots.getItemMeta();
                                                         armorMeta.setColor(Color.fromRGB(
                                                                 new Random().nextInt(255),

@@ -1,8 +1,10 @@
 package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketFunctions;
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.CommonString;
 import com.ullarah.urocket.function.EntityLocation;
+import com.ullarah.urocket.init.RocketLanguage;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,10 +22,6 @@ import org.bukkit.util.Vector;
 
 import java.util.List;
 import java.util.Set;
-
-import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.init.RocketLanguage.*;
-import static org.bukkit.Material.BEACON;
 
 public class PlayerInteract implements Listener {
 
@@ -52,7 +50,7 @@ public class PlayerInteract implements Listener {
                 if (pigVelocity.getZ() > 0.045) pigVelocity.setZ(0.045);
                 if (pigVelocity.getZ() < -0.045) pigVelocity.setZ(-0.045);
 
-                if (rocketEntity.containsKey(pig.getUniqueId()))
+                if (RocketInit.rocketEntity.containsKey(pig.getUniqueId()))
                     pig.setVelocity(new Vector(pigVelocity.getX() * 3, 0.5, pigVelocity.getZ() * 3));
 
             }
@@ -81,39 +79,39 @@ public class PlayerInteract implements Listener {
                             int eY = blockLocation.getBlockY();
                             int eZ = blockLocation.getBlockZ();
 
-                            if (block.getType().equals(BEACON) && event.getBlockFace().getModY() == 1) {
+                            if (block.getType().equals(Material.BEACON) && event.getBlockFace().getModY() == 1) {
 
-                                List<String> stationList = getPlugin().getConfig().getStringList("stations");
+                                List<String> stationList = RocketInit.getPlugin().getConfig().getStringList("stations");
                                 String station = player.getUniqueId().toString() + "|" + world.getName() + "|" + eX + "|" + eY + "|" + eZ;
 
                                 if (!stationList.contains(station)) {
 
                                     event.setCancelled(true);
-                                    commonString.messageSend(getPlugin(), player, true, RB_RS_PLACE_ERROR);
+                                    commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_PLACE_ERROR);
 
                                 } else if (player.isSneaking()) {
 
                                     String stand = player.getUniqueId().toString() + "|" + world.getName() + "|" + eX + "|" + (eY + 1) + "|" + eZ;
-                                    List<String> standList = getPlugin().getConfig().getStringList("stands");
+                                    List<String> standList = RocketInit.getPlugin().getConfig().getStringList("stands");
 
                                     if (new EntityLocation().getNearbyEntities(new Location(world, eX, eY + 1, eZ), 1).length != 0) {
 
-                                        commonString.messageSend(getPlugin(), player, true, RB_RS_ENTITY);
+                                        commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_ENTITY);
 
                                     } else {
 
                                         if (standList.contains(stand))
 
-                                            commonString.messageSend(getPlugin(), player, true, RB_RS_EXIST);
+                                            commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_EXIST);
 
                                         else {
 
                                             standList.add(stand);
 
-                                            getPlugin().getConfig().set("stands", standList);
-                                            getPlugin().saveConfig();
+                                            RocketInit.getPlugin().getConfig().set("stands", standList);
+                                            RocketInit.getPlugin().saveConfig();
 
-                                            commonString.messageSend(getPlugin(), player, true, RB_RS_PLACE_SUCCESS);
+                                            commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_PLACE_SUCCESS);
 
                                         }
 
@@ -125,7 +123,7 @@ public class PlayerInteract implements Listener {
 
                                 player.updateInventory();
                                 event.setCancelled(true);
-                                commonString.messageSend(getPlugin(), player, true, RB_RS_PLACE_ERROR);
+                                commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_PLACE_ERROR);
 
                             }
 
@@ -133,7 +131,7 @@ public class PlayerInteract implements Listener {
 
                             player.updateInventory();
                             event.setCancelled(true);
-                            commonString.messageSend(getPlugin(), player, true, PlacementDeny("Repair Stands"));
+                            commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.PlacementDeny("Repair Stands"));
 
                         }
 
@@ -146,7 +144,7 @@ public class PlayerInteract implements Listener {
                     String rocketLore = rocketMeta.getLore().get(0);
 
                     if (rocketLore.matches(ChatColor.YELLOW + "Rocket Level I{0,3}V?X?"))
-                        if (!rocketUsage.contains(player.getUniqueId())) {
+                        if (!RocketInit.rocketUsage.contains(player.getUniqueId())) {
                             if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK))
                                 rocketFunctions.attachRocketBoots(player, inHand);
                             else event.setCancelled(true);
@@ -157,7 +155,7 @@ public class PlayerInteract implements Listener {
                 if (rocketItem.equals(ChatColor.RED + "Rocket Boot Fuel Jacket")) {
 
                     if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK))
-                        rocketJacket.add(player.getUniqueId());
+                        RocketInit.rocketJacket.add(player.getUniqueId());
                     else event.setCancelled(true);
 
                 }

@@ -1,15 +1,14 @@
 package com.ullarah.urocket.event;
 
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.CommonString;
+import com.ullarah.urocket.init.RocketLanguage;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import java.util.UUID;
-
-import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.init.RocketLanguage.RB_HIDDEN;
 
 public class PlayerCommand implements Listener {
 
@@ -21,14 +20,14 @@ public class PlayerCommand implements Listener {
         Player player = event.getPlayer();
         UUID playerUUID = player.getUniqueId();
 
-        if (rocketEffects.contains(playerUUID)) {
+        if (RocketInit.rocketEffects.contains(playerUUID)) {
 
-            if (rocketVariant.containsKey(playerUUID)) {
+            if (RocketInit.rocketVariant.containsKey(playerUUID)) {
 
-                switch (rocketVariant.get(playerUUID)) {
+                switch (RocketInit.rocketVariant.get(playerUUID)) {
 
                     case STEALTH:
-                        commonString.messageSend(getPlugin(), player, true, RB_HIDDEN);
+                        commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_HIDDEN);
                         event.setCancelled(true);
                         break;
 

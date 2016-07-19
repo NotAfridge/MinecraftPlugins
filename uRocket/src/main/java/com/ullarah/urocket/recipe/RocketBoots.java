@@ -1,6 +1,7 @@
 package com.ullarah.urocket.recipe;
 
 import com.ullarah.urocket.function.NewRecipe;
+import com.ullarah.urocket.init.RocketLanguage;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -9,8 +10,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.ullarah.urocket.init.RocketLanguage.RB_USELESS;
 
 public class RocketBoots implements NewRecipe {
 
@@ -32,7 +31,7 @@ public class RocketBoots implements NewRecipe {
         ItemStack boots = new ItemStack(bootType, 1);
 
         ItemMeta bootMeta = boots.getItemMeta();
-        bootMeta.setDisplayName(RB_USELESS);
+        bootMeta.setDisplayName(RocketLanguage.RB_USELESS);
 
         List<String> loreList = new ArrayList<>();
 

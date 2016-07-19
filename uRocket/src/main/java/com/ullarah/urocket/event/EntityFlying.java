@@ -1,6 +1,7 @@
 package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketFunctions;
+import com.ullarah.urocket.RocketInit;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Pig;
@@ -12,8 +13,6 @@ import org.bukkit.event.entity.HorseJumpEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import static com.ullarah.urocket.RocketInit.rocketEntity;
-
 public class EntityFlying implements Listener {
 
     @EventHandler
@@ -21,7 +20,7 @@ public class EntityFlying implements Listener {
 
         RocketFunctions rocketFunctions = new RocketFunctions();
 
-        if (rocketEntity.containsKey(event.getEntity().getUniqueId())) {
+        if (RocketInit.rocketEntity.containsKey(event.getEntity().getUniqueId())) {
 
             Horse horse = event.getEntity();
 
@@ -54,11 +53,11 @@ public class EntityFlying implements Listener {
         if (event.getCause() == EntityDamageEvent.DamageCause.FALL) {
 
             if (event.getEntity() instanceof Horse)
-                if (rocketEntity.containsKey(event.getEntity().getUniqueId()))
+                if (RocketInit.rocketEntity.containsKey(event.getEntity().getUniqueId()))
                     event.setCancelled(true);
 
             if (event.getEntity() instanceof Pig)
-                if (rocketEntity.containsKey(event.getEntity().getUniqueId()))
+                if (RocketInit.rocketEntity.containsKey(event.getEntity().getUniqueId()))
                     event.setCancelled(true);
 
             if (event.getEntity() instanceof Player) {
@@ -70,7 +69,8 @@ public class EntityFlying implements Listener {
                     EntityType entityType = player.getVehicle().getType();
 
                     if (entityType == EntityType.HORSE || entityType == EntityType.PIG)
-                        if (rocketEntity.containsKey(event.getEntity().getUniqueId())) event.setCancelled(true);
+                        if (RocketInit.rocketEntity.containsKey(event.getEntity().getUniqueId()))
+                            event.setCancelled(true);
 
                 }
 

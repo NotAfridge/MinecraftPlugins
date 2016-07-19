@@ -1,7 +1,11 @@
 package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketFunctions;
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.*;
+import com.ullarah.urocket.init.RocketEnhancement;
+import com.ullarah.urocket.init.RocketLanguage;
+import com.ullarah.urocket.init.RocketVariant;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -14,13 +18,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import java.util.Random;
-
-import static com.ullarah.urocket.RocketInit.*;
-import static com.ullarah.urocket.init.RocketEnhancement.Enhancement.UNLIMITED;
-import static com.ullarah.urocket.init.RocketLanguage.*;
-import static com.ullarah.urocket.init.RocketVariant.Variant;
-import static com.ullarah.urocket.init.RocketVariant.Variant.ORIGINAL;
-import static com.ullarah.urocket.init.RocketVariant.Variant.RUNNER;
 
 public class ToggleFlight implements Listener {
 
@@ -37,7 +34,7 @@ public class ToggleFlight implements Listener {
 
         if (gamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
 
-            if (rocketTimeout.contains(player.getUniqueId())) {
+            if (RocketInit.rocketTimeout.contains(player.getUniqueId())) {
                 player.setFlying(false);
                 event.setCancelled(true);
                 return;
@@ -47,7 +44,7 @@ public class ToggleFlight implements Listener {
             ItemStack rocketFuelJacket = player.getInventory().getChestplate();
 
             if (rocketBoots == null) {
-                commonString.messageSend(getPlugin(), player, true, RB_ATTACH);
+                commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_ATTACH);
                 rocketFunctions.disableRocketBoots(player, false, false, false, false, false);
                 event.setCancelled(true);
                 return;
@@ -55,19 +52,20 @@ public class ToggleFlight implements Listener {
 
             if (rocketFunctions.isValidRocketBoots(rocketBoots)) {
 
-                Variant bootVariant = rocketVariant.get(player.getUniqueId());
+                RocketVariant.Variant bootVariant = RocketInit.rocketVariant.get(player.getUniqueId());
 
                 Material fuelSingle = bootVariant.getFuelSingle();
                 Material fuelBlock = bootVariant.getFuelBlock();
 
                 boolean isUnlimited = false;
 
-                if (rocketEnhancement.containsKey(player.getUniqueId()))
-                    if (rocketEnhancement.get(player.getUniqueId()).equals(UNLIMITED)) isUnlimited = true;
+                if (RocketInit.rocketEnhancement.containsKey(player.getUniqueId()))
+                    if (RocketInit.rocketEnhancement.get(player.getUniqueId()).equals(
+                            RocketEnhancement.Enhancement.UNLIMITED)) isUnlimited = true;
 
                 if (!isUnlimited) if (fuelSingle != null && fuelBlock != null) {
-                    if (!rocketJacket.contains(player.getUniqueId()) || rocketFuelJacket == null) {
-                        commonString.messageSend(getPlugin(), player, true, ChatColor.RED + "Fuel Jacket not found!");
+                    if (!RocketInit.rocketJacket.contains(player.getUniqueId()) || rocketFuelJacket == null) {
+                        commonString.messageSend(RocketInit.getPlugin(), player, true, ChatColor.RED + "Fuel Jacket not found!");
                         event.setCancelled(true);
                         return;
                     }
@@ -76,21 +74,22 @@ public class ToggleFlight implements Listener {
                 if (player.getLocation().getY() >= 250) {
 
                     rocketFunctions.disableRocketBoots(player, true, true, true, true, true);
-                    commonString.messageSend(getPlugin(), player, true, RB_HIGH);
+                    commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_HIGH);
 
-                } else if (player.getLocation().getY() <= 0) {
+                } else if (player.getLocation().getY() <= 2) {
 
                     rocketFunctions.disableRocketBoots(player, true, true, true, true, true);
-                    commonString.messageSend(getPlugin(), player, true, RB_LOW);
+                    commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_LOW);
 
                 } else {
 
-                    if (rocketZones.contains(player.getUniqueId())) {
+                    if (RocketInit.rocketZones.contains(player.getUniqueId())) {
 
-                        if (!bootVariant.equals(RUNNER)) {
+                        if (!bootVariant.equals(RocketVariant.Variant.RUNNER)) {
 
-                            if (!player.isFlying()) commonString.messageSend(getPlugin(), player, true, RB_FZ_CURRENT);
-                            titleSubtitle.subtitle(player, 3, RB_FZ_CURRENT);
+                            if (!player.isFlying()) commonString.messageSend(
+                                    RocketInit.getPlugin(), player, true, RocketLanguage.RB_FZ_CURRENT);
+                            titleSubtitle.subtitle(player, 3, RocketLanguage.RB_FZ_CURRENT);
 
                         }
 
@@ -99,7 +98,7 @@ public class ToggleFlight implements Listener {
 
                     } else {
 
-                        if (rocketPower.containsKey(player.getUniqueId())) {
+                        if (RocketInit.rocketPower.containsKey(player.getUniqueId())) {
 
                             Short rocketDurability = rocketBoots.getDurability();
                             int bootMaterialDurability = rocketFunctions.getBootDurability(rocketBoots);
@@ -110,14 +109,14 @@ public class ToggleFlight implements Listener {
                                 player.getInventory().setBoots(new ItemStack(Material.AIR));
                                 rocketFunctions.disableRocketBoots(player, false, false, false, false, false);
 
-                                commonString.messageSend(getPlugin(), player, true, RB_EXPLODE);
-                                titleSubtitle.subtitle(player, 3, RB_EXPLODE);
+                                commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_EXPLODE);
+                                titleSubtitle.subtitle(player, 3, RocketLanguage.RB_EXPLODE);
 
                             } else {
 
-                                if (!player.isFlying() && !rocketWater.contains(player.getUniqueId())) {
+                                if (!player.isFlying() && !RocketInit.rocketWater.contains(player.getUniqueId())) {
 
-                                    if (!rocketSprint.containsKey(player.getUniqueId())) {
+                                    if (!RocketInit.rocketSprint.containsKey(player.getUniqueId())) {
 
                                         if (!isUnlimited) if (fuelSingle != null && fuelBlock != null)
                                             if (!rocketFunctions.fuelCheck(player, fuelSingle, fuelBlock)) {
@@ -128,13 +127,13 @@ public class ToggleFlight implements Listener {
 
                                         if (player.getWorld().getName().equals("world_nether")) {
 
-                                            if (bootVariant == ORIGINAL) {
+                                            if (bootVariant == RocketVariant.Variant.ORIGINAL) {
 
-                                                rocketFire.add(groundFire.setFire(player, "BOOST", Material.NETHERRACK));
+                                                RocketInit.rocketFire.add(groundFire.setFire(player, "BOOST", Material.NETHERRACK));
 
                                                 player.getWorld().playSound(player.getEyeLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.8f, 0.8f);
                                                 player.setFlying(true);
-                                                player.setFlySpeed(rocketPower.get(player.getUniqueId()) * 0.03f);
+                                                player.setFlySpeed(RocketInit.rocketPower.get(player.getUniqueId()) * 0.03f);
 
                                             }
 
@@ -143,7 +142,7 @@ public class ToggleFlight implements Listener {
                                             int ran = new Random().nextInt(11);
                                             if (ran == 5 || ran == 0) {
 
-                                                rocketSprint.put(player.getUniqueId(), "AIR");
+                                                RocketInit.rocketSprint.put(player.getUniqueId(), "AIR");
                                                 player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_BLAST, 0.5f, 0.7f);
 
                                             } else {
@@ -163,7 +162,7 @@ public class ToggleFlight implements Listener {
 
                                                 case HEALTH:
                                                     if (player.getHealth() <= 1.0 || player.getFoodLevel() <= 2) {
-                                                        commonString.messageSend(getPlugin(), player, true, RB_HUNGRY);
+                                                        commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_HUNGRY);
                                                         player.setFlying(false);
                                                         event.setCancelled(true);
                                                         return;
@@ -172,8 +171,8 @@ public class ToggleFlight implements Listener {
                                                     break;
 
                                                 case MONEY:
-                                                    if (getVaultEconomy().getBalance(player) <= 10.0) {
-                                                        commonString.messageSend(getPlugin(), player, true, RB_MONEY);
+                                                    if (RocketInit.getVaultEconomy().getBalance(player) <= 10.0) {
+                                                        commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_MONEY);
                                                         player.setFlying(false);
                                                         event.setCancelled(true);
                                                         return;
@@ -207,7 +206,7 @@ public class ToggleFlight implements Listener {
                                                     bootVariant.getVolume(),
                                                     bootVariant.getPitch());
 
-                                            player.setFlySpeed(rocketPower.get(player.getUniqueId()) * 0.045f);
+                                            player.setFlySpeed(RocketInit.rocketPower.get(player.getUniqueId()) * 0.045f);
                                             rocketFunctions.changeBootDurability(player, rocketBoots);
 
                                         }
@@ -216,13 +215,13 @@ public class ToggleFlight implements Listener {
 
                                 } else player.setFlying(false);
 
-                                rocketUsage.add(player.getUniqueId());
+                                RocketInit.rocketUsage.add(player.getUniqueId());
 
                             }
 
                         } else {
 
-                            commonString.messageSend(getPlugin(), player, true, RB_ATTACH);
+                            commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_ATTACH);
                             rocketFunctions.disableRocketBoots(player, false, false, false, false, false);
 
                         }

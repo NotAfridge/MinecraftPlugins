@@ -5,9 +5,6 @@ import net.minecraft.server.v1_10_R1.PacketPlayOutTitle;
 import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import static net.minecraft.server.v1_10_R1.IChatBaseComponent.ChatSerializer;
-import static net.minecraft.server.v1_10_R1.PacketPlayOutTitle.EnumTitleAction;
-
 public class TitleSubtitle {
 
     /**
@@ -48,11 +45,11 @@ public class TitleSubtitle {
 
         CraftPlayer craftPlayer = (CraftPlayer) player;
 
-        IChatBaseComponent chatTitle = ChatSerializer.a("{\"text\": \"" + title + "\"}");
-        IChatBaseComponent chatSubTitle = ChatSerializer.a("{\"text\": \"" + subtitle + "\"}");
+        IChatBaseComponent chatTitle = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + title + "\"}");
+        IChatBaseComponent chatSubTitle = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + subtitle + "\"}");
 
-        PacketPlayOutTitle packetTitle = new PacketPlayOutTitle(EnumTitleAction.TITLE, chatTitle);
-        PacketPlayOutTitle packetSubTitle = new PacketPlayOutTitle(EnumTitleAction.SUBTITLE, chatSubTitle);
+        PacketPlayOutTitle packetTitle = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TITLE, chatTitle);
+        PacketPlayOutTitle packetSubTitle = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.SUBTITLE, chatSubTitle);
         PacketPlayOutTitle packetLength = new PacketPlayOutTitle(20, seconds * 20, 20);
 
         craftPlayer.getHandle().playerConnection.sendPacket(packetTitle);

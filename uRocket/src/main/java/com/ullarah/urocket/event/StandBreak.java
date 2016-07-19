@@ -1,5 +1,6 @@
 package com.ullarah.urocket.event;
 
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.recipe.RepairStand;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -12,8 +13,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.ullarah.urocket.RocketInit.getPlugin;
 
 public class StandBreak implements Listener {
 
@@ -30,7 +29,7 @@ public class StandBreak implements Listener {
             int eY = entityLocation.getBlockY();
             int eZ = entityLocation.getBlockZ();
 
-            List<String> standList = getPlugin().getConfig().getStringList("stands");
+            List<String> standList = RocketInit.getPlugin().getConfig().getStringList("stands");
             List<String> newStandList = standList.stream().map(stand -> stand.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
             String standOriginal = event.getDamager().getUniqueId().toString() + "|" + standEntity.getWorld().getName() + "|" + eX + "|" + eY + "|" + eZ;
@@ -49,8 +48,8 @@ public class StandBreak implements Listener {
                 standList.remove(newStandList.indexOf(standNew));
                 standEntity.setHealth(0.0);
 
-                getPlugin().getConfig().set("stands", standList);
-                getPlugin().saveConfig();
+                RocketInit.getPlugin().getConfig().set("stands", standList);
+                RocketInit.getPlugin().saveConfig();
 
             }
 
