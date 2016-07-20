@@ -121,6 +121,13 @@ class PlayerInteract implements Listener {
                     new Button().block(block);
                     break;
 
+                case STONE_PLATE:
+                case WOOD_PLATE:
+                case IRON_PLATE:
+                case GOLD_PLATE:
+                    new Plate().block(block);
+                    break;
+
                 case HUGE_MUSHROOM_1:
                 case HUGE_MUSHROOM_2:
                     new Mushroom().block(block);
