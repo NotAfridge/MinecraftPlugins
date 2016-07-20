@@ -71,16 +71,21 @@ public class ChestClick implements Listener {
         }
 
         if (chestInventory.getName().matches(ChestLanguage.N_SCHEST)) {
-            if (event.getCurrentItem().getAmount() >= 1 && event.getRawSlot() >= chestInventory.getSize()) {
+            if (event.getClick().isShiftClick()) {
                 event.setCancelled(true);
                 event.getCursor().setType(Material.AIR);
-            }
-            if (event.getRawSlot() <= chestInventory.getSize()) {
-                Player player = (Player) event.getWhoClicked();
-                player.getWorld().dropItemNaturally(player.getLocation(), event.getCurrentItem());
-                event.getCursor().setType(Material.AIR);
-                event.setCancelled(true);
-                player.closeInventory();
+            } else {
+                if (event.getCurrentItem().getAmount() >= 1 && event.getRawSlot() >= chestInventory.getSize()) {
+                    event.setCancelled(true);
+                    event.getCursor().setType(Material.AIR);
+                }
+                if (event.getRawSlot() <= chestInventory.getSize()) {
+                    Player player = (Player) event.getWhoClicked();
+                    player.getWorld().dropItemNaturally(player.getLocation(), event.getCurrentItem());
+                    event.getCursor().setType(Material.AIR);
+                    event.setCancelled(true);
+                    player.closeInventory();
+                }
             }
         }
 
