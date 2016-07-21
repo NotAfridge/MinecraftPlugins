@@ -16,7 +16,7 @@ import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
-class InboxClick implements Listener {
+public class InboxClick implements Listener {
 
     @EventHandler
     public void event(final InventoryClickEvent event) {

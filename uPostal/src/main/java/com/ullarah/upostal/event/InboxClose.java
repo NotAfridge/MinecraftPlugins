@@ -13,7 +13,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import java.io.File;
 import java.util.UUID;
 
-class InboxClose implements Listener {
+public class InboxClose implements Listener {
 
     @EventHandler
     public void event(final InventoryCloseEvent event) {

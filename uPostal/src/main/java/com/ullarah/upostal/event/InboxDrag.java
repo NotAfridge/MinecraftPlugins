@@ -5,7 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryDragEvent;
 
-class InboxDrag implements Listener {
+public class InboxDrag implements Listener {
 
     @EventHandler
     public void event(final InventoryDragEvent event) {
