@@ -63,6 +63,12 @@ public class PlayerInteract implements Listener {
 
             switch (block.getType()) {
 
+                case SIGN:
+                case SIGN_POST:
+                case WALL_SIGN:
+                    new Sign().block(block);
+                    break;
+
                 case RAILS:
                     new Rails().block(block);
                     break;
