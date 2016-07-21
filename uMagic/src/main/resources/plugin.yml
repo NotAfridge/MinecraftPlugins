@@ -8,6 +8,12 @@ softdepend: [WorldEdit, WorldGuard]
 
 main: ${project.groupId}.${project.artifactId}.MagicInit
 
+commands:
+  hoe:
+    description: Hoe Crafting Command
+    usage: |
+      <command> : Crafts a magical hoe.
+
 permissions:
   umagic.danger:
     description: Allows usage of dangerous conversions
