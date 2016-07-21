@@ -3,6 +3,7 @@ package com.ullarah.umagic.event;
 import com.ullarah.umagic.MagicFunctions;
 import com.ullarah.umagic.block.*;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -12,6 +13,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
 
 public class PlayerInteract implements Listener {
 
@@ -34,6 +37,18 @@ public class PlayerInteract implements Listener {
             if (!player.getGameMode().equals(GameMode.SURVIVAL)) {
                 event.setCancelled(true);
                 return;
+            }
+
+            if (event.getAction().equals(Action.PHYSICAL)) {
+                if (new ArrayList<Material>() {{
+                    add(Material.STONE_PLATE);
+                    add(Material.WOOD_PLATE);
+                    add(Material.IRON_PLATE);
+                    add(Material.GOLD_PLATE);
+                }}.contains(event.getClickedBlock().getType())) {
+                    event.setCancelled(true);
+                    return;
+                }
             }
 
             if (event.getAction() == Action.LEFT_CLICK_AIR

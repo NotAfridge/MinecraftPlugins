@@ -6,7 +6,7 @@ public class Plate {
 
     public void block(Block b) {
 
-        b.setData((byte) 2);
+        b.setData((byte) 1);
 
     }
 
