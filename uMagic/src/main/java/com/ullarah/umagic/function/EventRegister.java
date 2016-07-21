@@ -7,7 +7,7 @@ import java.security.CodeSource;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-public class PluginRegisters {
+public class EventRegister {
 
     /**
      * Registers all different types for minecraft reference
@@ -16,12 +16,8 @@ public class PluginRegisters {
      * Requires proper package names
      *
      * @param plugin the current plugin used
-     * @param type   the type of object that is being registered
-     * @return the number of valid registrations
      */
-    public int registerAll(Plugin plugin, RegisterType type) {
-
-        int amount = 0;
+    public void registerAll(Plugin plugin) {
 
         try {
 
@@ -34,7 +30,7 @@ public class PluginRegisters {
                 while (true) {
 
                     String pluginPackage = plugin.getClass().getPackage().getName().toLowerCase();
-                    String classPackage = pluginPackage + "." + type.toString().toLowerCase();
+                    String classPackage = pluginPackage + "." + RegisterType.EVENT.toString().toLowerCase();
 
                     ZipEntry entry = stream.getNextEntry();
 
@@ -50,19 +46,13 @@ public class PluginRegisters {
                         className = className.replace(classPath, "").replace(".class", "");
                         Object classInstance = Class.forName(classPackage + "." + className).newInstance();
 
-                        switch (type) {
+                        switch (RegisterType.EVENT) {
 
                             case EVENT:
                                 plugin.getServer().getPluginManager().registerEvents((Listener) classInstance, plugin);
                                 break;
 
-                            case TASK:
-                                classInstance.getClass().getMethod(type.toString()).invoke(classInstance);
-                                break;
-
                         }
-
-                        amount++;
 
                     }
 
@@ -74,13 +64,11 @@ public class PluginRegisters {
             e.printStackTrace();
         }
 
-        return amount;
-
     }
 
     public enum RegisterType {
 
-        EVENT("event"), TASK("task");
+        EVENT("event");
 
         private final String type;
 

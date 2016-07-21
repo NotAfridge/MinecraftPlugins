@@ -1,7 +1,7 @@
 package com.ullarah.umagic;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.ullarah.umagic.function.PluginRegisters;
+import com.ullarah.umagic.function.EventRegister;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
@@ -45,7 +45,7 @@ public class MagicInit extends JavaPlugin {
             setWorldGuard((WorldGuardPlugin) pluginWorldGuard);
 
             getServer().addRecipe(new MagicRecipe().hoeRecipe());
-            new PluginRegisters().registerAll(getPlugin(), PluginRegisters.RegisterType.EVENT);
+            new EventRegister().registerAll(getPlugin());
 
             getCommand("hoe").setExecutor(new MagicExecutor());
 
