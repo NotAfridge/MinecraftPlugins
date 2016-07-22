@@ -24,9 +24,10 @@ public class MagicFunctions {
     public final String metaSand = "uMagic.sg";
     public final String metaLamp = "uMagic.rl";
     public final String metaWool = "uMagic.wl";
-    public final String metaEmBr = "uMagic.ch";
+    public final String metaEmBr = "uMagic.em";
     public final String metaLadd = "uMagic.ld";
     public final String metaRail = "uMagic.ra";
+    public final String metaChst = "uMagic.ch";
 
     private final String world = "world";
     private final String locX = "loc.X";

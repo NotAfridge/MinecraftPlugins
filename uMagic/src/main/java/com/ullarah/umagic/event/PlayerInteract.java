@@ -63,6 +63,12 @@ public class PlayerInteract implements Listener {
 
             switch (block.getType()) {
 
+                case CHEST:
+                case TRAPPED_CHEST:
+                case ENDER_CHEST:
+                    new Chest().block(block);
+                    break;
+
                 case SIGN:
                 case SIGN_POST:
                 case WALL_SIGN:
