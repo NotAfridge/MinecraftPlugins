@@ -47,6 +47,11 @@ public class PlayerInteract implements Listener {
                 return;
             }
 
+            if (p.isSneaking()) {
+                event.setCancelled(true);
+                return;
+            }
+
             if (b.getType() == Material.CHEST) {
 
                 if (b.getState() instanceof Chest) {
