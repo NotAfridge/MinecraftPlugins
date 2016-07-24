@@ -1,11 +1,16 @@
 package com.ullarah.uchest;
 
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.ullarah.uchest.command.ChestPickup;
 import com.ullarah.uchest.function.CommonString;
 import com.ullarah.uchest.function.Experience;
 import com.ullarah.uchest.init.ChestLanguage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -381,6 +386,40 @@ public class ChestFunctions {
             if (lockTimer > 0) chestLockout(player, lockTimer, chestType);
 
         } else player.openInventory(inventory);
+
+    }
+
+    public boolean checkPickupTool(ItemStack item) {
+
+        if (item.getType() == Material.SHEARS) if (item.hasItemMeta()) if (item.getItemMeta().hasDisplayName())
+            if (item.getItemMeta().getDisplayName().equals(ChestPickup.toolName)) return true;
+
+        return false;
+
+    }
+
+    public boolean checkContentChest(ItemStack item) {
+
+        if (item.getType() == Material.CHEST) if (item.hasItemMeta()) if (item.getItemMeta().hasDisplayName())
+            if (item.getItemMeta().getDisplayName().matches(
+                    "" + ChatColor.YELLOW + ChatColor.BOLD + "Content Chest(.*)")) return true;
+
+        return false;
+
+    }
+
+    public boolean checkBlock(Player player, Block block) {
+
+        if (player.hasPermission("chest.bypass")) return true;
+
+        RegionManager regionManager = ChestInit.getWorldGuard().getRegionManager(block.getWorld());
+        ApplicableRegionSet applicableRegionSet = regionManager.getApplicableRegions(block.getLocation());
+
+        if (applicableRegionSet.getRegions().isEmpty()) return false;
+        for (ProtectedRegion r : applicableRegionSet.getRegions())
+            if (!r.isOwner(ChestInit.getWorldGuard().wrapPlayer(player))) return false;
+
+        return true;
 
     }
 

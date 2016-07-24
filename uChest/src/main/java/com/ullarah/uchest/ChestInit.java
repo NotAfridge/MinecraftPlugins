@@ -1,5 +1,6 @@
 package com.ullarah.uchest;
 
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.ullarah.uchest.function.PluginRegisters;
 import com.ullarah.uchest.init.ChestLanguage;
 import net.milkbowl.vault.economy.Economy;
@@ -42,6 +43,7 @@ public class ChestInit extends JavaPlugin {
     private static Integer materialCount = 0;
     private static Plugin plugin;
     private static Economy vaultEconomy;
+    private static WorldGuardPlugin worldGuard;
     private static Inventory chestDonationInventory;
     private static InventoryHolder chestDonationHolder = ChestInit::getChestDonationInventory;
     private static Inventory chestRandomInventory;
@@ -64,6 +66,14 @@ public class ChestInit extends JavaPlugin {
 
     private static void setVaultEconomy(Economy vaultEconomy) {
         ChestInit.vaultEconomy = vaultEconomy;
+    }
+
+    public static WorldGuardPlugin getWorldGuard() {
+        return worldGuard;
+    }
+
+    private static void setWorldGuard(WorldGuardPlugin worldGuard) {
+        ChestInit.worldGuard = worldGuard;
     }
 
     private static InventoryHolder getChestDonationHolder() {
@@ -128,6 +138,7 @@ public class ChestInit extends JavaPlugin {
 
         PluginManager pluginManager = getServer().getPluginManager();
         Plugin pluginVault = pluginManager.getPlugin("Vault");
+        Plugin pluginWorldGuard = pluginManager.getPlugin("WorldGuard");
 
         Set<String> pluginList = new HashSet<>();
 
@@ -166,7 +177,12 @@ public class ChestInit extends JavaPlugin {
             }
         }
 
-        for (String c : new String[]{"", "d", "e", "h", "m", "r", "s", "v", "w", "x"}) {
+        if (pluginWorldGuard != null) {
+            setWorldGuard((WorldGuardPlugin) pluginWorldGuard);
+            pluginList.add("WorldGuard");
+        }
+
+        for (String c : new String[]{"", "d", "e", "h", "m", "p", "r", "s", "v", "w", "x"}) {
             chestLockoutMap.put(c + "chest", new ConcurrentHashMap<>());
             chestTypeEnabled.put(c + "chest", getPlugin().getConfig().getBoolean(c + "chest.enabled"));
             getCommand(c + "chest").setExecutor(new ChestExecutor());

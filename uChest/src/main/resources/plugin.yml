@@ -4,6 +4,8 @@ description: ${project.description}
 
 author: Ullarah
 
+softdepend: [WorldEdit, WorldGuard]
+
 main: ${project.groupId}.${project.artifactId}.ChestInit
 
 commands:
@@ -31,6 +33,10 @@ commands:
     description: Views the money chest.
     usage: |
       <command> : Views the money chest.
+  pchest:
+    description: Gives a chest pickup tool.
+    usage: |
+      <command> : Gives a chest pickup tool.
   rchest:
     description: Views the random chest.
     usage: |

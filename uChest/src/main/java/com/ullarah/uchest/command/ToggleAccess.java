@@ -18,8 +18,9 @@ public class ToggleAccess {
 
         if (args.length == 2) {
 
-            if (!args[1].toLowerCase().matches("[dehmrsvwx]chest")) {
-                commonString.messageSend(ChestInit.getPlugin(), sender, ChatColor.RED + "That type of chest does not exist!");
+            if (!args[1].toLowerCase().matches("[dehmprsvwx]chest")) {
+                commonString.messageSend(ChestInit.getPlugin(), sender,
+                        ChatColor.RED + "That type of chest does not exist!");
                 return;
             }
 
@@ -28,13 +29,15 @@ public class ToggleAccess {
                 case 0:
                     ChestInit.getPlugin().getConfig().set(args[1].toLowerCase() + ".enabled", false);
                     ChestInit.chestTypeEnabled.put(args[1].toLowerCase(), false);
-                    commonString.messageSend(ChestInit.getPlugin(), sender, ChatColor.YELLOW + args[1].toLowerCase() + ChatColor.RED + " is now disabled.");
+                    commonString.messageSend(ChestInit.getPlugin(), sender,
+                            ChatColor.YELLOW + args[1].toLowerCase() + ChatColor.RED + " is now disabled.");
                     break;
 
                 case 1:
                     ChestInit.getPlugin().getConfig().set(args[1] + ".enabled", true);
                     ChestInit.chestTypeEnabled.put(args[1].toLowerCase(), true);
-                    new CommonString().messageSend(ChestInit.getPlugin(), sender, ChatColor.YELLOW + args[1].toLowerCase() + ChatColor.GREEN + " is now enabled.");
+                    new CommonString().messageSend(ChestInit.getPlugin(), sender,
+                            ChatColor.YELLOW + args[1].toLowerCase() + ChatColor.GREEN + " is now enabled.");
                     break;
 
             }
@@ -42,7 +45,8 @@ public class ToggleAccess {
             ChestInit.getPlugin().saveConfig();
 
         } else
-            commonString.messageSend(ChestInit.getPlugin(), sender, ChatColor.YELLOW + "/chest toggle [dehmrsvwx]chest");
+            commonString.messageSend(ChestInit.getPlugin(), sender,
+                    ChatColor.YELLOW + "/chest toggle [dehmprsvwx]chest");
 
     }
 

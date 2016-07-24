@@ -60,6 +60,12 @@ mchest:
   size: 27
   enabled: false
 
+# Pickup Chest [uses WorldGuard]
+pchest:
+  access: 2
+  removelevel: true
+  enabled: true
+
 # Random Chest
 rchest:
   icon: sponge

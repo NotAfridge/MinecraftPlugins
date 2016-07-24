@@ -23,7 +23,7 @@ public class ChestMenu {
         Inventory chestGUI = ChestInit.getPlugin().getServer().createInventory(null, 9, "" + ChatColor.GOLD + ChatColor.BOLD + "Mixed Chests");
         String menuColour = "" + ChatColor.GREEN + ChatColor.BOLD;
 
-        chestGUI.setItem(0, chestFunctions.createItemStack(getMenuIcon("jukebox"),
+        chestGUI.setItem(0, chestFunctions.createItemStack(getMenuIcon("dchest"),
                 menuColour + "Donation Chest", Arrays.asList(
                         accessLevelRequirement("dchest"),
                         ChatColor.RESET + "",

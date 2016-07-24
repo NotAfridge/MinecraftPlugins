@@ -18,6 +18,7 @@ class ChestExecutor implements CommandExecutor {
             put("Enchantment", "e");
             put("Hold", "h");
             put("Money", "m");
+            put("Pickup", "p");
             put("Random", "r");
             put("Shuffle", "s");
             put("Vault", "v");
