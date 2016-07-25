@@ -28,9 +28,8 @@ class LotteryCommands implements CommandExecutor {
                             + (LotteryInit.deathLotteryBank > 1 ? "s" : "");
         }
 
-        String deathRecent = "";
         if (!LotteryInit.recentDeathName.equals(""))
-            deathRecent = sep + ChatColor.YELLOW + "Recent Death: " + ChatColor.RED;
+            LotteryInit.deathRecent = sep + ChatColor.YELLOW + "Recent Death: " + ChatColor.RED;
 
         String winner = ChatColor.YELLOW + "Recent Winner: " + ChatColor.RED + LotteryInit.recentWinnerName +
                 sep + ChatColor.GREEN;
@@ -70,14 +69,16 @@ class LotteryCommands implements CommandExecutor {
             if (commandSender instanceof ConsoleCommandSender) {
 
                 String consoleString = "" + ChatColor.RED + ChatColor.BOLD + "Death Lottery" + ChatColor.RESET +
-                        ChatColor.stripColor(sep + deathBank + deathRecent + LotteryInit.recentDeathName);
+                        ChatColor.stripColor(sep + deathBank + LotteryInit.deathRecent + LotteryInit.recentDeathName);
 
                 if (LotteryInit.deathLotteryBank > 0) {
                     if (LotteryInit.recentWinnerAmount > 0)
-                        commandSender.sendMessage(consoleString + ChatColor.stripColor(sep + deathCountdownMessage + " " +
+                        commandSender.sendMessage(consoleString
+                                + ChatColor.stripColor(sep + deathCountdownMessage + " " +
                                 cMinute + sep + deathWinner));
                     else
-                        commandSender.sendMessage(consoleString + ChatColor.stripColor(sep + deathCountdownMessage + " " + cMinute));
+                        commandSender.sendMessage(consoleString
+                                + ChatColor.stripColor(sep + deathCountdownMessage + " " + cMinute));
                 } else commandSender.sendMessage(consoleString);
 
                 if (LotteryInit.deathLotteryPaused) commandSender.sendMessage(pauseMessage);
@@ -88,7 +89,8 @@ class LotteryCommands implements CommandExecutor {
 
                 if (LotteryInit.playerDeathSuspension.containsKey(((Player) commandSender).getUniqueId())) {
 
-                    Integer playerTimeout = LotteryInit.playerDeathSuspension.get(((Player) commandSender).getUniqueId());
+                    Integer playerTimeout = LotteryInit.playerDeathSuspension.get(
+                            ((Player) commandSender).getUniqueId());
 
                     String sMinute = minute;
                     if (playerTimeout > 1) sMinute += "s";
@@ -97,27 +99,10 @@ class LotteryCommands implements CommandExecutor {
 
                 }
 
-                String winType = LotteryInit.economy != null ? "$" + LotteryInit.winVaultAmount :
-                        LotteryInit.winItemAmount + " " + LotteryInit.winItemMaterial.name().replace("_", " ").toLowerCase()
-                                + (LotteryInit.winItemAmount > 1 ? "s" : "");
-
-                String suspensionAmount = String.valueOf(LotteryInit.deathSuspension);
-                String countdownAmount = String.valueOf(LotteryInit.deathCountdownReset);
-
-                player.sendMessage(new String[]{
-                        "" + ChatColor.RED + ChatColor.BOLD + "Death Lottery",
-                        ChatColor.STRIKETHROUGH + "----------------------------------------------------",
-                        "When you die, " + ChatColor.GREEN + winType + ChatColor.RESET + " will go to the Death Lottery bank.",
-                        "You are then " + ChatColor.RED + "suspended" + ChatColor.RESET +
-                                " from Death Lottery for " + ChatColor.YELLOW + suspensionAmount + " minutes" + ChatColor.RESET + ".",
-                        "If nobody dies in " + ChatColor.YELLOW + countdownAmount + " minutes" + ChatColor.RESET + ", a random player will win!",
-                        ChatColor.STRIKETHROUGH + "----------------------------------------------------"
-                });
-
-                if (!deathRecent.equals("")) {
+                if (!LotteryInit.deathRecent.equals("")) {
 
                     TextComponent deathBankMessage = new TextComponent(deathBank);
-                    TextComponent deathRecentMessage = new TextComponent(deathRecent);
+                    TextComponent deathRecentMessage = new TextComponent(LotteryInit.deathRecent);
                     TextComponent deathNameHover = new TextComponent(LotteryInit.recentDeathName);
 
                     deathNameHover.setColor(net.md_5.bungee.api.ChatColor.RED);

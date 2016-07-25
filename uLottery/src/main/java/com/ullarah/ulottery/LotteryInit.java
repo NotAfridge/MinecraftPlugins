@@ -21,6 +21,7 @@ public class LotteryInit extends JavaPlugin {
     static Integer deathCountdown;
     static Integer deathCountdownReset;
     static Integer deathSuspension;
+    static String deathRecent;
     static Integer deathLotteryBank = 0;
     static Boolean deathLotteryPaused = false;
     static String recentDeathName = "";

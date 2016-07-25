@@ -12,24 +12,23 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
-import static com.ullarah.ulottery.LotteryInit.*;
-
 class LotteryTask {
 
     static void deathLotteryStart() {
 
-        getPlugin().getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(), () -> {
+        LotteryInit.getPlugin().getServer().getScheduler().runTaskTimerAsynchronously(
+                LotteryInit.getPlugin(), () -> {
 
-            if (!deathLotteryPaused) {
+                    if (!LotteryInit.deathLotteryPaused) {
 
-                deathDuration++;
+                        LotteryInit.deathDuration++;
 
-                if (deathCountdown > 0) deathCountdown--;
+                        if (LotteryInit.deathCountdown > 0) LotteryInit.deathCountdown--;
                 else {
 
-                    if (deathLotteryBank > 0) {
+                            if (LotteryInit.deathLotteryBank > 0) {
 
-                        Collection onlinePlayers = getPlugin().getServer().getOnlinePlayers();
+                                Collection onlinePlayers = LotteryInit.getPlugin().getServer().getOnlinePlayers();
 
                         Player player = (Player) onlinePlayers.toArray()[
                                 new Random().nextInt(onlinePlayers.size())];
@@ -39,55 +38,56 @@ class LotteryTask {
 
                         String winnings;
 
-                        if (economy != null) {
-                            economy.depositPlayer(player, deathLotteryBank);
-                            winnings = "$" + deathLotteryBank;
+                                if (LotteryInit.economy != null) {
+                                    LotteryInit.economy.depositPlayer(player, LotteryInit.deathLotteryBank);
+                                    winnings = "$" + LotteryInit.deathLotteryBank;
                         } else {
                             Bukkit.getWorld(world.getName()).dropItemNaturally(
-                                    location, new ItemStack(winItemMaterial, deathLotteryBank));
-                            String s = deathLotteryBank > 1 ? "s" : "";
-                            winnings = deathLotteryBank + " " + winItemMaterial.name().replace("_"," ").toLowerCase() + s;
+                                    location, new ItemStack(LotteryInit.winItemMaterial, LotteryInit.deathLotteryBank));
+                                    String s = LotteryInit.deathLotteryBank > 1 ? "s" : "";
+                                    winnings = LotteryInit.deathLotteryBank + " " + LotteryInit.winItemMaterial.name().replace("_", " ").toLowerCase() + s;
                         }
 
                         for (Object playerOnline : onlinePlayers) {
                             Player currentPlayer = (Player) playerOnline;
-                            currentPlayer.sendMessage(ChatColor.GOLD + "[" + getPlugin().getName() + "] " +
+                            currentPlayer.sendMessage(ChatColor.GOLD + "[" + LotteryInit.getPlugin().getName() + "] " +
                                     ChatColor.YELLOW + player.getPlayerListName()
                                     + ChatColor.RESET + " won " + ChatColor.GREEN + winnings
                                     + ChatColor.RESET + " from the Death Lottery!");
                         }
 
-                        recentWinnerName = player.getPlayerListName();
-                        recentWinnerAmount = deathLotteryBank;
+                                LotteryInit.recentWinnerName = player.getPlayerListName();
+                                LotteryInit.recentWinnerAmount = LotteryInit.deathLotteryBank;
 
                     }
 
-                    deathCountdown = deathCountdownReset;
-                    deathDuration = 0;
-                    deathLotteryBank = 0;
+                            LotteryInit.deathCountdown = LotteryInit.deathCountdownReset;
+                            LotteryInit.deathDuration = 0;
+                            LotteryInit.deathLotteryBank = 0;
+                            LotteryInit.deathRecent = "";
 
-                    playerDeathPrevious.clear();
-                    playerDeathSuspension.clear();
+                            LotteryInit.playerDeathPrevious.clear();
+                            LotteryInit.playerDeathSuspension.clear();
 
                 }
 
             }
 
-            if (playerDeathSuspension.size() > 0) {
+                    if (LotteryInit.playerDeathSuspension.size() > 0) {
 
-                for (Map.Entry<UUID, Integer> entry : playerDeathSuspension.entrySet()) {
+                        for (Map.Entry<UUID, Integer> entry : LotteryInit.playerDeathSuspension.entrySet()) {
 
                     UUID uuid = entry.getKey();
                     Integer timeout = entry.getValue() - 1;
 
-                    if (timeout <= 0) playerDeathSuspension.remove(uuid);
-                    else playerDeathSuspension.put(uuid, timeout);
+                            if (timeout <= 0) LotteryInit.playerDeathSuspension.remove(uuid);
+                            else LotteryInit.playerDeathSuspension.put(uuid, timeout);
 
                 }
 
             }
 
-        }, deathCountdownReset * 20, deathCountdownReset * 20);
+                }, LotteryInit.deathCountdownReset * 20, LotteryInit.deathCountdownReset * 20);
 
     }
 

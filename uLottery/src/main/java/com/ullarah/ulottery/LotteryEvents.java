@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 class LotteryEvents implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void playerDeath(final PlayerDeathEvent event) {
+    public void playerDeath(PlayerDeathEvent event) {
 
         Player player = event.getEntity();
 
@@ -22,7 +22,8 @@ class LotteryEvents implements Listener {
 
             LotteryInit.playerDeathPrevious.put(player.getUniqueId(),
                     LotteryInit.playerDeathPrevious.containsKey(player.getUniqueId())
-                            ? LotteryInit.playerDeathPrevious.get(player.getUniqueId()) + 5 : LotteryInit.deathSuspension);
+                            ? LotteryInit.playerDeathPrevious.get(player.getUniqueId()) + 5
+                            : LotteryInit.deathSuspension);
 
             if (!LotteryInit.playerDeathSuspension.containsKey(player.getUniqueId()))
                 LotteryInit.deathLotteryBank += LotteryInit.economy != null
@@ -42,7 +43,7 @@ class LotteryEvents implements Listener {
     }
 
     @EventHandler
-    public void playerQuit(final PlayerQuitEvent event) {
+    public void playerQuit(PlayerQuitEvent event) {
 
         if (LotteryInit.getPlugin().getServer().getOnlinePlayers().size()
                 < LotteryInit.totalPlayerPause && !LotteryInit.deathLotteryPaused)
@@ -51,7 +52,7 @@ class LotteryEvents implements Listener {
     }
 
     @EventHandler
-    public void playerJoin(final PlayerJoinEvent event) {
+    public void playerJoin(PlayerJoinEvent event) {
 
         if (LotteryInit.getPlugin().getServer().getOnlinePlayers().size()
                 >= LotteryInit.totalPlayerPause && LotteryInit.deathLotteryPaused)
