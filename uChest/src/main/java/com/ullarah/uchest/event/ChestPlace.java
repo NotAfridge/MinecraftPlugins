@@ -3,6 +3,7 @@ package com.ullarah.uchest.event;
 import com.ullarah.uchest.ChestFunctions;
 import com.ullarah.uchest.ChestInit;
 import com.ullarah.uchest.function.CommonString;
+import com.ullarah.uchest.function.HiddenLore;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -67,7 +68,9 @@ public class ChestPlace implements Listener {
                     }
                 }
 
-                UUID u = UUID.fromString(ChatColor.stripColor(inMainHand.getItemMeta().getLore().get(1)));
+                String l = inMainHand.getItemMeta().getLore().get(0).replace(
+                        ChatColor.AQUA + "Chest can be named using " + ChatColor.GOLD + "/pchest [name]", "");
+                UUID u = UUID.fromString(new HiddenLore().decode(l));
 
                 File chestFile = new File(ChestInit.getPlugin().getDataFolder() + File.separator + "chest",
                         u.toString() + ".yml");

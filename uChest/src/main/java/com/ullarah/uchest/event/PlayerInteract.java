@@ -4,6 +4,7 @@ import com.ullarah.uchest.ChestFunctions;
 import com.ullarah.uchest.ChestInit;
 import com.ullarah.uchest.command.ChestCreation;
 import com.ullarah.uchest.function.CommonString;
+import com.ullarah.uchest.function.HiddenLore;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -18,7 +19,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.UUID;
 
 public class PlayerInteract implements Listener {
@@ -73,9 +74,9 @@ public class PlayerInteract implements Listener {
                         ItemMeta m = inMainHand.getItemMeta();
 
                         m.setDisplayName("" + ChatColor.YELLOW + ChatColor.BOLD + "Content Chest");
-                        m.setLore(Arrays.asList(
-                                ChatColor.AQUA + "Chest can be named using " + ChatColor.GOLD + "/pchest [name]",
-                                ChatColor.DARK_GRAY + chestUUID.toString()
+                        m.setLore(Collections.singletonList(
+                                ChatColor.AQUA + "Chest can be named using " + ChatColor.GOLD + "/pchest [name]"
+                                        + new HiddenLore().encode(chestUUID.toString())
                         ));
 
                         inMainHand.setItemMeta(m);
