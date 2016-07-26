@@ -9,6 +9,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class ChestPickup {
@@ -69,8 +70,13 @@ public class ChestPickup {
 
             if (p.getLevel() > accessLevel) {
 
-                if (removeLevel) p.setLevel(p.getLevel() - accessLevel);
-                p.getWorld().dropItemNaturally(p.getEyeLocation(), tool());
+                PlayerInventory v = p.getInventory();
+                int f = v.firstEmpty();
+
+                if (f >= 0) {
+                    if (removeLevel) p.setLevel(p.getLevel() - accessLevel);
+                    v.setItem(f, tool());
+                } else c.messageSend(ChestInit.getPlugin(), p, "Your inventory is full.");
 
             } else {
 

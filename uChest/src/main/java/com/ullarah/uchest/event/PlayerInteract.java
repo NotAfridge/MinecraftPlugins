@@ -86,7 +86,7 @@ public class PlayerInteract implements Listener {
                             v.clear();
                             b.setType(Material.AIR);
 
-                        }
+                        } else event.setCancelled(true);
 
                     }
 
