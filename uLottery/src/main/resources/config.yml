@@ -1,9 +1,9 @@
-activeplayers: 5
+players: 5
 countdown: 60
 suspension: 30
 vault:
   enable: false
-  addamount: 5
+  amount: 5
 item:
-  addamount: 2
+  amount: 2
   material: EMERALD

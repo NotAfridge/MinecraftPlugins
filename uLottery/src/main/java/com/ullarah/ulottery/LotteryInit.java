@@ -1,5 +1,6 @@
 package com.ullarah.ulottery;
 
+import com.ullarah.ulottery.message.*;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Material;
 import org.bukkit.plugin.Plugin;
@@ -7,30 +8,19 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 
 public class LotteryInit extends JavaPlugin {
 
-    static final ConcurrentHashMap<UUID, Integer> playerDeathSuspension = new ConcurrentHashMap<>();
-    static final ConcurrentHashMap<UUID, Integer> playerDeathPrevious = new ConcurrentHashMap<>();
-    static Integer totalPlayerPause;
-    static Economy economy = null;
-    static Integer deathDuration = 0;
-    static Integer deathCountdown;
-    static Integer deathCountdownReset;
-    static Integer deathSuspension;
-    static String deathRecent;
-    static Integer deathLotteryBank = 0;
-    static Boolean deathLotteryPaused = false;
-    static String recentDeathName = "";
-    static String recentDeathReason = null;
-    static String recentWinnerName = null;
-    static Integer recentWinnerAmount = 0;
-    static Integer winVaultAmount;
-    static Integer winItemAmount;
-    static Material winItemMaterial;
+    static final Bank bank = new Bank();
+    static final Countdown countdown = new Countdown();
+    static final Duration duration = new Duration();
+    static final Pause pause = new Pause();
+    static final RecentDeath recentDeath = new RecentDeath();
+    static final RecentWinner recentWinner = new RecentWinner();
+    static final Suspension suspension = new Suspension();
+
+    public static Economy economy = null;
     private static Plugin plugin;
 
     static Plugin getPlugin() {
@@ -52,15 +42,17 @@ public class LotteryInit extends JavaPlugin {
         getConfig().options().copyDefaults(true);
         saveConfig();
 
-        totalPlayerPause = getPlugin().getConfig().getInt("activeplayers");
-        deathCountdown = getPlugin().getConfig().getInt("countdown");
-        deathCountdownReset = getPlugin().getConfig().getInt("countdown");
+        pause.setTotal(getPlugin().getConfig().getInt("players"));
+        countdown.setCount(getPlugin().getConfig().getInt("countdown"));
+        countdown.setOriginal(getPlugin().getConfig().getInt("countdown"));
 
-        deathSuspension = getPlugin().getConfig().getInt("suspension");
+        suspension.setTime(getPlugin().getConfig().getInt("suspension"));
 
-        winVaultAmount = getPlugin().getConfig().getInt("vault.addamount");
-        winItemAmount = getPlugin().getConfig().getInt("item.addamount");
-        winItemMaterial = Material.getMaterial(getPlugin().getConfig().getString("item.material"));
+        recentWinner.setVaultAmount(getPlugin().getConfig().getInt("vault.amount"));
+        recentWinner.setItemAmount(getPlugin().getConfig().getInt("item.amount"));
+        recentWinner.setItemMaterial(Material.getMaterial(getPlugin().getConfig().getString("item.material")));
+
+        bank.setItemMaterial(Material.getMaterial(getPlugin().getConfig().getString("item.material")));
 
         if (pluginVault != null && getPlugin().getConfig().getBoolean("vault.enable")) {
 
@@ -70,12 +62,12 @@ public class LotteryInit extends JavaPlugin {
 
         } else getPlugin().getLogger().log(Level.WARNING, "Economy plugin not found. Enabling item bank.");
 
-        getCommand("dlot").setExecutor(new LotteryCommands());
+        getCommand("lottery").setExecutor(new LotteryCommands());
 
         pluginManager.registerEvents(new LotteryEvents(), getPlugin());
 
-        if (getPlugin().getServer().getOnlinePlayers().size() < totalPlayerPause)
-            deathLotteryPaused = true;
+        if (getPlugin().getServer().getOnlinePlayers().size() < pause.getTotal())
+            pause.setPaused(true);
 
         LotteryTask.deathLotteryStart();
 

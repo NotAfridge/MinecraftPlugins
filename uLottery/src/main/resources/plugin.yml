@@ -9,5 +9,5 @@ main: ${project.groupId}.${project.artifactId}.LotteryInit
 softdepend: [Vault]
 
 commands:
-  dlot:
-    description: Help and Bank Total
+  lottery:
+    description: View lottery statistics
