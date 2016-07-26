@@ -9,41 +9,43 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 public class AnvilRename implements Listener {
 
     @EventHandler
     public void event(InventoryClickEvent event) {
 
-        CommonString commonString = new CommonString();
+        CommonString s = new CommonString();
 
-        Inventory inventory = event.getClickedInventory();
+        Inventory i = event.getClickedInventory();
 
-        if (inventory == null) return;
+        if (i == null) return;
 
-        if (inventory instanceof AnvilInventory) {
+        if (i instanceof AnvilInventory) {
 
-            if (event.getCurrentItem() != null && event.getCurrentItem().hasItemMeta()) {
+            ItemStack c = event.getCursor();
 
-                if (event.getCurrentItem().getItemMeta().hasDisplayName()) {
+            if (c != null && c.hasItemMeta()) {
 
-                    Player player = (Player) event.getWhoClicked();
+                if (c.getItemMeta().hasDisplayName()) {
 
-                    if (event.getCurrentItem().getItemMeta().getDisplayName()
-                            .matches("" + ChatColor.YELLOW + ChatColor.BOLD + "Content Chest(.*)")) {
+                    Player p = (Player) event.getWhoClicked();
+                    String d = c.getItemMeta().getDisplayName();
 
-                        player.closeInventory();
-                        commonString.messageSend(ChestInit.getPlugin(), player,
+                    if (d.matches("" + ChatColor.YELLOW + ChatColor.BOLD + "Content Chest(.*)")) {
+
+                        p.closeInventory();
+                        s.messageSend(ChestInit.getPlugin(), p,
                                 "Please rename chest using "
                                         + ChatColor.YELLOW + "/pchest [name]");
 
                     }
 
-                    if (event.getCurrentItem().getItemMeta().getDisplayName()
-                            .matches(ChatColor.YELLOW + "Chest Pickup Tool")) {
+                    if (d.matches(ChatColor.YELLOW + "Chest Pickup Tool")) {
 
-                        player.closeInventory();
-                        commonString.messageSend(ChestInit.getPlugin(), player,
+                        p.closeInventory();
+                        s.messageSend(ChestInit.getPlugin(), p,
                                 "Chest Pickup Tool cannot be modified.");
 
                     }
