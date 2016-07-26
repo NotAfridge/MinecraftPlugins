@@ -74,12 +74,17 @@ public class LotteryFunction {
 
         }
 
-        if (blockBreaks.getText().length() <= 0 && deathRecent.getText().length() >= 1)
-            player.spigot().sendMessage(deathRecent);
         if (blockBreaks.getText().length() >= 1 && deathRecent.getText().length() <= 0)
             player.spigot().sendMessage(blockBreaks);
+        if (blockBreaks.getText().length() <= 0 && deathRecent.getText().length() >= 1) {
+            TextComponent textSeparate = new TextComponent("  ");
+            textSeparate.addExtra(deathRecent);
+            player.spigot().sendMessage(textSeparate);
+        }
         if (blockBreaks.getText().length() >= 1 && deathRecent.getText().length() >= 1) {
-            blockBreaks.addExtra(sep + deathRecent);
+            TextComponent textSeparate = new TextComponent(sep);
+            blockBreaks.addExtra(textSeparate);
+            blockBreaks.addExtra(deathRecent);
             player.spigot().sendMessage(blockBreaks);
         }
 
