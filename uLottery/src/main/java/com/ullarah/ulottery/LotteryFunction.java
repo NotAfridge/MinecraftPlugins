@@ -20,7 +20,7 @@ public class LotteryFunction {
     private RecentWinner recentWinner = LotteryInit.recentWinner;
     private Suspension suspension = LotteryInit.suspension;
 
-    void sendConsoleDeathStatistics(CommandSender sender) {
+    void sendConsoleStatistics(CommandSender sender) {
 
         String consoleString = "" + ChatColor.WHITE + ChatColor.BOLD + "Lottery" + ChatColor.RESET +
                 ChatColor.stripColor(sep + bank.getMessage()
@@ -34,7 +34,7 @@ public class LotteryFunction {
 
     }
 
-    void sendDeathStatistics(CommandSender sender) {
+    void sendPlayerStatistics(CommandSender sender) {
 
         Player player = (Player) sender;
 
@@ -43,12 +43,25 @@ public class LotteryFunction {
 
         player.sendMessage(bank.getMessage());
 
-        String blockBreaks = "";
-        if (block.getAmount() > 0) blockBreaks = block.getMessage();
+        TextComponent blockBreaks = new TextComponent("");
+        TextComponent deathRecent = new TextComponent("");
+
+        if (block.getAmount() > 0) {
+
+            TextComponent blockBreakMessage = new TextComponent(block.getMessage());
+            TextComponent blockBreakHover = new TextComponent(String.valueOf(block.getAmount()));
+
+            blockBreakHover.setColor(net.md_5.bungee.api.ChatColor.RED);
+            blockBreakHover.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                    new ComponentBuilder(String.valueOf(block.getTotal())).create()));
+
+            blockBreakMessage.addExtra(blockBreakHover);
+            blockBreaks = blockBreakMessage;
+
+        }
 
         if (!recentDeath.getName().equals("")) {
 
-            TextComponent blockBreakage = new TextComponent(blockBreaks + sep);
             TextComponent deathRecentMessage = new TextComponent(recentDeath.getMessage());
             TextComponent deathNameHover = new TextComponent(recentDeath.getName());
 
@@ -56,12 +69,19 @@ public class LotteryFunction {
             deathNameHover.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                     new ComponentBuilder(recentDeath.getReason()).create()));
 
-            blockBreakage.addExtra(deathRecentMessage);
-            blockBreakage.addExtra(deathNameHover);
+            deathRecentMessage.addExtra(deathNameHover);
+            deathRecent = deathRecentMessage;
 
-            player.spigot().sendMessage(deathRecentMessage);
+        }
 
-        } else if (!blockBreaks.equals("")) player.sendMessage(blockBreaks);
+        if (blockBreaks.getText().length() <= 0 && deathRecent.getText().length() >= 1)
+            player.spigot().sendMessage(deathRecent);
+        if (blockBreaks.getText().length() >= 1 && deathRecent.getText().length() <= 0)
+            player.spigot().sendMessage(blockBreaks);
+        if (blockBreaks.getText().length() >= 1 && deathRecent.getText().length() >= 1) {
+            blockBreaks.addExtra(sep + deathRecent);
+            player.spigot().sendMessage(blockBreaks);
+        }
 
         if (bank.getAmount() > 0) {
 

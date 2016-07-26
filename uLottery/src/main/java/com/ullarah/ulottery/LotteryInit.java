@@ -48,7 +48,7 @@ public class LotteryInit extends JavaPlugin {
         countdown.setOriginal(getPlugin().getConfig().getInt("countdown"));
         suspension.setTime(getPlugin().getConfig().getInt("suspension"));
 
-        block.setTotal(getPlugin().getConfig().getInt("blocks"));
+        block.setLimit(getPlugin().getConfig().getInt("blocks"));
 
         recentWinner.setVaultAmount(getPlugin().getConfig().getInt("vault.amount"));
         recentWinner.setItemAmount(getPlugin().getConfig().getInt("item.amount"));

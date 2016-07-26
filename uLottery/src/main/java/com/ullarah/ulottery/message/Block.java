@@ -6,10 +6,12 @@ public class Block {
 
     private Integer amount;
     private Integer total;
+    private Integer limit;
 
     public Block() {
         this.amount = 0;
-        this.total = 1000;
+        this.total = 0;
+        this.limit = 1000;
     }
 
     public String getMessage() {
@@ -32,8 +34,16 @@ public class Block {
         total = i;
     }
 
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setLimit(int i) {
+        limit = i;
+    }
+
     private String message() {
-        return ChatColor.YELLOW + "  Blocks Broken: " + ChatColor.RED + getAmount();
+        return ChatColor.YELLOW + "  Blocks Broken: ";
     }
 
 }

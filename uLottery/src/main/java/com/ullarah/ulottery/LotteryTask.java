@@ -78,6 +78,7 @@ class LotteryTask {
                             duration.setCount(0);
                             bank.setAmount(0);
                             block.setAmount(0);
+                            block.setTotal(0);
                             recentDeath.setName("");
                             recentDeath.setReason("");
 

@@ -21,8 +21,8 @@ class LotteryCommands implements CommandExecutor {
                 return true;
             }
 
-            if (sender instanceof ConsoleCommandSender) function.sendConsoleDeathStatistics(sender);
-            else function.sendDeathStatistics(sender);
+            if (sender instanceof ConsoleCommandSender) function.sendConsoleStatistics(sender);
+            else function.sendPlayerStatistics(sender);
 
         }
 

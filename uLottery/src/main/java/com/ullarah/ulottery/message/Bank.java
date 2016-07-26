@@ -43,13 +43,13 @@ public class Bank {
 
             return LotteryInit.economy != null
                     ? heading + "$" + amount
-                    : heading + amount + item;
+                    : heading + amount + item + (getAmount() > 1 ? "s" : "");
 
         } else {
 
             return LotteryInit.economy != null
                     ? heading + "$" + "0"
-                    : heading + "0" + item;
+                    : heading + "0" + item + "s";
 
         }
 

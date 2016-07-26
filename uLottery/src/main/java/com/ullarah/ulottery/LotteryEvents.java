@@ -60,8 +60,9 @@ class LotteryEvents implements Listener {
         if (!pause.getPaused()) if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
 
             int blocks = block.getAmount();
+            block.setTotal(block.getTotal() + 1);
 
-            if (blocks >= block.getTotal()) {
+            if (blocks >= block.getLimit()) {
                 bank.setAmount(bank.getAmount() + 1);
                 block.setAmount(0);
             } else block.setAmount(blocks + 1);
