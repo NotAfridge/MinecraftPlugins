@@ -13,6 +13,7 @@ import java.util.logging.Level;
 public class LotteryInit extends JavaPlugin {
 
     static final Bank bank = new Bank();
+    static final Block block = new Block();
     static final Countdown countdown = new Countdown();
     static final Duration duration = new Duration();
     static final Pause pause = new Pause();
@@ -45,8 +46,9 @@ public class LotteryInit extends JavaPlugin {
         pause.setTotal(getPlugin().getConfig().getInt("players"));
         countdown.setCount(getPlugin().getConfig().getInt("countdown"));
         countdown.setOriginal(getPlugin().getConfig().getInt("countdown"));
-
         suspension.setTime(getPlugin().getConfig().getInt("suspension"));
+
+        block.setTotal(getPlugin().getConfig().getInt("blocks"));
 
         recentWinner.setVaultAmount(getPlugin().getConfig().getInt("vault.amount"));
         recentWinner.setItemAmount(getPlugin().getConfig().getInt("item.amount"));

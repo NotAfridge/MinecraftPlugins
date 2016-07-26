@@ -1,6 +1,7 @@
 players: 5
 countdown: 60
 suspension: 30
+blocks: 1000
 vault:
   enable: false
   amount: 5

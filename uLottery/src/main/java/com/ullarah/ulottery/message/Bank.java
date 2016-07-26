@@ -36,17 +36,22 @@ public class Bank {
 
     private String message() {
 
-        String heading = ChatColor.YELLOW + "  Bank: " + ChatColor.GREEN;
+        String heading = ChatColor.YELLOW + "  Lottery Bank Balance: " + ChatColor.GREEN;
+        String item = " " + getItemMaterial().name().replace("_", " ").toLowerCase();
 
         if (amount > 0) {
-
-            String item = " " + getItemMaterial().name().replace("_", " ").toLowerCase();
 
             return LotteryInit.economy != null
                     ? heading + "$" + amount
                     : heading + amount + item;
 
-        } else return heading + ChatColor.AQUA + "Nothing Yet...";
+        } else {
+
+            return LotteryInit.economy != null
+                    ? heading + "$" + "0"
+                    : heading + "0" + item;
+
+        }
 
     }
 

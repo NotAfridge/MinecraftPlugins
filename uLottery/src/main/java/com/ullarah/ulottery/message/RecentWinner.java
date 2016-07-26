@@ -68,7 +68,7 @@ public class RecentWinner {
 
         String sep = ChatColor.RESET + " - ";
 
-        String heading = ChatColor.YELLOW + "  Recent Winner: " + ChatColor.RED + name + ChatColor.WHITE + "[";
+        String heading = ChatColor.YELLOW + "  Recent Winner: " + ChatColor.RED + name + ChatColor.WHITE + " [";
         String item = " " + itemMaterial.name().replace("_", " ").toLowerCase();
 
         return LotteryInit.economy != null

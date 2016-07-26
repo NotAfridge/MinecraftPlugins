@@ -15,6 +15,7 @@ class LotteryTask {
     static void deathLotteryStart() {
 
         Bank bank = LotteryInit.bank;
+        Block block = LotteryInit.block;
         Countdown countdown = LotteryInit.countdown;
         Duration duration = LotteryInit.duration;
         Pause pause = LotteryInit.pause;
@@ -49,10 +50,9 @@ class LotteryTask {
                                 } else {
 
                                     LotteryInit.getPlugin().getServer().getScheduler().runTask(
-                                            LotteryInit.getPlugin(), () -> {
-                                                player.getWorld().dropItemNaturally(player.getEyeLocation(),
-                                                        new ItemStack(bank.getItemMaterial(), bank.getAmount()));
-                                            });
+                                            LotteryInit.getPlugin(), () ->
+                                                    player.getWorld().dropItemNaturally(player.getEyeLocation(),
+                                                            new ItemStack(bank.getItemMaterial(), bank.getAmount())));
 
                                     winnings = bank.getAmount() + " " + bank.getItemMaterial().name()
                                             .replace("_", " ").toLowerCase() + (bank.getAmount() > 1 ? "s" : "");
@@ -77,6 +77,7 @@ class LotteryTask {
                             countdown.setCount(countdown.getOriginal());
                             duration.setCount(0);
                             bank.setAmount(0);
+                            block.setAmount(0);
                             recentDeath.setName("");
                             recentDeath.setReason("");
 
