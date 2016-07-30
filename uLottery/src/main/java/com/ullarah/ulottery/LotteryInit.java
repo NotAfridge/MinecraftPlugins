@@ -12,29 +12,38 @@ import java.util.logging.Level;
 
 public class LotteryInit extends JavaPlugin {
 
-    static final Bank bank = new Bank();
-    static final Block block = new Block();
-    static final Countdown countdown = new Countdown();
-    static final Duration duration = new Duration();
-    static final Pause pause = new Pause();
-    static final RecentDeath recentDeath = new RecentDeath();
-    static final RecentWinner recentWinner = new RecentWinner();
-    static final Suspension suspension = new Suspension();
-
+    public static RecentWinner recentWinner = new RecentWinner();
     public static Economy economy = null;
+    static Bank bank = new Bank();
+    static Block block = new Block();
+    static Countdown countdown = new Countdown();
+    static Duration duration = new Duration();
+    static History history = new History();
+    static Pause pause = new Pause();
+    static RecentDeath recentDeath = new RecentDeath();
+    static Suspension suspension = new Suspension();
+    private static Exclude exclude;
     private static Plugin plugin;
 
-    static Plugin getPlugin() {
+    public static Plugin getPlugin() {
         return plugin;
     }
-
     private static void setPlugin(Plugin plugin) {
         LotteryInit.plugin = plugin;
+    }
+
+    static Exclude getExclude() {
+        return exclude;
+    }
+
+    private static void setExclude(Exclude exclude) {
+        LotteryInit.exclude = exclude;
     }
 
     public void onEnable() {
 
         setPlugin(this);
+        setExclude(new Exclude());
 
         PluginManager pluginManager = getPlugin().getServer().getPluginManager();
 
@@ -52,9 +61,12 @@ public class LotteryInit extends JavaPlugin {
 
         recentWinner.setVaultAmount(getPlugin().getConfig().getInt("vault.amount"));
         recentWinner.setItemAmount(getPlugin().getConfig().getInt("item.amount"));
-        recentWinner.setItemMaterial(Material.getMaterial(getPlugin().getConfig().getString("item.material")));
 
-        bank.setItemMaterial(Material.getMaterial(getPlugin().getConfig().getString("item.material")));
+        Material winItem = Material.getMaterial(getPlugin().getConfig().getString("item.material"));
+
+        recentWinner.setItemMaterial(winItem);
+        bank.setItemMaterial(winItem);
+        history.setItemMaterial(winItem);
 
         if (pluginVault != null && getPlugin().getConfig().getBoolean("vault.enable")) {
 

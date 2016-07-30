@@ -11,3 +11,12 @@ softdepend: [Vault]
 commands:
   lottery:
     description: View lottery statistics
+    usage: |
+      <command> : Shows Help.
+      <command> exclude / e / x <player< : Excludes player from lottery.
+      <command> include / i <player> : Includes player to lottery.
+      <command> history / h : Shows winning history.
+
+permissions:
+  ulottery.admin:
+    description: Allows the use of exclude/include options.

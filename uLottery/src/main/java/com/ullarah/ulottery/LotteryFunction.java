@@ -34,9 +34,7 @@ public class LotteryFunction {
 
     }
 
-    void sendPlayerStatistics(CommandSender sender) {
-
-        Player player = (Player) sender;
+    void sendPlayerStatistics(Player player) {
 
         player.sendMessage(ChatColor.GOLD + "[" + LotteryInit.getPlugin().getName() + "] "
                 + ChatColor.WHITE + "Lottery Statistics");

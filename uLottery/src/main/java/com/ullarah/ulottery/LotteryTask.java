@@ -1,14 +1,12 @@
 package com.ullarah.ulottery;
 
+import com.ullarah.ulottery.function.Broadcast;
 import com.ullarah.ulottery.message.*;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 class LotteryTask {
 
@@ -18,6 +16,8 @@ class LotteryTask {
         Block block = LotteryInit.block;
         Countdown countdown = LotteryInit.countdown;
         Duration duration = LotteryInit.duration;
+        Exclude exclude = LotteryInit.getExclude();
+        History history = LotteryInit.history;
         Pause pause = LotteryInit.pause;
         RecentDeath recentDeath = LotteryInit.recentDeath;
         RecentWinner recentWinner = LotteryInit.recentWinner;
@@ -36,9 +36,22 @@ class LotteryTask {
                             if (bank.getAmount() > 0) {
 
                                 Collection onlinePlayers = LotteryInit.getPlugin().getServer().getOnlinePlayers();
+                                ArrayList<Player> validPlayers = new ArrayList<>();
 
-                                Player player = (Player) onlinePlayers.toArray()[
-                                        new Random().nextInt(onlinePlayers.size())];
+                                for (Object player : onlinePlayers) {
+                                    Player p = (Player) player;
+                                    if (suspension.getMap().containsKey(p.getUniqueId())) continue;
+                                    if (exclude.hasPlayer(p.getPlayerListName())) continue;
+                                    if (recentWinner.getName().equalsIgnoreCase(p.getPlayerListName())) continue;
+                                    validPlayers.add((Player) player);
+                                }
+
+                                if (validPlayers.isEmpty()) {
+                                    countdown.setCount(countdown.getOriginal());
+                                    return;
+                                }
+
+                                Player player = validPlayers.get(new Random().nextInt(validPlayers.size()));
 
                                 String winnings;
 
@@ -58,19 +71,16 @@ class LotteryTask {
                                             .replace("_", " ").toLowerCase() + (bank.getAmount() > 1 ? "s" : "");
                                 }
 
-                                for (Object playerOnline : onlinePlayers) {
-
-                                    Player currentPlayer = (Player) playerOnline;
-
-                                    currentPlayer.sendMessage(ChatColor.GOLD + "[" + LotteryInit.getPlugin().getName() + "] " +
-                                            ChatColor.YELLOW + player.getPlayerListName()
-                                            + ChatColor.RESET + " won " + ChatColor.GREEN + winnings
-                                            + ChatColor.RESET + " from the Lottery!");
-
-                                }
+                                new Broadcast().sendMessage(LotteryInit.getPlugin(), new String[]{
+                                        ChatColor.YELLOW + player.getPlayerListName()
+                                                + ChatColor.RESET + " won " + ChatColor.GREEN + winnings
+                                                + ChatColor.RESET + " from the Lottery!"
+                                });
 
                                 recentWinner.setName(player.getPlayerListName());
                                 recentWinner.setAmount(bank.getAmount());
+
+                                history.addHistory(player.getPlayerListName(), bank.getAmount());
 
                             }
 
