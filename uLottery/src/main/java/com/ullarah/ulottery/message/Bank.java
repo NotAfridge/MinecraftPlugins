@@ -31,13 +31,13 @@ public class Bank extends LotteryMessageInit {
         return itemMaterial;
     }
 
-    public void setItemMaterial(String m) {
-        itemMaterial = Material.getMaterial(m);
-    }
-
     @SuppressWarnings("SameParameterValue")
     private void setItemMaterial(Material m) {
         itemMaterial = m;
+    }
+
+    public void setItemMaterial(String m) {
+        itemMaterial = Material.getMaterial(m);
     }
 
     private String message() {
@@ -58,6 +58,21 @@ public class Bank extends LotteryMessageInit {
                     : heading + "0" + item + "s";
 
         }
+
+    }
+
+    public String modify(String amount) {
+
+        if (amount.matches("-?\\d+")) {
+
+            setAmount(Integer.valueOf(amount) + getAmount());
+
+            if (getAmount() <= 0) setAmount(0);
+            if (getAmount() >= Integer.MAX_VALUE) setAmount(Integer.MAX_VALUE);
+
+            return message().replaceFirst("  ", "");
+
+        } else return ChatColor.RED + "Not a valid number!";
 
     }
 

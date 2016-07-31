@@ -19,7 +19,7 @@ public class History extends Bank {
         setAmountArray(new ArrayList<>());
     }
 
-    private ArrayList<String> getNameArray() {
+    public ArrayList<String> getNameArray() {
         return names;
     }
 

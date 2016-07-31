@@ -115,8 +115,8 @@ class LotteryFunction extends LotteryMessageInit {
             Player p = (Player) player;
             if (getSuspension().getMap().containsKey(p.getUniqueId())) continue;
             if (getExclude().hasPlayer(p.getPlayerListName())) continue;
-            if (getRecentWinner().getWinName().equalsIgnoreCase(p.getPlayerListName()))
-                continue;
+            if (getRecentWinner().getWinName().equalsIgnoreCase(p.getPlayerListName())) continue;
+            if (getHistory().getNameArray().contains(p.getPlayerListName())) continue;
             validPlayers.add((Player) player);
         }
 

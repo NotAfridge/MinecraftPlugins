@@ -34,6 +34,16 @@ class LotteryCommands extends LotteryFunction implements CommandExecutor {
 
                     switch (args[0].toLowerCase()) {
 
+                        case "b":
+                        case "bank":
+                            if (player.hasPermission(adminPermission)) {
+                                if (args.length >= 2)
+                                    commonString.messageSend(LotteryInit.getPlugin(), player, getBank().modify(args[1]));
+                                else
+                                    commonString.messageSend(LotteryInit.getPlugin(), player, "Add or subtract how much?");
+                            } else commonString.messagePermDeny(LotteryInit.getPlugin(), sender);
+                            break;
+
                         case "x":
                         case "e":
                         case "exclude":
@@ -77,7 +87,7 @@ class LotteryCommands extends LotteryFunction implements CommandExecutor {
 
                         case "v":
                         case "version":
-                            commonString.messageSend(LotteryInit.getPlugin(), player, "0.7.12");
+                            commonString.messageSend(LotteryInit.getPlugin(), player, "0.7.14");
                             break;
 
                     }
