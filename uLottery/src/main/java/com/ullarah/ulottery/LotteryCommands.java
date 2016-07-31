@@ -26,7 +26,7 @@ class LotteryCommands implements CommandExecutor {
             Exclude exclude = LotteryInit.getExclude();
 
             if (pause.getPaused()) {
-                sender.sendMessage(pause.getMessage());
+                commonString.messageSend(LotteryInit.getPlugin(), sender, pause.getMessage());
                 return true;
             }
 
