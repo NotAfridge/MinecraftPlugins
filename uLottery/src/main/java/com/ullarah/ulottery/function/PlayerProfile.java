@@ -5,12 +5,12 @@ import org.bukkit.OfflinePlayer;
 
 import java.util.UUID;
 
-public class PlayerProfile {
+public class PlayerProfile extends LotteryInit {
 
     @SuppressWarnings("deprecation")
     public profile lookup(String name) {
 
-        OfflinePlayer player = LotteryInit.getPlugin().getServer().getOfflinePlayer(name);
+        OfflinePlayer player = getPlugin().getServer().getOfflinePlayer(name);
         return (player.hasPlayedBefore()) ? fromPlayer(player) : null;
 
     }

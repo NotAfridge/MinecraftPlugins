@@ -1,39 +1,34 @@
 package com.ullarah.ulottery;
 
 import com.ullarah.ulottery.function.CommonString;
-import com.ullarah.ulottery.message.Exclude;
-import com.ullarah.ulottery.message.History;
-import com.ullarah.ulottery.message.Pause;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
-class LotteryCommands implements CommandExecutor {
+class LotteryCommands extends LotteryMessageInit implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
 
         if (command.getName().equalsIgnoreCase("lottery")) {
 
-            Plugin plugin = LotteryInit.getPlugin();
-            History history = LotteryInit.history;
-            Pause pause = LotteryInit.pause;
-            LotteryFunction function = new LotteryFunction();
             CommonString commonString = new CommonString();
-            Exclude exclude = LotteryInit.getExclude();
+            LotteryFunction lotteryFunction = new LotteryFunction();
 
-            if (pause.getPaused()) {
-                commonString.messageSend(LotteryInit.getPlugin(), sender, pause.getMessage());
+            if (getPause().isPaused()) {
+                commonString.messageSend(LotteryInit.getPlugin(), sender, getPause().getMessage());
                 return true;
             }
 
-            if (sender instanceof ConsoleCommandSender) function.sendConsoleStatistics(sender);
+            if (sender instanceof ConsoleCommandSender) lotteryFunction.sendConsoleStatistics(sender);
             else {
 
                 Player player = (Player) sender;
+
+                @SuppressWarnings("SpellCheckingInspection")
+                String adminPermission = "ulottery.admin";
 
                 if (args.length >= 1) {
 
@@ -42,30 +37,30 @@ class LotteryCommands implements CommandExecutor {
                         case "x":
                         case "e":
                         case "exclude":
-                            if (player.hasPermission("ulottery.admin")) {
+                            if (player.hasPermission(adminPermission)) {
                                 if (args.length >= 2)
-                                    commonString.messageSend(plugin, player, exclude.addPlayer(args[1]));
-                                else commonString.messageSend(plugin, player, "Exclude who?");
-                            } else commonString.messagePermDeny(plugin, sender);
+                                    commonString.messageSend(LotteryInit.getPlugin(), player, getExclude().addPlayer(args[1]));
+                                else commonString.messageSend(LotteryInit.getPlugin(), player, "Exclude who?");
+                            } else commonString.messagePermDeny(LotteryInit.getPlugin(), sender);
                             break;
 
                         case "i":
                         case "include":
-                            if (player.hasPermission("ulottery.admin")) {
+                            if (player.hasPermission(adminPermission)) {
                                 if (args.length >= 2)
-                                    commonString.messageSend(plugin, player, exclude.removePlayer(args[1]));
-                                else commonString.messageSend(plugin, player, "Include who?");
-                            } else commonString.messagePermDeny(plugin, sender);
+                                    commonString.messageSend(LotteryInit.getPlugin(), player, getExclude().removePlayer(args[1]));
+                                else commonString.messageSend(LotteryInit.getPlugin(), player, "Include who?");
+                            } else commonString.messagePermDeny(LotteryInit.getPlugin(), sender);
                             break;
 
                         case "h":
                         case "history":
-                            history.showHistory(player);
+                            getHistory().showHistory(player);
                             break;
 
                     }
 
-                } else function.sendPlayerStatistics(player);
+                } else lotteryFunction.sendPlayerStatistics(player);
 
             }
 

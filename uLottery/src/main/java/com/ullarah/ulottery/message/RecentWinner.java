@@ -2,42 +2,39 @@ package com.ullarah.ulottery.message;
 
 import com.ullarah.ulottery.LotteryInit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 
-public class RecentWinner {
+public class RecentWinner extends Bank {
 
-    private String name;
-    private Integer amount;
+    private String winName;
+    private Integer winAmount;
     private Integer vaultAmount;
     private Integer itemAmount;
-    private Material itemMaterial;
 
     public RecentWinner() {
-        this.name = "";
-        this.amount = 0;
-        this.vaultAmount = 5;
-        this.itemAmount = 2;
-        this.itemMaterial = Material.EMERALD;
+        setWinName("");
+        setWinAmount(0);
+        setVaultAmount(5);
+        setItemAmount(2);
     }
 
     public String getMessage() {
         return this.message();
     }
 
-    public String getName() {
-        return this.name;
+    public String getWinName() {
+        return this.winName;
     }
 
-    public void setName(String s) {
-        this.name = s;
+    public void setWinName(String s) {
+        this.winName = s;
     }
 
-    public Integer getAmount() {
-        return this.amount;
+    public Integer getWinAmount() {
+        return this.winAmount;
     }
 
-    public void setAmount(Integer i) {
-        this.amount = i;
+    public void setWinAmount(Integer i) {
+        this.winAmount = i;
     }
 
     public Integer getVaultAmount() {
@@ -56,24 +53,16 @@ public class RecentWinner {
         this.itemAmount = i;
     }
 
-    public Material getItemMaterial() {
-        return this.itemMaterial;
-    }
-
-    public void setItemMaterial(Material m) {
-        this.itemMaterial = m;
-    }
-
     private String message() {
 
         String sep = ChatColor.RESET + " - ";
 
-        String heading = ChatColor.YELLOW + "  Recent Winner: " + ChatColor.RED + name + ChatColor.WHITE + " - ";
-        String item = " " + itemMaterial.name().replace("_", " ").toLowerCase();
+        String heading = ChatColor.YELLOW + "  Recent Winner: " + ChatColor.RED + getWinName() + sep;
+        String item = " " + getItemMaterial().name().replace("_", " ").toLowerCase();
 
-        return LotteryInit.economy != null
-                ? heading + ChatColor.GREEN + "$" + amount
-                : heading + ChatColor.GREEN + amount + item + (getAmount() > 1 ? "s" : "");
+        return LotteryInit.getEconomy() != null
+                ? heading + ChatColor.GREEN + "$" + getWinAmount()
+                : heading + ChatColor.GREEN + getWinAmount() + item + (getWinAmount() > 1 ? "s" : "");
 
     }
 

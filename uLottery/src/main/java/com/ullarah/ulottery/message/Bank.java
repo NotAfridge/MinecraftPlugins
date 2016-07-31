@@ -1,24 +1,25 @@
 package com.ullarah.ulottery.message;
 
 import com.ullarah.ulottery.LotteryInit;
+import com.ullarah.ulottery.LotteryMessageInit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
-public class Bank {
+public class Bank extends LotteryMessageInit {
 
     private Integer amount;
     private Material itemMaterial;
 
     public Bank() {
-        this.amount = 0;
-        this.itemMaterial = Material.EMERALD;
+        setAmount(0);
+        setItemMaterial(Material.EMERALD);
     }
 
     public String getMessage() {
         return message();
     }
 
-    public Integer getAmount() {
+    public Integer getWinAmount() {
         return amount;
     }
 
@@ -30,8 +31,13 @@ public class Bank {
         return itemMaterial;
     }
 
-    public void setItemMaterial(Material m) {
+    @SuppressWarnings("SameParameterValue")
+    private void setItemMaterial(Material m) {
         itemMaterial = m;
+    }
+
+    public void setItemMaterial(String m) {
+        itemMaterial = Material.getMaterial(m);
     }
 
     private String message() {
@@ -41,17 +47,23 @@ public class Bank {
 
         if (amount > 0) {
 
-            return LotteryInit.economy != null
-                    ? heading + "$" + amount
-                    : heading + amount + item + (getAmount() > 1 ? "s" : "");
+            return LotteryInit.getEconomy() != null
+                    ? heading + "$" + getWinAmount()
+                    : heading + getWinAmount() + item + (getWinAmount() > 1 ? "s" : "");
 
         } else {
 
-            return LotteryInit.economy != null
+            return LotteryInit.getEconomy() != null
                     ? heading + "$" + "0"
                     : heading + "0" + item + "s";
 
         }
+
+    }
+
+    public void reset() {
+
+        setAmount(0);
 
     }
 

@@ -4,19 +4,19 @@ import org.bukkit.ChatColor;
 
 public class Pause {
 
-    private Boolean paused = false;
-    private Integer total = 0;
+    private Boolean paused;
+    private Integer total;
 
     public Pause() {
-        this.paused = false;
-        this.total = 0;
+        setPaused(false);
+        setTotal(0);
     }
 
     public String getMessage() {
         return this.message();
     }
 
-    public Boolean getPaused() {
+    public Boolean isPaused() {
         return this.paused;
     }
 
@@ -34,7 +34,7 @@ public class Pause {
 
     private String message() {
 
-        return "Less than " + ChatColor.YELLOW + total + ChatColor.RESET + " players. Lottery is paused.";
+        return "Less than " + ChatColor.YELLOW + getTotal() + ChatColor.RESET + " players. Lottery is paused.";
 
     }
 

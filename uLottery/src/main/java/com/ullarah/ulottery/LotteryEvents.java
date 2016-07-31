@@ -1,6 +1,5 @@
 package com.ullarah.ulottery;
 
-import com.ullarah.ulottery.message.*;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,41 +11,34 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 @SuppressWarnings("UnusedParameters")
-class LotteryEvents implements Listener {
-
-    private final Bank bank = LotteryInit.bank;
-    private final Block block = LotteryInit.block;
-    private final Countdown countdown = LotteryInit.countdown;
-    private final Pause pause = LotteryInit.pause;
-    private final RecentDeath recentDeath = LotteryInit.recentDeath;
-    private final RecentWinner recentWinner = LotteryInit.recentWinner;
-    private final Suspension suspension = LotteryInit.suspension;
+class LotteryEvents extends LotteryMessageInit implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void playerDeath(PlayerDeathEvent event) {
 
         Player player = event.getEntity();
 
-        if (!pause.getPaused()) {
+        if (!getPause().isPaused()) {
 
-            recentDeath.setName(player.getPlayerListName());
-            countdown.setCount(countdown.getOriginal());
+            getRecentDeath().setName(player.getPlayerListName());
+            getCountdown().setCount(getCountdown().getOriginal());
 
-            recentDeath.getMap().put(player.getUniqueId(),
-                    recentDeath.getMap().containsKey(player.getUniqueId())
-                            ? recentDeath.getMap().get(player.getUniqueId()) + 5
-                            : suspension.getTime());
+            getRecentDeath().getMap().put(player.getUniqueId(),
+                    getRecentDeath().getMap().containsKey(player.getUniqueId())
+                            ? getRecentDeath().getMap().get(player.getUniqueId()) + 5
+                            : getSuspension().getTime());
 
-            if (!suspension.getMap().containsKey(player.getUniqueId())) bank.setAmount(LotteryInit.economy != null
-                    ? bank.getAmount() + recentWinner.getVaultAmount()
-                    : bank.getAmount() + recentWinner.getItemAmount());
+            if (!getSuspension().getMap().containsKey(player.getUniqueId()))
+                getBank().setAmount(LotteryInit.getEconomy() != null
+                        ? getBank().getWinAmount() + getRecentWinner().getVaultAmount()
+                        : getBank().getWinAmount() + getRecentWinner().getItemAmount());
 
-            suspension.getMap().put(player.getUniqueId(),
-                    recentDeath.getMap().get(player.getUniqueId()));
+            getSuspension().getMap().put(player.getUniqueId(),
+                    getRecentDeath().getMap().get(player.getUniqueId()));
 
             String deathMessage = event.getDeathMessage().split(" ", 2)[1];
 
-            recentDeath.setReason(deathMessage.equals("died")
+            getRecentDeath().setReason(deathMessage.equals("died")
                     ? "Mysterious Forces..."
                     : deathMessage.substring(0, 1).toUpperCase() + deathMessage.substring(1));
 
@@ -57,15 +49,15 @@ class LotteryEvents implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void blockBreak(BlockBreakEvent event) {
 
-        if (!pause.getPaused()) if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
+        if (!getPause().isPaused()) if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
 
-            int blocks = block.getAmount();
-            block.setTotal(block.getTotal() + 1);
+            int blocks = getBlock().getAmount();
+            getBlock().setTotal(getBlock().getTotal() + 1);
 
-            if (blocks >= block.getLimit()) {
-                bank.setAmount(bank.getAmount() + 1);
-                block.setAmount(0);
-            } else block.setAmount(blocks + 1);
+            if (blocks >= getBlock().getLimit()) {
+                getBank().setAmount(getBank().getWinAmount() + 1);
+                getBlock().setAmount(0);
+            } else getBlock().setAmount(blocks + 1);
 
         }
 
@@ -75,8 +67,8 @@ class LotteryEvents implements Listener {
     public void playerQuit(PlayerQuitEvent event) {
 
         if (LotteryInit.getPlugin().getServer().getOnlinePlayers().size()
-                < pause.getTotal() && !pause.getPaused())
-            pause.setPaused(true);
+                < getPause().getTotal() && !getPause().isPaused())
+            getPause().setPaused(true);
 
     }
 
@@ -84,8 +76,8 @@ class LotteryEvents implements Listener {
     public void playerJoin(PlayerJoinEvent event) {
 
         if (LotteryInit.getPlugin().getServer().getOnlinePlayers().size()
-                >= pause.getTotal() && pause.getPaused())
-            pause.setPaused(false);
+                >= getPause().getTotal() && getPause().isPaused())
+            getPause().setPaused(false);
 
     }
 

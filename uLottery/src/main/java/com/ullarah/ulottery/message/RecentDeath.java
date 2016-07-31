@@ -7,14 +7,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class RecentDeath {
 
-    private final ConcurrentHashMap<UUID, Integer> map;
+    private ConcurrentHashMap<UUID, Integer> map;
     private String name;
     private String reason;
 
     public RecentDeath() {
-        this.map = new ConcurrentHashMap<>();
-        this.name = "";
-        this.reason = "Unknown";
+        setMap(new ConcurrentHashMap<>());
+        setName("");
+        setReason("Unknown");
     }
 
     public String getMessage() {
@@ -41,13 +41,25 @@ public class RecentDeath {
         return this.map;
     }
 
+    private void setMap(ConcurrentHashMap<UUID, Integer> h) {
+        this.map = h;
+    }
+
     private String message() {
 
         String heading = ChatColor.YELLOW + "Recent Death: " + ChatColor.RED;
 
-        return name.length() == 0
+        return getName().length() == 0
                 ? heading + "Nobody"
                 : heading;
+
+    }
+
+    public void reset() {
+
+        setName("");
+        setReason("");
+        getMap().clear();
 
     }
 

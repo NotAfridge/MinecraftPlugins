@@ -4,26 +4,35 @@ import com.google.common.collect.Lists;
 import com.ullarah.ulottery.LotteryInit;
 import com.ullarah.ulottery.function.CommonString;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class History {
+public class History extends Bank {
 
-    private CommonString commonString = new CommonString();
-    private RecentWinner recentWinner = LotteryInit.recentWinner;
-
-    private ArrayList<String> name;
-    private ArrayList<Integer> amount;
-    private Material itemMaterial;
+    private ArrayList<String> names;
+    private ArrayList<Integer> amounts;
 
     public History() {
-        this.name = new ArrayList<>();
-        this.amount = new ArrayList<>();
-        this.itemMaterial = Material.EMERALD;
+        setNameArray(new ArrayList<>());
+        setAmountArray(new ArrayList<>());
+    }
+
+    private ArrayList<String> getNameArray() {
+        return names;
+    }
+
+    private void setNameArray(ArrayList<String> a) {
+        this.names = a;
+    }
+
+    private ArrayList<Integer> getAmountArray() {
+        return amounts;
+    }
+
+    private void setAmountArray(ArrayList<Integer> a) {
+        this.amounts = a;
     }
 
     public void showHistory(Player player) {
@@ -34,25 +43,18 @@ public class History {
         this.add(name, amount);
     }
 
-    public Material getItemMaterial() {
-        return itemMaterial;
-    }
-
-    public void setItemMaterial(Material m) {
-        itemMaterial = m;
-    }
-
     private void show(Player player) {
 
-        Plugin plugin = LotteryInit.getPlugin();
+        CommonString commonString = new CommonString();
 
-        if (name.isEmpty()) commonString.messageSend(plugin, player, "No Winning History Found.");
+        if (getNameArray().isEmpty())
+            commonString.messageSend(LotteryInit.getPlugin(), player, "No Winning History Found.");
         else {
 
-            commonString.messageSend(plugin, player, "Previous Lottery Winners");
+            commonString.messageSend(LotteryInit.getPlugin(), player, "Previous Lottery Winners");
 
-            List nr = Lists.reverse(name);
-            List ar = Lists.reverse(amount);
+            List nr = Lists.reverse(getNameArray());
+            List ar = Lists.reverse(getAmountArray());
 
             boolean isRecent = true;
 
@@ -63,7 +65,7 @@ public class History {
 
                 String item = " " + getItemMaterial().name().replace("_", " ").toLowerCase();
 
-                String win = LotteryInit.economy != null
+                String win = LotteryInit.getEconomy() != null
                         ? ChatColor.GREEN + "$" + wa.toString()
                         : ChatColor.GREEN + wa.toString() + item + (wa > 1 ? "s" : "");
 
@@ -90,12 +92,12 @@ public class History {
 
     private void add(String n, Integer a) {
 
-        name.add(n);
-        amount.add(a);
+        getNameArray().add(n);
+        getAmountArray().add(a);
 
-        if (name.size() > 10) {
-            name.remove(0);
-            amount.remove(0);
+        if (getNameArray().size() > 10) {
+            getNameArray().remove(0);
+            getAmountArray().remove(0);
         }
 
     }

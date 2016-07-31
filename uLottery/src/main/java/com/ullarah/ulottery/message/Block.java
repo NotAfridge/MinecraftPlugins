@@ -9,9 +9,9 @@ public class Block {
     private Integer limit;
 
     public Block() {
-        this.amount = 0;
-        this.total = 0;
-        this.limit = 1000;
+        setAmount(0);
+        setTotal(0);
+        setLimit(1000);
     }
 
     public String getMessage() {
@@ -44,6 +44,13 @@ public class Block {
 
     private String message() {
         return ChatColor.YELLOW + "  Blocks Broken: ";
+    }
+
+    public void reset() {
+
+        setAmount(0);
+        setTotal(0);
+
     }
 
 }

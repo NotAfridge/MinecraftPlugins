@@ -8,8 +8,8 @@ public class Countdown {
     private Integer original;
 
     public Countdown() {
-        this.count = 60;
-        this.original = this.count;
+        setCount(60);
+        setOriginal(getCount());
     }
 
     public String getMessage() {
@@ -33,7 +33,14 @@ public class Countdown {
     }
 
     private String message() {
-        return ChatColor.YELLOW + "Countdown: " + ChatColor.RED + count + (count > 1 ? " Minutes" : " Minute");
+        return ChatColor.YELLOW + "Countdown: " + ChatColor.RED + getCount()
+                + (getCount() > 1 ? " Minutes" : " Minute");
+    }
+
+    public void reset() {
+
+        setCount(getOriginal());
+
     }
 
 }

@@ -8,12 +8,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Suspension {
 
-    private final ConcurrentHashMap<UUID, Integer> map;
+    private ConcurrentHashMap<UUID, Integer> map;
     private Integer time;
 
     public Suspension() {
-        this.map = new ConcurrentHashMap<>();
-        this.time = 30;
+        setMap(new ConcurrentHashMap<>());
+        setTime(30);
     }
 
     public String getMessage(Player player) {
@@ -32,17 +32,27 @@ public class Suspension {
         return this.map;
     }
 
+    private void setMap(ConcurrentHashMap<UUID, Integer> h) {
+        this.map = h;
+    }
+
     private String message(Player player) {
 
-        if (map.containsKey(player.getUniqueId())) {
+        if (getMap().containsKey(player.getUniqueId())) {
 
-            Integer playerTimeout = map.get(player.getUniqueId());
+            Integer playerTimeout = getMap().get(player.getUniqueId());
 
             String time = (playerTimeout > 1 ? " Minutes" : " Minute");
 
             return ChatColor.YELLOW + "  Suspension: " + ChatColor.RED + playerTimeout + time;
 
         } else return "";
+
+    }
+
+    public void reset() {
+
+        getMap().clear();
 
     }
 

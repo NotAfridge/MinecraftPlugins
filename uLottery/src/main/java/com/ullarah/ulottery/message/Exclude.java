@@ -1,28 +1,34 @@
 package com.ullarah.ulottery.message;
 
 import com.ullarah.ulottery.LotteryInit;
+import com.ullarah.ulottery.LotteryMessageInit;
 import com.ullarah.ulottery.function.PlayerProfile;
 import org.bukkit.ChatColor;
-import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class Exclude {
-
-    private Plugin plugin = LotteryInit.getPlugin();
+public class Exclude extends LotteryMessageInit {
 
     private HashSet<UUID> set;
 
     public Exclude() {
 
-        this.set = new HashSet<>();
+        setSet(new HashSet<>());
 
-        set.addAll(plugin.getConfig().getStringList("exclude")
+        getSet().addAll(LotteryInit.getPlugin().getConfig().getStringList("exclude")
                 .stream().map(UUID::fromString).collect(Collectors.toList()));
 
+    }
+
+    private HashSet<UUID> getSet() {
+        return this.set;
+    }
+
+    private void setSet(HashSet<UUID> h) {
+        this.set = h;
     }
 
     public String addPlayer(String player) {
@@ -53,17 +59,17 @@ public class Exclude {
             return ChatColor.YELLOW + "Player cannot be resolved.";
         }
 
-        if (set.contains(uuid)) {
+        if (getSet().contains(uuid)) {
 
             return ChatColor.RED + player
                     + ChatColor.YELLOW + " already excluded from Lottery.";
 
         } else {
 
-            set.add(uuid);
-            plugin.getConfig().set("exclude",
+            getSet().add(uuid);
+            LotteryInit.getPlugin().getConfig().set("exclude",
                     set.stream().map(UUID::toString).collect(Collectors.toCollection(ArrayList::new)));
-            plugin.saveConfig();
+            LotteryInit.getPlugin().saveConfig();
 
             return ChatColor.YELLOW + "Excluded "
                     + ChatColor.RED + player
@@ -83,12 +89,12 @@ public class Exclude {
             return ChatColor.YELLOW + "Player cannot be resolved.";
         }
 
-        if (set.contains(uuid)) {
+        if (getSet().contains(uuid)) {
 
-            set.remove(uuid);
-            plugin.getConfig().set("exclude",
+            getSet().remove(uuid);
+            LotteryInit.getPlugin().getConfig().set("exclude",
                     set.stream().map(UUID::toString).collect(Collectors.toCollection(ArrayList::new)));
-            plugin.saveConfig();
+            LotteryInit.getPlugin().saveConfig();
 
             return ChatColor.YELLOW + "Included "
                     + ChatColor.RED + player
