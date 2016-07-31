@@ -14,8 +14,11 @@ commands:
     usage: |
       <command> : Shows Help.
       <command> exclude / e / x <player< : Excludes player from lottery.
-      <command> include / i <player> : Includes player to lottery.
+      <command> force / f : Forces lottery win.
       <command> history / h : Shows winning history.
+      <command> include / i <player> : Includes player to lottery.
+      <command> reset / r : Resets lottery.
+      <command> version / v : Shows current plugin version.
 
 permissions:
   ulottery.admin:

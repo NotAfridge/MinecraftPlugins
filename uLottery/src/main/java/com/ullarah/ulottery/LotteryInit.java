@@ -33,7 +33,7 @@ public class LotteryInit extends JavaPlugin {
 
         setPlugin(this);
 
-        LotteryMessageInit.setDefaults(getPlugin().getConfig());
+        new LotteryMessageInit(getPlugin().getConfig());
 
         PluginManager pluginManager = getPlugin().getServer().getPluginManager();
 
@@ -60,7 +60,7 @@ public class LotteryInit extends JavaPlugin {
         if (getPlugin().getServer().getOnlinePlayers().size() < LotteryMessageInit.getPause().getTotal())
             LotteryMessageInit.getPause().setPaused(true);
 
-        LotteryTask.deathLotteryStart();
+        new LotteryTask();
 
     }
 

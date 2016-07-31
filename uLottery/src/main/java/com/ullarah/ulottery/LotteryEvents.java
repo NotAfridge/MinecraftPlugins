@@ -30,8 +30,8 @@ class LotteryEvents extends LotteryMessageInit implements Listener {
 
             if (!getSuspension().getMap().containsKey(player.getUniqueId()))
                 getBank().setAmount(LotteryInit.getEconomy() != null
-                        ? getBank().getWinAmount() + getRecentWinner().getVaultAmount()
-                        : getBank().getWinAmount() + getRecentWinner().getItemAmount());
+                        ? getBank().getAmount() + getRecentWinner().getVaultAmount()
+                        : getBank().getAmount() + getRecentWinner().getItemAmount());
 
             getSuspension().getMap().put(player.getUniqueId(),
                     getRecentDeath().getMap().get(player.getUniqueId()));
@@ -55,7 +55,7 @@ class LotteryEvents extends LotteryMessageInit implements Listener {
             getBlock().setTotal(getBlock().getTotal() + 1);
 
             if (blocks >= getBlock().getLimit()) {
-                getBank().setAmount(getBank().getWinAmount() + 1);
+                getBank().setAmount(getBank().getAmount() + 1);
                 getBlock().setAmount(0);
             } else getBlock().setAmount(blocks + 1);
 

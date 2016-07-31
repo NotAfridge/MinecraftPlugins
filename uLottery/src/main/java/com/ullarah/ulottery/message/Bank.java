@@ -19,7 +19,7 @@ public class Bank extends LotteryMessageInit {
         return message();
     }
 
-    public Integer getWinAmount() {
+    public Integer getAmount() {
         return amount;
     }
 
@@ -31,13 +31,13 @@ public class Bank extends LotteryMessageInit {
         return itemMaterial;
     }
 
+    public void setItemMaterial(String m) {
+        itemMaterial = Material.getMaterial(m);
+    }
+
     @SuppressWarnings("SameParameterValue")
     private void setItemMaterial(Material m) {
         itemMaterial = m;
-    }
-
-    public void setItemMaterial(String m) {
-        itemMaterial = Material.getMaterial(m);
     }
 
     private String message() {
@@ -48,8 +48,8 @@ public class Bank extends LotteryMessageInit {
         if (amount > 0) {
 
             return LotteryInit.getEconomy() != null
-                    ? heading + "$" + getWinAmount()
-                    : heading + getWinAmount() + item + (getWinAmount() > 1 ? "s" : "");
+                    ? heading + "$" + getAmount()
+                    : heading + getAmount() + item + (getAmount() > 1 ? "s" : "");
 
         } else {
 

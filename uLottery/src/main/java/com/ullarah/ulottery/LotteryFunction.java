@@ -1,16 +1,30 @@
 package com.ullarah.ulottery;
 
+import com.ullarah.ulottery.function.Broadcast;
 import com.ullarah.ulottery.function.CommonString;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Random;
 
 class LotteryFunction extends LotteryMessageInit {
 
     private final String sep = ChatColor.RESET + " - ";
+
+    LotteryFunction(FileConfiguration config) {
+        super(config);
+    }
+
+    LotteryFunction() {
+    }
 
     void sendConsoleStatistics(CommandSender sender) {
 
@@ -19,7 +33,7 @@ class LotteryFunction extends LotteryMessageInit {
                         + sep + getRecentDeath().getMessage()
                         + sep + getBlock().getAmount());
 
-        if (getBank().getWinAmount() > 0) sender.sendMessage(getRecentWinner().getWinAmount() > 0
+        if (getBank().getAmount() > 0) sender.sendMessage(getRecentWinner().getWinAmount() > 0
                 ? consoleString + ChatColor.stripColor(sep + getCountdown().getMessage()
                 + sep + getRecentWinner().getWinName())
                 : consoleString + ChatColor.stripColor(sep + getCountdown().getMessage()));
@@ -80,7 +94,7 @@ class LotteryFunction extends LotteryMessageInit {
             player.spigot().sendMessage(blockBreaks);
         }
 
-        if (getBank().getWinAmount() > 0) {
+        if (getBank().getAmount() > 0) {
 
             player.sendMessage(getDuration().getMessage() + sep + getCountdown().getMessage());
             String suspensionMessage = getSuspension().getMessage(player);
@@ -89,6 +103,93 @@ class LotteryFunction extends LotteryMessageInit {
         }
 
         if (getRecentWinner().getWinAmount() > 0) player.sendMessage(getRecentWinner().getMessage());
+
+    }
+
+    private Player getRandomWinner() {
+
+        Collection onlinePlayers = LotteryInit.getPlugin().getServer().getOnlinePlayers();
+        ArrayList<Player> validPlayers = new ArrayList<>();
+
+        for (Object player : onlinePlayers) {
+            Player p = (Player) player;
+            if (getSuspension().getMap().containsKey(p.getUniqueId())) continue;
+            if (getExclude().hasPlayer(p.getPlayerListName())) continue;
+            if (getRecentWinner().getWinName().equalsIgnoreCase(p.getPlayerListName()))
+                continue;
+            validPlayers.add((Player) player);
+        }
+
+        if (validPlayers.isEmpty()) {
+            getCountdown().setCount(getCountdown().getOriginal());
+            return null;
+        }
+
+        return validPlayers.get(new Random().nextInt(validPlayers.size()));
+
+    }
+
+    private String depositWinnings(Player player) {
+
+        if (LotteryInit.getEconomy() != null) {
+
+            LotteryInit.getEconomy().depositPlayer(player, getBank().getAmount());
+            return "$" + getBank().getAmount();
+
+        } else {
+
+            LotteryInit.getPlugin().getServer().getScheduler().runTask(
+                    LotteryInit.getPlugin(), () ->
+                            player.getWorld().dropItemNaturally(player.getEyeLocation(),
+                                    new ItemStack(getBank().getItemMaterial(),
+                                            getBank().getAmount())));
+
+            return getBank().getAmount() + " " + getBank().getItemMaterial().name()
+                    .replace("_", " ").toLowerCase() + (getBank().getAmount() > 1 ? "s" : "");
+        }
+
+    }
+
+    void lotteryFinished() {
+
+        if (getBank().getAmount() > 0) {
+
+            Player player = getRandomWinner();
+
+            if (player == null) return;
+
+            new Broadcast().sendMessage(LotteryInit.getPlugin(), new String[]{
+                    ChatColor.YELLOW + player.getPlayerListName()
+                            + ChatColor.RESET + " won " + ChatColor.GREEN
+                            + depositWinnings(player)
+                            + ChatColor.RESET + " from the Lottery!"
+            });
+
+            getRecentWinner().setWinName(player.getPlayerListName());
+            getRecentWinner().setWinAmount(getBank().getAmount());
+
+            getHistory().addHistory(player.getPlayerListName(), getBank().getAmount());
+
+        }
+
+        resetStatistics();
+
+    }
+
+    void resetStatistics() {
+
+        getCountdown().reset();
+        getDuration().reset();
+        getBank().reset();
+        getBlock().reset();
+        getRecentDeath().reset();
+        getSuspension().reset();
+
+    }
+
+    void forceWin() {
+
+        lotteryFinished();
 
     }
 

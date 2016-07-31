@@ -1,13 +1,14 @@
 package com.ullarah.ulottery;
 
 import com.ullarah.ulottery.function.CommonString;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-class LotteryCommands extends LotteryMessageInit implements CommandExecutor {
+class LotteryCommands extends LotteryFunction implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
@@ -15,14 +16,13 @@ class LotteryCommands extends LotteryMessageInit implements CommandExecutor {
         if (command.getName().equalsIgnoreCase("lottery")) {
 
             CommonString commonString = new CommonString();
-            LotteryFunction lotteryFunction = new LotteryFunction();
 
             if (getPause().isPaused()) {
                 commonString.messageSend(LotteryInit.getPlugin(), sender, getPause().getMessage());
                 return true;
             }
 
-            if (sender instanceof ConsoleCommandSender) lotteryFunction.sendConsoleStatistics(sender);
+            if (sender instanceof ConsoleCommandSender) sendConsoleStatistics(sender);
             else {
 
                 Player player = (Player) sender;
@@ -44,6 +44,20 @@ class LotteryCommands extends LotteryMessageInit implements CommandExecutor {
                             } else commonString.messagePermDeny(LotteryInit.getPlugin(), sender);
                             break;
 
+                        case "f":
+                        case "force":
+                            if (player.hasPermission(adminPermission)) {
+                                if (getBank().getAmount() > 0) lotteryFinished();
+                                else
+                                    commonString.messageSend(LotteryInit.getPlugin(), player, "Nothing in the bank to win.");
+                            } else commonString.messagePermDeny(LotteryInit.getPlugin(), sender);
+                            break;
+
+                        case "h":
+                        case "history":
+                            getHistory().showHistory(player);
+                            break;
+
                         case "i":
                         case "include":
                             if (player.hasPermission(adminPermission)) {
@@ -53,14 +67,22 @@ class LotteryCommands extends LotteryMessageInit implements CommandExecutor {
                             } else commonString.messagePermDeny(LotteryInit.getPlugin(), sender);
                             break;
 
-                        case "h":
-                        case "history":
-                            getHistory().showHistory(player);
+                        case "r":
+                        case "reset":
+                            if (player.hasPermission(adminPermission)) {
+                                resetStatistics();
+                                commonString.messageSend(LotteryInit.getPlugin(), player, ChatColor.RED + "Lottery has been reset.");
+                            } else commonString.messagePermDeny(LotteryInit.getPlugin(), sender);
+                            break;
+
+                        case "v":
+                        case "version":
+                            commonString.messageSend(LotteryInit.getPlugin(), player, "0.7.12");
                             break;
 
                     }
 
-                } else lotteryFunction.sendPlayerStatistics(player);
+                } else sendPlayerStatistics(player);
 
             }
 
