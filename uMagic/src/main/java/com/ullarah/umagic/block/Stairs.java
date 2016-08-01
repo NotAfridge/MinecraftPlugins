@@ -4,9 +4,9 @@ import org.bukkit.block.Block;
 
 public class Stairs {
 
-    public void block(Block b) {
+    public Stairs(Block block) {
 
-        b.setData(b.getData() >= 7 ? (byte) 0 : (byte) (b.getData() + 1));
+        block.setData(block.getData() >= 7 ? (byte) 0 : (byte) (block.getData() + 1));
 
     }
 

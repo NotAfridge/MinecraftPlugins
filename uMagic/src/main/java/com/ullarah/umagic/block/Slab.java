@@ -4,16 +4,16 @@ import org.bukkit.block.Block;
 
 public class Slab {
 
-    public void block(Block b) {
+    public Slab(Block block) {
 
-        switch (b.getData()) {
+        switch (block.getData()) {
 
             case 0:
-                b.setData((byte) 8);
+                block.setData((byte) 8);
                 break;
 
             case 1:
-                b.setData((byte) 9);
+                block.setData((byte) 9);
                 break;
 
         }

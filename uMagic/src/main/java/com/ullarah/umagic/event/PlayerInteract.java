@@ -16,18 +16,17 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 
-public class PlayerInteract implements Listener {
+public class PlayerInteract extends MagicFunctions implements Listener {
 
     @EventHandler
     public void playerInteract(PlayerInteractEvent event) {
 
-        MagicFunctions f = new MagicFunctions();
         Player player = event.getPlayer();
 
         ItemStack inMainHand = player.getInventory().getItemInMainHand(),
                 inOffHand = player.getInventory().getItemInOffHand();
 
-        if (f.checkMagicHoe(inMainHand) ? f.checkMagicHoe(inMainHand) : f.checkMagicHoe(inOffHand)) {
+        if (checkMagicHoe(inMainHand) ? checkMagicHoe(inMainHand) : checkMagicHoe(inOffHand)) {
 
             if (!player.hasPermission("umagic.usage")) {
                 event.setCancelled(true);
@@ -56,56 +55,54 @@ public class PlayerInteract implements Listener {
 
             Block block = event.getClickedBlock();
 
-            if (!f.checkBlock(player, block)) {
+            if (!checkBlock(player, block)) {
                 event.setCancelled(true);
                 return;
             }
 
             switch (block.getType()) {
 
-                case CHEST:
-                case TRAPPED_CHEST:
-                case ENDER_CHEST:
-                    new Chest().block(block);
-                    break;
+                case TRAP_DOOR:
+                case IRON_TRAPDOOR:
+                    new Trapdoor(block);
 
                 case SIGN:
                 case SIGN_POST:
                 case WALL_SIGN:
-                    new Sign().block(block);
+                    new Sign(block);
                     break;
 
                 case RAILS:
-                    new Rails().block(block);
+                    new Rails(block);
                     break;
 
                 case WOOD:
-                    new Wood().block(block);
+                    new Wood(block);
                     break;
 
                 case LADDER:
-                    new Ladder().block(block);
+                    new Ladder(block);
                     break;
 
                 case SAND:
                 case GRAVEL:
-                    new Sand().block(block);
+                    new Sand(block);
                     break;
 
                 case EMERALD_BLOCK:
-                    new Emerald().block(block, player);
+                    new Emerald(block, player);
                     break;
 
                 case BEDROCK:
-                    new Bedrock().block(block, player);
+                    new Bedrock(block, player);
                     break;
 
                 case BARRIER:
-                    new Barrier().block(block);
+                    new Barrier(block);
                     break;
 
                 case REDSTONE_LAMP_OFF:
-                    new Redstone().block(block);
+                    new Redstone(block);
                     break;
 
                 case ACACIA_STAIRS:
@@ -122,42 +119,42 @@ public class PlayerInteract implements Listener {
                 case SMOOTH_STAIRS:
                 case SPRUCE_WOOD_STAIRS:
                 case WOOD_STAIRS:
-                    new Stairs().block(block);
+                    new Stairs(block);
                     break;
 
                 case WOOL:
-                    new Wool().block(block);
+                    new Wool(block);
                     break;
 
                 case CARPET:
-                    new Carpet().block(block);
+                    new Carpet(block);
                     break;
 
                 case LOG:
                 case LOG_2:
-                    new Log().block(block);
+                    new Log(block);
                     break;
 
                 case DOUBLE_STEP:
                 case DOUBLE_STONE_SLAB2:
-                    new Slab().block(block);
+                    new Slab(block);
                     break;
 
                 case STONE_BUTTON:
                 case WOOD_BUTTON:
-                    new Button().block(block);
+                    new Button(block);
                     break;
 
                 case STONE_PLATE:
                 case WOOD_PLATE:
                 case IRON_PLATE:
                 case GOLD_PLATE:
-                    new Plate().block(block);
+                    new Plate(block);
                     break;
 
                 case HUGE_MUSHROOM_1:
                 case HUGE_MUSHROOM_2:
-                    new Mushroom().block(block);
+                    new Mushroom(block);
                     break;
 
             }

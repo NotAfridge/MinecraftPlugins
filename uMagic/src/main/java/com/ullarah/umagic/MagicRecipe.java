@@ -10,7 +10,19 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 class MagicRecipe {
 
-    static final String hoeName = ChatColor.AQUA + "Magical Hoe";
+    private String hoeName;
+
+    MagicRecipe() {
+        setHoeName(ChatColor.AQUA + "Magical Hoe");
+    }
+
+    String getHoeName() {
+        return this.hoeName;
+    }
+
+    private void setHoeName(String name) {
+        this.hoeName = name;
+    }
 
     ItemStack hoe() {
 

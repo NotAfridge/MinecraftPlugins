@@ -5,13 +5,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockRedstoneEvent;
 
-public class BlockRedstone implements Listener {
+public class BlockRedstone extends MagicFunctions implements Listener {
 
     @EventHandler
-    public void event(BlockRedstoneEvent e) {
+    public void event(BlockRedstoneEvent event) {
 
-        MagicFunctions f = new MagicFunctions();
-        if (e.getBlock().hasMetadata(f.metaLamp)) e.setNewCurrent(15);
+        if (event.getBlock().hasMetadata(metaLamp)) event.setNewCurrent(15);
 
     }
 

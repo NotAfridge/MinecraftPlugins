@@ -5,15 +5,15 @@ import org.bukkit.block.Block;
 
 public class Sign {
 
-    public void block(Block b) {
+    public Sign(Block block) {
 
-        org.bukkit.block.Sign s = (org.bukkit.block.Sign) b.getState();
+        org.bukkit.block.Sign sign = (org.bukkit.block.Sign) block.getState();
 
-        String[] l = s.getLines();
-        byte d = b.getData();
+        String[] lines = sign.getLines();
+        byte data = block.getData();
 
-        b.setData(d < 15 ? (byte) (d + 1) : (byte) 0);
-        for (int n = 0; n < 3; n++) s.setLine(n, ChatColor.translateAlternateColorCodes('&', l[n]));
+        block.setData(data < 15 ? (byte) (data + 1) : (byte) 0);
+        for (int n = 0; n < 3; n++) sign.setLine(n, ChatColor.translateAlternateColorCodes('&', lines[n]));
 
     }
 

@@ -5,16 +5,16 @@ import com.ullarah.umagic.MagicInit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
-public class Barrier {
+public class Barrier extends MagicFunctions {
 
-    public void block(Block b) {
+    public Barrier(Block block) {
 
-        MagicFunctions f = new MagicFunctions();
+        if (block.hasMetadata(metaEmBr)) {
 
-        if (b.hasMetadata(f.metaEmBr)) {
-            b.setType(Material.EMERALD_BLOCK);
-            b.removeMetadata(f.metaEmBr, MagicInit.getPlugin());
-            f.removeMetadata(b.getLocation());
+            block.setType(Material.EMERALD_BLOCK);
+            block.removeMetadata(metaEmBr, MagicInit.getPlugin());
+            removeMetadata(block.getLocation());
+
         }
 
     }

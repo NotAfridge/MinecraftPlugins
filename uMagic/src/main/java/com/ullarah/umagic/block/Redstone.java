@@ -7,20 +7,16 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.metadata.FixedMetadataValue;
 
-public class Redstone {
+public class Redstone extends MagicFunctions {
 
-    public void block(Block b) {
+    public Redstone(Block block) {
 
-        MagicFunctions f = new MagicFunctions();
-        FixedMetadataValue m = new FixedMetadataValue(MagicInit.getPlugin(), true);
+        Block blockUnder = block.getRelative(BlockFace.DOWN);
 
-        Block u = b.getRelative(BlockFace.DOWN);
-        Material o = u.getType();
-
-        b.setMetadata(f.metaLamp, m);
-        u.setType(Material.REDSTONE_BLOCK, true);
-        b.getRelative(BlockFace.DOWN).setType(o, true);
-        f.saveMetadata(b.getLocation(), f.metaLamp);
+        block.setMetadata(metaLamp, new FixedMetadataValue(MagicInit.getPlugin(), true));
+        blockUnder.setType(Material.REDSTONE_BLOCK, true);
+        block.getRelative(BlockFace.DOWN).setType(blockUnder.getType(), true);
+        saveMetadata(block.getLocation(), metaLamp);
 
     }
 

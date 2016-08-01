@@ -5,16 +5,16 @@ import com.ullarah.umagic.MagicInit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
-public class Ladder {
+public class Ladder extends MagicFunctions {
 
-    public void block(Block b) {
+    public Ladder(Block block) {
 
-        MagicFunctions f = new MagicFunctions();
+        if (block.hasMetadata(metaLadd)) {
 
-        if (b.hasMetadata(f.metaLadd)) {
-            b.setType(Material.WOOD);
-            b.removeMetadata(f.metaLadd, MagicInit.getPlugin());
-            f.removeMetadata(b.getLocation());
+            block.setType(Material.WOOD);
+            block.removeMetadata(metaLadd, MagicInit.getPlugin());
+            removeMetadata(block.getLocation());
+
         }
 
     }

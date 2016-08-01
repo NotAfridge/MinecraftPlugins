@@ -1,22 +1,22 @@
 package com.ullarah.umagic.block;
 
 import com.ullarah.umagic.MagicFunctions;
-import com.ullarah.umagic.MagicInit;
 import com.ullarah.umagic.function.CommonString;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-public class Bedrock {
+public class Bedrock extends MagicFunctions {
 
-    public void block(Block b, Player p) {
+    public Bedrock(Block block, Player player) {
 
-        CommonString c = new CommonString();
-        MagicFunctions f = new MagicFunctions();
+        if (block.hasMetadata(metaEmBr)) {
 
-        if (b.hasMetadata(f.metaEmBr)) {
-            c.messageSend(MagicInit.getPlugin(), p, "Block converted to Barrier. Be careful!");
-            b.setType(Material.BARRIER);
+            new CommonString().messageSend(player,
+                    "Block converted to Barrier. Be careful!");
+
+            block.setType(Material.BARRIER);
+
         }
 
     }

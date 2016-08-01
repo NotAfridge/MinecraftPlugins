@@ -8,19 +8,19 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 
-public class Emerald {
+public class Emerald extends MagicFunctions {
 
-    public void block(Block b, Player p) {
+    public Emerald(Block block, Player player) {
 
-        CommonString c = new CommonString();
-        MagicFunctions f = new MagicFunctions();
-        FixedMetadataValue m = new FixedMetadataValue(MagicInit.getPlugin(), true);
+        if (player.hasPermission("umagic.danger")) {
 
-        if (p.hasPermission("umagic.danger")) {
-            c.messageSend(MagicInit.getPlugin(), p, "Block converted to Bedrock. Be careful!");
-            b.setType(Material.BEDROCK);
-            b.setMetadata(f.metaEmBr, m);
-            f.saveMetadata(b.getLocation(), f.metaEmBr);
+            new CommonString().messageSend(player,
+                    "Block converted to Bedrock. Be careful!");
+
+            block.setType(Material.BEDROCK);
+            block.setMetadata(metaEmBr, new FixedMetadataValue(MagicInit.getPlugin(), true));
+            saveMetadata(block.getLocation(), metaEmBr);
+
         }
 
     }

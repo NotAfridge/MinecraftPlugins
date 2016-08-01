@@ -56,7 +56,7 @@ public class MagicInit extends JavaPlugin {
 
         }
 
-        new MagicFunctions().initMetadata();
+        new MagicFunctions();
 
     }
 

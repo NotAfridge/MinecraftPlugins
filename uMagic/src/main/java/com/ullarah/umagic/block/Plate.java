@@ -4,9 +4,9 @@ import org.bukkit.block.Block;
 
 public class Plate {
 
-    public void block(Block b) {
+    public Plate(Block block) {
 
-        b.setData((byte) 1);
+        block.setData((byte) 1);
 
     }
 

@@ -4,10 +4,10 @@ import org.bukkit.block.Block;
 
 public class Mushroom {
 
-    public void block(Block b) {
+    public Mushroom(Block block) {
 
-        b.setData(b.getData() < 15 ? b.getData() == 10 ?
-                (byte) 14 : (byte) (b.getData() + 1) : (byte) 0);
+        block.setData(block.getData() < 15 ? block.getData() == 10 ?
+                (byte) 14 : (byte) (block.getData() + 1) : (byte) 0);
 
     }
 

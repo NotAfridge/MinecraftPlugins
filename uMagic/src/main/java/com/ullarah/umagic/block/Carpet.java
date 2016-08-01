@@ -5,18 +5,19 @@ import com.ullarah.umagic.MagicInit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
-public class Carpet {
+public class Carpet extends MagicFunctions {
 
-    public void block(Block b) {
+    public Carpet(Block block) {
 
-        MagicFunctions f = new MagicFunctions();
+        if (block.hasMetadata(metaWool)) {
 
-        if (b.hasMetadata(f.metaWool)) {
-            byte carpetData = b.getData();
-            b.setType(Material.WOOL);
-            b.setData(carpetData);
-            b.removeMetadata(f.metaWool, MagicInit.getPlugin());
-            f.removeMetadata(b.getLocation());
+            byte carpetData = block.getData();
+
+            block.setType(Material.WOOL);
+            block.setData(carpetData);
+            block.removeMetadata(metaWool, MagicInit.getPlugin());
+            removeMetadata(block.getLocation());
+
         }
 
     }

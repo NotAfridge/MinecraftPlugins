@@ -6,18 +6,15 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.metadata.FixedMetadataValue;
 
-public class Wool {
+public class Wool extends MagicFunctions {
 
-    public void block(Block b) {
+    public Wool(Block block) {
 
-        MagicFunctions f = new MagicFunctions();
-        FixedMetadataValue m = new FixedMetadataValue(MagicInit.getPlugin(), true);
-
-        byte woolData = b.getData();
-        b.setType(Material.CARPET);
-        b.setData(woolData);
-        b.setMetadata(f.metaWool, m);
-        f.saveMetadata(b.getLocation(), f.metaWool);
+        byte woolData = block.getData();
+        block.setType(Material.CARPET);
+        block.setData(woolData);
+        block.setMetadata(metaWool, new FixedMetadataValue(MagicInit.getPlugin(), true));
+        saveMetadata(block.getLocation(), metaWool);
 
     }
 

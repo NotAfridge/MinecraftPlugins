@@ -9,28 +9,34 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
-public class BlockBreak implements Listener {
+public class BlockBreak extends MagicFunctions implements Listener {
 
     @EventHandler
-    public void event(BlockBreakEvent e) {
+    public void event(BlockBreakEvent event) {
 
-        MagicFunctions f = new MagicFunctions();
-        Block b = e.getBlock();
+        Block block = event.getBlock();
 
-        for (String meta : new String[]{f.metaSand, f.metaLamp, f.metaWool, f.metaEmBr, f.metaLadd, f.metaRail})
-            if (b.hasMetadata(meta)) {
-                b.removeMetadata(meta, MagicInit.getPlugin());
-                f.removeMetadata(b.getLocation());
+        for (String meta : new String[]{metaSand, metaLamp, metaWool, metaEmBr, metaLadd, metaRail})
+            if (block.hasMetadata(meta)) {
+
+                block.removeMetadata(meta, MagicInit.getPlugin());
+                removeMetadata(block.getLocation());
+
             }
 
-        if (b.getType() == Material.GLASS || b.getType() == Material.STAINED_GLASS)
+        if (block.getType() == Material.GLASS || block.getType() == Material.STAINED_GLASS)
             for (BlockFace face : new BlockFace[]{BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST}) {
-                Block blockNext = b.getRelative(face);
-                if (blockNext.hasMetadata(f.metaLadd)) {
+
+                Block blockNext = block.getRelative(face);
+
+                if (blockNext.hasMetadata(metaLadd)) {
+
                     blockNext.setType(Material.WOOD);
-                    blockNext.removeMetadata(f.metaLadd, MagicInit.getPlugin());
-                    f.removeMetadata(blockNext.getLocation());
+                    blockNext.removeMetadata(metaLadd, MagicInit.getPlugin());
+                    removeMetadata(blockNext.getLocation());
+
                 }
+
             }
 
     }

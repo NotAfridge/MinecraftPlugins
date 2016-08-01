@@ -21,13 +21,12 @@ import java.util.logging.Level;
 
 public class MagicFunctions {
 
-    public final String metaSand = "uMagic.sg";
-    public final String metaLamp = "uMagic.rl";
-    public final String metaWool = "uMagic.wl";
-    public final String metaEmBr = "uMagic.em";
-    public final String metaLadd = "uMagic.ld";
-    public final String metaRail = "uMagic.ra";
-    public final String metaChst = "uMagic.ch";
+    protected final String metaSand = "uMagic.sg";
+    protected final String metaLamp = "uMagic.rl";
+    protected final String metaWool = "uMagic.wl";
+    protected final String metaEmBr = "uMagic.em";
+    protected final String metaLadd = "uMagic.ld";
+    protected final String metaRail = "uMagic.ra";
 
     private final String world = "world";
     private final String locX = "loc.X";
@@ -35,7 +34,11 @@ public class MagicFunctions {
     private final String locZ = "loc.Z";
     private final String data = "data";
 
-    void initMetadata() {
+    public MagicFunctions() {
+        initMetadata();
+    }
+
+    private void initMetadata() {
 
         for (File file : loadMetadata().listFiles()) {
 
@@ -72,7 +75,7 @@ public class MagicFunctions {
 
     }
 
-    public void saveMetadata(Location location, String metadata) {
+    protected void saveMetadata(Location location, String metadata) {
 
         File metadataFile = getMetadata(location);
 
@@ -92,7 +95,7 @@ public class MagicFunctions {
 
     }
 
-    public void removeMetadata(Location location) {
+    protected void removeMetadata(Location location) {
 
         File metadataFile = getMetadata(location);
 
@@ -127,7 +130,7 @@ public class MagicFunctions {
 
     }
 
-    public boolean checkBlock(Player player, Block block) {
+    protected boolean checkBlock(Player player, Block block) {
 
         if (player.hasPermission("umagic.bypass")) return true;
 
@@ -142,25 +145,10 @@ public class MagicFunctions {
 
     }
 
-    public boolean checkMagicHoe(ItemStack item) {
+    protected boolean checkMagicHoe(ItemStack item) {
 
-        if (item.getType() == Material.DIAMOND_HOE) {
-
-            if (item.hasItemMeta()) {
-
-                if (item.getItemMeta().hasDisplayName()) {
-
-                    if (item.getItemMeta().getDisplayName().equals(MagicRecipe.hoeName)) {
-
-                        return true;
-
-                    }
-
-                }
-
-            }
-
-        }
+        if (item.getType() == Material.DIAMOND_HOE) if (item.hasItemMeta()) if (item.getItemMeta().hasDisplayName())
+            if (item.getItemMeta().getDisplayName().equals(new MagicRecipe().getHoeName())) return true;
 
         return false;
 

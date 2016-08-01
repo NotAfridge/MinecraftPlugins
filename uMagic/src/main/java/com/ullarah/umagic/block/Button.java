@@ -4,9 +4,9 @@ import org.bukkit.block.Block;
 
 public class Button {
 
-    public void block(Block b) {
+    public Button(Block block) {
 
-        b.setData((byte) (b.getData() + 8));
+        block.setData((byte) (block.getData() + 8));
 
     }
 
