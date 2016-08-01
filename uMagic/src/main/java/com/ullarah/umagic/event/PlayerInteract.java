@@ -65,6 +65,7 @@ public class PlayerInteract extends MagicFunctions implements Listener {
                 case TRAP_DOOR:
                 case IRON_TRAPDOOR:
                     new Trapdoor(block);
+					break;
 
                 case SIGN:
                 case SIGN_POST:
