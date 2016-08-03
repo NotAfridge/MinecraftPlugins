@@ -11,6 +11,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -30,6 +31,7 @@ public class MagicFunctions {
     protected final String metaSign = "uMagic.si";
     protected final String metaTrch = "uMagic.tc";
     protected final String metaBanr = "uMagic.bn";
+    protected final String metaFram = "uMagic.if";
 
     private final String world = "world";
     private final String locX = "loc.X";
@@ -59,6 +61,11 @@ public class MagicFunctions {
             if (!chunk.isLoaded()) chunk.load();
 
             String metadata = metadataConfig.getString(data);
+
+            metaWorld.getNearbyEntities(location, 2.0, 2.0, 2.0).stream()
+                    .filter(frame -> frame instanceof ItemFrame)
+                    .filter(frame -> frame.getLocation().equals(location))
+                    .forEach(frame -> frame.setMetadata(metadata, new FixedMetadataValue(MagicInit.getPlugin(), true)));
 
             Block block = metaWorld.getBlockAt(location);
 
