@@ -10,7 +10,7 @@ public class BlockPhysics extends MagicFunctions implements Listener {
     @EventHandler
     public void event(BlockPhysicsEvent event) {
 
-        for (String meta : new String[]{metaSand, metaWool, metaLadd, metaRail})
+        for (String meta : new String[]{metaSand, metaWool, metaLadd, metaRail, metaSign, metaTrch, metaBanr})
             if (event.getBlock().hasMetadata(meta)) event.setCancelled(true);
 
     }

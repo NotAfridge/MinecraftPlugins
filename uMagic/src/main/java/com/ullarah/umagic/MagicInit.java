@@ -2,7 +2,6 @@ package com.ullarah.umagic;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.ullarah.umagic.function.EventRegister;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -51,7 +50,7 @@ public class MagicInit extends JavaPlugin {
 
         } else {
 
-            Bukkit.getLogger().log(Level.SEVERE, "WorldGuard plugin not found. Disabling uMagic.");
+            getPlugin().getLogger().log(Level.SEVERE, "WorldGuard plugin not found. Disabling uMagic.");
             pluginManager.disablePlugin(this);
 
         }

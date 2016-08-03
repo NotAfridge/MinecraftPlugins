@@ -62,6 +62,18 @@ public class PlayerInteract extends MagicFunctions implements Listener {
 
             switch (block.getType()) {
 
+                case STANDING_BANNER:
+                case WALL_BANNER:
+                case BANNER:
+                    new Banner(block);
+                    break;
+
+                case TORCH:
+                case REDSTONE_TORCH_OFF:
+                case REDSTONE_TORCH_ON:
+                    new Torch(block);
+                    break;
+
                 case TRAP_DOOR:
                 case IRON_TRAPDOOR:
                     new Trapdoor(block);

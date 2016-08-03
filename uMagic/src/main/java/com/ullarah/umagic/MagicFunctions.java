@@ -27,6 +27,9 @@ public class MagicFunctions {
     protected final String metaEmBr = "uMagic.em";
     protected final String metaLadd = "uMagic.ld";
     protected final String metaRail = "uMagic.ra";
+    protected final String metaSign = "uMagic.si";
+    protected final String metaTrch = "uMagic.tc";
+    protected final String metaBanr = "uMagic.bn";
 
     private final String world = "world";
     private final String locX = "loc.X";
