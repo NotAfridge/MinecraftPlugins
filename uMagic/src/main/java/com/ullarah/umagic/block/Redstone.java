@@ -12,10 +12,11 @@ public class Redstone extends MagicFunctions {
     public Redstone(Block block) {
 
         Block blockUnder = block.getRelative(BlockFace.DOWN);
+        Material blockOriginal = blockUnder.getType();
 
         block.setMetadata(metaLamp, new FixedMetadataValue(MagicInit.getPlugin(), true));
         blockUnder.setType(Material.REDSTONE_BLOCK, true);
-        block.getRelative(BlockFace.DOWN).setType(blockUnder.getType(), true);
+        block.getRelative(BlockFace.DOWN).setType(blockOriginal, true);
         saveMetadata(block.getLocation(), metaLamp);
 
     }
