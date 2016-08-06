@@ -2,11 +2,12 @@ package com.ullarah.umagic.event;
 
 import com.ullarah.umagic.MagicFunctions;
 import com.ullarah.umagic.MagicInit;
-import com.ullarah.umagic.function.CommonString;
+import com.ullarah.umagic.MagicRecipe;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Hanging;
 import org.bukkit.entity.ItemFrame;
+import org.bukkit.entity.Painting;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,11 +21,11 @@ public class FrameDamage extends MagicFunctions implements Listener {
     @EventHandler
     public void event(HangingBreakEvent event) {
 
-        if (event.getEntity() instanceof ItemFrame) {
+        if (event.getEntity() instanceof ItemFrame || event.getEntity() instanceof Painting) {
 
-            Hanging frame = event.getEntity();
+            Hanging hanging = event.getEntity();
 
-            if (frame.hasMetadata(metaFram)) event.setCancelled(true);
+            if (hanging.hasMetadata(metaFram)) event.setCancelled(true);
 
         }
 
@@ -33,18 +34,21 @@ public class FrameDamage extends MagicFunctions implements Listener {
     @EventHandler
     public void event(HangingBreakByEntityEvent event) {
 
-        if (event.getEntity() instanceof ItemFrame) {
+        if (event.getEntity() instanceof ItemFrame || event.getEntity() instanceof Painting) {
 
-            Hanging frame = event.getEntity();
+            Hanging hanging = event.getEntity();
 
             if (event.getRemover() instanceof Player) {
 
                 Player player = (Player) event.getRemover();
+                MagicRecipe recipe = new MagicRecipe();
 
                 ItemStack inMainHand = player.getInventory().getItemInMainHand(),
                         inOffHand = player.getInventory().getItemInOffHand();
 
-                if (checkMagicHoe(inMainHand) ? checkMagicHoe(inMainHand) : checkMagicHoe(inOffHand)) {
+                if (checkMagicHoe(inMainHand, recipe.getHoeExperimentalName())
+                        ? checkMagicHoe(inMainHand, recipe.getHoeExperimentalName())
+                        : checkMagicHoe(inOffHand, recipe.getHoeExperimentalName())) {
 
                     if (!player.hasPermission("umagic.usage")) {
                         event.setCancelled(true);
@@ -56,18 +60,16 @@ public class FrameDamage extends MagicFunctions implements Listener {
                         return;
                     }
 
-                    frame.setMetadata(metaFram, new FixedMetadataValue(MagicInit.getPlugin(), true));
-                    saveMetadata(frame.getLocation(), metaFram);
+                    hanging.setMetadata(metaFram, new FixedMetadataValue(MagicInit.getPlugin(), true));
+                    saveMetadata(hanging.getLocation(), metaFram);
 
-                    new CommonString().messageSend(player, "Floating Item Frame Created.");
-
-                    frame.getWorld().playSound(frame.getLocation(), Sound.UI_BUTTON_CLICK, 0.75f, 0.75f);
+                    hanging.getWorld().playSound(hanging.getLocation(), Sound.UI_BUTTON_CLICK, 0.75f, 0.75f);
                     event.setCancelled(true);
 
-                } else if (frame.hasMetadata(metaFram)) {
+                } else if (hanging.hasMetadata(metaFram)) {
 
-                    frame.removeMetadata(metaFram, MagicInit.getPlugin());
-                    removeMetadata(frame.getLocation());
+                    hanging.removeMetadata(metaFram, MagicInit.getPlugin());
+                    removeMetadata(hanging.getLocation());
 
                 }
 

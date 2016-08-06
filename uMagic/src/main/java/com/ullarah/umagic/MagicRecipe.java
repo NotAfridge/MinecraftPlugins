@@ -8,47 +8,86 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
-class MagicRecipe {
+public class MagicRecipe {
 
-    private String hoeName;
+    private String hoeStableName;
+    private String hoeExperimentalName;
 
-    MagicRecipe() {
-        setHoeName(ChatColor.AQUA + "Magical Hoe");
+    public MagicRecipe() {
+        setHoeStableName(ChatColor.AQUA + "Magical Hoe");
+        setHoeExperimentalName(ChatColor.RED + "Experimental Hoe");
     }
 
-    String getHoeName() {
-        return this.hoeName;
+    public String getHoeStableName() {
+        return this.hoeStableName;
     }
 
-    private void setHoeName(String name) {
-        this.hoeName = name;
+    private void setHoeStableName(String name) {
+        this.hoeStableName = name;
     }
 
-    ItemStack hoe() {
+    public String getHoeExperimentalName() {
+        return this.hoeExperimentalName;
+    }
 
-        ItemStack hoeStack = new ItemStack(Material.DIAMOND_HOE, 1);
-        ItemMeta hoeMeta = hoeStack.getItemMeta();
+    private void setHoeExperimentalName(String name) {
+        this.hoeExperimentalName = name;
+    }
 
-        hoeMeta.setDisplayName(hoeName);
+    ItemStack hoeStable() {
 
-        hoeMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        hoeStack.setItemMeta(hoeMeta);
+        ItemStack hoeStableStack = new ItemStack(Material.DIAMOND_HOE, 1);
+        ItemMeta hoeStableMeta = hoeStableStack.getItemMeta();
 
-        hoeStack.addUnsafeEnchantment(Enchantment.LUCK, 1);
+        hoeStableMeta.setDisplayName(getHoeStableName());
 
-        return hoeStack;
+        hoeStableMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        hoeStableStack.setItemMeta(hoeStableMeta);
+
+        hoeStableStack.addUnsafeEnchantment(Enchantment.LUCK, 1);
+
+        return hoeStableStack;
 
     }
 
-    ShapedRecipe hoeRecipe() {
+    ShapedRecipe hoeStableRecipe() {
 
-        ShapedRecipe hoeRecipe = new ShapedRecipe(hoe());
-        hoeRecipe.shape(" M ", "MHM", " M ");
+        ShapedRecipe hoeStableRecipe = new ShapedRecipe(hoeStable());
+        hoeStableRecipe.shape(" M ", "MHM", " M ");
 
-        hoeRecipe.setIngredient('H', Material.DIAMOND_HOE);
-        hoeRecipe.setIngredient('M', Material.SPECKLED_MELON);
+        hoeStableRecipe.setIngredient('H', Material.DIAMOND_HOE);
+        hoeStableRecipe.setIngredient('M', Material.SPECKLED_MELON);
 
-        return hoeRecipe;
+        return hoeStableRecipe;
+
+    }
+
+    ItemStack hoeExperimental() {
+
+        ItemStack hoeExperimentalStack = new ItemStack(Material.DIAMOND_HOE, 1);
+        ItemMeta hoeExperimentalMeta = hoeExperimentalStack.getItemMeta();
+
+        hoeExperimentalMeta.setDisplayName(getHoeExperimentalName());
+
+        hoeExperimentalMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        hoeExperimentalStack.setItemMeta(hoeExperimentalMeta);
+
+        hoeExperimentalStack.addUnsafeEnchantment(Enchantment.LUCK, 1);
+
+        return hoeExperimentalStack;
+
+    }
+
+    ShapedRecipe hoeExperimentalRecipe() {
+
+        ShapedRecipe hoeExperimentalRecipe = new ShapedRecipe(hoeExperimental());
+        hoeExperimentalRecipe.shape("RMR", "MHM", "RMR");
+
+        hoeExperimentalRecipe.setIngredient('H', Material.DIAMOND_HOE);
+        hoeExperimentalRecipe.setIngredient('M', Material.SPECKLED_MELON);
+        hoeExperimentalRecipe.setIngredient('R', Material.REDSTONE);
+
+        return hoeExperimentalRecipe;
 
     }
 

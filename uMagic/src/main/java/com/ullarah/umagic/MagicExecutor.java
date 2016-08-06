@@ -5,26 +5,29 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.PlayerInventory;
 
-class MagicExecutor implements CommandExecutor {
+class MagicExecutor extends MagicFunctions implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
 
-        if (command.getName().equalsIgnoreCase("hoe")) {
+        if (!(sender instanceof Player)) {
+            new CommonString().messageNoConsole(sender);
+            return true;
+        }
 
-            if (sender.hasPermission("umagic.gethoe")) {
+        Player player = (Player) sender;
+        MagicRecipe recipe = new MagicRecipe();
 
-                Player player = (Player) sender;
+        switch (command.getName().toLowerCase()) {
 
-                PlayerInventory playerInventory = player.getInventory();
-                int firstEmpty = playerInventory.firstEmpty();
+            case "hoe":
+                giveMagicHoe(player, recipe.hoeStable());
+                break;
 
-                if (firstEmpty >= 0) playerInventory.setItem(firstEmpty, new MagicRecipe().hoe());
-                else new CommonString().messageSend(player, "Your inventory is full.");
-
-            }
+            case "xhoe":
+                giveMagicHoe(player, recipe.hoeExperimental());
+                break;
 
         }
 

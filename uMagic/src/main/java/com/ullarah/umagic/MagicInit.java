@@ -43,10 +43,13 @@ public class MagicInit extends JavaPlugin {
 
             setWorldGuard((WorldGuardPlugin) pluginWorldGuard);
 
-            getServer().addRecipe(new MagicRecipe().hoeRecipe());
+            getServer().addRecipe(new MagicRecipe().hoeStableRecipe());
+            getServer().addRecipe(new MagicRecipe().hoeExperimentalRecipe());
+
             new EventRegister().registerAll(getPlugin());
 
             getCommand("hoe").setExecutor(new MagicExecutor());
+            getCommand("xhoe").setExecutor(new MagicExecutor());
 
         } else {
 

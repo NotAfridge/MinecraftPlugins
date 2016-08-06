@@ -3,21 +3,23 @@ package com.ullarah.umagic;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import com.ullarah.umagic.function.CommonString;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 
 public class MagicFunctions {
@@ -155,12 +157,76 @@ public class MagicFunctions {
 
     }
 
-    protected boolean checkMagicHoe(ItemStack item) {
+    protected boolean checkMagicHoe(ItemStack item, String hoe) {
 
         if (item.getType() == Material.DIAMOND_HOE) if (item.hasItemMeta()) if (item.getItemMeta().hasDisplayName())
-            if (item.getItemMeta().getDisplayName().equals(new MagicRecipe().getHoeName())) return true;
+            if (item.getItemMeta().getDisplayName().equals(hoe)) return true;
 
         return false;
+
+    }
+
+    protected boolean checkHoeInteract(PlayerInteractEvent event, Player player, Block block) {
+
+        if (!player.hasPermission("umagic.usage")) {
+            event.setCancelled(true);
+            return false;
+        }
+
+        if (!player.getGameMode().equals(GameMode.SURVIVAL)) {
+            event.setCancelled(true);
+            return false;
+        }
+
+        if (event.getAction().equals(Action.PHYSICAL)) {
+            if (new ArrayList<Material>() {{
+                add(Material.STONE_PLATE);
+                add(Material.WOOD_PLATE);
+                add(Material.IRON_PLATE);
+                add(Material.GOLD_PLATE);
+            }}.contains(event.getClickedBlock().getType())) {
+                event.setCancelled(true);
+                return false;
+            }
+        }
+
+        if (event.getAction() == Action.LEFT_CLICK_AIR
+                || event.getAction() == Action.RIGHT_CLICK_AIR) {
+            event.setCancelled(true);
+            return false;
+        }
+
+        if (!checkBlock(player, block)) {
+            event.setCancelled(true);
+            return false;
+        }
+
+        return true;
+
+    }
+
+    protected void displayParticles(Player player, Block block) {
+
+        double bX = block.getLocation().getX() + 0.5,
+                bY = block.getLocation().getY() + 1,
+                bZ = block.getLocation().getZ() + 0.5;
+
+        player.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, bX, bY, bZ, 15);
+        block.getWorld().playSound(block.getLocation(), Sound.UI_BUTTON_CLICK, 0.75f, 0.75f);
+
+    }
+
+    void giveMagicHoe(Player player, ItemStack hoe) {
+
+        if (player.hasPermission("umagic.gethoe")) {
+
+            PlayerInventory playerInventory = player.getInventory();
+            int firstEmpty = playerInventory.firstEmpty();
+
+            if (firstEmpty >= 0) playerInventory.setItem(firstEmpty, hoe);
+            else new CommonString().messageSend(player, "Your inventory is full.");
+
+        }
 
     }
 
