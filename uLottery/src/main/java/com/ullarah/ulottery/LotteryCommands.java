@@ -17,11 +17,6 @@ class LotteryCommands extends LotteryFunction implements CommandExecutor {
 
             CommonString commonString = new CommonString();
 
-            if (getPause().isPaused()) {
-                commonString.messageSend(LotteryInit.getPlugin(), sender, getPause().getMessage());
-                return true;
-            }
-
             if (sender instanceof ConsoleCommandSender) sendConsoleStatistics(sender);
             else {
 
@@ -92,7 +87,16 @@ class LotteryCommands extends LotteryFunction implements CommandExecutor {
 
                     }
 
-                } else sendPlayerStatistics(player);
+                } else {
+
+                    if (getPause().isPaused()) {
+                        commonString.messageSend(LotteryInit.getPlugin(), sender, getPause().getMessage());
+                        return true;
+                    }
+
+                    sendPlayerStatistics(player);
+
+                }
 
             }
 

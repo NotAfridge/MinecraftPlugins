@@ -1,16 +1,16 @@
 package com.ullarah.ulottery.function;
 
-import com.ullarah.ulottery.LotteryInit;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import java.util.UUID;
 
-public class PlayerProfile extends LotteryInit {
+public class PlayerProfile {
 
     @SuppressWarnings("deprecation")
     public profile lookup(String name) {
 
-        OfflinePlayer player = getPlugin().getServer().getOfflinePlayer(name);
+        OfflinePlayer player = Bukkit.getOfflinePlayer(name);
         return (player.hasPlayedBefore()) ? fromPlayer(player) : null;
 
     }
