@@ -31,6 +31,14 @@ public class PlayerInteract extends MagicFunctions implements Listener {
 
                 switch (block.getType()) {
 
+                    case HAY_BLOCK:
+                        new Bed(block);
+                        break;
+
+                    case BED_BLOCK:
+                        new Bed(block);
+                        break;
+
                     case TRAP_DOOR:
                     case IRON_TRAPDOOR:
                         new Trapdoor(block);
@@ -125,6 +133,18 @@ public class PlayerInteract extends MagicFunctions implements Listener {
             if (checkHoeInteract(event, player, block)) {
 
                 switch (block.getType()) {
+
+                    case FURNACE:
+                        new Furnace(block, player);
+                        break;
+
+                    case BURNING_FURNACE:
+                        new FurnaceBurn(block);
+                        break;
+
+                    case VINE:
+                        new Vines(block);
+                        break;
 
                     case STANDING_BANNER:
                     case WALL_BANNER:

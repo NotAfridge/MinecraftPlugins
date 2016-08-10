@@ -8,6 +8,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
+
 public class MagicRecipe {
 
     private String hoeStableName;
@@ -68,6 +70,12 @@ public class MagicRecipe {
         ItemMeta hoeExperimentalMeta = hoeExperimentalStack.getItemMeta();
 
         hoeExperimentalMeta.setDisplayName(getHoeExperimentalName());
+
+        ArrayList<String> hoeLore = new ArrayList<>();
+        hoeLore.add(ChatColor.RED + "Use this at your own risk!");
+        hoeLore.add(ChatColor.YELLOW + "If anything breaks, it's your own fault!");
+
+        hoeExperimentalMeta.setLore(hoeLore);
 
         hoeExperimentalMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         hoeExperimentalStack.setItemMeta(hoeExperimentalMeta);

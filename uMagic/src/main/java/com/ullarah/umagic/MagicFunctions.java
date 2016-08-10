@@ -15,6 +15,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.io.File;
@@ -34,12 +35,16 @@ public class MagicFunctions {
     protected final String metaTrch = "uMagic.tc";
     protected final String metaBanr = "uMagic.bn";
     protected final String metaFram = "uMagic.if";
-
+    protected final String metaVine = "uMagic.vn";
+    protected final String metaFurn = "uMagic.fc";
+    protected final String metaBeds = "uMagic.be";
     private final String world = "world";
     private final String locX = "loc.X";
     private final String locY = "loc.Y";
     private final String locZ = "loc.Z";
     private final String data = "data";
+    private String furnaceFuel = "" + ChatColor.DARK_RED + ChatColor.ITALIC + ChatColor.GREEN + ChatColor.BOLD;
+    private String furnaceSmelt = "" + ChatColor.BOLD + ChatColor.ITALIC + ChatColor.YELLOW;
 
     public MagicFunctions() {
         initMetadata();
@@ -228,6 +233,22 @@ public class MagicFunctions {
 
         }
 
+    }
+
+    public ItemStack getFurnaceFuel() {
+        ItemStack fuel = new ItemStack(Material.COAL);
+        ItemMeta meta = fuel.getItemMeta();
+        meta.setDisplayName(this.furnaceFuel);
+        fuel.setItemMeta(meta);
+        return fuel;
+    }
+
+    public ItemStack getFurnaceSmelt() {
+        ItemStack smelt = new ItemStack(Material.LOG);
+        ItemMeta meta = smelt.getItemMeta();
+        meta.setDisplayName(this.furnaceFuel);
+        smelt.setItemMeta(meta);
+        return smelt;
     }
 
 }

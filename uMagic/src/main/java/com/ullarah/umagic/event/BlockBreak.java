@@ -16,9 +16,11 @@ public class BlockBreak extends MagicFunctions implements Listener {
 
         Block block = event.getBlock();
 
-        for (String meta : new String[]{metaSand, metaLamp, metaWool, metaEmBr,
-                metaLadd, metaRail, metaSign, metaTrch, metaBanr})
+        for (String meta : new String[]{metaSand, metaLamp, metaWool, metaEmBr, metaVine, metaFurn,
+                metaLadd, metaRail, metaSign, metaTrch, metaBanr, metaBeds})
             if (block.hasMetadata(meta)) {
+
+                if (block.hasMetadata(metaBeds)) block.setType(Material.HAY_BLOCK);
 
                 block.removeMetadata(meta, MagicInit.getPlugin());
                 removeMetadata(block.getLocation());
