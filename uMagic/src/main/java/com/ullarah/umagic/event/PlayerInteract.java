@@ -31,6 +31,10 @@ public class PlayerInteract extends MagicFunctions implements Listener {
 
                 switch (block.getType()) {
 
+                    case TRIPWIRE_HOOK:
+                        new Triphook(block);
+                        break;
+
                     case HAY_BLOCK:
                         new Bed(block);
                         break;
