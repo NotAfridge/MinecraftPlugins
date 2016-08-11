@@ -9,15 +9,29 @@ public class Torch extends MagicFunctions {
 
     public Torch(Block block) {
 
-        byte newData;
+        switch (block.getData()) {
 
-        if (block.getData() >= 5) {
-            newData = (byte) 0;
-        } else {
-            newData = (byte) (block.getData() + 1);
+            case 1:
+                block.setData((byte) 3);
+                break;
+
+            case 2:
+                block.setData((byte) 4);
+                break;
+
+            case 3:
+                block.setData((byte) 2);
+                break;
+
+            case 4:
+                block.setData((byte) 5);
+                break;
+
+            case 5:
+                block.setData((byte) 1);
+                break;
+
         }
-
-        block.setData(newData);
 
         block.setMetadata(metaTrch, new FixedMetadataValue(MagicInit.getPlugin(), true));
         saveMetadata(block.getLocation(), metaTrch);
