@@ -38,11 +38,13 @@ public class MagicFunctions {
     protected final String metaVine = "uMagic.vn";
     protected final String metaFurn = "uMagic.fc";
     protected final String metaBeds = "uMagic.be";
+
     private final String world = "world";
     private final String locX = "loc.X";
     private final String locY = "loc.Y";
     private final String locZ = "loc.Z";
     private final String data = "data";
+
     private String furnaceFuel = "" + ChatColor.DARK_RED + ChatColor.ITALIC + ChatColor.GREEN + ChatColor.BOLD;
     private String furnaceSmelt = "" + ChatColor.BOLD + ChatColor.ITALIC + ChatColor.YELLOW;
 
@@ -235,7 +237,7 @@ public class MagicFunctions {
 
     }
 
-    public ItemStack getFurnaceFuel() {
+    protected ItemStack getFurnaceFuel() {
         ItemStack fuel = new ItemStack(Material.COAL);
         ItemMeta meta = fuel.getItemMeta();
         meta.setDisplayName(this.furnaceFuel);
@@ -243,10 +245,10 @@ public class MagicFunctions {
         return fuel;
     }
 
-    public ItemStack getFurnaceSmelt() {
+    protected ItemStack getFurnaceSmelt() {
         ItemStack smelt = new ItemStack(Material.LOG);
         ItemMeta meta = smelt.getItemMeta();
-        meta.setDisplayName(this.furnaceFuel);
+        meta.setDisplayName(this.furnaceSmelt);
         smelt.setItemMeta(meta);
         return smelt;
     }
