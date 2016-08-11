@@ -17,6 +17,8 @@ public class Bed extends MagicFunctions {
             block.setMetadata(metaBeds, new FixedMetadataValue(MagicInit.getPlugin(), true));
             saveMetadata(block.getLocation(), metaBeds);
 
+            displayParticles(block);
+
         }
 
         if (block.hasMetadata(metaBeds)) {
@@ -27,6 +29,8 @@ public class Bed extends MagicFunctions {
 
             if (data == 3) block.setData((byte) 8);
             if (data == 11) block.setData((byte) 0);
+
+            displayParticles(block);
 
         }
 

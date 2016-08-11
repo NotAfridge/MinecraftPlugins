@@ -27,6 +27,8 @@ public class Banner extends MagicFunctions {
         block.setMetadata(metaBanr, new FixedMetadataValue(MagicInit.getPlugin(), true));
         saveMetadata(block.getLocation(), metaBanr);
 
+        displayParticles(block);
+
     }
 
 }

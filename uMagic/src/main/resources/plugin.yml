@@ -12,11 +12,7 @@ commands:
   hoe:
     description: Hoe Crafting Command
     usage: |
-      <command> : Crafts a magical hoe.
-  xhoe:
-    description: Hoe Crafting Command
-    usage: |
-      <command> : Crafts a experimental magical hoe.
+      <command> : Gives a magical hoe.
 
 permissions:
   umagic.danger:

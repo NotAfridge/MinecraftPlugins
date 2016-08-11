@@ -16,8 +16,11 @@ public class Redstone extends MagicFunctions {
 
         block.setMetadata(metaLamp, new FixedMetadataValue(MagicInit.getPlugin(), true));
         blockUnder.setType(Material.REDSTONE_BLOCK, true);
+
         block.getRelative(BlockFace.DOWN).setType(blockOriginal, true);
         saveMetadata(block.getLocation(), metaLamp);
+
+        displayParticles(block);
 
     }
 

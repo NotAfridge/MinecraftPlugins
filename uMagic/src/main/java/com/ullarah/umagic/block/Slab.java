@@ -1,8 +1,9 @@
 package com.ullarah.umagic.block;
 
+import com.ullarah.umagic.MagicFunctions;
 import org.bukkit.block.Block;
 
-public class Slab {
+public class Slab extends MagicFunctions {
 
     public Slab(Block block) {
 
@@ -10,10 +11,12 @@ public class Slab {
 
             case 0:
                 block.setData((byte) 8);
+                displayParticles(block);
                 break;
 
             case 1:
                 block.setData((byte) 9);
+                displayParticles(block);
                 break;
 
         }

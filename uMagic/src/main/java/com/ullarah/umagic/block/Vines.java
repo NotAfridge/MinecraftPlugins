@@ -15,6 +15,8 @@ public class Vines extends MagicFunctions {
         block.setMetadata(metaVine, new FixedMetadataValue(MagicInit.getPlugin(), true));
         saveMetadata(block.getLocation(), metaVine);
 
+        displayParticles(block);
+
     }
 
 }

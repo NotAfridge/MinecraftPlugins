@@ -11,10 +11,14 @@ public class Wool extends MagicFunctions {
     public Wool(Block block) {
 
         byte woolData = block.getData();
+
         block.setType(Material.CARPET);
         block.setData(woolData);
+
         block.setMetadata(metaWool, new FixedMetadataValue(MagicInit.getPlugin(), true));
         saveMetadata(block.getLocation(), metaWool);
+
+        displayParticles(block);
 
     }
 

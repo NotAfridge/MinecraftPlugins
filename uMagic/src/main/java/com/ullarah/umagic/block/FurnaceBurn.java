@@ -24,6 +24,8 @@ public class FurnaceBurn extends MagicFunctions {
 
             block.setType(Material.FURNACE);
 
+            displayParticles(block);
+
         }
 
     }

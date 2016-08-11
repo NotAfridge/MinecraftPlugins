@@ -12,6 +12,8 @@ public class Rails extends MagicFunctions {
         block.setMetadata(metaRail, new FixedMetadataValue(MagicInit.getPlugin(), true));
         saveMetadata(block.getLocation(), metaRail);
 
+        displayParticles(block);
+
     }
 
 }

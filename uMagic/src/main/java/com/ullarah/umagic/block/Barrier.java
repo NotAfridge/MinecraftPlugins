@@ -15,6 +15,8 @@ public class Barrier extends MagicFunctions {
             block.removeMetadata(metaEmBr, MagicInit.getPlugin());
             removeMetadata(block.getLocation());
 
+            displayParticles(block);
+
         }
 
     }

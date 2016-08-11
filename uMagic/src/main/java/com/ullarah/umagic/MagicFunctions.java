@@ -13,6 +13,7 @@ import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -149,7 +150,7 @@ public class MagicFunctions {
 
     }
 
-    protected boolean checkBlock(Player player, Block block) {
+    private boolean checkBlock(Player player, Block block) {
 
         if (player.hasPermission("umagic.bypass")) return true;
 
@@ -164,16 +165,25 @@ public class MagicFunctions {
 
     }
 
-    protected boolean checkMagicHoe(ItemStack item, String hoe) {
+    protected boolean usingMagicHoe(Player player) {
 
-        if (item.getType() == Material.DIAMOND_HOE) if (item.hasItemMeta()) if (item.getItemMeta().hasDisplayName())
-            if (item.getItemMeta().getDisplayName().equals(hoe)) return true;
+        MagicRecipe recipe = new MagicRecipe();
+        ItemStack inMainHand = player.getInventory().getItemInMainHand();
+
+        if (inMainHand.getType() == Material.DIAMOND_HOE)
+            if (inMainHand.hasItemMeta()) if (inMainHand.getItemMeta().hasDisplayName())
+                if (inMainHand.getItemMeta().getDisplayName().equals(recipe.getHoeStableName())) return true;
 
         return false;
 
     }
 
     protected boolean checkHoeInteract(PlayerInteractEvent event, Player player, Block block) {
+
+        if (event.getHand() == EquipmentSlot.OFF_HAND) {
+            event.setCancelled(true);
+            return false;
+        }
 
         if (!player.hasPermission("umagic.usage")) {
             event.setCancelled(true);
@@ -197,8 +207,8 @@ public class MagicFunctions {
             }
         }
 
-        if (event.getAction() == Action.LEFT_CLICK_AIR
-                || event.getAction() == Action.RIGHT_CLICK_AIR) {
+        if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_AIR
+                || event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.PHYSICAL) {
             event.setCancelled(true);
             return false;
         }
@@ -212,13 +222,13 @@ public class MagicFunctions {
 
     }
 
-    protected void displayParticles(Player player, Block block) {
+    protected void displayParticles(Block block) {
 
         double bX = block.getLocation().getX() + 0.5,
-                bY = block.getLocation().getY() + 1,
+                bY = block.getLocation().getY() + 0.5,
                 bZ = block.getLocation().getZ() + 0.5;
 
-        player.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, bX, bY, bZ, 15);
+        block.getWorld().spawnParticle(Particle.CRIT_MAGIC, bX, bY, bZ, 25);
         block.getWorld().playSound(block.getLocation(), Sound.UI_BUTTON_CLICK, 0.75f, 0.75f);
 
     }
@@ -238,19 +248,27 @@ public class MagicFunctions {
     }
 
     protected ItemStack getFurnaceFuel() {
+
         ItemStack fuel = new ItemStack(Material.COAL);
         ItemMeta meta = fuel.getItemMeta();
+
         meta.setDisplayName(this.furnaceFuel);
         fuel.setItemMeta(meta);
+
         return fuel;
+
     }
 
     protected ItemStack getFurnaceSmelt() {
+
         ItemStack smelt = new ItemStack(Material.LOG);
         ItemMeta meta = smelt.getItemMeta();
+
         meta.setDisplayName(this.furnaceSmelt);
         smelt.setItemMeta(meta);
+
         return smelt;
+
     }
 
 }

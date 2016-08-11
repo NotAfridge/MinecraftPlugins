@@ -17,6 +17,8 @@ public class Bedrock extends MagicFunctions {
 
             block.setType(Material.BARRIER);
 
+            displayParticles(block);
+
         }
 
     }

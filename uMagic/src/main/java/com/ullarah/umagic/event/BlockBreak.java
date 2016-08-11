@@ -6,13 +6,19 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
 public class BlockBreak extends MagicFunctions implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void event(BlockBreakEvent event) {
+
+        if (usingMagicHoe(event.getPlayer())) {
+            event.setCancelled(true);
+            return;
+        }
 
         Block block = event.getBlock();
 

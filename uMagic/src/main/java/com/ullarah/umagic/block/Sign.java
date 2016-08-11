@@ -21,6 +21,8 @@ public class Sign extends MagicFunctions {
         block.setMetadata(metaSign, new FixedMetadataValue(MagicInit.getPlugin(), true));
         saveMetadata(block.getLocation(), metaSign);
 
+        displayParticles(block);
+
     }
 
 }

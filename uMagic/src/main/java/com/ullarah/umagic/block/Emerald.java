@@ -18,8 +18,11 @@ public class Emerald extends MagicFunctions {
                     "Block converted to Bedrock. Be careful!");
 
             block.setType(Material.BEDROCK);
+
             block.setMetadata(metaEmBr, new FixedMetadataValue(MagicInit.getPlugin(), true));
             saveMetadata(block.getLocation(), metaEmBr);
+
+            displayParticles(block);
 
         }
 

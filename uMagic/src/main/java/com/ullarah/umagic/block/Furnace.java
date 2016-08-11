@@ -41,6 +41,8 @@ public class Furnace extends MagicFunctions {
         block.setMetadata(metaFurn, new FixedMetadataValue(MagicInit.getPlugin(), true));
         saveMetadata(block.getLocation(), metaFurn);
 
+        displayParticles(block);
+
     }
 
 }

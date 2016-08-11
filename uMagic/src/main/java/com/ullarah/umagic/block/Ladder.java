@@ -12,8 +12,11 @@ public class Ladder extends MagicFunctions {
         if (block.hasMetadata(metaLadd)) {
 
             block.setType(Material.WOOD);
+
             block.removeMetadata(metaLadd, MagicInit.getPlugin());
             removeMetadata(block.getLocation());
+
+            displayParticles(block);
 
         }
 

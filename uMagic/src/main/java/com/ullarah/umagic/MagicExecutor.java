@@ -25,10 +25,6 @@ class MagicExecutor extends MagicFunctions implements CommandExecutor {
                 giveMagicHoe(player, recipe.hoeStable());
                 break;
 
-            case "xhoe":
-                giveMagicHoe(player, recipe.hoeExperimental());
-                break;
-
         }
 
         return true;

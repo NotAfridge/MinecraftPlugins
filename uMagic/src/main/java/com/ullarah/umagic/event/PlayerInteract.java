@@ -1,31 +1,25 @@
 package com.ullarah.umagic.event;
 
 import com.ullarah.umagic.MagicFunctions;
-import com.ullarah.umagic.MagicRecipe;
 import com.ullarah.umagic.block.*;
+import com.ullarah.umagic.function.CommonString;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 
 public class PlayerInteract extends MagicFunctions implements Listener {
 
-    @EventHandler
-    public void playerInteract(PlayerInteractEvent event) {
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void event(PlayerInteractEvent event) {
 
         Player player = event.getPlayer();
-        MagicRecipe recipe = new MagicRecipe();
+        Block block = event.getClickedBlock();
 
-        ItemStack inMainHand = player.getInventory().getItemInMainHand(),
-                inOffHand = player.getInventory().getItemInOffHand();
-
-        if (checkMagicHoe(inMainHand, recipe.getHoeStableName())
-                ? checkMagicHoe(inMainHand, recipe.getHoeStableName())
-                : checkMagicHoe(inOffHand, recipe.getHoeStableName())) {
-
-            Block block = event.getClickedBlock();
+        if (usingMagicHoe(player)) {
 
             if (checkHoeInteract(event, player, block)) {
 
@@ -118,26 +112,6 @@ public class PlayerInteract extends MagicFunctions implements Listener {
                         new Mushroom(block);
                         break;
 
-                }
-
-                displayParticles(player, block);
-
-            }
-
-            event.setCancelled(true);
-
-        }
-
-        if (checkMagicHoe(inMainHand, recipe.getHoeExperimentalName())
-                ? checkMagicHoe(inMainHand, recipe.getHoeExperimentalName())
-                : checkMagicHoe(inOffHand, recipe.getHoeExperimentalName())) {
-
-            Block block = event.getClickedBlock();
-
-            if (checkHoeInteract(event, player, block)) {
-
-                switch (block.getType()) {
-
                     case FURNACE:
                         new Furnace(block, player);
                         break;
@@ -183,12 +157,26 @@ public class PlayerInteract extends MagicFunctions implements Listener {
                         new Barrier(block);
                         break;
 
-                }
+                    default:
+                        event.setCancelled(true);
+                        break;
 
-                displayParticles(player, block);
+                }
 
             }
 
+        }
+
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void event(PlayerSwapHandItemsEvent event) {
+
+        Player player = event.getPlayer();
+
+        if (usingMagicHoe(player)) {
+
+            new CommonString().messageSend(player, "Cannot be used in off-hand slot.");
             event.setCancelled(true);
 
         }

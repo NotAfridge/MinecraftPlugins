@@ -12,6 +12,8 @@ public class Sand extends MagicFunctions {
         block.setMetadata(metaSand, new FixedMetadataValue(MagicInit.getPlugin(), true));
         saveMetadata(block.getLocation(), metaSand);
 
+        displayParticles(block);
+
     }
 
 }

@@ -15,8 +15,11 @@ public class Carpet extends MagicFunctions {
 
             block.setType(Material.WOOL);
             block.setData(carpetData);
+
             block.removeMetadata(metaWool, MagicInit.getPlugin());
             removeMetadata(block.getLocation());
+
+            displayParticles(block);
 
         }
 

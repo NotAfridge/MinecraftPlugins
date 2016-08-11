@@ -38,6 +38,8 @@ public class Wood extends MagicFunctions {
                 block.setMetadata(metaLadd, new FixedMetadataValue(MagicInit.getPlugin(), true));
                 saveMetadata(block.getLocation(), metaLadd);
 
+                displayParticles(block);
+
             }
         }
 
