@@ -34,8 +34,8 @@ public class MagicRecipe {
         hoeMeta.setDisplayName(getHoeDisplayName());
 
         ArrayList<String> hoeLore = new ArrayList<>();
-        hoeLore.add(ChatColor.RED + "Use this at your own risk!");
-        hoeLore.add(ChatColor.YELLOW + "If anything breaks, it's your own fault!");
+        hoeLore.add("" + ChatColor.RED + ChatColor.BOLD + "Use it at your own risk!");
+        hoeLore.add(ChatColor.RED + "If anything breaks, it's your own fault!");
 
         hoeMeta.setLore(hoeLore);
 

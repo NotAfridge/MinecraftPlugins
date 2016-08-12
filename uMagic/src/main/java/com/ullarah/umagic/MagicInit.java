@@ -10,23 +10,23 @@ import java.util.logging.Level;
 
 public class MagicInit extends JavaPlugin {
 
-    private Plugin plugin;
-    private WorldGuardPlugin worldGuard;
+    static private Plugin plugin;
+    static private WorldGuardPlugin worldGuard;
 
-    private Plugin getPlugin() {
+    static Plugin getPlugin() {
         return plugin;
     }
 
     private void setPlugin(Plugin plugin) {
-        this.plugin = plugin;
+        MagicInit.plugin = plugin;
     }
 
-    private WorldGuardPlugin getWorldGuard() {
+    static WorldGuardPlugin getWorldGuard() {
         return worldGuard;
     }
 
     private void setWorldGuard(WorldGuardPlugin worldGuard) {
-        this.worldGuard = worldGuard;
+        MagicInit.worldGuard = worldGuard;
     }
 
     public void onEnable() {
@@ -49,9 +49,7 @@ public class MagicInit extends JavaPlugin {
 
             getCommand("hoe").setExecutor(new MagicExecutor());
 
-            System.out.println(this.plugin);
-
-            new MagicFunctions(getPlugin(), getWorldGuard());
+            new MagicFunctions(true);
 
         } else {
 

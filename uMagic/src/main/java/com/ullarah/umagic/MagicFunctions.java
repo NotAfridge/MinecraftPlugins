@@ -68,19 +68,18 @@ public class MagicFunctions {
     private WorldGuardPlugin worldGuard;
     private CommonString commonString;
 
-    public MagicFunctions(Plugin plugin, WorldGuardPlugin worldGuard) {
+    public MagicFunctions() {
 
-        setPlugin(plugin);
-        setWorldGuard(worldGuard);
-        setCommonString(new CommonString(plugin));
-
-        initMetadata();
+        setPlugin(MagicInit.getPlugin());
+        setWorldGuard(MagicInit.getWorldGuard());
+        setCommonString(new CommonString(getPlugin()));
 
     }
 
-    public MagicFunctions() {
+    public MagicFunctions(boolean runInit) {
 
-        super();
+        setPlugin(MagicInit.getPlugin());
+        if (runInit) initMetadata();
 
     }
 

@@ -32,8 +32,6 @@ public class Torch extends MagicFunctions {
 
         }
 
-        System.out.println(getPlugin());
-
         block.setMetadata(metaTrch, new FixedMetadataValue(getPlugin(), true));
         saveMetadata(block.getLocation(), metaTrch);
 
