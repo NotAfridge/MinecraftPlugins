@@ -42,12 +42,14 @@ public class MagicFunctions {
     protected final String metaVine = "uMagic.vn";
     protected final String metaFurn = "uMagic.fc";
     protected final String metaBeds = "uMagic.be";
+    protected final String metaFire = "uMagic.fi";
 
     private final String world = "world";
     private final String locX = "loc.X";
     private final String locY = "loc.Y";
     private final String locZ = "loc.Z";
     private final String data = "data";
+
     private final Material[] validMagicBlocks = new Material[]{
             Material.TRIPWIRE_HOOK, Material.HAY_BLOCK, Material.BED_BLOCK, Material.TRAP_DOOR, Material.IRON_TRAPDOOR,
             Material.SIGN, Material.SIGN_POST, Material.WALL_SIGN, Material.REDSTONE_LAMP_OFF, Material.ACACIA_STAIRS,
@@ -60,10 +62,12 @@ public class MagicFunctions {
             Material.HUGE_MUSHROOM_1, Material.HUGE_MUSHROOM_2, Material.FURNACE, Material.BURNING_FURNACE,
             Material.VINE, Material.BANNER, Material.STANDING_BANNER, Material.WALL_BANNER, Material.TORCH,
             Material.REDSTONE_TORCH_OFF, Material.REDSTONE_TORCH_ON, Material.RAILS, Material.SAND, Material.GRAVEL,
-            Material.EMERALD_BLOCK, Material.BEDROCK, Material.BARRIER
+            Material.EMERALD_BLOCK, Material.BEDROCK, Material.BARRIER, Material.NETHERRACK
     };
+
     private final String furnaceFuel = "" + ChatColor.DARK_RED + ChatColor.ITALIC + ChatColor.GREEN + ChatColor.BOLD;
     private final String furnaceSmelt = "" + ChatColor.BOLD + ChatColor.ITALIC + ChatColor.YELLOW;
+
     private Plugin plugin;
     private WorldGuardPlugin worldGuard;
     private CommonString commonString;

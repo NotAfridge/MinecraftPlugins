@@ -156,6 +156,10 @@ public class PlayerInteract extends MagicFunctions implements Listener {
                         new Barrier(block);
                         break;
 
+                    case NETHERRACK:
+                        new Netherrack(block);
+                        break;
+
                     default:
                         event.setCancelled(true);
                         break;
