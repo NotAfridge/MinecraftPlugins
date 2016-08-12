@@ -1,11 +1,25 @@
 package com.ullarah.umagic.function;
 
-import com.ullarah.umagic.MagicInit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 public class CommonString {
+
+    private Plugin plugin;
+
+    public CommonString(Plugin plugin) {
+        setPlugin(plugin);
+    }
+
+    public Plugin getPlugin() {
+        return this.plugin;
+    }
+
+    private void setPlugin(Plugin plugin) {
+        this.plugin = plugin;
+    }
 
     /**
      * The name of the plugin placed in prefix format
@@ -14,7 +28,7 @@ public class CommonString {
      */
     private String pluginPrefix() {
 
-        return ChatColor.GOLD + "[" + MagicInit.getPlugin().getName() + "] " + ChatColor.WHITE;
+        return ChatColor.GOLD + "[" + getPlugin().getName() + "] " + ChatColor.WHITE;
 
     }
 

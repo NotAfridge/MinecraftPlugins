@@ -9,8 +9,6 @@ public class Trapdoor extends MagicFunctions {
 
         block.setData(block.getData() >= 8 ? (byte) 3 : (byte) (block.getData() + 1));
 
-        displayParticles(block);
-
     }
 
 }

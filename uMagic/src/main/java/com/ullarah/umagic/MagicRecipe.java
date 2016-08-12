@@ -12,51 +12,51 @@ import java.util.ArrayList;
 
 public class MagicRecipe {
 
-    private String hoeStableName;
+    private String hoeDisplayName;
 
     public MagicRecipe() {
-        setHoeStableName(ChatColor.AQUA + "Magical Hoe");
+        setHoeDisplayName(ChatColor.AQUA + "Magical Hoe");
     }
 
-    public String getHoeStableName() {
-        return this.hoeStableName;
+    public String getHoeDisplayName() {
+        return this.hoeDisplayName;
     }
 
-    private void setHoeStableName(String name) {
-        this.hoeStableName = name;
+    private void setHoeDisplayName(String name) {
+        this.hoeDisplayName = name;
     }
 
-    ItemStack hoeStable() {
+    ItemStack hoe() {
 
-        ItemStack hoeStableStack = new ItemStack(Material.DIAMOND_HOE, 1);
-        ItemMeta hoeStableMeta = hoeStableStack.getItemMeta();
+        ItemStack hoeStack = new ItemStack(Material.DIAMOND_HOE, 1);
+        ItemMeta hoeMeta = hoeStack.getItemMeta();
 
-        hoeStableMeta.setDisplayName(getHoeStableName());
+        hoeMeta.setDisplayName(getHoeDisplayName());
 
         ArrayList<String> hoeLore = new ArrayList<>();
         hoeLore.add(ChatColor.RED + "Use this at your own risk!");
         hoeLore.add(ChatColor.YELLOW + "If anything breaks, it's your own fault!");
 
-        hoeStableMeta.setLore(hoeLore);
+        hoeMeta.setLore(hoeLore);
 
-        hoeStableMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        hoeStableStack.setItemMeta(hoeStableMeta);
+        hoeMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        hoeStack.setItemMeta(hoeMeta);
 
-        hoeStableStack.addUnsafeEnchantment(Enchantment.LUCK, 1);
+        hoeStack.addUnsafeEnchantment(Enchantment.LUCK, 1);
 
-        return hoeStableStack;
+        return hoeStack;
 
     }
 
-    ShapedRecipe hoeStableRecipe() {
+    ShapedRecipe recipe() {
 
-        ShapedRecipe hoeStableRecipe = new ShapedRecipe(hoeStable());
-        hoeStableRecipe.shape("RMR", "MHM", "RMR");
+        ShapedRecipe hoeRecipe = new ShapedRecipe(hoe());
+        hoeRecipe.shape("RMR", "MHM", "RMR");
 
-        hoeStableRecipe.setIngredient('H', Material.DIAMOND_HOE);
-        hoeStableRecipe.setIngredient('M', Material.SPECKLED_MELON);
+        hoeRecipe.setIngredient('H', Material.DIAMOND_HOE);
+        hoeRecipe.setIngredient('M', Material.SPECKLED_MELON);
 
-        return hoeStableRecipe;
+        return hoeRecipe;
 
     }
 

@@ -1,7 +1,6 @@
 package com.ullarah.umagic.block;
 
 import com.ullarah.umagic.MagicFunctions;
-import com.ullarah.umagic.MagicInit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -35,10 +34,8 @@ public class Wood extends MagicFunctions {
                         break;
                 }
 
-                block.setMetadata(metaLadd, new FixedMetadataValue(MagicInit.getPlugin(), true));
+                block.setMetadata(metaLadd, new FixedMetadataValue(getPlugin(), true));
                 saveMetadata(block.getLocation(), metaLadd);
-
-                displayParticles(block);
 
             }
         }

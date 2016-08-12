@@ -1,7 +1,6 @@
 package com.ullarah.umagic.block;
 
 import com.ullarah.umagic.MagicFunctions;
-import com.ullarah.umagic.MagicInit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -14,13 +13,11 @@ public class Redstone extends MagicFunctions {
         Block blockUnder = block.getRelative(BlockFace.DOWN);
         Material blockOriginal = blockUnder.getType();
 
-        block.setMetadata(metaLamp, new FixedMetadataValue(MagicInit.getPlugin(), true));
+        block.setMetadata(metaLamp, new FixedMetadataValue(getPlugin(), true));
         blockUnder.setType(Material.REDSTONE_BLOCK, true);
 
         block.getRelative(BlockFace.DOWN).setType(blockOriginal, true);
         saveMetadata(block.getLocation(), metaLamp);
-
-        displayParticles(block);
 
     }
 

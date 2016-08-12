@@ -17,8 +17,6 @@ public class Triphook extends MagicFunctions {
         for (int[] iA : new int[][]{northHook, eastHook, southHook, westHook})
             block.setData((data == iA[3] ? (byte) iA[0] : (byte) (data + 4)));
 
-        displayParticles(block);
-
     }
 
 }

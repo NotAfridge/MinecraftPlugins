@@ -1,5 +1,6 @@
 package com.ullarah.umagic;
 
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
@@ -18,10 +19,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 
 public class MagicFunctions {
@@ -45,12 +48,68 @@ public class MagicFunctions {
     private final String locY = "loc.Y";
     private final String locZ = "loc.Z";
     private final String data = "data";
+    private final Material[] validMagicBlocks = new Material[]{
+            Material.TRIPWIRE_HOOK, Material.HAY_BLOCK, Material.BED_BLOCK, Material.TRAP_DOOR, Material.IRON_TRAPDOOR,
+            Material.SIGN, Material.SIGN_POST, Material.WALL_SIGN, Material.REDSTONE_LAMP_OFF, Material.ACACIA_STAIRS,
+            Material.BIRCH_WOOD_STAIRS, Material.BRICK_STAIRS, Material.COBBLESTONE_STAIRS, Material.DARK_OAK_STAIRS,
+            Material.JUNGLE_WOOD_STAIRS, Material.NETHER_BRICK_STAIRS, Material.PURPUR_STAIRS, Material.QUARTZ_STAIRS,
+            Material.RED_SANDSTONE_STAIRS, Material.SANDSTONE_STAIRS, Material.SMOOTH_STAIRS, Material.SPRUCE_WOOD_STAIRS,
+            Material.WOOD_STAIRS, Material.WOOL, Material.CARPET, Material.WOOD, Material.LADDER, Material.LOG,
+            Material.LOG_2, Material.DOUBLE_STEP, Material.DOUBLE_STONE_SLAB2, Material.STONE_BUTTON,
+            Material.WOOD_BUTTON, Material.GOLD_PLATE, Material.IRON_PLATE, Material.STONE_PLATE, Material.WOOD_PLATE,
+            Material.HUGE_MUSHROOM_1, Material.HUGE_MUSHROOM_2, Material.FURNACE, Material.BURNING_FURNACE,
+            Material.VINE, Material.BANNER, Material.STANDING_BANNER, Material.WALL_BANNER, Material.TORCH,
+            Material.REDSTONE_TORCH_OFF, Material.REDSTONE_TORCH_ON, Material.RAILS, Material.SAND, Material.GRAVEL,
+            Material.EMERALD_BLOCK, Material.BEDROCK, Material.BARRIER
+    };
+    private final String furnaceFuel = "" + ChatColor.DARK_RED + ChatColor.ITALIC + ChatColor.GREEN + ChatColor.BOLD;
+    private final String furnaceSmelt = "" + ChatColor.BOLD + ChatColor.ITALIC + ChatColor.YELLOW;
+    private Plugin plugin;
+    private WorldGuardPlugin worldGuard;
+    private CommonString commonString;
 
-    private String furnaceFuel = "" + ChatColor.DARK_RED + ChatColor.ITALIC + ChatColor.GREEN + ChatColor.BOLD;
-    private String furnaceSmelt = "" + ChatColor.BOLD + ChatColor.ITALIC + ChatColor.YELLOW;
+    public MagicFunctions(Plugin plugin, WorldGuardPlugin worldGuard) {
+
+        setPlugin(plugin);
+        setWorldGuard(worldGuard);
+        setCommonString(new CommonString(plugin));
+
+        initMetadata();
+
+    }
 
     public MagicFunctions() {
-        initMetadata();
+
+        super();
+
+    }
+
+    private Material[] getValidMagicBlocks() {
+        return validMagicBlocks;
+    }
+
+    protected Plugin getPlugin() {
+        return plugin;
+    }
+
+    private void setPlugin(Plugin plugin) {
+        this.plugin = plugin;
+    }
+
+    private WorldGuardPlugin getWorldGuard() {
+        return worldGuard;
+    }
+
+    private void setWorldGuard(WorldGuardPlugin worldGuard) {
+        this.worldGuard = worldGuard;
+    }
+
+    protected CommonString getCommonString() {
+        return commonString;
+    }
+
+    private void setCommonString(CommonString commonString) {
+        this.commonString = commonString;
     }
 
     private void initMetadata() {
@@ -59,7 +118,7 @@ public class MagicFunctions {
 
             FileConfiguration metadataConfig = YamlConfiguration.loadConfiguration(file);
 
-            World metaWorld = MagicInit.getPlugin().getServer().getWorld(metadataConfig.getString(world));
+            World metaWorld = getPlugin().getServer().getWorld(metadataConfig.getString(world));
 
             double lX = metadataConfig.getDouble(locX),
                     lY = metadataConfig.getDouble(locY),
@@ -75,11 +134,11 @@ public class MagicFunctions {
             metaWorld.getNearbyEntities(location, 2.0, 2.0, 2.0).stream()
                     .filter(frame -> frame instanceof ItemFrame)
                     .filter(frame -> frame.getLocation().equals(location))
-                    .forEach(frame -> frame.setMetadata(metadata, new FixedMetadataValue(MagicInit.getPlugin(), true)));
+                    .forEach(frame -> frame.setMetadata(metadata, new FixedMetadataValue(getPlugin(), true)));
 
             Block block = metaWorld.getBlockAt(location);
 
-            block.setMetadata(metadata, new FixedMetadataValue(MagicInit.getPlugin(), true));
+            block.setMetadata(metadata, new FixedMetadataValue(getPlugin(), true));
 
             if (block.getType() == Material.REDSTONE_LAMP_OFF) {
 
@@ -122,7 +181,7 @@ public class MagicFunctions {
         boolean fileDeleted = metadataFile.delete();
 
         if (!fileDeleted)
-            MagicInit.getPlugin().getLogger().log(Level.SEVERE,
+            getPlugin().getLogger().log(Level.SEVERE,
                     "Metadata file could not be deleted: " + metadataFile.toString());
 
     }
@@ -131,7 +190,7 @@ public class MagicFunctions {
 
         boolean metadataFileCreation = true;
 
-        File dataDir = MagicInit.getPlugin().getDataFolder();
+        File dataDir = getPlugin().getDataFolder();
         if (!dataDir.exists()) metadataFileCreation = dataDir.mkdir();
 
         File metadataDir = new File(dataDir + File.separator + "metadata");
@@ -154,12 +213,12 @@ public class MagicFunctions {
 
         if (player.hasPermission("umagic.bypass")) return true;
 
-        RegionManager regionManager = MagicInit.getWorldGuard().getRegionManager(block.getWorld());
+        RegionManager regionManager = getWorldGuard().getRegionManager(block.getWorld());
         ApplicableRegionSet applicableRegionSet = regionManager.getApplicableRegions(block.getLocation());
 
         if (applicableRegionSet.getRegions().isEmpty()) return false;
         for (ProtectedRegion r : applicableRegionSet.getRegions())
-            if (!r.isOwner(MagicInit.getWorldGuard().wrapPlayer(player))) return false;
+            if (!r.isOwner(getWorldGuard().wrapPlayer(player))) return false;
 
         return true;
 
@@ -172,7 +231,7 @@ public class MagicFunctions {
 
         if (inMainHand.getType() == Material.DIAMOND_HOE)
             if (inMainHand.hasItemMeta()) if (inMainHand.getItemMeta().hasDisplayName())
-                if (inMainHand.getItemMeta().getDisplayName().equals(recipe.getHoeStableName())) return true;
+                if (inMainHand.getItemMeta().getDisplayName().equals(recipe.getHoeDisplayName())) return true;
 
         return false;
 
@@ -218,11 +277,29 @@ public class MagicFunctions {
             return false;
         }
 
-        return true;
+        if (Arrays.asList(getValidMagicBlocks()).contains(block.getType())) {
+
+            ItemStack inMainHand = player.getInventory().getItemInMainHand();
+
+            displayParticles(block);
+
+            inMainHand.setDurability((short) (inMainHand.getDurability() + 25));
+
+            if (inMainHand.getDurability() >= inMainHand.getType().getMaxDurability()) {
+                player.getInventory().clear(player.getInventory().getHeldItemSlot());
+                player.playSound(player.getLocation(), Sound.ENTITY_ITEM_BREAK, 0.75f, 0.75f);
+            }
+
+            return true;
+
+        }
+
+        event.setCancelled(true);
+        return false;
 
     }
 
-    protected void displayParticles(Block block) {
+    private void displayParticles(Block block) {
 
         double bX = block.getLocation().getX() + 0.5,
                 bY = block.getLocation().getY() + 0.5,
@@ -241,7 +318,7 @@ public class MagicFunctions {
             int firstEmpty = playerInventory.firstEmpty();
 
             if (firstEmpty >= 0) playerInventory.setItem(firstEmpty, hoe);
-            else new CommonString().messageSend(player, "Your inventory is full.");
+            else getCommonString().messageSend(player, "Your inventory is full.");
 
         }
 

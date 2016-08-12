@@ -1,7 +1,6 @@
 package com.ullarah.umagic.block;
 
 import com.ullarah.umagic.MagicFunctions;
-import com.ullarah.umagic.MagicInit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
@@ -19,12 +18,10 @@ public class FurnaceBurn extends MagicFunctions {
 
             furnace.update();
 
-            block.removeMetadata(metaFurn, MagicInit.getPlugin());
+            block.removeMetadata(metaFurn, getPlugin());
             removeMetadata(block.getLocation());
 
             block.setType(Material.FURNACE);
-
-            displayParticles(block);
 
         }
 

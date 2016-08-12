@@ -11,12 +11,10 @@ public class Slab extends MagicFunctions {
 
             case 0:
                 block.setData((byte) 8);
-                displayParticles(block);
                 break;
 
             case 1:
                 block.setData((byte) 9);
-                displayParticles(block);
                 break;
 
         }

@@ -7,17 +7,32 @@ import java.security.CodeSource;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-public class EventRegister {
+public class PluginRegisters {
 
     /**
-     * Registers all different types for minecraft reference
+     * Registers all types for minecraft reference
      * This will search the plugin source for valid entry points
      * <p>
      * Requires proper package names
      *
      * @param plugin the current plugin used
      */
-    public void registerAll(Plugin plugin) {
+    public PluginRegisters(Plugin plugin) {
+
+        for (RegisterType type : RegisterType.values()) register(plugin, type);
+
+    }
+
+    /**
+     * Registers specific type for minecraft reference
+     * This will search the plugin source for valid entry points
+     * <p>
+     * Requires proper package names
+     *
+     * @param plugin the current plugin used
+     * @param type   the type of object that is being registered
+     */
+    private void register(Plugin plugin, RegisterType type) {
 
         try {
 
@@ -30,7 +45,7 @@ public class EventRegister {
                 while (true) {
 
                     String pluginPackage = plugin.getClass().getPackage().getName().toLowerCase();
-                    String classPackage = pluginPackage + "." + RegisterType.EVENT.toString().toLowerCase();
+                    String classPackage = pluginPackage + "." + type.toString().toLowerCase();
 
                     ZipEntry entry = stream.getNextEntry();
 
@@ -46,7 +61,7 @@ public class EventRegister {
                         className = className.replace(classPath, "").replace(".class", "");
                         Object classInstance = Class.forName(classPackage + "." + className).newInstance();
 
-                        switch (RegisterType.EVENT) {
+                        switch (type) {
 
                             case EVENT:
                                 plugin.getServer().getPluginManager().registerEvents((Listener) classInstance, plugin);
@@ -66,7 +81,7 @@ public class EventRegister {
 
     }
 
-    public enum RegisterType {
+    private enum RegisterType {
 
         EVENT("event");
 

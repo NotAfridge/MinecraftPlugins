@@ -10,8 +10,6 @@ public class Mushroom extends MagicFunctions {
         block.setData(block.getData() < 15 ? block.getData() == 10 ?
                 (byte) 14 : (byte) (block.getData() + 1) : (byte) 0);
 
-        displayParticles(block);
-
     }
 
 }

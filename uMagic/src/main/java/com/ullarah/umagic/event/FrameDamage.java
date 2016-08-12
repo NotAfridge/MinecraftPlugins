@@ -1,7 +1,6 @@
 package com.ullarah.umagic.event;
 
 import com.ullarah.umagic.MagicFunctions;
-import com.ullarah.umagic.MagicInit;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Hanging;
@@ -53,7 +52,7 @@ public class FrameDamage extends MagicFunctions implements Listener {
                         return;
                     }
 
-                    hanging.setMetadata(metaFram, new FixedMetadataValue(MagicInit.getPlugin(), true));
+                    hanging.setMetadata(metaFram, new FixedMetadataValue(getPlugin(), true));
                     saveMetadata(hanging.getLocation(), metaFram);
 
                     hanging.getWorld().playSound(hanging.getLocation(), Sound.UI_BUTTON_CLICK, 0.75f, 0.75f);
@@ -61,7 +60,7 @@ public class FrameDamage extends MagicFunctions implements Listener {
 
                 } else if (hanging.hasMetadata(metaFram)) {
 
-                    hanging.removeMetadata(metaFram, MagicInit.getPlugin());
+                    hanging.removeMetadata(metaFram, getPlugin());
                     removeMetadata(hanging.getLocation());
 
                 }

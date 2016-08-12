@@ -1,6 +1,6 @@
 package com.ullarah.umagic;
 
-import com.ullarah.umagic.function.CommonString;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,7 +12,7 @@ class MagicExecutor extends MagicFunctions implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
 
         if (!(sender instanceof Player)) {
-            new CommonString().messageNoConsole(sender);
+            getCommonString().messageNoConsole(sender);
             return true;
         }
 
@@ -22,7 +22,8 @@ class MagicExecutor extends MagicFunctions implements CommandExecutor {
         switch (command.getName().toLowerCase()) {
 
             case "hoe":
-                giveMagicHoe(player, recipe.hoeStable());
+                giveMagicHoe(player, recipe.hoe());
+                player.playSound(player.getLocation(), Sound.BLOCK_LAVA_POP, 0.75f, 0.75f);
                 break;
 
         }

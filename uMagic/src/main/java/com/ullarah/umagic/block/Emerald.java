@@ -1,8 +1,6 @@
 package com.ullarah.umagic.block;
 
 import com.ullarah.umagic.MagicFunctions;
-import com.ullarah.umagic.MagicInit;
-import com.ullarah.umagic.function.CommonString;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -14,15 +12,12 @@ public class Emerald extends MagicFunctions {
 
         if (player.hasPermission("umagic.danger")) {
 
-            new CommonString().messageSend(player,
-                    "Block converted to Bedrock. Be careful!");
+            getCommonString().messageSend(player, "Block converted to Bedrock. Be careful!");
 
             block.setType(Material.BEDROCK);
 
-            block.setMetadata(metaEmBr, new FixedMetadataValue(MagicInit.getPlugin(), true));
+            block.setMetadata(metaEmBr, new FixedMetadataValue(getPlugin(), true));
             saveMetadata(block.getLocation(), metaEmBr);
-
-            displayParticles(block);
 
         }
 

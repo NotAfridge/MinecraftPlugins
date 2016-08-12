@@ -1,7 +1,6 @@
 package com.ullarah.umagic.block;
 
 import com.ullarah.umagic.MagicFunctions;
-import com.ullarah.umagic.MagicInit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
@@ -12,10 +11,8 @@ public class Barrier extends MagicFunctions {
         if (block.hasMetadata(metaEmBr)) {
 
             block.setType(Material.EMERALD_BLOCK);
-            block.removeMetadata(metaEmBr, MagicInit.getPlugin());
+            block.removeMetadata(metaEmBr, getPlugin());
             removeMetadata(block.getLocation());
-
-            displayParticles(block);
 
         }
 

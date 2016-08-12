@@ -1,7 +1,6 @@
 package com.ullarah.umagic.event;
 
 import com.ullarah.umagic.MagicFunctions;
-import com.ullarah.umagic.MagicInit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -28,7 +27,7 @@ public class BlockBreak extends MagicFunctions implements Listener {
 
                 if (block.hasMetadata(metaBeds)) block.setType(Material.HAY_BLOCK);
 
-                block.removeMetadata(meta, MagicInit.getPlugin());
+                block.removeMetadata(meta, getPlugin());
                 removeMetadata(block.getLocation());
 
             }
@@ -41,7 +40,7 @@ public class BlockBreak extends MagicFunctions implements Listener {
                 if (blockNext.hasMetadata(metaLadd)) {
 
                     blockNext.setType(Material.WOOD);
-                    blockNext.removeMetadata(metaLadd, MagicInit.getPlugin());
+                    blockNext.removeMetadata(metaLadd, getPlugin());
                     removeMetadata(blockNext.getLocation());
 
                 }

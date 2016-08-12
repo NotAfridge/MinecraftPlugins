@@ -1,8 +1,6 @@
 package com.ullarah.umagic.block;
 
 import com.ullarah.umagic.MagicFunctions;
-import com.ullarah.umagic.MagicInit;
-import com.ullarah.umagic.function.CommonString;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -15,18 +13,10 @@ public class Furnace extends MagicFunctions {
 
         org.bukkit.block.Furnace furnace = (org.bukkit.block.Furnace) block.getState();
 
-        if (furnace.getInventory().getFuel() != null) {
-            new CommonString().messageSend(player, noChange);
-            return;
-        }
-
-        if (furnace.getInventory().getSmelting() != null) {
-            new CommonString().messageSend(player, noChange);
-            return;
-        }
-
-        if (furnace.getInventory().getResult() != null) {
-            new CommonString().messageSend(player, noChange);
+        if (furnace.getInventory().getFuel() != null
+                || furnace.getInventory().getSmelting() != null
+                || furnace.getInventory().getResult() != null) {
+            getCommonString().messageSend(player, noChange);
             return;
         }
 
@@ -38,10 +28,8 @@ public class Furnace extends MagicFunctions {
         furnace.setCookTime((short) Integer.MAX_VALUE);
         furnace.setBurnTime((short) Integer.MAX_VALUE);
 
-        block.setMetadata(metaFurn, new FixedMetadataValue(MagicInit.getPlugin(), true));
+        block.setMetadata(metaFurn, new FixedMetadataValue(getPlugin(), true));
         saveMetadata(block.getLocation(), metaFurn);
-
-        displayParticles(block);
 
     }
 

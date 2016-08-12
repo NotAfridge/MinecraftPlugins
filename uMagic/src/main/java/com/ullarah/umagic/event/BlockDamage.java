@@ -1,7 +1,6 @@
 package com.ullarah.umagic.event;
 
 import com.ullarah.umagic.MagicFunctions;
-import com.ullarah.umagic.function.CommonString;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -20,7 +19,7 @@ public class BlockDamage extends MagicFunctions implements Listener {
 
                 if (!usingMagicHoe(event.getPlayer())) {
 
-                    new CommonString().messageSend(event.getPlayer(),
+                    getCommonString().messageSend(event.getPlayer(),
                             "Magical block detected, convert back using Magic Hoe.");
 
                     event.setCancelled(true);
@@ -30,9 +29,6 @@ public class BlockDamage extends MagicFunctions implements Listener {
             }
 
         }
-
-
-
 
 
     }

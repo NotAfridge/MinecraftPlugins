@@ -1,7 +1,6 @@
 package com.ullarah.umagic.block;
 
 import com.ullarah.umagic.MagicFunctions;
-import com.ullarah.umagic.MagicInit;
 import org.bukkit.block.Block;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -33,10 +32,10 @@ public class Torch extends MagicFunctions {
 
         }
 
-        block.setMetadata(metaTrch, new FixedMetadataValue(MagicInit.getPlugin(), true));
-        saveMetadata(block.getLocation(), metaTrch);
+        System.out.println(getPlugin());
 
-        displayParticles(block);
+        block.setMetadata(metaTrch, new FixedMetadataValue(getPlugin(), true));
+        saveMetadata(block.getLocation(), metaTrch);
 
     }
 

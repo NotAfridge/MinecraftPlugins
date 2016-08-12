@@ -9,8 +9,6 @@ public class Stairs extends MagicFunctions {
 
         block.setData(block.getData() >= 7 ? (byte) 0 : (byte) (block.getData() + 1));
 
-        displayParticles(block);
-
     }
 
 }

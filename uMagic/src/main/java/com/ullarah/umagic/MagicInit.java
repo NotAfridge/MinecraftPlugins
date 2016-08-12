@@ -1,7 +1,7 @@
 package com.ullarah.umagic;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.ullarah.umagic.function.EventRegister;
+import com.ullarah.umagic.function.PluginRegisters;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -10,23 +10,23 @@ import java.util.logging.Level;
 
 public class MagicInit extends JavaPlugin {
 
-    private static Plugin plugin;
-    private static WorldGuardPlugin worldGuard;
+    private Plugin plugin;
+    private WorldGuardPlugin worldGuard;
 
-    public static Plugin getPlugin() {
+    private Plugin getPlugin() {
         return plugin;
     }
 
-    private static void setPlugin(Plugin plugin) {
-        MagicInit.plugin = plugin;
+    private void setPlugin(Plugin plugin) {
+        this.plugin = plugin;
     }
 
-    static WorldGuardPlugin getWorldGuard() {
+    private WorldGuardPlugin getWorldGuard() {
         return worldGuard;
     }
 
-    private static void setWorldGuard(WorldGuardPlugin worldGuard) {
-        MagicInit.worldGuard = worldGuard;
+    private void setWorldGuard(WorldGuardPlugin worldGuard) {
+        this.worldGuard = worldGuard;
     }
 
     public void onEnable() {
@@ -43,11 +43,15 @@ public class MagicInit extends JavaPlugin {
 
             setWorldGuard((WorldGuardPlugin) pluginWorldGuard);
 
-            getServer().addRecipe(new MagicRecipe().hoeStableRecipe());
+            getServer().addRecipe(new MagicRecipe().recipe());
 
-            new EventRegister().registerAll(getPlugin());
+            new PluginRegisters(getPlugin());
 
             getCommand("hoe").setExecutor(new MagicExecutor());
+
+            System.out.println(this.plugin);
+
+            new MagicFunctions(getPlugin(), getWorldGuard());
 
         } else {
 
@@ -55,8 +59,6 @@ public class MagicInit extends JavaPlugin {
             pluginManager.disablePlugin(this);
 
         }
-
-        new MagicFunctions();
 
     }
 

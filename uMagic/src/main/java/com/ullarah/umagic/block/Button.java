@@ -9,8 +9,6 @@ public class Button extends MagicFunctions {
 
         block.setData((byte) (block.getData() + 8));
 
-        displayParticles(block);
-
     }
 
 }

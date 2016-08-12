@@ -1,7 +1,6 @@
 package com.ullarah.umagic.block;
 
 import com.ullarah.umagic.MagicFunctions;
-import com.ullarah.umagic.MagicInit;
 import org.bukkit.DyeColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.banner.Pattern;
@@ -24,10 +23,8 @@ public class Banner extends MagicFunctions {
         banner.setBaseColor(color);
         banner.setPatterns(patterns);
 
-        block.setMetadata(metaBanr, new FixedMetadataValue(MagicInit.getPlugin(), true));
+        block.setMetadata(metaBanr, new FixedMetadataValue(getPlugin(), true));
         saveMetadata(block.getLocation(), metaBanr);
-
-        displayParticles(block);
 
     }
 

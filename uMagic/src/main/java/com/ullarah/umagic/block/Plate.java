@@ -9,8 +9,6 @@ public class Plate extends MagicFunctions {
 
         block.setData((byte) 1);
 
-        displayParticles(block);
-
     }
 
 }

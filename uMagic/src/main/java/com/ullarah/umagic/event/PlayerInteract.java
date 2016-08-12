@@ -2,7 +2,6 @@ package com.ullarah.umagic.event;
 
 import com.ullarah.umagic.MagicFunctions;
 import com.ullarah.umagic.block.*;
-import com.ullarah.umagic.function.CommonString;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -176,7 +175,7 @@ public class PlayerInteract extends MagicFunctions implements Listener {
 
         if (usingMagicHoe(player)) {
 
-            new CommonString().messageSend(player, "Cannot be used in off-hand slot.");
+            getCommonString().messageSend(player, "Cannot be used in off-hand slot.");
             event.setCancelled(true);
 
         }
