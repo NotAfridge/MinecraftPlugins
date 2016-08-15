@@ -1,82 +1,62 @@
 package com.ullarah.uteleport;
 
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.plugin.Plugin;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 class TeleportEvents implements Listener {
+
+    private final Plugin plugin;
+    private final TeleportFunctions teleportFunctions;
+
+    TeleportEvents(Plugin instance, TeleportFunctions functions) {
+        plugin = instance;
+        teleportFunctions = functions;
+    }
+
+    private Plugin getPlugin() {
+        return plugin;
+    }
+
+    private TeleportFunctions getTeleportFunctions() {
+        return teleportFunctions;
+    }
 
     @EventHandler
     public void playerTeleport(final PlayerTeleportEvent event) {
 
         PlayerTeleportEvent.TeleportCause cause = event.getCause();
 
-        List<PlayerTeleportEvent.TeleportCause> teleportCauses = new ArrayList<>();
-        teleportCauses.add(PlayerTeleportEvent.TeleportCause.COMMAND);
-        teleportCauses.add(PlayerTeleportEvent.TeleportCause.PLUGIN);
+        List<PlayerTeleportEvent.TeleportCause> teleportCauses = new ArrayList<PlayerTeleportEvent.TeleportCause>() {{
+            add(PlayerTeleportEvent.TeleportCause.COMMAND);
+            add(PlayerTeleportEvent.TeleportCause.PLUGIN);
+            add(PlayerTeleportEvent.TeleportCause.UNKNOWN);
+        }};
 
         if (teleportCauses.contains(cause)) {
 
-            Player player = event.getPlayer();
-            UUID playerUUID = player.getUniqueId();
+            UUID playerUUID = event.getPlayer().getUniqueId();
 
-            if (!TeleportInit.historyBlock.contains(playerUUID)) {
+            if (!getTeleportFunctions().getHistoryBlock().contains(playerUUID)) {
 
-                Location locationFrom = event.getFrom();
-                Location locationTo = event.getTo();
+                Location locationFrom = event.getFrom(), locationTo = event.getTo();
 
                 if (!locationFrom.getWorld().equals(locationTo.getWorld())
-                        || locationFrom.distance(locationTo) > TeleportInit.getPlugin().getConfig().getDouble("distance")) {
+                        || locationFrom.distance(locationTo) > getPlugin().getConfig().getDouble("distance")) {
 
-                    double posFromX = (int) locationFrom.getX();
-                    double posFromY = (int) locationFrom.getY();
-                    double posFromZ = (int) locationFrom.getZ();
-
-                    if (TeleportInit.historyMap.containsKey(playerUUID)) {
-
-                        ConcurrentHashMap<ArrayList<Location>, ArrayList<Date>> locationMap = TeleportInit.historyMap.get(playerUUID);
-
-                        ArrayList<Location> locations = new ArrayList<>();
-                        ArrayList<Date> dates = new ArrayList<>();
-
-                        for (Map.Entry<ArrayList<Location>, ArrayList<Date>> entry : locationMap.entrySet()) {
-
-                            ArrayList<Location> historyLocation = entry.getKey();
-                            ArrayList<Date> historyDate = entry.getValue();
-
-                            if (historyLocation.size() >= TeleportInit.getPlugin().getConfig().getInt("history")) {
-                                historyLocation.remove(0);
-                                historyDate.remove(0);
-                            }
-
-                            locations = historyLocation;
-                            dates = historyDate;
-
-                        }
-
-                        locations.add(new Location(locationFrom.getWorld(), posFromX, posFromY, posFromZ, 0, 0));
-                        dates.add(Calendar.getInstance().getTime());
-
-                        locationMap.put(locations, dates);
-
-                        TeleportInit.historyMap.put(playerUUID, locationMap);
-
-                    } else {
-
-                        TeleportInit.historyMap.put(playerUUID, new ConcurrentHashMap<ArrayList<Location>, ArrayList<Date>>() {{
-                            put(new ArrayList<Location>() {{
-                                add(new Location(locationFrom.getWorld(), posFromX, posFromY, posFromZ, 0, 0));
-                            }}, new ArrayList<Date>() {{
-                                add(Calendar.getInstance().getTime());
-                            }});
-                        }});
-
+                    if (getTeleportFunctions().getHistoryMap().containsKey(playerUUID)) {
+                        getTeleportFunctions().addLocation(playerUUID, locationFrom,
+                                getTeleportFunctions().getHistoryMap().get(playerUUID));
+                        return;
                     }
+
+                    getTeleportFunctions().addLocation(playerUUID, locationFrom);
 
                 }
 

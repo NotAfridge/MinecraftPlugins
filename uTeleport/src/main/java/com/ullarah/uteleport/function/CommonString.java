@@ -7,13 +7,18 @@ import org.bukkit.plugin.Plugin;
 
 public class CommonString {
 
+    private final Plugin plugin;
+
+    public CommonString(Plugin instance) {
+        plugin = instance;
+    }
+
     /**
      * The name of the plugin placed in prefix format
      *
-     * @param plugin the plugin object
      * @return a fancy prefix style string
      */
-    public String pluginPrefix(Plugin plugin) {
+    private String pluginPrefix() {
 
         return ChatColor.GOLD + "[" + plugin.getName() + "] " + ChatColor.WHITE;
 
@@ -22,38 +27,35 @@ public class CommonString {
     /**
      * A permission denied message
      *
-     * @param plugin the plugin object
      * @param sender the sender who receives the message
      */
-    public void messagePermDeny(Plugin plugin, CommandSender sender) {
+    public void messagePermDeny(CommandSender sender) {
 
-        sender.sendMessage(pluginPrefix(plugin) + ChatColor.RED + "No permission.");
+        sender.sendMessage(pluginPrefix() + ChatColor.RED + "No permission.");
 
     }
 
     /**
      * A no console usage message
      *
-     * @param plugin the plugin object
      * @param sender the sender who receives the message
      */
-    public void messageNoConsole(Plugin plugin, CommandSender sender) {
+    public void messageNoConsole(CommandSender sender) {
 
-        sender.sendMessage(pluginPrefix(plugin) + ChatColor.RED + "No console usage.");
+        sender.sendMessage(pluginPrefix() + ChatColor.RED + "No console usage.");
 
     }
 
     /**
      * A message that is sent to a {@code Player} object
      *
-     * @param plugin  the plugin object
      * @param player  the sender who receives the message
      * @param prefix  the prefix of the current plugin
      * @param message the message to send
      */
-    public void messageSend(Plugin plugin, Player player, boolean prefix, String message) {
+    public void messageSend(Player player, boolean prefix, String message) {
 
-        player.sendMessage(prefix ? pluginPrefix(plugin) + message : message);
+        player.sendMessage(prefix ? pluginPrefix() + message : message);
 
     }
 
