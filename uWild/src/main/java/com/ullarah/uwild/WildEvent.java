@@ -10,6 +10,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,13 +18,24 @@ import java.util.Random;
 
 class WildEvent implements Listener {
 
+    private final Plugin plugin;
+
+    WildEvent(Plugin instance) {
+        plugin = instance;
+    }
+
+    private Plugin getPlugin() {
+        return plugin;
+    }
+
     @EventHandler
     public void mobSpawn(final CreatureSpawnEvent event){
 
-        List<CreatureSpawnEvent.SpawnReason> spawnReasons = new ArrayList<>();
-        spawnReasons.add(CreatureSpawnEvent.SpawnReason.NATURAL);
-        spawnReasons.add(CreatureSpawnEvent.SpawnReason.SPAWNER_EGG);
-        spawnReasons.add(CreatureSpawnEvent.SpawnReason.CHUNK_GEN);
+        List<CreatureSpawnEvent.SpawnReason> spawnReasons = new ArrayList<CreatureSpawnEvent.SpawnReason>() {{
+            add(CreatureSpawnEvent.SpawnReason.NATURAL);
+            add(CreatureSpawnEvent.SpawnReason.SPAWNER_EGG);
+            add(CreatureSpawnEvent.SpawnReason.CHUNK_GEN);
+        }};
 
         if (spawnReasons.contains(event.getSpawnReason())) {
 
@@ -74,7 +86,7 @@ class WildEvent implements Listener {
 
                 if (isWild) {
 
-                    entity.setMetadata("uWild", new FixedMetadataValue(WildInit.getPlugin(), true));
+                    entity.setMetadata("uWild", new FixedMetadataValue(getPlugin(), true));
                     entity.setCustomName(entityWildType);
                     entity.setCustomNameVisible(false);
 
