@@ -55,6 +55,7 @@ public class MagicRecipe {
 
         hoeRecipe.setIngredient('H', Material.DIAMOND_HOE);
         hoeRecipe.setIngredient('M', Material.SPECKLED_MELON);
+        hoeRecipe.setIngredient('R', Material.REDSTONE);
 
         return hoeRecipe;
 
