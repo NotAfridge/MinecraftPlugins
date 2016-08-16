@@ -12,8 +12,7 @@ public class Netherrack extends MagicFunctions {
 
         Block blockUnder = block.getRelative(BlockFace.DOWN);
 
-        if (blockUnder.getType() == Material.AIR)
-
+        if (blockUnder.getType() != Material.AIR)
             block.setType(Material.FIRE);
 
         block.setMetadata(metaFire, new FixedMetadataValue(getPlugin(), true));

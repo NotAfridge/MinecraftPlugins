@@ -22,7 +22,7 @@ public class BlockBreak extends MagicFunctions implements Listener {
         Block block = event.getBlock();
 
         for (String meta : new String[]{metaSand, metaLamp, metaWool, metaEmBr, metaVine, metaFurn,
-                metaLadd, metaRail, metaSign, metaTrch, metaBanr, metaBeds})
+                metaLadd, metaRail, metaSign, metaTrch, metaBanr, metaBeds, metaFire})
             if (block.hasMetadata(meta)) {
 
                 if (block.hasMetadata(metaBeds)) block.setType(Material.HAY_BLOCK);
