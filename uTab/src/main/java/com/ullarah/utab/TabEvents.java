@@ -6,12 +6,21 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 class TabEvents implements Listener {
 
+    private final TabFunctions tabFunctions;
+
+    TabEvents(TabFunctions functions) {
+        tabFunctions = functions;
+    }
+
+    private TabFunctions getTabFunctions() {
+        return tabFunctions;
+    }
+
     @EventHandler
     public void playerJoin(final PlayerJoinEvent event) {
 
-        TabFunctions tabFunctions = new TabFunctions();
-
-        tabFunctions.sendHeaderFooter(event.getPlayer(), tabFunctions.getCurrentHeader(), tabFunctions.getCurrentFooter());
+        getTabFunctions().sendHeaderFooter(
+                event.getPlayer(), getTabFunctions().getCurrentHeader(), getTabFunctions().getCurrentFooter());
 
     }
 

@@ -5,14 +5,63 @@ import net.minecraft.server.v1_10_R1.PacketPlayOutPlayerListHeaderFooter;
 import net.minecraft.server.v1_10_R1.PlayerConnection;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 class TabFunctions {
 
-    private static Field tabField;
+    private final Plugin plugin;
+    int headerMessageTotal = 0, headerMessageCurrent = 0, footerMessageTotal = 0, footerMessageCurrent = 0;
+    private BukkitTask tabTask;
+    private List headerMessages, footerMessages;
+    private int tabTimer;
+    private Field tabField;
+
+    TabFunctions(Plugin instance) {
+        plugin = instance;
+    }
+
+    private Plugin getPlugin() {
+        return plugin;
+    }
+
+    BukkitTask getTabTask() {
+        return tabTask;
+    }
+
+    void setTabTask(BukkitTask task) {
+        this.tabTask = task;
+    }
+
+    private List getHeaderMessages() {
+        return headerMessages;
+    }
+
+    private void setHeaderMessages(List messages) {
+        headerMessages = messages;
+    }
+
+    private List getFooterMessages() {
+        return footerMessages;
+    }
+
+    private void setFooterMessages(List messages) {
+        footerMessages = messages;
+    }
+
+    int getTabTimer() {
+        return tabTimer;
+    }
+
+    private void setTabTimer(int time) {
+        tabTimer = time * 20;
+    }
 
     void sendHeaderFooter(Player player, String header, String footer) {
 
@@ -24,8 +73,8 @@ class TabFunctions {
 
         try {
 
-            IChatBaseComponent headerMessage = IChatBaseComponent.ChatSerializer.a("{\"text\":\" " + header + " \"}");
-            IChatBaseComponent footerMessage = IChatBaseComponent.ChatSerializer.a("{\"text\":\" " + footer + " \"}");
+            IChatBaseComponent headerMessage = IChatBaseComponent.ChatSerializer.a("{\"text\":\" " + header + " \"}"),
+                    footerMessage = IChatBaseComponent.ChatSerializer.a("{\"text\":\" " + footer + " \"}");
 
             PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter(headerMessage);
 
@@ -49,7 +98,7 @@ class TabFunctions {
 
         try {
             return ChatColor.translateAlternateColorCodes('&',
-                    (String) TabInit.getHeaderMessages().get(TabInit.headerMessageCurrent));
+                    (String) getHeaderMessages().get(headerMessageCurrent));
         } catch (Exception e) {
             return "";
         }
@@ -60,7 +109,7 @@ class TabFunctions {
 
         try {
             return ChatColor.translateAlternateColorCodes('&',
-                    (String) TabInit.getFooterMessages().get(TabInit.footerMessageCurrent));
+                    (String) getFooterMessages().get(footerMessageCurrent));
         } catch (Exception e) {
             return "";
         }
@@ -73,18 +122,20 @@ class TabFunctions {
 
             for (Player player : Bukkit.getOnlinePlayers()) sendHeaderFooter(player, "", "");
 
-            TabInit.headerMessageCurrent = 0;
-            TabInit.footerMessageCurrent = 0;
+            headerMessageCurrent = 0;
+            footerMessageCurrent = 0;
 
-            TabInit.getPlugin().reloadConfig();
+            getPlugin().reloadConfig();
 
-            TabInit.setTabTimer(TabInit.getPlugin().getConfig().getInt("timer"));
+            FileConfiguration configuration = getPlugin().getConfig();
 
-            TabInit.setHeaderMessages(TabInit.getPlugin().getConfig().getStringList("header.messages"));
-            TabInit.setFooterMessages(TabInit.getPlugin().getConfig().getStringList("footer.messages"));
+            setTabTimer(configuration.getInt("timer"));
 
-            TabInit.headerMessageTotal = TabInit.getHeaderMessages().size() - 1;
-            TabInit.footerMessageTotal = TabInit.getFooterMessages().size() - 1;
+            setHeaderMessages(configuration.getStringList("header.messages"));
+            setFooterMessages(configuration.getStringList("footer.messages"));
+
+            headerMessageTotal = getHeaderMessages().size() - 1;
+            footerMessageTotal = getFooterMessages().size() - 1;
 
         } catch (Exception e) {
 

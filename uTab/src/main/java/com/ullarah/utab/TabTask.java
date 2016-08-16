@@ -1,31 +1,47 @@
 package com.ullarah.utab;
 
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
-
-import static com.ullarah.utab.TabInit.*;
 
 class TabTask {
 
-    void startTabTimer() {
+    private final Plugin plugin;
+    private final TabFunctions tabFunctions;
 
-        TabFunctions tabFunctions = new TabFunctions();
+    TabTask(Plugin instance, TabFunctions functions) {
+        plugin = instance;
+        tabFunctions = functions;
+    }
+
+    private Plugin getPlugin() {
+        return plugin;
+    }
+
+    private TabFunctions getTabFunctions() {
+        return tabFunctions;
+    }
+
+    void startTabTimer() {
 
         BukkitTask tabTask = getPlugin().getServer().getScheduler().runTaskTimerAsynchronously(getPlugin(),
                 () -> getPlugin().getServer().getScheduler().runTask(getPlugin(), () -> {
 
                     for (Player player : getPlugin().getServer().getOnlinePlayers())
-                        tabFunctions.sendHeaderFooter(player, tabFunctions.getCurrentHeader(), tabFunctions.getCurrentFooter());
+                        getTabFunctions().sendHeaderFooter(
+                                player, getTabFunctions().getCurrentHeader(), getTabFunctions().getCurrentFooter());
 
-                    if (headerMessageCurrent < headerMessageTotal) headerMessageCurrent++;
-                    else headerMessageCurrent = 0;
+                    if (getTabFunctions().headerMessageCurrent < getTabFunctions().headerMessageTotal)
+                        getTabFunctions().headerMessageCurrent++;
+                    else getTabFunctions().headerMessageCurrent = 0;
 
-                    if (footerMessageCurrent < footerMessageTotal) footerMessageCurrent++;
-                    else footerMessageCurrent = 0;
+                    if (getTabFunctions().footerMessageCurrent < getTabFunctions().footerMessageTotal)
+                        getTabFunctions().footerMessageCurrent++;
+                    else getTabFunctions().footerMessageCurrent = 0;
 
-                }), 0, getTabTimer());
+                }), 0, getTabFunctions().getTabTimer());
 
-        setTabTask(tabTask);
+        getTabFunctions().setTabTask(tabTask);
 
     }
 

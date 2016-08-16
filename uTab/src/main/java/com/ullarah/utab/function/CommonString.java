@@ -6,13 +6,18 @@ import org.bukkit.plugin.Plugin;
 
 public class CommonString {
 
+    private final Plugin plugin;
+
+    public CommonString(Plugin instance) {
+        plugin = instance;
+    }
+
     /**
      * The name of the plugin placed in prefix format
      *
-     * @param plugin the plugin object
      * @return a fancy prefix style string
      */
-    private String pluginPrefix(Plugin plugin) {
+    public String pluginPrefix() {
 
         return ChatColor.GOLD + "[" + plugin.getName() + "] " + ChatColor.WHITE;
 
@@ -21,25 +26,36 @@ public class CommonString {
     /**
      * A permission denied message
      *
-     * @param plugin the plugin object
      * @param sender the sender who receives the message
      */
-    public void messagePermDeny(Plugin plugin, CommandSender sender) {
+    public void messagePermDeny(CommandSender sender) {
 
-        sender.sendMessage(pluginPrefix(plugin) + ChatColor.RED + "No permission.");
+        sender.sendMessage(pluginPrefix() + ChatColor.RED + "No permission.");
 
     }
 
     /**
      * A message that is sent to a {@code CommandSender} object
      *
-     * @param plugin  the plugin object
      * @param sender  the sender who receives the message
      * @param message the message to send
      */
-    public void messageSend(Plugin plugin, CommandSender sender, String message) {
+    @SuppressWarnings("SameParameterValue")
+    public void messageSend(CommandSender sender, String message) {
 
-        sender.sendMessage(pluginPrefix(plugin) + message);
+        sender.sendMessage(pluginPrefix() + message);
+
+    }
+
+    /**
+     * A message that is sent to a {@code CommandSender} object
+     *
+     * @param sender   the sender who receives the message
+     * @param messages an array of messages to send
+     */
+    public void messageSend(CommandSender sender, String[] messages) {
+
+        for (String message : messages) sender.sendMessage(message);
 
     }
 

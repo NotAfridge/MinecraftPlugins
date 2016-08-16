@@ -6,8 +6,8 @@
     <artifactId>utab</artifactId>
 
     <name>uTab</name>
-    <description>Header and Footer</description>
-    <version>0.2.6</version>
+    <description>Header and Footer Messages</description>
+    <version>0.3.1</version>
 
     <parent>
         <groupId>com.ullarah</groupId>
