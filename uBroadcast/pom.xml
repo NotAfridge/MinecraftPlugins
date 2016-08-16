@@ -7,7 +7,7 @@
 
     <name>uBroadcast</name>
     <description>Broadcasts the server over LAN</description>
-    <version>0.0.3</version>
+    <version>0.1.1</version>
 
     <parent>
         <groupId>com.ullarah</groupId>
