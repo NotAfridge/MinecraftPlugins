@@ -11,15 +11,17 @@ import java.util.logging.Level;
 
 public class SQLConnection extends SQLDatabase {
 
-    private Plugin plugin;
-    private String database;
-    private String create;
+    private final Plugin plugin;
+    private final String database;
+    private final String create;
+    private final SQLMessage message;
 
     public SQLConnection(Plugin plugin, String database, String create) {
         super(plugin, database);
         this.plugin = plugin;
         this.database = database;
         this.create = create;
+        message = new SQLMessage();
 
         startSQLConnection();
     }
@@ -34,6 +36,10 @@ public class SQLConnection extends SQLDatabase {
 
     private String getCreate() {
         return create;
+    }
+
+    private SQLMessage getMessage() {
+        return message;
     }
 
     public Connection getSQLConnection() {
@@ -57,11 +63,11 @@ public class SQLConnection extends SQLDatabase {
 
         } catch (SQLException ex) {
 
-            getPlugin().getLogger().log(Level.SEVERE, SQLMessage.sqlInitialiseError(), ex);
+            getPlugin().getLogger().log(Level.SEVERE, getMessage().sqlInitialiseError(), ex);
 
         } catch (ClassNotFoundException ex) {
 
-            getPlugin().getLogger().log(Level.SEVERE, SQLMessage.sqlLibraryNotFound());
+            getPlugin().getLogger().log(Level.SEVERE, getMessage().sqlLibraryNotFound());
 
         }
 

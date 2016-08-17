@@ -4,12 +4,13 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.ullarah.umagic.database.SQLConnection;
+import com.ullarah.umagic.database.SQLMessage;
 import com.ullarah.umagic.function.CommonString;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
@@ -21,34 +22,18 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.Plugin;
 
-import java.io.File;
-import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
 
 public class MagicFunctions {
 
-    protected final String metaSand = "uMagic.sg";
-    protected final String metaLamp = "uMagic.rl";
-    protected final String metaWool = "uMagic.wl";
-    protected final String metaEmBr = "uMagic.em";
-    protected final String metaLadd = "uMagic.ld";
-    protected final String metaRail = "uMagic.ra";
-    protected final String metaSign = "uMagic.si";
-    protected final String metaTrch = "uMagic.tc";
-    protected final String metaBanr = "uMagic.bn";
-    protected final String metaFram = "uMagic.if";
-    protected final String metaVine = "uMagic.vn";
-    protected final String metaFurn = "uMagic.fc";
-    protected final String metaBeds = "uMagic.be";
-    protected final String metaFire = "uMagic.fi";
-
-    private final String world = "world";
-    private final String locX = "loc.X";
-    private final String locY = "loc.Y";
-    private final String locZ = "loc.Z";
-    private final String data = "data";
+    protected final String metaSand = "uMagic.sg", metaLamp = "uMagic.rl", metaWool = "uMagic.wl",
+            metaEmBr = "uMagic.em", metaLadd = "uMagic.ld", metaRail = "uMagic.ra", metaSign = "uMagic.si",
+            metaTrch = "uMagic.tc", metaBanr = "uMagic.bn", metaFram = "uMagic.if", metaVine = "uMagic.vn",
+            metaFurn = "uMagic.fc", metaBeds = "uMagic.be", metaFire = "uMagic.fi";
 
     private final Material[] validMagicBlocks = new Material[]{
             Material.TRIPWIRE_HOOK, Material.HAY_BLOCK, Material.BED_BLOCK, Material.TRAP_DOOR, Material.IRON_TRAPDOOR,
@@ -65,25 +50,40 @@ public class MagicFunctions {
             Material.EMERALD_BLOCK, Material.BEDROCK, Material.BARRIER, Material.NETHERRACK
     };
 
-    private final String furnaceFuel = "" + ChatColor.DARK_RED + ChatColor.ITALIC + ChatColor.GREEN + ChatColor.BOLD;
-    private final String furnaceSmelt = "" + ChatColor.BOLD + ChatColor.ITALIC + ChatColor.YELLOW;
-
+    private final String furnaceFuel = "" + ChatColor.DARK_RED + ChatColor.ITALIC + ChatColor.GREEN + ChatColor.BOLD,
+            furnaceSmelt = "" + ChatColor.BOLD + ChatColor.ITALIC + ChatColor.YELLOW;
+    private final String database = MagicInit.getDatabaseName();
     private Plugin plugin;
     private WorldGuardPlugin worldGuard;
     private CommonString commonString;
+    private SQLConnection sqlConnection;
+    private SQLMessage sqlMessage;
 
     public MagicFunctions() {
 
         setPlugin(MagicInit.getPlugin());
         setWorldGuard(MagicInit.getWorldGuard());
+        setSqlConnection(MagicInit.getSqlConnection());
+
+        setSqlMessage(new SQLMessage());
         setCommonString(new CommonString(getPlugin()));
 
     }
 
-    public MagicFunctions(boolean runInit) {
+    public MagicFunctions(boolean doInit) {
 
         setPlugin(MagicInit.getPlugin());
-        if (runInit) initMetadata();
+        setWorldGuard(MagicInit.getWorldGuard());
+        setSqlConnection(MagicInit.getSqlConnection());
+
+        setSqlMessage(new SQLMessage());
+        setCommonString(new CommonString(getPlugin()));
+
+        if (doInit) {
+
+            initMetadata();
+
+        }
 
     }
 
@@ -107,6 +107,22 @@ public class MagicFunctions {
         this.worldGuard = worldGuard;
     }
 
+    private SQLConnection getSqlConnection() {
+        return sqlConnection;
+    }
+
+    private void setSqlConnection(SQLConnection sqlConnection) {
+        this.sqlConnection = sqlConnection;
+    }
+
+    private SQLMessage getSqlMessage() {
+        return sqlMessage;
+    }
+
+    private void setSqlMessage(SQLMessage sqlMessage) {
+        this.sqlMessage = sqlMessage;
+    }
+
     protected CommonString getCommonString() {
         return commonString;
     }
@@ -117,41 +133,46 @@ public class MagicFunctions {
 
     private void initMetadata() {
 
-        for (File file : loadMetadata().listFiles()) {
+        try {
 
-            FileConfiguration metadataConfig = YamlConfiguration.loadConfiguration(file);
+            ResultSet resultSet = getSqlConnection().getResult("SELECT * FROM " + database);
 
-            World metaWorld = getPlugin().getServer().getWorld(metadataConfig.getString(world));
+            while (resultSet.next()) {
 
-            double lX = metadataConfig.getDouble(locX),
-                    lY = metadataConfig.getDouble(locY),
-                    lZ = metadataConfig.getDouble(locZ);
+                String data = resultSet.getString("data");
+                World world = getPlugin().getServer().getWorld(resultSet.getString("world"));
 
-            Location location = new Location(metaWorld, lX, lY, lZ);
+                Double x = Double.parseDouble(resultSet.getString("locX")),
+                        y = Double.parseDouble(resultSet.getString("locY")),
+                        z = Double.parseDouble(resultSet.getString("locZ"));
 
-            Chunk chunk = location.getChunk();
-            if (!chunk.isLoaded()) chunk.load();
+                Location location = new Location(world, x, y, z);
 
-            String metadata = metadataConfig.getString(data);
+                Chunk chunk = location.getChunk();
+                if (!chunk.isLoaded()) chunk.load();
 
-            metaWorld.getNearbyEntities(location, 2.0, 2.0, 2.0).stream()
-                    .filter(frame -> frame instanceof ItemFrame)
-                    .filter(frame -> frame.getLocation().equals(location))
-                    .forEach(frame -> frame.setMetadata(metadata, new FixedMetadataValue(getPlugin(), true)));
+                for (Entity entity : world.getNearbyEntities(location, 3.0, 3.0, 3.0)) {
+                    if (entity instanceof ItemFrame) {
+                        World eW = entity.getLocation().getWorld();
+                        Double eX = (double) entity.getLocation().getBlockX(),
+                                eY = (double) entity.getLocation().getBlockY(),
+                                eZ = (double) entity.getLocation().getBlockZ();
+                        if (new Location(eW, eX, eY, eZ).equals(location))
+                            entity.setMetadata(data, new FixedMetadataValue(getPlugin(), true));
+                    }
+                }
 
-            Block block = metaWorld.getBlockAt(location);
-
-            block.setMetadata(metadata, new FixedMetadataValue(getPlugin(), true));
-
-            if (block.getType() == Material.REDSTONE_LAMP_OFF) {
-
-                Block blockUnder = block.getRelative(BlockFace.DOWN);
-                Material blockUnderOriginal = blockUnder.getType();
-
-                blockUnder.setType(Material.REDSTONE_BLOCK, true);
-                block.getRelative(BlockFace.DOWN).setType(blockUnderOriginal, true);
+                world.getBlockAt(location).setMetadata(data, new FixedMetadataValue(getPlugin(), true));
 
             }
+
+        } catch (SQLException e) {
+
+            getPlugin().getLogger().log(Level.SEVERE, getSqlMessage().sqlConnectionFailure(), e);
+
+        } finally {
+
+            getSqlConnection().closeSQLConnection();
 
         }
 
@@ -159,56 +180,36 @@ public class MagicFunctions {
 
     protected void saveMetadata(Location location, String metadata) {
 
-        File metadataFile = getMetadata(location);
-
-        FileConfiguration metadataConfig = YamlConfiguration.loadConfiguration(metadataFile);
-
-        metadataConfig.set(world, location.getWorld().getName());
-        metadataConfig.set(locX, location.getX());
-        metadataConfig.set(locY, location.getY());
-        metadataConfig.set(locZ, location.getZ());
-        metadataConfig.set(data, metadata);
-
         try {
-            metadataConfig.save(metadataFile);
-        } catch (IOException e) {
-            e.printStackTrace();
+
+            if (getSqlConnection().getResult("SELECT data FROM " + database + " WHERE "
+                    + StringUtils.join(new String[]{"world = " + location.getWorld().getName(),
+                    "locX = " + String.valueOf(location.getBlockX()), "locY = " + String.valueOf(location.getBlockY()),
+                    "locZ = " + String.valueOf(location.getBlockZ())}, " AND ")).next()) removeMetadata(location);
+
+        } catch (SQLException e) {
+
+            getPlugin().getLogger().log(Level.SEVERE, getSqlMessage().sqlConnectionFailure(), e);
+
+        } finally {
+
+            getSqlConnection().closeSQLConnection();
+
         }
+
+        getSqlConnection().runStatement("INSERT INTO " + database + " VALUES ("
+                + StringUtils.join(new String[]{"NULL", "'" + metadata + "'", "'" + location.getWorld().getName()
+                + "'", String.valueOf(location.getBlockX()), String.valueOf(location.getBlockY()),
+                String.valueOf(location.getBlockZ())}, ",") + ");");
 
     }
 
     protected void removeMetadata(Location location) {
 
-        File metadataFile = getMetadata(location);
-
-        boolean fileDeleted = metadataFile.delete();
-
-        if (!fileDeleted)
-            getPlugin().getLogger().log(Level.SEVERE,
-                    "Metadata file could not be deleted: " + metadataFile.toString());
-
-    }
-
-    private File loadMetadata() {
-
-        boolean metadataFileCreation = true;
-
-        File dataDir = getPlugin().getDataFolder();
-        if (!dataDir.exists()) metadataFileCreation = dataDir.mkdir();
-
-        File metadataDir = new File(dataDir + File.separator + "metadata");
-        if (!metadataDir.exists()) metadataFileCreation = metadataDir.mkdir();
-
-        if (metadataFileCreation) return metadataDir;
-
-        return null;
-
-    }
-
-    private File getMetadata(Location location) {
-
-        return new File(loadMetadata(),
-                location.getBlockX() + "." + location.getBlockY() + "." + location.getBlockZ() + ".yml");
+        getSqlConnection().runStatement("DELETE FROM " + database + " WHERE "
+                + StringUtils.join(new String[]{"world = " + location.getWorld().getName(),
+                "locX = " + String.valueOf(location.getBlockX()), "locY = " + String.valueOf(location.getBlockY()),
+                "locZ = " + String.valueOf(location.getBlockZ())}, " AND "));
 
     }
 
@@ -220,8 +221,15 @@ public class MagicFunctions {
         ApplicableRegionSet applicableRegionSet = regionManager.getApplicableRegions(block.getLocation());
 
         if (applicableRegionSet.getRegions().isEmpty()) return false;
-        for (ProtectedRegion r : applicableRegionSet.getRegions())
-            if (!r.isOwner(getWorldGuard().wrapPlayer(player))) return false;
+
+        for (ProtectedRegion region : applicableRegionSet.getRegions()) {
+
+            boolean isOwner = region.isOwner(getWorldGuard().wrapPlayer(player));
+            boolean isMember = region.isMember(getWorldGuard().wrapPlayer(player));
+
+            if (!isOwner) if (!isMember) return false;
+
+        }
 
         return true;
 

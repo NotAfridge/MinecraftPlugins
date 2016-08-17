@@ -11,8 +11,9 @@ import java.util.logging.Level;
 
 public class MagicInit extends JavaPlugin {
 
-    static private Plugin plugin;
-    static private WorldGuardPlugin worldGuard;
+    private static Plugin plugin;
+    private static WorldGuardPlugin worldGuard;
+    private static SQLConnection sqlConnection;
 
     static Plugin getPlugin() {
         return plugin;
@@ -28,6 +29,18 @@ public class MagicInit extends JavaPlugin {
 
     private void setWorldGuard(WorldGuardPlugin worldGuard) {
         MagicInit.worldGuard = worldGuard;
+    }
+
+    static SQLConnection getSqlConnection() {
+        return sqlConnection;
+    }
+
+    private void setSqlConnection(SQLConnection sqlConnection) {
+        MagicInit.sqlConnection = sqlConnection;
+    }
+
+    static String getDatabaseName() {
+        return "metadata";
     }
 
     public void onEnable() {
@@ -50,9 +63,13 @@ public class MagicInit extends JavaPlugin {
 
             getCommand("hoe").setExecutor(new MagicExecutor());
 
-            new MagicFunctions(true);
+            String create = "CREATE TABLE IF NOT EXISTS " + getDatabaseName() + "(" +
+                    "`_id` INTEGER PRIMARY KEY,`data` TEXT NOT NULL,`world` TEXT NOT NULL," +
+                    "`locX` INTEGER NOT NULL,`locY` INTEGER NOT NULL,`locZ` INTEGER NOT NULL);";
 
-            doSQL();
+            setSqlConnection(new SQLConnection(getPlugin(), getDatabaseName(), create));
+
+            new MagicFunctions(true);
 
         } else {
 
@@ -65,21 +82,6 @@ public class MagicInit extends JavaPlugin {
 
     public void onDisable() {
 
-
-    }
-
-    private void doSQL() {
-
-        String database = "metadata";
-
-        String create = "CREATE TABLE IF NOT EXISTS " + database + " (" +
-                "`data` varchar(32) NOT NULL,`world` varchar(32) NOT NULL," +
-                "`locX` int(11) NOT NULL,`locY` int(11) NOT NULL,`locZ` int(11) NOT NULL," +
-                "PRIMARY KEY (`data`));";
-
-        SQLConnection sqlConnection = new SQLConnection(getPlugin(), database, create);
-
-        System.out.println(sqlConnection.getSQLConnection());
 
     }
 
