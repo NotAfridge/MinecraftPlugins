@@ -13,13 +13,13 @@ public class SQLConnection extends SQLDatabase {
 
     private Plugin plugin;
     private String database;
-    private String table;
+    private String create;
 
-    public SQLConnection(Plugin plugin, String database, String table) {
-        super(plugin, table);
+    public SQLConnection(Plugin plugin, String database, String create) {
+        super(plugin, database);
         this.plugin = plugin;
         this.database = database;
-        this.table = table;
+        this.create = create;
 
         startSQLConnection();
     }
@@ -32,8 +32,8 @@ public class SQLConnection extends SQLDatabase {
         return database;
     }
 
-    private String getTable() {
-        return table;
+    private String getCreate() {
+        return create;
     }
 
     public Connection getSQLConnection() {
@@ -76,10 +76,7 @@ public class SQLConnection extends SQLDatabase {
         try {
 
             Statement s = connection.createStatement();
-            s.executeUpdate("CREATE TABLE IF NOT EXISTS " + getTable() + " (" +
-                    "`data` varchar(32) NOT NULL,`world` varchar(32) NOT NULL," +
-                    "`locX` int(11) NOT NULL,`locY` int(11) NOT NULL,`locZ` int(11) NOT NULL," +
-                    "PRIMARY KEY (`data`));");
+            s.executeUpdate(getCreate());
             s.close();
 
         } catch (SQLException e) {

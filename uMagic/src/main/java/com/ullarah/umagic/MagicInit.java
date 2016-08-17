@@ -70,11 +70,16 @@ public class MagicInit extends JavaPlugin {
 
     private void doSQL() {
 
-        SQLConnection sqlConnection = new SQLConnection(getPlugin(), "metadata", "metadata");
+        String database = "metadata";
+
+        String create = "CREATE TABLE IF NOT EXISTS " + database + " (" +
+                "`data` varchar(32) NOT NULL,`world` varchar(32) NOT NULL," +
+                "`locX` int(11) NOT NULL,`locY` int(11) NOT NULL,`locZ` int(11) NOT NULL," +
+                "PRIMARY KEY (`data`));";
+
+        SQLConnection sqlConnection = new SQLConnection(getPlugin(), database, create);
 
         System.out.println(sqlConnection.getSQLConnection());
-
-        sqlConnection.runStatement("INSERT INTO");
 
     }
 

@@ -107,7 +107,7 @@ abstract class SQLDatabase {
 
     public boolean updateRow(String[] columns, String[] oldValues, String[] newValues) {
 
-        return runStatement("u", "UPDATE " + getTable() + " %%columns%% %%oldvalues%%", columns, oldValues);
+        return runStatement("u", "UPDATE " + getTable() + " SET ", columns, oldValues, newValues);
 
     }
 
@@ -148,41 +148,87 @@ abstract class SQLDatabase {
 
     }
 
-    private boolean runStatement(String type, String statement, String[] columns, String[] values) {
+    private boolean runStatement(String type, String statement, String[] columns, String[]... values) {
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
         try {
 
-            if (columns.length != values.length) {
-                getPlugin().getLogger().log(Level.SEVERE, SQLMessage.noColumnValueMatch());
-                return false;
-            }
-
             connection = getSQLConnection();
 
             switch (type.toLowerCase()) {
 
                 case "i":
+                    if (columns.length != values.length) {
+                        getPlugin().getLogger().log(Level.SEVERE, SQLMessage.noColumnValueMatch());
+                        return false;
+                    }
+
                     preparedStatement = connection.prepareStatement(
                             statement.replaceFirst("%%columns%%", "(" + StringUtils.join(columns, ",") + ") ")
                                     .replaceFirst("%%values%%", "VALUES (" + StringUtils.join(values, ",") + ")"));
 
-                    for (int i = 0; i < columns.length; i++) {
+                    for (String[] valueArray : values)
+                        for (int i = 0; i < columns.length; i++) {
 
-                        String value = values[i];
+                            String value = valueArray[i];
 
-                        if (value.matches("\\d+")) preparedStatement.setInt(i + 1, Integer.parseInt(value));
-                        else preparedStatement.setString(i + 1, value);
+                            if (value.matches("\\d+")) preparedStatement.setInt(i + 1, Integer.parseInt(value));
+                            else preparedStatement.setString(i + 1, value);
 
-                    }
+                        }
                     break;
 
                 case "u":
+                    String[] oldValues = values[0];
+                    String[] newValues = values[1];
+
+                    if ((columns.length != oldValues.length) || (columns.length != newValues.length)) {
+                        getPlugin().getLogger().log(Level.SEVERE, SQLMessage.noColumnValueMatch());
+                        return false;
+                    }
+
+                    for (int i = 0; i < columns.length; i++) {
+
+                        String oldValue = oldValues[i];
+                        String newValue = newValues[i];
+
+                        if (oldValue.matches("\\d+") && newValue.matches("\\d+")) {
+
+                            statement = i < columns.length
+                                    ? statement + columns[i] + " = " + newValue + ", "
+                                    : statement + columns[i] + " = " + newValue;
+
+                        }
+
+                    }
+
+                    statement = statement + " WHERE ";
+
+                    for (int i = 0; i < columns.length; i++) {
+
+                        String oldValue = oldValues[i];
+                        String newValue = newValues[i];
+
+                        if (oldValue.matches("\\d+") && newValue.matches("\\d+")) {
+
+                            statement = i < columns.length
+                                    ? statement + columns[i] + " = " + oldValue + ", "
+                                    : statement + columns[i] + " = " + oldValue;
+
+                        }
+
+                    }
+                    preparedStatement = connection.prepareStatement(statement);
                     break;
 
                 case "d":
+                    if (columns.length != values.length) {
+                        getPlugin().getLogger().log(Level.SEVERE, SQLMessage.noColumnValueMatch());
+                        return false;
+                    }
+
                     for (int i = 0; i < columns.length; i++) {
 
                         statement = i < columns.length
