@@ -1,6 +1,7 @@
 package com.ullarah.umagic;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.ullarah.umagic.database.SQLConnection;
 import com.ullarah.umagic.function.PluginRegisters;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
@@ -51,6 +52,8 @@ public class MagicInit extends JavaPlugin {
 
             new MagicFunctions(true);
 
+            doSQL();
+
         } else {
 
             getPlugin().getLogger().log(Level.SEVERE, "WorldGuard plugin not found. Disabling uMagic.");
@@ -62,6 +65,16 @@ public class MagicInit extends JavaPlugin {
 
     public void onDisable() {
 
+
+    }
+
+    private void doSQL() {
+
+        SQLConnection sqlConnection = new SQLConnection(getPlugin(), "metadata", "metadata");
+
+        System.out.println(sqlConnection.getSQLConnection());
+
+        sqlConnection.runStatement("INSERT INTO");
 
     }
 
