@@ -8,6 +8,8 @@ public class Torch extends MagicFunctions {
 
     public Torch(Block block) {
 
+        super(false);
+
         switch (block.getData()) {
 
             case 1:

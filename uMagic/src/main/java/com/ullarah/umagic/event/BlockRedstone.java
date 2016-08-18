@@ -8,6 +8,10 @@ import org.bukkit.event.block.BlockRedstoneEvent;
 
 public class BlockRedstone extends MagicFunctions implements Listener {
 
+    public BlockRedstone() {
+        super(false);
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void event(BlockRedstoneEvent event) {
 

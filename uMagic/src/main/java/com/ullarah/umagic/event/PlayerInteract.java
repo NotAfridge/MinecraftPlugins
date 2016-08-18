@@ -12,6 +12,10 @@ import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 
 public class PlayerInteract extends MagicFunctions implements Listener {
 
+    public PlayerInteract() {
+        super(false);
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void event(PlayerInteractEvent event) {
 

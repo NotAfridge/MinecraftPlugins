@@ -8,6 +8,10 @@ import org.bukkit.event.block.BlockGrowEvent;
 
 public class BlockGrowth extends MagicFunctions implements Listener {
 
+    public BlockGrowth() {
+        super(false);
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void event(BlockGrowEvent event) {
 

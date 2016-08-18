@@ -9,6 +9,8 @@ public class Sign extends MagicFunctions {
 
     public Sign(Block block) {
 
+        super(false);
+
         org.bukkit.block.Sign sign = (org.bukkit.block.Sign) block.getState();
 
         String[] lines = sign.getLines();

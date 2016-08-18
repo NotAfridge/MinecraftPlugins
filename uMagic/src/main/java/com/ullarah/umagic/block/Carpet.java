@@ -8,6 +8,8 @@ public class Carpet extends MagicFunctions {
 
     public Carpet(Block block) {
 
+        super(false);
+
         if (block.hasMetadata(metaWool)) {
 
             byte carpetData = block.getData();

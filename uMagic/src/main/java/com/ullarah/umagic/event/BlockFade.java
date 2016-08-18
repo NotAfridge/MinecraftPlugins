@@ -8,6 +8,10 @@ import org.bukkit.event.block.BlockFadeEvent;
 
 public class BlockFade extends MagicFunctions implements Listener {
 
+    public BlockFade() {
+        super(false);
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void event(BlockFadeEvent event) {
 

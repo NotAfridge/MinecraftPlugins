@@ -9,6 +9,10 @@ import org.bukkit.event.inventory.FurnaceSmeltEvent;
 
 public class FurnaceSmelt extends MagicFunctions implements Listener {
 
+    public FurnaceSmelt() {
+        super(false);
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void event(FurnaceSmeltEvent event) {
 

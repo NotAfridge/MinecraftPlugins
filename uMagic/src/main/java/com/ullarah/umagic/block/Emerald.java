@@ -10,6 +10,8 @@ public class Emerald extends MagicFunctions {
 
     public Emerald(Block block, Player player) {
 
+        super(false);
+
         if (player.hasPermission("umagic.danger")) {
 
             getCommonString().messageSend(player, "Block converted to Bedrock. Be careful!");

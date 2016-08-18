@@ -9,6 +9,8 @@ public class Furnace extends MagicFunctions {
 
     public Furnace(Block block, Player player) {
 
+        super(false);
+
         String noChange = "Furnace has contents. Not changing.";
 
         org.bukkit.block.Furnace furnace = (org.bukkit.block.Furnace) block.getState();

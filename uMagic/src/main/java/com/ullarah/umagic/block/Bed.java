@@ -9,6 +9,8 @@ public class Bed extends MagicFunctions {
 
     public Bed(Block block) {
 
+        super(false);
+
         if (block.getType() == Material.HAY_BLOCK) {
 
             block.setType(Material.BED_BLOCK);

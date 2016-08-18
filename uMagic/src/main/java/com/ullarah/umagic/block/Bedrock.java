@@ -9,6 +9,8 @@ public class Bedrock extends MagicFunctions {
 
     public Bedrock(Block block, Player player) {
 
+        super(false);
+
         if (block.hasMetadata(metaEmBr)) {
 
             getCommonString().messageSend(player, "Block converted to Barrier. Be careful!");

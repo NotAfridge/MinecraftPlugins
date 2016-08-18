@@ -13,6 +13,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class AnvilRename extends MagicFunctions implements Listener {
 
+    public AnvilRename() {
+        super(false);
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void event(InventoryClickEvent event) {
 

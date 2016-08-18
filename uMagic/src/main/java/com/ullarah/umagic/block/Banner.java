@@ -12,6 +12,8 @@ public class Banner extends MagicFunctions {
 
     public Banner(Block block) {
 
+        super(false);
+
         org.bukkit.block.Banner banner = (org.bukkit.block.Banner) block.getState();
 
         DyeColor color = banner.getBaseColor();

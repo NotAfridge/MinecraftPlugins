@@ -16,6 +16,10 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 public class FrameDamage extends MagicFunctions implements Listener {
 
+    public FrameDamage() {
+        super(false);
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void event(HangingBreakEvent event) {
 

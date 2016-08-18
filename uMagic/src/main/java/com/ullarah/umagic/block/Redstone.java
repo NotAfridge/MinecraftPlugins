@@ -10,6 +10,8 @@ public class Redstone extends MagicFunctions {
 
     public Redstone(Block block) {
 
+        super(false);
+
         Block blockUnder = block.getRelative(BlockFace.DOWN);
         Material blockOriginal = blockUnder.getType();
 

@@ -50,18 +50,9 @@ public class MagicInit extends JavaPlugin {
         PluginManager pluginManager = getServer().getPluginManager();
         Plugin pluginWorldGuard = pluginManager.getPlugin("WorldGuard");
 
-        getConfig().options().copyDefaults(true);
-        saveConfig();
-
         if (pluginWorldGuard != null) {
 
             setWorldGuard((WorldGuardPlugin) pluginWorldGuard);
-
-            getServer().addRecipe(new MagicRecipe().recipe());
-
-            new PluginRegisters(getPlugin());
-
-            getCommand("hoe").setExecutor(new MagicExecutor());
 
             String create = "CREATE TABLE IF NOT EXISTS " + getDatabaseName() + "(" +
                     "`_id` INTEGER PRIMARY KEY,`data` TEXT NOT NULL,`world` TEXT NOT NULL," +
@@ -70,6 +61,12 @@ public class MagicInit extends JavaPlugin {
             setSqlConnection(new SQLConnection(getPlugin(), getDatabaseName(), create));
 
             new MagicFunctions(true);
+
+            getServer().addRecipe(new MagicRecipe().recipe());
+
+            new PluginRegisters(getPlugin());
+
+            getCommand("hoe").setExecutor(new MagicExecutor());
 
         } else {
 
@@ -82,6 +79,7 @@ public class MagicInit extends JavaPlugin {
 
     public void onDisable() {
 
+        getSqlConnection().closeSQLConnection();
 
     }
 

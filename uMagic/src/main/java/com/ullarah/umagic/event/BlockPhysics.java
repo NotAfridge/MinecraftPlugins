@@ -8,6 +8,10 @@ import org.bukkit.event.block.BlockPhysicsEvent;
 
 public class BlockPhysics extends MagicFunctions implements Listener {
 
+    public BlockPhysics() {
+        super(false);
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void event(BlockPhysicsEvent event) {
 

@@ -7,6 +7,8 @@ public class Trapdoor extends MagicFunctions {
 
     public Trapdoor(Block block) {
 
+        super(false);
+
         block.setData(block.getData() >= 8 ? (byte) 3 : (byte) (block.getData() + 1));
 
     }

@@ -8,6 +8,8 @@ public class Vines extends MagicFunctions {
 
     public Vines(Block block) {
 
+        super(false);
+
         byte data = block.getData();
         block.setData(data < 15 ? (byte) (data + 1) : (byte) 0);
 

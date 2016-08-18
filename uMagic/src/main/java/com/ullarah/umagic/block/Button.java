@@ -7,6 +7,8 @@ public class Button extends MagicFunctions {
 
     public Button(Block block) {
 
+        super(false);
+
         block.setData((byte) (block.getData() + 8));
 
     }

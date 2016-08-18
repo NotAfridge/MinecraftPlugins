@@ -8,6 +8,8 @@ public class Sand extends MagicFunctions {
 
     public Sand(Block block) {
 
+        super(false);
+
         block.setMetadata(metaSand, new FixedMetadataValue(getPlugin(), true));
         saveMetadata(block.getLocation(), metaSand);
 

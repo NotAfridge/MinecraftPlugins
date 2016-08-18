@@ -8,6 +8,10 @@ import org.bukkit.event.block.BlockDamageEvent;
 
 public class BlockDamage extends MagicFunctions implements Listener {
 
+    public BlockDamage() {
+        super(false);
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void event(BlockDamageEvent event) {
 

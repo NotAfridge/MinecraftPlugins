@@ -59,17 +59,6 @@ public class MagicFunctions {
     private SQLConnection sqlConnection;
     private SQLMessage sqlMessage;
 
-    public MagicFunctions() {
-
-        setPlugin(MagicInit.getPlugin());
-        setWorldGuard(MagicInit.getWorldGuard());
-        setSqlConnection(MagicInit.getSqlConnection());
-
-        setSqlMessage(new SQLMessage());
-        setCommonString(new CommonString(getPlugin()));
-
-    }
-
     public MagicFunctions(boolean doInit) {
 
         setPlugin(MagicInit.getPlugin());
@@ -79,11 +68,7 @@ public class MagicFunctions {
         setSqlMessage(new SQLMessage());
         setCommonString(new CommonString(getPlugin()));
 
-        if (doInit) {
-
-            initMetadata();
-
-        }
+        if (doInit) initMetadata();
 
     }
 

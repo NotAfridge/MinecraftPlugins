@@ -11,6 +11,10 @@ import org.bukkit.event.block.BlockBreakEvent;
 
 public class BlockBreak extends MagicFunctions implements Listener {
 
+    public BlockBreak() {
+        super(false);
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void event(BlockBreakEvent event) {
 

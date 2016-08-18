@@ -8,6 +8,10 @@ import org.bukkit.entity.Player;
 
 class MagicExecutor extends MagicFunctions implements CommandExecutor {
 
+    MagicExecutor() {
+        super(false);
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
 

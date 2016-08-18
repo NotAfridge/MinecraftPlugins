@@ -10,6 +10,8 @@ public class Wood extends MagicFunctions {
 
     public Wood(Block block) {
 
+        super(false);
+
         for (BlockFace face : new BlockFace[]{BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST}) {
             Block blockNext = block.getRelative(face);
 

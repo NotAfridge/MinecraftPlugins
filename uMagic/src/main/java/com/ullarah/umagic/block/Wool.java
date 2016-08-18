@@ -9,6 +9,8 @@ public class Wool extends MagicFunctions {
 
     public Wool(Block block) {
 
+        super(false);
+
         byte woolData = block.getData();
 
         block.setType(Material.CARPET);

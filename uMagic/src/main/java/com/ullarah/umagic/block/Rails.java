@@ -8,6 +8,8 @@ public class Rails extends MagicFunctions {
 
     public Rails(Block block) {
 
+        super(false);
+
         block.setMetadata(metaRail, new FixedMetadataValue(getPlugin(), true));
         saveMetadata(block.getLocation(), metaRail);
 

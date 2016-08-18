@@ -9,6 +9,10 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class EntityDamage extends MagicFunctions implements Listener {
 
+    public EntityDamage() {
+        super(false);
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void event(EntityDamageByEntityEvent event) {
 

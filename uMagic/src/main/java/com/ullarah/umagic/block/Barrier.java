@@ -8,6 +8,8 @@ public class Barrier extends MagicFunctions {
 
     public Barrier(Block block) {
 
+        super(false);
+
         if (block.hasMetadata(metaEmBr)) {
 
             block.setType(Material.EMERALD_BLOCK);

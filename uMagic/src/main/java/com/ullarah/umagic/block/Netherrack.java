@@ -10,6 +10,8 @@ public class Netherrack extends MagicFunctions {
 
     public Netherrack(Block block) {
 
+        super(false);
+
         Block blockUnder = block.getRelative(BlockFace.DOWN);
 
         if (blockUnder.getType() != Material.AIR)

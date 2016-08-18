@@ -8,6 +8,8 @@ public class Ladder extends MagicFunctions {
 
     public Ladder(Block block) {
 
+        super(false);
+
         if (block.hasMetadata(metaLadd)) {
 
             block.setType(Material.WOOD);

@@ -7,6 +7,8 @@ public class Slab extends MagicFunctions {
 
     public Slab(Block block) {
 
+        super(false);
+
         switch (block.getData()) {
 
             case 0:

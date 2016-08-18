@@ -7,6 +7,8 @@ public class Log extends MagicFunctions {
 
     public Log(Block block) {
 
+        super(false);
+
         switch (block.getData()) {
 
             case 0:

@@ -9,6 +9,10 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 
 public class FurnaceOpen extends MagicFunctions implements Listener {
 
+    public FurnaceOpen() {
+        super(false);
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void event(InventoryOpenEvent event) {
 

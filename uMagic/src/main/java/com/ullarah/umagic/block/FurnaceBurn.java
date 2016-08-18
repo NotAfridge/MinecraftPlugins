@@ -8,6 +8,8 @@ public class FurnaceBurn extends MagicFunctions {
 
     public FurnaceBurn(Block block) {
 
+        super(false);
+
         org.bukkit.block.Furnace furnace = (org.bukkit.block.Furnace) block.getState();
 
         if (block.hasMetadata(metaFurn)) {
