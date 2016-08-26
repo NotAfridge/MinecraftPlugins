@@ -8,22 +8,23 @@ Various minecraft plugins used on a private server.
  * Pat yourself on the back
  
 *Don't come complaining to me if things aren't working.  
-These plugins can be used for developmental purposes.*
+These plugins are used for developmental purposes.  
+So it's totally up to you if you use them.*
 
-**WorldEdit, WorldGuard and Vault may be required for some plugins.**
+[This link will usually contain the latest releases.](https://drone.io/github.com/Ullarah/MinecraftPlugins/files/jars/uplugins.tgz)
 
 [The wiki may contain more information.](https://github.com/Ullarah/MinecraftPlugins/wiki)
 
-| Plugin     | Status      | Description                           |
-| ---------- | ------------| ------------------------------------- |
-| uBeacon    | Ready       | Simple rainbow beacons.               |
-| uBroadcast | Ready       | Server broadcast over LAN.            |
-| uChest     | Ready       | Various useful chests.                |
-| uJoinQuit  | Ready       | Custom Join/Quit messages.            |
-| uLottery   | Ready       | Passive death lottery.                |
-| uMagic     | Ready       | Magical hoe to change various blocks. |
-| uPostal    | Ready       | Item Postal service between players.  |
-| uRocket    | Ready       | Rocket Boots for player flying.       |
-| uTab       | Ready       | Tab list header and footer.           |
-| uTeleport  | Ready       | Teleport history for players.         |
-| uWild      | In Progress | Various animal and mob changes.       |
+| Plugin     | Status      | Description                           | Requirements                 |
+| ---------- | ------------| ------------------------------------- | ---------------------------- |
+| uBeacon    | Ready       | Simple rainbow beacons.               |                              |
+| uBroadcast | Ready       | Server broadcast over LAN.            |                              |
+| uChest     | Ready       | Various useful chests.                | WorldEdit, WorldGuard        |
+| uJoinQuit  | Ready       | Custom Join/Quit messages.            |                              |
+| uLottery   | Ready       | Passive death lottery.                | Vault                        |
+| uMagic     | Ready       | Magical hoe to change various blocks. | WorldEdit, WorldGuard        |
+| uPostal    | Ready       | Item Postal service between players.  |                              |
+| uRocket    | Ready       | Rocket Boots for player flying.       | WorldEdit, WorldGuard, Vault |
+| uTab       | Ready       | Tab list header and footer.           |                              |
+| uTeleport  | Ready       | Teleport history for players.         |                              |
+| uWild      | In Progress | Various animal and mob changes.       |                              |
