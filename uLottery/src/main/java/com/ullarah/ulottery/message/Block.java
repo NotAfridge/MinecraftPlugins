@@ -1,5 +1,6 @@
 package com.ullarah.ulottery.message;
 
+import com.ullarah.ulottery.LotteryInit;
 import org.bukkit.ChatColor;
 
 public class Block {
@@ -24,6 +25,7 @@ public class Block {
 
     public void setAmount(int i) {
         amount = i;
+        LotteryInit.getPlugin().getConfig().set("current.blocks", getAmount());
     }
 
     public Integer getTotal() {

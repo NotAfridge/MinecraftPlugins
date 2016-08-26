@@ -15,7 +15,7 @@ class LotteryCommands extends LotteryFunction implements CommandExecutor {
 
         if (command.getName().equalsIgnoreCase("lottery")) {
 
-            CommonString commonString = new CommonString();
+            CommonString commonString = new CommonString(LotteryInit.getPlugin());
 
             if (sender instanceof ConsoleCommandSender) sendConsoleStatistics(sender);
             else {
@@ -33,10 +33,10 @@ class LotteryCommands extends LotteryFunction implements CommandExecutor {
                         case "bank":
                             if (player.hasPermission(adminPermission)) {
                                 if (args.length >= 2)
-                                    commonString.messageSend(LotteryInit.getPlugin(), player, getBank().modify(args[1]));
+                                    commonString.messageSend(player, getBank().modify(args[1], false));
                                 else
-                                    commonString.messageSend(LotteryInit.getPlugin(), player, "Add or subtract how much?");
-                            } else commonString.messagePermDeny(LotteryInit.getPlugin(), sender);
+                                    commonString.messageSend(player, "Add or subtract how much?");
+                            } else commonString.messagePermDeny(sender);
                             break;
 
                         case "x":
@@ -44,9 +44,9 @@ class LotteryCommands extends LotteryFunction implements CommandExecutor {
                         case "exclude":
                             if (player.hasPermission(adminPermission)) {
                                 if (args.length >= 2)
-                                    commonString.messageSend(LotteryInit.getPlugin(), player, getExclude().addPlayer(args[1]));
-                                else commonString.messageSend(LotteryInit.getPlugin(), player, "Exclude who?");
-                            } else commonString.messagePermDeny(LotteryInit.getPlugin(), sender);
+                                    commonString.messageSend(player, getExclude().addPlayer(args[1]));
+                                else commonString.messageSend(player, "Exclude who?");
+                            } else commonString.messagePermDeny(sender);
                             break;
 
                         case "f":
@@ -54,8 +54,8 @@ class LotteryCommands extends LotteryFunction implements CommandExecutor {
                             if (player.hasPermission(adminPermission)) {
                                 if (getBank().getAmount() > 0) lotteryFinished();
                                 else
-                                    commonString.messageSend(LotteryInit.getPlugin(), player, "Nothing in the bank to win.");
-                            } else commonString.messagePermDeny(LotteryInit.getPlugin(), sender);
+                                    commonString.messageSend(player, "Nothing in the bank to win.");
+                            } else commonString.messagePermDeny(sender);
                             break;
 
                         case "h":
@@ -67,22 +67,30 @@ class LotteryCommands extends LotteryFunction implements CommandExecutor {
                         case "include":
                             if (player.hasPermission(adminPermission)) {
                                 if (args.length >= 2)
-                                    commonString.messageSend(LotteryInit.getPlugin(), player, getExclude().removePlayer(args[1]));
-                                else commonString.messageSend(LotteryInit.getPlugin(), player, "Include who?");
-                            } else commonString.messagePermDeny(LotteryInit.getPlugin(), sender);
+                                    commonString.messageSend(player, getExclude().removePlayer(args[1]));
+                                else commonString.messageSend(player, "Include who?");
+                            } else commonString.messagePermDeny(sender);
                             break;
 
                         case "r":
                         case "reset":
                             if (player.hasPermission(adminPermission)) {
                                 resetStatistics();
-                                commonString.messageSend(LotteryInit.getPlugin(), player, ChatColor.RED + "Lottery has been reset.");
-                            } else commonString.messagePermDeny(LotteryInit.getPlugin(), sender);
+                                commonString.messageSend(player, ChatColor.RED + "Lottery has been reset.");
+                            } else commonString.messagePermDeny(sender);
+                            break;
+
+                        case "d":
+                        case "donate":
+                            if (args.length >= 2)
+                                commonString.messageSend(player, getBank().modify(args[1], true));
+                            else
+                                commonString.messageSend(player, "Donate how much?");
                             break;
 
                         case "v":
                         case "version":
-                            commonString.messageSend(LotteryInit.getPlugin(), player, "0.7.14");
+                            commonString.messageSend(player, LotteryInit.getPlugin().getDescription().getVersion());
                             break;
 
                     }
@@ -90,7 +98,7 @@ class LotteryCommands extends LotteryFunction implements CommandExecutor {
                 } else {
 
                     if (getPause().isPaused()) {
-                        commonString.messageSend(LotteryInit.getPlugin(), sender, getPause().getMessage());
+                        commonString.messageSend(sender, getPause().getMessage());
                         return true;
                     }
 

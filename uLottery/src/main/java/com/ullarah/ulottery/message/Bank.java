@@ -25,19 +25,20 @@ public class Bank extends LotteryMessageInit {
 
     public void setAmount(int i) {
         amount = i;
+        LotteryInit.getPlugin().getConfig().set("current.bank", getAmount());
     }
 
     public Material getItemMaterial() {
         return itemMaterial;
     }
 
+    public void setItemMaterial(String m) {
+        itemMaterial = Material.getMaterial(m);
+    }
+
     @SuppressWarnings("SameParameterValue")
     private void setItemMaterial(Material m) {
         itemMaterial = m;
-    }
-
-    public void setItemMaterial(String m) {
-        itemMaterial = Material.getMaterial(m);
     }
 
     private String message() {
@@ -61,9 +62,9 @@ public class Bank extends LotteryMessageInit {
 
     }
 
-    public String modify(String amount) {
+    public String modify(String amount, boolean donation) {
 
-        if (amount.matches("-?\\d+")) {
+        if (amount.matches(donation ? "\\d+" : "-?\\d+")) {
 
             setAmount(Integer.valueOf(amount) + getAmount());
 

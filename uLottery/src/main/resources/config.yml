@@ -8,4 +8,7 @@ vault:
 item:
   amount: 2
   material: EMERALD
+current:
+  bank: 0
+  blocks: 0
 exclude: []

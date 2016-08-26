@@ -7,93 +7,100 @@ import org.bukkit.plugin.Plugin;
 
 public class CommonString {
 
+    private Plugin plugin;
+
+    public CommonString(Plugin plugin) {
+        setPlugin(plugin);
+    }
+
+    private Plugin getPlugin() {
+        return this.plugin;
+    }
+
+    private void setPlugin(Plugin plugin) {
+        this.plugin = plugin;
+    }
+
     /**
      * The name of the plugin placed in prefix format
      *
-     * @param plugin the plugin object
      * @return a fancy prefix style string
      */
-    private String pluginPrefix(Plugin plugin) {
+    private String pluginPrefix() {
 
-        return ChatColor.GOLD + "[" + plugin.getName() + "] " + ChatColor.WHITE;
+        return ChatColor.GOLD + "[" + getPlugin().getName() + "] " + ChatColor.WHITE;
 
     }
 
     /**
      * A permission denied message
      *
-     * @param plugin the plugin object
      * @param sender the sender who receives the message
      */
-    public void messagePermDeny(Plugin plugin, CommandSender sender) {
+    public void messagePermDeny(CommandSender sender) {
 
-        sender.sendMessage(pluginPrefix(plugin) + ChatColor.RED + "No permission.");
+        sender.sendMessage(pluginPrefix() + ChatColor.RED + "No permission.");
 
     }
 
     /**
      * A no console usage message
      *
-     * @param plugin the plugin object
      * @param sender the sender who receives the message
      */
-    public void messageNoConsole(Plugin plugin, CommandSender sender) {
+    public void messageNoConsole(CommandSender sender) {
 
-        sender.sendMessage(pluginPrefix(plugin) + ChatColor.RED + "No console usage.");
+        sender.sendMessage(pluginPrefix() + ChatColor.RED + "No console usage.");
 
     }
 
     /**
      * A message that is sent to a {@code CommandSender} object
      *
-     * @param plugin   the plugin object
      * @param sender   the sender who receives the message
      * @param prefix   the prefix of the current plugin
      * @param messages an array of messages to send
      */
-    public void messageSend(Plugin plugin, CommandSender sender, boolean prefix, String[] messages) {
+    public void messageSend(CommandSender sender, boolean prefix, String[] messages) {
 
-        for (String message : messages) sender.sendMessage(prefix ? pluginPrefix(plugin) + message : message);
+        for (String message : messages) sender.sendMessage(prefix ? pluginPrefix() + message : message);
 
     }
 
     /**
      * A message that is sent to a {@code CommandSender} object
      *
-     * @param plugin  the plugin object
      * @param sender  the sender who receives the message
      * @param message the message to send
      */
-    public void messageSend(Plugin plugin, CommandSender sender, String message) {
+    public void messageSend(CommandSender sender, String message) {
 
-        sender.sendMessage(pluginPrefix(plugin) + message);
+        sender.sendMessage(pluginPrefix() + message);
 
     }
 
     /**
      * A message that is sent to a {@code Player} object
      *
-     * @param plugin   the plugin object
      * @param player   the player who receives the message
      * @param prefix   the prefix of the current plugin
      * @param messages an array of messages to send
      */
-    public void messageSend(Plugin plugin, Player player, boolean prefix, String[] messages) {
+    public void messageSend(Player player, boolean prefix, String[] messages) {
 
-        for (String message : messages) player.sendMessage(prefix ? pluginPrefix(plugin) + message : message);
+        for (String message : messages) player.sendMessage(prefix ? pluginPrefix() + message : message);
 
     }
 
     /**
      * A message that is sent to a {@code Player} object
      *
-     * @param plugin  the plugin object
      * @param player  the sender who receives the message
      * @param message the message to send
      */
-    public void messageSend(Plugin plugin, Player player, String message) {
+    public void messageSend(Player player, String message) {
 
-        player.sendMessage(pluginPrefix(plugin) + message);
+        player.sendMessage(pluginPrefix() + message);
 
     }
 

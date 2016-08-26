@@ -45,13 +45,13 @@ public class History extends Bank {
 
     private void show(Player player) {
 
-        CommonString commonString = new CommonString();
+        CommonString commonString = new CommonString(LotteryInit.getPlugin());
 
         if (getNameArray().isEmpty())
-            commonString.messageSend(LotteryInit.getPlugin(), player, "No Winning History Found.");
+            commonString.messageSend(player, "No Winning History Found.");
         else {
 
-            commonString.messageSend(LotteryInit.getPlugin(), player, "Previous Lottery Winners");
+            commonString.messageSend(player, "Previous Lottery Winners");
 
             List nr = Lists.reverse(getNameArray());
             List ar = Lists.reverse(getAmountArray());

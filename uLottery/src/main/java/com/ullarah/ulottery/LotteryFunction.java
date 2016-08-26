@@ -24,6 +24,8 @@ class LotteryFunction extends LotteryMessageInit {
     }
 
     LotteryFunction() {
+        getBank().setAmount(LotteryInit.getPlugin().getConfig().getInt("current.bank"));
+        getBlock().setAmount(LotteryInit.getPlugin().getConfig().getInt("current.blocks"));
     }
 
     void sendConsoleStatistics(CommandSender sender) {
@@ -43,9 +45,9 @@ class LotteryFunction extends LotteryMessageInit {
 
     void sendPlayerStatistics(Player player) {
 
-        CommonString commonString = new CommonString();
+        CommonString commonString = new CommonString(LotteryInit.getPlugin());
 
-        commonString.messageSend(LotteryInit.getPlugin(), player, "Lottery Statistics");
+        commonString.messageSend(player, "Lottery Statistics");
 
         player.sendMessage(getBank().getMessage());
 
@@ -82,11 +84,13 @@ class LotteryFunction extends LotteryMessageInit {
 
         if (blockBreaks.getText().length() >= 1 && deathRecent.getText().length() <= 0)
             player.spigot().sendMessage(blockBreaks);
+
         if (blockBreaks.getText().length() <= 0 && deathRecent.getText().length() >= 1) {
             TextComponent textSeparate = new TextComponent("  ");
             textSeparate.addExtra(deathRecent);
             player.spigot().sendMessage(textSeparate);
         }
+
         if (blockBreaks.getText().length() >= 1 && deathRecent.getText().length() >= 1) {
             TextComponent textSeparate = new TextComponent(sep);
             blockBreaks.addExtra(textSeparate);
@@ -184,6 +188,9 @@ class LotteryFunction extends LotteryMessageInit {
         getBlock().reset();
         getRecentDeath().reset();
         getSuspension().reset();
+
+        LotteryInit.getPlugin().getConfig().set("current.bank", 0);
+        LotteryInit.getPlugin().getConfig().set("current.blocks", 0);
 
     }
 
