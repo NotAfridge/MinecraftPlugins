@@ -80,6 +80,11 @@ public class PlayerInteract extends MagicFunctions implements Listener {
                         new Carpet(block);
                         break;
 
+                    case SNOW:
+                    case SNOW_BLOCK:
+                        new Snow(block);
+                        break;
+
                     case WOOD:
                         new Wood(block);
                         break;
