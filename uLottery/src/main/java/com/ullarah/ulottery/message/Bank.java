@@ -32,13 +32,13 @@ public class Bank extends LotteryMessageInit {
         return itemMaterial;
     }
 
-    public void setItemMaterial(String m) {
-        itemMaterial = Material.getMaterial(m);
-    }
-
     @SuppressWarnings("SameParameterValue")
     private void setItemMaterial(Material m) {
         itemMaterial = m;
+    }
+
+    public void setItemMaterial(String m) {
+        itemMaterial = Material.getMaterial(m);
     }
 
     private String message() {
@@ -66,7 +66,7 @@ public class Bank extends LotteryMessageInit {
 
         if (amount.matches(donation ? "\\d+" : "-?\\d+")) {
 
-            setAmount(Integer.valueOf(amount) + getAmount());
+            setAmount(Integer.parseInt(amount) + getAmount());
 
             if (getAmount() <= 0) setAmount(0);
             if (getAmount() >= Integer.MAX_VALUE) setAmount(Integer.MAX_VALUE);
