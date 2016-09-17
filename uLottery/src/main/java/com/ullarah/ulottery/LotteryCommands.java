@@ -33,7 +33,7 @@ class LotteryCommands extends LotteryFunction implements CommandExecutor {
                         case "bank":
                             if (player.hasPermission(adminPermission)) {
                                 if (args.length >= 2)
-                                    commonString.messageSend(player, getBank().modify(args[1], false));
+                                    commonString.messageSend(player, getBank().modify(player, args[1], false));
                                 else
                                     commonString.messageSend(player, "Add or subtract how much?");
                             } else commonString.messagePermDeny(sender);
@@ -82,16 +82,9 @@ class LotteryCommands extends LotteryFunction implements CommandExecutor {
 
                         case "d":
                         case "donate":
-                            if (args.length >= 2) {
-                                String donate = args[1];
-                                Double balance = LotteryInit.getEconomy().getBalance(player);
-                                if (Integer.parseInt(donate) >= balance.intValue()) {
-                                    commonString.messageSend(player, ChatColor.RED + "You cannot afford to donate "
-                                            + ChatColor.YELLOW + "$" + donate + ChatColor.RED + ".");
-                                } else commonString.messageSend(player, getBank().modify(donate, true));
-                            }
-                            else
-                                commonString.messageSend(player, "Donate how much?");
+                            if (args.length >= 2)
+                                commonString.messageSend(player, getBank().modify(player, args[1], true));
+                            else commonString.messageSend(player, "Donate how much?");
                             break;
 
                         case "v":

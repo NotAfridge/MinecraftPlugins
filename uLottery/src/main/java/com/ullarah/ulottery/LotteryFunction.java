@@ -138,7 +138,9 @@ class LotteryFunction extends LotteryMessageInit {
         if (LotteryInit.getEconomy() != null) {
 
             LotteryInit.getEconomy().depositPlayer(player, getBank().getAmount());
-            return "$" + getBank().getAmount();
+
+            if (getBank().getAmount() > 1) return getBank().getAmount() + LotteryInit.getEconomy().currencyNamePlural();
+            else return getBank().getAmount() + LotteryInit.getEconomy().currencyNameSingular();
 
         } else {
 
@@ -164,8 +166,8 @@ class LotteryFunction extends LotteryMessageInit {
 
             new Broadcast().sendMessage(LotteryInit.getPlugin(), new String[]{
                     ChatColor.YELLOW + player.getPlayerListName()
-                            + ChatColor.RESET + " won " + ChatColor.GREEN
-                            + depositWinnings(player)
+                            + ChatColor.RESET + " won "
+                            + ChatColor.GREEN + depositWinnings(player)
                             + ChatColor.RESET + " from the Lottery!"
             });
 

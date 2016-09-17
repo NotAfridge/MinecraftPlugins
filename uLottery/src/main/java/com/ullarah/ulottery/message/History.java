@@ -63,11 +63,15 @@ public class History extends Bank {
                 String wn = (String) nr.get(i);
                 Integer wa = (Integer) ar.get(i);
 
-                String item = " " + getItemMaterial().name().replace("_", " ").toLowerCase();
+                String item = getItemMaterial().name().replace("_", " ").toLowerCase();
 
-                String win = LotteryInit.getEconomy() != null
-                        ? ChatColor.GREEN + "$" + wa.toString()
-                        : ChatColor.GREEN + wa.toString() + item + (wa > 1 ? "s" : "");
+                String win = ChatColor.GREEN + "" + wa.toString() + " ";
+
+                if (LotteryInit.getEconomy() != null) win += wa > 1
+                        ? LotteryInit.getEconomy().currencyNamePlural()
+                        : LotteryInit.getEconomy().currencyNameSingular();
+                else
+                    win += item + (wa > 1 ? "s" : "");
 
                 String recent = "";
 
