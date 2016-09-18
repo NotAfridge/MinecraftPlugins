@@ -169,6 +169,14 @@ public class PlayerInteract extends MagicFunctions implements Listener {
                         new Netherrack(block);
                         break;
 
+                    case LAPIS_BLOCK:
+                        new Lapis(block);
+                        break;
+
+                    case STRUCTURE_VOID:
+                        new StructureVoid(block);
+                        break;
+
                     default:
                         event.setCancelled(true);
                         break;

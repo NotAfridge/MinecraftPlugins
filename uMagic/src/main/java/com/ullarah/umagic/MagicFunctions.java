@@ -33,7 +33,8 @@ public class MagicFunctions {
     protected final String metaSand = "uMagic.sg", metaLamp = "uMagic.rl", metaWool = "uMagic.wl",
             metaEmBr = "uMagic.em", metaLadd = "uMagic.ld", metaRail = "uMagic.ra", metaSign = "uMagic.si",
             metaTrch = "uMagic.tc", metaBanr = "uMagic.bn", metaFram = "uMagic.if", metaVine = "uMagic.vn",
-            metaFurn = "uMagic.fc", metaBeds = "uMagic.be", metaFire = "uMagic.fi", metaSnow = "uMagic.sw";
+            metaFurn = "uMagic.fc", metaBeds = "uMagic.be", metaFire = "uMagic.fi", metaSnow = "uMagic.sw",
+            metaVoid = "uMagic.vd";
 
     private final Material[] validMagicBlocks = new Material[]{
             Material.TRIPWIRE_HOOK, Material.HAY_BLOCK, Material.BED_BLOCK, Material.TRAP_DOOR, Material.IRON_TRAPDOOR,
@@ -44,10 +45,11 @@ public class MagicFunctions {
             Material.WOOD_STAIRS, Material.WOOL, Material.CARPET, Material.WOOD, Material.LADDER, Material.LOG,
             Material.LOG_2, Material.DOUBLE_STEP, Material.DOUBLE_STONE_SLAB2, Material.STONE_BUTTON, Material.SNOW_BLOCK,
             Material.WOOD_BUTTON, Material.GOLD_PLATE, Material.IRON_PLATE, Material.STONE_PLATE, Material.WOOD_PLATE,
-            Material.HUGE_MUSHROOM_1, Material.HUGE_MUSHROOM_2, Material.FURNACE, Material.BURNING_FURNACE,
-            Material.VINE, Material.BANNER, Material.STANDING_BANNER, Material.WALL_BANNER, Material.TORCH,
+            Material.HUGE_MUSHROOM_1, Material.HUGE_MUSHROOM_2, Material.FURNACE, Material.BURNING_FURNACE, Material.VINE,
+            Material.BANNER, Material.STANDING_BANNER, Material.WALL_BANNER, Material.TORCH, Material.LAPIS_BLOCK,
             Material.REDSTONE_TORCH_OFF, Material.REDSTONE_TORCH_ON, Material.RAILS, Material.SAND, Material.GRAVEL,
-            Material.EMERALD_BLOCK, Material.BEDROCK, Material.BARRIER, Material.NETHERRACK, Material.SNOW
+            Material.EMERALD_BLOCK, Material.BEDROCK, Material.BARRIER, Material.NETHERRACK, Material.SNOW,
+            Material.STRUCTURE_VOID
     };
 
     private final String furnaceFuel = "" + ChatColor.DARK_RED + ChatColor.ITALIC + ChatColor.GREEN + ChatColor.BOLD,
