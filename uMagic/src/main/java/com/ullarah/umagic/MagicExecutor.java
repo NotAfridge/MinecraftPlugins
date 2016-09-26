@@ -1,6 +1,5 @@
 package com.ullarah.umagic;
 
-import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -27,7 +26,6 @@ class MagicExecutor extends MagicFunctions implements CommandExecutor {
 
             case "hoe":
                 giveMagicHoe(player, recipe.hoe());
-                player.playSound(player.getLocation(), Sound.BLOCK_LAVA_POP, 0.75f, 0.75f);
                 break;
 
         }

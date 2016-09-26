@@ -2,7 +2,9 @@ package com.ullarah.umagic.event;
 
 import com.ullarah.umagic.MagicFunctions;
 import com.ullarah.umagic.block.*;
+import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -21,6 +23,7 @@ public class PlayerInteract extends MagicFunctions implements Listener {
 
         Player player = event.getPlayer();
         Block block = event.getClickedBlock();
+        BlockFace face = event.getBlockFace();
 
         if (usingMagicHoe(player)) {
 
@@ -177,6 +180,10 @@ public class PlayerInteract extends MagicFunctions implements Listener {
                         new StructureVoid(block);
                         break;
 
+                    case MOB_SPAWNER:
+                        new Spawner(block, face);
+                        break;
+
                     default:
                         event.setCancelled(true);
                         break;
@@ -196,7 +203,8 @@ public class PlayerInteract extends MagicFunctions implements Listener {
 
         if (usingMagicHoe(player)) {
 
-            getCommonString().messageSend(player, "Cannot be used in off-hand slot.");
+            getActionMessage().message(player, "" + ChatColor.RED + ChatColor.BOLD
+                    + "Cannot be used in off-hand slot!");
             event.setCancelled(true);
 
         }

@@ -6,6 +6,7 @@ import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.ullarah.umagic.database.SQLConnection;
 import com.ullarah.umagic.database.SQLMessage;
+import com.ullarah.umagic.function.ActionMessage;
 import com.ullarah.umagic.function.CommonString;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.*;
@@ -49,7 +50,7 @@ public class MagicFunctions {
             Material.BANNER, Material.STANDING_BANNER, Material.WALL_BANNER, Material.TORCH, Material.LAPIS_BLOCK,
             Material.REDSTONE_TORCH_OFF, Material.REDSTONE_TORCH_ON, Material.RAILS, Material.SAND, Material.GRAVEL,
             Material.EMERALD_BLOCK, Material.BEDROCK, Material.BARRIER, Material.NETHERRACK, Material.SNOW,
-            Material.STRUCTURE_VOID
+            Material.STRUCTURE_VOID, Material.MOB_SPAWNER
     };
 
     private final String furnaceFuel = "" + ChatColor.DARK_RED + ChatColor.ITALIC + ChatColor.GREEN + ChatColor.BOLD,
@@ -58,6 +59,7 @@ public class MagicFunctions {
     private Plugin plugin;
     private WorldGuardPlugin worldGuard;
     private CommonString commonString;
+    private ActionMessage actionMessage;
     private SQLConnection sqlConnection;
     private SQLMessage sqlMessage;
 
@@ -69,6 +71,7 @@ public class MagicFunctions {
 
         setSqlMessage(new SQLMessage());
         setCommonString(new CommonString(getPlugin()));
+        setActionMessage(new ActionMessage());
 
         if (doInit) initMetadata();
 
@@ -116,6 +119,14 @@ public class MagicFunctions {
 
     private void setCommonString(CommonString commonString) {
         this.commonString = commonString;
+    }
+
+    protected ActionMessage getActionMessage() {
+        return actionMessage;
+    }
+
+    private void setActionMessage(ActionMessage actionMessage) {
+        this.actionMessage = actionMessage;
     }
 
     private void initMetadata() {
@@ -207,14 +218,23 @@ public class MagicFunctions {
         RegionManager regionManager = getWorldGuard().getRegionManager(block.getWorld());
         ApplicableRegionSet applicableRegionSet = regionManager.getApplicableRegions(block.getLocation());
 
-        if (applicableRegionSet.getRegions().isEmpty()) return false;
+        if (applicableRegionSet.getRegions().isEmpty()) {
+            getActionMessage().message(player, "" + ChatColor.RED + ChatColor.BOLD
+                    + "The " + ChatColor.AQUA + ChatColor.BOLD + "Magical Hoe"
+                    + ChatColor.RED + ChatColor.BOLD + " can only be used in regions!");
+            return false;
+        }
 
         for (ProtectedRegion region : applicableRegionSet.getRegions()) {
 
             boolean isOwner = region.isOwner(getWorldGuard().wrapPlayer(player));
             boolean isMember = region.isMember(getWorldGuard().wrapPlayer(player));
 
-            if (!isOwner) if (!isMember) return false;
+            if (!isOwner) if (!isMember) {
+                getActionMessage().message(player, "" + ChatColor.RED + ChatColor.BOLD
+                        + "You are not an owner or member of this region!");
+                return false;
+            }
 
         }
 
@@ -315,8 +335,11 @@ public class MagicFunctions {
             PlayerInventory playerInventory = player.getInventory();
             int firstEmpty = playerInventory.firstEmpty();
 
-            if (firstEmpty >= 0) playerInventory.setItem(firstEmpty, hoe);
-            else getCommonString().messageSend(player, "Your inventory is full.");
+            if (firstEmpty >= 0) {
+                player.playSound(player.getLocation(), Sound.BLOCK_LAVA_POP, 0.75f, 0.75f);
+                playerInventory.setItem(firstEmpty, hoe);
+            } else getActionMessage().message(player, "" + ChatColor.AQUA + ChatColor.BOLD
+                    + "Your inventory is full!");
 
         }
 

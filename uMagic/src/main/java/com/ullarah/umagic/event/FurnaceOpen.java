@@ -1,6 +1,7 @@
 package com.ullarah.umagic.event;
 
 import com.ullarah.umagic.MagicFunctions;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -22,7 +23,8 @@ public class FurnaceOpen extends MagicFunctions implements Listener {
         }
 
         if (event.getInventory().contains(getFurnaceFuel()) || event.getInventory().contains(getFurnaceSmelt())) {
-            getCommonString().messageSend((Player) event.getPlayer(), "This is a magical furnace. Cannot be used.");
+            getActionMessage().message((Player) event.getPlayer(), "" + ChatColor.AQUA + ChatColor.BOLD
+                    + "Magical Furnace Detected!" + ChatColor.RED + ChatColor.BOLD + " Cannot be used!");
             event.setCancelled(true);
         }
 
