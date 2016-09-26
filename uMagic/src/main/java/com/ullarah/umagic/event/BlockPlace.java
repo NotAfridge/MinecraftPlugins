@@ -1,6 +1,7 @@
 package com.ullarah.umagic.event;
 
 import com.ullarah.umagic.MagicFunctions;
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -17,8 +18,9 @@ public class BlockPlace extends MagicFunctions implements Listener {
 
         if (event.getBlockPlaced().getLocation().getBlock().hasMetadata(metaVoid)) {
 
-            getCommonString().messageSend(event.getPlayer(),
-                    "Magical block detected, convert back using Magic Hoe.");
+            getActionMessage().message(event.getPlayer(), "" + ChatColor.AQUA + ChatColor.BOLD
+                    + "Magical Block Detected!"
+                    + ChatColor.RED + ChatColor.BOLD + " Convert back using Magical Hoe!");
 
             event.setCancelled(true);
 
