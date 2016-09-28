@@ -15,7 +15,7 @@ public class BlockGrowth extends MagicFunctions implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void event(BlockGrowEvent event) {
 
-        for (String meta : new String[]{metaVine})
+        for (String meta : new String[]{metaVine, metaCact})
             if (event.getBlock().hasMetadata(meta)) event.setCancelled(true);
 
     }

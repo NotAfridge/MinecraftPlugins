@@ -35,7 +35,7 @@ public class MagicFunctions {
             metaEmBr = "uMagic.em", metaLadd = "uMagic.ld", metaRail = "uMagic.ra", metaSign = "uMagic.si",
             metaTrch = "uMagic.tc", metaBanr = "uMagic.bn", metaFram = "uMagic.if", metaVine = "uMagic.vn",
             metaFurn = "uMagic.fc", metaBeds = "uMagic.be", metaFire = "uMagic.fi", metaSnow = "uMagic.sw",
-            metaVoid = "uMagic.vd";
+            metaVoid = "uMagic.vd", metaCact = "uMagic.cs", metaCice = "uMagic.ci", metaWate = "uMagic.wa";
 
     private final Material[] validMagicBlocks = new Material[]{
             Material.TRIPWIRE_HOOK, Material.HAY_BLOCK, Material.BED_BLOCK, Material.TRAP_DOOR, Material.IRON_TRAPDOOR,
@@ -50,7 +50,8 @@ public class MagicFunctions {
             Material.BANNER, Material.STANDING_BANNER, Material.WALL_BANNER, Material.TORCH, Material.LAPIS_BLOCK,
             Material.REDSTONE_TORCH_OFF, Material.REDSTONE_TORCH_ON, Material.RAILS, Material.SAND, Material.GRAVEL,
             Material.EMERALD_BLOCK, Material.BEDROCK, Material.BARRIER, Material.NETHERRACK, Material.SNOW,
-            Material.STRUCTURE_VOID, Material.MOB_SPAWNER
+            Material.STRUCTURE_BLOCK, Material.OBSIDIAN, Material.STRUCTURE_VOID, Material.MOB_SPAWNER,
+            Material.CACTUS, Material.MELON_BLOCK, Material.ICE, Material.FROSTED_ICE, Material.PACKED_ICE
     };
 
     private final String furnaceFuel = "" + ChatColor.DARK_RED + ChatColor.ITALIC + ChatColor.GREEN + ChatColor.BOLD,

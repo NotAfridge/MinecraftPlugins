@@ -23,50 +23,53 @@ public class ZoneDamage implements Listener {
     @EventHandler
     public void zoneCrystalDamage(EntityDamageByEntityEvent event) {
 
-        RocketFunctions rocketFunctions = new RocketFunctions();
-        CommonString commonString = new CommonString();
-        FakeExplosion fakeExplosion = new FakeExplosion();
+        if (event.getEntity().getWorld().getName().equals("world")) {
 
-        if (event.getEntity() instanceof EnderCrystal) {
+            if (event.getEntity() instanceof Entity)
+                if (event.getDamager() instanceof EnderCrystal)
+                    event.setCancelled(true);
 
-            final Entity zoneEntity = event.getEntity();
+            if (event.getEntity() instanceof EnderCrystal) {
 
-            Location entityLocation = zoneEntity.getLocation();
+                final Entity zoneEntity = event.getEntity();
 
-            int eX = entityLocation.getBlockX();
-            int eY = entityLocation.getBlockY();
-            int eZ = entityLocation.getBlockZ();
+                Location entityLocation = zoneEntity.getLocation();
 
-            List<String> zoneList = RocketInit.getPlugin().getConfig().getStringList("zones");
-            List<String> newZoneList = zoneList.stream().map(zone -> zone.replaceFirst(".{37}", "")).collect(Collectors.toList());
+                int eX = entityLocation.getBlockX();
+                int eY = entityLocation.getBlockY();
+                int eZ = entityLocation.getBlockZ();
 
-            String zoneOriginal = event.getDamager().getUniqueId().toString() + "|" + zoneEntity.getWorld().getName() + "|" + eX + "|" + eY + "|" + eZ;
-            String zoneNew = zoneEntity.getWorld().getName() + "|" + eX + "|" + eY + "|" + eZ;
+                List<String> zoneList = RocketInit.getPlugin().getConfig().getStringList("zones");
+                String zoneOriginal = event.getDamager().getUniqueId().toString() + "|" + zoneEntity.getWorld().getName() + "|" + eX + "|" + eY + "|" + eZ;
 
-            if (zoneList.contains(zoneOriginal) || event.getDamager().hasPermission("rocket.remove")) {
+                if (zoneList.contains(zoneOriginal) || event.getDamager().hasPermission("rocket.remove")) {
 
-                commonString.messageSend(RocketInit.getPlugin(), event.getDamager(), true, RocketLanguage.RB_FZ_REMOVE);
+                    RocketFunctions rocketFunctions = new RocketFunctions();
+                    CommonString commonString = new CommonString();
+                    FakeExplosion fakeExplosion = new FakeExplosion();
 
-                zoneList.remove(newZoneList.indexOf(zoneNew));
-                zoneEntity.remove();
+                    List<String> newZoneList = zoneList.stream().map(zone -> zone.replaceFirst(".{37}", "")).collect(Collectors.toList());
+                    String zoneNew = zoneEntity.getWorld().getName() + "|" + eX + "|" + eY + "|" + eZ;
 
-                fakeExplosion.create(entityLocation, 4, FakeExplosion.ExplosionType.LARGE);
-                entityLocation.getWorld().strikeLightningEffect(entityLocation);
+                    commonString.messageSend(RocketInit.getPlugin(), event.getDamager(), true, RocketLanguage.RB_FZ_REMOVE);
 
-                zoneEntity.getWorld().dropItemNaturally(entityLocation, new RocketFlyZone().zone());
+                    if (newZoneList.contains(zoneNew)) zoneList.remove(newZoneList.indexOf(zoneNew));
 
-                RocketInit.getPlugin().getConfig().set("zones", zoneList);
-                RocketInit.getPlugin().saveConfig();
+                    zoneEntity.remove();
 
-                rocketFunctions.reloadFlyZones(false);
+                    fakeExplosion.create(entityLocation, 4, FakeExplosion.ExplosionType.LARGE);
+                    entityLocation.getWorld().strikeLightningEffect(entityLocation);
 
-            } else event.setCancelled(true);
+                    zoneEntity.getWorld().dropItemNaturally(entityLocation, new RocketFlyZone().zone());
 
-        }
+                    RocketInit.getPlugin().getConfig().set("zones", zoneList);
+                    RocketInit.getPlugin().saveConfig();
 
-        if (event.getEntity() instanceof Entity) {
-            if (event.getDamager() instanceof EnderCrystal)
-                if (event.getEntity().getWorld().getName().equals("world")) event.setCancelled(true);
+                    rocketFunctions.reloadFlyZones(false);
+
+                } else event.setCancelled(true);
+
+            }
 
         }
 

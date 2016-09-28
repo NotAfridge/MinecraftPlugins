@@ -184,6 +184,34 @@ public class PlayerInteract extends MagicFunctions implements Listener {
                         new Spawner(block, face);
                         break;
 
+                    case OBSIDIAN:
+                        new Obsidian(block);
+                        break;
+
+                    case STRUCTURE_BLOCK:
+                        new StructureBlock(block);
+                        break;
+
+                    case MELON_BLOCK:
+                        new Melon(block);
+                        break;
+
+                    case CACTUS:
+                        new Cactus(block);
+                        break;
+
+                    case ICE:
+                        new Ice(block);
+                        break;
+
+                    case FROSTED_ICE:
+                        new Ice(block);
+                        break;
+
+                    case PACKED_ICE:
+                        new PackedIce(block);
+                        break;
+
                     default:
                         event.setCancelled(true);
                         break;

@@ -4,18 +4,18 @@ import com.ullarah.umagic.MagicFunctions;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockFadeEvent;
+import org.bukkit.event.block.BlockFromToEvent;
 
-public class BlockFade extends MagicFunctions implements Listener {
+public class BlockFromTo extends MagicFunctions implements Listener {
 
-    public BlockFade() {
+    public BlockFromTo() {
         super(false);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void event(BlockFadeEvent event) {
+    public void event(BlockFromToEvent event) {
 
-        for (String meta : new String[]{metaFire, metaCice})
+        for (String meta : new String[]{metaWate})
             if (event.getBlock().hasMetadata(meta)) event.setCancelled(true);
 
     }
