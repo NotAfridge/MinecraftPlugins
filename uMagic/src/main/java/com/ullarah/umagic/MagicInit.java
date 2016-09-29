@@ -1,5 +1,6 @@
 package com.ullarah.umagic;
 
+import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.ullarah.umagic.database.SQLConnection;
 import com.ullarah.umagic.function.PluginRegisters;
@@ -12,6 +13,7 @@ import java.util.logging.Level;
 public class MagicInit extends JavaPlugin {
 
     private static Plugin plugin;
+    private static WorldEditPlugin worldEdit;
     private static WorldGuardPlugin worldGuard;
     private static SQLConnection sqlConnection;
 
@@ -21,6 +23,14 @@ public class MagicInit extends JavaPlugin {
 
     private void setPlugin(Plugin plugin) {
         MagicInit.plugin = plugin;
+    }
+
+    static WorldEditPlugin getWorldEdit() {
+        return worldEdit;
+    }
+
+    private void setWorldEdit(WorldEditPlugin worldEdit) {
+        MagicInit.worldEdit = worldEdit;
     }
 
     static WorldGuardPlugin getWorldGuard() {
@@ -53,6 +63,7 @@ public class MagicInit extends JavaPlugin {
         if (pluginWorldGuard != null) {
 
             setWorldGuard((WorldGuardPlugin) pluginWorldGuard);
+            setWorldEdit((WorldEditPlugin) pluginManager.getPlugin("WorldEdit"));
 
             String create = "CREATE TABLE IF NOT EXISTS " + getDatabaseName() + "(" +
                     "`_id` INTEGER PRIMARY KEY,`data` TEXT NOT NULL,`world` TEXT NOT NULL," +

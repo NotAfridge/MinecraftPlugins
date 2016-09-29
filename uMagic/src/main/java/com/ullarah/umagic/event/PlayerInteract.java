@@ -212,6 +212,10 @@ public class PlayerInteract extends MagicFunctions implements Listener {
                         new PackedIce(block);
                         break;
 
+                    case MAGMA:
+                        new Magma(block, player);
+                        break;
+
                     default:
                         event.setCancelled(true);
                         break;

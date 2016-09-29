@@ -1,5 +1,6 @@
 package com.ullarah.umagic;
 
+import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
@@ -31,7 +32,8 @@ import java.util.logging.Level;
 
 public class MagicFunctions {
 
-    protected final String metaSand = "uMagic.sg", metaLamp = "uMagic.rl", metaWool = "uMagic.wl",
+    protected final String
+            metaSand = "uMagic.sg", metaLamp = "uMagic.rl", metaWool = "uMagic.wl", metaLava = "uMagic.lv",
             metaEmBr = "uMagic.em", metaLadd = "uMagic.ld", metaRail = "uMagic.ra", metaSign = "uMagic.si",
             metaTrch = "uMagic.tc", metaBanr = "uMagic.bn", metaFram = "uMagic.if", metaVine = "uMagic.vn",
             metaFurn = "uMagic.fc", metaBeds = "uMagic.be", metaFire = "uMagic.fi", metaSnow = "uMagic.sw",
@@ -50,14 +52,15 @@ public class MagicFunctions {
             Material.BANNER, Material.STANDING_BANNER, Material.WALL_BANNER, Material.TORCH, Material.LAPIS_BLOCK,
             Material.REDSTONE_TORCH_OFF, Material.REDSTONE_TORCH_ON, Material.RAILS, Material.SAND, Material.GRAVEL,
             Material.EMERALD_BLOCK, Material.BEDROCK, Material.BARRIER, Material.NETHERRACK, Material.SNOW,
-            Material.STRUCTURE_BLOCK, Material.OBSIDIAN, Material.STRUCTURE_VOID, Material.MOB_SPAWNER,
-            Material.CACTUS, Material.MELON_BLOCK, Material.ICE, Material.FROSTED_ICE, Material.PACKED_ICE
+            Material.STRUCTURE_BLOCK, Material.OBSIDIAN, Material.STRUCTURE_VOID, Material.MOB_SPAWNER, Material.PACKED_ICE,
+            Material.CACTUS, Material.MELON_BLOCK, Material.ICE, Material.FROSTED_ICE, Material.MAGMA
     };
 
     private final String furnaceFuel = "" + ChatColor.DARK_RED + ChatColor.ITALIC + ChatColor.GREEN + ChatColor.BOLD,
             furnaceSmelt = "" + ChatColor.BOLD + ChatColor.ITALIC + ChatColor.YELLOW;
     private final String database = MagicInit.getDatabaseName();
     private Plugin plugin;
+    private WorldEditPlugin worldEdit;
     private WorldGuardPlugin worldGuard;
     private CommonString commonString;
     private ActionMessage actionMessage;
@@ -67,6 +70,7 @@ public class MagicFunctions {
     public MagicFunctions(boolean doInit) {
 
         setPlugin(MagicInit.getPlugin());
+        setWorldEdit(MagicInit.getWorldEdit());
         setWorldGuard(MagicInit.getWorldGuard());
         setSqlConnection(MagicInit.getSqlConnection());
 
@@ -88,6 +92,14 @@ public class MagicFunctions {
 
     private void setPlugin(Plugin plugin) {
         this.plugin = plugin;
+    }
+
+    protected WorldEditPlugin getWorldEdit() {
+        return worldEdit;
+    }
+
+    private void setWorldEdit(WorldEditPlugin worldEdit) {
+        this.worldEdit = worldEdit;
     }
 
     private WorldGuardPlugin getWorldGuard() {
