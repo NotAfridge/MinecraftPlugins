@@ -33,7 +33,7 @@ public class CraftStandard extends MagicFunctions implements Listener {
                     hasNormalHoes = hoe.getItemMeta().getDisplayName().equals(new MagicHoeNormal().getHoeDisplayName());
 
                     if (hoe.getItemMeta().hasLore())
-                        if (hoe.getItemMeta().getLore().get(0).equals(new MagicHoeSuper().getHoeSuperLore())) {
+                        if (hoe.getItemMeta().getLore().get(0).equals(new MagicHoeSuper().getHoeTypeLore())) {
 
                             hasNormalHoes = false;
                             hasSuperHoes = true;

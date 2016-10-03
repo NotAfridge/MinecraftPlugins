@@ -82,11 +82,7 @@ public class MagicInit extends JavaPlugin {
 
             new PluginRegisters(getPlugin());
 
-            MagicExecutor magicExecutor = new MagicExecutor();
-
-            getCommand("n-hoe").setExecutor(magicExecutor);
-            getCommand("s-hoe").setExecutor(magicExecutor);
-            getCommand("u-hoe").setExecutor(magicExecutor);
+            getCommand("hoe").setExecutor(new MagicExecutor());
 
         } else {
 

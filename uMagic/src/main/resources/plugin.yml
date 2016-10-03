@@ -9,18 +9,10 @@ softdepend: [WorldEdit, WorldGuard]
 main: ${project.groupId}.${project.artifactId}.MagicInit
 
 commands:
-  n-hoe:
+  hoe:
     description: Hoe Crafting Command
     usage: |
-      <command> : Gives a normal magical hoe.
-  s-hoe:
-    description: Hoe Crafting Command
-    usage: |
-      <command> : Gives a super magical hoe.
-  u-hoe:
-    description: Hoe Crafting Command
-    usage: |
-      <command> : Gives a uber magical hoe.
+      <command> : Gives a magical hoe.
 
 permissions:
   umagic.danger:

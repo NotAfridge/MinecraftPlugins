@@ -322,8 +322,8 @@ public class MagicFunctions {
 
                 String loreLine = inMainHand.getItemMeta().getLore().get(0);
 
-                if (loreLine.equals(new MagicHoeSuper().getHoeSuperLore())) hoeType = 1;
-                if (loreLine.equals(new MagicHoeUber().getHoeUberLore())) hoeType = 2;
+                if (loreLine.equals(new MagicHoeSuper().getHoeTypeLore())) hoeType = 1;
+                if (loreLine.equals(new MagicHoeUber().getHoeTypeLore())) hoeType = 2;
 
             }
 

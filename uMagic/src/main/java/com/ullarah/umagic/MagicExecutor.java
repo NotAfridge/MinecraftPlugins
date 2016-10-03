@@ -3,6 +3,7 @@ package com.ullarah.umagic;
 import com.ullarah.umagic.recipe.MagicHoeNormal;
 import com.ullarah.umagic.recipe.MagicHoeSuper;
 import com.ullarah.umagic.recipe.MagicHoeUber;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,19 +29,36 @@ class MagicExecutor extends MagicFunctions implements CommandExecutor {
         MagicHoeSuper hoeSuper = new MagicHoeSuper();
         MagicHoeUber hoeUber = new MagicHoeUber();
 
-        switch (command.getName().toLowerCase()) {
+        String hoeType = "What type? " + ChatColor.YELLOW + "/hoe (n)ormal | (s)uper | (u)ber";
 
-            case "n-hoe":
-                giveMagicHoe(player, hoeNormal.hoe());
-                break;
+        if (command.getName().toLowerCase().equals("hoe")) {
 
-            case "s-hoe":
-                giveMagicHoe(player, hoeSuper.hoe());
-                break;
+            if (args.length >= 1) {
 
-            case "u-hoe":
-                giveMagicHoe(player, hoeUber.hoe());
-                break;
+                switch (args[0].toLowerCase()) {
+
+                    case "n":
+                    case "normal":
+                        giveMagicHoe(player, hoeNormal.hoe());
+                        break;
+
+                    case "s":
+                    case "super":
+                        giveMagicHoe(player, hoeSuper.hoe());
+                        break;
+
+                    case "u":
+                    case "uber":
+                        giveMagicHoe(player, hoeUber.hoe());
+                        break;
+
+                    default:
+                        getCommonString().messageSend(player, hoeType);
+                        break;
+
+                }
+
+            } else getCommonString().messageSend(player, hoeType);
 
         }
 

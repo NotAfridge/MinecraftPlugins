@@ -13,9 +13,11 @@ import java.util.ArrayList;
 public class MagicHoeNormal {
 
     private String hoeDisplayName;
+    private String hoeTypeLore;
 
     public MagicHoeNormal() {
         setHoeDisplayName(ChatColor.AQUA + "Magical Hoe");
+        setHoeTypeLore("" + ChatColor.AQUA + ChatColor.BOLD + "▪▪ NORMAL ▪▪");
     }
 
     public String getHoeDisplayName() {
@@ -26,6 +28,14 @@ public class MagicHoeNormal {
         this.hoeDisplayName = name;
     }
 
+    public String getHoeTypeLore() {
+        return this.hoeTypeLore;
+    }
+
+    private void setHoeTypeLore(String lore) {
+        this.hoeTypeLore = lore;
+    }
+
     public ItemStack hoe() {
 
         ItemStack hoeStack = new ItemStack(Material.DIAMOND_HOE, 1);
@@ -34,6 +44,9 @@ public class MagicHoeNormal {
         hoeMeta.setDisplayName(getHoeDisplayName());
 
         ArrayList<String> hoeLore = new ArrayList<>();
+
+        hoeLore.add(getHoeTypeLore());
+        hoeLore.add(ChatColor.RESET + "");
 
         hoeLore.add("" + ChatColor.RED + ChatColor.BOLD + "Use it at your own risk!");
         hoeLore.add(ChatColor.RED + "If anything breaks, it's your own fault!");

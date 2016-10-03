@@ -13,11 +13,11 @@ import java.util.ArrayList;
 public class MagicHoeUber {
 
     private String hoeDisplayName;
-    private String hoeUberLore;
+    private String hoeTypeLore;
 
     public MagicHoeUber() {
         setHoeDisplayName(new MagicHoeNormal().getHoeDisplayName());
-        setHoeUberLore("" + ChatColor.AQUA + ChatColor.BOLD + "▪▪ UBER ▪▪");
+        setHoeTypeLore("" + ChatColor.AQUA + ChatColor.BOLD + "▪▪ UBER ▪▪");
     }
 
     private String getHoeDisplayName() {
@@ -28,12 +28,12 @@ public class MagicHoeUber {
         this.hoeDisplayName = name;
     }
 
-    public String getHoeUberLore() {
-        return this.hoeUberLore;
+    public String getHoeTypeLore() {
+        return this.hoeTypeLore;
     }
 
-    private void setHoeUberLore(String lore) {
-        this.hoeUberLore = lore;
+    private void setHoeTypeLore(String lore) {
+        this.hoeTypeLore = lore;
     }
 
     public ItemStack hoe() {
@@ -45,7 +45,7 @@ public class MagicHoeUber {
 
         ArrayList<String> hoeLore = new ArrayList<>();
 
-        hoeLore.add(getHoeUberLore());
+        hoeLore.add(getHoeTypeLore());
         hoeLore.add(ChatColor.RESET + "");
 
         hoeLore.add("" + ChatColor.RED + ChatColor.BOLD + "Use it at your own risk!");
