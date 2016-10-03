@@ -15,8 +15,11 @@ public class BlockFromTo extends MagicFunctions implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void event(BlockFromToEvent event) {
 
-        for (String meta : new String[]{metaWate, metaLava})
+        for (String meta : new String[]{metaCice, metaWate, metaLava})
             if (event.getBlock().hasMetadata(meta)) event.setCancelled(true);
+
+        for (String meta : new String[]{metaCice, metaWate, metaLava})
+            if (event.getToBlock().hasMetadata(meta)) event.setCancelled(true);
 
     }
 

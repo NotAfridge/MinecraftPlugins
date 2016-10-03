@@ -55,7 +55,7 @@ public class PlayerInteract extends MagicFunctions implements Listener {
                         break;
 
                     case REDSTONE_LAMP_OFF:
-                        new Redstone(block);
+                        new Lamp(block);
                         break;
 
                     case ACACIA_STAIRS:
@@ -142,12 +142,11 @@ public class PlayerInteract extends MagicFunctions implements Listener {
                         break;
 
                     case TORCH:
-                    case REDSTONE_TORCH_OFF:
-                    case REDSTONE_TORCH_ON:
                         new Torch(block);
                         break;
 
                     case RAILS:
+                    case POWERED_RAIL:
                         new Rails(block);
                         break;
 

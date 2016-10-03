@@ -1,4 +1,4 @@
-package com.ullarah.umagic;
+package com.ullarah.umagic.recipe;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -10,11 +10,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
-public class MagicRecipe {
+public class MagicHoeNormal {
 
     private String hoeDisplayName;
 
-    public MagicRecipe() {
+    public MagicHoeNormal() {
         setHoeDisplayName(ChatColor.AQUA + "Magical Hoe");
     }
 
@@ -26,7 +26,7 @@ public class MagicRecipe {
         this.hoeDisplayName = name;
     }
 
-    ItemStack hoe() {
+    public ItemStack hoe() {
 
         ItemStack hoeStack = new ItemStack(Material.DIAMOND_HOE, 1);
         ItemMeta hoeMeta = hoeStack.getItemMeta();
@@ -34,6 +34,7 @@ public class MagicRecipe {
         hoeMeta.setDisplayName(getHoeDisplayName());
 
         ArrayList<String> hoeLore = new ArrayList<>();
+
         hoeLore.add("" + ChatColor.RED + ChatColor.BOLD + "Use it at your own risk!");
         hoeLore.add(ChatColor.RED + "If anything breaks, it's your own fault!");
 
@@ -48,7 +49,7 @@ public class MagicRecipe {
 
     }
 
-    ShapedRecipe recipe() {
+    public ShapedRecipe recipe() {
 
         ShapedRecipe hoeRecipe = new ShapedRecipe(hoe());
         hoeRecipe.shape("RMR", "MHM", "RMR");

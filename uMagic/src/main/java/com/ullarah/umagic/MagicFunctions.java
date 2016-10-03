@@ -9,6 +9,9 @@ import com.ullarah.umagic.database.SQLConnection;
 import com.ullarah.umagic.database.SQLMessage;
 import com.ullarah.umagic.function.ActionMessage;
 import com.ullarah.umagic.function.CommonString;
+import com.ullarah.umagic.recipe.MagicHoeNormal;
+import com.ullarah.umagic.recipe.MagicHoeSuper;
+import com.ullarah.umagic.recipe.MagicHoeUber;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -37,7 +40,8 @@ public class MagicFunctions {
             metaEmBr = "uMagic.em", metaLadd = "uMagic.ld", metaRail = "uMagic.ra", metaSign = "uMagic.si",
             metaTrch = "uMagic.tc", metaBanr = "uMagic.bn", metaFram = "uMagic.if", metaVine = "uMagic.vn",
             metaFurn = "uMagic.fc", metaBeds = "uMagic.be", metaFire = "uMagic.fi", metaSnow = "uMagic.sw",
-            metaVoid = "uMagic.vd", metaCact = "uMagic.cs", metaCice = "uMagic.ci", metaWate = "uMagic.wa";
+            metaVoid = "uMagic.vd", metaCact = "uMagic.cs", metaCice = "uMagic.ci", metaWate = "uMagic.wa",
+            metaReds = "uMagic.rd";
 
     private final Material[] validMagicBlocks = new Material[]{
             Material.TRIPWIRE_HOOK, Material.HAY_BLOCK, Material.BED_BLOCK, Material.TRAP_DOOR, Material.IRON_TRAPDOOR,
@@ -50,10 +54,10 @@ public class MagicFunctions {
             Material.WOOD_BUTTON, Material.GOLD_PLATE, Material.IRON_PLATE, Material.STONE_PLATE, Material.WOOD_PLATE,
             Material.HUGE_MUSHROOM_1, Material.HUGE_MUSHROOM_2, Material.FURNACE, Material.BURNING_FURNACE, Material.VINE,
             Material.BANNER, Material.STANDING_BANNER, Material.WALL_BANNER, Material.TORCH, Material.LAPIS_BLOCK,
-            Material.REDSTONE_TORCH_OFF, Material.REDSTONE_TORCH_ON, Material.RAILS, Material.SAND, Material.GRAVEL,
-            Material.EMERALD_BLOCK, Material.BEDROCK, Material.BARRIER, Material.NETHERRACK, Material.SNOW,
-            Material.STRUCTURE_BLOCK, Material.OBSIDIAN, Material.STRUCTURE_VOID, Material.MOB_SPAWNER, Material.PACKED_ICE,
-            Material.CACTUS, Material.MELON_BLOCK, Material.ICE, Material.FROSTED_ICE, Material.MAGMA
+            Material.RAILS, Material.SAND, Material.GRAVEL, Material.EMERALD_BLOCK, Material.BEDROCK, Material.BARRIER,
+            Material.NETHERRACK, Material.SNOW, Material.STRUCTURE_BLOCK, Material.OBSIDIAN, Material.STRUCTURE_VOID,
+            Material.MOB_SPAWNER, Material.PACKED_ICE, Material.CACTUS, Material.MELON_BLOCK, Material.ICE,
+            Material.FROSTED_ICE, Material.MAGMA, Material.POWERED_RAIL,
     };
 
     private final String furnaceFuel = "" + ChatColor.DARK_RED + ChatColor.ITALIC + ChatColor.GREEN + ChatColor.BOLD,
@@ -257,7 +261,7 @@ public class MagicFunctions {
 
     protected boolean usingMagicHoe(Player player) {
 
-        MagicRecipe recipe = new MagicRecipe();
+        MagicHoeNormal recipe = new MagicHoeNormal();
         ItemStack inMainHand = player.getInventory().getItemInMainHand();
 
         if (inMainHand.getType() == Material.DIAMOND_HOE)
@@ -312,13 +316,40 @@ public class MagicFunctions {
 
             ItemStack inMainHand = player.getInventory().getItemInMainHand();
 
-            displayParticles(block);
+            int hoeType = 0;
 
-            inMainHand.setDurability((short) (inMainHand.getDurability() + 25));
+            if (inMainHand.hasItemMeta()) if (inMainHand.getItemMeta().hasLore()) {
+
+                String loreLine = inMainHand.getItemMeta().getLore().get(0);
+
+                if (loreLine.equals(new MagicHoeSuper().getHoeSuperLore())) hoeType = 1;
+                if (loreLine.equals(new MagicHoeUber().getHoeUberLore())) hoeType = 2;
+
+            }
+
+            displayParticles(block, hoeType);
+
+            switch (hoeType) {
+
+                case 0:
+                    inMainHand.setDurability((short) (inMainHand.getDurability() + 20));
+                    break;
+
+                case 1:
+                    inMainHand.setDurability((short) (inMainHand.getDurability() + 10));
+                    break;
+
+                case 2:
+                    inMainHand.setDurability((short) (inMainHand.getDurability() + 5));
+                    break;
+
+            }
 
             if (inMainHand.getDurability() >= inMainHand.getType().getMaxDurability()) {
+
                 player.getInventory().clear(player.getInventory().getHeldItemSlot());
                 player.playSound(player.getLocation(), Sound.ENTITY_ITEM_BREAK, 0.75f, 0.75f);
+
             }
 
             return true;
@@ -330,14 +361,29 @@ public class MagicFunctions {
 
     }
 
-    private void displayParticles(Block block) {
+    private void displayParticles(Block block, int hoeType) {
 
         double bX = block.getLocation().getX() + 0.5,
                 bY = block.getLocation().getY() + 0.5,
                 bZ = block.getLocation().getZ() + 0.5;
 
-        block.getWorld().spawnParticle(Particle.CRIT_MAGIC, bX, bY, bZ, 25);
-        block.getWorld().playSound(block.getLocation(), Sound.UI_BUTTON_CLICK, 0.75f, 0.75f);
+        switch (hoeType) {
+
+            case 0:
+                block.getWorld().spawnParticle(Particle.CRIT_MAGIC, bX, bY, bZ, 30);
+                break;
+
+            case 1:
+                block.getWorld().spawnParticle(Particle.SPELL_WITCH, bX, bY, bZ, 30);
+                break;
+
+            case 2:
+                block.getWorld().spawnParticle(Particle.VILLAGER_ANGRY, bX, bY, bZ, 30);
+                break;
+
+        }
+
+        block.getWorld().playSound(block.getLocation(), Sound.ENTITY_SHULKER_TELEPORT, 0.5f, 0.5f);
 
     }
 

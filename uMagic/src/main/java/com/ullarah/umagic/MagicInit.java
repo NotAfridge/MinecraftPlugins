@@ -4,6 +4,9 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.ullarah.umagic.database.SQLConnection;
 import com.ullarah.umagic.function.PluginRegisters;
+import com.ullarah.umagic.recipe.MagicHoeNormal;
+import com.ullarah.umagic.recipe.MagicHoeSuper;
+import com.ullarah.umagic.recipe.MagicHoeUber;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -73,11 +76,17 @@ public class MagicInit extends JavaPlugin {
 
             new MagicFunctions(true);
 
-            getServer().addRecipe(new MagicRecipe().recipe());
+            getServer().addRecipe(new MagicHoeNormal().recipe());
+            getServer().addRecipe(new MagicHoeSuper().recipe());
+            getServer().addRecipe(new MagicHoeUber().recipe());
 
             new PluginRegisters(getPlugin());
 
-            getCommand("hoe").setExecutor(new MagicExecutor());
+            MagicExecutor magicExecutor = new MagicExecutor();
+
+            getCommand("n-hoe").setExecutor(magicExecutor);
+            getCommand("s-hoe").setExecutor(magicExecutor);
+            getCommand("u-hoe").setExecutor(magicExecutor);
 
         } else {
 
