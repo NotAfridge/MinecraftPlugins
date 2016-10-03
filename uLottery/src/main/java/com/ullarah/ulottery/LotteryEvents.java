@@ -36,7 +36,8 @@ class LotteryEvents extends LotteryMessageInit implements Listener {
             getSuspension().getMap().put(player.getUniqueId(),
                     getRecentDeath().getMap().get(player.getUniqueId()));
 
-            String deathMessage = event.getDeathMessage().split(" ", 2)[1];
+            String deathMessage = event.getDeathMessage() == null
+                    ? "died" : event.getDeathMessage().split(" ", 2)[1];
 
             getRecentDeath().setReason(deathMessage.equals("died")
                     ? "Mysterious Forces..."
