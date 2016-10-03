@@ -60,9 +60,11 @@ public class RecentWinner extends Bank {
         String heading = ChatColor.YELLOW + "  Recent Winner: " + ChatColor.RED + getWinName() + sep;
         String item = " " + getItemMaterial().name().replace("_", " ").toLowerCase();
 
-        return LotteryInit.getEconomy() != null
-                ? heading + ChatColor.GREEN + "$" + getWinAmount()
-                : heading + ChatColor.GREEN + getWinAmount() + item + (getWinAmount() > 1 ? "s" : "");
+        if (LotteryInit.getEconomy() != null) {
+            return getWinAmount() > 1
+                    ? heading + getWinAmount() + " " + LotteryInit.getEconomy().currencyNamePlural()
+                    : heading + getWinAmount() + " " + LotteryInit.getEconomy().currencyNameSingular();
+        } else return heading + getWinAmount() + item + (getWinAmount() > 1 ? "s" : "");
 
     }
 

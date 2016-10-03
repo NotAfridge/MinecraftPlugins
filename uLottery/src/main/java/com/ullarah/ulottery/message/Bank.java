@@ -34,13 +34,13 @@ public class Bank extends LotteryMessageInit {
         return itemMaterial;
     }
 
-    public void setItemMaterial(String m) {
-        itemMaterial = Material.getMaterial(m);
-    }
-
     @SuppressWarnings("SameParameterValue")
     private void setItemMaterial(Material m) {
         itemMaterial = m;
+    }
+
+    public void setItemMaterial(String m) {
+        itemMaterial = Material.getMaterial(m);
     }
 
     private String message() {
@@ -48,10 +48,10 @@ public class Bank extends LotteryMessageInit {
         String heading = ChatColor.YELLOW + "  Lottery Bank Balance: " + ChatColor.GREEN;
         String item = " " + getItemMaterial().name().replace("_", " ").toLowerCase();
 
-        if (amount > 0) {
+        if (getAmount() > 0) {
 
             if (LotteryInit.getEconomy() != null) {
-                return amount > 1
+                return getAmount() > 1
                         ? heading + getAmount() + " " + LotteryInit.getEconomy().currencyNamePlural()
                         : heading + getAmount() + " " + LotteryInit.getEconomy().currencyNameSingular();
             } else return heading + getAmount() + item + (getAmount() > 1 ? "s" : "");
