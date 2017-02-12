@@ -3,10 +3,10 @@ package com.ullarah.urocket.task;
 import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.GamemodeCheck;
 import com.ullarah.urocket.init.RocketVariant;
-import net.minecraft.server.v1_10_R1.EnumParticle;
-import net.minecraft.server.v1_10_R1.PacketPlayOutWorldParticles;
+import net.minecraft.server.v1_11_R1.EnumParticle;
+import net.minecraft.server.v1_11_R1.PacketPlayOutWorldParticles;
 import org.bukkit.*;
-import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_11_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 

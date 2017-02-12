@@ -3,7 +3,7 @@ package com.ullarah.urocket.init;
 import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.PluginRegisters;
 import com.ullarah.urocket.recipe.RocketVariants;
-import net.minecraft.server.v1_10_R1.EnumParticle;
+import net.minecraft.server.v1_11_R1.EnumParticle;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
