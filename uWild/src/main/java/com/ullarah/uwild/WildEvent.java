@@ -101,7 +101,7 @@ class WildEvent implements Listener {
                                 passenger.setCustomName(ChatColor.YELLOW + "Spyker");
                                 passenger.setCustomNameVisible(false);
 
-                                entity.setPassenger(passenger);
+                                entity.addPassenger(passenger);
                                 entity.setSilent(true);
 
                             }
@@ -119,8 +119,8 @@ class WildEvent implements Listener {
                                 pigOne.setCustomNameVisible(false);
                                 pigTwo.setCustomNameVisible(false);
 
-                                pigOne.setPassenger(pigTwo);
-                                entity.setPassenger(pigOne);
+                                pigOne.addPassenger(pigTwo);
+                                entity.addPassenger(pigOne);
 
                             }
                             break;
