@@ -5,6 +5,7 @@ import com.ullarah.upostal.command.Help;
 import com.ullarah.upostal.command.Modify;
 import com.ullarah.upostal.command.inbox.Clear;
 import com.ullarah.upostal.command.inbox.Prepare;
+import com.ullarah.upostal.command.inbox.Reset;
 import com.ullarah.upostal.command.inbox.Upgrade;
 import com.ullarah.upostal.function.CommonString;
 import com.ullarah.upostal.function.PlayerProfile;
@@ -69,7 +70,7 @@ class PostalExecutor implements CommandExecutor {
 
     private void postalCommands(CommandSender sender, String[] args) {
 
-        String consoleTools = new CommonString().pluginPrefix(PostalInit.getPlugin()) + "blacklist | clear";
+        String consoleTools = new CommonString().pluginPrefix(PostalInit.getPlugin()) + "blacklist | clear | reset";
 
         if (args.length == 0) if (!(sender instanceof Player)) sender.sendMessage(consoleTools);
         else new Help().display(sender);
@@ -89,6 +90,10 @@ class PostalExecutor implements CommandExecutor {
 
                 case "CLEAR":
                     new Clear().run(sender, args);
+                    break;
+
+                case "RESET":
+                    new Reset().run(sender, args);
                     break;
 
                 default:

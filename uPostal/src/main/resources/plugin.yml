@@ -14,6 +14,7 @@ commands:
       <command> blacklist <player> : Blacklists the players inbox.
       <command> modify <player> : View the players inbox.
       <command> clear <player> : Clears the players inbox.
+      <command> reset <player> : Resets busy status of inbox.
   post:
     description: Inbox of other Player
     usage: |
@@ -31,3 +32,4 @@ permissions:
       postal.blacklist: true
       postal.modify: true
       postal.clear: true
+      postal.reset: true
