@@ -1,6 +1,7 @@
 package com.ullarah.umagic.event;
 
 import com.ullarah.umagic.MagicFunctions;
+import com.ullarah.umagic.recipe.MagicHoeCosmic;
 import com.ullarah.umagic.recipe.MagicHoeNormal;
 import com.ullarah.umagic.recipe.MagicHoeSuper;
 import com.ullarah.umagic.recipe.MagicHoeUber;
@@ -25,6 +26,7 @@ public class CraftStandard extends MagicFunctions implements Listener {
 
             boolean hasNormalHoes = false;
             boolean hasSuperHoes = false;
+            boolean hasUberHoes = false;
 
             boolean hasDiamond = false;
 
@@ -32,24 +34,39 @@ public class CraftStandard extends MagicFunctions implements Listener {
                 if (hoe.hasItemMeta()) if (hoe.getItemMeta().hasDisplayName()) {
                     hasNormalHoes = hoe.getItemMeta().getDisplayName().equals(new MagicHoeNormal().getHoeDisplayName());
 
-                    if (hoe.getItemMeta().hasLore())
+                    if (hoe.getItemMeta().hasLore()) {
+
                         if (hoe.getItemMeta().getLore().get(0).equals(new MagicHoeSuper().getHoeTypeLore())) {
 
                             hasNormalHoes = false;
                             hasSuperHoes = true;
+                            hasUberHoes = false;
 
                         }
+
+                        if (hoe.getItemMeta().getLore().get(0).equals(new MagicHoeUber().getHoeTypeLore())) {
+
+                            hasNormalHoes = false;
+                            hasSuperHoes = false;
+                            hasUberHoes = true;
+
+                        }
+
+                    }
 
                 }
 
             if (event.getInventory().getMatrix()[4].equals(new ItemStack(Material.DIAMOND_BLOCK)))
                 hasDiamond = true;
 
-            if (hasNormalHoes && !hasSuperHoes && hasDiamond)
+            if (hasNormalHoes && !hasSuperHoes && !hasUberHoes && hasDiamond)
                 event.getInventory().setResult(new MagicHoeSuper().hoe());
 
             if (!hasNormalHoes && hasSuperHoes && hasDiamond)
                 event.getInventory().setResult(new MagicHoeUber().hoe());
+
+            if (!hasNormalHoes && !hasSuperHoes && hasUberHoes && hasDiamond)
+                event.getInventory().setResult(new MagicHoeCosmic().hoe());
 
         }
 

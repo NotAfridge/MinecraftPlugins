@@ -9,6 +9,7 @@ import com.ullarah.umagic.database.SQLConnection;
 import com.ullarah.umagic.database.SQLMessage;
 import com.ullarah.umagic.function.ActionMessage;
 import com.ullarah.umagic.function.CommonString;
+import com.ullarah.umagic.recipe.MagicHoeCosmic;
 import com.ullarah.umagic.recipe.MagicHoeNormal;
 import com.ullarah.umagic.recipe.MagicHoeSuper;
 import com.ullarah.umagic.recipe.MagicHoeUber;
@@ -324,6 +325,7 @@ public class MagicFunctions {
 
                 if (loreLine.equals(new MagicHoeSuper().getHoeTypeLore())) hoeType = 1;
                 if (loreLine.equals(new MagicHoeUber().getHoeTypeLore())) hoeType = 2;
+                if (loreLine.equals(new MagicHoeCosmic().getHoeTypeLore())) hoeType = 3;
 
             }
 
@@ -341,6 +343,10 @@ public class MagicFunctions {
 
                 case 2:
                     inMainHand.setDurability((short) (inMainHand.getDurability() + 5));
+                    break;
+
+                case 3:
+                    inMainHand.setDurability((short) (inMainHand.getDurability() - 1));
                     break;
 
             }
@@ -379,6 +385,10 @@ public class MagicFunctions {
 
             case 2:
                 block.getWorld().spawnParticle(Particle.VILLAGER_ANGRY, bX, bY, bZ, 30);
+                break;
+
+            case 3:
+                block.getWorld().spawnParticle(Particle.DRAGON_BREATH, bX, bY, bZ, 30);
                 break;
 
         }

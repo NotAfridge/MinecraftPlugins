@@ -1,5 +1,6 @@
 package com.ullarah.umagic;
 
+import com.ullarah.umagic.recipe.MagicHoeCosmic;
 import com.ullarah.umagic.recipe.MagicHoeNormal;
 import com.ullarah.umagic.recipe.MagicHoeSuper;
 import com.ullarah.umagic.recipe.MagicHoeUber;
@@ -28,8 +29,9 @@ class MagicExecutor extends MagicFunctions implements CommandExecutor {
         MagicHoeNormal hoeNormal = new MagicHoeNormal();
         MagicHoeSuper hoeSuper = new MagicHoeSuper();
         MagicHoeUber hoeUber = new MagicHoeUber();
+        MagicHoeCosmic hoeCosmic = new MagicHoeCosmic();
 
-        String hoeType = "What type? " + ChatColor.YELLOW + "/hoe (n)ormal | (s)uper | (u)ber";
+        String hoeType = "What type? " + ChatColor.YELLOW + "/hoe (n)ormal | (s)uper | (u)ber | (c)osmic";
 
         if (command.getName().toLowerCase().equals("hoe")) {
 
@@ -50,6 +52,11 @@ class MagicExecutor extends MagicFunctions implements CommandExecutor {
                     case "u":
                     case "uber":
                         giveMagicHoe(player, hoeUber.hoe());
+                        break;
+
+                    case "c":
+                    case "cosmic":
+                        giveMagicHoe(player, hoeCosmic.hoe());
                         break;
 
                     default:
