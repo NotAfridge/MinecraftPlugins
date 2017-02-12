@@ -56,6 +56,7 @@ public class MagicHoeUber {
         hoeMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         hoeStack.setItemMeta(hoeMeta);
 
+        hoeStack.addEnchantment(Enchantment.MENDING, 1);
         hoeStack.addUnsafeEnchantment(Enchantment.LUCK, 1);
 
         return hoeStack;
