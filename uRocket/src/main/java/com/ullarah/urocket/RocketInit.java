@@ -102,7 +102,6 @@ public class RocketInit extends JavaPlugin {
                 new RepairTank(),
                 new RepairStand(),
                 new RocketFlyZone(),
-                new RocketSaddle(),
                 new RocketFuelJacket(Material.LEATHER_CHESTPLATE),
                 new RocketFuelJacket(Material.IRON_CHESTPLATE),
                 new RocketFuelJacket(Material.GOLD_CHESTPLATE),

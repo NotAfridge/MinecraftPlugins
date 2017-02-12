@@ -47,7 +47,6 @@ public class DisplayComponentChest {
                     add(new RepairStation().station()),
                     add(new RepairStand().stand()),
                     add(new RocketFlyZone().zone()),
-                    add(new RocketSaddle().saddle()),
                     add(new ItemStack(Material.AIR)),
                     add(new ItemStack(Material.AIR)),
                     add(new ItemStack(Material.AIR))
