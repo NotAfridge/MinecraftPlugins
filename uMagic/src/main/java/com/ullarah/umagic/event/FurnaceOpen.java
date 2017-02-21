@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.inventory.FurnaceInventory;
 
 public class FurnaceOpen extends MagicFunctions implements Listener {
 
@@ -17,7 +18,7 @@ public class FurnaceOpen extends MagicFunctions implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void event(InventoryOpenEvent event) {
 
-        if (usingMagicHoe((Player) event.getPlayer())) {
+        if (event.getInventory() instanceof FurnaceInventory && usingMagicHoe((Player) event.getPlayer())) {
             event.setCancelled(true);
             return;
         }
