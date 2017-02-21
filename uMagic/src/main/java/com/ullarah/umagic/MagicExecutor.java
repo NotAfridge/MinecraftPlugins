@@ -26,11 +26,6 @@ class MagicExecutor extends MagicFunctions implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        MagicHoeNormal hoeNormal = new MagicHoeNormal();
-        MagicHoeSuper hoeSuper = new MagicHoeSuper();
-        MagicHoeUber hoeUber = new MagicHoeUber();
-        MagicHoeCosmic hoeCosmic = new MagicHoeCosmic();
-
         String hoeType = "What type? " + ChatColor.YELLOW + "/hoe (n)ormal | (s)uper | (u)ber | (c)osmic";
 
         if (command.getName().toLowerCase().equals("hoe")) {
@@ -41,22 +36,22 @@ class MagicExecutor extends MagicFunctions implements CommandExecutor {
 
                     case "n":
                     case "normal":
-                        giveMagicHoe(player, hoeNormal.hoe());
+                        giveMagicHoe(player, new MagicHoeNormal().hoe());
                         break;
 
                     case "s":
                     case "super":
-                        giveMagicHoe(player, hoeSuper.hoe());
+                        giveMagicHoe(player, new MagicHoeSuper().hoe());
                         break;
 
                     case "u":
                     case "uber":
-                        giveMagicHoe(player, hoeUber.hoe());
+                        giveMagicHoe(player, new MagicHoeUber().hoe());
                         break;
 
                     case "c":
                     case "cosmic":
-                        giveMagicHoe(player, hoeCosmic.hoe());
+                        giveMagicHoe(player, new MagicHoeCosmic().hoe());
                         break;
 
                     default:
