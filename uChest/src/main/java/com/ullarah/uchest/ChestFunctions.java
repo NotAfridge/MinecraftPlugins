@@ -3,7 +3,6 @@ package com.ullarah.uchest;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-import com.ullarah.uchest.command.ChestPickup;
 import com.ullarah.uchest.function.CommonString;
 import com.ullarah.uchest.function.Experience;
 import com.ullarah.uchest.init.ChestLanguage;
@@ -386,15 +385,6 @@ public class ChestFunctions {
             if (lockTimer > 0) chestLockout(player, lockTimer, chestType);
 
         } else player.openInventory(inventory);
-
-    }
-
-    public boolean checkPickupTool(ItemStack item) {
-
-        if (item.getType() == Material.SHEARS) if (item.hasItemMeta()) if (item.getItemMeta().hasDisplayName())
-            if (item.getItemMeta().getDisplayName().equals(ChestPickup.toolName)) return true;
-
-        return false;
 
     }
 

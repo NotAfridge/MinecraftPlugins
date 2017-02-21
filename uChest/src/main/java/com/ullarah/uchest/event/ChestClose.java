@@ -107,7 +107,7 @@ public class ChestClose implements Listener {
             }
 
         } else
-            commonString.messageSend(ChestInit.getPlugin(), player, ChatColor.RED + "Error saving vault chest contents.");
+            commonString.messageSend(ChestInit.getPlugin(), player, ChatColor.RED + "Error saving chest contents.");
 
     }
 

@@ -18,7 +18,7 @@ public class ToggleAccess {
 
         if (args.length == 2) {
 
-            if (!args[1].toLowerCase().matches("[dehmprsvwx]chest")) {
+            if (!args[1].toLowerCase().matches("[dehmrsvwx]chest")) {
                 commonString.messageSend(ChestInit.getPlugin(), sender,
                         ChatColor.RED + "That type of chest does not exist!");
                 return;
@@ -46,7 +46,7 @@ public class ToggleAccess {
 
         } else
             commonString.messageSend(ChestInit.getPlugin(), sender,
-                    ChatColor.YELLOW + "/chest toggle [dehmprsvwx]chest");
+                    ChatColor.YELLOW + "/chest toggle [dehmrsvwx]chest");
 
     }
 

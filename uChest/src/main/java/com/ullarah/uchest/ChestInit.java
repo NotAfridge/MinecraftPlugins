@@ -182,7 +182,7 @@ public class ChestInit extends JavaPlugin {
             pluginList.add("WorldGuard");
         }
 
-        for (String c : new String[]{"", "d", "e", "h", "m", "p", "r", "s", "v", "w", "x"}) {
+        for (String c : new String[]{"", "d", "e", "h", "m", "r", "s", "v", "w", "x"}) {
             chestLockoutMap.put(c + "chest", new ConcurrentHashMap<>());
             chestTypeEnabled.put(c + "chest", getPlugin().getConfig().getBoolean(c + "chest.enabled"));
             getCommand(c + "chest").setExecutor(new ChestExecutor());
