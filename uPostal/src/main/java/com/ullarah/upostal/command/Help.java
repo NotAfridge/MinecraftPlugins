@@ -27,9 +27,11 @@ public class Help {
             if (sender.hasPermission("postal.staff")) {
 
                 commonString.messageSend(player, new String[]{
+                        " " + ChatColor.STRIKETHROUGH + "----------------------------------------------------",
                         ChatColor.GOLD + " /postal blacklist <player>" + ChatColor.YELLOW + " - Blacklist the players inbox.",
                         ChatColor.GOLD + " /postal modify <player>" + ChatColor.YELLOW + " - Modify the players inbox.",
-                        ChatColor.GOLD + " /postal clear <player>" + ChatColor.YELLOW + " - Clear the players inbox."
+                        ChatColor.GOLD + " /postal clear <player>" + ChatColor.YELLOW + " - Clear the players inbox.",
+                        ChatColor.GOLD + " /postal reset <player>" + ChatColor.YELLOW + " - Resets the players busy status."
                 });
 
             }

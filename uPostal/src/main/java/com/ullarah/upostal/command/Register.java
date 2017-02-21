@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.logging.Level;
 
 public class Register {
 
@@ -48,6 +49,9 @@ public class Register {
                         inboxConfig.set("item", new ArrayList<>());
 
                         inboxConfig.save(inboxConfigFile);
+
+                        PostalInit.getPlugin().getLogger().log(Level.INFO,
+                                "Postal Inbox created for " + player.getPlayerListName());
 
                     }
 

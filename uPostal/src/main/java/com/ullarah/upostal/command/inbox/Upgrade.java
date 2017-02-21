@@ -31,10 +31,10 @@ public class Upgrade {
                 return;
             }
 
-            if (player.getLevel() >= 50) {
+            if (player.getLevel() >= 25) {
 
                 inboxConfig.set("slot", inboxPlayerSlot + 9);
-                player.setLevel(player.getLevel() - 50);
+                player.setLevel(player.getLevel() - 24);
 
                 try {
                     inboxConfig.save(inboxFile);
@@ -46,7 +46,7 @@ public class Upgrade {
                 }
 
             } else commonString.messageSend(PostalInit.getPlugin(), player,
-                    ChatColor.YELLOW + "You need at least" + ChatColor.GOLD + " 50xp levels " + ChatColor.YELLOW + "to upgrade!");
+                    ChatColor.YELLOW + "You need at least" + ChatColor.GOLD + " 25xp levels " + ChatColor.YELLOW + "to upgrade!");
 
         }
 
