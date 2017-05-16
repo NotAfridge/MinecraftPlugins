@@ -30,7 +30,10 @@ public class CraftStandard extends MagicFunctions implements Listener {
 
             boolean hasDiamond = false;
 
-            for (ItemStack hoe : event.getInventory().getMatrix())
+            for (ItemStack hoe : event.getInventory().getMatrix()) {
+                if (hoe == null)
+                    return;
+
                 if (hoe.hasItemMeta()) if (hoe.getItemMeta().hasDisplayName()) {
                     hasNormalHoes = hoe.getItemMeta().getDisplayName().equals(new MagicHoeNormal().getHoeDisplayName());
 
@@ -55,6 +58,7 @@ public class CraftStandard extends MagicFunctions implements Listener {
                     }
 
                 }
+            }
 
             if (event.getInventory().getMatrix()[4].equals(new ItemStack(Material.DIAMOND_BLOCK)))
                 hasDiamond = true;
