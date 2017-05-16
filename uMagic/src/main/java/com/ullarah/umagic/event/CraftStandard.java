@@ -24,9 +24,9 @@ public class CraftStandard extends MagicFunctions implements Listener {
 
         if (event.getInventory().getType().equals(InventoryType.WORKBENCH)) {
 
-            boolean hasNormalHoes = false;
-            boolean hasSuperHoes = false;
-            boolean hasUberHoes = false;
+            int normalHoes = 0;
+            int superHoes = 0;
+            int uberHoes = 0;
 
             boolean hasDiamond = false;
 
@@ -35,27 +35,21 @@ public class CraftStandard extends MagicFunctions implements Listener {
                     return;
 
                 if (hoe.hasItemMeta()) if (hoe.getItemMeta().hasDisplayName()) {
-                    hasNormalHoes = hoe.getItemMeta().getDisplayName().equals(new MagicHoeNormal().getHoeDisplayName());
 
                     if (hoe.getItemMeta().hasLore()) {
 
-                        if (hoe.getItemMeta().getLore().get(0).equals(new MagicHoeSuper().getHoeTypeLore())) {
+                        if (hoe.getItemMeta().getLore().get(0).equals(new MagicHoeNormal().getHoeTypeLore()))
+                            normalHoes++;
 
-                            hasNormalHoes = false;
-                            hasSuperHoes = true;
-                            hasUberHoes = false;
+                        if (hoe.getItemMeta().getLore().get(0).equals(new MagicHoeSuper().getHoeTypeLore()))
+                            superHoes++;
 
-                        }
-
-                        if (hoe.getItemMeta().getLore().get(0).equals(new MagicHoeUber().getHoeTypeLore())) {
-
-                            hasNormalHoes = false;
-                            hasSuperHoes = false;
-                            hasUberHoes = true;
-
-                        }
+                        if (hoe.getItemMeta().getLore().get(0).equals(new MagicHoeUber().getHoeTypeLore()))
+                            uberHoes++;
 
                     }
+                    else if(hoe.getItemMeta().getDisplayName().equals(new MagicHoeNormal().getHoeDisplayName()))
+                        normalHoes++;
 
                 }
             }
@@ -63,15 +57,19 @@ public class CraftStandard extends MagicFunctions implements Listener {
             if (event.getInventory().getMatrix()[4].equals(new ItemStack(Material.DIAMOND_BLOCK)))
                 hasDiamond = true;
 
-            if (hasNormalHoes && !hasSuperHoes && !hasUberHoes && hasDiamond)
-                event.getInventory().setResult(new MagicHoeSuper().hoe());
+            if (hasDiamond) {
+                if (normalHoes == 8)
+                    event.getInventory().setResult(new MagicHoeSuper().hoe());
 
-            if (!hasNormalHoes && hasSuperHoes && hasDiamond)
-                event.getInventory().setResult(new MagicHoeUber().hoe());
+                else if (superHoes == 8)
+                    event.getInventory().setResult(new MagicHoeUber().hoe());
 
-            if (!hasNormalHoes && !hasSuperHoes && hasUberHoes && hasDiamond)
-                event.getInventory().setResult(new MagicHoeCosmic().hoe());
+                else if (uberHoes == 8)
+                    event.getInventory().setResult(new MagicHoeCosmic().hoe());
 
+                else
+                    event.getInventory().setResult(null);
+            }
         }
 
     }
