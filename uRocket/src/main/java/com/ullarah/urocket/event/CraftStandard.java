@@ -64,7 +64,8 @@ public class CraftStandard implements Listener {
                 if (boosterMeta.matches(ChatColor.YELLOW + "Rocket Level X")) isBoosterX = true;
             }
 
-            for (ItemStack material : rocketMaterial)
+            for (ItemStack material : rocketMaterial) {
+                if (material == null) return;
                 switch (material.getType()) {
 
                     case LEATHER:
@@ -88,6 +89,7 @@ public class CraftStandard implements Listener {
                         break;
 
                 }
+            }
 
             if (getSlot[3].equals(getSlot[5])) materialMatch = true;
 
