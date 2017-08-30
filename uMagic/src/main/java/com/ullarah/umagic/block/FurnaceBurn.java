@@ -3,6 +3,7 @@ package com.ullarah.umagic.block;
 import com.ullarah.umagic.MagicFunctions;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.inventory.FurnaceInventory;
 
 public class FurnaceBurn extends MagicFunctions {
 
@@ -14,11 +15,11 @@ public class FurnaceBurn extends MagicFunctions {
 
         if (block.hasMetadata(metaFurn)) {
 
-            furnace.getInventory().setFuel(null);
-            furnace.getInventory().setSmelting(null);
-            furnace.getInventory().setResult(null);
+            FurnaceInventory furnaceInventory = furnace.getInventory();
 
-            furnace.update();
+            furnaceInventory.setFuel(null);
+            furnaceInventory.setSmelting(null);
+            furnaceInventory.setResult(null);
 
             block.removeMetadata(metaFurn, getPlugin());
             removeMetadata(block.getLocation());

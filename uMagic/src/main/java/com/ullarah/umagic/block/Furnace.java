@@ -1,8 +1,10 @@
 package com.ullarah.umagic.block;
 
 import com.ullarah.umagic.MagicFunctions;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.FurnaceInventory;
 import org.bukkit.metadata.FixedMetadataValue;
 
 public class Furnace extends MagicFunctions {
@@ -11,24 +13,26 @@ public class Furnace extends MagicFunctions {
 
         super(false);
 
-        String noChange = "Furnace has contents. Not changing.";
-
         org.bukkit.block.Furnace furnace = (org.bukkit.block.Furnace) block.getState();
 
-        if (furnace.getInventory().getFuel() != null
-                || furnace.getInventory().getSmelting() != null
-                || furnace.getInventory().getResult() != null) {
+        String noChange = "Furnace has contents. Not changing.";
+
+        FurnaceInventory furnaceInventory = furnace.getInventory();
+
+        if (furnaceInventory.getFuel() != null || furnaceInventory.getSmelting() != null
+                || furnaceInventory.getResult() != null) {
             getCommonString().messageSend(player, noChange);
             return;
         }
 
-        furnace.getInventory().setFuel(getFurnaceFuel());
-        furnace.getInventory().setSmelting(getFurnaceSmelt());
-
-        furnace.update();
+        furnaceInventory.setFuel(getFurnaceFuel());
+        furnaceInventory.setSmelting(getFurnaceSmelt());
+        furnaceInventory.setResult(null);
 
         furnace.setCookTime((short) Integer.MAX_VALUE);
         furnace.setBurnTime((short) Integer.MAX_VALUE);
+
+        furnace.setType(Material.BURNING_FURNACE);
 
         block.setMetadata(metaFurn, new FixedMetadataValue(getPlugin(), true));
         saveMetadata(block.getLocation(), metaFurn);

@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.FurnaceSmeltEvent;
+import org.bukkit.inventory.FurnaceInventory;
 
 public class FurnaceSmelt extends MagicFunctions implements Listener {
 
@@ -19,12 +20,11 @@ public class FurnaceSmelt extends MagicFunctions implements Listener {
         if (event.getBlock().hasMetadata(metaFurn)) {
 
             Furnace furnace = (Furnace) event.getBlock().getState();
+            FurnaceInventory furnaceInventory = furnace.getInventory();
 
-            furnace.getInventory().setFuel(getFurnaceFuel());
-            furnace.getInventory().setSmelting(getFurnaceSmelt());
-            furnace.getInventory().setResult(null);
-
-            furnace.update();
+            furnaceInventory.setFuel(getFurnaceFuel());
+            furnaceInventory.setSmelting(getFurnaceSmelt());
+            furnaceInventory.setResult(null);
 
             furnace.setBurnTime((short) Integer.MAX_VALUE);
             furnace.setCookTime((short) Integer.MAX_VALUE);
