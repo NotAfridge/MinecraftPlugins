@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.entity.EntityType;
 
@@ -14,9 +15,9 @@ public class Spawner extends MagicFunctions {
 
         super(false);
 
-        CreatureSpawner creatureSpawner = (CreatureSpawner) block.getState();
-        EntityType entityType = creatureSpawner.getSpawnedType();
-        int entityDelay = creatureSpawner.getDelay();
+        CreatureSpawner originalSpawner = (CreatureSpawner) block.getState();
+        EntityType originalEntityType = originalSpawner.getSpawnedType();
+        int originalEntityDelay = originalSpawner.getDelay();
 
         Location blockLocation = block.getLocation();
         int blockX = blockLocation.getBlockX();
@@ -55,12 +56,15 @@ public class Spawner extends MagicFunctions {
 
         if (newSpawn.getType().equals(Material.AIR)) {
 
-            block.setType(Material.AIR, true);
-            newSpawn.setType(Material.MOB_SPAWNER, true);
+            block.setType(Material.AIR);
+            newSpawn.setType(Material.MOB_SPAWNER);
 
-            CreatureSpawner newCreatureSpawner = (CreatureSpawner) newSpawn.getState();
-            newCreatureSpawner.setSpawnedType(entityType);
-            newCreatureSpawner.setDelay(entityDelay);
+            BlockState blockState = newSpawn.getState();
+
+            ((CreatureSpawner) blockState).setSpawnedType(originalEntityType);
+            ((CreatureSpawner) blockState).setDelay(originalEntityDelay);
+
+            blockState.update(true);
 
         }
 

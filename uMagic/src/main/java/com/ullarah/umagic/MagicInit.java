@@ -20,7 +20,7 @@ public class MagicInit extends JavaPlugin {
     private static WorldGuardPlugin worldGuard;
     private static SQLConnection sqlConnection;
 
-    static Plugin getPlugin() {
+    public static Plugin getPlugin() {
         return plugin;
     }
 

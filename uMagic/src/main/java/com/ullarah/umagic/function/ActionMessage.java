@@ -1,8 +1,9 @@
 package com.ullarah.umagic.function;
 
-import net.minecraft.server.v1_11_R1.IChatBaseComponent;
-import net.minecraft.server.v1_11_R1.PacketPlayOutChat;
-import org.bukkit.craftbukkit.v1_11_R1.entity.CraftPlayer;
+import net.minecraft.server.v1_12_R1.ChatMessageType;
+import net.minecraft.server.v1_12_R1.IChatBaseComponent;
+import net.minecraft.server.v1_12_R1.PacketPlayOutChat;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 public class ActionMessage {
@@ -19,7 +20,7 @@ public class ActionMessage {
 
         IChatBaseComponent component = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + message + "\"}");
 
-        PacketPlayOutChat packetChat = new PacketPlayOutChat(component, (byte) 2);
+        PacketPlayOutChat packetChat = new PacketPlayOutChat(component, ChatMessageType.GAME_INFO);
 
         craftPlayer.getHandle().playerConnection.sendPacket(packetChat);
 

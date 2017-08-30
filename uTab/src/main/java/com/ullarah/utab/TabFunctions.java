@@ -1,12 +1,12 @@
 package com.ullarah.utab;
 
-import net.minecraft.server.v1_11_R1.IChatBaseComponent;
-import net.minecraft.server.v1_11_R1.PacketPlayOutPlayerListHeaderFooter;
-import net.minecraft.server.v1_11_R1.PlayerConnection;
+import net.minecraft.server.v1_12_R1.IChatBaseComponent;
+import net.minecraft.server.v1_12_R1.PacketPlayOutPlayerListHeaderFooter;
+import net.minecraft.server.v1_12_R1.PlayerConnection;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.craftbukkit.v1_11_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -21,7 +21,7 @@ class TabFunctions {
     private BukkitTask tabTask;
     private List headerMessages, footerMessages;
     private int tabTimer;
-    private Field tabField;
+    private Field tabHeaderField, tabFooterField;
 
     TabFunctions(Plugin instance) {
         plugin = instance;
@@ -76,14 +76,21 @@ class TabFunctions {
             IChatBaseComponent headerMessage = IChatBaseComponent.ChatSerializer.a("{\"text\":\" " + header + " \"}"),
                     footerMessage = IChatBaseComponent.ChatSerializer.a("{\"text\":\" " + footer + " \"}");
 
-            PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter(headerMessage);
+            PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
 
-            if (tabField == null) {
-                tabField = packet.getClass().getDeclaredField("b");
-                tabField.setAccessible(true);
+            if (tabHeaderField == null) {
+                tabHeaderField = packet.getClass().getDeclaredField("a");
+                tabHeaderField.setAccessible(true);
             }
 
-            tabField.set(packet, footerMessage);
+            if (tabFooterField == null) {
+                tabFooterField = packet.getClass().getDeclaredField("b");
+                tabFooterField.setAccessible(true);
+            }
+
+            tabHeaderField.set(packet, headerMessage);
+            tabFooterField.set(packet, footerMessage);
+
             playerConnection.sendPacket(packet);
 
         } catch (Exception e) {
