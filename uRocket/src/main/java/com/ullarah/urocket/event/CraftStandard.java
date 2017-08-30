@@ -44,14 +44,18 @@ public class CraftStandard implements Listener {
             ItemStack[] rocketMaterial = new ItemStack[]{getSlot[3], getSlot[5]};
             ItemStack[] rocketBoosters = new ItemStack[]{getSlot[6], getSlot[8]};
 
-            for (ItemStack control : rocketControls)
+            for (ItemStack control : rocketControls) {
+                if (control == null) return;
                 if (control.hasItemMeta()) if (control.getItemMeta().hasDisplayName())
                     hasControls = control.getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Boot Control");
+            }
             if (!getSlot[0].equals(getSlot[2])) hasControls = false;
 
-            for (ItemStack booster : rocketBoosters)
+            for (ItemStack booster : rocketBoosters) {
+                if (booster == null) return;
                 if (booster.hasItemMeta()) if (booster.getItemMeta().hasDisplayName())
                     hasBoosters = booster.getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Boot Booster");
+            }
             if (!getSlot[6].equals(getSlot[8])) hasBoosters = false;
 
             if (hasBoosters) {
@@ -60,7 +64,8 @@ public class CraftStandard implements Listener {
                 if (boosterMeta.matches(ChatColor.YELLOW + "Rocket Level X")) isBoosterX = true;
             }
 
-            for (ItemStack material : rocketMaterial)
+            for (ItemStack material : rocketMaterial) {
+                if (material == null) return;
                 switch (material.getType()) {
 
                     case LEATHER:
@@ -84,10 +89,11 @@ public class CraftStandard implements Listener {
                         break;
 
                 }
+            }
 
             if (getSlot[3].equals(getSlot[5])) materialMatch = true;
 
-            if (rocketVariant.hasItemMeta()) if (rocketVariant.getItemMeta().hasDisplayName())
+            if (rocketVariant != null) if (rocketVariant.hasItemMeta()) if (rocketVariant.getItemMeta().hasDisplayName())
                 if (rocketVariant.getItemMeta().getDisplayName().equals(ChatColor.AQUA + "Rocket Boot Variant")) {
                     if (rocketVariant.getItemMeta().hasLore()) {
 
@@ -97,7 +103,7 @@ public class CraftStandard implements Listener {
                     }
                 }
 
-            if (rocketEnhancement.hasItemMeta()) if (rocketEnhancement.getItemMeta().hasDisplayName())
+            if (rocketEnhancement != null) if (rocketEnhancement.hasItemMeta()) if (rocketEnhancement.getItemMeta().hasDisplayName())
                 if (rocketEnhancement.getItemMeta().getDisplayName().equals(ChatColor.AQUA + "Rocket Boot Enhancement")) {
                     if (rocketEnhancement.getItemMeta().hasLore()) {
 
