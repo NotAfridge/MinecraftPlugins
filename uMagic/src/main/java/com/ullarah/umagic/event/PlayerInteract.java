@@ -152,6 +152,7 @@ public class PlayerInteract extends MagicFunctions implements Listener {
 
                     case SAND:
                     case GRAVEL:
+                    case CONCRETE_POWDER:
                         new Sand(block);
                         break;
 
