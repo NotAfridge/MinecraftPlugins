@@ -152,6 +152,7 @@ public class PlayerInteract extends MagicFunctions implements Listener {
 
                     case SAND:
                     case GRAVEL:
+                    case CONCRETE_POWDER:
                         new Sand(block);
                         break;
 
@@ -213,6 +214,25 @@ public class PlayerInteract extends MagicFunctions implements Listener {
 
                     case MAGMA:
                         new Magma(block, player);
+                        break;
+
+                    case WHITE_GLAZED_TERRACOTTA:
+                    case ORANGE_GLAZED_TERRACOTTA:
+                    case MAGENTA_GLAZED_TERRACOTTA:
+                    case LIGHT_BLUE_GLAZED_TERRACOTTA:
+                    case YELLOW_GLAZED_TERRACOTTA:
+                    case LIME_GLAZED_TERRACOTTA:
+                    case PINK_GLAZED_TERRACOTTA:
+                    case GRAY_GLAZED_TERRACOTTA:
+                    case SILVER_GLAZED_TERRACOTTA:
+                    case CYAN_GLAZED_TERRACOTTA:
+                    case PURPLE_GLAZED_TERRACOTTA:
+                    case BLUE_GLAZED_TERRACOTTA:
+                    case BROWN_GLAZED_TERRACOTTA:
+                    case GREEN_GLAZED_TERRACOTTA:
+                    case RED_GLAZED_TERRACOTTA:
+                    case BLACK_GLAZED_TERRACOTTA:
+                        new Terracotta(block);
                         break;
 
                     default:
