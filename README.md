@@ -1,4 +1,4 @@
-# Ullarahs Minecraft Plugins [![Build Status](https://drone.io/github.com/Ullarah/MinecraftPlugins/status.png)](https://drone.io/github.com/Ullarah/MinecraftPlugins/latest)
+# Ullarahs Minecraft Plugins
 Various minecraft plugins used on a private server.
 
  * Clone the repo
@@ -11,13 +11,11 @@ Various minecraft plugins used on a private server.
 These plugins are used for developmental purposes.  
 So it's totally up to you if you use them.*
 
-[This link will usually contain the latest releases.](https://drone.io/github.com/Ullarah/MinecraftPlugins/files/jars/uplugins.tgz)
-
 [The wiki may contain more information.](https://github.com/Ullarah/MinecraftPlugins/wiki)
 
 | Plugin     | Status      | Description                           | Requirements                 |
 | ---------- | ------------| ------------------------------------- | ---------------------------- |
-| uBeacon    | Ready       | Simple rainbow beacons.               |                              |
+| uBeacon    | Working     | Simple rainbow beacons.               |                              |
 | uBroadcast | Ready       | Server broadcast over LAN.            |                              |
 | uChest     | Ready       | Various useful chests.                | WorldEdit, WorldGuard        |
 | uJoinQuit  | Ready       | Custom Join/Quit messages.            |                              |
