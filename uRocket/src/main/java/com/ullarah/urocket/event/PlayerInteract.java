@@ -35,7 +35,7 @@ public class PlayerInteract implements Listener {
         Action action = event.getAction();
         ItemStack inHand = player.getInventory().getItemInMainHand();
 
-        if (action.equals(Action.RIGHT_CLICK_AIR)) if (inHand.getType().equals(Material.CARROT_STICK)) {
+        if (action.equals(Action.RIGHT_CLICK_AIR)) if (inHand.getType().equals(Material.CARROT_ON_A_STICK)) {
 
             if (player.getVehicle() instanceof Pig) {
 

@@ -4,14 +4,11 @@ import com.ullarah.urocket.function.*;
 import com.ullarah.urocket.init.RocketEnhancement;
 import com.ullarah.urocket.init.RocketLanguage;
 import com.ullarah.urocket.init.RocketVariant.Variant;
-import net.minecraft.server.v1_12_R1.EnumParticle;
-import net.minecraft.server.v1_12_R1.PacketPlayOutWorldParticles;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -348,7 +345,7 @@ public class RocketFunctions {
                 fuelCost = 2 + getBootPowerLevel(rocketBoots);
                 break;
 
-            case GOLD_BOOTS:
+            case GOLDEN_BOOTS:
                 fuelCost = 3 + getBootPowerLevel(rocketBoots);
                 break;
 
@@ -434,7 +431,7 @@ public class RocketFunctions {
             case IRON_CHESTPLATE:
                 return "iron";
 
-            case GOLD_CHESTPLATE:
+            case GOLDEN_CHESTPLATE:
                 return "gold";
 
             case DIAMOND_CHESTPLATE:
@@ -456,7 +453,7 @@ public class RocketFunctions {
             case IRON_CHESTPLATE:
                 return 18;
 
-            case GOLD_CHESTPLATE:
+            case GOLDEN_CHESTPLATE:
                 return 27;
 
             case DIAMOND_CHESTPLATE:
@@ -533,7 +530,7 @@ public class RocketFunctions {
             case IRON_BOOTS:
                 return 4;
 
-            case GOLD_BOOTS:
+            case GOLDEN_BOOTS:
                 return 3;
 
             case DIAMOND_BOOTS:
@@ -555,7 +552,7 @@ public class RocketFunctions {
             case IRON_BOOTS:
                 return 195;
 
-            case GOLD_BOOTS:
+            case GOLDEN_BOOTS:
                 return 91;
 
             case DIAMOND_BOOTS:
@@ -679,13 +676,7 @@ public class RocketFunctions {
 
         world.playSound(centerBlock, Sound.ENTITY_WITHER_AMBIENT, 1.25f, 0.55f);
 
-        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
-                EnumParticle.PORTAL, false,
-                particleLocation.getBlockX(), particleLocation.getBlockY(), particleLocation.getBlockZ(),
-                0.0f, 0.0f, 0.0f, 2, 2500, null);
-
-        for (Player serverPlayer : player.getWorld().getPlayers())
-            ((CraftPlayer) serverPlayer).getHandle().playerConnection.sendPacket(packet);
+        player.getWorld().spawnParticle(Particle.PORTAL, particleLocation, 2500, 0.0f, 0.0f, 0.0f, 2);
 
         commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_FZ_SUCCESS);
 

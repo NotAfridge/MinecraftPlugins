@@ -4,10 +4,9 @@ import com.ullarah.urocket.RocketFunctions;
 import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.CommonString;
 import com.ullarah.urocket.function.TitleSubtitle;
-import net.minecraft.server.v1_12_R1.EnumParticle;
-import net.minecraft.server.v1_12_R1.PacketPlayOutWorldParticles;
 import org.bukkit.*;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.block.Block;
+import org.bukkit.block.Furnace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -33,11 +32,12 @@ public class StationRepair {
                             Player player = Bukkit.getPlayer(repairStation.getKey());
                             ItemStack playerBoots = player.getInventory().getBoots();
 
-                            if (player.getWorld().getBlockAt(
+                            Block block = player.getWorld().getBlockAt(
                                     player.getLocation().getBlockX(),
                                     player.getLocation().getBlockY() - 2,
-                                    player.getLocation().getBlockZ())
-                                    .getType().equals(Material.BURNING_FURNACE)) {
+                                    player.getLocation().getBlockZ());
+
+                            if (block instanceof Furnace && ((Furnace) block).getBurnTime() > 0) {
 
                                 if (playerBoots.hasItemMeta()) {
 
@@ -96,10 +96,7 @@ public class StationRepair {
 
                                             player.getWorld().playSound(player.getLocation(), Sound.BLOCK_PORTAL_TRIGGER, 0.5f, 1.5f);
 
-                                            PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.PORTAL, true, x, y, z, 0, 0, 0, 1, 500, null);
-
-                                            for (Player serverPlayer : player.getWorld().getPlayers())
-                                                ((CraftPlayer) serverPlayer).getHandle().playerConnection.sendPacket(packet);
+                                            player.getWorld().spawnParticle(Particle.PORTAL, x, y, z, 500, 0, 0, 0, 1);
 
                                         }
 
@@ -113,7 +110,7 @@ public class StationRepair {
                                 } else {
 
                                     commonString.messageSend(RocketInit.getPlugin(), player, true, ChatColor.RED + "Rocket Boots failed to repair!");
-                                    player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_BLAST, 0.5f, 0.5f);
+                                    player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 0.5f, 0.5f);
                                     RocketInit.rocketRepair.remove(player.getUniqueId());
 
                                 }

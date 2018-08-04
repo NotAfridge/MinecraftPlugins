@@ -10,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.Furnace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -34,7 +35,7 @@ public class StandChange implements Listener {
         Location standLocation = event.getRightClicked().getLocation();
         Block fuelBlock = world.getBlockAt(standLocation.getBlockX(), standLocation.getBlockY() - 2, standLocation.getBlockZ());
 
-        if (fuelBlock.getType() == Material.BURNING_FURNACE) {
+        if (fuelBlock instanceof Furnace && ((Furnace) fuelBlock).getBurnTime() > 0) {
 
             List<String> standList = RocketInit.getPlugin().getConfig().getStringList("stands");
             String stand = player.getUniqueId().toString() + "|" + world.getName() + "|" + standLocation.getBlockX() + "|" + standLocation.getBlockY() + "|" + standLocation.getBlockZ();

@@ -35,7 +35,7 @@ public class RocketControls implements NewRecipe {
         ShapedRecipe controlRecipe = new ShapedRecipe(control());
         controlRecipe.shape("T", "L", "L");
 
-        controlRecipe.setIngredient('L', Material.LEASH);
+        controlRecipe.setIngredient('L', Material.LEAD);
         controlRecipe.setIngredient('T', Material.TRIPWIRE_HOOK);
 
         return controlRecipe;

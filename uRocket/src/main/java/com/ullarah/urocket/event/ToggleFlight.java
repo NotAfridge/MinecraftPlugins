@@ -143,7 +143,7 @@ public class ToggleFlight implements Listener {
                                             if (ran == 5 || ran == 0) {
 
                                                 RocketInit.rocketSprint.put(player.getUniqueId(), "AIR");
-                                                player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_BLAST, 0.5f, 0.7f);
+                                                player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 0.5f, 0.7f);
 
                                             } else {
 
@@ -151,8 +151,8 @@ public class ToggleFlight implements Listener {
                                                 player.setVelocity(new Vector(0, 2, 0));
                                                 player.setFlying(true);
 
-                                                player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_LARGE_BLAST, 0.5f, 0.4f);
-                                                player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_LARGE_BLAST_FAR, 0.5f, 0.6f);
+                                                player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST, 0.5f, 0.4f);
+                                                player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR, 0.5f, 0.6f);
 
                                             }
 

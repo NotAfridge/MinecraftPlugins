@@ -98,7 +98,7 @@ public class BlockPlace implements Listener {
                             }
                             break;
 
-                        case ENDER_PORTAL_FRAME:
+                        case END_PORTAL_FRAME:
                             if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Fly Zone Controller")) {
 
                                 Boolean isFlyZone = false;
@@ -167,7 +167,7 @@ public class BlockPlace implements Listener {
                                 commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.WorldPlacementDeny("Repair Tanks"));
                             break;
 
-                        case ENDER_PORTAL_FRAME:
+                        case END_PORTAL_FRAME:
                             if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Fly Zone Controller"))
                                 commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.WorldPlacementDeny("Fly Zone Controllers"));
                             break;

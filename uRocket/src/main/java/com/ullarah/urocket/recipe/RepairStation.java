@@ -36,7 +36,7 @@ public class RepairStation implements NewRecipe {
         bootRecipe.shape("E", "B");
 
         bootRecipe.setIngredient('B', Material.BEACON);
-        bootRecipe.setIngredient('E', Material.ENCHANTMENT_TABLE);
+        bootRecipe.setIngredient('E', Material.ENCHANTING_TABLE);
 
         return bootRecipe;
 

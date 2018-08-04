@@ -2,11 +2,8 @@ package com.ullarah.urocket.task;
 
 import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.init.RocketEnhancement;
-import net.minecraft.server.v1_12_R1.EnumParticle;
-import net.minecraft.server.v1_12_R1.Packet;
-import net.minecraft.server.v1_12_R1.PacketPlayOutWorldParticles;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -126,12 +123,7 @@ public class RocketSolarCheck {
                                     float oY = (float) -0.25;
                                     float oZ = (float) 0.125;
 
-                                    Packet packet = new PacketPlayOutWorldParticles(
-                                            EnumParticle.CLOUD,
-                                            true, x, y, z, oX, oY, oZ, 0, 10, null);
-
-                                    for (Player serverPlayer : player.getWorld().getPlayers())
-                                        ((CraftPlayer) serverPlayer).getHandle().playerConnection.sendPacket(packet);
+                                    player.getWorld().spawnParticle(Particle.CLOUD, x, y, z, 10, oX, oY, oZ, 0);
 
                                 }
 

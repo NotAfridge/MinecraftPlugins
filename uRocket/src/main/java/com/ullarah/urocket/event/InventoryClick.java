@@ -134,8 +134,8 @@ public class InventoryClick implements Listener {
                 add(Material.REDSTONE_BLOCK);
                 add(Material.GLOWSTONE_DUST);
                 add(Material.GLOWSTONE);
-                add(Material.WOOD);
-                add(Material.LOG);
+                add(Material.OAK_WOOD);
+                add(Material.OAK_LOG);
             }};
 
             if (!allowedMaterial.contains(event.getCurrentItem().getType())) event.setCancelled(true);

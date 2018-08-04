@@ -41,7 +41,7 @@ public class ToggleSprint implements Listener {
                                 RocketLanguage.RB_COOLDOWN_HEAT, RocketLanguage.RB_COOLDOWN_LAND
                         });
 
-                        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_BLAST, 0.5f, 0.75f);
+                        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 0.5f, 0.75f);
 
                     } else if (RocketInit.rocketVariant.get(playerUUID) == RocketVariant.Variant.RUNNER) {
 
