@@ -41,7 +41,7 @@ public class JoinQuitFunctions {
 
             ItemStack paperItem = message.substring(0, 1).equals("&")
                     ? translateChatToPane(ChatColor.getByChar(message.substring(1, 2)))
-                    : new ItemStack(Material.THIN_GLASS, 1);
+                    : new ItemStack(Material.GLASS_PANE, 1);
 
             ItemMeta paperMeta = paperItem.getItemMeta();
 
@@ -303,77 +303,78 @@ public class JoinQuitFunctions {
 
     private ItemStack translateChatToPane(ChatColor chatColor) {
 
-        short paneColour = 0;
+        Material pane;
 
         switch (chatColor) {
 
             case BLACK:
-                paneColour = 15;
+                pane = Material.BLACK_STAINED_GLASS_PANE;
                 break;
 
             case DARK_BLUE:
-                paneColour = 11;
+                pane = Material.BLUE_STAINED_GLASS_PANE;
                 break;
 
             case DARK_GREEN:
-                paneColour = 13;
+                pane = Material.GREEN_STAINED_GLASS_PANE;
                 break;
 
             case DARK_AQUA:
-                paneColour = 9;
+                pane = Material.CYAN_STAINED_GLASS_PANE;
                 break;
 
             case DARK_RED:
-                paneColour = 14;
+                pane = Material.RED_STAINED_GLASS_PANE;
                 break;
 
             case DARK_PURPLE:
-                paneColour = 10;
+                pane = Material.PURPLE_STAINED_GLASS_PANE;
                 break;
 
             case GOLD:
-                paneColour = 1;
+                pane = Material.ORANGE_STAINED_GLASS_PANE;
                 break;
 
             case GRAY:
-                paneColour = 8;
+                pane = Material.LIGHT_GRAY_STAINED_GLASS_PANE;
                 break;
 
             case DARK_GRAY:
-                paneColour = 7;
+                pane = Material.GRAY_STAINED_GLASS_PANE;
                 break;
 
             case BLUE:
-                paneColour = 3;
+                pane = Material.LIGHT_BLUE_STAINED_GLASS_PANE;
                 break;
 
             case GREEN:
-                paneColour = 5;
+                pane = Material.LIME_STAINED_GLASS_PANE;
                 break;
 
             case AQUA:
-                paneColour = 3;
+                pane = Material.LIGHT_BLUE_STAINED_GLASS_PANE;
                 break;
 
             case RED:
-                paneColour = 14;
+                pane = Material.RED_STAINED_GLASS_PANE;
                 break;
 
             case LIGHT_PURPLE:
-                paneColour = 6;
+                pane = Material.PINK_STAINED_GLASS_PANE;
                 break;
 
             case YELLOW:
-                paneColour = 4;
+                pane = Material.YELLOW_STAINED_GLASS_PANE;
                 break;
 
             case WHITE:
-                paneColour = 0;
+            default:
+                pane = Material.WHITE_STAINED_GLASS_PANE;
                 break;
 
         }
 
-        return new ItemStack(Material.STAINED_GLASS_PANE, 1, paneColour);
+        return new ItemStack(pane, 1);
 
     }
 

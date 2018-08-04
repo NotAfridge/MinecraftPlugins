@@ -27,8 +27,7 @@ public class MessageClick implements Listener {
 
                 Material clickedItem = event.getCurrentItem().getType();
 
-                if (clickedItem != Material.AIR
-                        && (clickedItem == Material.STAINED_GLASS_PANE || clickedItem == Material.THIN_GLASS)) {
+                if (clickedItem != Material.AIR) {
 
                     JoinQuitFunctions joinQuitFunctions = new JoinQuitFunctions();
 

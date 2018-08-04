@@ -19,7 +19,7 @@ public class PlayerJoin implements Listener {
         Player player = event.getPlayer();
         UUID playerUUID = player.getUniqueId();
 
-        if (JoinQuitInit.playerJoinMessage.containsKey(playerUUID)) {
+        if (JoinQuitInit.playerJoinMessage.containsKey(playerUUID) && !event.getJoinMessage().isEmpty()) {
 
             JoinQuitFunctions joinQuitFunctions = new JoinQuitFunctions();
 
