@@ -65,7 +65,7 @@ public class InboxClick implements Listener {
 
                         if (item.getItemMeta().getDisplayName().equals(
                                 ChatColor.WHITE + "Slot Taken")
-                                && item.getType() == Material.STAINED_GLASS_PANE) {
+                                && item.getType() == Material.BLACK_STAINED_GLASS_PANE) {
                             event.getCursor().setType(Material.AIR);
                             event.setCancelled(true);
                         }

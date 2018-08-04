@@ -59,7 +59,7 @@ public class Update {
                             if (item.getItemMeta().hasDisplayName()) {
 
                                 if (item.getItemMeta().getDisplayName().equals(ChatColor.WHITE + "Slot Taken")
-                                        && item.getType() == Material.STAINED_GLASS_PANE) {
+                                        && item.getType() == Material.BLACK_STAINED_GLASS_PANE) {
 
                                     newItems = false;
                                     continue;
