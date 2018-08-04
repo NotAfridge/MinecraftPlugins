@@ -31,8 +31,8 @@ public class BeaconChange {
                         Integer.parseInt(beaconParts[3]) + 1,
                         Integer.parseInt(beaconParts[4]));
 
-                world.getBlockAt(location).setType(Material.STAINED_GLASS);
-                world.getBlockAt(location).setData((byte) new Random().nextInt(6)); // Is there another way?
+                int index = new Random().nextInt(BeaconInit.getMaterials().size());
+                world.getBlockAt(location).setType(BeaconInit.getMaterials().get(index));
 
             }
 

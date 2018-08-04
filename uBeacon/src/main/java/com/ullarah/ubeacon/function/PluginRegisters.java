@@ -5,6 +5,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.Plugin;
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 
 public class PluginRegisters {
@@ -32,8 +33,10 @@ public class PluginRegisters {
                         break;
 
                     case RECIPE:
-                        ShapedRecipe newRecipe = ((NewRecipe) object).recipe();
-                        plugin.getServer().addRecipe(newRecipe);
+                        ArrayList<ShapedRecipe> recipes = ((NewRecipe) object).recipes();
+                        for (ShapedRecipe newRecipe : recipes) {
+                            plugin.getServer().addRecipe(newRecipe);
+                        }
                         break;
 
                     case TASK:

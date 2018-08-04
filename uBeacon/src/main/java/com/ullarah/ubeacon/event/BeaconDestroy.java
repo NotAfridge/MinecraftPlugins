@@ -26,7 +26,7 @@ public class BeaconDestroy implements Listener {
 
         List<String> beaconList = BeaconInit.getPlugin().getConfig().getStringList("beacons");
 
-        if (block.getType() == Material.STAINED_GLASS) {
+        if (BeaconInit.getMaterials().contains(block.getType())) {
 
             String beacon = player.getUniqueId().toString() + "|"
                     + world.getName() + "|"
