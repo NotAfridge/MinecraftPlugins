@@ -58,6 +58,11 @@ public class RocketParticles {
         int amount = bootVariant.getParticleSpeed();
         double speed = bootVariant.getParticleSpeed();
 
+        Particle.DustOptions data = null;
+        if (particle == Particle.REDSTONE) {
+            data = new Particle.DustOptions(Color.RED, 1);
+        }
+
         switch (bootVariant) {
 
             case DRUNK:
@@ -69,13 +74,15 @@ public class RocketParticles {
 
             case RAINBOW:
                 ItemStack rocketBoots = player.getInventory().getBoots();
+                Color color = Color.fromRGB(
+                        new Random().nextInt(255),
+                        new Random().nextInt(255),
+                        new Random().nextInt(255)
+                );
+                data = new Particle.DustOptions(color, 1);
                 if (rocketBoots.getType() == Material.LEATHER_BOOTS) {
                     LeatherArmorMeta armorMeta = (LeatherArmorMeta) rocketBoots.getItemMeta();
-                    armorMeta.setColor(Color.fromRGB(
-                            new Random().nextInt(255),
-                            new Random().nextInt(255),
-                            new Random().nextInt(255)
-                    ));
+                    armorMeta.setColor(color);
                     rocketBoots.setItemMeta(armorMeta);
                 }
                 break;
@@ -93,8 +100,7 @@ public class RocketParticles {
         }
 
         if (showParticle) {
-            Class clazz = particle.getDataType() == Void.class ? null : particle.getDataType();
-            player.getWorld().spawnParticle(particle, x, y, z, amount, oX, oY, oZ, speed, clazz);
+            player.getWorld().spawnParticle(particle, x, y, z, amount, oX, oY, oZ, speed, data);
         }
 
     }

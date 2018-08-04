@@ -27,7 +27,24 @@ public class RocketBoots implements NewRecipe {
 
     private ItemStack boots(Material bootMaterial, boolean hasVariant, boolean hasEnhancement) {
 
-        Material bootType = Material.getMaterial(bootMaterial.name().replaceAll("_(.*)", "") + "_BOOTS");
+        Material bootType;
+        switch (bootMaterial) {
+            case LEATHER:
+                bootType = Material.LEATHER_BOOTS;
+                break;
+            case IRON_INGOT:
+                bootType = Material.IRON_BOOTS;
+                break;
+            case GOLD_INGOT:
+                bootType = Material.GOLDEN_BOOTS;
+                break;
+            case DIAMOND:
+                bootType = Material.DIAMOND_BOOTS;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid boot material");
+        }
+
         ItemStack boots = new ItemStack(bootType, 1);
 
         ItemMeta bootMeta = boots.getItemMeta();

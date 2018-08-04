@@ -4,7 +4,7 @@ import com.ullarah.urocket.RocketFunctions;
 import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.SignText;
 import org.bukkit.*;
-import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Furnace;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -46,10 +46,10 @@ public class StationStandRepair {
                                             (stand.getLocation().getY() - 1),
                                             stand.getLocation().getZ());
 
-                                    Block block = stand.getWorld().getBlockAt(
+                                    BlockState block = stand.getWorld().getBlockAt(
                                             stand.getLocation().getBlockX(),
                                             stand.getLocation().getBlockY() - 2,
-                                            stand.getLocation().getBlockZ());
+                                            stand.getLocation().getBlockZ()).getState();
 
                                     if (block instanceof Furnace && ((Furnace) block).getBurnTime() > 0) {
 
