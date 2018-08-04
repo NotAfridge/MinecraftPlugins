@@ -1,69 +1,68 @@
 # m - Material name (id)
-# v - Variation of block (byte)
 # s - Include in shuffle chest? (schest)
 # d - Include when donation is randomised? (dchest)
 # r - Include in random chest? (rchest)
 # e - Return value of money given (vault/economy)
 # x - Return value of experience given (xp)
 
-COAL:      { m: COAL,    v: 0, s: true, d: true, r: true, e: 0.1, x: 0.2 }
-CHARCOAL:  { m: COAL,    v: 1, s: true, d: true, r: true, e: 0.2, x: 0.3 }
-FLINT:     { m: FLINT,   v: 0, s: true, d: true, r: true, e: 0.1, x: 0.2 }
-GUNPOWDER: { m: SULPHUR, v: 0, s: true, d: true, r: true, e: 0.8, x: 0.9 }
+COAL:      { m: COAL,      s: true, d: true, r: true, e: 0.1, x: 0.2 }
+CHARCOAL:  { m: CHARCOAL,  s: true, d: true, r: true, e: 0.2, x: 0.3 }
+FLINT:     { m: FLINT,     s: true, d: true, r: true, e: 0.1, x: 0.2 }
+GUNPOWDER: { m: GUNPOWDER, s: true, d: true, r: true, e: 0.8, x: 0.9 }
 
-INGOT_I: { m: IRON_INGOT,  v: 0, s: true, d: true, r: true, e: 2.9, x: 3.0 }
-INGOT_G: { m: GOLD_INGOT,  v: 0, s: true, d: true, r: true, e: 3.5, x: 3.6 }
-DIAMOND: { m: DIAMOND,     v: 0, s: true, d: true, r: true, e: 4.9, x: 5.1 }
-EMERALD: { m: EMERALD,     v: 0, s: true, d: true, r: true, e: 5.8, x: 6.0 }
-GOLDNUG: { m: GOLD_NUGGET, v: 0, s: true, d: true, r: true, e: 0.3, x: 0.5 }
+INGOT_I: { m: IRON_INGOT,  s: true, d: true, r: true, e: 2.9, x: 3.0 }
+INGOT_G: { m: GOLD_INGOT,  s: true, d: true, r: true, e: 3.5, x: 3.6 }
+DIAMOND: { m: DIAMOND,     s: true, d: true, r: true, e: 4.9, x: 5.1 }
+EMERALD: { m: EMERALD,     s: true, d: true, r: true, e: 5.8, x: 6.0 }
+GOLDNUG: { m: GOLD_NUGGET, s: true, d: true, r: true, e: 0.3, x: 0.5 }
 
-SEED_G: { m: SEEDS,          v: 0, s: true, d: true, r: true, e: 0.04, x: 0.05 }
-SEED_P: { m: PUMPKIN_SEEDS,  v: 0, s: true, d: true, r: true, e: 0.09, x: 0.1  }
-SEED_M: { m: MELON_SEEDS,    v: 0, s: true, d: true, r: true, e: 0.09, x: 0.1  }
-SEED_B: { m: BEETROOT_SEEDS, v: 0, s: true, d: true, r: true, e: 0.08, x: 0.09 }
+SEED_G: { m: WHEAT_SEEDS,    s: true, d: true, r: true, e: 0.04, x: 0.05 }
+SEED_P: { m: PUMPKIN_SEEDS,  s: true, d: true, r: true, e: 0.09, x: 0.1  }
+SEED_M: { m: MELON_SEEDS,    s: true, d: true, r: true, e: 0.09, x: 0.1  }
+SEED_B: { m: BEETROOT_SEEDS, s: true, d: true, r: true, e: 0.08, x: 0.09 }
 
-STRING:   { m: STRING,      v: 0, s: true, d: true, r: true, e: 0.1,  x: 0.2  }
-LEATHER:  { m: LEATHER,     v: 0, s: true, d: true, r: true, e: 1.0,  x: 1.2  }
-RAB_HIDE: { m: RABBIT_HIDE, v: 0, s: true, d: true, r: true, e: 0.75, x: 0.9  }
-FEATHER:  { m: FEATHER,     v: 0, s: true, d: true, r: true, e: 0.9,  x: 1.0  }
-STICK:    { m: STICK,       v: 0, s: true, d: true, r: true, e: 0.08, x: 0.09 }
-BOWL:     { m: BOWL,        v: 0, s: true, d: true, r: true, e: 0.1,  x: 0.2  }
+STRING:   { m: STRING,      s: true, d: true, r: true, e: 0.1,  x: 0.2  }
+LEATHER:  { m: LEATHER,     s: true, d: true, r: true, e: 1.0,  x: 1.2  }
+RAB_HIDE: { m: RABBIT_HIDE, s: true, d: true, r: true, e: 0.75, x: 0.9  }
+FEATHER:  { m: FEATHER,     s: true, d: true, r: true, e: 0.9,  x: 1.0  }
+STICK:    { m: STICK,       s: true, d: true, r: true, e: 0.08, x: 0.09 }
+BOWL:     { m: BOWL,        s: true, d: true, r: true, e: 0.1,  x: 0.2  }
 
-CLAY:  { m: CLAY_BALL,  v: 0, s: true, d: true, r: true, e: 0.3, x: 0.4 }
-BRICK: { m: CLAY_BRICK, v: 0, s: true, d: true, r: true, e: 0.4, x: 0.5 }
+CLAY:  { m: CLAY_BALL,  s: true, d: true, r: true, e: 0.3, x: 0.4 }
+BRICK: { m: BRICKS,     s: true, d: true, r: true, e: 0.4, x: 0.5 }
 
-INKSACK: { m: INK_SACK, v: 0,  s: true, d: true, r: true, e: 0.4, x: 0.5 }
-ROSERED: { m: INK_SACK, v: 1,  s: true, d: true, r: true, e: 0.4, x: 0.5 }
-CACTUSG: { m: INK_SACK, v: 2,  s: true, d: true, r: true, e: 0.4, x: 0.5 }
-COCOABN: { m: INK_SACK, v: 3,  s: true, d: true, r: true, e: 0.4, x: 0.5 }
-LAPISLZ: { m: INK_SACK, v: 4,  s: true, d: true, r: true, e: 0.4, x: 0.5 }
-PURPLED: { m: INK_SACK, v: 5,  s: true, d: true, r: true, e: 0.4, x: 0.5 }
-CYANDYE: { m: INK_SACK, v: 6,  s: true, d: true, r: true, e: 0.4, x: 0.5 }
-LGRAYDY: { m: INK_SACK, v: 7,  s: true, d: true, r: true, e: 0.4, x: 0.5 }
-GRAYDYE: { m: INK_SACK, v: 8,  s: true, d: true, r: true, e: 0.4, x: 0.5 }
-PINKDYE: { m: INK_SACK, v: 9,  s: true, d: true, r: true, e: 0.4, x: 0.5 }
-LIMEDYE: { m: INK_SACK, v: 10, s: true, d: true, r: true, e: 0.4, x: 0.5 }
-DANDYEL: { m: INK_SACK, v: 11, s: true, d: true, r: true, e: 0.4, x: 0.5 }
-LBLUEDY: { m: INK_SACK, v: 12, s: true, d: true, r: true, e: 0.4, x: 0.5 }
-MAGEDYE: { m: INK_SACK, v: 13, s: true, d: true, r: true, e: 0.4, x: 0.5 }
-ORANDYE: { m: INK_SACK, v: 14, s: true, d: true, r: true, e: 0.4, x: 0.5 }
-BONEMEL: { m: INK_SACK, v: 15, s: true, d: true, r: true, e: 0.3, x: 0.4 }
+INKSACK: { m: INK_SAC,          s: true, d: true, r: true, e: 0.4, x: 0.5 }
+ROSERED: { m: ROSE_RED,         s: true, d: true, r: true, e: 0.4, x: 0.5 }
+CACTUSG: { m: CACTUS_GREEN,     s: true, d: true, r: true, e: 0.4, x: 0.5 }
+COCOABN: { m: COCOA_BEANS,      s: true, d: true, r: true, e: 0.4, x: 0.5 }
+LAPISLZ: { m: LAPIS_LAZULI,     s: true, d: true, r: true, e: 0.4, x: 0.5 }
+PURPLED: { m: PURPLE_DYE,       s: true, d: true, r: true, e: 0.4, x: 0.5 }
+CYANDYE: { m: CYAN_DYE,         s: true, d: true, r: true, e: 0.4, x: 0.5 }
+LGRAYDY: { m: LIGHT_GRAY_DYE,   s: true, d: true, r: true, e: 0.4, x: 0.5 }
+GRAYDYE: { m: GRAY_DYE,         s: true, d: true, r: true, e: 0.4, x: 0.5 }
+PINKDYE: { m: PINK_DYE,         s: true, d: true, r: true, e: 0.4, x: 0.5 }
+LIMEDYE: { m: LIME_DYE,         s: true, d: true, r: true, e: 0.4, x: 0.5 }
+DANDYEL: { m: DANDELION_YELLOW, s: true, d: true, r: true, e: 0.4, x: 0.5 }
+LBLUEDY: { m: LIGHT_BLUE_DYE,   s: true, d: true, r: true, e: 0.4, x: 0.5 }
+MAGEDYE: { m: MAGENTA_DYE,      s: true, d: true, r: true, e: 0.4, x: 0.5 }
+ORANDYE: { m: ORANGE_DYE,       s: true, d: true, r: true, e: 0.4, x: 0.5 }
+BONEMEL: { m: BONE_MEAL,        s: true, d: true, r: true, e: 0.3, x: 0.4 }
 
-WHEAT:     { m: WHEAT,      v: 0, s: true, d: true, r: true, e: 0.3, x: 0.5 }
-EGG:       { m: EGG,        v: 0, s: true, d: true, r: true, e: 0.4, x: 0.5 }
-SUGAR:     { m: SUGAR,      v: 0, s: true, d: true, r: true, e: 0.3, x: 0.4 }
-SUGARCANE: { m: SUGAR_CANE, v: 0, s: true, d: true, r: true, e: 0.2, x: 0.3 }
+WHEAT:     { m: WHEAT,      s: true, d: true, r: true, e: 0.3, x: 0.5 }
+EGG:       { m: EGG,        s: true, d: true, r: true, e: 0.4, x: 0.5 }
+SUGAR:     { m: SUGAR,      s: true, d: true, r: true, e: 0.3, x: 0.4 }
+SUGARCANE: { m: SUGAR_CANE, s: true, d: true, r: true, e: 0.2, x: 0.3 }
 
-BLAZEROD: { m: BLAZE_ROD,      v: 0, s: true, d: true, r: true, e: 0.05, x: 0.07 }
-GS_DUST:  { m: GLOWSTONE_DUST, v: 0, s: true, d: true, r: true, e: 0.09, x: 0.1  }
+BLAZEROD: { m: BLAZE_ROD,      s: true, d: true, r: true, e: 0.05, x: 0.07 }
+GS_DUST:  { m: GLOWSTONE_DUST, s: true, d: true, r: true, e: 0.09, x: 0.1  }
 
-NETHER_WART:   { m: NETHER_WARTS, v: 0, s: true, d: true, r: true, e: 0.4,  x: 0.5  }
-NETHER_STAR:   { m: NETHER_STAR,  v: 0, s: true, d: true, r: true, e: 71.0, x: 72.5 }
-NETHER_BRICK:  { m: NETHER_BRICK, v: 0, s: true, d: true, r: true, e: 0.45, x: 0.5  }
-NETHER_QUARTZ: { m: QUARTZ,       v: 0, s: true, d: true, r: true, e: 0.5,  x: 0.6  }
+NETHER_WART:   { m: NETHER_WART,  s: true, d: true, r: true, e: 0.4,  x: 0.5  }
+NETHER_STAR:   { m: NETHER_STAR,  s: true, d: true, r: true, e: 71.0, x: 72.5 }
+NETHER_BRICK:  { m: NETHER_BRICK, s: true, d: true, r: true, e: 0.45, x: 0.5  }
+NETHER_QUARTZ: { m: QUARTZ,       s: true, d: true, r: true, e: 0.5,  x: 0.6  }
 
-PRIS_SHARD:   { m: PRISMARINE_SHARD,    v: 0, s: true, d: true, r: true, e: 0.8,  x: 0.9 }
-PRIS_CRYSTAL: { m: PRISMARINE_CRYSTALS, v: 0, s: true, d: true, r: true, e: 0.85, x: 1.0 }
+PRIS_SHARD:   { m: PRISMARINE_SHARD,    s: true, d: true, r: true, e: 0.8,  x: 0.9 }
+PRIS_CRYSTAL: { m: PRISMARINE_CRYSTALS, s: true, d: true, r: true, e: 0.85, x: 1.0 }
 
-CHFRUIT:  { m: CHORUS_FRUIT,        v: 0, s: true, d: true, r: true, e: 0.4, x: 0.5 }
-PCHFRUIT: { m: CHORUS_FRUIT_POPPED, v: 0, s: true, d: true, r: true, e: 0.4, x: 0.5 }
+CHFRUIT:  { m: CHORUS_FRUIT,        s: true, d: true, r: true, e: 0.4, x: 0.5 }
+PCHFRUIT: { m: POPPED_CHORUS_FRUIT, s: true, d: true, r: true, e: 0.4, x: 0.5 }

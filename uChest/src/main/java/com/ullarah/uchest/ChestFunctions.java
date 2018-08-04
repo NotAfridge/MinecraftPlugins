@@ -169,7 +169,7 @@ public class ChestFunctions {
 
         Inventory chestEnchantInventory = Bukkit.createInventory(player, 9, ChestLanguage.N_ECHEST);
 
-        ItemStack blockedItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15);
+        ItemStack blockedItem = new ItemStack(Material.BLACK_STAINED_GLASS_PANE, 1);
         ItemMeta blockedItemMeta = blockedItem.getItemMeta();
 
         blockedItemMeta.setDisplayName(ChatColor.GRAY + "Use Middle Slot");

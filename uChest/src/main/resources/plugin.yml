@@ -1,6 +1,7 @@
 name: ${project.name}
 version: ${project.version}
 description: ${project.description}
+api-version: 1.13
 
 author: Ullarah
 

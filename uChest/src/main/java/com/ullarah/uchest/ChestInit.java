@@ -261,8 +261,7 @@ public class ChestInit extends JavaPlugin {
 
                                 for (PotionType potion : PotionType.values()) {
 
-                                    ItemStack newItemStack = new ItemStack(materialCurrent, 1,
-                                            (short) materialConfig.getInt(m + ".v"));
+                                    ItemStack newItemStack = new ItemStack(materialCurrent, 1);
 
                                     PotionMeta itemPotionMeta = (PotionMeta) newItemStack.getItemMeta();
                                     itemPotionMeta.setBasePotionData(new PotionData(potion));
@@ -273,8 +272,7 @@ public class ChestInit extends JavaPlugin {
                                 }
 
                             } else
-                                addMaterial(new ItemStack(materialCurrent, 1,
-                                        (short) materialConfig.getInt(m + ".v")), materialObject, m, f);
+                                addMaterial(new ItemStack(materialCurrent, 1), materialObject, m, f);
 
                         } catch (Exception e) {
 
