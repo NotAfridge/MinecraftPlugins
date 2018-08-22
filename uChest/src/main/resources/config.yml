@@ -33,7 +33,7 @@ dchest:
 
 # Enchantment Chest
 echest:
-  icon: workbench
+  icon: crafting_table
   access: 5
   removelevel: true
   lockout: 120

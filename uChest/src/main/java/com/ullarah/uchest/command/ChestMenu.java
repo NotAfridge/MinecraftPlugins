@@ -160,15 +160,11 @@ public class ChestMenu {
 
     private Material getMenuIcon(String type) {
 
-        try {
-
-            return Material.getMaterial(ChestInit.getPlugin().getConfig().getString(type + ".icon").toUpperCase());
-
-        } catch (Exception e) {
-
-            return Material.CHEST;
-
-        }
+        Material material = Material.getMaterial(ChestInit.getPlugin().getConfig().getString(type + ".icon").toUpperCase());
+        if (material == null)
+            material = Material.CHEST;
+        
+        return material;
 
     }
 
