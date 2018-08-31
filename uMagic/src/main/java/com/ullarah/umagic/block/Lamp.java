@@ -4,6 +4,7 @@ import com.ullarah.umagic.MagicFunctions;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Lightable;
 import org.bukkit.metadata.FixedMetadataValue;
 
 public class Lamp extends MagicFunctions {
@@ -12,25 +13,13 @@ public class Lamp extends MagicFunctions {
 
         super(false);
 
-        for (BlockFace face : new BlockFace[]{
-                BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST,
-                BlockFace.UP, BlockFace.DOWN
-        }) {
+        Lightable data = (Lightable) block.getBlockData();
+        data.setLit(!data.isLit());
 
-            Block blockNext = block.getRelative(face);
+        block.setMetadata(metaLamp, new FixedMetadataValue(getPlugin(), true));
+        saveMetadata(block.getLocation(), metaLamp);
 
-            if (blockNext.getType().equals(Material.AIR)) {
-
-                blockNext.setType(Material.REDSTONE_BLOCK, true);
-
-                block.setMetadata(metaLamp, new FixedMetadataValue(getPlugin(), true));
-                saveMetadata(block.getLocation(), metaLamp);
-
-                blockNext.setType(Material.AIR);
-
-            }
-
-        }
+        block.setBlockData(data);
 
     }
 

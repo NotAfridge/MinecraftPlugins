@@ -2,6 +2,9 @@ package com.ullarah.umagic.block;
 
 import com.ullarah.umagic.MagicFunctions;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Powerable;
+import org.bukkit.material.PressurePlate;
 
 public class Plate extends MagicFunctions {
 
@@ -9,7 +12,9 @@ public class Plate extends MagicFunctions {
 
         super(false);
 
-        block.setData((byte) 1);
+        Powerable data = (Powerable) block.getBlockData();
+        data.setPowered(!data.isPowered());
+        block.setBlockData(data);
 
     }
 

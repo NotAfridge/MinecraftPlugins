@@ -3,6 +3,7 @@ package com.ullarah.umagic.block;
 import com.ullarah.umagic.MagicFunctions;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.Levelled;
 import org.bukkit.metadata.FixedMetadataValue;
 
 public class PackedIce extends MagicFunctions {
@@ -11,13 +12,15 @@ public class PackedIce extends MagicFunctions {
 
         super(false);
 
-        block.setType(Material.STATIONARY_WATER, true);
+        block.setType(Material.WATER, true);
 
-        block.setData((byte) 7);
+        Levelled data = (Levelled) block.getBlockData();
+        data.setLevel(15);
 		
         block.setMetadata(metaWate, new FixedMetadataValue(getPlugin(), true));
         saveMetadata(block.getLocation(), metaWate);
 
+        block.setBlockData(data);
     }
 
 }

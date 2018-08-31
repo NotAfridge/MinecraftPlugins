@@ -2,6 +2,7 @@ package com.ullarah.umagic.block;
 
 import com.ullarah.umagic.MagicFunctions;
 import org.bukkit.block.Block;
+import org.bukkit.material.types.MushroomBlockTexture;
 
 public class Mushroom extends MagicFunctions {
 
@@ -9,8 +10,10 @@ public class Mushroom extends MagicFunctions {
 
         super(false);
 
-        block.setData(block.getData() < 15 ? block.getData() == 10 ?
-                (byte) 14 : (byte) (block.getData() + 1) : (byte) 0);
+        org.bukkit.material.Mushroom mushroom = (org.bukkit.material.Mushroom) block;
+        MushroomBlockTexture[] values = MushroomBlockTexture.values();
+        int next = (mushroom.getBlockTexture().ordinal() + 1) % values.length;
+        mushroom.setBlockTexture(values[next]);
 
     }
 

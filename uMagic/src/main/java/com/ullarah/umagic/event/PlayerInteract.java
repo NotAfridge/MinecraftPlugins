@@ -25,224 +25,310 @@ public class PlayerInteract extends MagicFunctions implements Listener {
         Block block = event.getClickedBlock();
         BlockFace face = event.getBlockFace();
 
-        if (usingMagicHoe(player)) {
+        if (!usingMagicHoe(player))
+            return;
 
-            if (checkHoeInteract(event, player, block)) {
+        if (!checkHoeInteract(event, player, block))
+            return;
 
-                switch (block.getType()) {
+        event.setCancelled(true);
 
-                    case TRIPWIRE_HOOK:
-                        new Triphook(block);
-                        break;
+        switch (block.getType()) {
 
-                    case HAY_BLOCK:
-                        new Bed(block);
-                        break;
+            case TRIPWIRE_HOOK:
+                new Triphook(block);
+                break;
 
-                    case BED_BLOCK:
-                        new Bed(block);
-                        break;
+            case HAY_BLOCK:
+                new Bed(block);
+                break;
 
-                    case TRAP_DOOR:
-                    case IRON_TRAPDOOR:
-                        new Trapdoor(block);
-                        break;
+            case BLACK_BED:
+            case BLUE_BED:
+            case BROWN_BED:
+            case CYAN_BED:
+            case GRAY_BED:
+            case GREEN_BED:
+            case LIGHT_BLUE_BED:
+            case LIGHT_GRAY_BED:
+            case LIME_BED:
+            case MAGENTA_BED:
+            case ORANGE_BED:
+            case PINK_BED:
+            case PURPLE_BED:
+            case RED_BED:
+            case WHITE_BED:
+            case YELLOW_BED:
+                new Bed(block);
+                break;
 
-                    case SIGN:
-                    case SIGN_POST:
-                    case WALL_SIGN:
-                        new Sign(block);
-                        break;
+            case ACACIA_TRAPDOOR:
+            case BIRCH_TRAPDOOR:
+            case DARK_OAK_TRAPDOOR:
+            case JUNGLE_TRAPDOOR:
+            case OAK_TRAPDOOR:
+            case SPRUCE_TRAPDOOR:
+            case IRON_TRAPDOOR:
+                new Trapdoor(block);
+                break;
 
-                    case REDSTONE_LAMP_OFF:
-                        new Lamp(block);
-                        break;
+            case SIGN:
+                new Sign(block);
+                break;
 
-                    case ACACIA_STAIRS:
-                    case BIRCH_WOOD_STAIRS:
-                    case BRICK_STAIRS:
-                    case COBBLESTONE_STAIRS:
-                    case DARK_OAK_STAIRS:
-                    case JUNGLE_WOOD_STAIRS:
-                    case NETHER_BRICK_STAIRS:
-                    case PURPUR_STAIRS:
-                    case QUARTZ_STAIRS:
-                    case RED_SANDSTONE_STAIRS:
-                    case SANDSTONE_STAIRS:
-                    case SMOOTH_STAIRS:
-                    case SPRUCE_WOOD_STAIRS:
-                    case WOOD_STAIRS:
-                        new Stairs(block);
-                        break;
+            case WALL_SIGN:
+                new SignWall(block);
+                break;
 
-                    case WOOL:
-                        new Wool(block);
-                        break;
+            case REDSTONE_LAMP:
+                new Lamp(block);
+                break;
 
-                    case CARPET:
-                        new Carpet(block);
-                        break;
+            case ACACIA_STAIRS:
+            case BIRCH_STAIRS:
+            case BRICK_STAIRS:
+            case COBBLESTONE_STAIRS:
+            case DARK_OAK_STAIRS:
+            case JUNGLE_STAIRS:
+            case NETHER_BRICK_STAIRS:
+            case PURPUR_STAIRS:
+            case QUARTZ_STAIRS:
+            case RED_SANDSTONE_STAIRS:
+            case SANDSTONE_STAIRS:
+            case STONE_BRICK_STAIRS:
+            case SPRUCE_STAIRS:
+            case OAK_STAIRS:
+                new Stairs(block);
+                break;
 
-                    case SNOW:
-                    case SNOW_BLOCK:
-                        new Snow(block);
-                        break;
+            case BLACK_WOOL:
+            case BLUE_WOOL:
+            case BROWN_WOOL:
+            case CYAN_WOOL:
+            case GRAY_WOOL:
+            case GREEN_WOOL:
+            case LIGHT_BLUE_WOOL:
+            case LIGHT_GRAY_WOOL:
+            case LIME_WOOL:
+            case MAGENTA_WOOL:
+            case ORANGE_WOOL:
+            case PINK_WOOL:
+            case PURPLE_WOOL:
+            case RED_WOOL:
+            case WHITE_WOOL:
+            case YELLOW_WOOL:
+                new Wool(block);
+                break;
 
-                    case WOOD:
-                        new Wood(block);
-                        break;
+            case BLACK_CARPET:
+            case BLUE_CARPET:
+            case BROWN_CARPET:
+            case CYAN_CARPET:
+            case GRAY_CARPET:
+            case GREEN_CARPET:
+            case LIGHT_BLUE_CARPET:
+            case LIGHT_GRAY_CARPET:
+            case LIME_CARPET:
+            case MAGENTA_CARPET:
+            case ORANGE_CARPET:
+            case PINK_CARPET:
+            case PURPLE_CARPET:
+            case RED_CARPET:
+            case WHITE_CARPET:
+            case YELLOW_CARPET:
+                new Carpet(block);
+                break;
 
-                    case LADDER:
-                        new Ladder(block);
-                        break;
+            case SNOW:
+            case SNOW_BLOCK:
+                new Snow(block); // TODO BROKEN
+                break;
 
-                    case LOG:
-                    case LOG_2:
-                        new Log(block);
-                        break;
+            case OAK_PLANKS:
+                new Wood(block);
+                break;
 
-                    case DOUBLE_STEP:
-                    case DOUBLE_STONE_SLAB2:
-                        new Slab(block);
-                        break;
+            case LADDER:
+                new Ladder(block);
+                break;
 
-                    case STONE_BUTTON:
-                    case WOOD_BUTTON:
-                        new Button(block);
-                        break;
+            case STONE_BUTTON:
+            case ACACIA_BUTTON:
+            case BIRCH_BUTTON:
+            case DARK_OAK_BUTTON:
+            case JUNGLE_BUTTON:
+            case OAK_BUTTON:
+            case SPRUCE_BUTTON:
+                new Button(block);
+                break;
 
-                    case STONE_PLATE:
-                    case WOOD_PLATE:
-                    case IRON_PLATE:
-                    case GOLD_PLATE:
-                        new Plate(block);
-                        break;
+            case ACACIA_PRESSURE_PLATE:
+            case BIRCH_PRESSURE_PLATE:
+            case DARK_OAK_PRESSURE_PLATE:
+            case JUNGLE_PRESSURE_PLATE:
+            case OAK_PRESSURE_PLATE:
+            case SPRUCE_PRESSURE_PLATE:
+            case STONE_PRESSURE_PLATE:
+            case LIGHT_WEIGHTED_PRESSURE_PLATE:
+            case HEAVY_WEIGHTED_PRESSURE_PLATE:
+                new Plate(block);
+                break;
 
-                    case HUGE_MUSHROOM_1:
-                    case HUGE_MUSHROOM_2:
-                        new Mushroom(block);
-                        break;
+            case RED_MUSHROOM_BLOCK:
+            case BROWN_MUSHROOM_BLOCK:
+                new Mushroom(block); // TODO BROKEN
+                break;
 
-                    case FURNACE:
-                        new Furnace(block, player);
-                        break;
+            case FURNACE:
+                new Furnace(block, player);
+                break;
 
-                    case BURNING_FURNACE:
-                        new FurnaceBurn(block);
-                        break;
+            case VINE:
+                new Vines(block);
+                break;
 
-                    case VINE:
-                        new Vines(block);
-                        break;
+            case BLACK_BANNER:
+            case BLUE_BANNER:
+            case BROWN_BANNER:
+            case CYAN_BANNER:
+            case GRAY_BANNER:
+            case GREEN_BANNER:
+            case LIGHT_BLUE_BANNER:
+            case LIGHT_GRAY_BANNER:
+            case LIME_BANNER:
+            case MAGENTA_BANNER:
+            case ORANGE_BANNER:
+            case PINK_BANNER:
+            case PURPLE_BANNER:
+            case RED_BANNER:
+            case WHITE_BANNER:
+            case YELLOW_BANNER:
+                new Banner(block);
+                break;
 
-                    case STANDING_BANNER:
-                    case WALL_BANNER:
-                    case BANNER:
-                        new Banner(block);
-                        break;
+            case BLACK_WALL_BANNER:
+            case BLUE_WALL_BANNER:
+            case BROWN_WALL_BANNER:
+            case CYAN_WALL_BANNER:
+            case GRAY_WALL_BANNER:
+            case GREEN_WALL_BANNER:
+            case LIGHT_BLUE_WALL_BANNER:
+            case LIGHT_GRAY_WALL_BANNER:
+            case LIME_WALL_BANNER:
+            case MAGENTA_WALL_BANNER:
+            case ORANGE_WALL_BANNER:
+            case PINK_WALL_BANNER:
+            case PURPLE_WALL_BANNER:
+            case RED_WALL_BANNER:
+            case WHITE_WALL_BANNER:
+            case YELLOW_WALL_BANNER:
+                new BannerWall(block);
+                break;
 
-                    case TORCH:
-                        new Torch(block);
-                        break;
+            case WALL_TORCH:
+                new Torch(block);
+                break;
 
-                    case RAILS:
-                    case POWERED_RAIL:
-                        new Rails(block);
-                        break;
+            case RAIL:
+            case POWERED_RAIL:
+                new Rails(block);
+                break;
 
-                    case SAND:
-                    case GRAVEL:
-                    case CONCRETE_POWDER:
-                        new Sand(block);
-                        break;
+            case SAND:
+            case GRAVEL:
+            case BLACK_CONCRETE_POWDER:
+            case BLUE_CONCRETE_POWDER:
+            case BROWN_CONCRETE_POWDER:
+            case CYAN_CONCRETE_POWDER:
+            case GRAY_CONCRETE_POWDER:
+            case GREEN_CONCRETE_POWDER:
+            case LIGHT_BLUE_CONCRETE_POWDER:
+            case LIGHT_GRAY_CONCRETE_POWDER:
+            case LIME_CONCRETE_POWDER:
+            case MAGENTA_CONCRETE_POWDER:
+            case ORANGE_CONCRETE_POWDER:
+            case PINK_CONCRETE_POWDER:
+            case PURPLE_CONCRETE_POWDER:
+            case RED_CONCRETE_POWDER:
+            case WHITE_CONCRETE_POWDER:
+            case YELLOW_CONCRETE_POWDER:
+                new Sand(block); // TODO BROKEN
+                break;
 
-                    case EMERALD_BLOCK:
-                        new Emerald(block, player);
-                        break;
+            case EMERALD_BLOCK:
+                new Emerald(block, player);
+                break;
 
-                    case BEDROCK:
-                        new Bedrock(block, player);
-                        break;
+            case BEDROCK:
+                new Bedrock(block, player);
+                break;
 
-                    case BARRIER:
-                        new Barrier(block);
-                        break;
+            case BARRIER:
+                new Barrier(block);
+                break;
 
-                    case NETHERRACK:
-                        new Netherrack(block);
-                        break;
+            case NETHERRACK:
+                new Netherrack(block);
+                break;
 
-                    case LAPIS_BLOCK:
-                        new Lapis(block);
-                        break;
+            case LAPIS_BLOCK:
+                new Lapis(block);
+                break;
 
-                    case STRUCTURE_VOID:
-                        new StructureVoid(block);
-                        break;
+            case STRUCTURE_VOID:
+                new StructureVoid(block);
+                break;
 
-                    case MOB_SPAWNER:
-                        new Spawner(block, face);
-                        break;
+            case SPAWNER:
+                new Spawner(block, face);
+                break;
 
-                    case OBSIDIAN:
-                        new Obsidian(block);
-                        break;
+            case OBSIDIAN:
+                new Obsidian(block);
+                break;
 
-                    case STRUCTURE_BLOCK:
-                        new StructureBlock(block);
-                        break;
+            case STRUCTURE_BLOCK:
+                new StructureBlock(block);
+                break;
 
-                    case MELON_BLOCK:
-                        new Melon(block);
-                        break;
+            case MELON:
+                new Melon(block);
+                break;
 
-                    case CACTUS:
-                        new Cactus(block);
-                        break;
+            case CACTUS:
+                new Cactus(block);
+                break;
 
-                    case ICE:
-                        new Ice(block);
-                        break;
+            case ICE:
+                new Ice(block);
+                break;
 
-                    case FROSTED_ICE:
-                        new Ice(block);
-                        break;
+            case PACKED_ICE:
+                new PackedIce(block); // TODO BROKEN
+                break;
 
-                    case PACKED_ICE:
-                        new PackedIce(block);
-                        break;
+            case MAGMA_BLOCK:
+                new Magma(block, player); // TODO BROKEN
+                break;
 
-                    case MAGMA:
-                        new Magma(block, player);
-                        break;
-
-                    case WHITE_GLAZED_TERRACOTTA:
-                    case ORANGE_GLAZED_TERRACOTTA:
-                    case MAGENTA_GLAZED_TERRACOTTA:
-                    case LIGHT_BLUE_GLAZED_TERRACOTTA:
-                    case YELLOW_GLAZED_TERRACOTTA:
-                    case LIME_GLAZED_TERRACOTTA:
-                    case PINK_GLAZED_TERRACOTTA:
-                    case GRAY_GLAZED_TERRACOTTA:
-                    case SILVER_GLAZED_TERRACOTTA:
-                    case CYAN_GLAZED_TERRACOTTA:
-                    case PURPLE_GLAZED_TERRACOTTA:
-                    case BLUE_GLAZED_TERRACOTTA:
-                    case BROWN_GLAZED_TERRACOTTA:
-                    case GREEN_GLAZED_TERRACOTTA:
-                    case RED_GLAZED_TERRACOTTA:
-                    case BLACK_GLAZED_TERRACOTTA:
-                        new Terracotta(block);
-                        break;
-
-                    default:
-                        event.setCancelled(true);
-                        break;
-
-                }
-
-            }
-
+            case WHITE_GLAZED_TERRACOTTA:
+            case ORANGE_GLAZED_TERRACOTTA:
+            case MAGENTA_GLAZED_TERRACOTTA:
+            case LIGHT_BLUE_GLAZED_TERRACOTTA:
+            case YELLOW_GLAZED_TERRACOTTA:
+            case LIME_GLAZED_TERRACOTTA:
+            case PINK_GLAZED_TERRACOTTA:
+            case GRAY_GLAZED_TERRACOTTA:
+            case LIGHT_GRAY_GLAZED_TERRACOTTA:
+            case CYAN_GLAZED_TERRACOTTA:
+            case PURPLE_GLAZED_TERRACOTTA:
+            case BLUE_GLAZED_TERRACOTTA:
+            case BROWN_GLAZED_TERRACOTTA:
+            case GREEN_GLAZED_TERRACOTTA:
+            case RED_GLAZED_TERRACOTTA:
+            case BLACK_GLAZED_TERRACOTTA:
+                new Terracotta(block);
+                break;
         }
 
     }

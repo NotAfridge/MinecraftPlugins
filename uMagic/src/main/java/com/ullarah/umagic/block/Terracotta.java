@@ -1,7 +1,10 @@
 package com.ullarah.umagic.block;
 
 import com.ullarah.umagic.MagicFunctions;
+import com.ullarah.umagic.blockdata.DirectionalData;
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.MultipleFacing;
 
 public class Terracotta extends MagicFunctions {
 
@@ -9,7 +12,7 @@ public class Terracotta extends MagicFunctions {
 
         super(false);
 
-        block.setData(block.getData() >= 4 ? (byte) 0 : (byte) (block.getData() + 1));
+        new DirectionalData(block);
 
     }
 

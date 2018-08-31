@@ -11,10 +11,8 @@ public class Wool extends MagicFunctions {
 
         super(false);
 
-        byte woolData = block.getData();
-
-        block.setType(Material.CARPET);
-        block.setData(woolData);
+        String type = block.getType().name().replaceAll("WOOL", "CARPET");
+        block.setType(Material.valueOf(type));
 
         block.setMetadata(metaWool, new FixedMetadataValue(getPlugin(), true));
         saveMetadata(block.getLocation(), metaWool);

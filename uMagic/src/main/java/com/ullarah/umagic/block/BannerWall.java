@@ -11,13 +11,13 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.List;
 
-public class Banner extends MagicFunctions {
+public class BannerWall extends MagicFunctions {
 
-    public Banner(Block block) {
+    public BannerWall(Block block) {
 
         super(false);
 
-        new RotatableData(block);
+        new DirectionalData(block);
 
         block.setMetadata(metaBanr, new FixedMetadataValue(getPlugin(), true));
         saveMetadata(block.getLocation(), metaBanr);

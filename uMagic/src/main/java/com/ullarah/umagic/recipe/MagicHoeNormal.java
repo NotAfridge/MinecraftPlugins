@@ -68,7 +68,7 @@ public class MagicHoeNormal {
         hoeRecipe.shape("RMR", "MHM", "RMR");
 
         hoeRecipe.setIngredient('H', Material.DIAMOND_HOE);
-        hoeRecipe.setIngredient('M', Material.SPECKLED_MELON);
+        hoeRecipe.setIngredient('M', Material.GLISTERING_MELON_SLICE);
         hoeRecipe.setIngredient('R', Material.REDSTONE);
 
         return hoeRecipe;

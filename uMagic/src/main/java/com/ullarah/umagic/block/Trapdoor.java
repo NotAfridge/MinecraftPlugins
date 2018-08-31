@@ -2,6 +2,7 @@ package com.ullarah.umagic.block;
 
 import com.ullarah.umagic.MagicFunctions;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.type.TrapDoor;
 
 public class Trapdoor extends MagicFunctions {
 
@@ -9,7 +10,9 @@ public class Trapdoor extends MagicFunctions {
 
         super(false);
 
-        block.setData(block.getData() >= 8 ? (byte) 3 : (byte) (block.getData() + 1));
+        TrapDoor data = (TrapDoor) block.getBlockData();
+        data.setOpen(!data.isOpen());
+        block.setBlockData(data);
 
     }
 

@@ -57,7 +57,7 @@ public class Spawner extends MagicFunctions {
         if (newSpawn.getType().equals(Material.AIR)) {
 
             block.setType(Material.AIR);
-            newSpawn.setType(Material.MOB_SPAWNER);
+            newSpawn.setType(Material.SPAWNER);
 
             BlockState blockState = newSpawn.getState();
 

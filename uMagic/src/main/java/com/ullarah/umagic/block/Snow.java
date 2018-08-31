@@ -10,8 +10,8 @@ public class Snow extends MagicFunctions {
 
         super(false);
 
-        block.setMetadata(metaSand, new FixedMetadataValue(getPlugin(), true));
-        saveMetadata(block.getLocation(), metaSand);
+        block.setMetadata(metaSnow, new FixedMetadataValue(getPlugin(), true));
+        saveMetadata(block.getLocation(), metaSnow);
 
     }
 

@@ -10,7 +10,7 @@ public class Cactus extends MagicFunctions {
 
         super(false);
 
-        block.setType(Material.MELON_BLOCK, true);
+        block.setType(Material.MELON, true);
 
         block.removeMetadata(metaCact, getPlugin());
         removeMetadata(block.getLocation());

@@ -12,10 +12,8 @@ public class Carpet extends MagicFunctions {
 
         if (block.hasMetadata(metaWool)) {
 
-            byte carpetData = block.getData();
-
-            block.setType(Material.WOOL);
-            block.setData(carpetData);
+            String type = block.getType().name().replaceAll("CARPET", "WOOL");
+            block.setType(Material.valueOf(type));
 
             block.removeMetadata(metaWool, getPlugin());
             removeMetadata(block.getLocation());

@@ -29,14 +29,11 @@ public class Furnace extends MagicFunctions {
         furnaceInventory.setSmelting(getFurnaceSmelt());
         furnaceInventory.setResult(null);
 
-        furnace.setCookTime((short) Integer.MAX_VALUE);
         furnace.setBurnTime((short) Integer.MAX_VALUE);
-
-        furnace.setType(Material.BURNING_FURNACE);
+        furnace.setCookTime((short) Integer.MAX_VALUE);
 
         block.setMetadata(metaFurn, new FixedMetadataValue(getPlugin(), true));
         saveMetadata(block.getLocation(), metaFurn);
-
     }
 
 }
