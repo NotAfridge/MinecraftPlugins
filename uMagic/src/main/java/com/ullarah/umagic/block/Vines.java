@@ -1,14 +1,17 @@
 package com.ullarah.umagic.block;
 
-import com.ullarah.umagic.MagicFunctions;
+import com.ullarah.umagic.InteractMeta;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.MultipleFacing;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
-public class Vines extends MagicFunctions {
+public class Vines extends BaseBlock {
 
     private static final HashMap<BlockFace, Integer> faces = new HashMap<>();
 
@@ -20,9 +23,8 @@ public class Vines extends MagicFunctions {
         faces.put(BlockFace.UP, 16);
     }
 
-    public Vines(Block block) {
-
-        super(false);
+    public void process(InteractMeta meta) {
+        Block block = meta.getBlock();
 
         MultipleFacing data = (MultipleFacing) block.getBlockData();
 
@@ -45,6 +47,10 @@ public class Vines extends MagicFunctions {
         }
 
         block.setBlockData(data);
+    }
+
+    public List<Material> getPermittedBlocks() {
+        return Arrays.asList(Material.VINE);
     }
 
 }

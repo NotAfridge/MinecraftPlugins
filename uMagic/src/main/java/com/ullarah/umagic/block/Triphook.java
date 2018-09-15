@@ -1,14 +1,17 @@
 package com.ullarah.umagic.block;
 
-import com.ullarah.umagic.MagicFunctions;
+import com.ullarah.umagic.InteractMeta;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.TripwireHook;
 
-public class Triphook extends MagicFunctions {
+import java.util.Arrays;
+import java.util.List;
 
-    public Triphook(Block block) {
+public class Triphook extends BaseBlock {
 
-        super(false);
+    public void process(InteractMeta meta) {
+        Block block = meta.getBlock();
 
         TripwireHook data = (TripwireHook) block.getBlockData();
         boolean activated = data.isAttached();
@@ -20,6 +23,10 @@ public class Triphook extends MagicFunctions {
         }
 
         block.setBlockData(data);
+    }
+
+    public List<Material> getPermittedBlocks() {
+        return Arrays.asList(Material.TRIPWIRE_HOOK);
     }
 
 }

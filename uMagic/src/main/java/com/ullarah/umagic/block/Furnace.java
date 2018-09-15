@@ -1,17 +1,20 @@
 package com.ullarah.umagic.block;
 
-import com.ullarah.umagic.MagicFunctions;
+import com.ullarah.umagic.InteractMeta;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.FurnaceInventory;
 import org.bukkit.metadata.FixedMetadataValue;
 
-public class Furnace extends MagicFunctions {
+import java.util.Arrays;
+import java.util.List;
 
-    public Furnace(Block block, Player player) {
+public class Furnace extends BaseBlock {
 
-        super(false);
+    public void process(InteractMeta meta) {
+        Block block = meta.getBlock();
+        Player player = meta.getPlayer();
 
         org.bukkit.block.Furnace furnace = (org.bukkit.block.Furnace) block.getState();
 
@@ -34,6 +37,10 @@ public class Furnace extends MagicFunctions {
 
         block.setMetadata(metaFurn, new FixedMetadataValue(getPlugin(), true));
         saveMetadata(block.getLocation(), metaFurn);
+    }
+
+    public List<Material> getPermittedBlocks() {
+        return Arrays.asList(Material.FURNACE);
     }
 
 }

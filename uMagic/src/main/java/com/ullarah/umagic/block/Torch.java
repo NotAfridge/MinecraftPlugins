@@ -1,16 +1,19 @@
 package com.ullarah.umagic.block;
 
-import com.ullarah.umagic.MagicFunctions;
+import com.ullarah.umagic.InteractMeta;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Directional;
 import org.bukkit.metadata.FixedMetadataValue;
 
-public class Torch extends MagicFunctions {
+import java.util.Arrays;
+import java.util.List;
 
-    public Torch(Block block) {
+public class Torch extends BaseBlock {
 
-        super(false);
+    public void process(InteractMeta meta) {
+        Block block = meta.getBlock();
 
         Directional data = (Directional) block.getBlockData();
         BlockFace facing = data.getFacing();
@@ -21,6 +24,10 @@ public class Torch extends MagicFunctions {
         saveMetadata(block.getLocation(), metaTrch);
 
         block.setBlockData(data);
+    }
+
+    public List<Material> getPermittedBlocks() {
+        return Arrays.asList(Material.WALL_TORCH);
     }
 
 }

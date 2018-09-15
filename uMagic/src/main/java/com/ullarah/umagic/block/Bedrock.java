@@ -1,15 +1,18 @@
 package com.ullarah.umagic.block;
 
-import com.ullarah.umagic.MagicFunctions;
+import com.ullarah.umagic.InteractMeta;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-public class Bedrock extends MagicFunctions {
+import java.util.Arrays;
+import java.util.List;
 
-    public Bedrock(Block block, Player player) {
+public class Bedrock extends BaseBlock {
 
-        super(false);
+    public void process(InteractMeta meta) {
+        Block block = meta.getBlock();
+        Player player = meta.getPlayer();
 
         if (block.hasMetadata(metaEmBr)) {
 
@@ -19,6 +22,10 @@ public class Bedrock extends MagicFunctions {
 
         }
 
+    }
+
+    public List<Material> getPermittedBlocks() {
+        return Arrays.asList(Material.BEDROCK);
     }
 
 }

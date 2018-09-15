@@ -1,25 +1,27 @@
 package com.ullarah.umagic.block;
 
-import com.ullarah.umagic.MagicFunctions;
-import com.ullarah.umagic.blockdata.DirectionalData;
+import com.ullarah.umagic.InteractMeta;
 import com.ullarah.umagic.blockdata.RotatableData;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.type.WallSign;
 import org.bukkit.metadata.FixedMetadataValue;
 
-public class Sign extends MagicFunctions {
+import java.util.Arrays;
+import java.util.List;
 
-    public Sign(Block block) {
+public class Sign extends BaseBlock {
 
-        super(false);
+    public void process(InteractMeta meta) {
+        Block block = meta.getBlock();
 
         new RotatableData(block);
 
         block.setMetadata(metaSign, new FixedMetadataValue(getPlugin(), true));
         saveMetadata(block.getLocation(), metaSign);
+    }
+
+    public List<Material> getPermittedBlocks() {
+        return Arrays.asList(Material.SIGN);
     }
 
 }

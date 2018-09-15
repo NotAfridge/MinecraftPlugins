@@ -1,6 +1,6 @@
 package com.ullarah.umagic.block;
 
-import com.ullarah.umagic.MagicFunctions;
+import com.ullarah.umagic.InteractMeta;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -9,7 +9,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import java.util.Arrays;
 import java.util.List;
 
-public class Wood extends MagicFunctions {
+public class Wood extends BaseBlock {
 
     private static final List<Material> backingBlocks = Arrays.asList(
             Material.BLACK_STAINED_GLASS, Material.BLUE_STAINED_GLASS, Material.BROWN_STAINED_GLASS, Material.CYAN_STAINED_GLASS,
@@ -19,9 +19,8 @@ public class Wood extends MagicFunctions {
             Material.GLASS
     );
 
-    public Wood(Block block) {
-
-        super(false);
+    public void process(InteractMeta meta) {
+        Block block = meta.getBlock();
 
         for (BlockFace face : new BlockFace[]{BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST}) {
             Block blockNext = block.getRelative(face);
@@ -41,6 +40,10 @@ public class Wood extends MagicFunctions {
             }
         }
 
+    }
+
+    public List<Material> getPermittedBlocks() {
+        return Arrays.asList(Material.OAK_PLANKS);
     }
 
 }

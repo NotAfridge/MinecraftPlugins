@@ -4,19 +4,21 @@ package com.ullarah.umagic.block;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.blocks.BaseBlock;
 import com.sk89q.worldedit.bukkit.selections.CuboidSelection;*/
-import com.ullarah.umagic.MagicFunctions;
+
+import com.ullarah.umagic.InteractMeta;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Levelled;
-import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 
-public class Magma extends MagicFunctions {
+import java.util.Arrays;
+import java.util.List;
 
-    public Magma(Block block, Player player) {
+public class Magma extends BaseBlock {
 
-        super(false);
+    public void process(InteractMeta meta) {
+        Block block = meta.getBlock();
 
         Location location = block.getLocation();
 
@@ -63,6 +65,10 @@ public class Magma extends MagicFunctions {
 
         });*/
 
+    }
+
+    public List<Material> getPermittedBlocks() {
+        return Arrays.asList(Material.MAGMA_BLOCK);
     }
 
 }

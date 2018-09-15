@@ -54,7 +54,7 @@ public class BlockBreak extends MagicFunctions implements Listener {
 
                 if (blockNext.hasMetadata(metaLadd)) {
 
-                    blockNext.setType(Material.OAK_WOOD);
+                    blockNext.setType(Material.OAK_PLANKS);
                     blockNext.removeMetadata(metaLadd, getPlugin());
                     removeMetadata(blockNext.getLocation());
 

@@ -1,17 +1,18 @@
 package com.ullarah.umagic.block;
 
-import com.ullarah.umagic.MagicFunctions;
+import com.ullarah.umagic.InteractMeta;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Lightable;
 import org.bukkit.metadata.FixedMetadataValue;
 
-public class Lamp extends MagicFunctions {
+import java.util.Arrays;
+import java.util.List;
 
-    public Lamp(Block block) {
+public class Lamp extends BaseBlock {
 
-        super(false);
+    public void process(InteractMeta meta) {
+        Block block = meta.getBlock();
 
         Lightable data = (Lightable) block.getBlockData();
         data.setLit(!data.isLit());
@@ -21,6 +22,10 @@ public class Lamp extends MagicFunctions {
 
         block.setBlockData(data);
 
+    }
+
+    public List<Material> getPermittedBlocks() {
+        return Arrays.asList(Material.REDSTONE_LAMP);
     }
 
 }

@@ -1,16 +1,18 @@
 package com.ullarah.umagic.block;
 
-import com.ullarah.umagic.MagicFunctions;
+import com.ullarah.umagic.InteractMeta;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.metadata.FixedMetadataValue;
 
-public class Netherrack extends MagicFunctions {
+import java.util.Arrays;
+import java.util.List;
 
-    public Netherrack(Block block) {
+public class Netherrack extends BaseBlock {
 
-        super(false);
+    public void process(InteractMeta meta) {
+        Block block = meta.getBlock();
 
         Block blockUnder = block.getRelative(BlockFace.DOWN);
 
@@ -20,6 +22,10 @@ public class Netherrack extends MagicFunctions {
         block.setMetadata(metaFire, new FixedMetadataValue(getPlugin(), true));
         saveMetadata(block.getLocation(), metaFire);
 
+    }
+
+    public List<Material> getPermittedBlocks() {
+        return Arrays.asList(Material.NETHERRACK);
     }
 
 }

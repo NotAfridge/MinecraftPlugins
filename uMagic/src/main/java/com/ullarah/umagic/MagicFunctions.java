@@ -5,6 +5,7 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.ullarah.umagic.block.*;
 import com.ullarah.umagic.database.SQLConnection;
 import com.ullarah.umagic.database.SQLMessage;
 import com.ullarah.umagic.function.ActionMessage;
@@ -30,8 +31,8 @@ import org.bukkit.plugin.Plugin;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.logging.Level;
 
 public class MagicFunctions {
@@ -44,189 +45,7 @@ public class MagicFunctions {
             metaVoid = "uMagic.vd", metaCact = "uMagic.cs", metaCice = "uMagic.ci", metaWate = "uMagic.wa",
             metaReds = "uMagic.rd";
 
-    private final Material[] validMagicBlocks = new Material[]{
-            Material.TRIPWIRE_HOOK,
-            Material.HAY_BLOCK,
-            Material.BLACK_BED,
-            Material.BLUE_BED,
-            Material.BROWN_BED,
-            Material.CYAN_BED,
-            Material.GRAY_BED,
-            Material.GREEN_BED,
-            Material.LIGHT_BLUE_BED,
-            Material.LIGHT_GRAY_BED,
-            Material.LIME_BED,
-            Material.MAGENTA_BED,
-            Material.ORANGE_BED,
-            Material.PINK_BED,
-            Material.PURPLE_BED,
-            Material.RED_BED,
-            Material.WHITE_BED,
-            Material.YELLOW_BED,
-            Material.ACACIA_TRAPDOOR,
-            Material.BIRCH_TRAPDOOR,
-            Material.DARK_OAK_TRAPDOOR,
-            Material.JUNGLE_TRAPDOOR,
-            Material.OAK_TRAPDOOR,
-            Material.SPRUCE_TRAPDOOR,
-            Material.IRON_TRAPDOOR,
-            Material.SIGN,
-            Material.WALL_SIGN,
-            Material.REDSTONE_LAMP,
-            Material.ACACIA_STAIRS,
-            Material.BIRCH_STAIRS,
-            Material.BRICK_STAIRS,
-            Material.COBBLESTONE_STAIRS,
-            Material.DARK_OAK_STAIRS,
-            Material.JUNGLE_STAIRS,
-            Material.NETHER_BRICK_STAIRS,
-            Material.PURPUR_STAIRS,
-            Material.QUARTZ_STAIRS,
-            Material.RED_SANDSTONE_STAIRS,
-            Material.SANDSTONE_STAIRS,
-            Material.STONE_BRICK_STAIRS,
-            Material.SPRUCE_STAIRS,
-            Material.OAK_STAIRS,
-            Material.BLACK_WOOL,
-            Material.BLUE_WOOL,
-            Material.BROWN_WOOL,
-            Material.CYAN_WOOL,
-            Material.GRAY_WOOL,
-            Material.GREEN_WOOL,
-            Material.LIGHT_BLUE_WOOL,
-            Material.LIGHT_GRAY_WOOL,
-            Material.LIME_WOOL,
-            Material.MAGENTA_WOOL,
-            Material.ORANGE_WOOL,
-            Material.PINK_WOOL,
-            Material.PURPLE_WOOL,
-            Material.RED_WOOL,
-            Material.WHITE_WOOL,
-            Material.YELLOW_WOOL,
-            Material.BLACK_CARPET,
-            Material.BLUE_CARPET,
-            Material.BROWN_CARPET,
-            Material.CYAN_CARPET,
-            Material.GRAY_CARPET,
-            Material.GREEN_CARPET,
-            Material.LIGHT_BLUE_CARPET,
-            Material.LIGHT_GRAY_CARPET,
-            Material.LIME_CARPET,
-            Material.MAGENTA_CARPET,
-            Material.ORANGE_CARPET,
-            Material.PINK_CARPET,
-            Material.PURPLE_CARPET,
-            Material.RED_CARPET,
-            Material.WHITE_CARPET,
-            Material.YELLOW_CARPET,
-            Material.SNOW,
-            Material.SNOW_BLOCK,
-            Material.OAK_PLANKS,
-            Material.LADDER,
-            Material.STONE_BUTTON,
-            Material.ACACIA_BUTTON,
-            Material.BIRCH_BUTTON,
-            Material.DARK_OAK_BUTTON,
-            Material.JUNGLE_BUTTON,
-            Material.OAK_BUTTON,
-            Material.SPRUCE_BUTTON,
-            Material.ACACIA_PRESSURE_PLATE,
-            Material.BIRCH_PRESSURE_PLATE,
-            Material.DARK_OAK_PRESSURE_PLATE,
-            Material.JUNGLE_PRESSURE_PLATE,
-            Material.OAK_PRESSURE_PLATE,
-            Material.SPRUCE_PRESSURE_PLATE,
-            Material.STONE_PRESSURE_PLATE,
-            Material.LIGHT_WEIGHTED_PRESSURE_PLATE,
-            Material.HEAVY_WEIGHTED_PRESSURE_PLATE,
-            Material.RED_MUSHROOM_BLOCK,
-            Material.BROWN_MUSHROOM_BLOCK,
-            Material.FURNACE,
-            Material.VINE,
-            Material.BLACK_BANNER,
-            Material.BLUE_BANNER,
-            Material.BROWN_BANNER,
-            Material.CYAN_BANNER,
-            Material.GRAY_BANNER,
-            Material.GREEN_BANNER,
-            Material.LIGHT_BLUE_BANNER,
-            Material.LIGHT_GRAY_BANNER,
-            Material.LIME_BANNER,
-            Material.MAGENTA_BANNER,
-            Material.ORANGE_BANNER,
-            Material.PINK_BANNER,
-            Material.PURPLE_BANNER,
-            Material.RED_BANNER,
-            Material.WHITE_BANNER,
-            Material.YELLOW_BANNER,
-            Material.BLACK_WALL_BANNER,
-            Material.BLUE_WALL_BANNER,
-            Material.BROWN_WALL_BANNER,
-            Material.CYAN_WALL_BANNER,
-            Material.GRAY_WALL_BANNER,
-            Material.GREEN_WALL_BANNER,
-            Material.LIGHT_BLUE_WALL_BANNER,
-            Material.LIGHT_GRAY_WALL_BANNER,
-            Material.LIME_WALL_BANNER,
-            Material.MAGENTA_WALL_BANNER,
-            Material.ORANGE_WALL_BANNER,
-            Material.PINK_WALL_BANNER,
-            Material.PURPLE_WALL_BANNER,
-            Material.RED_WALL_BANNER,
-            Material.WHITE_WALL_BANNER,
-            Material.YELLOW_WALL_BANNER,
-            Material.WALL_TORCH,
-            Material.RAIL,
-            Material.POWERED_RAIL,
-            Material.SAND,
-            Material.GRAVEL,
-            Material.BLACK_CONCRETE_POWDER,
-            Material.BLUE_CONCRETE_POWDER,
-            Material.BROWN_CONCRETE_POWDER,
-            Material.CYAN_CONCRETE_POWDER,
-            Material.GRAY_CONCRETE_POWDER,
-            Material.GREEN_CONCRETE_POWDER,
-            Material.LIGHT_BLUE_CONCRETE_POWDER,
-            Material.LIGHT_GRAY_CONCRETE_POWDER,
-            Material.LIME_CONCRETE_POWDER,
-            Material.MAGENTA_CONCRETE_POWDER,
-            Material.ORANGE_CONCRETE_POWDER,
-            Material.PINK_CONCRETE_POWDER,
-            Material.PURPLE_CONCRETE_POWDER,
-            Material.RED_CONCRETE_POWDER,
-            Material.WHITE_CONCRETE_POWDER,
-            Material.YELLOW_CONCRETE_POWDER,
-            Material.EMERALD_BLOCK,
-            Material.BEDROCK,
-            Material.BARRIER,
-            Material.NETHERRACK,
-            Material.LAPIS_BLOCK,
-            Material.STRUCTURE_VOID,
-            Material.SPAWNER,
-            Material.OBSIDIAN,
-            Material.STRUCTURE_BLOCK,
-            Material.MELON,
-            Material.CACTUS,
-            Material.ICE,
-            Material.PACKED_ICE,
-            Material.MAGMA_BLOCK,
-            Material.WHITE_GLAZED_TERRACOTTA,
-            Material.ORANGE_GLAZED_TERRACOTTA,
-            Material.MAGENTA_GLAZED_TERRACOTTA,
-            Material.LIGHT_BLUE_GLAZED_TERRACOTTA,
-            Material.YELLOW_GLAZED_TERRACOTTA,
-            Material.LIME_GLAZED_TERRACOTTA,
-            Material.PINK_GLAZED_TERRACOTTA,
-            Material.GRAY_GLAZED_TERRACOTTA,
-            Material.LIGHT_GRAY_GLAZED_TERRACOTTA,
-            Material.CYAN_GLAZED_TERRACOTTA,
-            Material.PURPLE_GLAZED_TERRACOTTA,
-            Material.BLUE_GLAZED_TERRACOTTA,
-            Material.BROWN_GLAZED_TERRACOTTA,
-            Material.GREEN_GLAZED_TERRACOTTA,
-            Material.RED_GLAZED_TERRACOTTA,
-            Material.BLACK_GLAZED_TERRACOTTA
-    };
+    private static final HashMap<Material, BaseBlock> blockRegister = new HashMap<>();
 
     private final Material[] pressurePlates = new Material[] {
             Material.ACACIA_PRESSURE_PLATE, Material.BIRCH_PRESSURE_PLATE, Material.DARK_OAK_PRESSURE_PLATE,
@@ -256,12 +75,23 @@ public class MagicFunctions {
         setCommonString(new CommonString(getPlugin()));
         setActionMessage(new ActionMessage());
 
-        if (doInit) initMetadata();
+        if (doInit) {
+            initMetadata();
 
-    }
-
-    private Material[] getValidMagicBlocks() {
-        return validMagicBlocks;
+            if (blockRegister.isEmpty()) {
+                addToRegister(
+                        new Banner(), new BannerWall(), new Barrier(), new Bed(),
+                        new Bedrock(), new Button(), new Cactus(), new Carpet(),
+                        new Emerald(), new Furnace(), new Ice(), new Ladder(),
+                        new Lamp(), new Lapis(), new Magma(), new Melon(),
+                        new Mushroom(), new Netherrack(), new Obsidian(), new PackedIce(),
+                        new Plate(), new Rails(), new Redstone(), new Sand(),
+                        new Sign(), new SignWall(), new Snow(), new Spawner(),
+                        new Stairs(), new StructureBlock(), new StructureVoid(), new Terracotta(),
+                        new Torch(), new Trapdoor(), new Triphook(), new Vines(),
+                        new Wood(), new Wool());
+            }
+        }
     }
 
     protected Plugin getPlugin() {
@@ -481,7 +311,7 @@ public class MagicFunctions {
             return false;
         }
 
-        if (Arrays.asList(getValidMagicBlocks()).contains(block.getType())) {
+        if (blockRegister.containsKey(block.getType())) {
 
             ItemStack inMainHand = player.getInventory().getItemInMainHand();
 
@@ -603,6 +433,16 @@ public class MagicFunctions {
 
         return smelt;
 
+    }
+
+    protected BaseBlock getBlock(Material material) {
+        return blockRegister.get(material);
+    }
+
+    private void addToRegister(BaseBlock... blocks) {
+        for (BaseBlock block : blocks)
+            for (Material material : block.getPermittedBlocks())
+                blockRegister.put(material, block);
     }
 
 }

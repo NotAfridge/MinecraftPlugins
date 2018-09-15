@@ -1,14 +1,16 @@
 package com.ullarah.umagic.block;
 
-import com.ullarah.umagic.MagicFunctions;
+import com.ullarah.umagic.InteractMeta;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
-public class Cactus extends MagicFunctions {
+import java.util.Arrays;
+import java.util.List;
 
-    public Cactus(Block block) {
+public class Cactus extends BaseBlock {
 
-        super(false);
+    public void process(InteractMeta meta) {
+        Block block = meta.getBlock();
 
         block.setType(Material.MELON, true);
 
@@ -17,4 +19,7 @@ public class Cactus extends MagicFunctions {
 
     }
 
+    public List<Material> getPermittedBlocks() {
+        return Arrays.asList(Material.CACTUS);
+    }
 }

@@ -1,15 +1,16 @@
 package com.ullarah.umagic.block;
 
-import com.ullarah.umagic.MagicFunctions;
+import com.ullarah.umagic.InteractMeta;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Bed extends MagicFunctions {
+public class Bed extends BaseBlock {
 
     private static final List<Material> beds = Arrays.asList(
             Material.RED_BED, Material.ORANGE_BED, Material.YELLOW_BED, Material.LIME_BED,
@@ -18,9 +19,8 @@ public class Bed extends MagicFunctions {
             Material.MAGENTA_BED, Material.PURPLE_BED, Material.PINK_BED, Material.WHITE_BED
     );
 
-    public Bed(Block block) {
-
-        super(false);
+    public void process(InteractMeta meta) {
+        Block block = meta.getBlock();
 
         if (block.getType() == Material.HAY_BLOCK) {
 
@@ -57,4 +57,10 @@ public class Bed extends MagicFunctions {
         block.setBlockData(data);
     }
 
+    @Override
+    public List<Material> getPermittedBlocks() {
+        List<Material> list = new ArrayList<>(beds);
+        list.add(Material.HAY_BLOCK);
+        return list;
+    }
 }
