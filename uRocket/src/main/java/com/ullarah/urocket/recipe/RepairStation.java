@@ -1,8 +1,10 @@
 package com.ullarah.urocket.recipe;
 
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.NewRecipe;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -32,7 +34,8 @@ public class RepairStation implements NewRecipe {
 
     public ShapedRecipe recipe() {
 
-        ShapedRecipe bootRecipe = new ShapedRecipe(station());
+        NamespacedKey key = new NamespacedKey(RocketInit.getPlugin(), "rocket.repairstation");
+        ShapedRecipe bootRecipe = new ShapedRecipe(key, station());
         bootRecipe.shape("E", "B");
 
         bootRecipe.setIngredient('B', Material.BEACON);

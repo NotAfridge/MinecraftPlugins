@@ -1,8 +1,10 @@
 package com.ullarah.urocket.recipe;
 
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.NewRecipe;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -14,11 +16,13 @@ import java.util.ArrayList;
 public class RocketEnhance implements NewRecipe {
 
     private final String enhancementName;
+    private final String enhancementNameClean;
     private final Material enhancementMaterial;
 
     public RocketEnhance(String name, Material material) {
 
         enhancementName = name;
+        enhancementNameClean = ChatColor.stripColor(name).replaceAll("[^A-Za-z0-9]", "");
         enhancementMaterial = material;
 
     }
@@ -46,6 +50,7 @@ public class RocketEnhance implements NewRecipe {
 
     public ShapedRecipe recipe() {
 
+        NamespacedKey key = new NamespacedKey(RocketInit.getPlugin(), "rocket.rocketenhance."+enhancementNameClean);
         ShapedRecipe enhanceRecipe = new ShapedRecipe(enhancement(enhancementName));
         enhanceRecipe.shape("EEE", "NRN");
 

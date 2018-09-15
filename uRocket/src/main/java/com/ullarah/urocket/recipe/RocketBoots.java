@@ -1,9 +1,11 @@
 package com.ullarah.urocket.recipe;
 
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.NewRecipe;
 import com.ullarah.urocket.init.RocketLanguage;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -67,7 +69,8 @@ public class RocketBoots implements NewRecipe {
 
     public ShapedRecipe recipe() {
 
-        ShapedRecipe bootRecipe = new ShapedRecipe(boots(bootMaterial, hasVariant, hasEnhancement));
+        NamespacedKey key = new NamespacedKey(RocketInit.getPlugin(), "rocket.rocketboots."+bootMaterial+"."+hasVariant+"."+hasEnhancement);
+        ShapedRecipe bootRecipe = new ShapedRecipe(key, boots(bootMaterial, hasVariant, hasEnhancement));
 
         bootRecipe.shape("H H", hasEnhancement ? "MEM" : "M M", hasVariant ? "TVT" : "T T");
 

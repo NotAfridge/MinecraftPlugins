@@ -1,8 +1,10 @@
 package com.ullarah.urocket.recipe;
 
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.NewRecipe;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -38,6 +40,7 @@ public class RocketFuelJacket implements NewRecipe {
 
     public ShapedRecipe recipe() {
 
+        NamespacedKey key = new NamespacedKey(RocketInit.getPlugin(), "rocket.fueljacket."+jacketMaterial);
         ShapedRecipe jacketRecipe = new ShapedRecipe(jacket(jacketMaterial));
 
         jacketRecipe.shape("J", "E");
