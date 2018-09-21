@@ -25,8 +25,6 @@ public class InboxClick implements Listener {
 
         if (event.getClickedInventory().getName().matches(ChatColor.DARK_RED + "Inbox: " + ChatColor.DARK_AQUA + "(.*)")) {
 
-            if (event.getClickedInventory() == null) return;
-
             String inboxOwner = ChatColor.stripColor(event.getClickedInventory().getTitle().replace("Inbox: ", ""));
             UUID inboxUUID = new PlayerProfile().lookup(inboxOwner).getId();
 
@@ -64,7 +62,7 @@ public class InboxClick implements Listener {
                     if (item.getItemMeta().hasDisplayName()) {
 
                         if (item.getItemMeta().getDisplayName().equals(
-                                ChatColor.WHITE + "Slot Taken")
+                                ChatColor.GRAY + "Slot Taken")
                                 && item.getType() == Material.BLACK_STAINED_GLASS_PANE) {
                             event.getCursor().setType(Material.AIR);
                             event.setCancelled(true);

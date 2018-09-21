@@ -31,23 +31,12 @@ public class InboxClose implements Listener {
 
             new Update().run(inboxViewerUUID, inboxOwnerUUID, event.getInventory());
 
-            if (PostalInit.inboxViewerBusy.contains(inboxViewerUUID))
-                PostalInit.inboxViewerBusy.remove(inboxViewerUUID);
-
-            if (PostalInit.inboxViewerBusy.contains(inboxOwnerUUID))
-                PostalInit.inboxViewerBusy.remove(inboxOwnerUUID);
-
-            if (PostalInit.inboxOwnerBusy.contains(inboxViewerUUID))
-                PostalInit.inboxOwnerBusy.remove(inboxViewerUUID);
-
-            if (PostalInit.inboxOwnerBusy.contains(inboxOwnerUUID))
-                PostalInit.inboxOwnerBusy.remove(inboxOwnerUUID);
-
-            if (PostalInit.inboxModification.contains(inboxViewerUUID))
-                PostalInit.inboxModification.remove(inboxViewerUUID);
-
-            if (PostalInit.inboxModification.contains(inboxOwnerUUID))
-                PostalInit.inboxModification.remove(inboxOwnerUUID);
+            PostalInit.inboxViewerBusy.remove(inboxViewerUUID);
+            PostalInit.inboxViewerBusy.remove(inboxOwnerUUID);
+            PostalInit.inboxOwnerBusy.remove(inboxViewerUUID);
+            PostalInit.inboxOwnerBusy.remove(inboxOwnerUUID);
+            PostalInit.inboxModification.remove(inboxViewerUUID);
+            PostalInit.inboxModification.remove(inboxOwnerUUID);
 
             if (PostalInit.inboxChanged.containsKey(inboxUUID)) {
                 PostalInit.inboxChanged.get(inboxUUID).cancel();

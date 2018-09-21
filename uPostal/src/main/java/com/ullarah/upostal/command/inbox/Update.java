@@ -50,44 +50,44 @@ public class Update {
 
                 for (ItemStack item : inventory.getContents()) {
 
-                    if (item != null) {
+                    if (item == null) {
+                        continue;
+                    }
 
-                        newItems = true;
+                    newItems = true;
 
-                        if (item.hasItemMeta()) {
+                    if (item.hasItemMeta()) {
 
-                            if (item.getItemMeta().hasDisplayName()) {
+                        if (item.getItemMeta().hasDisplayName()) {
 
-                                if (item.getItemMeta().getDisplayName().equals(ChatColor.WHITE + "Slot Taken")
-                                        && item.getType() == Material.BLACK_STAINED_GLASS_PANE) {
+                            if (item.getItemMeta().getDisplayName().equals(ChatColor.GRAY + "Slot Taken")
+                                    && item.getType() == Material.BLACK_STAINED_GLASS_PANE) {
 
-                                    newItems = false;
-                                    continue;
-
-                                }
+                                newItems = false;
+                                continue;
 
                             }
 
-                            List<String> itemLore = item.getItemMeta().hasLore() ?
-                                    item.getItemMeta().getLore() : new ArrayList<>();
-
-                            itemLore.add(fromPlayer);
-
-                            ItemMeta itemMeta = item.getItemMeta();
-                            itemMeta.setLore(itemLore);
-                            item.setItemMeta(itemMeta);
-
-                        } else {
-
-                            ItemMeta itemMeta = item.getItemMeta();
-                            itemMeta.setLore(Collections.singletonList(fromPlayer));
-                            item.setItemMeta(itemMeta);
-
                         }
 
-                        itemList.add(item);
+                        List<String> itemLore = item.getItemMeta().hasLore() ?
+                                item.getItemMeta().getLore() : new ArrayList<>();
+
+                        itemLore.add(fromPlayer);
+
+                        ItemMeta itemMeta = item.getItemMeta();
+                        itemMeta.setLore(itemLore);
+                        item.setItemMeta(itemMeta);
+
+                    } else {
+
+                        ItemMeta itemMeta = item.getItemMeta();
+                        itemMeta.setLore(Collections.singletonList(fromPlayer));
+                        item.setItemMeta(itemMeta);
 
                     }
+
+                    itemList.add(item);
 
                 }
 

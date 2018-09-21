@@ -1,6 +1,9 @@
 package com.ullarah.upostal;
 
+import com.ullarah.upostal.command.Register;
 import com.ullarah.upostal.function.EventRegister;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -51,6 +54,11 @@ public class PostalInit extends JavaPlugin {
         getCommand("postal").setExecutor(new PostalExecutor());
         getCommand("post").setExecutor(new PostalExecutor());
         getCommand("inbox").setExecutor(new PostalExecutor());
+
+        // Check everyone already online has an inbox
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            new Register().create(player);
+        }
 
     }
 

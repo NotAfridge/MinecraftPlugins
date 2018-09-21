@@ -42,12 +42,13 @@ class View {
                 ItemStack inboxTaken = new ItemStack(Material.BLACK_STAINED_GLASS_PANE, 1);
                 ItemMeta inboxTakenMeta = inboxTaken.getItemMeta();
 
-                inboxTakenMeta.setDisplayName(ChatColor.WHITE + "Slot Taken");
+                inboxTakenMeta.setDisplayName(ChatColor.GRAY + "Slot Taken");
                 inboxTaken.setItemMeta(inboxTakenMeta);
 
                 if (inboxUUID.equals(inboxViewer.getUniqueId()) || PostalInit.inboxModification.contains(inboxUUID))
                     inboxItemStack.add((ItemStack) inboxCurrentItem);
-                else inboxItemStack.add(inboxTaken);
+                else
+                    inboxItemStack.add(inboxTaken);
 
             }
 
