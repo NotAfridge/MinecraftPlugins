@@ -398,21 +398,6 @@ public class ChestFunctions {
 
     }
 
-    public boolean checkBlock(Player player, Block block) {
-
-        if (player.hasPermission("chest.bypass")) return true;
-
-        RegionManager regionManager = ChestInit.getWorldGuard().getRegionManager(block.getWorld());
-        ApplicableRegionSet applicableRegionSet = regionManager.getApplicableRegions(block.getLocation());
-
-        if (applicableRegionSet.getRegions().isEmpty()) return false;
-        for (ProtectedRegion r : applicableRegionSet.getRegions())
-            if (!r.isOwner(ChestInit.getWorldGuard().wrapPlayer(player))) return false;
-
-        return true;
-
-    }
-
     public ItemStack createItemStack(Material material, String name, List<String> lore) {
 
         ItemStack chestIcon = new ItemStack(material);

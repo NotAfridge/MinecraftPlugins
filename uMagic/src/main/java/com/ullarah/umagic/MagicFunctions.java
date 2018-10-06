@@ -1,10 +1,13 @@
 package com.ullarah.umagic;
 
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
+import com.sk89q.worldguard.LocalPlayer;
+import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionQuery;
 import com.ullarah.umagic.block.*;
 import com.ullarah.umagic.database.SQLConnection;
 import com.ullarah.umagic.database.SQLMessage;
@@ -236,8 +239,8 @@ public class MagicFunctions {
 
         if (player.hasPermission("umagic.bypass")) return true;
 
-        RegionManager regionManager = getWorldGuard().getRegionManager(block.getWorld());
-        ApplicableRegionSet applicableRegionSet = regionManager.getApplicableRegions(block.getLocation());
+        RegionQuery regionQuery = WorldGuard.getInstance().getPlatform().getRegionContainer().createQuery();
+        ApplicableRegionSet applicableRegionSet = regionQuery.getApplicableRegions(getWorldEditLocation(block.getLocation()));
 
         if (applicableRegionSet.getRegions().isEmpty()) {
             getActionMessage().message(player, "" + ChatColor.RED + ChatColor.BOLD
@@ -248,8 +251,8 @@ public class MagicFunctions {
 
         for (ProtectedRegion region : applicableRegionSet.getRegions()) {
 
-            boolean isOwner = region.isOwner(getWorldGuard().wrapPlayer(player));
-            boolean isMember = region.isMember(getWorldGuard().wrapPlayer(player));
+            boolean isOwner = region.isOwner(getWorldGuardPlayer(player));
+            boolean isMember = region.isMember(getWorldGuardPlayer(player));
 
             if (!isOwner) if (!isMember) {
                 getActionMessage().message(player, "" + ChatColor.RED + ChatColor.BOLD
@@ -261,6 +264,14 @@ public class MagicFunctions {
 
         return true;
 
+    }
+
+    private LocalPlayer getWorldGuardPlayer(Player player) {
+        return getWorldGuard().wrapPlayer(player);
+    }
+
+    private com.sk89q.worldedit.util.Location getWorldEditLocation(Location location) {
+        return BukkitAdapter.adapt(location);
     }
 
     protected boolean usingMagicHoe(Player player) {
@@ -371,26 +382,24 @@ public class MagicFunctions {
                 bY = block.getLocation().getY() + 0.5,
                 bZ = block.getLocation().getZ() + 0.5;
 
+        Particle particle;
         switch (hoeType) {
-
+            default:
             case 0:
-                block.getWorld().spawnParticle(Particle.CRIT_MAGIC, bX, bY, bZ, 30);
+                particle = Particle.CRIT_MAGIC;
                 break;
-
             case 1:
-                block.getWorld().spawnParticle(Particle.SPELL_WITCH, bX, bY, bZ, 30);
+                particle = Particle.SPELL_WITCH;
                 break;
-
             case 2:
-                block.getWorld().spawnParticle(Particle.VILLAGER_ANGRY, bX, bY, bZ, 30);
+                particle = Particle.VILLAGER_ANGRY;
                 break;
-
             case 3:
-                block.getWorld().spawnParticle(Particle.DRAGON_BREATH, bX, bY, bZ, 30);
+                particle = Particle.DRAGON_BREATH;
                 break;
-
         }
 
+        block.getWorld().spawnParticle(particle, bX, bY, bZ, 30);
         block.getWorld().playSound(block.getLocation(), Sound.ENTITY_SHULKER_TELEPORT, 0.5f, 0.5f);
 
     }
