@@ -14,7 +14,7 @@ public class SignWall extends BaseBlock {
     public void process(InteractMeta meta) {
         Block block = meta.getBlock();
 
-        new DirectionalData(block);
+        new DirectionalData().process(block);
 
         block.setMetadata(metaSign, new FixedMetadataValue(getPlugin(), true));
         saveMetadata(block.getLocation(), metaSign);

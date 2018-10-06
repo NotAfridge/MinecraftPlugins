@@ -17,7 +17,7 @@ public class RotatableData {
             BlockFace.WEST, BlockFace.WEST_NORTH_WEST, BlockFace.NORTH_WEST, BlockFace.NORTH_NORTH_WEST
     );
 
-    public RotatableData(Block block) {
+    public void process(Block block) {
         Rotatable data = (Rotatable) block.getBlockData();
         BlockFace facing = data.getRotation();
 

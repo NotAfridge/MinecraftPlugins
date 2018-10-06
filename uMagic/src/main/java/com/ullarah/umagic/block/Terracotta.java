@@ -13,7 +13,7 @@ public class Terracotta extends BaseBlock {
     public void process(InteractMeta meta) {
         Block block = meta.getBlock();
 
-        new DirectionalData(block);
+        new DirectionalData().process(block);
 
     }
 

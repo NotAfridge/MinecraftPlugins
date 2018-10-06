@@ -13,7 +13,7 @@ public class DirectionalData {
             BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST
     );
 
-    public DirectionalData(Block block) {
+    public void process(Block block) {
         Directional data = (Directional) block.getBlockData();
         BlockFace facing = data.getFacing();
 

@@ -14,7 +14,7 @@ public class BannerWall extends BaseBlock {
     public void process(InteractMeta meta) {
         Block block = meta.getBlock();
 
-        new DirectionalData(block);
+        new DirectionalData().process(block);
 
         block.setMetadata(metaBanr, new FixedMetadataValue(getPlugin(), true));
         saveMetadata(block.getLocation(), metaBanr);
