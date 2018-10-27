@@ -343,15 +343,15 @@ public class MagicFunctions {
             switch (hoeType) {
 
                 case 0:
-                    inMainHand.setDurability((short) (inMainHand.getDurability() + 20));
+                    inMainHand.setDurability((short) (inMainHand.getDurability() + 75));
                     break;
 
                 case 1:
-                    inMainHand.setDurability((short) (inMainHand.getDurability() + 10));
+                    inMainHand.setDurability((short) (inMainHand.getDurability() + 15));
                     break;
 
                 case 2:
-                    inMainHand.setDurability((short) (inMainHand.getDurability() + 5));
+                    inMainHand.setDurability((short) (inMainHand.getDurability() + 1));
                     break;
 
                 case 3:

@@ -1,10 +1,7 @@
 package com.ullarah.umagic.event;
 
 import com.ullarah.umagic.MagicFunctions;
-import com.ullarah.umagic.recipe.MagicHoeCosmic;
-import com.ullarah.umagic.recipe.MagicHoeNormal;
-import com.ullarah.umagic.recipe.MagicHoeSuper;
-import com.ullarah.umagic.recipe.MagicHoeUber;
+import com.ullarah.umagic.recipe.*;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -12,6 +9,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class CraftStandard extends MagicFunctions implements Listener {
 
@@ -22,56 +22,49 @@ public class CraftStandard extends MagicFunctions implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void event(PrepareItemCraftEvent event) {
 
-        if (event.getInventory().getType().equals(InventoryType.WORKBENCH)) {
+        if (!event.getInventory().getType().equals(InventoryType.WORKBENCH))
+            return;
 
-            int normalHoes = 0;
-            int superHoes = 0;
-            int uberHoes = 0;
+        ItemStack[] matrix = event.getInventory().getMatrix();
+        ItemStack hoe = matrix[4];
 
-            boolean hasDiamond = false;
+        if (hoe == null || hoe.getType() != Material.DIAMOND_HOE)
+            return;
 
-            for (ItemStack hoe : event.getInventory().getMatrix()) {
-                if (hoe == null)
-                    return;
+        // Set to no result until we figure out what it is
+        event.getInventory().setResult(null);
 
-                if (hoe.hasItemMeta()) if (hoe.getItemMeta().hasDisplayName()) {
+        List<HoeRecipe> recipes = Arrays.asList(new MagicHoeNormal(), new MagicHoeSuper(), new MagicHoeUber(), new MagicHoeCosmic());
+        HoeRecipe recipe = null;
+        if (hoe.hasItemMeta() && hoe.getItemMeta().hasDisplayName() && hoe.getItemMeta().hasLore()){
+            String topLore = hoe.getItemMeta().getLore().get(0);
 
-                    if (hoe.getItemMeta().hasLore()) {
-
-                        if (hoe.getItemMeta().getLore().get(0).equals(new MagicHoeNormal().getHoeTypeLore()))
-                            normalHoes++;
-
-                        if (hoe.getItemMeta().getLore().get(0).equals(new MagicHoeSuper().getHoeTypeLore()))
-                            superHoes++;
-
-                        if (hoe.getItemMeta().getLore().get(0).equals(new MagicHoeUber().getHoeTypeLore()))
-                            uberHoes++;
-
-                    }
-                    else if(hoe.getItemMeta().getDisplayName().equals(new MagicHoeNormal().getHoeDisplayName()))
-                        normalHoes++;
-
+            for (int i = 0; i < recipes.size() - 1; i++) {
+                HoeRecipe input = recipes.get(i);
+                if (topLore.equals(input.getHoeTypeLore())) {
+                    recipe = recipes.get(i + 1);
+                    break;
                 }
-            }
-
-            if (event.getInventory().getMatrix()[4].equals(new ItemStack(Material.DIAMOND_BLOCK)))
-                hasDiamond = true;
-
-            if (hasDiamond) {
-                if (normalHoes == 8)
-                    event.getInventory().setResult(new MagicHoeSuper().hoe());
-
-                else if (superHoes == 8)
-                    event.getInventory().setResult(new MagicHoeUber().hoe());
-
-                else if (uberHoes == 8)
-                    event.getInventory().setResult(new MagicHoeCosmic().hoe());
-
-                else
-                    event.getInventory().setResult(null);
             }
         }
 
+        if (recipe == null)
+            recipe = recipes.get(0);
+
+        if (surroundedBy(matrix, recipe.getRecipePadding())) {
+            event.getInventory().setResult(recipe.hoe());
+        }
+    }
+
+    private boolean surroundedBy(ItemStack[] matrix, Material material) {
+        for (int i = 0; i < 9; i++) {
+            if (i == 4)
+                continue;
+
+            if (matrix[i] == null || matrix[i].getType() != material)
+                return false;
+        }
+        return true;
     }
 
 }
