@@ -41,7 +41,7 @@ public class RocketFuelJacket implements NewRecipe {
     public ShapedRecipe recipe() {
 
         NamespacedKey key = new NamespacedKey(RocketInit.getPlugin(), "rocket.fueljacket."+jacketMaterial);
-        ShapedRecipe jacketRecipe = new ShapedRecipe(jacket(jacketMaterial));
+        ShapedRecipe jacketRecipe = new ShapedRecipe(key, jacket(jacketMaterial));
 
         jacketRecipe.shape("J", "E");
 

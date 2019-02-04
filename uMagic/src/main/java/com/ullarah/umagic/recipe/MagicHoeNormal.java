@@ -1,6 +1,8 @@
 package com.ullarah.umagic.recipe;
 
+import com.ullarah.umagic.MagicInit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ShapedRecipe;
 
 public class MagicHoeNormal extends HoeRecipe {
@@ -10,7 +12,9 @@ public class MagicHoeNormal extends HoeRecipe {
     }
 
     public ShapedRecipe recipe() {
-        ShapedRecipe hoeRecipe = new ShapedRecipe(hoe());
+
+        NamespacedKey key = new NamespacedKey(MagicInit.getPlugin(), "magichoe.normal");
+        ShapedRecipe hoeRecipe = new ShapedRecipe(key, hoe());
         hoeRecipe.shape("MMM", "MHM", "MMM");
 
         hoeRecipe.setIngredient('H', Material.DIAMOND_HOE);

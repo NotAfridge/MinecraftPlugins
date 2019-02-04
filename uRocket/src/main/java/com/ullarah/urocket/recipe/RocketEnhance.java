@@ -51,7 +51,7 @@ public class RocketEnhance implements NewRecipe {
     public ShapedRecipe recipe() {
 
         NamespacedKey key = new NamespacedKey(RocketInit.getPlugin(), "rocket.rocketenhance."+enhancementNameClean);
-        ShapedRecipe enhanceRecipe = new ShapedRecipe(enhancement(enhancementName));
+        ShapedRecipe enhanceRecipe = new ShapedRecipe(key, enhancement(enhancementName));
         enhanceRecipe.shape("EEE", "NRN");
 
         enhanceRecipe.setIngredient('E', enhancementMaterial);

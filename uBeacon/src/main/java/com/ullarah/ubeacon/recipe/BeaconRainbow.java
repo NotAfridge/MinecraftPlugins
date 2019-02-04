@@ -4,6 +4,7 @@ import com.ullarah.ubeacon.BeaconInit;
 import com.ullarah.ubeacon.function.NewRecipe;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -42,7 +43,8 @@ public class BeaconRainbow implements NewRecipe {
 
         for (Material stained : BeaconInit.getMaterials()) {
 
-            ShapedRecipe beaconRecipe = new ShapedRecipe(rainbow());
+            NamespacedKey key = new NamespacedKey(BeaconInit.getPlugin(), "beacon.rainbow." + stained);
+            ShapedRecipe beaconRecipe = new ShapedRecipe(key, rainbow());
 
             beaconRecipe.shape("SSS", " C ", "RBR");
 
