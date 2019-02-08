@@ -128,17 +128,13 @@
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
-            <scope>system</scope>
             <version>7.0.0-SNAPSHOT</version>
-            <systemPath>${project.basedir}/../worldedit-bukkit-7.0.0.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-legacy</artifactId>
-            <scope>system</scope>
             <version>7.0.0-SNAPSHOT</version>
-            <systemPath>${project.basedir}/../worldguard-legacy-7.0.0.jar</systemPath>
         </dependency>
 
         <dependency>
