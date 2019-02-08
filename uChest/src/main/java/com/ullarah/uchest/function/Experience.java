@@ -44,9 +44,9 @@ public class Experience {
 
     public void setExperience(Player player, double exp) {
 
-        int level = getLevelForExp(roundExp(exp));
+        int level = (int) getExactLevelForExp(exp);
         double remaining = exp - getTotalExpForLevel(level);
-        double toNext = getExpWithinLevel(level);
+        double toNext = getExpWithinLevel(level+1);
 
         player.setLevel(level);
         player.setExp((float) remaining / (float) toNext);
