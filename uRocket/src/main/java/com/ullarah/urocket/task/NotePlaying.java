@@ -3,10 +3,7 @@ package com.ullarah.urocket.task;
 import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.GamemodeCheck;
 import com.ullarah.urocket.init.RocketVariant;
-import net.minecraft.server.v1_12_R1.EnumParticle;
-import net.minecraft.server.v1_12_R1.PacketPlayOutWorldParticles;
 import org.bukkit.*;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -97,19 +94,14 @@ public class NotePlaying {
                                             float oY = (float) -0.5;
                                             float oZ = (float) 0.125;
 
-                                            PacketPlayOutWorldParticles packet;
+                                            int amount = 5;
+                                            int speed = 0;
+                                            if (!RocketInit.rocketSprint.containsKey(player.getUniqueId())) {
+                                                amount = bootVariant.getParticleAmount();
+                                                speed = bootVariant.getParticleSpeed();
+                                            }
 
-                                            if (RocketInit.rocketSprint.containsKey(player.getUniqueId()))
-                                                packet = new PacketPlayOutWorldParticles(EnumParticle.SMOKE_LARGE,
-                                                        true, x, y, z, oX, oY, oZ, 0, 5, null);
-                                            else packet = new PacketPlayOutWorldParticles(bootVariant.getParticleType(),
-                                                    true, x, y, z, oX, oY, oZ,
-                                                    bootVariant.getParticleSpeed(),
-                                                    bootVariant.getParticleAmount(),
-                                                    null);
-
-                                            for (Player serverPlayer : player.getWorld().getPlayers())
-                                                ((CraftPlayer) serverPlayer).getHandle().playerConnection.sendPacket(packet);
+                                            player.getWorld().spawnParticle(Particle.SMOKE_LARGE, x, y, z, amount, oX, oY, oZ, speed);
 
                                         }
 

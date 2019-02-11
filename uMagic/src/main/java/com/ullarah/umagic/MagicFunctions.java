@@ -1,10 +1,14 @@
 package com.ullarah.umagic;
 
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
+import com.sk89q.worldguard.LocalPlayer;
+import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionQuery;
+import com.ullarah.umagic.block.*;
 import com.ullarah.umagic.database.SQLConnection;
 import com.ullarah.umagic.database.SQLMessage;
 import com.ullarah.umagic.function.ActionMessage;
@@ -30,8 +34,8 @@ import org.bukkit.plugin.Plugin;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.logging.Level;
 
 public class MagicFunctions {
@@ -44,25 +48,12 @@ public class MagicFunctions {
             metaVoid = "uMagic.vd", metaCact = "uMagic.cs", metaCice = "uMagic.ci", metaWate = "uMagic.wa",
             metaReds = "uMagic.rd";
 
-    private final Material[] validMagicBlocks = new Material[]{
-            Material.TRIPWIRE_HOOK, Material.HAY_BLOCK, Material.BED_BLOCK, Material.TRAP_DOOR, Material.IRON_TRAPDOOR,
-            Material.SIGN, Material.SIGN_POST, Material.WALL_SIGN, Material.REDSTONE_LAMP_OFF, Material.ACACIA_STAIRS,
-            Material.BIRCH_WOOD_STAIRS, Material.BRICK_STAIRS, Material.COBBLESTONE_STAIRS, Material.DARK_OAK_STAIRS,
-            Material.JUNGLE_WOOD_STAIRS, Material.NETHER_BRICK_STAIRS, Material.PURPUR_STAIRS, Material.QUARTZ_STAIRS,
-            Material.RED_SANDSTONE_STAIRS, Material.SANDSTONE_STAIRS, Material.SMOOTH_STAIRS, Material.SPRUCE_WOOD_STAIRS,
-            Material.WOOD_STAIRS, Material.WOOL, Material.CARPET, Material.WOOD, Material.LADDER, Material.LOG,
-            Material.LOG_2, Material.DOUBLE_STEP, Material.DOUBLE_STONE_SLAB2, Material.STONE_BUTTON, Material.SNOW_BLOCK,
-            Material.WOOD_BUTTON, Material.GOLD_PLATE, Material.IRON_PLATE, Material.STONE_PLATE, Material.WOOD_PLATE,
-            Material.HUGE_MUSHROOM_1, Material.HUGE_MUSHROOM_2, Material.FURNACE, Material.BURNING_FURNACE, Material.VINE,
-            Material.BANNER, Material.STANDING_BANNER, Material.WALL_BANNER, Material.TORCH, Material.LAPIS_BLOCK,
-            Material.RAILS, Material.SAND, Material.GRAVEL, Material.EMERALD_BLOCK, Material.BEDROCK, Material.BARRIER,
-            Material.NETHERRACK, Material.SNOW, Material.STRUCTURE_BLOCK, Material.OBSIDIAN, Material.STRUCTURE_VOID,
-            Material.MOB_SPAWNER, Material.PACKED_ICE, Material.CACTUS, Material.MELON_BLOCK, Material.ICE,
-            Material.FROSTED_ICE, Material.MAGMA, Material.POWERED_RAIL,
-            Material.WHITE_GLAZED_TERRACOTTA, Material.ORANGE_GLAZED_TERRACOTTA, Material.MAGENTA_GLAZED_TERRACOTTA, Material.LIGHT_BLUE_GLAZED_TERRACOTTA, 
-            Material.YELLOW_GLAZED_TERRACOTTA, Material.LIME_GLAZED_TERRACOTTA, Material.PINK_GLAZED_TERRACOTTA, Material.GRAY_GLAZED_TERRACOTTA, 
-            Material.SILVER_GLAZED_TERRACOTTA, Material.CYAN_GLAZED_TERRACOTTA, Material.PURPLE_GLAZED_TERRACOTTA, Material.BLUE_GLAZED_TERRACOTTA, 
-            Material.BROWN_GLAZED_TERRACOTTA, Material.GREEN_GLAZED_TERRACOTTA, Material.RED_GLAZED_TERRACOTTA, Material.BLACK_GLAZED_TERRACOTTA, Material.CONCRETE_POWDER,
+    private static final HashMap<Material, BaseBlock> blockRegister = new HashMap<>();
+
+    private final Material[] pressurePlates = new Material[] {
+            Material.ACACIA_PRESSURE_PLATE, Material.BIRCH_PRESSURE_PLATE, Material.DARK_OAK_PRESSURE_PLATE,
+            Material.JUNGLE_PRESSURE_PLATE, Material.OAK_PRESSURE_PLATE, Material.SPRUCE_PRESSURE_PLATE,
+            Material.STONE_PRESSURE_PLATE, Material.LIGHT_WEIGHTED_PRESSURE_PLATE, Material.HEAVY_WEIGHTED_PRESSURE_PLATE
     };
 
     private final String furnaceFuel = "" + ChatColor.DARK_RED + ChatColor.ITALIC + ChatColor.GREEN + ChatColor.BOLD,
@@ -87,12 +78,23 @@ public class MagicFunctions {
         setCommonString(new CommonString(getPlugin()));
         setActionMessage(new ActionMessage());
 
-        if (doInit) initMetadata();
+        if (doInit) {
+            initMetadata();
 
-    }
-
-    private Material[] getValidMagicBlocks() {
-        return validMagicBlocks;
+            if (blockRegister.isEmpty()) {
+                addToRegister(
+                        new Banner(), new BannerWall(), new Barrier(), new Bed(),
+                        new Bedrock(), new Button(), new Cactus(), new Carpet(),
+                        new Emerald(), new Furnace(), new Ice(), new Ladder(),
+                        new Lamp(), new Lapis(), new Magma(), new Melon(),
+                        new Mushroom(), new Netherrack(), new Obsidian(), new PackedIce(),
+                        new Plate(), new Rails(), new Redstone(), new Sand(),
+                        new Sign(), new SignWall(), new Snow(), new Spawner(),
+                        new Stairs(), new StructureBlock(), new StructureVoid(), new Terracotta(),
+                        new Torch(), new Trapdoor(), new Triphook(), new Vines(),
+                        new Wood(), new Wool());
+            }
+        }
     }
 
     protected Plugin getPlugin() {
@@ -237,8 +239,8 @@ public class MagicFunctions {
 
         if (player.hasPermission("umagic.bypass")) return true;
 
-        RegionManager regionManager = getWorldGuard().getRegionManager(block.getWorld());
-        ApplicableRegionSet applicableRegionSet = regionManager.getApplicableRegions(block.getLocation());
+        RegionQuery regionQuery = WorldGuard.getInstance().getPlatform().getRegionContainer().createQuery();
+        ApplicableRegionSet applicableRegionSet = regionQuery.getApplicableRegions(getWorldEditLocation(block.getLocation()));
 
         if (applicableRegionSet.getRegions().isEmpty()) {
             getActionMessage().message(player, "" + ChatColor.RED + ChatColor.BOLD
@@ -249,8 +251,8 @@ public class MagicFunctions {
 
         for (ProtectedRegion region : applicableRegionSet.getRegions()) {
 
-            boolean isOwner = region.isOwner(getWorldGuard().wrapPlayer(player));
-            boolean isMember = region.isMember(getWorldGuard().wrapPlayer(player));
+            boolean isOwner = region.isOwner(getWorldGuardPlayer(player));
+            boolean isMember = region.isMember(getWorldGuardPlayer(player));
 
             if (!isOwner) if (!isMember) {
                 getActionMessage().message(player, "" + ChatColor.RED + ChatColor.BOLD
@@ -262,6 +264,14 @@ public class MagicFunctions {
 
         return true;
 
+    }
+
+    private LocalPlayer getWorldGuardPlayer(Player player) {
+        return getWorldGuard().wrapPlayer(player);
+    }
+
+    private com.sk89q.worldedit.util.Location getWorldEditLocation(Location location) {
+        return BukkitAdapter.adapt(location);
     }
 
     protected boolean usingMagicHoe(Player player) {
@@ -295,12 +305,7 @@ public class MagicFunctions {
         }
 
         if (event.getAction().equals(Action.PHYSICAL)) {
-            if (new ArrayList<Material>() {{
-                add(Material.STONE_PLATE);
-                add(Material.WOOD_PLATE);
-                add(Material.IRON_PLATE);
-                add(Material.GOLD_PLATE);
-            }}.contains(event.getClickedBlock().getType())) {
+            if (Arrays.asList(pressurePlates).contains(event.getClickedBlock().getType())) {
                 event.setCancelled(true);
                 return false;
             }
@@ -317,7 +322,7 @@ public class MagicFunctions {
             return false;
         }
 
-        if (Arrays.asList(getValidMagicBlocks()).contains(block.getType())) {
+        if (blockRegister.containsKey(block.getType())) {
 
             ItemStack inMainHand = player.getInventory().getItemInMainHand();
 
@@ -338,15 +343,15 @@ public class MagicFunctions {
             switch (hoeType) {
 
                 case 0:
-                    inMainHand.setDurability((short) (inMainHand.getDurability() + 20));
+                    inMainHand.setDurability((short) (inMainHand.getDurability() + 75));
                     break;
 
                 case 1:
-                    inMainHand.setDurability((short) (inMainHand.getDurability() + 10));
+                    inMainHand.setDurability((short) (inMainHand.getDurability() + 15));
                     break;
 
                 case 2:
-                    inMainHand.setDurability((short) (inMainHand.getDurability() + 5));
+                    inMainHand.setDurability((short) (inMainHand.getDurability() + 1));
                     break;
 
                 case 3:
@@ -377,26 +382,24 @@ public class MagicFunctions {
                 bY = block.getLocation().getY() + 0.5,
                 bZ = block.getLocation().getZ() + 0.5;
 
+        Particle particle;
         switch (hoeType) {
-
+            default:
             case 0:
-                block.getWorld().spawnParticle(Particle.CRIT_MAGIC, bX, bY, bZ, 30);
+                particle = Particle.CRIT_MAGIC;
                 break;
-
             case 1:
-                block.getWorld().spawnParticle(Particle.SPELL_WITCH, bX, bY, bZ, 30);
+                particle = Particle.SPELL_WITCH;
                 break;
-
             case 2:
-                block.getWorld().spawnParticle(Particle.VILLAGER_ANGRY, bX, bY, bZ, 30);
+                particle = Particle.VILLAGER_ANGRY;
                 break;
-
             case 3:
-                block.getWorld().spawnParticle(Particle.DRAGON_BREATH, bX, bY, bZ, 30);
+                particle = Particle.DRAGON_BREATH;
                 break;
-
         }
 
+        block.getWorld().spawnParticle(particle, bX, bY, bZ, 30);
         block.getWorld().playSound(block.getLocation(), Sound.ENTITY_SHULKER_TELEPORT, 0.5f, 0.5f);
 
     }
@@ -427,12 +430,11 @@ public class MagicFunctions {
         fuel.setItemMeta(meta);
 
         return fuel;
-
     }
 
     protected ItemStack getFurnaceSmelt() {
 
-        ItemStack smelt = new ItemStack(Material.LOG);
+        ItemStack smelt = new ItemStack(Material.OAK_LOG);
         ItemMeta meta = smelt.getItemMeta();
 
         meta.setDisplayName(this.furnaceSmelt);
@@ -440,6 +442,16 @@ public class MagicFunctions {
 
         return smelt;
 
+    }
+
+    protected BaseBlock getBlock(Material material) {
+        return blockRegister.get(material);
+    }
+
+    private void addToRegister(BaseBlock... blocks) {
+        for (BaseBlock block : blocks)
+            for (Material material : block.getPermittedBlocks())
+                blockRegister.put(material, block);
     }
 
 }

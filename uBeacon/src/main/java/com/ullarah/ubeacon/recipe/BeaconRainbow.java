@@ -1,14 +1,17 @@
 package com.ullarah.ubeacon.recipe;
 
+import com.ullarah.ubeacon.BeaconInit;
 import com.ullarah.ubeacon.function.NewRecipe;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class BeaconRainbow implements NewRecipe {
@@ -34,18 +37,27 @@ public class BeaconRainbow implements NewRecipe {
 
     }
 
-    public ShapedRecipe recipe() {
+    public ArrayList<ShapedRecipe> recipes() {
 
-        ShapedRecipe beaconRecipe = new ShapedRecipe(rainbow());
+        ArrayList<ShapedRecipe> recipes = new ArrayList<>();
 
-        beaconRecipe.shape("SSS", " C ", "RBR");
+        for (Material stained : BeaconInit.getMaterials()) {
 
-        beaconRecipe.setIngredient('B', Material.BEACON);
-        beaconRecipe.setIngredient('R', Material.REDSTONE_BLOCK);
-        beaconRecipe.setIngredient('C', Material.REDSTONE_COMPARATOR);
-        beaconRecipe.setIngredient('S', Material.STAINED_GLASS);
+            NamespacedKey key = new NamespacedKey(BeaconInit.getPlugin(), "beacon.rainbow." + stained);
+            ShapedRecipe beaconRecipe = new ShapedRecipe(key, rainbow());
 
-        return beaconRecipe;
+            beaconRecipe.shape("SSS", " C ", "RBR");
+
+            beaconRecipe.setIngredient('B', Material.BEACON);
+            beaconRecipe.setIngredient('R', Material.REDSTONE_BLOCK);
+            beaconRecipe.setIngredient('C', Material.COMPARATOR);
+            beaconRecipe.setIngredient('S', stained);
+
+            recipes.add(beaconRecipe);
+
+        }
+
+        return recipes;
 
     }
 

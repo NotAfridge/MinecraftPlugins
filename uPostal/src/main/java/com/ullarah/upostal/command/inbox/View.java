@@ -29,7 +29,7 @@ class View {
         }
 
         if (inboxUUID.equals(inboxViewer.getUniqueId())) {
-            if (PostalInit.inboxChanged.containsKey(inboxUUID)) PostalInit.inboxChanged.remove(inboxUUID);
+            PostalInit.inboxChanged.remove(inboxUUID);
             PostalInit.inboxOwnerBusy.add(inboxUUID);
         } else PostalInit.inboxViewerBusy.add(inboxUUID);
 
@@ -39,19 +39,20 @@ class View {
 
             for (Object inboxCurrentItem : inboxPlayerStock) {
 
-                ItemStack inboxTaken = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15);
+                ItemStack inboxTaken = new ItemStack(Material.BLACK_STAINED_GLASS_PANE, 1);
                 ItemMeta inboxTakenMeta = inboxTaken.getItemMeta();
 
-                inboxTakenMeta.setDisplayName(ChatColor.WHITE + "Slot Taken");
+                inboxTakenMeta.setDisplayName(ChatColor.GRAY + "Slot Taken");
                 inboxTaken.setItemMeta(inboxTakenMeta);
 
                 if (inboxUUID.equals(inboxViewer.getUniqueId()) || PostalInit.inboxModification.contains(inboxUUID))
                     inboxItemStack.add((ItemStack) inboxCurrentItem);
-                else inboxItemStack.add(inboxTaken);
+                else
+                    inboxItemStack.add(inboxTaken);
 
             }
 
-            inboxInventory.setContents(inboxItemStack.toArray(new ItemStack[inboxItemStack.size()]));
+            inboxInventory.setContents(inboxItemStack.toArray(new ItemStack[0]));
 
         }
 

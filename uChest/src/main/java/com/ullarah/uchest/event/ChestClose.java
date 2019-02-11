@@ -14,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
@@ -31,23 +32,24 @@ public class ChestClose implements Listener {
 
         Inventory chestInventory = event.getInventory();
         Player chestPlayer = (Player) event.getPlayer();
+        InventoryView view = event.getView();
 
-        if (chestInventory.getName().matches(ChestLanguage.N_ECHEST)) {
+        if (view.getTitle().matches(ChestLanguage.N_ECHEST)) {
             chestFunctions.enchantItem(chestPlayer, chestInventory.getItem(4));
             chestInventory.clear();
         }
 
-        if (chestInventory.getName().matches(ChestLanguage.N_XCHEST)) {
+        if (view.getTitle().matches(ChestLanguage.N_XCHEST)) {
             chestFunctions.convertItem(chestPlayer, ValidChest.XP, chestInventory.getContents());
             chestInventory.clear();
         }
 
-        if (chestInventory.getName().matches(ChestLanguage.N_MCHEST)) {
+        if (view.getTitle().matches(ChestLanguage.N_MCHEST)) {
             chestFunctions.convertItem(chestPlayer, ValidChest.MONEY, chestInventory.getContents());
             chestInventory.clear();
         }
 
-        if (chestInventory.getName().matches(ChestLanguage.N_RCHEST)) {
+        if (view.getTitle().matches(ChestLanguage.N_RCHEST)) {
             ChestInit.chestRandomTask.entrySet().stream().filter(e ->
                     chestPlayer.getUniqueId().equals(e.getKey())).forEach(e -> {
 
@@ -57,7 +59,7 @@ public class ChestClose implements Listener {
             });
         }
 
-        if (chestInventory.getName().matches(ChestLanguage.N_WCHEST)) {
+        if (view.getTitle().matches(ChestLanguage.N_WCHEST)) {
             ItemStack[] checkItems = chestInventory.getContents();
 
             for (ItemStack item : checkItems)
@@ -73,18 +75,20 @@ public class ChestClose implements Listener {
             ChestInit.chestSwapBusy = false;
         }
 
-        if (chestInventory.getName().matches(ChestLanguage.N_HCHEST))
+        if (view.getTitle().matches(ChestLanguage.N_HCHEST)) {
             openChestType(chestPlayer, chestPlayer.getUniqueId(), chestInventory, ValidChest.HOLD);
-        if (chestInventory.getName().matches(ChestLanguage.N_HCHEST + " - (.*)")) {
-            String chestOwner = chestInventory.getName().substring(15);
+        }
+        if (view.getTitle().matches(ChestLanguage.N_HCHEST + " - (.*)")) {
+            String chestOwner = view.getTitle().substring(15);
             UUID chestOwnerUUID = new PlayerProfile().lookup(chestOwner).getId();
             openChestType(chestPlayer, chestOwnerUUID, chestInventory, ValidChest.HOLD);
         }
 
-        if (chestInventory.getName().matches(ChestLanguage.N_VCHEST))
+        if (view.getTitle().matches(ChestLanguage.N_VCHEST)) {
             openChestType(chestPlayer, chestPlayer.getUniqueId(), chestInventory, ValidChest.VAULT);
-        if (chestInventory.getName().matches(ChestLanguage.N_VCHEST + " - (.*)")) {
-            String chestOwner = chestInventory.getName().substring(15);
+        }
+        if (view.getTitle().matches(ChestLanguage.N_VCHEST + " - (.*)")) {
+            String chestOwner = view.getTitle().substring(15);
             UUID chestOwnerUUID = new PlayerProfile().lookup(chestOwner).getId();
             openChestType(chestPlayer, chestOwnerUUID, chestInventory, ValidChest.VAULT);
         }

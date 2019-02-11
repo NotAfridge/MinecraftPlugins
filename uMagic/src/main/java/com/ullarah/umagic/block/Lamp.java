@@ -1,37 +1,31 @@
 package com.ullarah.umagic.block;
 
-import com.ullarah.umagic.MagicFunctions;
+import com.ullarah.umagic.InteractMeta;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Lightable;
 import org.bukkit.metadata.FixedMetadataValue;
 
-public class Lamp extends MagicFunctions {
+import java.util.Arrays;
+import java.util.List;
 
-    public Lamp(Block block) {
+public class Lamp extends BaseBlock {
 
-        super(false);
+    public void process(InteractMeta meta) {
+        Block block = meta.getBlock();
 
-        for (BlockFace face : new BlockFace[]{
-                BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST,
-                BlockFace.UP, BlockFace.DOWN
-        }) {
+        Lightable data = (Lightable) block.getBlockData();
+        data.setLit(!data.isLit());
 
-            Block blockNext = block.getRelative(face);
+        block.setMetadata(metaLamp, new FixedMetadataValue(getPlugin(), true));
+        saveMetadata(block.getLocation(), metaLamp);
 
-            if (blockNext.getType().equals(Material.AIR)) {
+        block.setBlockData(data);
 
-                blockNext.setType(Material.REDSTONE_BLOCK, true);
+    }
 
-                block.setMetadata(metaLamp, new FixedMetadataValue(getPlugin(), true));
-                saveMetadata(block.getLocation(), metaLamp);
-
-                blockNext.setType(Material.AIR);
-
-            }
-
-        }
-
+    public List<Material> getPermittedBlocks() {
+        return Arrays.asList(Material.REDSTONE_LAMP);
     }
 
 }

@@ -94,8 +94,8 @@ public class RocketLowFuel {
                                 case TREE:
                                     fuelType = "wood";
                                     assert fuelInventory != null;
-                                    if (!fuelInventory.containsAtLeast(new ItemStack(Material.WOOD), 15))
-                                        if (!fuelInventory.containsAtLeast(new ItemStack(Material.LOG), 3))
+                                    if (!fuelInventory.containsAtLeast(new ItemStack(Material.OAK_WOOD), 15))
+                                        if (!fuelInventory.containsAtLeast(new ItemStack(Material.OAK_LOG), 3))
                                             fuelLow = true;
                                     break;
 

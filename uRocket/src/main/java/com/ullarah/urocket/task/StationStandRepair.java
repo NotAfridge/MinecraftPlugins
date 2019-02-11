@@ -3,14 +3,12 @@ package com.ullarah.urocket.task;
 import com.ullarah.urocket.RocketFunctions;
 import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.SignText;
-import net.minecraft.server.v1_12_R1.EnumParticle;
-import net.minecraft.server.v1_12_R1.PacketPlayOutWorldParticles;
 import org.bukkit.*;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Furnace;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
@@ -48,11 +46,12 @@ public class StationStandRepair {
                                             (stand.getLocation().getY() - 1),
                                             stand.getLocation().getZ());
 
-                                    if (stand.getWorld().getBlockAt(
+                                    BlockState block = stand.getWorld().getBlockAt(
                                             stand.getLocation().getBlockX(),
                                             stand.getLocation().getBlockY() - 2,
-                                            stand.getLocation().getBlockZ())
-                                            .getType() == Material.BURNING_FURNACE) {
+                                            stand.getLocation().getBlockZ()).getState();
+
+                                    if (block instanceof Furnace && ((Furnace) block).getBurnTime() > 0) {
 
                                         ItemStack standBoots = stand.getEquipment().getBoots();
 
@@ -97,12 +96,7 @@ public class StationStandRepair {
                                                     float y = (float) stand.getLocation().getY();
                                                     float z = (float) stand.getLocation().getZ();
 
-                                                    PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
-                                                            EnumParticle.PORTAL, true, x, y, z, 0, 0, 0, 1, 500, null);
-
-                                                    for (Player serverPlayer : stand.getWorld().getPlayers())
-                                                        ((CraftPlayer) serverPlayer).getHandle()
-                                                                .playerConnection.sendPacket(packet);
+                                                    stand.getWorld().spawnParticle(Particle.PORTAL, x, y, z, 500, 0, 0, 0, 1);
 
                                                 }
 

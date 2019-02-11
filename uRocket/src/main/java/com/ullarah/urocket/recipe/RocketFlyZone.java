@@ -1,8 +1,10 @@
 package com.ullarah.urocket.recipe;
 
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.NewRecipe;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -15,7 +17,7 @@ public class RocketFlyZone implements NewRecipe {
 
     public ItemStack zone() {
 
-        ItemStack zone = new ItemStack(Material.ENDER_PORTAL_FRAME, 1);
+        ItemStack zone = new ItemStack(Material.END_PORTAL_FRAME, 1);
 
         ItemMeta zoneMeta = zone.getItemMeta();
         zoneMeta.setDisplayName(ChatColor.RED + "Rocket Boot Fly Zone Controller");
@@ -32,12 +34,13 @@ public class RocketFlyZone implements NewRecipe {
 
     public ShapedRecipe recipe() {
 
-        ShapedRecipe zoneRecipe = new ShapedRecipe(zone());
+        NamespacedKey key = new NamespacedKey(RocketInit.getPlugin(), "rocket.flyzone");
+        ShapedRecipe zoneRecipe = new ShapedRecipe(key, zone());
         zoneRecipe.shape("EEE", "GDG", "GSG");
 
         zoneRecipe.setIngredient('D', Material.DIAMOND_BLOCK);
-        zoneRecipe.setIngredient('E', Material.EYE_OF_ENDER);
-        zoneRecipe.setIngredient('G', Material.STAINED_GLASS);
+        zoneRecipe.setIngredient('E', Material.ENDER_EYE);
+        zoneRecipe.setIngredient('G', Material.WHITE_STAINED_GLASS);
         zoneRecipe.setIngredient('S', Material.SEA_LANTERN);
 
         return zoneRecipe;

@@ -1,8 +1,10 @@
 package com.ullarah.urocket.recipe;
 
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.NewRecipe;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -42,7 +44,8 @@ public class RocketBooster implements NewRecipe {
 
     public ShapedRecipe recipe() {
 
-        ShapedRecipe boosterRecipe = new ShapedRecipe(booster(boosterLevel));
+        NamespacedKey key = new NamespacedKey(RocketInit.getPlugin(), "rocket.rocketbooster." + boosterLevel);
+        ShapedRecipe boosterRecipe = new ShapedRecipe(key, booster(boosterLevel));
         boosterRecipe.shape("E E", "BRB", "TTT");
 
         boosterRecipe.setIngredient('B', Material.BLAZE_POWDER);

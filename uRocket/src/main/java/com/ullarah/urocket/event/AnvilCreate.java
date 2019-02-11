@@ -92,7 +92,7 @@ public class AnvilCreate implements Listener {
 
                                             for (Player onlinePlayer : Bukkit.getOnlinePlayers())
                                                 onlinePlayer.playSound(onlinePlayer.getEyeLocation(),
-                                                        Sound.ENTITY_LIGHTNING_THUNDER, 0.8f, 0.8f);
+                                                        Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 0.8f, 0.8f);
 
                                         }
 

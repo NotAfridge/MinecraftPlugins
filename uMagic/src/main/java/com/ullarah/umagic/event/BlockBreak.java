@@ -9,7 +9,18 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class BlockBreak extends MagicFunctions implements Listener {
+
+    private static final List<Material> backingBlocks = Arrays.asList(
+            Material.BLACK_STAINED_GLASS, Material.BLUE_STAINED_GLASS, Material.BROWN_STAINED_GLASS, Material.CYAN_STAINED_GLASS,
+            Material.GRAY_STAINED_GLASS, Material.GREEN_STAINED_GLASS, Material.LIGHT_BLUE_STAINED_GLASS, Material.LIGHT_GRAY_STAINED_GLASS,
+            Material.LIME_STAINED_GLASS, Material.MAGENTA_STAINED_GLASS, Material.ORANGE_STAINED_GLASS, Material.PINK_STAINED_GLASS,
+            Material.PURPLE_STAINED_GLASS, Material.RED_STAINED_GLASS, Material.WHITE_STAINED_GLASS, Material.YELLOW_STAINED_GLASS,
+            Material.GLASS
+    );
 
     public BlockBreak() {
         super(false);
@@ -36,20 +47,20 @@ public class BlockBreak extends MagicFunctions implements Listener {
 
             }
 
-        if (block.getType() == Material.GLASS || block.getType() == Material.STAINED_GLASS)
+        if (backingBlocks.contains(block.getType())) {
             for (BlockFace face : new BlockFace[]{BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST}) {
 
                 Block blockNext = block.getRelative(face);
 
                 if (blockNext.hasMetadata(metaLadd)) {
 
-                    blockNext.setType(Material.WOOD);
+                    blockNext.setType(Material.OAK_PLANKS);
                     blockNext.removeMetadata(metaLadd, getPlugin());
                     removeMetadata(blockNext.getLocation());
 
                 }
-
             }
+        }
 
     }
 

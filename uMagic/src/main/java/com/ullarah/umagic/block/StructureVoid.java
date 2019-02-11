@@ -1,20 +1,26 @@
 package com.ullarah.umagic.block;
 
-import com.ullarah.umagic.MagicFunctions;
+import com.ullarah.umagic.InteractMeta;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
-public class StructureVoid extends MagicFunctions {
+import java.util.Arrays;
+import java.util.List;
 
-    public StructureVoid(Block block) {
+public class StructureVoid extends BaseBlock {
 
-        super(false);
+    public void process(InteractMeta meta) {
+        Block block = meta.getBlock();
 
         block.setType(Material.LAPIS_BLOCK, true);
 
         block.removeMetadata(metaVoid, getPlugin());
         removeMetadata(block.getLocation());
 
+    }
+
+    public List<Material> getPermittedBlocks() {
+        return Arrays.asList(Material.STRUCTURE_VOID);
     }
 
 }

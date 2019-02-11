@@ -1,6 +1,6 @@
 package com.ullarah.umagic.block;
 
-import com.ullarah.umagic.MagicFunctions;
+import com.ullarah.umagic.InteractMeta;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -9,11 +9,14 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.entity.EntityType;
 
-public class Spawner extends MagicFunctions {
+import java.util.Arrays;
+import java.util.List;
 
-    public Spawner(Block block, BlockFace face) {
+public class Spawner extends BaseBlock {
 
-        super(false);
+    public void process(InteractMeta meta) {
+        Block block = meta.getBlock();
+        BlockFace face = meta.getFace();
 
         CreatureSpawner originalSpawner = (CreatureSpawner) block.getState();
         EntityType originalEntityType = originalSpawner.getSpawnedType();
@@ -57,7 +60,7 @@ public class Spawner extends MagicFunctions {
         if (newSpawn.getType().equals(Material.AIR)) {
 
             block.setType(Material.AIR);
-            newSpawn.setType(Material.MOB_SPAWNER);
+            newSpawn.setType(Material.SPAWNER);
 
             BlockState blockState = newSpawn.getState();
 
@@ -68,6 +71,10 @@ public class Spawner extends MagicFunctions {
 
         }
 
+    }
+
+    public List<Material> getPermittedBlocks() {
+        return Arrays.asList(Material.SPAWNER);
     }
 
 }

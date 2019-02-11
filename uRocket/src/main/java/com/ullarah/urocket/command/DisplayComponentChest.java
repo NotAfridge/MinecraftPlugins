@@ -39,7 +39,7 @@ public class DisplayComponentChest {
                     add(RocketBooster.booster("V")),
                     add(RocketFuelJacket.jacket(Material.LEATHER_CHESTPLATE)),
                     add(RocketFuelJacket.jacket(Material.IRON_CHESTPLATE)),
-                    add(RocketFuelJacket.jacket(Material.GOLD_CHESTPLATE)),
+                    add(RocketFuelJacket.jacket(Material.GOLDEN_CHESTPLATE)),
                     add(RocketFuelJacket.jacket(Material.DIAMOND_CHESTPLATE)),
 
                     add(new RocketControls().control()),

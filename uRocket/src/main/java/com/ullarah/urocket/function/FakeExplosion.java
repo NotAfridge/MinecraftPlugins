@@ -1,12 +1,8 @@
 package com.ullarah.urocket.function;
 
-import net.minecraft.server.v1_12_R1.EnumParticle;
-import net.minecraft.server.v1_12_R1.PacketPlayOutWorldParticles;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
-import org.bukkit.entity.Player;
 
 public class FakeExplosion {
 
@@ -19,18 +15,9 @@ public class FakeExplosion {
      */
     public void create(Location location, Integer size, ExplosionType explosion) {
 
-        float eX = (float) location.getX();
-        float eY = (float) location.getY();
-        float eZ = (float) location.getZ();
-
         location.getWorld().playSound(location, Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 0.5f);
 
-        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
-                EnumParticle.valueOf(explosion.type), false, eX, eY, eZ, 0, 0, 0, size, size, null);
-
-        for (Player serverPlayer : Bukkit.getOnlinePlayers()) {
-            ((CraftPlayer) serverPlayer).getHandle().playerConnection.sendPacket(packet);
-        }
+        location.getWorld().spawnParticle(explosion.type, location, size, 0, 0, 0, size, null);
 
     }
 
@@ -45,26 +32,26 @@ public class FakeExplosion {
         /**
          * Smaller white particles
          */
-        NORMAL("EXPLOSION_NORMAL"),
+        NORMAL(Particle.EXPLOSION_NORMAL),
 
         /**
          * Normal TNT like particles
          */
-        LARGE("EXPLOSION_LARGE"),
+        LARGE(Particle.EXPLOSION_LARGE),
 
         /**
          * Massive particles, wither, enderdragon etc.
          */
-        HUGE("EXPLOSION_HUGE");
+        HUGE(Particle.EXPLOSION_HUGE);
 
-        private final String type;
+        private final Particle type;
 
-        ExplosionType(String getType) {
+        ExplosionType(Particle getType) {
             type = getType;
         }
 
         public String toString() {
-            return type;
+            return type.name();
         }
 
     }

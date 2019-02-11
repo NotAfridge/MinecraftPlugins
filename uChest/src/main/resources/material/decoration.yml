@@ -1,154 +1,153 @@
 # m - Material name (id)
-# v - Variation of block (byte)
 # s - Include in shuffle chest? (schest)
 # d - Include when donation is randomised? (dchest)
 # r - Include in random chest? (rchest)
 # e - Return value of money given (vault/economy)
 # x - Return value of experience given (xp)
 
-SAP_OAK:    { m: SAPLING, v: 0, s: true, d: true, r: true, e: 0.2, x: 0.3 }
-SAP_SPRUCE: { m: SAPLING, v: 1, s: true, d: true, r: true, e: 0.2, x: 0.3 }
-SAP_BIRCH:  { m: SAPLING, v: 2, s: true, d: true, r: true, e: 0.2, x: 0.3 }
-SAP_JUNGLE: { m: SAPLING, v: 3, s: true, d: true, r: true, e: 0.2, x: 0.3 }
-SAP_ACACIA: { m: SAPLING, v: 4, s: true, d: true, r: true, e: 0.2, x: 0.3 }
-SAP_DARKO:  { m: SAPLING, v: 5, s: true, d: true, r: true, e: 0.2, x: 0.3 }
+SAP_OAK:    { m: OAK_SAPLING,      s: true, d: true, r: true, e: 0.2, x: 0.3 }
+SAP_SPRUCE: { m: SPRUCE_SAPLING,   s: true, d: true, r: true, e: 0.2, x: 0.3 }
+SAP_BIRCH:  { m: BIRCH_SAPLING,    s: true, d: true, r: true, e: 0.2, x: 0.3 }
+SAP_JUNGLE: { m: JUNGLE_SAPLING,   s: true, d: true, r: true, e: 0.2, x: 0.3 }
+SAP_ACACIA: { m: ACACIA_SAPLING,   s: true, d: true, r: true, e: 0.2, x: 0.3 }
+SAP_DARKO:  { m: DARK_OAK_SAPLING, s: true, d: true, r: true, e: 0.2, x: 0.3 }
 
-LV_OAK:    { m: LEAVES,   v: 0, s: true, d: true, r: true, e: 0.08, x: 0.1 }
-LV_SPRUCE: { m: LEAVES,   v: 1, s: true, d: true, r: true, e: 0.08, x: 0.1 }
-LV_BIRCH:  { m: LEAVES,   v: 2, s: true, d: true, r: true, e: 0.08, x: 0.1 }
-LV_JUNGLE: { m: LEAVES,   v: 3, s: true, d: true, r: true, e: 0.08, x: 0.1 }
-LV_ACACIA: { m: LEAVES_2, v: 0, s: true, d: true, r: true, e: 0.08, x: 0.1 }
-LV_DARKO:  { m: LEAVES_2, v: 1, s: true, d: true, r: true, e: 0.08, x: 0.1 }
+LV_OAK:    { m: OAK_LEAVES,      s: true, d: true, r: true, e: 0.08, x: 0.1 }
+LV_SPRUCE: { m: SPRUCE_LEAVES,   s: true, d: true, r: true, e: 0.08, x: 0.1 }
+LV_BIRCH:  { m: BIRCH_LEAVES,    s: true, d: true, r: true, e: 0.08, x: 0.1 }
+LV_JUNGLE: { m: JUNGLE_LEAVES,   s: true, d: true, r: true, e: 0.08, x: 0.1 }
+LV_ACACIA: { m: ACACIA_LEAVES,   s: true, d: true, r: true, e: 0.08, x: 0.1 }
+LV_DARKO:  { m: DARK_OAK_LEAVES, s: true, d: true, r: true, e: 0.08, x: 0.1 }
 
-FEN_OAK:    { m: FENCE,          v: 0, s: true, d: true, r: true, e: 1.0, x: 1.2 }
-FEN_SPRUCE: { m: SPRUCE_FENCE,   v: 0, s: true, d: true, r: true, e: 1.0, x: 1.2 }
-FEN_BIRCH:  { m: BIRCH_FENCE,    v: 0, s: true, d: true, r: true, e: 1.0, x: 1.2 }
-FEN_JUNGLE: { m: JUNGLE_FENCE,   v: 0, s: true, d: true, r: true, e: 1.0, x: 1.2 }
-FEN_ACACIA: { m: ACACIA_FENCE,   v: 0, s: true, d: true, r: true, e: 1.0, x: 1.2 }
-FEN_DARKO:  { m: DARK_OAK_FENCE, v: 0, s: true, d: true, r: true, e: 1.0, x: 1.2 }
-FEN_NETHER: { m: NETHER_FENCE,   v: 0, s: true, d: true, r: true, e: 1.2, x: 1.4 }
+FEN_OAK:    { m: OAK_FENCE,          s: true, d: true, r: true, e: 1.0, x: 1.2 }
+FEN_SPRUCE: { m: SPRUCE_FENCE,       s: true, d: true, r: true, e: 1.0, x: 1.2 }
+FEN_BIRCH:  { m: BIRCH_FENCE,        s: true, d: true, r: true, e: 1.0, x: 1.2 }
+FEN_JUNGLE: { m: JUNGLE_FENCE,       s: true, d: true, r: true, e: 1.0, x: 1.2 }
+FEN_ACACIA: { m: ACACIA_FENCE,       s: true, d: true, r: true, e: 1.0, x: 1.2 }
+FEN_DARKO:  { m: DARK_OAK_FENCE,     s: true, d: true, r: true, e: 1.0, x: 1.2 }
+FEN_NETHER: { m: NETHER_BRICK_FENCE, s: true, d: true, r: true, e: 1.2, x: 1.4 }
 
-COBWEB: { m: WEB,          v: 0, s: true, d: true, r: true, e: 0.2,  x: 0.3  }
-GRASS:  { m: LONG_GRASS,   v: 1, s: true, d: true, r: true, e: 0.1,  x: 0.1  }
-TGRASS: { m: DOUBLE_PLANT, v: 2, s: true, d: true, r: true, e: 0.1,  x: 0.1  }
-FERN:   { m: LONG_GRASS,   v: 2, s: true, d: true, r: true, e: 0.1,  x: 0.1  }
-LFERN:  { m: DOUBLE_PLANT, v: 3, s: true, d: true, r: true, e: 0.1,  x: 0.1  }
-DEADB:  { m: DEAD_BUSH,    v: 0, s: true, d: true, r: true, e: 0.05, x: 0.05 }
+COBWEB: { m: COBWEB,     s: true, d: true, r: true, e: 0.2,  x: 0.3  }
+GRASS:  { m: GRASS,      s: true, d: true, r: true, e: 0.1,  x: 0.1  }
+TGRASS: { m: TALL_GRASS, s: true, d: true, r: true, e: 0.1,  x: 0.1  }
+FERN:   { m: FERN,       s: true, d: true, r: true, e: 0.1,  x: 0.1  }
+LFERN:  { m: LARGE_FERN, s: true, d: true, r: true, e: 0.1,  x: 0.1  }
+DEADB:  { m: DEAD_BUSH,  s: true, d: true, r: true, e: 0.05, x: 0.05 }
 
-DANDELN: { m: YELLOW_FLOWER, v: 0, s: true, d: true, r: true, e: 0.1, x: 0.1 }
-POPPY:   { m: RED_ROSE,      v: 0, s: true, d: true, r: true, e: 0.1, x: 0.1 }
-ORCHID:  { m: RED_ROSE,      v: 1, s: true, d: true, r: true, e: 0.1, x: 0.1 }
-ALLIUM:  { m: RED_ROSE,      v: 2, s: true, d: true, r: true, e: 0.1, x: 0.1 }
-AZUREBL: { m: RED_ROSE,      v: 3, s: true, d: true, r: true, e: 0.1, x: 0.1 }
-TUL_RED: { m: RED_ROSE,      v: 4, s: true, d: true, r: true, e: 0.1, x: 0.1 }
-TUL_ORA: { m: RED_ROSE,      v: 5, s: true, d: true, r: true, e: 0.1, x: 0.1 }
-TUL_WHT: { m: RED_ROSE,      v: 6, s: true, d: true, r: true, e: 0.1, x: 0.1 }
-TUL_PNK: { m: RED_ROSE,      v: 7, s: true, d: true, r: true, e: 0.1, x: 0.1 }
-OXEYE:   { m: RED_ROSE,      v: 8, s: true, d: true, r: true, e: 0.1, x: 0.1 }
-SUNFLWR: { m: DOUBLE_PLANT,  v: 0, s: true, d: true, r: true, e: 0.1, x: 0.1 }
-LILAC:   { m: DOUBLE_PLANT,  v: 1, s: true, d: true, r: true, e: 0.1, x: 0.1 }
-ROSES:   { m: DOUBLE_PLANT,  v: 4, s: true, d: true, r: true, e: 0.1, x: 0.1 }
-PEONY:   { m: DOUBLE_PLANT,  v: 5, s: true, d: true, r: true, e: 0.1, x: 0.1 }
+DANDELN: { m: DANDELION,    s: true, d: true, r: true, e: 0.1, x: 0.1 }
+POPPY:   { m: POPPY,        s: true, d: true, r: true, e: 0.1, x: 0.1 }
+ORCHID:  { m: BLUE_ORCHID,  s: true, d: true, r: true, e: 0.1, x: 0.1 }
+ALLIUM:  { m: ALLIUM,       s: true, d: true, r: true, e: 0.1, x: 0.1 }
+AZUREBL: { m: AZURE_BLUET,  s: true, d: true, r: true, e: 0.1, x: 0.1 }
+TUL_RED: { m: RED_TULIP,    s: true, d: true, r: true, e: 0.1, x: 0.1 }
+TUL_ORA: { m: ORANGE_TULIP, s: true, d: true, r: true, e: 0.1, x: 0.1 }
+TUL_WHT: { m: WHITE_TULIP,  s: true, d: true, r: true, e: 0.1, x: 0.1 }
+TUL_PNK: { m: PINK_TULIP,   s: true, d: true, r: true, e: 0.1, x: 0.1 }
+OXEYE:   { m: OXEYE_DAISY,  s: true, d: true, r: true, e: 0.1, x: 0.1 }
+SUNFLWR: { m: SUNFLOWER,    s: true, d: true, r: true, e: 0.1, x: 0.1 }
+LILAC:   { m: LILAC,        s: true, d: true, r: true, e: 0.1, x: 0.1 }
+ROSES:   { m: ROSE_BUSH,    s: true, d: true, r: true, e: 0.1, x: 0.1 }
+PEONY:   { m: PEONY,        s: true, d: true, r: true, e: 0.1, x: 0.1 }
 
-B_MUSH: { m: BROWN_MUSHROOM, v: 0, s: true, d: true, r: true, e: 0.4, x: 0.5 }
-R_MUSH: { m: RED_MUSHROOM,   v: 0, s: true, d: true, r: true, e: 0.4, x: 0.5 }
+B_MUSH: { m: BROWN_MUSHROOM, s: true, d: true, r: true, e: 0.4, x: 0.5 }
+R_MUSH: { m: RED_MUSHROOM,   s: true, d: true, r: true, e: 0.4, x: 0.5 }
 
-TORCH:    { m: TORCH,       v: 0, s: true, d: true, r: true, e: 0.01, x: 0.02 }
-LADDER:   { m: LADDER,      v: 0, s: true, d: true, r: true, e: 0.4,  x: 0.5  }
-PAINTING: { m: PAINTING,    v: 0, s: true, d: true, r: true, e: 0.3,  x: 0.4  }
-SIGN:     { m: SIGN,        v: 0, s: true, d: true, r: true, e: 0.4,  x: 0.5  }
-BED:      { m: BED,         v: 0, s: true, d: true, r: true, e: 1.0,  x: 1.2  }
-FRAME:    { m: ITEM_FRAME,  v: 0, s: true, d: true, r: true, e: 0.4,  x: 0.5  }
-FLWRPOT:  { m: FLOWER_POT,  v: 0, s: true, d: true, r: true, e: 0.1,  x: 0.2  }
-AMRSTAND: { m: ARMOR_STAND, v: 0, s: true, d: true, r: true, e: 0.55, x: 0.6  }
+TORCH:    { m: TORCH,       s: true, d: true, r: true, e: 0.01, x: 0.02 }
+LADDER:   { m: LADDER,      s: true, d: true, r: true, e: 0.4,  x: 0.5  }
+PAINTING: { m: PAINTING,    s: true, d: true, r: true, e: 0.3,  x: 0.4  }
+SIGN:     { m: SIGN,        s: true, d: true, r: true, e: 0.4,  x: 0.5  }
+BED:      { m: RED_BED,     s: true, d: true, r: true, e: 1.0,  x: 1.2  }
+FRAME:    { m: ITEM_FRAME,  s: true, d: true, r: true, e: 0.4,  x: 0.5  }
+FLWRPOT:  { m: FLOWER_POT,  s: true, d: true, r: true, e: 0.1,  x: 0.2  }
+AMRSTAND: { m: ARMOR_STAND, s: true, d: true, r: true, e: 0.55, x: 0.6  }
 
-CHEST:   { m: CHEST,       v: 0, s: true, d: true, r: true, e: 0.5, x: 0.6 }
-ECHEST:  { m: ENDER_CHEST, v: 0, s: true, d: true, r: true, e: 7.0, x: 7.2 }
-CRAFT:   { m: WORKBENCH,   v: 0, s: true, d: true, r: true, e: 0.4, x: 0.5 }
-FURNACE: { m: FURNACE,     v: 0, s: true, d: true, r: true, e: 0.5, x: 0.6 }
-JUKEBOX: { m: JUKEBOX,     v: 0, s: true, d: true, r: true, e: 0.4, x: 0.5 }
+CHEST:   { m: CHEST,          s: true, d: true, r: true, e: 0.5, x: 0.6 }
+ECHEST:  { m: ENDER_CHEST,    s: true, d: true, r: true, e: 7.0, x: 7.2 }
+CRAFT:   { m: CRAFTING_TABLE, s: true, d: true, r: true, e: 0.4, x: 0.5 }
+FURNACE: { m: FURNACE,        s: true, d: true, r: true, e: 0.5, x: 0.6 }
+JUKEBOX: { m: JUKEBOX,        s: true, d: true, r: true, e: 0.4, x: 0.5 }
 
-SNOWFLAT:  { m: SNOW,        v: 0, s: true, d: true, r: true, e: 0.1,  x: 0.2  }
-CACTUS:    { m: CACTUS,      v: 0, s: true, d: true, r: true, e: 0.2,  x: 0.3  }
-SLIME_BLK: { m: SLIME_BLOCK, v: 0, s: true, d: true, r: true, e: 4.85, x: 5.0  }
-IRONBAR:   { m: IRON_FENCE,  v: 0, s: true, d: true, r: true, e: 17.1, x: 17.6 }
-VINES:     { m: VINE,        v: 0, s: true, d: true, r: true, e: 0.3,  x: 0.4  }
-LILYPAD:   { m: WATER_LILY,  v: 0, s: true, d: true, r: true, e: 0.3,  x: 0.4  }
+SNOWFLAT:  { m: SNOW,        s: true, d: true, r: true, e: 0.1,  x: 0.2  }
+CACTUS:    { m: CACTUS,      s: true, d: true, r: true, e: 0.2,  x: 0.3  }
+SLIME_BLK: { m: SLIME_BLOCK, s: true, d: true, r: true, e: 4.85, x: 5.0  }
+IRONBAR:   { m: IRON_BARS,   s: true, d: true, r: true, e: 17.1, x: 17.6 }
+VINES:     { m: VINE,        s: true, d: true, r: true, e: 0.3,  x: 0.4  }
+LILYPAD:   { m: LILY_PAD,   s: true, d: true, r: true, e: 0.3,  x: 0.4  }
 
-MEG_STONE:   { m: MONSTER_EGG, v: 0, s: false, d: false, r: false, e: 0.4, x: 0.6 }
-MEG_CSTONE:  { m: MONSTER_EGG, v: 1, s: false, d: false, r: false, e: 0.4, x: 0.6 }
-MEG_SSTONE:  { m: MONSTER_EGG, v: 2, s: false, d: false, r: false, e: 0.4, x: 0.6 }
-MEG_MSTONE:  { m: MONSTER_EGG, v: 3, s: false, d: false, r: false, e: 0.4, x: 0.6 }
-MEG_CRSTONE: { m: MONSTER_EGG, v: 4, s: false, d: false, r: false, e: 0.4, x: 0.6 }
-MEG_CHSTONE: { m: MONSTER_EGG, v: 5, s: false, d: false, r: false, e: 0.4, x: 0.6 }
+MEG_STONE:   { m: INFESTED_STONE,                 s: false, d: false, r: false, e: 0.4, x: 0.6 }
+MEG_CSTONE:  { m: INFESTED_COBBLESTONE,           s: false, d: false, r: false, e: 0.4, x: 0.6 }
+MEG_SSTONE:  { m: INFESTED_STONE_BRICKS,          s: false, d: false, r: false, e: 0.4, x: 0.6 }
+MEG_MSTONE:  { m: INFESTED_MOSSY_STONE_BRICKS,    s: false, d: false, r: false, e: 0.4, x: 0.6 }
+MEG_CRSTONE: { m: INFESTED_CRACKED_STONE_BRICKS,  s: false, d: false, r: false, e: 0.4, x: 0.6 }
+MEG_CHSTONE: { m: INFESTED_CHISELED_STONE_BRICKS, s: false, d: false, r: false, e: 0.4, x: 0.6 }
 
-EN_TABLE:   { m: ENCHANTMENT_TABLE,  v: 0, s: true,  d: true,  r: true,  e: 7.1,  x: 7.4  }
-EN_PORTAL:  { m: ENDER_PORTAL_FRAME, v: 0, s: false, d: false, r: false, e: 10.1, x: 10.2 }
-EN_ROD:     { m: END_ROD,            v: 0, s: true,  d: true,  r: true,  e: 0.1,  x: 0.2  }
-EN_CRYSTAL: { m: END_CRYSTAL,        v: 0, s: true,  d: true,  r: true,  e: 7.8,  x: 8.0  }
+EN_TABLE:   { m: ENCHANTING_TABLE, s: true,  d: true,  r: true,  e: 7.1,  x: 7.4  }
+EN_PORTAL:  { m: END_PORTAL_FRAME, s: false, d: false, r: false, e: 10.1, x: 10.2 }
+EN_ROD:     { m: END_ROD,          s: true,  d: true,  r: true,  e: 0.1,  x: 0.2  }
+EN_CRYSTAL: { m: END_CRYSTAL,      s: true,  d: true,  r: true,  e: 7.8,  x: 8.0  }
 
-SKULL_S: { m: SKULL_ITEM, v: 0, s: true,  d: true,  r: true,  e: 12.8,  x: 13.5  }
-SKULL_W: { m: SKULL_ITEM, v: 1, s: true,  d: true,  r: true,  e: 16.4,  x: 17.2  }
-SKULL_Z: { m: SKULL_ITEM, v: 2, s: true,  d: true,  r: true,  e: 12.8,  x: 13.5  }
-SKULL_H: { m: SKULL_ITEM, v: 3, s: false, d: false, r: false, e: 8.0,   x: 10.0  }
-SKULL_C: { m: SKULL_ITEM, v: 4, s: true,  d: true,  r: true,  e: 12.8,  x: 13.5  }
-SKULL_D: { m: SKULL_ITEM, v: 5, s: false, d: false, r: false, e: 120.0, x: 150.0 }
+SKULL_S: { m: SKELETON_SKULL,        s: true,  d: true,  r: true,  e: 12.8,  x: 13.5  }
+SKULL_W: { m: WITHER_SKELETON_SKULL, s: true,  d: true,  r: true,  e: 16.4,  x: 17.2  }
+SKULL_Z: { m: ZOMBIE_HEAD,           s: true,  d: true,  r: true,  e: 12.8,  x: 13.5  }
+SKULL_H: { m: PLAYER_HEAD,           s: false, d: false, r: false, e: 8.0,   x: 10.0  }
+SKULL_C: { m: CREEPER_HEAD,          s: true,  d: true,  r: true,  e: 12.8,  x: 13.5  }
+SKULL_D: { m: DRAGON_HEAD,           s: false, d: false, r: false, e: 120.0, x: 150.0 }
 
-CH_PLANT:  { m: CHORUS_PLANT,  v: 0, s: true, d: true, r: true, e: 0.8, x: 0.8 }
-CH_FLOWER: { m: CHORUS_FLOWER, v: 0, s: true, d: true, r: true, e: 0.8, x: 0.9 }
+CH_PLANT:  { m: CHORUS_PLANT,  s: true, d: true, r: true, e: 0.8, x: 0.8 }
+CH_FLOWER: { m: CHORUS_FLOWER, s: true, d: true, r: true, e: 0.8, x: 0.9 }
 
-ANVIL:    { m: ANVIL, v: 0, s: true,  d: true,  r: true,  e: 78.0, x: 80.5  }
-ANVIL_SD: { m: ANVIL, v: 1, s: false, d: false, r: false, e: 37.5, x: 40.25 }
-ANVIL_VD: { m: ANVIL, v: 2, s: false, d: false, r: false, e: 18.4, x: 19.75 }
+ANVIL:    { m: ANVIL,         s: true,  d: true,  r: true,  e: 78.0, x: 80.5  }
+ANVIL_SD: { m: CHIPPED_ANVIL, s: false, d: false, r: false, e: 37.5, x: 40.25 }
+ANVIL_VD: { m: DAMAGED_ANVIL, s: false, d: false, r: false, e: 18.4, x: 19.75 }
 
-PANE_CLR: { m: THIN_GLASS,         v: 0,  s: true, d: true, r: true, e: 0.15, x: 0.3 }
-PANE_WHT: { m: STAINED_GLASS_PANE, v: 0,  s: true, d: true, r: true, e: 0.15, x: 0.3 }
-PANE_ORA: { m: STAINED_GLASS_PANE, v: 1,  s: true, d: true, r: true, e: 0.15, x: 0.3 }
-PANE_MAG: { m: STAINED_GLASS_PANE, v: 2,  s: true, d: true, r: true, e: 0.15, x: 0.3 }
-PANE_LBL: { m: STAINED_GLASS_PANE, v: 3,  s: true, d: true, r: true, e: 0.15, x: 0.3 }
-PANE_YEL: { m: STAINED_GLASS_PANE, v: 4,  s: true, d: true, r: true, e: 0.15, x: 0.3 }
-PANE_LIM: { m: STAINED_GLASS_PANE, v: 5,  s: true, d: true, r: true, e: 0.15, x: 0.3 }
-PANE_PNK: { m: STAINED_GLASS_PANE, v: 6,  s: true, d: true, r: true, e: 0.15, x: 0.3 }
-PANE_GRY: { m: STAINED_GLASS_PANE, v: 7,  s: true, d: true, r: true, e: 0.15, x: 0.3 }
-PANE_LGR: { m: STAINED_GLASS_PANE, v: 8,  s: true, d: true, r: true, e: 0.15, x: 0.3 }
-PANE_CYA: { m: STAINED_GLASS_PANE, v: 9,  s: true, d: true, r: true, e: 0.15, x: 0.3 }
-PANE_PUR: { m: STAINED_GLASS_PANE, v: 10, s: true, d: true, r: true, e: 0.15, x: 0.3 }
-PANE_BLU: { m: STAINED_GLASS_PANE, v: 11, s: true, d: true, r: true, e: 0.15, x: 0.3 }
-PANE_BRN: { m: STAINED_GLASS_PANE, v: 12, s: true, d: true, r: true, e: 0.15, x: 0.3 }
-PANE_GRN: { m: STAINED_GLASS_PANE, v: 13, s: true, d: true, r: true, e: 0.15, x: 0.3 }
-PANE_RED: { m: STAINED_GLASS_PANE, v: 14, s: true, d: true, r: true, e: 0.15, x: 0.3 }
-PANE_BLK: { m: STAINED_GLASS_PANE, v: 15, s: true, d: true, r: true, e: 0.15, x: 0.3 }
+PANE_CLR: { m: GLASS_PANE,                    s: true, d: true, r: true, e: 0.15, x: 0.3 }
+PANE_WHT: { m: WHITE_STAINED_GLASS_PANE,      s: true, d: true, r: true, e: 0.15, x: 0.3 }
+PANE_ORA: { m: ORANGE_STAINED_GLASS_PANE,     s: true, d: true, r: true, e: 0.15, x: 0.3 }
+PANE_MAG: { m: MAGENTA_STAINED_GLASS_PANE,    s: true, d: true, r: true, e: 0.15, x: 0.3 }
+PANE_LBL: { m: LIGHT_BLUE_STAINED_GLASS_PANE, s: true, d: true, r: true, e: 0.15, x: 0.3 }
+PANE_YEL: { m: YELLOW_STAINED_GLASS_PANE,     s: true, d: true, r: true, e: 0.15, x: 0.3 }
+PANE_LIM: { m: LIME_STAINED_GLASS_PANE,       s: true, d: true, r: true, e: 0.15, x: 0.3 }
+PANE_PNK: { m: PINK_STAINED_GLASS_PANE,       s: true, d: true, r: true, e: 0.15, x: 0.3 }
+PANE_GRY: { m: GRAY_STAINED_GLASS_PANE,       s: true, d: true, r: true, e: 0.15, x: 0.3 }
+PANE_LGR: { m: LIGHT_GRAY_STAINED_GLASS_PANE, s: true, d: true, r: true, e: 0.15, x: 0.3 }
+PANE_CYA: { m: CYAN_STAINED_GLASS_PANE,       s: true, d: true, r: true, e: 0.15, x: 0.3 }
+PANE_PUR: { m: PURPLE_STAINED_GLASS_PANE,     s: true, d: true, r: true, e: 0.15, x: 0.3 }
+PANE_BLU: { m: BLUE_STAINED_GLASS_PANE,       s: true, d: true, r: true, e: 0.15, x: 0.3 }
+PANE_BRN: { m: BROWN_STAINED_GLASS_PANE,      s: true, d: true, r: true, e: 0.15, x: 0.3 }
+PANE_GRN: { m: GREEN_STAINED_GLASS_PANE,      s: true, d: true, r: true, e: 0.15, x: 0.3 }
+PANE_RED: { m: RED_STAINED_GLASS_PANE,        s: true, d: true, r: true, e: 0.15, x: 0.3 }
+PANE_BLK: { m: BLACK_STAINED_GLASS_PANE,      s: true, d: true, r: true, e: 0.15, x: 0.3 }
 
-CARPET_WHT: { m: CARPET, v: 0,  s: true, d: true, r: true, e: 0.1, x: 0.2 }
-CARPET_ORA: { m: CARPET, v: 1,  s: true, d: true, r: true, e: 0.1, x: 0.2 }
-CARPET_MAG: { m: CARPET, v: 2,  s: true, d: true, r: true, e: 0.1, x: 0.2 }
-CARPET_LBL: { m: CARPET, v: 3,  s: true, d: true, r: true, e: 0.1, x: 0.2 }
-CARPET_YEL: { m: CARPET, v: 4,  s: true, d: true, r: true, e: 0.1, x: 0.2 }
-CARPET_LIM: { m: CARPET, v: 5,  s: true, d: true, r: true, e: 0.1, x: 0.2 }
-CARPET_PNK: { m: CARPET, v: 6,  s: true, d: true, r: true, e: 0.1, x: 0.2 }
-CARPET_GRY: { m: CARPET, v: 7,  s: true, d: true, r: true, e: 0.1, x: 0.2 }
-CARPET_LGR: { m: CARPET, v: 8,  s: true, d: true, r: true, e: 0.1, x: 0.2 }
-CARPET_CYA: { m: CARPET, v: 9,  s: true, d: true, r: true, e: 0.1, x: 0.2 }
-CARPET_PUR: { m: CARPET, v: 10, s: true, d: true, r: true, e: 0.1, x: 0.2 }
-CARPET_BLU: { m: CARPET, v: 11, s: true, d: true, r: true, e: 0.1, x: 0.2 }
-CARPET_BRN: { m: CARPET, v: 12, s: true, d: true, r: true, e: 0.1, x: 0.2 }
-CARPET_GRN: { m: CARPET, v: 13, s: true, d: true, r: true, e: 0.1, x: 0.2 }
-CARPET_RED: { m: CARPET, v: 14, s: true, d: true, r: true, e: 0.1, x: 0.2 }
-CARPET_BLK: { m: CARPET, v: 15, s: true, d: true, r: true, e: 0.1, x: 0.2 }
+CARPET_WHT: { m: WHITE_CARPET,      s: true, d: true, r: true, e: 0.1, x: 0.2 }
+CARPET_ORA: { m: ORANGE_CARPET,     s: true, d: true, r: true, e: 0.1, x: 0.2 }
+CARPET_MAG: { m: MAGENTA_CARPET,    s: true, d: true, r: true, e: 0.1, x: 0.2 }
+CARPET_LBL: { m: LIGHT_BLUE_CARPET, s: true, d: true, r: true, e: 0.1, x: 0.2 }
+CARPET_YEL: { m: YELLOW_CARPET,     s: true, d: true, r: true, e: 0.1, x: 0.2 }
+CARPET_LIM: { m: LIME_CARPET,       s: true, d: true, r: true, e: 0.1, x: 0.2 }
+CARPET_PNK: { m: PINK_CARPET,       s: true, d: true, r: true, e: 0.1, x: 0.2 }
+CARPET_GRY: { m: GRAY_CARPET,       s: true, d: true, r: true, e: 0.1, x: 0.2 }
+CARPET_LGR: { m: LIGHT_GRAY_CARPET, s: true, d: true, r: true, e: 0.1, x: 0.2 }
+CARPET_CYA: { m: CYAN_CARPET,       s: true, d: true, r: true, e: 0.1, x: 0.2 }
+CARPET_PUR: { m: PURPLE_CARPET,     s: true, d: true, r: true, e: 0.1, x: 0.2 }
+CARPET_BLU: { m: BLUE_CARPET,       s: true, d: true, r: true, e: 0.1, x: 0.2 }
+CARPET_BRN: { m: BROWN_CARPET,      s: true, d: true, r: true, e: 0.1, x: 0.2 }
+CARPET_GRN: { m: GREEN_CARPET,      s: true, d: true, r: true, e: 0.1, x: 0.2 }
+CARPET_RED: { m: RED_CARPET,        s: true, d: true, r: true, e: 0.1, x: 0.2 }
+CARPET_BLK: { m: BLACK_CARPET,      s: true, d: true, r: true, e: 0.1, x: 0.2 }
 
-BANNER_WHT: { m: BANNER, v: 15, s: true, d: true, r: true, e: 2.25, x: 2.5 }
-BANNER_ORA: { m: BANNER, v: 14, s: true, d: true, r: true, e: 2.25, x: 2.5 }
-BANNER_MAG: { m: BANNER, v: 13, s: true, d: true, r: true, e: 2.25, x: 2.5 }
-BANNER_LBL: { m: BANNER, v: 12, s: true, d: true, r: true, e: 2.25, x: 2.5 }
-BANNER_YEL: { m: BANNER, v: 11, s: true, d: true, r: true, e: 2.25, x: 2.5 }
-BANNER_LIM: { m: BANNER, v: 10, s: true, d: true, r: true, e: 2.25, x: 2.5 }
-BANNER_PNK: { m: BANNER, v: 9,  s: true, d: true, r: true, e: 2.25, x: 2.5 }
-BANNER_GRY: { m: BANNER, v: 8,  s: true, d: true, r: true, e: 2.25, x: 2.5 }
-BANNER_LGR: { m: BANNER, v: 7,  s: true, d: true, r: true, e: 2.25, x: 2.5 }
-BANNER_CYA: { m: BANNER, v: 6,  s: true, d: true, r: true, e: 2.25, x: 2.5 }
-BANNER_PUR: { m: BANNER, v: 5,  s: true, d: true, r: true, e: 2.25, x: 2.5 }
-BANNER_BLU: { m: BANNER, v: 4,  s: true, d: true, r: true, e: 2.25, x: 2.5 }
-BANNER_BRN: { m: BANNER, v: 3,  s: true, d: true, r: true, e: 2.25, x: 2.5 }
-BANNER_GRN: { m: BANNER, v: 2,  s: true, d: true, r: true, e: 2.25, x: 2.5 }
-BANNER_RED: { m: BANNER, v: 1,  s: true, d: true, r: true, e: 2.25, x: 2.5 }
-BANNER_BLK: { m: BANNER, v: 0,  s: true, d: true, r: true, e: 2.25, x: 2.5 }
+BANNER_WHT: { m: WHITE_BANNER,      s: true, d: true, r: true, e: 2.25, x: 2.5 }
+BANNER_ORA: { m: ORANGE_BANNER,     s: true, d: true, r: true, e: 2.25, x: 2.5 }
+BANNER_MAG: { m: MAGENTA_BANNER,    s: true, d: true, r: true, e: 2.25, x: 2.5 }
+BANNER_LBL: { m: LIGHT_BLUE_BANNER, s: true, d: true, r: true, e: 2.25, x: 2.5 }
+BANNER_YEL: { m: YELLOW_BANNER,     s: true, d: true, r: true, e: 2.25, x: 2.5 }
+BANNER_LIM: { m: LIME_BANNER,       s: true, d: true, r: true, e: 2.25, x: 2.5 }
+BANNER_PNK: { m: PINK_BANNER,       s: true, d: true, r: true, e: 2.25, x: 2.5 }
+BANNER_GRY: { m: GRAY_BANNER,       s: true, d: true, r: true, e: 2.25, x: 2.5 }
+BANNER_LGR: { m: LIGHT_GRAY_BANNER, s: true, d: true, r: true, e: 2.25, x: 2.5 }
+BANNER_CYA: { m: CYAN_BANNER,       s: true, d: true, r: true, e: 2.25, x: 2.5 }
+BANNER_PUR: { m: PURPLE_BANNER,     s: true, d: true, r: true, e: 2.25, x: 2.5 }
+BANNER_BLU: { m: BLUE_BANNER,       s: true, d: true, r: true, e: 2.25, x: 2.5 }
+BANNER_BRN: { m: BROWN_BANNER,      s: true, d: true, r: true, e: 2.25, x: 2.5 }
+BANNER_GRN: { m: GREEN_BANNER,      s: true, d: true, r: true, e: 2.25, x: 2.5 }
+BANNER_RED: { m: RED_BANNER,        s: true, d: true, r: true, e: 2.25, x: 2.5 }
+BANNER_BLK: { m: BLACK_BANNER,      s: true, d: true, r: true, e: 2.25, x: 2.5 }

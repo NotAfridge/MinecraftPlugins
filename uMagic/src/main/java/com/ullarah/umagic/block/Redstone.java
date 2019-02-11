@@ -1,18 +1,26 @@
 package com.ullarah.umagic.block;
 
-import com.ullarah.umagic.MagicFunctions;
+import com.ullarah.umagic.InteractMeta;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.metadata.FixedMetadataValue;
 
-public class Redstone extends MagicFunctions {
+import java.util.Arrays;
+import java.util.List;
 
-    public Redstone(Block block) {
+public class Redstone extends BaseBlock {
 
-        super(false);
+    public void process(InteractMeta meta) {
+        Block block = meta.getBlock();
 
         block.setMetadata(metaReds, new FixedMetadataValue(getPlugin(), true));
         saveMetadata(block.getLocation(), metaReds);
 
     }
+
+    public List<Material> getPermittedBlocks() {
+        return Arrays.asList(Material.REDSTONE);
+    }
+
 
 }

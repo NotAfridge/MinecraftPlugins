@@ -1,8 +1,10 @@
 package com.ullarah.urocket.recipe;
 
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.NewRecipe;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -14,6 +16,7 @@ import java.util.Collections;
 public class RocketVariants implements NewRecipe {
 
     private final String variantName;
+    private final String variantNameClean;
 
     private final Material variantTopMaterial;
     private final Material variantSideMaterial;
@@ -22,6 +25,7 @@ public class RocketVariants implements NewRecipe {
     public RocketVariants(String name, Material[] materials) {
 
         variantName = name;
+        variantNameClean = ChatColor.stripColor(name).replaceAll("[^A-Za-z0-9]", "");
 
         variantTopMaterial = materials[0];
         variantSideMaterial = materials[1];
@@ -48,7 +52,8 @@ public class RocketVariants implements NewRecipe {
 
     public ShapedRecipe recipe() {
 
-        ShapedRecipe variantRecipe = new ShapedRecipe(variant(variantName));
+        NamespacedKey key = new NamespacedKey(RocketInit.getPlugin(), "rocket.variant."+variantNameClean);
+        ShapedRecipe variantRecipe = new ShapedRecipe(key, variant(variantName));
         variantRecipe.shape("T T", "SRS", "BNB");
 
         variantRecipe.setIngredient('T', variantTopMaterial);

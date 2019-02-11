@@ -7,6 +7,8 @@ import com.ullarah.urocket.init.RocketVariant;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Furnace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -64,7 +66,9 @@ public class PlayerMove implements Listener {
                 Location bStation = new Location(player.getWorld(), location.getX(), location.getY() - 1, location.getZ());
                 Location bStand = new Location(player.getWorld(), location.getX(), location.getY(), location.getZ());
 
-                if (bTank.getBlock().getType().equals(Material.BURNING_FURNACE) && bStation.getBlock().getType().equals(Material.BEACON)) {
+                BlockState tankBlock = bTank.getBlock().getState();
+                Material stationMaterial = bStation.getBlock().getType();
+                if (tankBlock instanceof Furnace && ((Furnace) tankBlock).getBurnTime() > 0 && stationMaterial.equals(Material.BEACON)) {
 
                     List<String> tankList = RocketInit.getPlugin().getConfig().getStringList("tanks");
                     List<String> stationList = RocketInit.getPlugin().getConfig().getStringList("stations");
@@ -82,13 +86,14 @@ public class PlayerMove implements Listener {
                     String station = world.getName() + "|" + bStation.getBlockX() + "|" + bStation.getBlockY() + "|" + bStation.getBlockZ();
                     String stand = world.getName() + "|" + bStand.getBlockX() + "|" + bStand.getBlockY() + "|" + bStand.getBlockZ();
 
-                    if (newStationList.contains(station) && newTankList.contains(tank) && !newStandList.contains(stand))
+                    if (newStationList.contains(station) && newTankList.contains(tank) && !newStandList.contains(stand)) {
                         if (!RocketInit.rocketRepair.containsKey(player.getUniqueId())) {
                             titleSubtitle.subtitle(player, 3, RocketLanguage.RB_STATION_START);
                             commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_STATION_START);
                             player.getWorld().playSound(player.getEyeLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.8f, 0.5f);
                             RocketInit.rocketRepair.put(player.getUniqueId(), bStation);
                         }
+                    }
 
                 } else RocketInit.rocketRepair.remove(player.getUniqueId());
 
@@ -150,7 +155,7 @@ public class PlayerMove implements Listener {
                                 if (player.isFlying()) {
                                     if (!areaCheck.above(location, Material.AIR)) {
                                         world.strikeLightning(location);
-                                        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_BLAST, 1.5f, 0.75f);
+                                        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1.5f, 0.75f);
                                         RocketInit.rocketSprint.put(player.getUniqueId(), "AIR");
                                         commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_STRIKE);
                                     }

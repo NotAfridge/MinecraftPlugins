@@ -1,14 +1,16 @@
 package com.ullarah.umagic.block;
 
-import com.ullarah.umagic.MagicFunctions;
+import com.ullarah.umagic.InteractMeta;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
-public class Barrier extends MagicFunctions {
+import java.util.Arrays;
+import java.util.List;
 
-    public Barrier(Block block) {
+public class Barrier extends BaseBlock {
 
-        super(false);
+    public void process(InteractMeta meta) {
+        Block block = meta.getBlock();
 
         if (block.hasMetadata(metaEmBr)) {
 
@@ -20,4 +22,7 @@ public class Barrier extends MagicFunctions {
 
     }
 
+    public List<Material> getPermittedBlocks() {
+        return Arrays.asList(Material.BARRIER);
+    }
 }

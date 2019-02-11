@@ -1,33 +1,31 @@
 package com.ullarah.umagic.block;
 
-import com.ullarah.umagic.MagicFunctions;
-import org.bukkit.DyeColor;
+import com.ullarah.umagic.InteractMeta;
+import com.ullarah.umagic.blockdata.RotatableData;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.banner.Pattern;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import java.util.Arrays;
 import java.util.List;
 
-public class Banner extends MagicFunctions {
+public class Banner extends BaseBlock {
 
-    public Banner(Block block) {
+    public void process(InteractMeta meta) {
+        Block block = meta.getBlock();
 
-        super(false);
-
-        org.bukkit.block.Banner banner = (org.bukkit.block.Banner) block.getState();
-
-        DyeColor color = banner.getBaseColor();
-        List<Pattern> patterns = banner.getPatterns();
-
-        byte data = block.getData();
-        block.setData(data < 15 ? (byte) (data + 1) : (byte) 0);
-
-        banner.setBaseColor(color);
-        banner.setPatterns(patterns);
+        new RotatableData().process(block);
 
         block.setMetadata(metaBanr, new FixedMetadataValue(getPlugin(), true));
         saveMetadata(block.getLocation(), metaBanr);
 
     }
 
+    public List<Material> getPermittedBlocks() {
+        return Arrays.asList(
+                Material.BLACK_BANNER, Material.BLUE_BANNER, Material.BROWN_BANNER, Material.CYAN_BANNER,
+                Material.GRAY_BANNER, Material.GREEN_BANNER, Material.LIGHT_BLUE_BANNER, Material.LIGHT_GRAY_BANNER,
+                Material.LIME_BANNER, Material.MAGENTA_BANNER, Material.ORANGE_BANNER, Material.PINK_BANNER,
+                Material.PURPLE_BANNER, Material.RED_BANNER, Material.WHITE_BANNER, Material.YELLOW_BANNER);
+    }
 }

@@ -1,12 +1,12 @@
 package com.ullarah.utab;
 
-import net.minecraft.server.v1_12_R1.IChatBaseComponent;
-import net.minecraft.server.v1_12_R1.PacketPlayOutPlayerListHeaderFooter;
-import net.minecraft.server.v1_12_R1.PlayerConnection;
+import net.minecraft.server.v1_13_R2.IChatBaseComponent;
+import net.minecraft.server.v1_13_R2.PacketPlayOutPlayerListHeaderFooter;
+import net.minecraft.server.v1_13_R2.PlayerConnection;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -79,12 +79,12 @@ class TabFunctions {
             PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
 
             if (tabHeaderField == null) {
-                tabHeaderField = packet.getClass().getDeclaredField("a");
+                tabHeaderField = packet.getClass().getDeclaredField("header");
                 tabHeaderField.setAccessible(true);
             }
 
             if (tabFooterField == null) {
-                tabFooterField = packet.getClass().getDeclaredField("b");
+                tabFooterField = packet.getClass().getDeclaredField("footer");
                 tabFooterField.setAccessible(true);
             }
 

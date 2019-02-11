@@ -85,7 +85,7 @@ public class RocketFuel {
                                         if (isSolarPowered) itemFuelCost -= 2;
                                         break;
 
-                                    case GOLD_BOOTS:
+                                    case GOLDEN_BOOTS:
                                         malfunctionRate = 1500;
                                         itemFuelCost = 3 + rocketFunctions.getBootPowerLevel(rocketBoots);
                                         getHealthFromBoots = (player.getHealth() - 1.5);
@@ -174,7 +174,7 @@ public class RocketFuel {
                                 if (!isUnlimited) if (!isStable) {
                                     if (random.nextInt(malfunctionRate) == 1) {
 
-                                        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_BLAST, 0.6f, 0.65f);
+                                        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 0.6f, 0.65f);
                                         commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_MALFUNCTION);
                                         rocketFunctions.disableRocketBoots(player, true, true, true, true, true);
 

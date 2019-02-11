@@ -1,204 +1,203 @@
 # m - Material name (id)
-# v - Variation of block (byte)
 # s - Include in shuffle chest? (schest)
 # d - Include when donation is randomised? (dchest)
 # r - Include in random chest? (rchest)
 # e - Return value of money given (vault/economy)
 # x - Return value of experience given (xp)
 
-STONE:     { m: STONE, v: 0, s: true, d: true, r: true, e: 0.1, x: 0.2 }
-GRANITE:   { m: STONE, v: 1, s: true, d: true, r: true, e: 0.2, x: 0.3 }
-PGRANITE:  { m: STONE, v: 2, s: true, d: true, r: true, e: 0.4, x: 0.5 }
-DIORITE:   { m: STONE, v: 3, s: true, d: true, r: true, e: 0.2, x: 0.3 }
-PDIORITE:  { m: STONE, v: 4, s: true, d: true, r: true, e: 0.4, x: 0.5 }
-ANDESITE:  { m: STONE, v: 5, s: true, d: true, r: true, e: 0.2, x: 0.3 }
-PANDESITE: { m: STONE, v: 6, s: true, d: true, r: true, e: 0.4, x: 0.5 }
+STONE:     { m: STONE,             s: true, d: true, r: true, e: 0.1, x: 0.2 }
+GRANITE:   { m: GRANITE,           s: true, d: true, r: true, e: 0.2, x: 0.3 }
+PGRANITE:  { m: POLISHED_GRANITE,  s: true, d: true, r: true, e: 0.4, x: 0.5 }
+DIORITE:   { m: DIORITE,           s: true, d: true, r: true, e: 0.2, x: 0.3 }
+PDIORITE:  { m: POLISHED_DIORITE,  s: true, d: true, r: true, e: 0.4, x: 0.5 }
+ANDESITE:  { m: ANDESITE,          s: true, d: true, r: true, e: 0.2, x: 0.3 }
+PANDESITE: { m: POLISHED_ANDESITE, s: true, d: true, r: true, e: 0.4, x: 0.5 }
 
-COBBLEST:  { m: COBBLESTONE,       v: 0, s: true, d: true, r: true, e: 0.17, x: 0.19 }
-MCOBBLEST: { m: MOSSY_COBBLESTONE, v: 0, s: true, d: true, r: true, e: 0.3,  x: 0.4  }
-OBSIDIAN:  { m: OBSIDIAN,          v: 0, s: true, d: true, r: true, e: 0.65, x: 0.8  }
-BRICK:     { m: BRICK,             v: 0, s: true, d: true, r: true, e: 2.6,  x: 2.9  }
+COBBLEST:  { m: COBBLESTONE,       s: true, d: true, r: true, e: 0.17, x: 0.19 }
+MCOBBLEST: { m: MOSSY_COBBLESTONE, s: true, d: true, r: true, e: 0.3,  x: 0.4  }
+OBSIDIAN:  { m: OBSIDIAN,          s: true, d: true, r: true, e: 0.65, x: 0.8  }
+BRICK:     { m: BRICK,             s: true, d: true, r: true, e: 2.6,  x: 2.9  }
 
-STONE_BRICK:   { m: SMOOTH_BRICK, v: 0, s: true, d: true, r: true, e: 0.4,  x: 0.8  }
-MSTONE_BRICK:  { m: SMOOTH_BRICK, v: 1, s: true, d: true, r: true, e: 0.8,  x: 0.2  }
-CRSTONE_BRICK: { m: SMOOTH_BRICK, v: 2, s: true, d: true, r: true, e: 0.5,  x: 1.0  }
-CHSTONE_BRICK: { m: SMOOTH_BRICK, v: 3, s: true, d: true, r: true, e: 0.05, x: 0.06 }
+STONE_BRICK:   { m: STONE_BRICKS,          s: true, d: true, r: true, e: 0.4,  x: 0.8  }
+MSTONE_BRICK:  { m: MOSSY_STONE_BRICKS,    s: true, d: true, r: true, e: 0.8,  x: 0.2  }
+CRSTONE_BRICK: { m: CRACKED_STONE_BRICKS,  s: true, d: true, r: true, e: 0.5,  x: 1.0  }
+CHSTONE_BRICK: { m: CHISELED_STONE_BRICKS, s: true, d: true, r: true, e: 0.05, x: 0.06 }
 
-CB_WALL:  { m: COBBLE_WALL, v: 0, s: true, d: true, r: true, e: 0.027, x: 0.03  }
-MCB_WALL: { m: COBBLE_WALL, v: 1, s: true, d: true, r: true, e: 0.05,  x: 0.065 }
+CB_WALL:  { m: COBBLESTONE_WALL,       s: true, d: true, r: true, e: 0.027, x: 0.03  }
+MCB_WALL: { m: MOSSY_COBBLESTONE_WALL, s: true, d: true, r: true, e: 0.05,  x: 0.065 }
 
-GRASS:   { m: GRASS, v: 0, s: true, d: true, r: true, e: 0.5, x: 0.75 }
-DIRT:    { m: DIRT,  v: 0, s: true, d: true, r: true, e: 0.1, x: 0.15 }
-DCOARSE: { m: DIRT,  v: 1, s: true, d: true, r: true, e: 0.2, x: 0.25 }
-PODZOL:  { m: DIRT,  v: 2, s: true, d: true, r: true, e: 0.4, x: 0.5  }
-MYCEL:   { m: MYCEL, v: 0, s: true, d: true, r: true, e: 0.4, x: 0.5  }
+GRASS:   { m: GRASS_BLOCK, s: true, d: true, r: true, e: 0.5, x: 0.75 }
+DIRT:    { m: DIRT,        s: true, d: true, r: true, e: 0.1, x: 0.15 }
+DCOARSE: { m: COARSE_DIRT, s: true, d: true, r: true, e: 0.2, x: 0.25 }
+PODZOL:  { m: PODZOL,      s: true, d: true, r: true, e: 0.4, x: 0.5  }
+MYCEL:   { m: MYCELIUM,    s: true, d: true, r: true, e: 0.4, x: 0.5  }
 
-PL_OAK:    { m: WOOD, v: 0, s: true, d: true, r: true, e: 0.3, x: 0.4 }
-PL_SPRUCE: { m: WOOD, v: 1, s: true, d: true, r: true, e: 0.3, x: 0.4 }
-PL_BIRCH:  { m: WOOD, v: 2, s: true, d: true, r: true, e: 0.3, x: 0.4 }
-PL_JUNGLE: { m: WOOD, v: 3, s: true, d: true, r: true, e: 0.4, x: 0.5 }
-PL_ACACIA: { m: WOOD, v: 4, s: true, d: true, r: true, e: 0.4, x: 0.5 }
-PL_DOAK:   { m: WOOD, v: 5, s: true, d: true, r: true, e: 0.4, x: 0.5 }
+PL_OAK:    { m: OAK_WOOD,      s: true, d: true, r: true, e: 0.3, x: 0.4 }
+PL_SPRUCE: { m: SPRUCE_WOOD,   s: true, d: true, r: true, e: 0.3, x: 0.4 }
+PL_BIRCH:  { m: BIRCH_WOOD,    s: true, d: true, r: true, e: 0.3, x: 0.4 }
+PL_JUNGLE: { m: JUNGLE_WOOD,   s: true, d: true, r: true, e: 0.4, x: 0.5 }
+PL_ACACIA: { m: ACACIA_WOOD,   s: true, d: true, r: true, e: 0.4, x: 0.5 }
+PL_DOAK:   { m: DARK_OAK_WOOD, s: true, d: true, r: true, e: 0.4, x: 0.5 }
 
-LOG_OAK:    { m: LOG,   v: 0, s: true, d: true, r: true, e: 0.8, x: 1.2  }
-LOG_SPRUCE: { m: LOG,   v: 1, s: true, d: true, r: true, e: 0.8, x: 1.2  }
-LOG_BIRCH:  { m: LOG,   v: 2, s: true, d: true, r: true, e: 0.8, x: 1.2  }
-LOG_JUNGLE: { m: LOG,   v: 3, s: true, d: true, r: true, e: 0.8, x: 1.2  }
-LOG_ACACIA: { m: LOG_2, v: 0, s: true, d: true, r: true, e: 0.9, x: 1.22 }
-LOG_DOAK:   { m: LOG_2, v: 1, s: true, d: true, r: true, e: 0.9, x: 1.22 }
+LOG_OAK:    { m: OAK_LOG,      s: true, d: true, r: true, e: 0.8, x: 1.2  }
+LOG_SPRUCE: { m: SPRUCE_LOG,   s: true, d: true, r: true, e: 0.8, x: 1.2  }
+LOG_BIRCH:  { m: BIRCH_LOG,    s: true, d: true, r: true, e: 0.8, x: 1.2  }
+LOG_JUNGLE: { m: JUNGLE_LOG,   s: true, d: true, r: true, e: 0.8, x: 1.2  }
+LOG_ACACIA: { m: ACACIA_LOG,   s: true, d: true, r: true, e: 0.9, x: 1.22 }
+LOG_DOAK:   { m: DARK_OAK_LOG, s: true, d: true, r: true, e: 0.9, x: 1.22 }
 
-BOOKSHELF: { m: BOOKSHELF,   v: 0, s: true,  d: true,  r: true,  e: 0.6, x: 1.0 }
-BEDROCK:   { m: BEDROCK,     v: 0, s: false, d: false, r: false, e: 0.0, x: 0.0 }
-GRAVEL:    { m: GRAVEL,      v: 0, s: true,  d: true,  r: true,  e: 0.4, x: 0.5 }
-HAY:       { m: HAY_BLOCK,   v: 0, s: true,  d: true,  r: true,  e: 0.4, x: 0.5 }
-BMELON:    { m: MELON_BLOCK, v: 0, s: true,  d: true,  r: true,  e: 0.4, x: 0.5 }
+BOOKSHELF: { m: BOOKSHELF, s: true,  d: true,  r: true,  e: 0.6, x: 1.0 }
+BEDROCK:   { m: BEDROCK,   s: false, d: false, r: false, e: 0.0, x: 0.0 }
+GRAVEL:    { m: GRAVEL,    s: true,  d: true,  r: true,  e: 0.4, x: 0.5 }
+HAY:       { m: HAY_BLOCK, s: true,  d: true,  r: true,  e: 0.4, x: 0.5 }
+BMELON:    { m: MELON,     s: true,  d: true,  r: true,  e: 0.4, x: 0.5 }
 
-ORE_COAL:    { m: COAL_ORE,     v: 0, s: true, d: true, r: true, e: 0.7, x: 1.1  }
-ORE_IRON:    { m: IRON_ORE,     v: 0, s: true, d: true, r: true, e: 1.6, x: 2.8  }
-ORE_GOLD:    { m: GOLD_ORE,     v: 0, s: true, d: true, r: true, e: 2.1, x: 3.4  }
-ORE_LAPIS:   { m: LAPIS_ORE,    v: 0, s: true, d: true, r: true, e: 0.4, x: 0.5  }
-ORE_QUARTZ:  { m: QUARTZ_ORE,   v: 0, s: true, d: true, r: true, e: 0.4, x: 0.5  }
-ORE_RSTONE:  { m: REDSTONE_ORE, v: 0, s: true, d: true, r: true, e: 0.3, x: 0.4  }
-ORE_DIAMOND: { m: DIAMOND_ORE,  v: 0, s: true, d: true, r: true, e: 8.7, x: 10.2 }
-ORE_EMERALD: { m: EMERALD_ORE,  v: 0, s: true, d: true, r: true, e: 5.4, x: 6.5  }
+ORE_COAL:    { m: COAL_ORE,          s: true, d: true, r: true, e: 0.7, x: 1.1  }
+ORE_IRON:    { m: IRON_ORE,          s: true, d: true, r: true, e: 1.6, x: 2.8  }
+ORE_GOLD:    { m: GOLD_ORE,          s: true, d: true, r: true, e: 2.1, x: 3.4  }
+ORE_LAPIS:   { m: LAPIS_ORE,         s: true, d: true, r: true, e: 0.4, x: 0.5  }
+ORE_QUARTZ:  { m: NETHER_QUARTZ_ORE, s: true, d: true, r: true, e: 0.4, x: 0.5  }
+ORE_RSTONE:  { m: REDSTONE_ORE,      s: true, d: true, r: true, e: 0.3, x: 0.4  }
+ORE_DIAMOND: { m: DIAMOND_ORE,       s: true, d: true, r: true, e: 8.7, x: 10.2 }
+ORE_EMERALD: { m: EMERALD_ORE,       s: true, d: true, r: true, e: 5.4, x: 6.5  }
 
-OBL_COAL:    { m: COAL_BLOCK,    v: 0, s: true, d: true, r: true, e: 6.3,  x: 9.9  }
-OBL_IRON:    { m: IRON_BLOCK,    v: 0, s: true, d: true, r: true, e: 14.4, x: 25.2 }
-OBL_GOLD:    { m: GOLD_BLOCK,    v: 0, s: true, d: true, r: true, e: 18.9, x: 30.6 }
-OBL_LAPIS:   { m: LAPIS_BLOCK,   v: 0, s: true, d: true, r: true, e: 3.6,  x: 4.5  }
-OBL_DIAMOND: { m: DIAMOND_BLOCK, v: 0, s: true, d: true, r: true, e: 78.3, x: 91.8 }
-OBL_EMERALD: { m: EMERALD_BLOCK, v: 0, s: true, d: true, r: true, e: 48.6, x: 58.5 }
+OBL_COAL:    { m: COAL_BLOCK,    s: true, d: true, r: true, e: 6.3,  x: 9.9  }
+OBL_IRON:    { m: IRON_BLOCK,    s: true, d: true, r: true, e: 14.4, x: 25.2 }
+OBL_GOLD:    { m: GOLD_BLOCK,    s: true, d: true, r: true, e: 18.9, x: 30.6 }
+OBL_LAPIS:   { m: LAPIS_BLOCK,   s: true, d: true, r: true, e: 3.6,  x: 4.5  }
+OBL_DIAMOND: { m: DIAMOND_BLOCK, s: true, d: true, r: true, e: 78.3, x: 91.8 }
+OBL_EMERALD: { m: EMERALD_BLOCK, s: true, d: true, r: true, e: 48.6, x: 58.5 }
 
-SPONGE:  { m: SPONGE, v: 0, s: true, d: true, r: true, e: 4.1, x: 4.8 }
-WSPONGE: { m: SPONGE, v: 1, s: true, d: true, r: true, e: 4.2, x: 4.9 }
+SPONGE:  { m: SPONGE,     s: true, d: true, r: true, e: 4.1, x: 4.8 }
+WSPONGE: { m: WET_SPONGE, s: true, d: true, r: true, e: 4.2, x: 4.9 }
 
-SAND:  { m: SAND, v: 0, s: true, d: true, r: true, e: 0.2, x: 0.25 }
-RSAND: { m: SAND, v: 1, s: true, d: true, r: true, e: 0.3, x: 0.35 }
+SAND:  { m: SAND,     s: true, d: true, r: true, e: 0.2, x: 0.25 }
+RSAND: { m: RED_SAND, s: true, d: true, r: true, e: 0.3, x: 0.35 }
 
-CGLASS: { m: GLASS, v: 0, s: true, d: true, r: true, e: 0.4, x: 0.5 }
+CGLASS: { m: GLASS, s: true, d: true, r: true, e: 0.4, x: 0.5 }
 
-SGLASS_WH: { m: STAINED_GLASS, v: 0,  s: true, d: true, r: true, e: 0.5, x: 0.6 }
-SGLASS_OR: { m: STAINED_GLASS, v: 1,  s: true, d: true, r: true, e: 0.5, x: 0.6 }
-SGLASS_MA: { m: STAINED_GLASS, v: 2,  s: true, d: true, r: true, e: 0.5, x: 0.6 }
-SGLASS_LB: { m: STAINED_GLASS, v: 3,  s: true, d: true, r: true, e: 0.5, x: 0.6 }
-SGLASS_YL: { m: STAINED_GLASS, v: 4,  s: true, d: true, r: true, e: 0.5, x: 0.6 }
-SGLASS_LM: { m: STAINED_GLASS, v: 5,  s: true, d: true, r: true, e: 0.5, x: 0.6 }
-SGLASS_PK: { m: STAINED_GLASS, v: 6,  s: true, d: true, r: true, e: 0.5, x: 0.6 }
-SGLASS_GR: { m: STAINED_GLASS, v: 7,  s: true, d: true, r: true, e: 0.5, x: 0.6 }
-SGLASS_LG: { m: STAINED_GLASS, v: 8,  s: true, d: true, r: true, e: 0.5, x: 0.6 }
-SGLASS_CY: { m: STAINED_GLASS, v: 9,  s: true, d: true, r: true, e: 0.5, x: 0.6 }
-SGLASS_PU: { m: STAINED_GLASS, v: 10, s: true, d: true, r: true, e: 0.5, x: 0.6 }
-SGLASS_BL: { m: STAINED_GLASS, v: 11, s: true, d: true, r: true, e: 0.5, x: 0.6 }
-SGLASS_BR: { m: STAINED_GLASS, v: 12, s: true, d: true, r: true, e: 0.5, x: 0.6 }
-SGLASS_GR: { m: STAINED_GLASS, v: 13, s: true, d: true, r: true, e: 0.5, x: 0.6 }
-SGLASS_RE: { m: STAINED_GLASS, v: 14, s: true, d: true, r: true, e: 0.5, x: 0.6 }
-SGLASS_BK: { m: STAINED_GLASS, v: 15, s: true, d: true, r: true, e: 0.5, x: 0.6 }
+SGLASS_WH: { m: WHITE_STAINED_GLASS,      s: true, d: true, r: true, e: 0.5, x: 0.6 }
+SGLASS_OR: { m: ORANGE_STAINED_GLASS,     s: true, d: true, r: true, e: 0.5, x: 0.6 }
+SGLASS_MA: { m: MAGENTA_STAINED_GLASS,    s: true, d: true, r: true, e: 0.5, x: 0.6 }
+SGLASS_LB: { m: LIGHT_BLUE_STAINED_GLASS, s: true, d: true, r: true, e: 0.5, x: 0.6 }
+SGLASS_YL: { m: YELLOW_STAINED_GLASS,     s: true, d: true, r: true, e: 0.5, x: 0.6 }
+SGLASS_LM: { m: LIME_STAINED_GLASS,       s: true, d: true, r: true, e: 0.5, x: 0.6 }
+SGLASS_PK: { m: PINK_STAINED_GLASS,       s: true, d: true, r: true, e: 0.5, x: 0.6 }
+SGLASS_GR: { m: GRAY_STAINED_GLASS,       s: true, d: true, r: true, e: 0.5, x: 0.6 }
+SGLASS_LG: { m: LIGHT_GRAY_STAINED_GLASS, s: true, d: true, r: true, e: 0.5, x: 0.6 }
+SGLASS_CY: { m: CYAN_STAINED_GLASS,       s: true, d: true, r: true, e: 0.5, x: 0.6 }
+SGLASS_PU: { m: PURPLE_STAINED_GLASS,     s: true, d: true, r: true, e: 0.5, x: 0.6 }
+SGLASS_BL: { m: BLUE_STAINED_GLASS,       s: true, d: true, r: true, e: 0.5, x: 0.6 }
+SGLASS_BR: { m: BROWN_STAINED_GLASS,      s: true, d: true, r: true, e: 0.5, x: 0.6 }
+SGLASS_GR: { m: GREEN_STAINED_GLASS,      s: true, d: true, r: true, e: 0.5, x: 0.6 }
+SGLASS_RE: { m: RED_STAINED_GLASS,        s: true, d: true, r: true, e: 0.5, x: 0.6 }
+SGLASS_BK: { m: BLACK_STAINED_GLASS,      s: true, d: true, r: true, e: 0.5, x: 0.6 }
 
-WOOL_WH: { m: WOOL, v: 0,  s: true, d: true, r: true, e: 0.4, x: 0.5 }
-WOOL_OR: { m: WOOL, v: 1,  s: true, d: true, r: true, e: 0.5, x: 0.6 }
-WOOL_MA: { m: WOOL, v: 2,  s: true, d: true, r: true, e: 0.5, x: 0.6 }
-WOOL_LB: { m: WOOL, v: 3,  s: true, d: true, r: true, e: 0.5, x: 0.6 }
-WOOL_YL: { m: WOOL, v: 4,  s: true, d: true, r: true, e: 0.5, x: 0.6 }
-WOOL_LM: { m: WOOL, v: 5,  s: true, d: true, r: true, e: 0.5, x: 0.6 }
-WOOL_PK: { m: WOOL, v: 6,  s: true, d: true, r: true, e: 0.5, x: 0.6 }
-WOOL_GR: { m: WOOL, v: 7,  s: true, d: true, r: true, e: 0.5, x: 0.6 }
-WOOL_LG: { m: WOOL, v: 8,  s: true, d: true, r: true, e: 0.5, x: 0.6 }
-WOOL_CY: { m: WOOL, v: 9,  s: true, d: true, r: true, e: 0.5, x: 0.6 }
-WOOL_PU: { m: WOOL, v: 10, s: true, d: true, r: true, e: 0.5, x: 0.6 }
-WOOL_BL: { m: WOOL, v: 11, s: true, d: true, r: true, e: 0.5, x: 0.6 }
-WOOL_BR: { m: WOOL, v: 12, s: true, d: true, r: true, e: 0.5, x: 0.6 }
-WOOL_GR: { m: WOOL, v: 13, s: true, d: true, r: true, e: 0.5, x: 0.6 }
-WOOL_RE: { m: WOOL, v: 14, s: true, d: true, r: true, e: 0.5, x: 0.6 }
-WOOL_BK: { m: WOOL, v: 15, s: true, d: true, r: true, e: 0.5, x: 0.6 }
+WOOL_WH: { m: WHITE_WOOL,      s: true, d: true, r: true, e: 0.4, x: 0.5 }
+WOOL_OR: { m: ORANGE_WOOL,     s: true, d: true, r: true, e: 0.5, x: 0.6 }
+WOOL_MA: { m: MAGENTA_WOOL,    s: true, d: true, r: true, e: 0.5, x: 0.6 }
+WOOL_LB: { m: LIGHT_BLUE_WOOL, s: true, d: true, r: true, e: 0.5, x: 0.6 }
+WOOL_YL: { m: YELLOW_WOOL,     s: true, d: true, r: true, e: 0.5, x: 0.6 }
+WOOL_LM: { m: LIME_WOOL,       s: true, d: true, r: true, e: 0.5, x: 0.6 }
+WOOL_PK: { m: PINK_WOOL,       s: true, d: true, r: true, e: 0.5, x: 0.6 }
+WOOL_GR: { m: GRAY_WOOL,       s: true, d: true, r: true, e: 0.5, x: 0.6 }
+WOOL_LG: { m: LIGHT_GRAY_WOOL, s: true, d: true, r: true, e: 0.5, x: 0.6 }
+WOOL_CY: { m: CYAN_WOOL,       s: true, d: true, r: true, e: 0.5, x: 0.6 }
+WOOL_PU: { m: PURPLE_WOOL,     s: true, d: true, r: true, e: 0.5, x: 0.6 }
+WOOL_BL: { m: BLUE_WOOL,       s: true, d: true, r: true, e: 0.5, x: 0.6 }
+WOOL_BR: { m: BROWN_WOOL,      s: true, d: true, r: true, e: 0.5, x: 0.6 }
+WOOL_GR: { m: GREEN_WOOL,      s: true, d: true, r: true, e: 0.5, x: 0.6 }
+WOOL_RE: { m: RED_WOOL,        s: true, d: true, r: true, e: 0.5, x: 0.6 }
+WOOL_BK: { m: BLACK_WOOL,      s: true, d: true, r: true, e: 0.5, x: 0.6 }
 
-HCLAY: { m: HARD_CLAY, v: 0,  s: true, d: true, r: true, e: 0.3, x: 0.35 }
+HCLAY: { m: TERRACOTTA, s: true, d: true, r: true, e: 0.3, x: 0.35 }
 
-SHCLAY_WH: { m: STAINED_CLAY, v: 0,  s: true, d: true, r: true, e: 0.35, x: 0.4 }
-SHCLAY_OR: { m: STAINED_CLAY, v: 1,  s: true, d: true, r: true, e: 0.35, x: 0.4 }
-SHCLAY_MA: { m: STAINED_CLAY, v: 2,  s: true, d: true, r: true, e: 0.35, x: 0.4 }
-SHCLAY_LB: { m: STAINED_CLAY, v: 3,  s: true, d: true, r: true, e: 0.35, x: 0.4 }
-SHCLAY_YL: { m: STAINED_CLAY, v: 4,  s: true, d: true, r: true, e: 0.35, x: 0.4 }
-SHCLAY_LM: { m: STAINED_CLAY, v: 5,  s: true, d: true, r: true, e: 0.35, x: 0.4 }
-SHCLAY_PK: { m: STAINED_CLAY, v: 6,  s: true, d: true, r: true, e: 0.35, x: 0.4 }
-SHCLAY_GR: { m: STAINED_CLAY, v: 7,  s: true, d: true, r: true, e: 0.35, x: 0.4 }
-SHCLAY_LG: { m: STAINED_CLAY, v: 8,  s: true, d: true, r: true, e: 0.35, x: 0.4 }
-SHCLAY_CY: { m: STAINED_CLAY, v: 9,  s: true, d: true, r: true, e: 0.35, x: 0.4 }
-SHCLAY_PU: { m: STAINED_CLAY, v: 10, s: true, d: true, r: true, e: 0.35, x: 0.4 }
-SHCLAY_BL: { m: STAINED_CLAY, v: 11, s: true, d: true, r: true, e: 0.35, x: 0.4 }
-SHCLAY_BR: { m: STAINED_CLAY, v: 12, s: true, d: true, r: true, e: 0.35, x: 0.4 }
-SHCLAY_GR: { m: STAINED_CLAY, v: 13, s: true, d: true, r: true, e: 0.35, x: 0.4 }
-SHCLAY_RE: { m: STAINED_CLAY, v: 14, s: true, d: true, r: true, e: 0.35, x: 0.4 }
-SHCLAY_BK: { m: STAINED_CLAY, v: 15, s: true, d: true, r: true, e: 0.35, x: 0.4 }
+SHCLAY_WH: { m: WHITE_TERRACOTTA,      s: true, d: true, r: true, e: 0.35, x: 0.4 }
+SHCLAY_OR: { m: ORANGE_TERRACOTTA,     s: true, d: true, r: true, e: 0.35, x: 0.4 }
+SHCLAY_MA: { m: MAGENTA_TERRACOTTA,    s: true, d: true, r: true, e: 0.35, x: 0.4 }
+SHCLAY_LB: { m: LIGHT_BLUE_TERRACOTTA, s: true, d: true, r: true, e: 0.35, x: 0.4 }
+SHCLAY_YL: { m: YELLOW_TERRACOTTA,     s: true, d: true, r: true, e: 0.35, x: 0.4 }
+SHCLAY_LM: { m: LIME_TERRACOTTA,       s: true, d: true, r: true, e: 0.35, x: 0.4 }
+SHCLAY_PK: { m: PINK_TERRACOTTA,       s: true, d: true, r: true, e: 0.35, x: 0.4 }
+SHCLAY_GR: { m: GRAY_TERRACOTTA,       s: true, d: true, r: true, e: 0.35, x: 0.4 }
+SHCLAY_LG: { m: LIGHT_GRAY_TERRACOTTA, s: true, d: true, r: true, e: 0.35, x: 0.4 }
+SHCLAY_CY: { m: CYAN_TERRACOTTA,       s: true, d: true, r: true, e: 0.35, x: 0.4 }
+SHCLAY_PU: { m: PURPLE_TERRACOTTA,     s: true, d: true, r: true, e: 0.35, x: 0.4 }
+SHCLAY_BL: { m: BLUE_TERRACOTTA,       s: true, d: true, r: true, e: 0.35, x: 0.4 }
+SHCLAY_BR: { m: BROWN_TERRACOTTA,      s: true, d: true, r: true, e: 0.35, x: 0.4 }
+SHCLAY_GR: { m: GREEN_TERRACOTTA,      s: true, d: true, r: true, e: 0.35, x: 0.4 }
+SHCLAY_RE: { m: RED_TERRACOTTA,        s: true, d: true, r: true, e: 0.35, x: 0.4 }
+SHCLAY_BK: { m: BLACK_TERRACOTTA,      s: true, d: true, r: true, e: 0.35, x: 0.4 }
 
-SANDSTONE:  { m: SANDSTONE, v: 0, s: true, d: true, r: true, e: 0.6, x: 1.0 }
-CSANDSTONE: { m: SANDSTONE, v: 1, s: true, d: true, r: true, e: 0.7, x: 1.1 }
-SSANDSTONE: { m: SANDSTONE, v: 2, s: true, d: true, r: true, e: 0.8, x: 1.2 }
+SANDSTONE:  { m: SANDSTONE,          s: true, d: true, r: true, e: 0.6, x: 1.0 }
+CSANDSTONE: { m: CHISELED_SANDSTONE, s: true, d: true, r: true, e: 0.7, x: 1.1 }
+SSANDSTONE: { m: CUT_SANDSTONE,      s: true, d: true, r: true, e: 0.8, x: 1.2 }
 
-RSANDSTONE:  { m: RED_SANDSTONE, v: 0, s: true, d: true, r: true, e: 0.7, x: 1.1 }
-RCSANDSTONE: { m: RED_SANDSTONE, v: 1, s: true, d: true, r: true, e: 0.8, x: 1.2 }
-RSSANDSTONE: { m: RED_SANDSTONE, v: 2, s: true, d: true, r: true, e: 0.9, x: 1.3 }
+RSANDSTONE:  { m: RED_SANDSTONE,          s: true, d: true, r: true, e: 0.7, x: 1.1 }
+RCSANDSTONE: { m: CHISELED_RED_SANDSTONE, s: true, d: true, r: true, e: 0.8, x: 1.2 }
+RSSANDSTONE: { m: CUT_RED_SANDSTONE,      s: true, d: true, r: true, e: 0.9, x: 1.3 }
 
-PURPUR_BLOCK:  { m: PURPUR_BLOCK,  v: 0, s: true, d: true, r: true, e: 0.6, x: 1.5 }
-PURPUR_PILLAR: { m: PURPUR_PILLAR, v: 0, s: true, d: true, r: true, e: 1.4, x: 2.4 }
-END_BLOCK:     { m: END_BRICKS,    v: 0, s: true, d: true, r: true, e: 1.8, x: 2.0 }
-END_STONE:     { m: ENDER_STONE,   v: 0, s: true, d: true, r: true, e: 0.9, x: 1.2 }
+PURPUR_BLOCK:  { m: PURPUR_BLOCK,     s: true, d: true, r: true, e: 0.6, x: 1.5 }
+PURPUR_PILLAR: { m: PURPUR_PILLAR,    s: true, d: true, r: true, e: 1.4, x: 2.4 }
+END_BLOCK:     { m: END_STONE_BRICKS, s: true, d: true, r: true, e: 1.8, x: 2.0 }
+END_STONE:     { m: END_STONE,        s: true, d: true, r: true, e: 0.9, x: 1.2 }
 
-BONE_BLOCK: { m: BONE_BLOCK, v: 0, s: true, d: true, r: true, e: 0.7, x: 1.1 }
+BONE_BLOCK: { m: BONE_BLOCK, s: true, d: true, r: true, e: 0.7, x: 1.1 }
 
-PMARINE:    { m: PRISMARINE,  v: 0, s: true, d: true, r: true, e: 0.6, x: 0.8 }
-PMARINEB:   { m: PRISMARINE,  v: 1, s: true, d: true, r: true, e: 0.9, x: 1.1 }
-PMARINED:   { m: PRISMARINE,  v: 2, s: true, d: true, r: true, e: 1.0, x: 1.2 }
-SEALANTERN: { m: SEA_LANTERN, v: 0, s: true, d: true, r: true, e: 0.7, x: 1.2 }
+PMARINE:    { m: PRISMARINE,        s: true, d: true, r: true, e: 0.6, x: 0.8 }
+PMARINEB:   { m: PRISMARINE_BRICKS, s: true, d: true, r: true, e: 0.9, x: 1.1 }
+PMARINED:   { m: DARK_PRISMARINE,   s: true, d: true, r: true, e: 1.0, x: 1.2 }
+SEALANTERN: { m: SEA_LANTERN,       s: true, d: true, r: true, e: 0.7, x: 1.2 }
 
-SLAB_ST: { m: STEP, v: 0, s: true, d: true, r: true, e: 0.025, x: 0.03 }
-SLAB_SS: { m: STEP, v: 1, s: true, d: true, r: true, e: 0.025, x: 0.03 }
-SLAB_CS: { m: STEP, v: 3, s: true, d: true, r: true, e: 0.025, x: 0.03 }
-SLAB_BS: { m: STEP, v: 4, s: true, d: true, r: true, e: 0.4,   x: 0.45 }
-SLAB_SB: { m: STEP, v: 5, s: true, d: true, r: true, e: 0.025, x: 0.03 }
-SLAB_NB: { m: STEP, v: 6, s: true, d: true, r: true, e: 0.75,  x: 0.8  }
-SLAB_QB: { m: STEP, v: 7, s: true, d: true, r: true, e: 0.25,  x: 0.3  }
+SLAB_ST: { m: STONE_SLAB,        s: true, d: true, r: true, e: 0.025, x: 0.03 }
+SLAB_SS: { m: SANDSTONE_SLAB,    s: true, d: true, r: true, e: 0.025, x: 0.03 }
+SLAB_CS: { m: COBBLESTONE_SLAB,  s: true, d: true, r: true, e: 0.025, x: 0.03 }
+SLAB_BS: { m: BRICK_SLAB,        s: true, d: true, r: true, e: 0.4,   x: 0.45 }
+SLAB_SB: { m: STONE_BRICK_SLAB,  s: true, d: true, r: true, e: 0.025, x: 0.03 }
+SLAB_NB: { m: NETHER_BRICK_SLAB, s: true, d: true, r: true, e: 0.75,  x: 0.8  }
+SLAB_QB: { m: QUARTZ_SLAB,       s: true, d: true, r: true, e: 0.25,  x: 0.3  }
 
-SLAB_OW: { m: WOOD_STEP, v: 0, s: true, d: true, r: true, e: 0.2, x: 0.22 }
-SLAB_SW: { m: WOOD_STEP, v: 1, s: true, d: true, r: true, e: 0.2, x: 0.22 }
-SLAB_BW: { m: WOOD_STEP, v: 2, s: true, d: true, r: true, e: 0.2, x: 0.22 }
-SLAB_JW: { m: WOOD_STEP, v: 3, s: true, d: true, r: true, e: 0.2, x: 0.22 }
-SLAB_AW: { m: WOOD_STEP, v: 4, s: true, d: true, r: true, e: 0.2, x: 0.22 }
-SLAB_DW: { m: WOOD_STEP, v: 5, s: true, d: true, r: true, e: 0.2, x: 0.22 }
+SLAB_OW: { m: OAK_SLAB,      s: true, d: true, r: true, e: 0.2, x: 0.22 }
+SLAB_SW: { m: SPRUCE_SLAB,   s: true, d: true, r: true, e: 0.2, x: 0.22 }
+SLAB_BW: { m: BIRCH_SLAB,    s: true, d: true, r: true, e: 0.2, x: 0.22 }
+SLAB_JW: { m: JUNGLE_SLAB,   s: true, d: true, r: true, e: 0.2, x: 0.22 }
+SLAB_AW: { m: ACACIA_SLAB,   s: true, d: true, r: true, e: 0.2, x: 0.22 }
+SLAB_DW: { m: DARK_OAK_SLAB, s: true, d: true, r: true, e: 0.2, x: 0.22 }
 
-SLAB_RS: { m: STONE_SLAB2, v: 0, s: true, d: true, r: true, e: 0.02, x: 0.35 }
-SLAB_PS: { m: PURPUR_SLAB, v: 0, s: true, d: true, r: true, e: 0.7,  x: 1.2 }
+SLAB_RS: { m: RED_SANDSTONE_SLAB, s: true, d: true, r: true, e: 0.02, x: 0.35 }
+SLAB_PS: { m: PURPUR_SLAB,        s: true, d: true, r: true, e: 0.7,  x: 1.2 }
 
-STAIR_OW: { m: WOOD_STAIRS,        v: 0, s: true, d: true, r: true, e: 0.45, x: 0.6 }
-STAIR_SW: { m: SPRUCE_WOOD_STAIRS, v: 0, s: true, d: true, r: true, e: 0.45, x: 0.6 }
-STAIR_BW: { m: BIRCH_WOOD_STAIRS,  v: 0, s: true, d: true, r: true, e: 0.45, x: 0.6 }
-STAIR_JW: { m: JUNGLE_WOOD_STAIRS, v: 0, s: true, d: true, r: true, e: 0.45, x: 0.6 }
-STAIR_AW: { m: ACACIA_STAIRS,      v: 0, s: true, d: true, r: true, e: 0.45, x: 0.6 }
-STAIR_DW: { m: DARK_OAK_STAIRS,    v: 0, s: true, d: true, r: true, e: 0.45, x: 0.6 }
+STAIR_OW: { m: OAK_STAIRS,      s: true, d: true, r: true, e: 0.45, x: 0.6 }
+STAIR_SW: { m: SPRUCE_STAIRS,   s: true, d: true, r: true, e: 0.45, x: 0.6 }
+STAIR_BW: { m: BIRCH_STAIRS,    s: true, d: true, r: true, e: 0.45, x: 0.6 }
+STAIR_JW: { m: JUNGLE_STAIRS,   s: true, d: true, r: true, e: 0.45, x: 0.6 }
+STAIR_AW: { m: ACACIA_STAIRS,   s: true, d: true, r: true, e: 0.45, x: 0.6 }
+STAIR_DW: { m: DARK_OAK_STAIRS, s: true, d: true, r: true, e: 0.45, x: 0.6 }
 
-STAIR_SS: { m: SMOOTH_STAIRS,       v: 0, s: true, d: true, r: true, e: 0.9, x: 1.5  }
-STAIR_CS: { m: COBBLESTONE_STAIRS,  v: 0, s: true, d: true, r: true, e: 0.2, x: 0.22 }
-STAIR_BS: { m: BRICK_STAIRS,        v: 0, s: true, d: true, r: true, e: 0.2, x: 0.22 }
-STAIR_SB: { m: SANDSTONE_STAIRS,    v: 0, s: true, d: true, r: true, e: 0.2, x: 0.22 }
-STAIR_NB: { m: NETHER_BRICK_STAIRS, v: 0, s: true, d: true, r: true, e: 0.2, x: 0.22 }
-STAIR_QB: { m: QUARTZ_STAIRS,       v: 0, s: true, d: true, r: true, e: 0.2, x: 0.22 }
+STAIR_SS: { m: SANDSTONE_STAIRS,    s: true, d: true, r: true, e: 0.9, x: 1.5  }
+STAIR_CS: { m: COBBLESTONE_STAIRS,  s: true, d: true, r: true, e: 0.2, x: 0.22 }
+STAIR_BS: { m: BRICK_STAIRS,        s: true, d: true, r: true, e: 0.2, x: 0.22 }
+STAIR_SB: { m: STONE_BRICK_STAIRS,  s: true, d: true, r: true, e: 0.2, x: 0.22 }
+STAIR_NB: { m: NETHER_BRICK_STAIRS, s: true, d: true, r: true, e: 0.2, x: 0.22 }
+STAIR_QB: { m: QUARTZ_STAIRS,       s: true, d: true, r: true, e: 0.2, x: 0.22 }
 
-STAIR_RS: { m: RED_SANDSTONE_STAIRS, v: 0, s: true, d: true, r: true, e: 0.2,  x: 0.22 }
-STAIR_PS: { m: PURPUR_STAIRS,        v: 0, s: true, d: true, r: true, e: 1.85, x: 2.25 }
+STAIR_RS: { m: RED_SANDSTONE_STAIRS, s: true, d: true, r: true, e: 0.2,  x: 0.22 }
+STAIR_PS: { m: PURPUR_STAIRS,        s: true, d: true, r: true, e: 1.85, x: 2.25 }
 
-SNOW: { m: SNOW_BLOCK, v: 0, s: true, d: true, r: true, e: 0.4, x: 0.6 }
-ICE:  { m: ICE,        v: 0, s: true, d: true, r: true, e: 0.4, x: 0.5 }
-PICE: { m: PACKED_ICE, v: 0, s: true, d: true, r: true, e: 0.6, x: 0.7 }
+SNOW: { m: SNOW_BLOCK, s: true, d: true, r: true, e: 0.4, x: 0.6 }
+ICE:  { m: ICE,        s: true, d: true, r: true, e: 0.4, x: 0.5 }
+PICE: { m: PACKED_ICE, s: true, d: true, r: true, e: 0.6, x: 0.7 }
 
-PUMPKIN: { m: PUMPKIN,        v: 0, s: true, d: true, r: true, e: 0.6, x: 0.7 }
-JACKO:   { m: JACK_O_LANTERN, v: 0, s: true, d: true, r: true, e: 0.6, x: 0.7 }
+PUMPKIN: { m: PUMPKIN,        s: true, d: true, r: true, e: 0.6, x: 0.7 }
+JACKO:   { m: JACK_O_LANTERN, s: true, d: true, r: true, e: 0.6, x: 0.7 }
 
-NRACK: { m: NETHERRACK,        v: 0, s: true, d: true, r: true, e: 0.6, x: 0.7 }
-NWART: { m: NETHER_WART_BLOCK, v: 0, s: true, d: true, r: true, e: 0.6, x: 0.7 }
-NBRCK: { m: RED_NETHER_BRICK,  v: 0, s: true, d: true, r: true, e: 0.6, x: 0.7 }
-SOULS: { m: SOUL_SAND,         v: 0, s: true, d: true, r: true, e: 0.6, x: 0.7 }
-GLOWS: { m: GLOWSTONE,         v: 0, s: true, d: true, r: true, e: 0.6, x: 0.7 }
-MAGMA: { m: MAGMA,             v: 0, s: true, d: true, r: true, e: 0.6, x: 0.7 }
+NRACK: { m: NETHERRACK,        s: true, d: true, r: true, e: 0.6, x: 0.7 }
+NWART: { m: NETHER_WART_BLOCK, s: true, d: true, r: true, e: 0.6, x: 0.7 }
+NBRCK: { m: NETHER_BRICKS,     s: true, d: true, r: true, e: 0.6, x: 0.7 }
+SOULS: { m: SOUL_SAND,         s: true, d: true, r: true, e: 0.6, x: 0.7 }
+GLOWS: { m: GLOWSTONE,         s: true, d: true, r: true, e: 0.6, x: 0.7 }
+MAGMA: { m: MAGMA_BLOCK,       s: true, d: true, r: true, e: 0.6, x: 0.7 }
 
-QZ_BLOCK: { m: QUARTZ_BLOCK, v: 0, s: true, d: true, r: true, e: 1.2,  x: 1.35 }
-QZ_CHISL: { m: QUARTZ_BLOCK, v: 1, s: true, d: true, r: true, e: 0.45, x: 0.55 }
-QZ_PILLR: { m: QUARTZ_BLOCK, v: 2, s: true, d: true, r: true, e: 1.1,  x: 1.3  }
+QZ_BLOCK: { m: QUARTZ_BLOCK,          s: true, d: true, r: true, e: 1.2,  x: 1.35 }
+QZ_CHISL: { m: CHISELED_QUARTZ_BLOCK, s: true, d: true, r: true, e: 0.45, x: 0.55 }
+QZ_PILLR: { m: QUARTZ_PILLAR,         s: true, d: true, r: true, e: 1.1,  x: 1.3  }

@@ -1,9 +1,11 @@
 package com.ullarah.urocket.recipe;
 
+import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.NewRecipe;
 import com.ullarah.urocket.init.RocketLanguage;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -27,7 +29,24 @@ public class RocketBoots implements NewRecipe {
 
     private ItemStack boots(Material bootMaterial, boolean hasVariant, boolean hasEnhancement) {
 
-        Material bootType = Material.getMaterial(bootMaterial.name().replaceAll("_(.*)", "") + "_BOOTS");
+        Material bootType;
+        switch (bootMaterial) {
+            case LEATHER:
+                bootType = Material.LEATHER_BOOTS;
+                break;
+            case IRON_INGOT:
+                bootType = Material.IRON_BOOTS;
+                break;
+            case GOLD_INGOT:
+                bootType = Material.GOLDEN_BOOTS;
+                break;
+            case DIAMOND:
+                bootType = Material.DIAMOND_BOOTS;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid boot material");
+        }
+
         ItemStack boots = new ItemStack(bootType, 1);
 
         ItemMeta bootMeta = boots.getItemMeta();
@@ -50,7 +69,8 @@ public class RocketBoots implements NewRecipe {
 
     public ShapedRecipe recipe() {
 
-        ShapedRecipe bootRecipe = new ShapedRecipe(boots(bootMaterial, hasVariant, hasEnhancement));
+        NamespacedKey key = new NamespacedKey(RocketInit.getPlugin(), "rocket.rocketboots."+bootMaterial+"."+hasVariant+"."+hasEnhancement);
+        ShapedRecipe bootRecipe = new ShapedRecipe(key, boots(bootMaterial, hasVariant, hasEnhancement));
 
         bootRecipe.shape("H H", hasEnhancement ? "MEM" : "M M", hasVariant ? "TVT" : "T T");
 

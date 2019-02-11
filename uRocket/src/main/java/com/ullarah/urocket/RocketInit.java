@@ -104,7 +104,7 @@ public class RocketInit extends JavaPlugin {
                 new RocketFlyZone(),
                 new RocketFuelJacket(Material.LEATHER_CHESTPLATE),
                 new RocketFuelJacket(Material.IRON_CHESTPLATE),
-                new RocketFuelJacket(Material.GOLD_CHESTPLATE),
+                new RocketFuelJacket(Material.GOLDEN_CHESTPLATE),
                 new RocketFuelJacket(Material.DIAMOND_CHESTPLATE)
         ));
 

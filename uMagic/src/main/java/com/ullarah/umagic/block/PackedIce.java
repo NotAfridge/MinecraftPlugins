@@ -1,23 +1,32 @@
 package com.ullarah.umagic.block;
 
-import com.ullarah.umagic.MagicFunctions;
+import com.ullarah.umagic.InteractMeta;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.Levelled;
 import org.bukkit.metadata.FixedMetadataValue;
 
-public class PackedIce extends MagicFunctions {
+import java.util.Arrays;
+import java.util.List;
 
-    public PackedIce(Block block) {
+public class PackedIce extends BaseBlock {
 
-        super(false);
+    public void process(InteractMeta meta) {
+        Block block = meta.getBlock();
 
-        block.setType(Material.STATIONARY_WATER, true);
+        block.setType(Material.WATER, true);
 
-        block.setData((byte) 7);
+        Levelled data = (Levelled) block.getBlockData();
+        data.setLevel(15);
 		
         block.setMetadata(metaWate, new FixedMetadataValue(getPlugin(), true));
         saveMetadata(block.getLocation(), metaWate);
 
+        block.setBlockData(data);
+    }
+
+    public List<Material> getPermittedBlocks() {
+        return Arrays.asList(Material.PACKED_ICE);
     }
 
 }

@@ -60,9 +60,10 @@ public class BlockBreak implements Listener {
             String tankOriginal = player.getUniqueId().toString() + "|" + world.getName() + "|" + bX + "|" + bY + "|" + bZ;
             String tankNew = world.getName() + "|" + bX + "|" + bY + "|" + bZ;
 
-            if (tankList.contains(tankOriginal) || player.hasPermission("rocket.remove")) {
+            int index = newTankList.indexOf(tankNew);
+            if (index >= 0 && (tankList.contains(tankOriginal) || player.hasPermission("rocket.remove"))) {
 
-                tankList.remove(newTankList.indexOf(tankNew));
+                tankList.remove(index);
                 world.getBlockAt(blockLocation).setType(Material.AIR);
 
                 RocketInit.getPlugin().getConfig().set("tanks", tankList);
@@ -94,9 +95,10 @@ public class BlockBreak implements Listener {
     private void removeRepairStation(World world, Player player, Location blockLocation, List<String> stationList,
                                      List<String> newStationList, String stationOriginal, String stationNew) {
 
-        if (stationList.contains(stationOriginal) || player.hasPermission("rocket.remove")) {
+        int index = newStationList.indexOf(stationNew);
+        if (index >= 0 && (stationList.contains(stationOriginal) || player.hasPermission("rocket.remove"))) {
 
-            stationList.remove(newStationList.indexOf(stationNew));
+            stationList.remove(index);
 
             world.getBlockAt(blockLocation).setType(Material.AIR);
             RocketInit.getPlugin().getConfig().set("stations", stationList);

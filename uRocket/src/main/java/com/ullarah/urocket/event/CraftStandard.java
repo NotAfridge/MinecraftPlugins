@@ -79,7 +79,7 @@ public class CraftStandard implements Listener {
                         break;
 
                     case GOLD_INGOT:
-                        bootMaterial = Material.GOLD_BOOTS;
+                        bootMaterial = Material.GOLDEN_BOOTS;
                         hasMaterial = true;
                         break;
 

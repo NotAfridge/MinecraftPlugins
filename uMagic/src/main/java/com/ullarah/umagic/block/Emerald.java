@@ -1,16 +1,19 @@
 package com.ullarah.umagic.block;
 
-import com.ullarah.umagic.MagicFunctions;
+import com.ullarah.umagic.InteractMeta;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 
-public class Emerald extends MagicFunctions {
+import java.util.Arrays;
+import java.util.List;
 
-    public Emerald(Block block, Player player) {
+public class Emerald extends BaseBlock {
 
-        super(false);
+    public void process(InteractMeta meta) {
+        Block block = meta.getBlock();
+        Player player = meta.getPlayer();
 
         if (player.hasPermission("umagic.danger")) {
 
@@ -25,4 +28,7 @@ public class Emerald extends MagicFunctions {
 
     }
 
+    public List<Material> getPermittedBlocks() {
+        return Arrays.asList(Material.EMERALD_BLOCK);
+    }
 }

@@ -1,5 +1,9 @@
 package com.ullarah.urocket.event;
 
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.flags.Flags;
+import com.sk89q.worldguard.protection.regions.RegionQuery;
 import com.ullarah.urocket.RocketFunctions;
 import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.AreaCheck;
@@ -31,160 +35,162 @@ public class BlockPlace implements Listener {
         CommonString commonString = new CommonString();
         AreaCheck areaCheck = new AreaCheck();
 
-        if (event.getItemInHand().hasItemMeta()) {
+        if (!event.getItemInHand().hasItemMeta())
+            return;
 
-            if (event.getItemInHand().getItemMeta().hasDisplayName()) {
+        if (!event.getItemInHand().getItemMeta().hasDisplayName())
+            return;
 
-                String rocketItemName = event.getItemInHand().getItemMeta().getDisplayName();
+        String rocketItemName = event.getItemInHand().getItemMeta().getDisplayName();
 
-                Player player = event.getPlayer();
-                Block block = event.getBlock();
+        Player player = event.getPlayer();
+        Block block = event.getBlock();
 
-                if (player.getWorld().getName().equals("world")) {
+        if (player.getWorld().getName().equals("world")) {
 
-                    World world = player.getWorld();
-                    Location blockLocation = block.getLocation();
+            World world = player.getWorld();
+            Location blockLocation = block.getLocation();
 
-                    int bX = blockLocation.getBlockX();
-                    int bY = blockLocation.getBlockY();
-                    int bZ = blockLocation.getBlockZ();
+            int bX = blockLocation.getBlockX();
+            int bY = blockLocation.getBlockY();
+            int bZ = blockLocation.getBlockZ();
 
-                    switch (block.getType()) {
+            switch (block.getType()) {
 
-                        case BEACON:
-                            if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Repair Station")) {
+                case BEACON:
+                    if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Repair Station")) {
 
-                                if (block.getRelative(BlockFace.DOWN).getType() == Material.FURNACE) {
+                        if (block.getRelative(BlockFace.DOWN).getType() == Material.FURNACE) {
 
-                                    List<String> tankList = RocketInit.getPlugin().getConfig().getStringList("tanks");
-                                    String tank = player.getUniqueId().toString() + "|" + world.getName() + "|" + bX + "|" + (bY - 1) + "|" + bZ;
+                            List<String> tankList = RocketInit.getPlugin().getConfig().getStringList("tanks");
+                            String tank = player.getUniqueId().toString() + "|" + world.getName() + "|" + bX + "|" + (bY - 1) + "|" + bZ;
 
-                                    if (!tankList.contains(tank)) {
+                            if (!tankList.contains(tank)) {
 
-                                        event.setCancelled(true);
-                                        commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_STATION_PLACE_ERROR);
+                                event.setCancelled(true);
+                                commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_STATION_PLACE_ERROR);
 
-                                    } else {
+                            } else {
 
-                                        List<String> stationList = RocketInit.getPlugin().getConfig().getStringList("stations");
-                                        stationList.add(player.getUniqueId().toString() + "|" + world.getName() + "|" + bX + "|" + bY + "|" + bZ);
+                                List<String> stationList = RocketInit.getPlugin().getConfig().getStringList("stations");
+                                stationList.add(player.getUniqueId().toString() + "|" + world.getName() + "|" + bX + "|" + bY + "|" + bZ);
 
-                                        RocketInit.getPlugin().getConfig().set("stations", stationList);
-                                        RocketInit.getPlugin().saveConfig();
-
-                                        commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_STATION_PLACE_SUCCESS);
-
-                                    }
-
-                                } else {
-
-                                    event.setCancelled(true);
-                                    commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_STATION_PLACE_ERROR);
-
-                                }
-
-                            }
-                            break;
-
-                        case FURNACE:
-                            if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Repair Tank")) {
-
-                                List<String> tankList = RocketInit.getPlugin().getConfig().getStringList("tanks");
-                                tankList.add(player.getUniqueId().toString() + "|" + world.getName() + "|" + bX + "|" + bY + "|" + bZ);
-
-                                RocketInit.getPlugin().getConfig().set("tanks", tankList);
+                                RocketInit.getPlugin().getConfig().set("stations", stationList);
                                 RocketInit.getPlugin().saveConfig();
 
-                            }
-                            break;
-
-                        case ENDER_PORTAL_FRAME:
-                            if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Fly Zone Controller")) {
-
-                                Boolean isFlyZone = false;
-
-                                for (Map.Entry<UUID, ConcurrentHashMap<Location, Location>> rocketZone : RocketInit.rocketZoneLocations.entrySet()) {
-
-                                    for (Map.Entry<Location, Location> rocketLocation : rocketZone.getValue().entrySet()) {
-
-                                        Location location = player.getLocation();
-
-                                        Location zoneStart = rocketLocation.getKey();
-                                        Location zoneEnd = rocketLocation.getValue();
-
-                                        if (areaCheck.cuboid(location, zoneStart, zoneEnd)) isFlyZone = true;
-
-                                    }
-
-                                }
-
-                                if (!isFlyZone) {
-
-                                    if (RocketInit.getWorldGuard() != null) {
-                                        if (RocketInit.getWorldGuard().canBuild(player, blockLocation))
-                                            rocketFunctions.zoneCrystalCreation(player, blockLocation);
-                                    } else rocketFunctions.zoneCrystalCreation(player, blockLocation);
-
-                                } else {
-
-                                    event.setCancelled(true);
-                                    commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_FZ_EXIST);
-
-                                }
+                                commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_STATION_PLACE_SUCCESS);
 
                             }
-                            break;
 
-                        case NOTE_BLOCK:
-                            if (rocketItemName.equals("Rocket Boot Variant")) {
-                                event.setCancelled(true);
-                                commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.PlacementDeny("Variants"));
-                            }
-                            break;
+                        } else {
 
-                        case TNT:
-                            if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Booster")) {
-                                event.setCancelled(true);
-                                commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.PlacementDeny("Boosters"));
-                            }
-                            break;
+                            event.setCancelled(true);
+                            commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_STATION_PLACE_ERROR);
+
+                        }
 
                     }
+                    break;
 
-                } else {
+                case FURNACE:
+                    if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Repair Tank")) {
 
-                    event.setCancelled(true);
+                        List<String> tankList = RocketInit.getPlugin().getConfig().getStringList("tanks");
+                        tankList.add(player.getUniqueId().toString() + "|" + world.getName() + "|" + bX + "|" + bY + "|" + bZ);
 
-                    switch (block.getType()) {
-
-                        case BEACON:
-                            if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Repair Station"))
-                                commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.WorldPlacementDeny("Repair Stations"));
-                            break;
-
-                        case FURNACE:
-                            if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Repair Tank"))
-                                commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.WorldPlacementDeny("Repair Tanks"));
-                            break;
-
-                        case ENDER_PORTAL_FRAME:
-                            if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Fly Zone Controller"))
-                                commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.WorldPlacementDeny("Fly Zone Controllers"));
-                            break;
-
-                        case NOTE_BLOCK:
-                            if (rocketItemName.equals(ChatColor.AQUA + "Rocket Boot Variant"))
-                                commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.PlacementDeny("Variants"));
-                            break;
-
-                        case TNT:
-                            if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Booster"))
-                                commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.PlacementDeny("Boosters"));
-                            break;
+                        RocketInit.getPlugin().getConfig().set("tanks", tankList);
+                        RocketInit.getPlugin().saveConfig();
 
                     }
+                    break;
 
-                }
+                case END_PORTAL_FRAME:
+                    if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Fly Zone Controller")) {
+
+                        Boolean isFlyZone = false;
+
+                        for (Map.Entry<UUID, ConcurrentHashMap<Location, Location>> rocketZone : RocketInit.rocketZoneLocations.entrySet()) {
+
+                            for (Map.Entry<Location, Location> rocketLocation : rocketZone.getValue().entrySet()) {
+
+                                Location location = player.getLocation();
+
+                                Location zoneStart = rocketLocation.getKey();
+                                Location zoneEnd = rocketLocation.getValue();
+
+                                if (areaCheck.cuboid(location, zoneStart, zoneEnd)) isFlyZone = true;
+
+                            }
+
+                        }
+
+                        if (!isFlyZone) {
+
+                            if (RocketInit.getWorldGuard() != null) {
+                                RegionQuery query = WorldGuard.getInstance().getPlatform().getRegionContainer().createQuery();
+                                boolean canBuild = query.testBuild(BukkitAdapter.adapt(blockLocation), RocketInit.getWorldGuard().wrapPlayer(player), Flags.BUILD);
+                                if (canBuild)
+                                    rocketFunctions.zoneCrystalCreation(player, blockLocation);
+                            } else {
+                                rocketFunctions.zoneCrystalCreation(player, blockLocation);
+                            }
+
+                        } else {
+
+                            event.setCancelled(true);
+                            commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_FZ_EXIST);
+
+                        }
+
+                    }
+                    break;
+
+                case NOTE_BLOCK:
+                    if (rocketItemName.equals("Rocket Boot Variant")) {
+                        event.setCancelled(true);
+                        commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.PlacementDeny("Variants"));
+                    }
+                    break;
+
+                case TNT:
+                    if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Booster")) {
+                        event.setCancelled(true);
+                        commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.PlacementDeny("Boosters"));
+                    }
+                    break;
+
+            }
+
+        } else {
+
+            event.setCancelled(true);
+
+            switch (block.getType()) {
+
+                case BEACON:
+                    if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Repair Station"))
+                        commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.WorldPlacementDeny("Repair Stations"));
+                    break;
+
+                case FURNACE:
+                    if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Repair Tank"))
+                        commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.WorldPlacementDeny("Repair Tanks"));
+                    break;
+
+                case END_PORTAL_FRAME:
+                    if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Fly Zone Controller"))
+                        commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.WorldPlacementDeny("Fly Zone Controllers"));
+                    break;
+
+                case NOTE_BLOCK:
+                    if (rocketItemName.equals(ChatColor.AQUA + "Rocket Boot Variant"))
+                        commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.PlacementDeny("Variants"));
+                    break;
+
+                case TNT:
+                    if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Booster"))
+                        commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.PlacementDeny("Boosters"));
+                    break;
 
             }
 

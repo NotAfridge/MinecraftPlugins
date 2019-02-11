@@ -25,8 +25,6 @@ public class InboxClick implements Listener {
 
         if (event.getClickedInventory().getName().matches(ChatColor.DARK_RED + "Inbox: " + ChatColor.DARK_AQUA + "(.*)")) {
 
-            if (event.getClickedInventory() == null) return;
-
             String inboxOwner = ChatColor.stripColor(event.getClickedInventory().getTitle().replace("Inbox: ", ""));
             UUID inboxUUID = new PlayerProfile().lookup(inboxOwner).getId();
 
@@ -63,11 +61,13 @@ public class InboxClick implements Listener {
 
                     if (item.getItemMeta().hasDisplayName()) {
 
+                        // Slot Taken is shown to other people viewing the inbox.
                         if (item.getItemMeta().getDisplayName().equals(
-                                ChatColor.WHITE + "Slot Taken")
-                                && item.getType() == Material.STAINED_GLASS_PANE) {
+                                ChatColor.GRAY + "Slot Taken")
+                                && item.getType() == Material.BLACK_STAINED_GLASS_PANE) {
                             event.getCursor().setType(Material.AIR);
                             event.setCancelled(true);
+                            return;
                         }
 
                     }
@@ -81,9 +81,12 @@ public class InboxClick implements Listener {
 
                             String loreMatch = "" + ChatColor.GRAY + ChatColor.ITALIC + "From: .*";
 
-                            if (item.getItemMeta().getLore().get(0).matches(loreMatch)) {
+                            int lastIndex = lore.size() - 1;
+                            if (lore.get(lastIndex).matches(loreMatch)) {
 
-                                if (lore.size() <= 1) meta.setLore(null);
+                                if (lore.size() <= 1) {
+                                    meta.setLore(null);
+                                }
                                 else {
 
                                     item.getItemMeta().getLore().stream().filter(line -> line.matches(loreMatch))

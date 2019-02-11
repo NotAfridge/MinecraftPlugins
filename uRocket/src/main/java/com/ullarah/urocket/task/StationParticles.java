@@ -1,11 +1,9 @@
 package com.ullarah.urocket.task;
 
 import com.ullarah.urocket.RocketInit;
-import net.minecraft.server.v1_12_R1.EnumParticle;
-import net.minecraft.server.v1_12_R1.PacketPlayOutWorldParticles;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -30,12 +28,7 @@ public class StationParticles {
                             float y = (float) (repairStation.getValue().getBlockY() + 0.5);
                             float z = (float) (repairStation.getValue().getBlockZ() + 0.5);
 
-                            PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
-                                    EnumParticle.PORTAL, false, x, y, z, 0, 0, 0, 1, 1, null);
-
-                            for (Player serverPlayer : player.getWorld().getPlayers())
-                                ((CraftPlayer) serverPlayer).getHandle().playerConnection.sendPacket(packet);
-
+                            player.getWorld().spawnParticle(Particle.PORTAL, x, y, z, 1, 0, 0, 0, 1);
                         }
 
                 }), 0, 0);

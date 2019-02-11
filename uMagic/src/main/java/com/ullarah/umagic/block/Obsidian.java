@@ -1,17 +1,23 @@
 package com.ullarah.umagic.block;
 
-import com.ullarah.umagic.MagicFunctions;
+import com.ullarah.umagic.InteractMeta;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
-public class Obsidian extends MagicFunctions {
+import java.util.Arrays;
+import java.util.List;
 
-    public Obsidian(Block block) {
+public class Obsidian extends BaseBlock {
 
-        super(false);
+    public void process(InteractMeta meta) {
+        Block block = meta.getBlock();
 
         block.setType(Material.STRUCTURE_BLOCK, true);
 
+    }
+
+    public List<Material> getPermittedBlocks() {
+        return Arrays.asList(Material.OBSIDIAN);
     }
 
 }

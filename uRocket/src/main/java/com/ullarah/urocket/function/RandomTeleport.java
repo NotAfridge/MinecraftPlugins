@@ -1,5 +1,6 @@
 package com.ullarah.urocket.function;
 
+import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -22,8 +23,9 @@ public class RandomTeleport {
 
         while (t < 2) {
 
-            int x = new Random().nextInt(radius);
-            int z = new Random().nextInt(radius);
+            Location loc = player.getLocation();
+            int x = new Random().nextInt(radius) + loc.getBlockX();
+            int z = new Random().nextInt(radius) + loc.getBlockZ();
 
             player.teleport(world.getHighestBlockAt(x, z).getLocation());
             player.setVelocity(new Vector(0, 1.25, 0));

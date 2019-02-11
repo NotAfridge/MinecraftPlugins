@@ -1,27 +1,27 @@
 package com.ullarah.umagic.block;
 
-import com.ullarah.umagic.MagicFunctions;
-import org.bukkit.ChatColor;
+import com.ullarah.umagic.InteractMeta;
+import com.ullarah.umagic.blockdata.RotatableData;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.metadata.FixedMetadataValue;
 
-public class Sign extends MagicFunctions {
+import java.util.Arrays;
+import java.util.List;
 
-    public Sign(Block block) {
+public class Sign extends BaseBlock {
 
-        super(false);
+    public void process(InteractMeta meta) {
+        Block block = meta.getBlock();
 
-        org.bukkit.block.Sign sign = (org.bukkit.block.Sign) block.getState();
-
-        String[] lines = sign.getLines();
-        byte data = block.getData();
-
-        block.setData(data < 15 ? (byte) (data + 1) : (byte) 0);
-        for (int n = 0; n < 3; n++) sign.setLine(n, ChatColor.translateAlternateColorCodes('&', lines[n]));
+        new RotatableData().process(block);
 
         block.setMetadata(metaSign, new FixedMetadataValue(getPlugin(), true));
         saveMetadata(block.getLocation(), metaSign);
+    }
 
+    public List<Material> getPermittedBlocks() {
+        return Arrays.asList(Material.SIGN);
     }
 
 }

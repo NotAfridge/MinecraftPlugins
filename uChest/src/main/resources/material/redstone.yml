@@ -1,54 +1,53 @@
 # m - Material name (id)
-# v - Variation of block (byte)
 # s - Include in shuffle chest? (schest)
 # d - Include when donation is randomised? (dchest)
 # r - Include in random chest? (rchest)
 # e - Return value of money given (vault/economy)
 # x - Return value of experience given (xp)
 
-DISPENSER: { m: DISPENSER, v: 0, s: true, d: true,r: true, e: 0.5,  x: 0.6  }
-DROPPER:   { m: DROPPER,   v: 0, s: true, d: true,r: true, e: 0.4,  x: 0.5  }
-HOPPER:    { m: HOPPER,    v: 0, s: true, d: true,r: true, e: 14.1, x: 14.8 }
+DISPENSER: { m: DISPENSER, s: true, d: true, r: true, e: 0.5,  x: 0.6  }
+DROPPER:   { m: DROPPER,   s: true, d: true, r: true, e: 0.4,  x: 0.5  }
+HOPPER:    { m: HOPPER,    s: true, d: true, r: true, e: 14.1, x: 14.8 }
 
-PISTON:  { m: PISTON_BASE,        v: 0, s: true, d: true,r: true, e: 1.45, x: 1.6 }
-SPISTON: { m: PISTON_STICKY_BASE, v: 0, s: true, d: true,r: true, e: 2.1,  x: 2.8 }
+PISTON:  { m: PISTON,        s: true, d: true, r: true, e: 1.45, x: 1.6 }
+SPISTON: { m: STICKY_PISTON, s: true, d: true, r: true, e: 2.1,  x: 2.8 }
 
-DAYSENSE:  { m: DAYLIGHT_DETECTOR, v: 0, s: true, d: true,r: true, e: 9.7, x: 10.0 }
-NOTEBLOCK: { m: NOTE_BLOCK,        v: 0, s: true, d: true,r: true, e: 1.1, x: 1.2 }
-TNT:       { m: TNT,               v: 0, s: true, d: true,r: true, e: 4.2, x: 4.5 }
-TCHEST:    { m: TRAPPED_CHEST,     v: 0, s: true, d: true,r: true, e: 0.5, x: 0.6 }
-TRIPWIRE:  { m: TRIPWIRE_HOOK,     v: 0, s: true, d: true,r: true, e: 0.8, x: 0.9 }
-LEVER:     { m: LEVER,             v: 0, s: true, d: true,r: true, e: 0.4, x: 0.5 }
+DAYSENSE:  { m: DAYLIGHT_DETECTOR, s: true, d: true, r: true, e: 9.7, x: 10.0 }
+NOTEBLOCK: { m: NOTE_BLOCK,        s: true, d: true, r: true, e: 1.1, x: 1.2 }
+TNT:       { m: TNT,               s: true, d: true, r: true, e: 4.2, x: 4.5 }
+TCHEST:    { m: TRAPPED_CHEST,     s: true, d: true, r: true, e: 0.5, x: 0.6 }
+TRIPWIRE:  { m: TRIPWIRE_HOOK,     s: true, d: true, r: true, e: 0.8, x: 0.9 }
+LEVER:     { m: LEVER,             s: true, d: true, r: true, e: 0.4, x: 0.5 }
 
-RED_DUST:    { m: REDSTONE,            v: 0, s: true, d: true,r: true, e: 0.3, x: 0.4 }
-RED_BLOCK:   { m: REDSTONE_BLOCK,      v: 0, s: true, d: true,r: true, e: 2.7, x: 3.6 }
-RED_TORCH:   { m: REDSTONE_TORCH_ON,   v: 0, s: true, d: true,r: true, e: 0.4, x: 0.5 }
-RED_LAMP:    { m: REDSTONE_LAMP_OFF,   v: 0, s: true, d: true,r: true, e: 2.3, x: 2.5 }
-RED_REPEAT:  { m: DIODE,               v: 0, s: true, d: true,r: true, e: 1.4, x: 1.5 }
-RED_COMPARE: { m: REDSTONE_COMPARATOR, v: 0, s: true, d: true,r: true, e: 0.8, x: 1.9 }
+RED_DUST:    { m: REDSTONE,       s: true, d: true, r: true, e: 0.3, x: 0.4 }
+RED_BLOCK:   { m: REDSTONE_BLOCK, s: true, d: true, r: true, e: 2.7, x: 3.6 }
+RED_TORCH:   { m: REDSTONE_TORCH, s: true, d: true, r: true, e: 0.4, x: 0.5 }
+RED_LAMP:    { m: REDSTONE_LAMP,  s: true, d: true, r: true, e: 2.3, x: 2.5 }
+RED_REPEAT:  { m: REPEATER,       s: true, d: true, r: true, e: 1.4, x: 1.5 }
+RED_COMPARE: { m: COMPARATOR,     s: true, d: true, r: true, e: 0.8, x: 1.9 }
 
-TRAPDOOR_W: { m: TRAP_DOOR,     v: 0, s: true, d: true,r: true, e: 0.5,  x: 0.7 }
-TRAPDOOR_I: { m: IRON_TRAPDOOR, v: 0, s: true, d: true,r: true, e: 3.75, x: 4.0 }
+TRAPDOOR_W: { m: OAK_TRAPDOOR,  s: true, d: true, r: true, e: 0.5,  x: 0.7 }
+TRAPDOOR_I: { m: IRON_TRAPDOOR, s: true, d: true, r: true, e: 3.75, x: 4.0 }
 
-BUTTON_S: { m: STONE_BUTTON, v: 0, s: true, d: true,r: true, e: 0.01, x: 0.02 }
-BUTTON_W: { m: WOOD_BUTTON,  v: 0, s: true, d: true,r: true, e: 0.01, x: 0.02 }
+BUTTON_S: { m: STONE_BUTTON, s: true, d: true, r: true, e: 0.01, x: 0.02 }
+BUTTON_W: { m: OAK_BUTTON,   s: true, d: true, r: true, e: 0.01, x: 0.02 }
 
-PLATE_S: { m: STONE_PLATE, v: 0, s: true, d: true,r: true, e: 0.1, x: 0.2 }
-PLATE_W: { m: WOOD_PLATE,  v: 0, s: true, d: true,r: true, e: 0.2, x: 0.3 }
-PLATE_G: { m: GOLD_PLATE,  v: 0, s: true, d: true,r: true, e: 9.1, x: 9.2 }
-PLATE_I: { m: IRON_PLATE,  v: 0, s: true, d: true,r: true, e: 6.1, x: 6.2 }
+PLATE_S: { m: STONE_PRESSURE_PLATE,           s: true, d: true, r: true, e: 0.1, x: 0.2 }
+PLATE_W: { m: OAK_PRESSURE_PLATE,             s: true, d: true, r: true, e: 0.2, x: 0.3 }
+PLATE_G: { m: LIGHT_WEIGHTED_PRESSURE_PLATE,  s: true, d: true, r: true, e: 9.1, x: 9.2 }
+PLATE_I: { m: HEAVY_WEIGHTED_PRESSURE_PLATE,  s: true, d: true, r: true, e: 6.1, x: 6.2 }
 
-GATE_O: { m: FENCE_GATE,          v: 0, s: true, d: true,r: true, e: 1.3, x: 1.4 }
-GATE_S: { m: SPRUCE_FENCE_GATE,   v: 0, s: true, d: true,r: true, e: 1.3, x: 1.4 }
-GATE_B: { m: BIRCH_FENCE_GATE,    v: 0, s: true, d: true,r: true, e: 1.3, x: 1.4 }
-GATE_J: { m: JUNGLE_FENCE_GATE,   v: 0, s: true, d: true,r: true, e: 1.3, x: 1.4 }
-GATE_D: { m: DARK_OAK_FENCE_GATE, v: 0, s: true, d: true,r: true, e: 1.3, x: 1.4 }
-GATE_A: { m: ACACIA_FENCE_GATE,   v: 0, s: true, d: true,r: true, e: 1.3, x: 1.4 }
+GATE_O: { m: OAK_FENCE_GATE,      s: true, d: true, r: true, e: 1.3, x: 1.4 }
+GATE_S: { m: SPRUCE_FENCE_GATE,   s: true, d: true, r: true, e: 1.3, x: 1.4 }
+GATE_B: { m: BIRCH_FENCE_GATE,    s: true, d: true, r: true, e: 1.3, x: 1.4 }
+GATE_J: { m: JUNGLE_FENCE_GATE,   s: true, d: true, r: true, e: 1.3, x: 1.4 }
+GATE_D: { m: DARK_OAK_FENCE_GATE, s: true, d: true, r: true, e: 1.3, x: 1.4 }
+GATE_A: { m: ACACIA_FENCE_GATE,   s: true, d: true, r: true, e: 1.3, x: 1.4 }
 
-DOOR_O: { m: WOOD_DOOR,          v: 0, s: true, d: true,r: true, e: 0.6, x: 0.7 }
-DOOR_S: { m: SPRUCE_DOOR_ITEM,   v: 0, s: true, d: true,r: true, e: 0.6, x: 0.7 }
-DOOR_B: { m: BIRCH_DOOR_ITEM,    v: 0, s: true, d: true,r: true, e: 0.6, x: 0.7 }
-DOOR_J: { m: JUNGLE_DOOR_ITEM,   v: 0, s: true, d: true,r: true, e: 0.6, x: 0.7 }
-DOOR_D: { m: DARK_OAK_DOOR_ITEM, v: 0, s: true, d: true,r: true, e: 0.6, x: 0.7 }
-DOOR_A: { m: ACACIA_DOOR_ITEM,   v: 0, s: true, d: true,r: true, e: 0.6, x: 0.7 }
-DOOR_I: { m: IRON_DOOR,          v: 0, s: true, d: true,r: true, e: 0.6, x: 0.7 }
+DOOR_O: { m: OAK_DOOR,      s: true, d: true, r: true, e: 0.6, x: 0.7 }
+DOOR_S: { m: SPRUCE_DOOR,   s: true, d: true, r: true, e: 0.6, x: 0.7 }
+DOOR_B: { m: BIRCH_DOOR,    s: true, d: true, r: true, e: 0.6, x: 0.7 }
+DOOR_J: { m: JUNGLE_DOOR,   s: true, d: true, r: true, e: 0.6, x: 0.7 }
+DOOR_D: { m: DARK_OAK_DOOR, s: true, d: true, r: true, e: 0.6, x: 0.7 }
+DOOR_A: { m: ACACIA_DOOR,   s: true, d: true, r: true, e: 0.6, x: 0.7 }
+DOOR_I: { m: IRON_DOOR,     s: true, d: true, r: true, e: 0.6, x: 0.7 }
