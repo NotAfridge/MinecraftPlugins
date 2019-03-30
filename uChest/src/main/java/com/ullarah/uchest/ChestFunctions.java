@@ -426,7 +426,7 @@ public class ChestFunctions {
     }
 
     public enum validCommands {
-        HELP, TOGGLE, RANDOM, RESET, VIEW, UPGRADE
+        HELP, TOGGLE, VALIDATE, RANDOM, RESET, VIEW, UPGRADE
     }
 
     public enum ValidChest {
