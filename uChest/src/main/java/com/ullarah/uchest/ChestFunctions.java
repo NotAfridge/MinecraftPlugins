@@ -256,13 +256,18 @@ public class ChestFunctions {
     private ItemStack getRandomItem() {
 
         List<ItemStack> materialKeys = new ArrayList<>(ChestInit.materialMap.keySet());
+        ItemStack item;
+        int count = 0;
 
-        ItemStack item = materialKeys.get(new Random().nextInt(materialKeys.size()));
+        do {
+            // Only check 10 items before giving up
+            if (++count > 10)
+                return new ItemStack(Material.AIR);
 
-        if (ChestInit.materialMap.get(item).isRandomEnabled()) return item;
-        else getRandomItem();
+            item = materialKeys.get(new Random().nextInt(materialKeys.size()));
+        } while (!ChestInit.materialMap.get(item).isRandomEnabled());
 
-        return new ItemStack(Material.AIR);
+        return item;
 
     }
 
