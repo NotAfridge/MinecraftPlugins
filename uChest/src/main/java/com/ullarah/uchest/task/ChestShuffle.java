@@ -26,7 +26,7 @@ public class ChestShuffle {
 
                     ItemStack itemStack = materialKeys.get(new Random().nextInt(materialKeys.size()));
 
-                    if ((boolean) ChestInit.materialMap.get(itemStack)[0])
+                    if (ChestInit.materialMap.get(itemStack).isShuffleEnabled())
                         ChestInit.getChestShuffleInventory().setItem(i, itemStack);
 
                 }

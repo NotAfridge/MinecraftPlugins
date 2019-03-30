@@ -1,6 +1,7 @@
 package com.ullarah.uchest;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.ullarah.uchest.data.MaterialData;
 import com.ullarah.uchest.function.PluginRegisters;
 import com.ullarah.uchest.init.ChestLanguage;
 import net.milkbowl.vault.economy.Economy;
@@ -33,7 +34,7 @@ public class ChestInit extends JavaPlugin {
     public static final HashMap<String, Boolean> chestTypeEnabled = new HashMap<>();
     public static final ConcurrentHashMap<String, ConcurrentHashMap<UUID, Integer>> chestLockoutMap = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, BukkitTask> chestRandomTask = new ConcurrentHashMap<>();
-    public static final HashMap<ItemStack, Object[]> materialMap = new HashMap<>();
+    public static final HashMap<ItemStack, MaterialData> materialMap = new HashMap<>();
     private static final ConcurrentHashMap<String, Integer> registerMap = new ConcurrentHashMap<>();
     public static Boolean chestSwapBusy;
     public static ItemStack[] chestSwapItemStack;
@@ -226,65 +227,7 @@ public class ChestInit extends JavaPlugin {
                     "materials.yml", "miscellaneous.yml", "redstone.yml", "tools.yml", "transportation.yml", "custom.yml"};
 
             for (String f : materialFiles) {
-
-                if (!new File(materialDir, f).exists())
-                    getPlugin().saveResource("material" + File.separator + f, false);
-
-                File materialConfigFile = new File(materialDir + File.separator + f);
-
-                if (materialConfigFile.exists()) {
-
-                    FileConfiguration materialConfig = YamlConfiguration.loadConfiguration(materialConfigFile);
-
-                    for (String m : new ArrayList<>(materialConfig.getKeys(false))) {
-
-                        Material materialCurrent = Material.getMaterial(materialConfig.getString(m + ".m"));
-
-                        Set<Material> itemEffected = new HashSet<Material>() {{
-                            add(Material.POTION);
-                            add(Material.SPLASH_POTION);
-                            add(Material.LINGERING_POTION);
-                            add(Material.TIPPED_ARROW);
-                        }};
-
-                        Object[] materialObject = {
-                                materialConfig.getBoolean(m + ".s"),
-                                materialConfig.getBoolean(m + ".d"),
-                                materialConfig.getBoolean(m + ".r"),
-                                materialConfig.getDouble(m + ".e"),
-                                materialConfig.getDouble(m + ".x")
-                        };
-
-                        try {
-
-                            if (itemEffected.contains(materialCurrent)) {
-
-                                for (PotionType potion : PotionType.values()) {
-
-                                    ItemStack newItemStack = new ItemStack(materialCurrent, 1);
-
-                                    PotionMeta itemPotionMeta = (PotionMeta) newItemStack.getItemMeta();
-                                    itemPotionMeta.setBasePotionData(new PotionData(potion));
-                                    newItemStack.setItemMeta(itemPotionMeta);
-
-                                    addMaterial(newItemStack, materialObject, m, f);
-
-                                }
-
-                            } else
-                                addMaterial(new ItemStack(materialCurrent, 1), materialObject, m, f);
-
-                        } catch (Exception e) {
-
-                            ChestInit.getPlugin().getLogger().log(Level.WARNING, "[" + plugin.getName() + "] "
-                                    + "Material Load Error: " + m + " (" + f + ")");
-
-                        }
-
-                    }
-
-                }
-
+                initMaterialFile(materialDir, f);
             }
 
             ChestInit.getPlugin().getLogger().log(Level.INFO, "[" + plugin.getName() + "] "
@@ -294,13 +237,69 @@ public class ChestInit extends JavaPlugin {
 
     }
 
-    private void addMaterial(ItemStack materialItem, Object[] materialObject, String materialType, String materialFile) {
+    private void initMaterialFile(File materialDir, String f) {
+        if (!new File(materialDir, f).exists())
+            getPlugin().saveResource("material" + File.separator + f, false);
+
+        File materialConfigFile = new File(materialDir + File.separator + f);
+
+        if (!materialConfigFile.exists()) {
+            return;
+        }
+
+        FileConfiguration materialConfig = YamlConfiguration.loadConfiguration(materialConfigFile);
+
+        for (String m : new ArrayList<>(materialConfig.getKeys(false))) {
+
+            try {
+
+                Material material = Material.getMaterial(materialConfig.getString(m + ".m"));
+
+                Set<Material> itemEffected = new HashSet<Material>() {{
+                    add(Material.POTION);
+                    add(Material.SPLASH_POTION);
+                    add(Material.LINGERING_POTION);
+                    add(Material.TIPPED_ARROW);
+                }};
+
+                MaterialData data = new MaterialData(materialConfig, m);
+
+
+                if (itemEffected.contains(material)) {
+
+                    for (PotionType potion : PotionType.values()) {
+
+                        ItemStack newItemStack = new ItemStack(material, 1);
+
+                        PotionMeta itemPotionMeta = (PotionMeta) newItemStack.getItemMeta();
+                        itemPotionMeta.setBasePotionData(new PotionData(potion));
+                        newItemStack.setItemMeta(itemPotionMeta);
+
+                        addMaterial(newItemStack, data, material, f);
+
+                    }
+
+                } else {
+                    addMaterial(new ItemStack(material, 1), data, material, f);
+                }
+
+            } catch (Exception e) {
+
+                ChestInit.getPlugin().getLogger().log(Level.WARNING, "[" + plugin.getName() + "] "
+                        + "Material Load Error: " + m + " (" + f + ")");
+
+            }
+
+        }
+    }
+
+    private void addMaterial(ItemStack materialItem, MaterialData data, Material materialType, String materialFile) {
 
         if (materialMap.containsKey(materialItem)) {
             ChestInit.getPlugin().getLogger().log(Level.WARNING, "[" + plugin.getName() + "] "
                     + "Material Duplicate: " + materialType + " (" + materialFile + ")");
         } else {
-            materialMap.put(materialItem, materialObject);
+            materialMap.put(materialItem, data);
             materialCount++;
         }
 
