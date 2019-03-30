@@ -47,6 +47,7 @@ public class StandBreak implements Listener {
 
                 standList.remove(newStandList.indexOf(standNew));
                 standEntity.setHealth(0.0);
+                event.setCancelled(true);
 
                 RocketInit.getPlugin().getConfig().set("stands", standList);
                 RocketInit.getPlugin().saveConfig();

@@ -35,7 +35,7 @@ public class PlayerInteract implements Listener {
         Action action = event.getAction();
         ItemStack inHand = player.getInventory().getItemInMainHand();
 
-        if (action.equals(Action.RIGHT_CLICK_AIR)) if (inHand.getType().equals(Material.CARROT_ON_A_STICK)) {
+        if (action.equals(Action.RIGHT_CLICK_AIR) && inHand.getType().equals(Material.CARROT_ON_A_STICK)) {
 
             if (player.getVehicle() instanceof Pig) {
 
@@ -54,7 +54,7 @@ public class PlayerInteract implements Listener {
                     pig.setVelocity(new Vector(pigVelocity.getX() * 3, 0.5, pigVelocity.getZ() * 3));
 
             }
-
+            return;
         }
 
         if (inHand.hasItemMeta()) {
@@ -97,14 +97,16 @@ public class PlayerInteract implements Listener {
                                     if (new EntityLocation().getNearbyEntities(new Location(world, eX, eY + 1, eZ), 1).length != 0) {
 
                                         commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_ENTITY);
+                                        event.setCancelled(true);
 
                                     } else {
 
-                                        if (standList.contains(stand))
+                                        if (standList.contains(stand)) {
 
                                             commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_EXIST);
+                                            event.setCancelled(true);
 
-                                        else {
+                                        } else {
 
                                             standList.add(stand);
 
@@ -122,8 +124,8 @@ public class PlayerInteract implements Listener {
                             } else {
 
                                 player.updateInventory();
-                                event.setCancelled(true);
                                 commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_PLACE_ERROR);
+                                event.setCancelled(true);
 
                             }
 
