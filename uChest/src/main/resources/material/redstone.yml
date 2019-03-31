@@ -8,6 +8,7 @@
 DISPENSER: { m: DISPENSER, s: true, d: true, r: true, e: 0.5,  x: 0.6  }
 DROPPER:   { m: DROPPER,   s: true, d: true, r: true, e: 0.4,  x: 0.5  }
 HOPPER:    { m: HOPPER,    s: true, d: true, r: true, e: 14.1, x: 14.8 }
+OBSERVER:  { m: OBSERVER,  s: true, d: true, r: true, e: 0.4,  x: 0.5  }
 
 PISTON:  { m: PISTON,        s: true, d: true, r: true, e: 1.45, x: 1.6 }
 SPISTON: { m: STICKY_PISTON, s: true, d: true, r: true, e: 2.1,  x: 2.8 }
@@ -26,14 +27,30 @@ RED_LAMP:    { m: REDSTONE_LAMP,  s: true, d: true, r: true, e: 2.3, x: 2.5 }
 RED_REPEAT:  { m: REPEATER,       s: true, d: true, r: true, e: 1.4, x: 1.5 }
 RED_COMPARE: { m: COMPARATOR,     s: true, d: true, r: true, e: 0.8, x: 1.9 }
 
-TRAPDOOR_W: { m: OAK_TRAPDOOR,  s: true, d: true, r: true, e: 0.5,  x: 0.7 }
-TRAPDOOR_I: { m: IRON_TRAPDOOR, s: true, d: true, r: true, e: 3.75, x: 4.0 }
+TRAPDOOR_OAK:    { m: OAK_TRAPDOOR,      s: true, d: true, r: true, e: 0.5,  x: 0.7 }
+TRAPDOOR_SPRUCE: { m: SPRUCE_TRAPDOOR,   s: true, d: true, r: true, e: 0.5,  x: 0.7 }
+TRAPDOOR_BIRCH:  { m: BIRCH_TRAPDOOR,    s: true, d: true, r: true, e: 0.5,  x: 0.7 }
+TRAPDOOR_JUNGLE: { m: JUNGLE_TRAPDOOR,   s: true, d: true, r: true, e: 0.5,  x: 0.7 }
+TRAPDOOR_ACACIA: { m: ACACIA_TRAPDOOR,   s: true, d: true, r: true, e: 0.5,  x: 0.7 }
+TRAPDOOR_DOAK:   { m: DARK_OAK_TRAPDOOR, s: true, d: true, r: true, e: 0.5,  x: 0.7 }
+TRAPDOOR_IRON:   { m: IRON_TRAPDOOR,     s: true, d: true, r: true, e: 3.75, x: 4.0 }
 
-BUTTON_S: { m: STONE_BUTTON, s: true, d: true, r: true, e: 0.01, x: 0.02 }
-BUTTON_W: { m: OAK_BUTTON,   s: true, d: true, r: true, e: 0.01, x: 0.02 }
+BUTTON_OAK:    { m: OAK_BUTTON,      s: true, d: true, r: true, e: 0.01, x: 0.02 }
+BUTTON_SPRUCE: { m: SPRUCE_BUTTON,   s: true, d: true, r: true, e: 0.01, x: 0.02 }
+BUTTON_BIRCH:  { m: BIRCH_BUTTON,    s: true, d: true, r: true, e: 0.01, x: 0.02 }
+BUTTON_JUNGLE: { m: JUNGLE_BUTTON,   s: true, d: true, r: true, e: 0.01, x: 0.02 }
+BUTTON_ACACIA: { m: ACACIA_BUTTON,   s: true, d: true, r: true, e: 0.01, x: 0.02 }
+BUTTON_DOAK:   { m: DARK_OAK_BUTTON, s: true, d: true, r: true, e: 0.01, x: 0.02 }
+BUTTON_STONE:  { m: STONE_BUTTON,    s: true, d: true, r: true, e: 0.01, x: 0.02 }
+
+PLATE_OAK:    { m: OAK_PRESSURE_PLATE,      s: true, d: true, r: true, e: 0.2, x: 0.3 }
+PLATE_SPRUCE: { m: SPRUCE_PRESSURE_PLATE,   s: true, d: true, r: true, e: 0.2, x: 0.3 }
+PLATE_BIRCH:  { m: BIRCH_PRESSURE_PLATE,    s: true, d: true, r: true, e: 0.2, x: 0.3 }
+PLATE_JUNGLE: { m: JUNGLE_PRESSURE_PLATE,   s: true, d: true, r: true, e: 0.2, x: 0.3 }
+PLATE_ACACIA: { m: ACACIA_PRESSURE_PLATE,   s: true, d: true, r: true, e: 0.2, x: 0.3 }
+PLATE_DOAK:   { m: DARK_OAK_PRESSURE_PLATE, s: true, d: true, r: true, e: 0.2, x: 0.3 }
 
 PLATE_S: { m: STONE_PRESSURE_PLATE,           s: true, d: true, r: true, e: 0.1, x: 0.2 }
-PLATE_W: { m: OAK_PRESSURE_PLATE,             s: true, d: true, r: true, e: 0.2, x: 0.3 }
 PLATE_G: { m: LIGHT_WEIGHTED_PRESSURE_PLATE,  s: true, d: true, r: true, e: 9.1, x: 9.2 }
 PLATE_I: { m: HEAVY_WEIGHTED_PRESSURE_PLATE,  s: true, d: true, r: true, e: 6.1, x: 6.2 }
 

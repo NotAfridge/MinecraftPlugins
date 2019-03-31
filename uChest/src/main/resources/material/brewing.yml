@@ -9,6 +9,7 @@ GHAST_TEAR:    { m: GHAST_TEAR,           s: true, d: true, r: true, e: 3.1,  x:
 FERM_SPID_EYE: { m: FERMENTED_SPIDER_EYE, s: true, d: true, r: true, e: 1.3,  x: 1.5  }
 BLAZE_POWDER:  { m: BLAZE_POWDER,         s: true, d: true, r: true, e: 0.01, x: 0.01 }
 MAGMA_CREAM:   { m: MAGMA_CREAM,          s: true, d: true, r: true, e: 0.4,  x: 0.5  }
+PHAN_MEM:      { m: PHANTOM_MEMBRANE,     s: true, d: true, r: true, e: 0.8,  x: 0.9  }
 
 BREW_STAND: { m: BREWING_STAND, s: true, d: true, r: true, e: 1.8,  x: 2.0  }
 CAULDRON:   { m: CAULDRON,      s: true, d: true, r: true, e: 12.6, x: 13.0 }

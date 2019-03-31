@@ -45,5 +45,7 @@ CK_CHICKEN: { m: COOKED_CHICKEN,  s: true, d: true, r: true, e: 0.6, x: 0.8 }
 CK_RABBIT:  { m: COOKED_RABBIT,   s: true, d: true, r: true, e: 0.6, x: 0.8 }
 CK_MUTTON:  { m: COOKED_MUTTON,   s: true, d: true, r: true, e: 0.7, x: 0.9 }
 
+DKELP: { m: DRIED_KELP, s: true, d: true, r: true, e: 0.2, x: 0.3 }
+
 ROTFLESH: { m: ROTTEN_FLESH, s: true, d: true, r: true, e: 0.1, x: 0.2 }
 SPIDEYE:  { m: SPIDER_EYE,   s: true, d: true, r: true, e: 0.2, x: 0.3 }

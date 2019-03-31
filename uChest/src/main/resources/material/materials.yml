@@ -10,11 +10,12 @@ CHARCOAL:  { m: CHARCOAL,  s: true, d: true, r: true, e: 0.2, x: 0.3 }
 FLINT:     { m: FLINT,     s: true, d: true, r: true, e: 0.1, x: 0.2 }
 GUNPOWDER: { m: GUNPOWDER, s: true, d: true, r: true, e: 0.8, x: 0.9 }
 
-INGOT_I: { m: IRON_INGOT,  s: true, d: true, r: true, e: 2.9, x: 3.0 }
-INGOT_G: { m: GOLD_INGOT,  s: true, d: true, r: true, e: 3.5, x: 3.6 }
-DIAMOND: { m: DIAMOND,     s: true, d: true, r: true, e: 4.9, x: 5.1 }
-EMERALD: { m: EMERALD,     s: true, d: true, r: true, e: 5.8, x: 6.0 }
-GOLDNUG: { m: GOLD_NUGGET, s: true, d: true, r: true, e: 0.3, x: 0.5 }
+INGOT_I: { m: IRON_INGOT,  s: true, d: true, r: true, e: 2.9, x: 3.0  }
+INGOT_G: { m: GOLD_INGOT,  s: true, d: true, r: true, e: 3.5, x: 3.6  }
+DIAMOND: { m: DIAMOND,     s: true, d: true, r: true, e: 4.9, x: 5.1  }
+EMERALD: { m: EMERALD,     s: true, d: true, r: true, e: 5.8, x: 6.0  }
+GOLDNUG: { m: GOLD_NUGGET, s: true, d: true, r: true, e: 0.3, x: 0.35 }
+IRONNUG: { m: IRON_NUGGET, s: true, d: true, r: true, e: 0.2, x: 0.25 }
 
 SEED_G: { m: WHEAT_SEEDS,    s: true, d: true, r: true, e: 0.04, x: 0.05 }
 SEED_P: { m: PUMPKIN_SEEDS,  s: true, d: true, r: true, e: 0.09, x: 0.1  }
@@ -52,6 +53,7 @@ WHEAT:     { m: WHEAT,      s: true, d: true, r: true, e: 0.3, x: 0.5 }
 EGG:       { m: EGG,        s: true, d: true, r: true, e: 0.4, x: 0.5 }
 SUGAR:     { m: SUGAR,      s: true, d: true, r: true, e: 0.3, x: 0.4 }
 SUGARCANE: { m: SUGAR_CANE, s: true, d: true, r: true, e: 0.2, x: 0.3 }
+KELP:      { m: KELP,       s: true, d: true, r: true, e: 0.2, x: 0.3 }
 
 BLAZEROD: { m: BLAZE_ROD,      s: true, d: true, r: true, e: 0.05, x: 0.07 }
 GS_DUST:  { m: GLOWSTONE_DUST, s: true, d: true, r: true, e: 0.09, x: 0.1  }
