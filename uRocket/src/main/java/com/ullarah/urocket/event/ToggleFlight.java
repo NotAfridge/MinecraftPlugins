@@ -56,6 +56,12 @@ public class ToggleFlight implements Listener {
 
             RocketVariant.Variant bootVariant = RocketInit.rocketVariant.get(player.getUniqueId());
 
+            if (bootVariant == null) {
+                commonString.messageSend(RocketInit.getPlugin(), player, true, ChatColor.RED + "Rocket Boots malfunction! Try putting them back on again.");
+                event.setCancelled(true);
+                return;
+            }
+
             Material fuelSingle = bootVariant.getFuelSingle();
             Material fuelBlock = bootVariant.getFuelBlock();
 
