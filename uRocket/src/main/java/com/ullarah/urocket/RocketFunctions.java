@@ -410,7 +410,7 @@ public class RocketFunctions {
 
     public boolean isValidFuelJacket(ItemStack jacket) {
 
-        if (jacket.hasItemMeta()) {
+        if (jacket != null && jacket.hasItemMeta()) {
             ItemMeta jacketMeta = jacket.getItemMeta();
             if (jacketMeta.hasDisplayName())
                 if (jacketMeta.getDisplayName().equals(ChatColor.RED + "Rocket Boot Fuel Jacket")) return true;
@@ -483,7 +483,8 @@ public class RocketFunctions {
 
     public int getBootPowerLevel(ItemStack boots) {
 
-        return romanNumeralToInteger.decode(boots.getItemMeta().getLore().get(0).replaceFirst(RocketLanguage.RB_LEVEL, ""));
+        String text = boots.getItemMeta().getLore().get(0);
+        return romanNumeralToInteger.decode(text.replaceFirst(RocketLanguage.RB_LEVEL, ""));
 
     }
 
