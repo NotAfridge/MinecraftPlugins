@@ -467,7 +467,7 @@ public class RocketFunctions {
 
     public boolean isValidRocketBoots(ItemStack boots) {
 
-        if (boots.hasItemMeta()) {
+        if (boots != null && boots.hasItemMeta()) {
             ItemMeta bootMeta = boots.getItemMeta();
 
             if (bootMeta.hasDisplayName())
