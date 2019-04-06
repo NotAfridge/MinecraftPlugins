@@ -1,6 +1,7 @@
 package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketInit;
+import com.ullarah.urocket.data.SprintLockout;
 import com.ullarah.urocket.function.AreaCheck;
 import com.ullarah.urocket.function.CommonString;
 import com.ullarah.urocket.function.TitleSubtitle;
@@ -46,7 +47,7 @@ public class ZoneCheck implements Listener {
 
                                     if (!RocketInit.rocketSprint.containsKey(player.getUniqueId())) {
 
-                                        RocketInit.rocketSprint.put(player.getUniqueId(), "AIR");
+                                        RocketInit.rocketSprint.put(player.getUniqueId(), SprintLockout.AIR);
                                         RocketInit.rocketZones.add(player.getUniqueId());
 
                                         player.setFlySpeed(0.05f);

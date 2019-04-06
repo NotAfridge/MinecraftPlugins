@@ -1,6 +1,7 @@
 package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketInit;
+import com.ullarah.urocket.data.SprintLockout;
 import com.ullarah.urocket.function.*;
 import com.ullarah.urocket.init.RocketLanguage;
 import com.ullarah.urocket.init.RocketVariant;
@@ -38,13 +39,13 @@ public class PlayerMove implements Listener {
 
             if (RocketInit.rocketSprint.containsKey(player.getUniqueId())) {
 
-                if (RocketInit.rocketSprint.get(player.getUniqueId()).equals("AIR")) {
+                if (RocketInit.rocketSprint.get(player.getUniqueId()) == SprintLockout.AIR) {
 
                     Material blockUnder = location.getBlock().getRelative(BlockFace.DOWN).getType();
                     player.setFlySpeed(0.01f);
                     if (blockUnder != Material.AIR) RocketInit.rocketSprint.remove(player.getUniqueId());
 
-                } else if (RocketInit.rocketSprint.get(player.getUniqueId()).equals("LAND")) {
+                } else if (RocketInit.rocketSprint.get(player.getUniqueId()) == SprintLockout.LAND) {
 
                     player.setWalkSpeed(0);
                     player.setSprinting(false);
@@ -156,7 +157,7 @@ public class PlayerMove implements Listener {
                                     if (!areaCheck.above(location, Material.AIR)) {
                                         world.strikeLightning(location);
                                         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1.5f, 0.75f);
-                                        RocketInit.rocketSprint.put(player.getUniqueId(), "AIR");
+                                        RocketInit.rocketSprint.put(player.getUniqueId(), SprintLockout.AIR);
                                         commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_STRIKE);
                                     }
                                 }

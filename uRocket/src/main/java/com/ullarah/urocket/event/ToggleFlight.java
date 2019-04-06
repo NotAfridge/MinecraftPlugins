@@ -2,6 +2,7 @@ package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketFunctions;
 import com.ullarah.urocket.RocketInit;
+import com.ullarah.urocket.data.SprintLockout;
 import com.ullarah.urocket.function.*;
 import com.ullarah.urocket.init.RocketEnhancement;
 import com.ullarah.urocket.init.RocketLanguage;
@@ -161,7 +162,7 @@ public class ToggleFlight implements Listener {
             int ran = new Random().nextInt(11);
             if (ran == 5 || ran == 0) {
 
-                RocketInit.rocketSprint.put(player.getUniqueId(), "AIR");
+                RocketInit.rocketSprint.put(player.getUniqueId(), SprintLockout.AIR);
                 player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 0.5f, 0.7f);
 
             } else {

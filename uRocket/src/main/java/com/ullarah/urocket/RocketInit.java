@@ -1,6 +1,7 @@
 package com.ullarah.urocket;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.ullarah.urocket.data.SprintLockout;
 import com.ullarah.urocket.function.PluginRegisters;
 import com.ullarah.urocket.init.RocketEnhancement;
 import com.ullarah.urocket.init.RocketVariant;
@@ -33,7 +34,7 @@ public class RocketInit extends JavaPlugin {
     public static final HashSet<HashSet<Location>> rocketFire = new HashSet<>();
     public static final ConcurrentHashMap<Location, Material> rocketGlow = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, EntityType> rocketEntity = new ConcurrentHashMap<>();
-    public static final ConcurrentHashMap<UUID, String> rocketSprint = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<UUID, SprintLockout> rocketSprint = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Integer> rocketPower = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, RocketVariant.Variant> rocketVariant = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, RocketEnhancement.Enhancement> rocketEnhancement = new ConcurrentHashMap<>();
