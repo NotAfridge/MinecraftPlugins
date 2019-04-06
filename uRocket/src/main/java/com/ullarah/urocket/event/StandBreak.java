@@ -37,17 +37,21 @@ public class StandBreak implements Listener {
 
             if (standList.contains(standOriginal) || (event.getDamager().hasPermission("rocket.remove") && newStandList.contains(standNew))) {
 
-                if (standEntity.getEquipment().getBoots().getAmount() == 1) {
-                    ItemStack standBoots = standEntity.getEquipment().getBoots();
-                    if (standBoots.getType() != Material.AIR)
-                        standEntity.getWorld().dropItemNaturally(entityLocation, standBoots);
+                event.setCancelled(true);
+
+                // Drop all items on the armor stand
+                for (ItemStack stack : standEntity.getEquipment().getArmorContents()) {
+                    if (stack != null && stack.getType() != Material.AIR) {
+                        standEntity.getWorld().dropItemNaturally(entityLocation, stack);
+                    }
                 }
 
+                // Drop the enchanted stand
                 standEntity.getWorld().dropItemNaturally(entityLocation, new RepairStand().stand());
 
+                // Remove from the list and explicitly remove the entity, not kill it.
                 standList.remove(newStandList.indexOf(standNew));
-                standEntity.setHealth(0.0);
-                event.setCancelled(true);
+                standEntity.remove();
 
                 RocketInit.getPlugin().getConfig().set("stands", standList);
                 RocketInit.getPlugin().saveConfig();
