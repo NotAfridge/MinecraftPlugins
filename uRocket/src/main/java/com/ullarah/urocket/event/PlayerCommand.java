@@ -1,6 +1,7 @@
 package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketInit;
+import com.ullarah.urocket.data.RocketPlayer;
 import com.ullarah.urocket.function.CommonString;
 import com.ullarah.urocket.init.RocketLanguage;
 import org.bukkit.entity.Player;
@@ -18,23 +19,19 @@ public class PlayerCommand implements Listener {
         CommonString commonString = new CommonString();
 
         Player player = event.getPlayer();
-        UUID playerUUID = player.getUniqueId();
+        RocketPlayer rp = RocketInit.getPlayer(player);
 
-        if (RocketInit.rocketEffects.contains(playerUUID)) {
+        if (rp.isEffected()) {
+            // Player is effected, guaranteed to be wearing boots
+            switch (rp.getBootData().getVariant()) {
 
-            if (RocketInit.rocketVariant.containsKey(playerUUID)) {
+                case STEALTH:
+                    commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_HIDDEN);
+                    event.setCancelled(true);
+                    break;
 
-                switch (RocketInit.rocketVariant.get(playerUUID)) {
-
-                    case STEALTH:
-                        commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_HIDDEN);
-                        event.setCancelled(true);
-                        break;
-
-                    default:
-                        break;
-
-                }
+                default:
+                    break;
 
             }
 

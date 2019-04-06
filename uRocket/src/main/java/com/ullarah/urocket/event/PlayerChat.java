@@ -1,6 +1,7 @@
 package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketInit;
+import com.ullarah.urocket.data.RocketPlayer;
 import com.ullarah.urocket.function.CommonString;
 import com.ullarah.urocket.init.RocketLanguage;
 import org.apache.commons.io.output.StringBuilderWriter;
@@ -22,11 +23,12 @@ public class PlayerChat implements Listener {
         CommonString commonString = new CommonString();
 
         Player player = event.getPlayer();
+        RocketPlayer rp = RocketInit.getPlayer(player);
         String message = event.getMessage();
 
-        if (player.isFlying() && RocketInit.rocketUsage.contains(player.getUniqueId())) {
+        if (player.isFlying() && rp.isUsingBoots()) {
 
-            switch (RocketInit.rocketVariant.get(player.getUniqueId())) {
+            switch (rp.getBootData().getVariant()) {
 
                 case ZERO:
                     event.setMessage(ChatColor.MAGIC + message);

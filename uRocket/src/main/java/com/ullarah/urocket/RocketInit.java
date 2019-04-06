@@ -1,7 +1,7 @@
 package com.ullarah.urocket;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.ullarah.urocket.data.SprintLockout;
+import com.ullarah.urocket.data.RocketPlayer;
 import com.ullarah.urocket.function.PluginRegisters;
 import com.ullarah.urocket.init.RocketEnhancement;
 import com.ullarah.urocket.init.RocketVariant;
@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -25,24 +26,19 @@ public class RocketInit extends JavaPlugin {
 
     public static final String pluginName = "uRocket";
 
-    public static final HashSet<UUID> rocketUsage = new HashSet<>();
-    public static final HashSet<UUID> rocketWater = new HashSet<>();
-    public static final HashSet<UUID> rocketZones = new HashSet<>();
-    public static final HashSet<UUID> rocketJacket = new HashSet<>();
-    public static final HashSet<UUID> rocketEffects = new HashSet<>();
-    public static final HashSet<UUID> rocketTimeout = new HashSet<>();
+    /** Temporary set for blocks turned into fire in the nether */
     public static final HashSet<HashSet<Location>> rocketFire = new HashSet<>();
+    /** Temporary map for blocks turned to glowstone */
     public static final ConcurrentHashMap<Location, Material> rocketGlow = new ConcurrentHashMap<>();
+    /** Map of pigs with rocket saddles */
     public static final ConcurrentHashMap<UUID, EntityType> rocketEntity = new ConcurrentHashMap<>();
-    public static final ConcurrentHashMap<UUID, SprintLockout> rocketSprint = new ConcurrentHashMap<>();
-    public static final ConcurrentHashMap<UUID, Integer> rocketPower = new ConcurrentHashMap<>();
-    public static final ConcurrentHashMap<UUID, RocketVariant.Variant> rocketVariant = new ConcurrentHashMap<>();
-    public static final ConcurrentHashMap<UUID, RocketEnhancement.Enhancement> rocketEnhancement = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Location> rocketRepair = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Location> rocketRepairStand = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, ConcurrentHashMap<Location, Location>> rocketZoneLocations = new ConcurrentHashMap<>();
 
     public static final HashMap<String, Integer> registerMap = new HashMap<>();
+
+    private static final HashMap<Player, RocketPlayer> playerMap = new HashMap<>();
 
     private static Plugin plugin;
     private static PluginManager pluginManager;
@@ -79,6 +75,17 @@ public class RocketInit extends JavaPlugin {
 
     private void setVaultEconomy(Economy vaultEconomy) {
         RocketInit.vaultEconomy = vaultEconomy;
+    }
+
+    public static RocketPlayer getPlayer(Player player)  {
+        if (!playerMap.containsKey(player)) {
+            playerMap.put(player, new RocketPlayer(player));
+        }
+        return playerMap.get(player);
+    }
+
+    public static Set<Player> getPlayers() {
+        return playerMap.keySet();
     }
 
     public void onEnable() {
@@ -181,8 +188,8 @@ public class RocketInit extends JavaPlugin {
 
     public void onDisable() {
 
-        for (UUID uuid : rocketUsage)
-            new RocketFunctions().disableRocketBoots(Bukkit.getPlayer(uuid), false, false, false, false, false);
+        for (Player player : getPlayers())
+            new RocketFunctions().disableRocketBoots(player, false);
 
     }
 

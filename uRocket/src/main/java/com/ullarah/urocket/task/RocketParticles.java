@@ -1,6 +1,7 @@
 package com.ullarah.urocket.task;
 
 import com.ullarah.urocket.RocketInit;
+import com.ullarah.urocket.data.RocketPlayer;
 import com.ullarah.urocket.function.GamemodeCheck;
 import com.ullarah.urocket.init.RocketVariant;
 import org.bukkit.*;
@@ -20,12 +21,12 @@ public class RocketParticles {
 
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
                 () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
-                            if (!RocketInit.rocketUsage.isEmpty() && !RocketInit.rocketVariant.isEmpty())
-                                for (UUID uuid : RocketInit.rocketUsage) {
-                                    processPlayer(Bukkit.getPlayer(uuid));
-                                }
-                        }
-                ), 0, 0);
+
+                    for (Player player : RocketInit.getPlayers()) {
+                        processPlayer(player);
+                    }
+
+                }), 0, 0);
     }
 
     private void processPlayer(Player player) {
@@ -36,16 +37,17 @@ public class RocketParticles {
         if (player.isSneaking())
             return;
 
-        if (!player.isFlying() && RocketInit.rocketVariant.get(player.getUniqueId()) != RocketVariant.Variant.RUNNER)
+        RocketPlayer rp = RocketInit.getPlayer(player);
+        if (!rp.isUsingBoots() || rp.getBootData() == null)
             return;
 
-        if (!RocketInit.rocketVariant.containsKey(player.getUniqueId()))
+        RocketVariant.Variant variant = rp.getBootData().getVariant();
+
+        if (!player.isFlying() && variant != RocketVariant.Variant.RUNNER)
             return;
 
-        RocketVariant.Variant bootVariant = RocketInit.rocketVariant.get(player.getUniqueId());
         boolean showParticle = true;
-
-        Particle particle = bootVariant.getParticleType();
+        Particle particle = variant.getParticleType();
 
         float x = (float) player.getLocation().getX();
         float y = (float) (player.getLocation().getY() - 1);
@@ -55,15 +57,15 @@ public class RocketParticles {
         float oY = (float) -0.5;
         float oZ = (float) 0.125;
 
-        int amount = bootVariant.getParticleSpeed();
-        double speed = bootVariant.getParticleSpeed();
+        int amount = variant.getParticleSpeed();
+        double speed = variant.getParticleSpeed();
 
         Particle.DustOptions data = null;
         if (particle == Particle.REDSTONE) {
             data = new Particle.DustOptions(Color.RED, 1);
         }
 
-        switch (bootVariant) {
+        switch (variant) {
 
             case DRUNK:
                 y += 0.85;

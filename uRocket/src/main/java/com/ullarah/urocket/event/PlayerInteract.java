@@ -2,6 +2,7 @@ package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketFunctions;
 import com.ullarah.urocket.RocketInit;
+import com.ullarah.urocket.data.RocketPlayer;
 import com.ullarah.urocket.function.CommonString;
 import com.ullarah.urocket.function.EntityLocation;
 import com.ullarah.urocket.init.RocketLanguage;
@@ -32,6 +33,7 @@ public class PlayerInteract implements Listener {
         CommonString commonString = new CommonString();
 
         Player player = event.getPlayer();
+        RocketPlayer rp = RocketInit.getPlayer(player);
         Action action = event.getAction();
         ItemStack inHand = player.getInventory().getItemInMainHand();
 
@@ -146,7 +148,7 @@ public class PlayerInteract implements Listener {
                     String rocketLore = rocketMeta.getLore().get(0);
 
                     if (rocketLore.matches(ChatColor.YELLOW + "Rocket Level I{0,3}V?X?"))
-                        if (!RocketInit.rocketUsage.contains(player.getUniqueId())) {
+                        if (!rp.isUsingBoots()) {
                             if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK))
                                 rocketFunctions.attachRocketBoots(player, inHand);
                             else event.setCancelled(true);
@@ -157,7 +159,7 @@ public class PlayerInteract implements Listener {
                 if (rocketItem.equals(ChatColor.RED + "Rocket Boot Fuel Jacket")) {
 
                     if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK))
-                        RocketInit.rocketJacket.add(player.getUniqueId());
+                        rp.setWearingJacket(true);
                     else event.setCancelled(true);
 
                 }

@@ -2,6 +2,7 @@ package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketFunctions;
 import com.ullarah.urocket.RocketInit;
+import com.ullarah.urocket.data.RocketPlayer;
 import com.ullarah.urocket.function.CommonString;
 import com.ullarah.urocket.init.RocketLanguage;
 import org.bukkit.ChatColor;
@@ -42,6 +43,7 @@ public class InventoryClick implements Listener {
         CommonString commonString = new CommonString();
 
         Player player = (Player) event.getWhoClicked();
+        RocketPlayer rp = RocketInit.getPlayer(player);
         UUID playerUUID = player.getUniqueId();
         ItemStack itemCursor = event.getCursor();
         ItemStack itemCurrent = event.getCurrentItem();
@@ -64,15 +66,15 @@ public class InventoryClick implements Listener {
                         if (rocketFunctions.isValidFuelJacket(itemCurrent))
                             commonString.messageSend(RocketInit.getPlugin(), player, true, "Fuel Jacket Swapped");
                         else {
-                            RocketInit.rocketJacket.add(playerUUID);
+                            rp.setWearingJacket(true);
                             commonString.messageSend(RocketInit.getPlugin(), player, true, "Fuel Jacket Attached");
                         }
                         return;
                     }
-                    RocketInit.rocketJacket.add(playerUUID);
+                    rp.setWearingJacket(true);
                     commonString.messageSend(RocketInit.getPlugin(), player, true, "Fuel Jacket Attached");
                 } else {
-                    RocketInit.rocketJacket.remove(playerUUID);
+                    rp.setWearingJacket(false);
                     if (player.isFlying()) player.setFlying(false);
                 }
                 break;
@@ -81,14 +83,14 @@ public class InventoryClick implements Listener {
                 if (rocketFunctions.isValidRocketBoots(itemCursor)) {
                     if (event.getAction().equals(InventoryAction.SWAP_WITH_CURSOR)) {
                         if (rocketFunctions.isValidRocketBoots(itemCurrent))
-                            rocketFunctions.disableRocketBoots(player, false, false, true, false, false);
+                            rocketFunctions.disableRocketBoots(player, false);
                         else {
-                            rocketFunctions.disableRocketBoots(player, false, false, false, false, false);
+                            rocketFunctions.disableRocketBoots(player, false);
                             return;
                         }
                     }
                     rocketFunctions.interactRocketBoots(event, itemCursor);
-                } else rocketFunctions.disableRocketBoots(player, false, false, false, false, false);
+                } else rocketFunctions.disableRocketBoots(player, false);
                 break;
 
         }
@@ -96,7 +98,7 @@ public class InventoryClick implements Listener {
         if (event.isShiftClick()) {
 
             if (rocketFunctions.isValidFuelJacket(itemCurrent)) if (event.getRawSlot() != 6) {
-                RocketInit.rocketJacket.add(player.getUniqueId());
+                rp.setWearingJacket(true);
                 commonString.messageSend(RocketInit.getPlugin(), player, true, "Fuel Jacket Attached");
             }
 

@@ -1,7 +1,8 @@
 package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketInit;
-import com.ullarah.urocket.data.SprintLockout;
+import com.ullarah.urocket.data.FlyLockout;
+import com.ullarah.urocket.data.RocketPlayer;
 import com.ullarah.urocket.function.AreaCheck;
 import com.ullarah.urocket.function.CommonString;
 import com.ullarah.urocket.function.TitleSubtitle;
@@ -30,25 +31,32 @@ public class ZoneCheck implements Listener {
             for (Map.Entry<Location, Location> rocketLocation : rocketZone.getValue().entrySet()) {
 
                 Player player = event.getPlayer();
+                RocketPlayer rp = RocketInit.getPlayer(player);
+                FlyLockout locks = rp.getLockouts();
+
                 Location location = player.getLocation();
 
                 Location zoneStart = rocketLocation.getKey();
                 Location zoneEnd = rocketLocation.getValue();
 
-                if (areaCheck.cuboid(location, zoneStart, zoneEnd)) {
-
-                    if (!RocketInit.rocketZones.contains(player.getUniqueId())) {
-
+                // If they're not in a no-fly zone
+                if (!areaCheck.cuboid(location, zoneStart, zoneEnd)) {
+                    locks.setInNoFlyZone(false);
+                }
+                else {
+                    // If they're not already flagged
+                    if (!locks.isInNoFlyZone()) {
+                        // If they're not the zone owner
                         if (!rocketZone.getKey().equals(player.getUniqueId())) {
-
-                            if (RocketInit.rocketPower.containsKey(player.getUniqueId())) {
+                            // Only players using rocket boots
+                            if (rp.getBootData() != null) {
 
                                 if (player.isFlying()) {
 
-                                    if (!RocketInit.rocketSprint.containsKey(player.getUniqueId())) {
+                                    if (locks.getSprintLock() == FlyLockout.Sprint.NONE) {
 
-                                        RocketInit.rocketSprint.put(player.getUniqueId(), SprintLockout.AIR);
-                                        RocketInit.rocketZones.add(player.getUniqueId());
+                                        locks.setSprintLock(FlyLockout.Sprint.AIR);
+                                        locks.setInNoFlyZone(true);
 
                                         player.setFlySpeed(0.05f);
 
@@ -70,7 +78,7 @@ public class ZoneCheck implements Listener {
 
                     }
 
-                } else RocketInit.rocketZones.remove(player.getUniqueId());
+                }
 
             }
 

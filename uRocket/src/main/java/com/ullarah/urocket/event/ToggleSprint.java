@@ -2,7 +2,8 @@ package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketFunctions;
 import com.ullarah.urocket.RocketInit;
-import com.ullarah.urocket.data.SprintLockout;
+import com.ullarah.urocket.data.FlyLockout;
+import com.ullarah.urocket.data.RocketPlayer;
 import com.ullarah.urocket.function.CommonString;
 import com.ullarah.urocket.init.RocketLanguage;
 import com.ullarah.urocket.init.RocketVariant;
@@ -14,8 +15,6 @@ import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import java.util.UUID;
 
 public class ToggleSprint implements Listener {
 
@@ -31,14 +30,14 @@ public class ToggleSprint implements Listener {
         CommonString commonString = new CommonString();
 
         final Player player = event.getPlayer();
-        final UUID playerUUID = player.getUniqueId();
+        final RocketPlayer rp = RocketInit.getPlayer(player);
 
-        if (RocketInit.rocketPower.containsKey(playerUUID)) {
+        if (rp.getBootData() != null) {
 
             // If not already in the lock-out
-            if (!RocketInit.rocketSprint.containsKey(playerUUID)) {
+            if (rp.getLockouts().getSprintLock() == FlyLockout.Sprint.NONE) {
 
-                boolean runnerBoots = RocketInit.rocketVariant.get(playerUUID) == RocketVariant.Variant.RUNNER;
+                boolean runnerBoots = (rp.getBootData().getVariant() == RocketVariant.Variant.RUNNER);
 
                 // Sprinting in runner boots is allowed
                 if (runnerBoots) {
@@ -57,19 +56,17 @@ public class ToggleSprint implements Listener {
                 // Sprint flying in non-runner boots
                 else if (player.isFlying()) {
 
-                    RocketInit.rocketSprint.put(playerUUID, SprintLockout.AIR);
-
+                    rp.getLockouts().setSprintLock(FlyLockout.Sprint.AIR);
                     commonString.messageSend(RocketInit.getPlugin(), player, true, new String[]{
                             RocketLanguage.RB_COOLDOWN_HEAT, RocketLanguage.RB_COOLDOWN_LAND
                     });
-
                     player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 0.5f, 0.75f);
 
                 }
                 // Sprinting on the ground in non-runner boots
                 else {
 
-                    RocketInit.rocketSprint.put(playerUUID, SprintLockout.LAND);
+                    rp.getLockouts().setSprintLock(FlyLockout.Sprint.LAND);
                     commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_SPRINT);
 
                 }

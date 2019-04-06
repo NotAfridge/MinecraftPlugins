@@ -2,6 +2,7 @@ package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketFunctions;
 import com.ullarah.urocket.RocketInit;
+import com.ullarah.urocket.data.RocketPlayer;
 import com.ullarah.urocket.function.CommonString;
 import com.ullarah.urocket.function.GamemodeCheck;
 import com.ullarah.urocket.function.TitleSubtitle;
@@ -23,17 +24,18 @@ public class PlayerWorldChange implements Listener {
         TitleSubtitle titleSubtitle = new TitleSubtitle();
 
         final Player player = event.getPlayer();
+        final RocketPlayer rp = RocketInit.getPlayer(player);
 
         if (gamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
 
-            if (RocketInit.rocketPower.containsKey(player.getUniqueId())) {
+            if (rp.getBootData() != null) {
 
-                if (RocketInit.rocketUsage.contains(player.getUniqueId())) {
+                if (rp.isUsingBoots()) {
                     titleSubtitle.subtitle(player, 5, RocketLanguage.RB_WORLD_CHANGE);
                     commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_WORLD_CHANGE);
                 }
 
-                rocketFunctions.disableRocketBoots(player, false, false, false, false, false);
+                rocketFunctions.disableRocketBoots(player, false);
 
             }
 

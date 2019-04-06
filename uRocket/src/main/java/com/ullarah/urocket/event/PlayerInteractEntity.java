@@ -35,7 +35,7 @@ public class PlayerInteractEntity implements Listener {
                         pig.setSaddle(false);
                         pig.getWorld().dropItemNaturally(pig.getEyeLocation(), new ItemStack(Material.SADDLE));
 
-                        if (RocketInit.rocketEntity.containsKey(pigUUID)) RocketInit.rocketEntity.remove(pigUUID);
+                        RocketInit.rocketEntity.remove(pigUUID);
 
                     }
 
