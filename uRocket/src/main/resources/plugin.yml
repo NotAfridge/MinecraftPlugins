@@ -22,6 +22,9 @@ commands:
       <command> : Show contents of fuel jacket.
 
 permissions:
+  rocket.lenientflight:
+    description: Allow player to fly with no boots attached, if turned on by an external command
+    default: false
   rocket.staff:
     description: Grants staff extra Rocket Boot commands.
     children:

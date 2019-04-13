@@ -47,9 +47,12 @@ public class ToggleFlight implements Listener {
 
         // Check for valid rocket boots
         if (!rocketFunctions.isValidRocketBoots(rocketBoots)) {
-            //commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_ATTACH);
-            //rocketFunctions.disableRocketBoots(player, false, false, false, false, false);
-            //event.setCancelled(true);
+            // If no permission for lenient flight (flight without rboots), always enforce the wearing of boots
+            if (!player.hasPermission("rocket.lenientflight")) {
+                commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_ATTACH);
+                rocketFunctions.disableRocketBoots(player, false);
+                event.setCancelled(true);
+            }
             return;
         }
 
