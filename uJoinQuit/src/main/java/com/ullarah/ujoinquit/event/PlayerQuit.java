@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class PlayerQuit implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void playerQuit(PlayerQuitEvent event) {
 
         Player player = event.getPlayer();

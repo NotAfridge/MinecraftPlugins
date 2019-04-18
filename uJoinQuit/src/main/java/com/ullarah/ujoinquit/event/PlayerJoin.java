@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class PlayerJoin implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void event(PlayerJoinEvent event) {
 
         Player player = event.getPlayer();
