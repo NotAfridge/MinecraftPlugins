@@ -336,7 +336,8 @@ public class JoinQuitFunctions {
                 break;
 
             case GRAY:
-                pane = Material.LIGHT_GRAY_STAINED_GLASS_PANE;
+                //pane = Material.LIGHT_GRAY_STAINED_GLASS_PANE;
+                pane = Material.WHITE_STAINED_GLASS_PANE;
                 break;
 
             case DARK_GRAY:
