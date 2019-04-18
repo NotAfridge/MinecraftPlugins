@@ -10,9 +10,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -28,9 +30,10 @@ public class JoinQuitFunctions {
     void listMessages(Player player, Message type) {
 
         String typeString = type.toString().substring(0, 1) + type.toString().substring(1).toLowerCase();
-
         Inventory chestGUI = JoinQuitInit.getPlugin().getServer().createInventory(
                 null, 54, "" + ChatColor.DARK_AQUA + ChatColor.BOLD + typeString + " Message");
+
+        int selected = getMessageIndex(player, type);
 
         for (int i = 0; i < type.getList().size(); i++) {
 
@@ -43,20 +46,21 @@ public class JoinQuitFunctions {
                     ? translateChatToPane(ChatColor.getByChar(message.substring(1, 2)))
                     : new ItemStack(Material.GLASS_PANE, 1);
 
+            // Apply meta
             ItemMeta paperMeta = paperItem.getItemMeta();
-
             paperMeta.setDisplayName(messageArray);
-
             paperMeta.setLore(Collections.singletonList("" + ChatColor.YELLOW + ChatColor.ITALIC
                     + "Click to set " + typeString + " Message"));
+            if (i == selected) {
+                paperMeta.addEnchant(Enchantment.VANISHING_CURSE, 1, true);
+                paperMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            }
             paperItem.setItemMeta(paperMeta);
 
             chestGUI.addItem(paperItem);
-
         }
 
         player.openInventory(chestGUI);
-
     }
 
     public String replacePlayerString(Player player, String message) {
@@ -138,11 +142,13 @@ public class JoinQuitFunctions {
 
     }
 
+    private int getMessageIndex(Player player, Message type) {
+        String path = player.getUniqueId().toString() + "." + type.toString().toLowerCase();
+        return JoinQuitInit.getPlayerConfig().getInt(path);
+    }
+
     public String getMessage(Player player, Message type) {
-
-        return type.getList().get(JoinQuitInit.getPlayerConfig().getInt(player.getUniqueId().toString()
-                + "." + type.toString().toLowerCase()));
-
+        return type.getList().get(getMessageIndex(player, type));
     }
 
     public void setMessage(Player player, Message type, Integer index) {
