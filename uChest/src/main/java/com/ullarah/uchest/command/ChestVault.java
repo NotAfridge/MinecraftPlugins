@@ -91,7 +91,7 @@ public class ChestVault {
 
                         if (player.getLevel() >= upgradeLevel) {
 
-                            chestConfig.set("slot", chestPlayerSlot + 9);
+                            chestConfig.set("slots", chestPlayerSlot + 9);
                             player.setLevel(player.getLevel() - upgradeLevel);
 
                             try {
