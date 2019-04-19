@@ -19,16 +19,14 @@ public class PlayerJoin implements Listener {
         Player player = event.getPlayer();
         UUID playerUUID = player.getUniqueId();
 
-        if (JoinQuitInit.playerJoinMessage.containsKey(playerUUID) && !event.getJoinMessage().isEmpty()) {
-
+        if (player.hasPermission("jq.silentjoin")) {
+            event.setJoinMessage("");
+        } else if (JoinQuitInit.playerJoinMessage.containsKey(playerUUID) && !event.getJoinMessage().isEmpty()) {
+            
             JoinQuitFunctions joinQuitFunctions = new JoinQuitFunctions();
-
             String message = joinQuitFunctions.replacePlayerString(player,
                     joinQuitFunctions.getMessage(player, JoinQuitFunctions.Message.JOIN));
-
             event.setJoinMessage(ChatColor.translateAlternateColorCodes('&', JoinQuitInit.joinChar + message));
-
-            JoinQuitInit.lastPlayer = player.getPlayerListName();
 
         }
 

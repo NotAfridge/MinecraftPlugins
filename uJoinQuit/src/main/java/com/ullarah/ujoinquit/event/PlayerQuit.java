@@ -19,13 +19,14 @@ public class PlayerQuit implements Listener {
         Player player = event.getPlayer();
         UUID playerUUID = player.getUniqueId();
 
-        if (JoinQuitInit.playerQuitMessage.containsKey(playerUUID) && !event.getQuitMessage().isEmpty()) {
+        if (player.hasPermission("jq.silentquit")) {
+            event.setQuitMessage("");
+        }
+        else if (JoinQuitInit.playerQuitMessage.containsKey(playerUUID) && !event.getQuitMessage().isEmpty()) {
 
             JoinQuitFunctions joinQuitFunctions = new JoinQuitFunctions();
-
             String message = joinQuitFunctions.replacePlayerString(player,
                     joinQuitFunctions.getMessage(player, JoinQuitFunctions.Message.QUIT));
-
             event.setQuitMessage(ChatColor.translateAlternateColorCodes('&', JoinQuitInit.quitChar + message));
 
         }
