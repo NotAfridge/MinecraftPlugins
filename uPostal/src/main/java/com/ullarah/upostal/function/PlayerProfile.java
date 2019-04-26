@@ -11,7 +11,7 @@ public class PlayerProfile {
     public profile lookup(String name) {
 
         OfflinePlayer player = Bukkit.getOfflinePlayer(name);
-        return (player.hasPlayedBefore()) ? fromPlayer(player) : null;
+        return (player.isOnline() || player.hasPlayedBefore()) ? fromPlayer(player) : null;
 
     }
 
