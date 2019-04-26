@@ -97,7 +97,8 @@ public class MagicInit extends JavaPlugin {
 
     public void onDisable() {
 
-        getSqlConnection().closeSQLConnection();
+        if (getSqlConnection() != null)
+            getSqlConnection().closeSQLConnection();
 
     }
 
