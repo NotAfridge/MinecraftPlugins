@@ -144,7 +144,7 @@ public class JoinQuitFunctions {
 
     private int getMessageIndex(Player player, Message type) {
         String path = player.getUniqueId().toString() + "." + type.toString().toLowerCase();
-        return JoinQuitInit.getPlayerConfig().getInt(path);
+        return JoinQuitInit.getPlayerConfig().getInt(path, -1);
     }
 
     public String getMessage(Player player, Message type) {
