@@ -23,9 +23,6 @@ MSTONE_BRICK:  { m: MOSSY_STONE_BRICKS,    s: true, d: true, r: true, e: 0.8,  x
 CRSTONE_BRICK: { m: CRACKED_STONE_BRICKS,  s: true, d: true, r: true, e: 0.5,  x: 1.0  }
 CHSTONE_BRICK: { m: CHISELED_STONE_BRICKS, s: true, d: true, r: true, e: 0.05, x: 0.06 }
 
-CB_WALL:  { m: COBBLESTONE_WALL,       s: true, d: true, r: true, e: 0.027, x: 0.03  }
-MCB_WALL: { m: MOSSY_COBBLESTONE_WALL, s: true, d: true, r: true, e: 0.05,  x: 0.065 }
-
 GRASS:   { m: GRASS_BLOCK, s: true, d: true, r: true, e: 0.5, x: 0.75 }
 PGRASS:  { m: GRASS_PATH,  s: true, d: true, r: true, e: 0.5, x: 0.75 }
 DIRT:    { m: DIRT,        s: true, d: true, r: true, e: 0.1, x: 0.15 }
@@ -234,6 +231,24 @@ SLAB_PM: { m: PRISMARINE_SLAB,       s: true, d: true, r: true, e: 0.8,  x: 1.1 
 SLAB_PB: { m: PRISMARINE_BRICK_SLAB, s: true, d: true, r: true, e: 1.25, x: 1.55 }
 SLAB_DP: { m: DARK_PRISMARINE_SLAB,  s: true, d: true, r: true, e: 1.4,  x: 1.7  }
 
+SLAB_AND: { m: ANDESITE_SLAB,             s: true, d: true, r: true, e: 0.2, x: 0.22 }
+SLAB_CRS: { m: CUT_RED_SANDSTONE_SLAB,    s: true, d: true, r: true, e: 0.2, x: 0.22 }
+SLAB_CSS: { m: CUT_SANDSTONE_SLAB,        s: true, d: true, r: true, e: 0.2, x: 0.22 }
+SLAB_DIO: { m: DIORITE_SLAB,              s: true, d: true, r: true, e: 0.2, x: 0.22 }
+SLAB_ESB: { m: END_STONE_BRICK_SLAB,      s: true, d: true, r: true, e: 0.2, x: 0.22 }
+SLAB_GRN: { m: GRANITE_SLAB,              s: true, d: true, r: true, e: 0.2, x: 0.22 }
+SLAB_MCS: { m: MOSSY_COBBLESTONE_SLAB,    s: true, d: true, r: true, e: 0.2, x: 0.22 }
+SLAB_MSB: { m: MOSSY_STONE_BRICK_SLAB,    s: true, d: true, r: true, e: 0.2, x: 0.22 }
+SLAB_POK: { m: PETRIFIED_OAK_SLAB,        s: true, d: true, r: true, e: 0.2, x: 0.22 }
+SLAB_PAN: { m: POLISHED_ANDESITE_SLAB,    s: true, d: true, r: true, e: 0.2, x: 0.22 }
+SLAB_PDI: { m: POLISHED_DIORITE_SLAB,     s: true, d: true, r: true, e: 0.2, x: 0.22 }
+SLAB_PGR: { m: POLISHED_GRANITE_SLAB,     s: true, d: true, r: true, e: 0.2, x: 0.22 }
+SLAB_RNB: { m: RED_NETHER_BRICK_SLAB,     s: true, d: true, r: true, e: 0.2, x: 0.22 }
+SLAB_SQZ: { m: SMOOTH_QUARTZ_SLAB,        s: true, d: true, r: true, e: 0.2, x: 0.22 }
+SLAB_SRS: { m: SMOOTH_RED_SANDSTONE_SLAB, s: true, d: true, r: true, e: 0.2, x: 0.22 }
+SLAB_SSS: { m: SMOOTH_SANDSTONE_SLAB,     s: true, d: true, r: true, e: 0.2, x: 0.22 }
+SLAB_SST: { m: SMOOTH_STONE_SLAB,         s: true, d: true, r: true, e: 0.2, x: 0.22 }
+
 STAIR_OW: { m: OAK_STAIRS,      s: true, d: true, r: true, e: 0.45, x: 0.6 }
 STAIR_SW: { m: SPRUCE_STAIRS,   s: true, d: true, r: true, e: 0.45, x: 0.6 }
 STAIR_BW: { m: BIRCH_STAIRS,    s: true, d: true, r: true, e: 0.45, x: 0.6 }
@@ -253,6 +268,21 @@ STAIR_PS: { m: PURPUR_STAIRS,           s: true, d: true, r: true, e: 1.85, x: 2
 STAIR_PM: { m: PRISMARINE_STAIRS,       s: true, d: true, r: true, e: 0.9,  x: 1.2  }
 STAIR_PB: { m: PRISMARINE_BRICK_STAIRS, s: true, d: true, r: true, e: 1.35, x: 1.65 }
 STAIR_DP: { m: DARK_PRISMARINE_STAIRS,  s: true, d: true, r: true, e: 1.5,  x: 1.8  }
+
+STAIRS_AND: { m: ANDESITE_STAIRS,             s: true, d: true, r: true, e: 0.2, x: 0.22 }
+STAIRS_DIO: { m: DIORITE_STAIRS,              s: true, d: true, r: true, e: 0.2, x: 0.22 }
+STAIRS_ESB: { m: END_STONE_BRICK_STAIRS,      s: true, d: true, r: true, e: 0.2, x: 0.22 }
+STAIRS_GRN: { m: GRANITE_STAIRS,              s: true, d: true, r: true, e: 0.2, x: 0.22 }
+STAIRS_MCS: { m: MOSSY_COBBLESTONE_STAIRS,    s: true, d: true, r: true, e: 0.2, x: 0.22 }
+STAIRS_MSB: { m: MOSSY_STONE_BRICK_STAIRS,    s: true, d: true, r: true, e: 0.2, x: 0.22 }
+STAIRS_PAN: { m: POLISHED_ANDESITE_STAIRS,    s: true, d: true, r: true, e: 0.2, x: 0.22 }
+STAIRS_PDI: { m: POLISHED_DIORITE_STAIRS,     s: true, d: true, r: true, e: 0.2, x: 0.22 }
+STAIRS_PGR: { m: POLISHED_GRANITE_STAIRS,     s: true, d: true, r: true, e: 0.2, x: 0.22 }
+STAIRS_RNB: { m: RED_NETHER_BRICK_STAIRS,     s: true, d: true, r: true, e: 0.2, x: 0.22 }
+STAIRS_SQZ: { m: SMOOTH_QUARTZ_STAIRS,        s: true, d: true, r: true, e: 0.2, x: 0.22 }
+STAIRS_SRS: { m: SMOOTH_RED_SANDSTONE_STAIRS, s: true, d: true, r: true, e: 0.2, x: 0.22 }
+STAIRS_SSS: { m: SMOOTH_SANDSTONE_STAIRS,     s: true, d: true, r: true, e: 0.2, x: 0.22 }
+STAIRS_STO: { m: STONE_STAIRS,                s: true, d: true, r: true, e: 0.2, x: 0.22 }
 
 SNOW: { m: SNOW_BLOCK, s: true, d: true, r: true, e: 0.4, x: 0.6 }
 ICE:  { m: ICE,        s: true, d: true, r: true, e: 0.4, x: 0.5 }

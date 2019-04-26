@@ -36,20 +36,23 @@ LFERN:  { m: LARGE_FERN, s: true, d: true, r: true, e: 0.1,  x: 0.1  }
 DEADB:  { m: DEAD_BUSH,  s: true, d: true, r: true, e: 0.05, x: 0.05 }
 SPICK:  { m: SEA_PICKLE, s: true, d: true, r: true, e: 0.1,  x: 0.1  }
 
-DANDELN: { m: DANDELION,    s: true, d: true, r: true, e: 0.1, x: 0.1 }
-POPPY:   { m: POPPY,        s: true, d: true, r: true, e: 0.1, x: 0.1 }
-ORCHID:  { m: BLUE_ORCHID,  s: true, d: true, r: true, e: 0.1, x: 0.1 }
-ALLIUM:  { m: ALLIUM,       s: true, d: true, r: true, e: 0.1, x: 0.1 }
-AZUREBL: { m: AZURE_BLUET,  s: true, d: true, r: true, e: 0.1, x: 0.1 }
-TUL_RED: { m: RED_TULIP,    s: true, d: true, r: true, e: 0.1, x: 0.1 }
-TUL_ORA: { m: ORANGE_TULIP, s: true, d: true, r: true, e: 0.1, x: 0.1 }
-TUL_WHT: { m: WHITE_TULIP,  s: true, d: true, r: true, e: 0.1, x: 0.1 }
-TUL_PNK: { m: PINK_TULIP,   s: true, d: true, r: true, e: 0.1, x: 0.1 }
-OXEYE:   { m: OXEYE_DAISY,  s: true, d: true, r: true, e: 0.1, x: 0.1 }
-SUNFLWR: { m: SUNFLOWER,    s: true, d: true, r: true, e: 0.1, x: 0.1 }
-LILAC:   { m: LILAC,        s: true, d: true, r: true, e: 0.1, x: 0.1 }
-ROSES:   { m: ROSE_BUSH,    s: true, d: true, r: true, e: 0.1, x: 0.1 }
-PEONY:   { m: PEONY,        s: true, d: true, r: true, e: 0.1, x: 0.1 }
+DANDELN:     { m: DANDELION,          s: true, d: true, r: true, e: 0.1, x: 0.1 }
+POPPY:       { m: POPPY,              s: true, d: true, r: true, e: 0.1, x: 0.1 }
+ORCHID:      { m: BLUE_ORCHID,        s: true, d: true, r: true, e: 0.1, x: 0.1 }
+ALLIUM:      { m: ALLIUM,             s: true, d: true, r: true, e: 0.1, x: 0.1 }
+AZUREBL:     { m: AZURE_BLUET,        s: true, d: true, r: true, e: 0.1, x: 0.1 }
+TUL_RED:     { m: RED_TULIP,          s: true, d: true, r: true, e: 0.1, x: 0.1 }
+TUL_ORA:     { m: ORANGE_TULIP,       s: true, d: true, r: true, e: 0.1, x: 0.1 }
+TUL_WHT:     { m: WHITE_TULIP,        s: true, d: true, r: true, e: 0.1, x: 0.1 }
+TUL_PNK:     { m: PINK_TULIP,         s: true, d: true, r: true, e: 0.1, x: 0.1 }
+OXEYE:       { m: OXEYE_DAISY,        s: true, d: true, r: true, e: 0.1, x: 0.1 }
+SUNFLWR:     { m: SUNFLOWER,          s: true, d: true, r: true, e: 0.1, x: 0.1 }
+LILAC:       { m: LILAC,              s: true, d: true, r: true, e: 0.1, x: 0.1 }
+ROSES:       { m: ROSE_BUSH,          s: true, d: true, r: true, e: 0.1, x: 0.1 }
+PEONY:       { m: PEONY,              s: true, d: true, r: true, e: 0.1, x: 0.1 }
+CORNFLOWER:  { m: CORNFLOWER,         s: true, d: true, r: true, e: 0.1, x: 0.1 }
+LILY:        { m: LILY_OF_THE_VALLEY, s: true, d: true, r: true, e: 0.1, x: 0.1 }
+WITHER_ROSE: { m: WITHER_ROSE,        s: true, d: true, r: true, e: 0.1, x: 0.1 }
 
 B_MUSH: { m: BROWN_MUSHROOM, s: true, d: true, r: true, e: 0.4, x: 0.5 }
 R_MUSH: { m: RED_MUSHROOM,   s: true, d: true, r: true, e: 0.4, x: 0.5 }
@@ -57,16 +60,37 @@ R_MUSH: { m: RED_MUSHROOM,   s: true, d: true, r: true, e: 0.4, x: 0.5 }
 TORCH:    { m: TORCH,       s: true, d: true, r: true, e: 0.01, x: 0.02 }
 LADDER:   { m: LADDER,      s: true, d: true, r: true, e: 0.4,  x: 0.5  }
 PAINTING: { m: PAINTING,    s: true, d: true, r: true, e: 0.3,  x: 0.4  }
-SIGN:     { m: SIGN,        s: true, d: true, r: true, e: 0.4,  x: 0.5  }
 FRAME:    { m: ITEM_FRAME,  s: true, d: true, r: true, e: 0.4,  x: 0.5  }
 FLWRPOT:  { m: FLOWER_POT,  s: true, d: true, r: true, e: 0.1,  x: 0.2  }
 AMRSTAND: { m: ARMOR_STAND, s: true, d: true, r: true, e: 0.55, x: 0.6  }
+
+SIGN_OAK:    { m: OAK_SIGN,      s: true, d: true, r: true, e: 0.4,  x: 0.5 }
+SIGN_SPRUCE: { m: SPRUCE_SIGN,   s: true, d: true, r: true, e: 0.4,  x: 0.5 }
+SIGN_BIRCH:  { m: BIRCH_SIGN,    s: true, d: true, r: true, e: 0.4,  x: 0.5 }
+SIGN_JUNGLE: { m: JUNGLE_SIGN,   s: true, d: true, r: true, e: 0.4,  x: 0.5 }
+SIGN_ACACIA: { m: ACACIA_SIGN,   s: true, d: true, r: true, e: 0.4,  x: 0.5 }
+SIGN_DARKO:  { m: DARK_OAK_SIGN, s: true, d: true, r: true, e: 0.4,  x: 0.5 }
 
 CHEST:   { m: CHEST,          s: true, d: true, r: true, e: 0.5, x: 0.6 }
 ECHEST:  { m: ENDER_CHEST,    s: true, d: true, r: true, e: 7.0, x: 7.2 }
 CRAFT:   { m: CRAFTING_TABLE, s: true, d: true, r: true, e: 0.4, x: 0.5 }
 FURNACE: { m: FURNACE,        s: true, d: true, r: true, e: 0.5, x: 0.6 }
 JUKEBOX: { m: JUKEBOX,        s: true, d: true, r: true, e: 0.4, x: 0.5 }
+
+BARREL:        { m: BARREL,            s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+BELL:          { m: BELL,              s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+BLAST_FURNACE: { m: BLAST_FURNACE,     s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+CAMPFIRE:      { m: CAMPFIRE,          s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+CARTOGRAPHY:   { m: CARTOGRAPHY_TABLE, s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+FLETCHING:     { m: FLETCHING_TABLE,   s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+GRINDSTONE:    { m: GRINDSTONE,        s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+LANTERN:       { m: LANTERN,           s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+LOOM:          { m: LOOM,              s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+SMITHING:      { m: SMITHING_TABLE,    s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+SMOKER:        { m: SMOKER,            s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+STONECUTTER:   { m: STONECUTTER,       s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+
+SCAFFOLDING:   { m: SCAFFOLDING, s: true, d: true, r: true, e: 0.4, x: 0.5 }
 
 SNOWFLAT:  { m: SNOW,        s: true, d: true, r: true, e: 0.1,  x: 0.2  }
 CACTUS:    { m: CACTUS,      s: true, d: true, r: true, e: 0.2,  x: 0.3  }
@@ -104,6 +128,21 @@ MBUSH_S: { m: MUSHROOM_STEM,        s: true, d: true, r: true, e: 0.8, x: 0.9 }
 ANVIL:    { m: ANVIL,         s: true,  d: true,  r: true,  e: 78.0, x: 80.5  }
 ANVIL_SD: { m: CHIPPED_ANVIL, s: false, d: false, r: false, e: 37.5, x: 40.25 }
 ANVIL_VD: { m: DAMAGED_ANVIL, s: false, d: false, r: false, e: 18.4, x: 19.75 }
+
+WALL_CBS: { m: COBBLESTONE_WALL,       s: true, d: true, r: true, e: 0.027, x: 0.03  }
+WALL_MCB: { m: MOSSY_COBBLESTONE_WALL, s: true, d: true, r: true, e: 0.05,  x: 0.065 }
+WALL_AND: { m: ANDESITE_WALL,          s: true, d: true, r: true, e: 0.027, x: 0.03  }
+WALL_BRK: { m: BRICK_WALL,             s: true, d: true, r: true, e: 0.027, x: 0.03  }
+WALL_DIO: { m: DIORITE_WALL,           s: true, d: true, r: true, e: 0.027, x: 0.03  }
+WALL_ESB: { m: END_STONE_BRICK_WALL,   s: true, d: true, r: true, e: 0.027, x: 0.03  }
+WALL_GRN: { m: GRANITE_WALL,           s: true, d: true, r: true, e: 0.027, x: 0.03  }
+WALL_MSB: { m: MOSSY_STONE_BRICK_WALL, s: true, d: true, r: true, e: 0.027, x: 0.03  }
+WALL_NBR: { m: NETHER_BRICK_WALL,      s: true, d: true, r: true, e: 0.027, x: 0.03  }
+WALL_PRS: { m: PRISMARINE_WALL,        s: true, d: true, r: true, e: 0.027, x: 0.03  }
+WALL_RNB: { m: RED_NETHER_BRICK_WALL,  s: true, d: true, r: true, e: 0.027, x: 0.03  }
+WALL_RSS: { m: RED_SANDSTONE_WALL,     s: true, d: true, r: true, e: 0.027, x: 0.03  }
+WALL_SST: { m: SANDSTONE_WALL,         s: true, d: true, r: true, e: 0.027, x: 0.03  }
+WALL_SBK: { m: STONE_BRICK_WALL,       s: true, d: true, r: true, e: 0.027, x: 0.03  }
 
 BED_WHT: { m: WHITE_BED,      s: true, d: true, r: true, e: 1.0,  x: 1.2 }
 BED_ORA: { m: ORANGE_BED,     s: true, d: true, r: true, e: 1.0,  x: 1.2 }

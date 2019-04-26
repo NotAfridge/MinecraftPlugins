@@ -13,6 +13,8 @@ OBSERVER:  { m: OBSERVER,  s: true, d: true, r: true, e: 0.4,  x: 0.5  }
 PISTON:  { m: PISTON,        s: true, d: true, r: true, e: 1.45, x: 1.6 }
 SPISTON: { m: STICKY_PISTON, s: true, d: true, r: true, e: 2.1,  x: 2.8 }
 
+LECTERN: { m: LECTERN, s: true, d: true, r: true, e: 0.4,  x: 0.5  }
+
 DAYSENSE:  { m: DAYLIGHT_DETECTOR, s: true, d: true, r: true, e: 9.7, x: 10.0 }
 NOTEBLOCK: { m: NOTE_BLOCK,        s: true, d: true, r: true, e: 1.1, x: 1.2 }
 TNT:       { m: TNT,               s: true, d: true, r: true, e: 4.2, x: 4.5 }

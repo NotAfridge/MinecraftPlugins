@@ -9,18 +9,20 @@ APPLE:   { m: APPLE,                  s: true, d: true, r: true, e: 0.4,  x: 0.5
 GAPPLE:  { m: GOLDEN_APPLE,           s: true, d: true, r: true, e: 27.0, x: 28.5 }
 SGAPPLE: { m: ENCHANTED_GOLDEN_APPLE, s: true, d: true, r: true, e: 32.5, x: 34.3 }
 
-MUSHSTEW: { m: MUSHROOM_STEW, s: true, d: true, r: true, e: 0.4, x: 0.5 }
-RABISTEW: { m: RABBIT_STEW,   s: true, d: true, r: true, e: 0.5, x: 0.6 }
-BEETSOUP: { m: BEETROOT_SOUP, s: true, d: true, r: true, e: 0.3, x: 0.4 }
+MUSHSTEW: { m: MUSHROOM_STEW,   s: true, d: true, r: true, e: 0.4, x: 0.5 }
+RABISTEW: { m: RABBIT_STEW,     s: true, d: true, r: true, e: 0.5, x: 0.6 }
+BEETSOUP: { m: BEETROOT_SOUP,   s: true, d: true, r: true, e: 0.3, x: 0.4 }
+SUSSTEW:  { m: SUSPICIOUS_STEW, s: true, d: true, r: true, e: 0.3, x: 0.4 }
 
 BREAD:  { m: BREAD,       s: true, d: true, r: true, e: 0.4, x: 0.5 }
 CAKE:   { m: CAKE,        s: true, d: true, r: true, e: 0.6, x: 0.7 }
 COOKIE: { m: COOKIE,      s: true, d: true, r: true, e: 0.4, x: 0.5 }
 PUMPIE: { m: PUMPKIN_PIE, s: true, d: true, r: true, e: 0.5, x: 0.6 }
 
-MELON:  { m: MELON_SLICE, s: true, d: true, r: true, e: 0.1, x: 0.2 }
-CARROT: { m: CARROT,      s: true, d: true, r: true, e: 0.4, x: 0.5 }
-BEET:   { m: BEETROOT,    s: true, d: true, r: true, e: 0.2, x: 0.3 }
+MELON:   { m: MELON_SLICE,   s: true, d: true, r: true, e: 0.1, x: 0.2 }
+CARROT:  { m: CARROT,        s: true, d: true, r: true, e: 0.4, x: 0.5 }
+BEET:    { m: BEETROOT,      s: true, d: true, r: true, e: 0.2, x: 0.3 }
+BERRIES: { m: SWEET_BERRIES, s: true, d: true, r: true, e: 0.2, x: 0.3 }
 
 POTATO:  { m: POTATO,           s: true, d: true, r: true, e: 0.5, x: 0.6 }
 BPOTATO: { m: BAKED_POTATO,     s: true, d: true, r: true, e: 0.1, x: 0.2 }

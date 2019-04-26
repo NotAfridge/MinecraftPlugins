@@ -6,6 +6,7 @@
 # x - Return value of experience given (xp)
 
 BOW:     { m: BOW,            s: true, d: true, r: true, e: 0.4,  x: 0.5  }
+XBOW:    { m: CROSSBOW,       s: true, d: true, r: true, e: 0.4,  x: 0.5  }
 ARROW:   { m: ARROW,          s: true, d: true, r: true, e: 0.1,  x: 0.2  }
 SARROW:  { m: SPECTRAL_ARROW, s: true, d: true, r: true, e: 0.3,  x: 0.4  }
 TARROW:  { m: TIPPED_ARROW,   s: true, d: true, r: true, e: 0.5,  x: 0.6  }
