@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,8 +26,9 @@ public class JacketClose implements Listener {
         CommonString commonString = new CommonString();
 
         Inventory fuelInventory = event.getInventory();
+        InventoryView view = event.getView();
 
-        if (fuelInventory.getName().matches("" + ChatColor.DARK_RED + ChatColor.BOLD + "Rocket Boot Fuel Jacket")) {
+        if (view.getTitle().matches("" + ChatColor.DARK_RED + ChatColor.BOLD + "Rocket Boot Fuel Jacket")) {
 
             Player player = (Player) event.getPlayer();
             File fuelFile = rocketFunctions.getFuelFile(player);

@@ -132,7 +132,7 @@ public class InventoryClick implements Listener {
 
         String inventoryName = "" + ChatColor.DARK_RED + ChatColor.BOLD + "Rocket Boot Fuel Jacket";
 
-        if (inventoryName.equals(event.getInventory().getTitle())) {
+        if (inventoryName.equals(event.getView().getTitle())) {
 
             ArrayList<Material> allowedMaterial = new ArrayList<Material>() {{
                 add(Material.AIR);
@@ -165,7 +165,7 @@ public class InventoryClick implements Listener {
 
         String inventoryName = ChatColor.DARK_RED + "Rocket Components";
 
-        if (event.getRawSlot() <= 53 && inventoryName.equals(event.getClickedInventory().getTitle())) {
+        if (event.getRawSlot() <= 53 && inventoryName.equals(event.getView().getTitle())) {
 
             Player player = (Player) event.getWhoClicked();
             ItemStack componentType = event.getCurrentItem();

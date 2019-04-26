@@ -4,7 +4,6 @@ import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.data.RocketPlayer;
 import com.ullarah.urocket.function.CommonString;
 import com.ullarah.urocket.init.RocketLanguage;
-import org.apache.commons.io.output.StringBuilderWriter;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -40,7 +39,7 @@ public class PlayerChat implements Listener {
                     break;
 
                 case DRUNK:
-                    StringBuilderWriter drunkMessage = new StringBuilderWriter();
+                    StringBuilder drunkMessage = new StringBuilder();
                     for (String letter : message.split("")) {
                         int makeItalic = new Random().nextInt(2);
                         String letterItalic = ChatColor.ITALIC + letter + ChatColor.RESET;
@@ -50,7 +49,7 @@ public class PlayerChat implements Listener {
                     break;
 
                 case RAINBOW:
-                    StringBuilderWriter rainbowMessage = new StringBuilderWriter();
+                    StringBuilder rainbowMessage = new StringBuilder();
                     int currentColour = 0;
 
                     ChatColor[] colors = new ChatColor[]{
