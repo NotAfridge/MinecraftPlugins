@@ -4,16 +4,16 @@ import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryInteractEvent;
-import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 
 public class ChestInteract implements Listener {
 
     @EventHandler
     public void event(final InventoryInteractEvent event) {
 
-        Inventory chestInventory = event.getInventory();
+        InventoryView view = event.getView();
 
-        if (chestInventory.getName().matches("" + ChatColor.GOLD + ChatColor.BOLD + "Mixed Chests"))
+        if (view.getTitle().matches("" + ChatColor.GOLD + ChatColor.BOLD + "Mixed Chests"))
             event.setCancelled(true);
 
     }
