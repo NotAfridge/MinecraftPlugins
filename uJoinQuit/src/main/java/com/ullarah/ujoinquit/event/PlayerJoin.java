@@ -27,7 +27,8 @@ public class PlayerJoin implements Listener {
             String message = joinQuitFunctions.replacePlayerString(player,
                     joinQuitFunctions.getMessage(player, JoinQuitFunctions.Message.JOIN));
             event.setJoinMessage(ChatColor.translateAlternateColorCodes('&', JoinQuitInit.joinChar + message));
-
+            JoinQuitInit.lastPlayer = player.getPlayerListName();
+            
         }
 
         if (JoinQuitInit.playerJoinLocation.containsKey(playerUUID))
