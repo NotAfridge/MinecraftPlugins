@@ -20,6 +20,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class StandChange implements Listener {
 
@@ -36,67 +37,70 @@ public class StandChange implements Listener {
         Location standLocation = event.getRightClicked().getLocation();
         BlockState fuelBlock = world.getBlockAt(standLocation.getBlockX(), standLocation.getBlockY() - 2, standLocation.getBlockZ()).getState();
 
-        if (fuelBlock instanceof Furnace && ((Furnace) fuelBlock).getBurnTime() > 0) {
+        List<String> standList = RocketInit.getPlugin().getConfig().getStringList("stands");
+        List<String> newStandList = standList.stream().map(stand -> stand.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
-            List<String> standList = RocketInit.getPlugin().getConfig().getStringList("stands");
-            String stand = new IDTag().create(player, standLocation);
+        String standNew = new IDTag().create(standLocation);
+
+        // Ignore non-repair stands
+        if (!newStandList.contains(standNew)) {
+            return;
+        }
+
+        if (fuelBlock instanceof Furnace && ((Furnace) fuelBlock).getBurnTime() > 0) {
             Location beaconSign = new Location(standLocation.getWorld(), standLocation.getX(), (standLocation.getY() - 1), standLocation.getZ());
 
-            if (standList.contains(stand)) {
+            if (inHand.hasItemMeta()) {
 
-                if (inHand.hasItemMeta()) {
+                if (inHand.getItemMeta().hasDisplayName()) {
 
-                    if (inHand.getItemMeta().hasDisplayName()) {
+                    if (inHand.getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Boots")) {
 
-                        if (inHand.getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Boots")) {
+                        ItemStack standItem = event.getArmorStandItem();
 
-                            ItemStack standItem = event.getArmorStandItem();
+                        if (standItem != null) {
 
-                            if (standItem != null) {
+                            int bootMaterialDurability = rocketFunctions.getBootDurability(inHand);
+                            int bootDurability = (bootMaterialDurability - inHand.getDurability());
 
-                                int bootMaterialDurability = rocketFunctions.getBootDurability(inHand);
-                                int bootDurability = (bootMaterialDurability - inHand.getDurability());
+                            String bootType = ChatColor.stripColor(inHand.getItemMeta().getLore().get(0));
 
-                                String bootType = ChatColor.stripColor(inHand.getItemMeta().getLore().get(0));
+                            signText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
+                                    new String[]{
+                                            "[Repair Status]",
+                                            ChatColor.STRIKETHROUGH + "--------------",
+                                            ChatColor.RED + bootType,
+                                            String.valueOf(bootDurability) + " / " + bootMaterialDurability});
 
-                                signText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
-                                        new String[]{
-                                                "[Repair Status]",
-                                                ChatColor.STRIKETHROUGH + "--------------",
-                                                ChatColor.RED + bootType,
-                                                String.valueOf(bootDurability) + " / " + bootMaterialDurability});
+                            signText.changeLine(beaconSign, new HashMap<Integer, String>() {{
+                                put(0, "[Repair Status]");
+                            }});
 
-                                signText.changeLine(beaconSign, new HashMap<Integer, String>() {{
-                                    put(0, "[Repair Status]");
-                                }});
-
-                                RocketInit.rocketRepairStand.put(event.getRightClicked().getUniqueId(), standLocation);
-
-                            }
+                            RocketInit.rocketRepairStand.put(event.getRightClicked().getUniqueId(), standLocation);
 
                         }
 
                     }
 
+                }
+
+            } else {
+
+                if (inHand.getType() != Material.AIR) {
+
+                    commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_CHANGE);
+                    event.setCancelled(true);
+
                 } else {
 
-                    if (inHand.getType() != Material.AIR) {
+                    signText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
+                            new String[]{"[Repair Status]", ChatColor.STRIKETHROUGH + "--------------", "", ""});
 
-                        commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_CHANGE);
-                        event.setCancelled(true);
+                    signText.changeLine(beaconSign, new HashMap<Integer, String>() {{
+                        put(0, "[Repair Status]");
+                    }});
 
-                    } else {
-
-                        signText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
-                                new String[]{"[Repair Status]", ChatColor.STRIKETHROUGH + "--------------", "", ""});
-
-                        signText.changeLine(beaconSign, new HashMap<Integer, String>() {{
-                            put(0, "[Repair Status]");
-                        }});
-
-                        RocketInit.rocketRepairStand.remove(event.getRightClicked().getUniqueId());
-
-                    }
+                    RocketInit.rocketRepairStand.remove(event.getRightClicked().getUniqueId());
 
                 }
 

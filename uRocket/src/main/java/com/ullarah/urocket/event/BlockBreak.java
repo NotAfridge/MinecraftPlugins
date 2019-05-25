@@ -40,11 +40,10 @@ public class BlockBreak implements Listener {
         List<String> stationList = RocketInit.getPlugin().getConfig().getStringList("stations");
         List<String> newStationList = stationList.stream().map(station -> station.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
-        String stationOriginal = new IDTag().create(player, blockLocation);
         String stationNew = new IDTag().create(blockLocation);
 
         int index = newStationList.indexOf(stationNew);
-        if (index >= 0 && (stationList.contains(stationOriginal) || player.hasPermission("rocket.remove"))) {
+        if (index >= 0) {
 
             // Don't break if there is a stand above
             List<String> standList = RocketInit.getPlugin().getConfig().getStringList("stands");
@@ -72,11 +71,10 @@ public class BlockBreak implements Listener {
         List<String> tankList = RocketInit.getPlugin().getConfig().getStringList("tanks");
         List<String> newTankList = tankList.stream().map(tank -> tank.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
-        String tankOriginal = new IDTag().create(player, blockLocation);
         String tankNew = new IDTag().create(blockLocation);
 
         int index = newTankList.indexOf(tankNew);
-        if (index >= 0 && (tankList.contains(tankOriginal) || player.hasPermission("rocket.remove"))) {
+        if (index >= 0) {
 
             // Don't break if there is a station above
             List<String> stationList = RocketInit.getPlugin().getConfig().getStringList("stations");

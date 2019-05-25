@@ -29,4 +29,3 @@ permissions:
     description: Grants staff extra Rocket Boot commands.
     children:
       rocket.chest: true
-      rocket.remove: true

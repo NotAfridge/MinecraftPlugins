@@ -40,16 +40,14 @@ public class ZoneDamage implements Listener {
                 List<String> zoneList = RocketInit.getPlugin().getConfig().getStringList("zones");
                 List<String> newZoneList = zoneList.stream().map(zone -> zone.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
-                String zoneOriginal = new IDTag().create(event.getDamager(), entityLocation);
                 String zoneNew = new IDTag().create(entityLocation);
 
-                // Only allow players to break zones
-                if (newZoneList.contains(zoneNew) && !(event.getDamager() instanceof Player)) {
-                    event.setCancelled(true);
-                    return;
-                }
-
-                if (zoneList.contains(zoneOriginal) || (event.getDamager().hasPermission("rocket.remove") && newZoneList.contains(zoneNew))) {
+                if (newZoneList.contains(zoneNew)) {
+                    // Only allow players to break zones
+                    if (!(event.getDamager() instanceof Player)) {
+                        event.setCancelled(true);
+                        return;
+                    }
 
                     RocketFunctions rocketFunctions = new RocketFunctions();
                     CommonString commonString = new CommonString();
