@@ -42,6 +42,9 @@ public final class RocketLanguage {
 
     public static final String RB_STATION_START = ChatColor.YELLOW + "Rocket Boot Repair starting. Please stand still.";
 
+    public static final String RB_STATION_BREAK_ERROR = ChatColor.RED + "You must break the stand above first!";
+    public static final String RB_TANK_BREAK_ERROR = ChatColor.RED + "You must break the station above first!";
+
     public static final String RB_RS_PLACE_ERROR = ChatColor.RED + "You can only place this on top of a Repair Station you placed!";
     public static final String RB_RS_SNEAK_ERROR = ChatColor.RED + "You have to be sneaking to place this!";
     public static final String RB_RS_PLACE_SUCCESS = ChatColor.GREEN + "Repair Stand ready to use!";
