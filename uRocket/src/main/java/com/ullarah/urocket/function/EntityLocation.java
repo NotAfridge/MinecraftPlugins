@@ -1,8 +1,10 @@
 package com.ullarah.urocket.function;
 
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Entity;
 
+import java.util.Collection;
 import java.util.HashSet;
 
 public class EntityLocation {
@@ -14,33 +16,10 @@ public class EntityLocation {
      * @param radius   the radius to check centered from the location
      * @return an array of entities in a chunk
      */
-    public Entity[] getNearbyEntities(Location location, int radius) {
-
-        int chunkRadius = radius < 16 ? 1 : (radius - (radius % 16)) / 16;
-
-        HashSet<Entity> radiusEntities = new HashSet<>();
-
-        for (int cX = 0 - chunkRadius; cX <= chunkRadius; cX++) {
-
-            for (int cZ = 0 - chunkRadius; cZ <= chunkRadius; cZ++) {
-
-                int eX = (int) location.getX(), eY = (int) location.getY(), eZ = (int) location.getZ();
-
-                for (Entity entity : new Location(location.getWorld(), eX + (cX * 16), eY, eZ + (cZ * 16)).getChunk().getEntities()) {
-
-                    if (entity.getLocation().distance(location) <= radius
-                            && entity.getLocation().getBlock() != location.getBlock())
-
-                        radiusEntities.add(entity);
-
-                }
-
-            }
-
-        }
-
-        return radiusEntities.toArray(new Entity[radiusEntities.size()]);
-
+    public Collection<Entity> getNearbyEntities(Location location, int radius) {
+        World world = location.getWorld();
+        double r = radius / 2.0;
+        return world == null ? null : world.getNearbyEntities(location, r, r, r);
     }
 
 }

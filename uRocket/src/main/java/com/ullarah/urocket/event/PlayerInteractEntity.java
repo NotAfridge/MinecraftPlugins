@@ -41,7 +41,9 @@ public class PlayerInteractEntity implements Listener {
 
                 }
 
-            } else if (rocketFunctions.isValidRocketSaddle(inHand)) RocketInit.rocketEntity.put(pigUUID, pig.getType());
+            } else if (rocketFunctions.isValidRocketSaddle(inHand)) {
+                RocketInit.rocketEntity.put(pigUUID, pig.getType());
+            }
 
         }
 

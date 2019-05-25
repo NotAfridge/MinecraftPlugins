@@ -29,9 +29,6 @@ public class PlayerInteract implements Listener {
     @EventHandler
     public void playerInteraction(PlayerInteractEvent event) {
 
-        RocketFunctions rocketFunctions = new RocketFunctions();
-        CommonString commonString = new CommonString();
-
         Player player = event.getPlayer();
         RocketPlayer rp = RocketInit.getPlayer(player);
         Action action = event.getAction();
@@ -44,13 +41,16 @@ public class PlayerInteract implements Listener {
                 Pig pig = (Pig) player.getVehicle();
                 Vector pigVelocity = pig.getVelocity();
 
-                if (pigVelocity.getX() > 0.045) pigVelocity.setX(0.045);
-                if (pigVelocity.getX() < -0.045) pigVelocity.setX(-0.045);
+                double min = -0.045;
+                double max = 0.045;
 
-                if (pigVelocity.getY() > 0.045) pigVelocity.setY(0.045);
+                if (pigVelocity.getX() > max) pigVelocity.setX(max);
+                if (pigVelocity.getX() < min) pigVelocity.setX(min);
 
-                if (pigVelocity.getZ() > 0.045) pigVelocity.setZ(0.045);
-                if (pigVelocity.getZ() < -0.045) pigVelocity.setZ(-0.045);
+                if (pigVelocity.getY() > max) pigVelocity.setY(max);
+
+                if (pigVelocity.getZ() > max) pigVelocity.setZ(max);
+                if (pigVelocity.getZ() < min) pigVelocity.setZ(min);
 
                 if (RocketInit.rocketEntity.containsKey(pig.getUniqueId()))
                     pig.setVelocity(new Vector(pigVelocity.getX() * 3, 0.5, pigVelocity.getZ() * 3));
@@ -60,114 +60,125 @@ public class PlayerInteract implements Listener {
         }
 
         if (inHand.hasItemMeta()) {
-
             ItemMeta rocketMeta = inHand.getItemMeta();
 
-            if (inHand.getItemMeta().hasDisplayName()) {
+            if (rocketMeta.hasDisplayName()) {
 
                 String rocketItem = rocketMeta.getDisplayName();
-
                 if (rocketItem.equals(ChatColor.RED + "Rocket Boot Repair Stand")) {
-
-                    if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
-
-                        if (player.getWorld().getName().equals("world")) {
-
-                            Block block = player.getTargetBlock((Set<Material>) null, 50);
-                            World world = player.getWorld();
-                            Location blockLocation = block.getLocation();
-
-                            int eX = blockLocation.getBlockX();
-                            int eY = blockLocation.getBlockY();
-                            int eZ = blockLocation.getBlockZ();
-
-                            if (block.getType().equals(Material.BEACON) && event.getBlockFace().getModY() == 1) {
-
-                                List<String> stationList = RocketInit.getPlugin().getConfig().getStringList("stations");
-                                String station = player.getUniqueId().toString() + "|" + world.getName() + "|" + eX + "|" + eY + "|" + eZ;
-
-                                if (!stationList.contains(station)) {
-
-                                    event.setCancelled(true);
-                                    commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_PLACE_ERROR);
-
-                                } else if (player.isSneaking()) {
-
-                                    String stand = player.getUniqueId().toString() + "|" + world.getName() + "|" + eX + "|" + (eY + 1) + "|" + eZ;
-                                    List<String> standList = RocketInit.getPlugin().getConfig().getStringList("stands");
-
-                                    if (new EntityLocation().getNearbyEntities(new Location(world, eX, eY + 1, eZ), 1).length != 0) {
-
-                                        commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_ENTITY);
-                                        event.setCancelled(true);
-
-                                    } else {
-
-                                        if (standList.contains(stand)) {
-
-                                            commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_EXIST);
-                                            event.setCancelled(true);
-
-                                        } else {
-
-                                            standList.add(stand);
-
-                                            RocketInit.getPlugin().getConfig().set("stands", standList);
-                                            RocketInit.getPlugin().saveConfig();
-
-                                            commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_PLACE_SUCCESS);
-
-                                        }
-
-                                    }
-
-                                }
-
-                            } else {
-
-                                player.updateInventory();
-                                commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_PLACE_ERROR);
-                                event.setCancelled(true);
-
-                            }
-
-                        } else {
-
-                            player.updateInventory();
-                            event.setCancelled(true);
-                            commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.PlacementDeny("Repair Stands"));
-
-                        }
-
-                    } else event.setCancelled(true);
-
+                    placeRepairStand(event, rp, action);
                 }
-
-                if (rocketItem.equals(ChatColor.RED + "Rocket Boots")) {
-
-                    String rocketLore = rocketMeta.getLore().get(0);
-
-                    if (rocketLore.matches(ChatColor.YELLOW + "Rocket Level I{0,3}V?X?"))
-                        if (!rp.isUsingBoots()) {
-                            if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK))
-                                rocketFunctions.attachRocketBoots(player, inHand);
-                            else event.setCancelled(true);
-                        }
-
+                else if (rocketItem.equals(ChatColor.RED + "Rocket Boots")) {
+                    equipBoots(event, rp, action, inHand);
                 }
-
-                if (rocketItem.equals(ChatColor.RED + "Rocket Boot Fuel Jacket")) {
-
-                    if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK))
-                        rp.setWearingJacket(true);
-                    else event.setCancelled(true);
-
+                else if (rocketItem.equals(ChatColor.RED + "Rocket Boot Fuel Jacket")) {
+                    equipJacket(event, rp, action);
                 }
 
             }
-
         }
 
+    }
+
+    private void placeRepairStand(PlayerInteractEvent event, RocketPlayer rp, Action action) {
+        if (!action.equals(Action.RIGHT_CLICK_AIR) && !action.equals(Action.RIGHT_CLICK_BLOCK)) {
+            event.setCancelled(true);
+            return;
+        }
+
+        CommonString commonString = new CommonString();
+        Player player = rp.getPlayer();
+
+        // Only place in the overworld
+        if (!player.getWorld().getName().equals("world")) {
+            event.setCancelled(true);
+            commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.PlacementDeny("Repair Stands"));
+            return;
+        }
+
+        Block block = player.getTargetBlock(null, 50);
+        World world = player.getWorld();
+        Location blockLocation = block.getLocation();
+
+        int eX = blockLocation.getBlockX();
+        int eY = blockLocation.getBlockY();
+        int eZ = blockLocation.getBlockZ();
+
+        boolean onTop = event.getBlockFace().getModY() == 1;
+
+        // Must be placed on top of a beacon
+        if (!block.getType().equals(Material.BEACON) || !onTop) {
+            event.setCancelled(true);
+            commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_PLACE_ERROR);
+            return;
+        }
+
+        List<String> stationList = RocketInit.getPlugin().getConfig().getStringList("stations");
+        String station = player.getUniqueId().toString() + "|" + world.getName() + "|" + eX + "|" + eY + "|" + eZ;
+
+        // Not placed on top of a repair station
+        if (!stationList.contains(station)) {
+            event.setCancelled(true);
+            commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_PLACE_ERROR);
+            return;
+        }
+
+        // Have to be sneaking to place, else it tries to open the GUI
+        if (!player.isSneaking()) {
+            event.setCancelled(true);
+            commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_SNEAK_ERROR);
+            return;
+        }
+
+        // Must not be any entities in its location already
+        if (new EntityLocation().getNearbyEntities(new Location(world, eX, eY + 1, eZ), 1).size() != 0) {
+            event.setCancelled(true);
+            commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_ENTITY);
+            return;
+        }
+
+        String stand = player.getUniqueId().toString() + "|" + world.getName() + "|" + eX + "|" + (eY + 1) + "|" + eZ;
+        List<String> standList = RocketInit.getPlugin().getConfig().getStringList("stands");
+
+        // Stand can't have been registered in this location
+        if (standList.contains(stand)) {
+            event.setCancelled(true);
+            commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_EXIST);
+            return;
+        }
+
+        // Place it, save config
+        standList.add(stand);
+        RocketInit.getPlugin().getConfig().set("stands", standList);
+        RocketInit.getPlugin().saveConfig();
+
+        commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_PLACE_SUCCESS);
+    }
+
+    private void equipBoots(PlayerInteractEvent event, RocketPlayer rp, Action action, ItemStack inHand) {
+        if (!action.equals(Action.RIGHT_CLICK_AIR) && !action.equals(Action.RIGHT_CLICK_BLOCK)) {
+            event.setCancelled(true);
+            return;
+        }
+
+        RocketFunctions rocketFunctions = new RocketFunctions();
+        Player player = rp.getPlayer();
+        String rocketLore = inHand.getItemMeta().getLore().get(0);
+
+        if (rocketLore.matches(ChatColor.YELLOW + "Rocket Level I{0,3}V?X?")) {
+            if (!rp.isUsingBoots()) {
+                rocketFunctions.attachRocketBoots(player, inHand);
+            }
+        }
+    }
+
+    private void equipJacket(PlayerInteractEvent event, RocketPlayer rp, Action action) {
+        if (!action.equals(Action.RIGHT_CLICK_AIR) && !action.equals(Action.RIGHT_CLICK_BLOCK)) {
+            event.setCancelled(true);
+            return;
+        }
+
+        rp.setWearingJacket(true);
     }
 
 }
