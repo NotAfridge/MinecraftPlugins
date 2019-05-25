@@ -5,6 +5,8 @@ import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.data.RocketPlayer;
 import com.ullarah.urocket.function.CommonString;
 import com.ullarah.urocket.function.EntityLocation;
+import com.ullarah.urocket.function.IDTag;
+import com.ullarah.urocket.function.LocationShift;
 import com.ullarah.urocket.init.RocketLanguage;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -98,28 +100,24 @@ public class PlayerInteract implements Listener {
             return;
         }
 
-        Block block = player.getTargetBlock(null, 50);
-        World world = player.getWorld();
-        Location blockLocation = block.getLocation();
-
-        int eX = blockLocation.getBlockX();
-        int eY = blockLocation.getBlockY();
-        int eZ = blockLocation.getBlockZ();
+        Block station = player.getTargetBlock(null, 50);
+        Location stationLocation = station.getLocation();
+        Location standLocation = new LocationShift().add(stationLocation, 0.5, 1, 0.5);
 
         boolean onTop = (event.getBlockFace() == BlockFace.UP);
 
         // Must be placed on top of a beacon
-        if (!block.getType().equals(Material.BEACON) || !onTop) {
+        if (!station.getType().equals(Material.BEACON) || !onTop) {
             event.setCancelled(true);
             commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_PLACE_ERROR);
             return;
         }
 
         List<String> stationList = RocketInit.getPlugin().getConfig().getStringList("stations");
-        String station = player.getUniqueId().toString() + "|" + world.getName() + "|" + eX + "|" + eY + "|" + eZ;
+        String stationTag = new IDTag().create(player, stationLocation);
 
         // Not placed on top of a repair station the player owns
-        if (!stationList.contains(station)) {
+        if (!stationList.contains(stationTag)) {
             event.setCancelled(true);
             commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_PLACE_ERROR);
             return;
@@ -133,14 +131,13 @@ public class PlayerInteract implements Listener {
         }
 
         // Must not be any entities in its location already
-        Location standLoc = new Location(world, eX + 0.5, eY + 1, eZ + 0.5);
-        if (new EntityLocation().getNearbyEntities(standLoc, 1).size() != 0) {
+        if (new EntityLocation().getNearbyEntities(standLocation, 1).size() != 0) {
             event.setCancelled(true);
             commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_ENTITY);
             return;
         }
 
-        String stand = player.getUniqueId().toString() + "|" + world.getName() + "|" + eX + "|" + (eY + 1) + "|" + eZ;
+        String stand = new IDTag().create(player, standLocation);
         List<String> standList = RocketInit.getPlugin().getConfig().getStringList("stands");
 
         // Stand can't have been registered in this location

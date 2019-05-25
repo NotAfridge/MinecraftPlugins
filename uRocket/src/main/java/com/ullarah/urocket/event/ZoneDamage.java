@@ -4,11 +4,13 @@ import com.ullarah.urocket.RocketFunctions;
 import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.CommonString;
 import com.ullarah.urocket.function.FakeExplosion;
+import com.ullarah.urocket.function.IDTag;
 import com.ullarah.urocket.init.RocketLanguage;
 import com.ullarah.urocket.recipe.RocketFlyZone;
 import org.bukkit.Location;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -40,7 +42,7 @@ public class ZoneDamage implements Listener {
                 int eZ = entityLocation.getBlockZ();
 
                 List<String> zoneList = RocketInit.getPlugin().getConfig().getStringList("zones");
-                String zoneOriginal = event.getDamager().getUniqueId().toString() + "|" + zoneEntity.getWorld().getName() + "|" + eX + "|" + eY + "|" + eZ;
+                String zoneOriginal = new IDTag().create((Player) event.getDamager(), entityLocation);
 
                 if (zoneList.contains(zoneOriginal) || event.getDamager().hasPermission("rocket.remove")) {
 
@@ -49,7 +51,7 @@ public class ZoneDamage implements Listener {
                     FakeExplosion fakeExplosion = new FakeExplosion();
 
                     List<String> newZoneList = zoneList.stream().map(zone -> zone.replaceFirst(".{37}", "")).collect(Collectors.toList());
-                    String zoneNew = zoneEntity.getWorld().getName() + "|" + eX + "|" + eY + "|" + eZ;
+                    String zoneNew = new IDTag().create(entityLocation);
 
                     commonString.messageSend(RocketInit.getPlugin(), event.getDamager(), true, RocketLanguage.RB_FZ_REMOVE);
 

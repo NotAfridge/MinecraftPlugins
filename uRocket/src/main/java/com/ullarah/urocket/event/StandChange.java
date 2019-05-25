@@ -3,6 +3,7 @@ package com.ullarah.urocket.event;
 import com.ullarah.urocket.RocketFunctions;
 import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.CommonString;
+import com.ullarah.urocket.function.IDTag;
 import com.ullarah.urocket.function.SignText;
 import com.ullarah.urocket.init.RocketLanguage;
 import org.bukkit.ChatColor;
@@ -38,7 +39,7 @@ public class StandChange implements Listener {
         if (fuelBlock instanceof Furnace && ((Furnace) fuelBlock).getBurnTime() > 0) {
 
             List<String> standList = RocketInit.getPlugin().getConfig().getStringList("stands");
-            String stand = player.getUniqueId().toString() + "|" + world.getName() + "|" + standLocation.getBlockX() + "|" + standLocation.getBlockY() + "|" + standLocation.getBlockZ();
+            String stand = new IDTag().create(player, standLocation);
             Location beaconSign = new Location(standLocation.getWorld(), standLocation.getX(), (standLocation.getY() - 1), standLocation.getZ());
 
             if (standList.contains(stand)) {

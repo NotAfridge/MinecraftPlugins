@@ -92,9 +92,9 @@ public class PlayerMove implements Listener {
                 newStationList.addAll(stationList.stream().map(station -> station.replaceFirst(".{37}", "")).collect(Collectors.toList()));
                 newStandList.addAll(standList.stream().map(stand -> stand.replaceFirst(".{37}", "")).collect(Collectors.toList()));
 
-                String tank = world.getName() + "|" + bTank.getBlockX() + "|" + bTank.getBlockY() + "|" + bTank.getBlockZ();
-                String station = world.getName() + "|" + bStation.getBlockX() + "|" + bStation.getBlockY() + "|" + bStation.getBlockZ();
-                String stand = world.getName() + "|" + bStand.getBlockX() + "|" + bStand.getBlockY() + "|" + bStand.getBlockZ();
+                String tank = new IDTag().create(bTank);
+                String station = new IDTag().create(bStation);
+                String stand = new IDTag().create(bStand);
 
                 if (newStationList.contains(station) && newTankList.contains(tank) && !newStandList.contains(stand)) {
                     if (!RocketInit.rocketRepair.containsKey(player.getUniqueId())) {

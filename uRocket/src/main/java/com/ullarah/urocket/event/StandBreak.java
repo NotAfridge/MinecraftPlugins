@@ -1,11 +1,13 @@
 package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketInit;
+import com.ullarah.urocket.function.IDTag;
 import com.ullarah.urocket.recipe.RepairStand;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -25,15 +27,11 @@ public class StandBreak implements Listener {
 
             Location entityLocation = standEntity.getLocation();
 
-            int eX = entityLocation.getBlockX();
-            int eY = entityLocation.getBlockY();
-            int eZ = entityLocation.getBlockZ();
-
             List<String> standList = RocketInit.getPlugin().getConfig().getStringList("stands");
             List<String> newStandList = standList.stream().map(stand -> stand.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
-            String standOriginal = event.getDamager().getUniqueId().toString() + "|" + standEntity.getWorld().getName() + "|" + eX + "|" + eY + "|" + eZ;
-            String standNew = standEntity.getWorld().getName() + "|" + eX + "|" + eY + "|" + eZ;
+            String standOriginal = new IDTag().create((Player) event.getDamager(), entityLocation);
+            String standNew = new IDTag().create(entityLocation);
 
             if (standList.contains(standOriginal) || (event.getDamager().hasPermission("rocket.remove") && newStandList.contains(standNew))) {
 

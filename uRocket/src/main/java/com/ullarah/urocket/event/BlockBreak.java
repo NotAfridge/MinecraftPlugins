@@ -1,6 +1,7 @@
 package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketInit;
+import com.ullarah.urocket.function.IDTag;
 import com.ullarah.urocket.recipe.RepairStation;
 import com.ullarah.urocket.recipe.RepairTank;
 import org.bukkit.Location;
@@ -29,15 +30,11 @@ public class BlockBreak implements Listener {
             World world = player.getWorld();
             Location blockLocation = block.getLocation();
 
-            int bX = blockLocation.getBlockX();
-            int bY = blockLocation.getBlockY();
-            int bZ = blockLocation.getBlockZ();
-
             List<String> stationList = RocketInit.getPlugin().getConfig().getStringList("stations");
             List<String> newStationList = stationList.stream().map(station -> station.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
-            String stationOriginal = player.getUniqueId().toString() + "|" + world.getName() + "|" + bX + "|" + bY + "|" + bZ;
-            String stationNew = world.getName() + "|" + bX + "|" + bY + "|" + bZ;
+            String stationOriginal = new IDTag().create(player, blockLocation);
+            String stationNew = new IDTag().create(blockLocation);
 
             removeRepairStation(world, player, blockLocation, stationList, newStationList, stationOriginal, stationNew);
 
@@ -57,8 +54,8 @@ public class BlockBreak implements Listener {
             List<String> tankList = RocketInit.getPlugin().getConfig().getStringList("tanks");
             List<String> newTankList = tankList.stream().map(tank -> tank.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
-            String tankOriginal = player.getUniqueId().toString() + "|" + world.getName() + "|" + bX + "|" + bY + "|" + bZ;
-            String tankNew = world.getName() + "|" + bX + "|" + bY + "|" + bZ;
+            String tankOriginal = new IDTag().create(player, blockLocation);
+            String tankNew = new IDTag().create(blockLocation);
 
             int index = newTankList.indexOf(tankNew);
             if (index >= 0 && (tankList.contains(tankOriginal) || player.hasPermission("rocket.remove"))) {

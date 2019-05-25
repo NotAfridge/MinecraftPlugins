@@ -642,7 +642,7 @@ public class RocketFunctions {
         int cBZ = centerBlock.getBlockZ();
 
         List<String> zoneList = RocketInit.getPlugin().getConfig().getStringList("zones");
-        String activeZone = player.getUniqueId().toString() + "|" + world.getName() + "|" + cBX + "|" + cBY + "|" + cBZ;
+        String activeZone = new IDTag().create(player, centerBlock);
         zoneList.add(activeZone);
 
         RocketInit.getPlugin().getConfig().set("zones", zoneList);
