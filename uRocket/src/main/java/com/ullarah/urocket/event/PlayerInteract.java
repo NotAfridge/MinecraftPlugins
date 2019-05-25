@@ -11,8 +11,10 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -104,7 +106,7 @@ public class PlayerInteract implements Listener {
         int eY = blockLocation.getBlockY();
         int eZ = blockLocation.getBlockZ();
 
-        boolean onTop = event.getBlockFace().getModY() == 1;
+        boolean onTop = (event.getBlockFace() == BlockFace.UP);
 
         // Must be placed on top of a beacon
         if (!block.getType().equals(Material.BEACON) || !onTop) {
@@ -116,7 +118,7 @@ public class PlayerInteract implements Listener {
         List<String> stationList = RocketInit.getPlugin().getConfig().getStringList("stations");
         String station = player.getUniqueId().toString() + "|" + world.getName() + "|" + eX + "|" + eY + "|" + eZ;
 
-        // Not placed on top of a repair station
+        // Not placed on top of a repair station the player owns
         if (!stationList.contains(station)) {
             event.setCancelled(true);
             commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_PLACE_ERROR);
@@ -131,7 +133,8 @@ public class PlayerInteract implements Listener {
         }
 
         // Must not be any entities in its location already
-        if (new EntityLocation().getNearbyEntities(new Location(world, eX, eY + 1, eZ), 1).size() != 0) {
+        Location standLoc = new Location(world, eX + 0.5, eY + 1, eZ + 0.5);
+        if (new EntityLocation().getNearbyEntities(standLoc, 1).size() != 0) {
             event.setCancelled(true);
             commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_ENTITY);
             return;

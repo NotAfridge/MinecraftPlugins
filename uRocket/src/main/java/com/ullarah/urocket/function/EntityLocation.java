@@ -16,10 +16,9 @@ public class EntityLocation {
      * @param radius   the radius to check centered from the location
      * @return an array of entities in a chunk
      */
-    public Collection<Entity> getNearbyEntities(Location location, int radius) {
+    public Collection<Entity> getNearbyEntities(Location location, double radius) {
         World world = location.getWorld();
-        double r = radius / 2.0;
-        return world == null ? null : world.getNearbyEntities(location, r, r, r);
+        return world == null ? null : world.getNearbyEntities(location, radius, radius, radius);
     }
 
 }
