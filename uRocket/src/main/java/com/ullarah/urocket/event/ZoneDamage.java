@@ -37,26 +37,27 @@ public class ZoneDamage implements Listener {
 
                 Location entityLocation = zoneEntity.getLocation();
 
-                int eX = entityLocation.getBlockX();
-                int eY = entityLocation.getBlockY();
-                int eZ = entityLocation.getBlockZ();
-
                 List<String> zoneList = RocketInit.getPlugin().getConfig().getStringList("zones");
-                String zoneOriginal = new IDTag().create((Player) event.getDamager(), entityLocation);
+                List<String> newZoneList = zoneList.stream().map(zone -> zone.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
-                if (zoneList.contains(zoneOriginal) || event.getDamager().hasPermission("rocket.remove")) {
+                String zoneOriginal = new IDTag().create(event.getDamager(), entityLocation);
+                String zoneNew = new IDTag().create(entityLocation);
+
+                // Only allow players to break zones
+                if (newZoneList.contains(zoneNew) && !(event.getDamager() instanceof Player)) {
+                    event.setCancelled(true);
+                    return;
+                }
+
+                if (zoneList.contains(zoneOriginal) || (event.getDamager().hasPermission("rocket.remove") && newZoneList.contains(zoneNew))) {
 
                     RocketFunctions rocketFunctions = new RocketFunctions();
                     CommonString commonString = new CommonString();
                     FakeExplosion fakeExplosion = new FakeExplosion();
 
-                    List<String> newZoneList = zoneList.stream().map(zone -> zone.replaceFirst(".{37}", "")).collect(Collectors.toList());
-                    String zoneNew = new IDTag().create(entityLocation);
-
                     commonString.messageSend(RocketInit.getPlugin(), event.getDamager(), true, RocketLanguage.RB_FZ_REMOVE);
 
-                    if (newZoneList.contains(zoneNew)) zoneList.remove(newZoneList.indexOf(zoneNew));
-
+                    zoneList.remove(newZoneList.indexOf(zoneNew));
                     zoneEntity.remove();
 
                     fakeExplosion.create(entityLocation, 4, FakeExplosion.ExplosionType.LARGE);

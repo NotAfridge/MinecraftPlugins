@@ -2,7 +2,7 @@ package com.ullarah.urocket.function;
 
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.Entity;
 
 public class IDTag {
 
@@ -12,7 +12,7 @@ public class IDTag {
      * @param location Location
      * @return ID tag
      */
-    public String create(Player player, Location location) {
+    public String create(Entity player, Location location) {
         int bX = location.getBlockX();
         int bY = location.getBlockY();
         int bZ = location.getBlockZ();

@@ -30,8 +30,14 @@ public class StandBreak implements Listener {
             List<String> standList = RocketInit.getPlugin().getConfig().getStringList("stands");
             List<String> newStandList = standList.stream().map(stand -> stand.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
-            String standOriginal = new IDTag().create((Player) event.getDamager(), entityLocation);
+            String standOriginal = new IDTag().create(event.getDamager(), entityLocation);
             String standNew = new IDTag().create(entityLocation);
+
+            // Only allow players to break stands
+            if (newStandList.contains(standNew) && !(event.getDamager() instanceof Player)) {
+                event.setCancelled(true);
+                return;
+            }
 
             if (standList.contains(standOriginal) || (event.getDamager().hasPermission("rocket.remove") && newStandList.contains(standNew))) {
 
