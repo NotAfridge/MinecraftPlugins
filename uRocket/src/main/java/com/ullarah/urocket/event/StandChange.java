@@ -17,6 +17,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
 import java.util.List;
@@ -47,64 +48,53 @@ public class StandChange implements Listener {
             return;
         }
 
-        if (fuelBlock instanceof Furnace && ((Furnace) fuelBlock).getBurnTime() > 0) {
-            Location beaconSign = new Location(standLocation.getWorld(), standLocation.getX(), (standLocation.getY() - 1), standLocation.getZ());
+        Location beaconSign = new Location(standLocation.getWorld(), standLocation.getX(), (standLocation.getY() - 1), standLocation.getZ());
+        ItemMeta meta = inHand.getItemMeta();
+        String display = "";
+        if (meta != null && meta.hasDisplayName()) {
+            display = meta.getDisplayName();
+        }
 
-            if (inHand.hasItemMeta()) {
+        if (display.equals(ChatColor.RED + "Rocket Boots")) {
+            // Adding rocket boots
+            if (fuelBlock instanceof Furnace && ((Furnace) fuelBlock).getBurnTime() > 0) {
+                int bootMaterialDurability = rocketFunctions.getBootDurability(inHand);
+                int bootDurability = (bootMaterialDurability - inHand.getDurability());
 
-                if (inHand.getItemMeta().hasDisplayName()) {
+                String bootType = ChatColor.stripColor(meta.getLore().get(0));
 
-                    if (inHand.getItemMeta().getDisplayName().equals(ChatColor.RED + "Rocket Boots")) {
+                signText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
+                        new String[]{
+                                "[Repair Status]",
+                                ChatColor.STRIKETHROUGH + "--------------",
+                                ChatColor.RED + bootType,
+                                String.valueOf(bootDurability) + " / " + bootMaterialDurability});
 
-                        ItemStack standItem = event.getArmorStandItem();
+                signText.changeLine(beaconSign, new HashMap<Integer, String>() {{
+                    put(0, "[Repair Status]");
+                }});
 
-                        if (standItem != null) {
-
-                            int bootMaterialDurability = rocketFunctions.getBootDurability(inHand);
-                            int bootDurability = (bootMaterialDurability - inHand.getDurability());
-
-                            String bootType = ChatColor.stripColor(inHand.getItemMeta().getLore().get(0));
-
-                            signText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
-                                    new String[]{
-                                            "[Repair Status]",
-                                            ChatColor.STRIKETHROUGH + "--------------",
-                                            ChatColor.RED + bootType,
-                                            String.valueOf(bootDurability) + " / " + bootMaterialDurability});
-
-                            signText.changeLine(beaconSign, new HashMap<Integer, String>() {{
-                                put(0, "[Repair Status]");
-                            }});
-
-                            RocketInit.rocketRepairStand.put(event.getRightClicked().getUniqueId(), standLocation);
-
-                        }
-
-                    }
-
-                }
-
-            } else {
-
-                if (inHand.getType() != Material.AIR) {
-
-                    commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_CHANGE);
-                    event.setCancelled(true);
-
-                } else {
-
-                    signText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
-                            new String[]{"[Repair Status]", ChatColor.STRIKETHROUGH + "--------------", "", ""});
-
-                    signText.changeLine(beaconSign, new HashMap<Integer, String>() {{
-                        put(0, "[Repair Status]");
-                    }});
-
-                    RocketInit.rocketRepairStand.remove(event.getRightClicked().getUniqueId());
-
-                }
+                RocketInit.rocketRepairStand.put(event.getRightClicked().getUniqueId(), standLocation);
 
             }
+
+        } else if (inHand.getType() != Material.AIR) {
+            // Trying to add non-rocket boots (allow jackets for storage purposes)
+            if (!display.equals(ChatColor.RED + "Rocket Boot Fuel Jacket")) {
+                commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_CHANGE);
+                event.setCancelled(true);
+            }
+
+        } else {
+            // Removing boots
+            signText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
+                    new String[]{"[Repair Status]", ChatColor.STRIKETHROUGH + "--------------", "", ""});
+
+            signText.changeLine(beaconSign, new HashMap<Integer, String>() {{
+                put(0, "[Repair Status]");
+            }});
+
+            RocketInit.rocketRepairStand.remove(event.getRightClicked().getUniqueId());
 
         }
 
