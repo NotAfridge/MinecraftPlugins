@@ -1,6 +1,7 @@
 package com.ullarah.urocket;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.ullarah.urocket.data.RepairStandData;
 import com.ullarah.urocket.data.RocketPlayer;
 import com.ullarah.urocket.function.PluginRegisters;
 import com.ullarah.urocket.init.RocketEnhancement;
@@ -33,7 +34,7 @@ public class RocketInit extends JavaPlugin {
     /** Map of pigs with rocket saddles */
     public static final ConcurrentHashMap<UUID, EntityType> rocketEntity = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, Location> rocketRepair = new ConcurrentHashMap<>();
-    public static final ConcurrentHashMap<UUID, Location> rocketRepairStand = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<UUID, RepairStandData> rocketRepairStand = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<UUID, ConcurrentHashMap<Location, Location>> rocketZoneLocations = new ConcurrentHashMap<>();
 
     public static final HashMap<String, Integer> registerMap = new HashMap<>();

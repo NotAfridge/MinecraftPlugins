@@ -2,8 +2,10 @@ package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketFunctions;
 import com.ullarah.urocket.RocketInit;
+import com.ullarah.urocket.data.RepairStandData;
 import com.ullarah.urocket.function.CommonString;
 import com.ullarah.urocket.function.IDTag;
+import com.ullarah.urocket.function.LocationShift;
 import com.ullarah.urocket.function.SignText;
 import com.ullarah.urocket.init.RocketLanguage;
 import org.bukkit.ChatColor;
@@ -28,7 +30,6 @@ public class StandChange implements Listener {
     @EventHandler
     public void RocketArmourStandChange(PlayerArmorStandManipulateEvent event) {
 
-        RocketFunctions rocketFunctions = new RocketFunctions();
         CommonString commonString = new CommonString();
         SignText signText = new SignText();
 
@@ -48,7 +49,7 @@ public class StandChange implements Listener {
             return;
         }
 
-        Location beaconSign = new Location(standLocation.getWorld(), standLocation.getX(), (standLocation.getY() - 1), standLocation.getZ());
+        Location beaconSign = new LocationShift().add(standLocation, 0, -1, 0);
         ItemMeta meta = inHand.getItemMeta();
         String display = "";
         if (meta != null && meta.hasDisplayName()) {
@@ -57,25 +58,16 @@ public class StandChange implements Listener {
 
         if (display.equals(ChatColor.RED + "Rocket Boots")) {
             // Adding rocket boots
+            signText.changeLine(beaconSign, new HashMap<Integer, String>() {{
+                put(0, "[Repair Status]");
+                put(1, ChatColor.STRIKETHROUGH + "--------------");
+            }});
+
+            RepairStandData data = new RepairStandData(event.getRightClicked(), standLocation);
+            RocketInit.rocketRepairStand.put(event.getRightClicked().getUniqueId(), data);
+
             if (fuelBlock instanceof Furnace && ((Furnace) fuelBlock).getBurnTime() > 0) {
-                int bootMaterialDurability = rocketFunctions.getBootDurability(inHand);
-                int bootDurability = (bootMaterialDurability - inHand.getDurability());
-
-                String bootType = ChatColor.stripColor(meta.getLore().get(0));
-
-                signText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
-                        new String[]{
-                                "[Repair Status]",
-                                ChatColor.STRIKETHROUGH + "--------------",
-                                ChatColor.RED + bootType,
-                                String.valueOf(bootDurability) + " / " + bootMaterialDurability});
-
-                signText.changeLine(beaconSign, new HashMap<Integer, String>() {{
-                    put(0, "[Repair Status]");
-                }});
-
-                RocketInit.rocketRepairStand.put(event.getRightClicked().getUniqueId(), standLocation);
-
+                data.startRepairing(inHand);
             }
 
         } else if (inHand.getType() != Material.AIR) {
@@ -89,10 +81,6 @@ public class StandChange implements Listener {
             // Removing boots
             signText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
                     new String[]{"[Repair Status]", ChatColor.STRIKETHROUGH + "--------------", "", ""});
-
-            signText.changeLine(beaconSign, new HashMap<Integer, String>() {{
-                put(0, "[Repair Status]");
-            }});
 
             RocketInit.rocketRepairStand.remove(event.getRightClicked().getUniqueId());
 
