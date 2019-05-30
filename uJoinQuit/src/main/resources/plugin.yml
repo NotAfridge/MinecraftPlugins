@@ -26,3 +26,7 @@ permissions:
     description: Allows the use of join messages.
   jq.quit:
     description: Allows the use of quit messages.
+  jq.silentjoin:
+    description: Do not broadcast joins.
+  jq.silentquit:
+    description: Do not broadcast quits.

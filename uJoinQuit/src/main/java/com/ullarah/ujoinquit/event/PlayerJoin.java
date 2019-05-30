@@ -13,23 +13,22 @@ import java.util.UUID;
 
 public class PlayerJoin implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void event(PlayerJoinEvent event) {
 
         Player player = event.getPlayer();
         UUID playerUUID = player.getUniqueId();
 
-        if (JoinQuitInit.playerJoinMessage.containsKey(playerUUID) && !event.getJoinMessage().isEmpty()) {
-
+        if (player.hasPermission("jq.silentjoin")) {
+            event.setJoinMessage("");
+        } else if (JoinQuitInit.playerJoinMessage.containsKey(playerUUID) && !event.getJoinMessage().isEmpty()) {
+            
             JoinQuitFunctions joinQuitFunctions = new JoinQuitFunctions();
-
             String message = joinQuitFunctions.replacePlayerString(player,
                     joinQuitFunctions.getMessage(player, JoinQuitFunctions.Message.JOIN));
-
             event.setJoinMessage(ChatColor.translateAlternateColorCodes('&', JoinQuitInit.joinChar + message));
-
             JoinQuitInit.lastPlayer = player.getPlayerListName();
-
+            
         }
 
         if (JoinQuitInit.playerJoinLocation.containsKey(playerUUID))
