@@ -35,13 +35,15 @@ public class PlayerInteractEntity implements Listener {
                         pig.setSaddle(false);
                         pig.getWorld().dropItemNaturally(pig.getEyeLocation(), new ItemStack(Material.SADDLE));
 
-                        if (RocketInit.rocketEntity.containsKey(pigUUID)) RocketInit.rocketEntity.remove(pigUUID);
+                        RocketInit.rocketEntity.remove(pigUUID);
 
                     }
 
                 }
 
-            } else if (rocketFunctions.isValidRocketSaddle(inHand)) RocketInit.rocketEntity.put(pigUUID, pig.getType());
+            } else if (rocketFunctions.isValidRocketSaddle(inHand)) {
+                RocketInit.rocketEntity.put(pigUUID, pig.getType());
+            }
 
         }
 

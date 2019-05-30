@@ -1,8 +1,12 @@
 package com.ullarah.urocket;
 
+import com.ullarah.urocket.data.BootData;
+import com.ullarah.urocket.data.FlyLockout;
+import com.ullarah.urocket.data.RocketPlayer;
 import com.ullarah.urocket.function.*;
 import com.ullarah.urocket.init.RocketEnhancement;
 import com.ullarah.urocket.init.RocketLanguage;
+import com.ullarah.urocket.init.RocketVariant;
 import com.ullarah.urocket.init.RocketVariant.Variant;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -16,6 +20,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -33,95 +38,59 @@ public class RocketFunctions {
     private final BlockStacks blockStacks = new BlockStacks();
     private final RomanNumeralToInteger romanNumeralToInteger = new RomanNumeralToInteger();
 
-    public void disableRocketBoots(Player player, Boolean keepUsage, Boolean keepPower, Boolean keepFlight,
-                                   Boolean keepVariant, Boolean keepEnhancement) {
-
+    public void disableRocketBoots(Player player, boolean keepEquipped) {
+        RocketPlayer rp = RocketInit.getPlayer(player);
         UUID playerUUID = player.getUniqueId();
 
-        if (!keepUsage && RocketInit.rocketUsage.contains(playerUUID))
-            RocketInit.rocketUsage.remove(playerUUID);
+        boolean correctGamemode = gamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE);
 
-        if (RocketInit.rocketSprint.containsKey(playerUUID))
-            RocketInit.rocketSprint.remove(playerUUID);
+        if (player.isOnline() && rp.isUsingBoots() && correctGamemode) {
 
-        if (!keepPower && RocketInit.rocketPower.containsKey(playerUUID))
-            RocketInit.rocketPower.remove(playerUUID);
-
-        if (!RocketInit.rocketFire.isEmpty())
-            RocketInit.rocketFire.clear();
-
-        if (RocketInit.rocketWater.contains(playerUUID))
-            RocketInit.rocketWater.remove(playerUUID);
-
-        if (RocketInit.rocketRepair.containsKey(playerUUID))
-            RocketInit.rocketRepair.remove(playerUUID);
-
-        if (!keepEnhancement && RocketInit.rocketEnhancement.containsKey(playerUUID))
-            RocketInit.rocketEnhancement.remove(playerUUID);
-
-        if (!keepVariant && RocketInit.rocketVariant.containsKey(playerUUID)) {
-
-            switch (RocketInit.rocketVariant.get(playerUUID)) {
-
-                case ENDER:
-                    player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-                    player.removePotionEffect(PotionEffectType.HEALTH_BOOST);
-                    break;
-
-                case ZERO:
-                    player.removePotionEffect(PotionEffectType.CONFUSION);
-                    player.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
-                    player.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
-                    break;
-
-                case STEALTH:
-                    for (Player onlinePlayer : Bukkit.getOnlinePlayers()) onlinePlayer.showPlayer(player);
-                    break;
-
-                case DRUNK:
-                    player.removePotionEffect(PotionEffectType.CONFUSION);
-                    player.removePotionEffect(PotionEffectType.FAST_DIGGING);
-                    break;
-
-                case BOOST:
-                    player.removePotionEffect(PotionEffectType.HEAL);
-                    break;
-
-                case RUNNER:
-                    player.removePotionEffect(PotionEffectType.SPEED);
-                    break;
-
-            }
-
-            RocketInit.rocketVariant.remove(playerUUID);
-
-        }
-
-        if (player.isOnline() && gamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
-
-            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) onlinePlayer.showPlayer(player);
+            for (Player onlinePlayer : Bukkit.getOnlinePlayers())
+                onlinePlayer.showPlayer(player);
 
             player.setFlySpeed(0.1f);
             player.setFlying(false);
-            if (!keepFlight) player.setAllowFlight(false);
+            if (!keepEquipped)
+                player.setAllowFlight(false);
 
             player.setNoDamageTicks(100);
             player.setFallDistance(0);
 
         }
+        rp.setUsingBoots(false);
 
+        rp.getLockouts().clear();
+        RocketInit.rocketRepair.remove(playerUUID);
+
+        if (!keepEquipped && rp.getBootData() != null) {
+            RocketVariant.Variant variant = rp.getBootData().getVariant();
+
+            if (variant.getPotionEffects() != null) {
+                for (PotionEffect effect : variant.getPotionEffects())
+                    player.removePotionEffect(effect.getType());
+            }
+
+            if (variant == Variant.STEALTH) {
+                for (Player onlinePlayer : Bukkit.getOnlinePlayers())
+                    onlinePlayer.showPlayer(player);
+            }
+
+            rp.setBootData(null);
+        }
     }
 
     public void interactRocketBoots(InventoryClickEvent event, ItemStack boots) {
 
         Player player = (Player) event.getWhoClicked();
+        RocketPlayer rp = RocketInit.getPlayer(player);
         ClickType click = event.getClick();
-        Boolean hasRocketMeta = boots.hasItemMeta();
+        boolean hasRocketMeta = boots.hasItemMeta();
 
         if (gamemodeCheck.check(player, GameMode.CREATIVE, GameMode.SPECTATOR)) {
             event.setCancelled(true);
             player.closeInventory();
-            disableRocketBoots(player, false, false, false, false, false);
+            disableRocketBoots(player, false);
             commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_GAMEMODE_ERROR);
             return;
         }
@@ -153,13 +122,13 @@ public class RocketFunctions {
                     }
 
                     if (rocketLore.matches(ChatColor.YELLOW + "Rocket Level I{0,3}V?X?"))
-                        if (!RocketInit.rocketUsage.contains(player.getUniqueId()))
+                        if (!rp.isUsingBoots())
                             if (click == ClickType.MIDDLE) event.setCancelled(true);
                             else attachRocketBoots(player, boots);
 
                 }
 
-        } else if (RocketInit.rocketSprint.containsKey(player.getUniqueId())) {
+        } else if (rp.getLockouts().getSprintLock() != FlyLockout.Sprint.NONE) {
 
             commonString.messageSend(RocketInit.getPlugin(), player, true, new String[]{
                     RocketLanguage.RB_COOLDOWN_TOUCH, RocketLanguage.RB_COOLDOWN_LAND
@@ -168,8 +137,8 @@ public class RocketFunctions {
             event.setCancelled(true);
             player.closeInventory();
 
-        } else if (RocketInit.rocketPower.containsKey(player.getUniqueId()))
-            disableRocketBoots(player, false, false, false, false, false);
+        } else if (rp.getBootData() != null)
+            disableRocketBoots(player, false);
 
     }
 
@@ -177,28 +146,32 @@ public class RocketFunctions {
 
         if (gamemodeCheck.check(player, GameMode.CREATIVE, GameMode.SPECTATOR)) {
             commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_GAMEMODE_ERROR);
-            disableRocketBoots(player, false, false, false, false, false);
+            disableRocketBoots(player, false);
             return;
         }
 
-        UUID playerUUID = player.getUniqueId();
+        RocketPlayer rp = RocketInit.getPlayer(player);
 
         ItemMeta rocketMeta = boots.getItemMeta();
         Block blockMiddle = player.getLocation().getBlock().getRelative(BlockFace.SELF);
 
-        Boolean isWaterVariant = false;
-        Boolean isRunnerVariant = false;
+        boolean isWaterVariant = false;
+        boolean isRunnerVariant = false;
 
         String[] rocketMessage = new String[3];
         rocketMessage[0] = RocketLanguage.RB_ACTIVATE;
+
+        Integer power = null;
+        RocketVariant.Variant variant = null;
+        RocketEnhancement.Enhancement enhancement = null;
 
         switch (rocketMeta.getLore().size()) {
 
             case 1:
                 rocketMessage[1] = RocketLanguage.RB_VARIANT + RocketLanguage.RB_NOT_FOUND;
                 rocketMessage[2] = RocketLanguage.RB_ENHANCE + RocketLanguage.RB_NOT_FOUND;
-                RocketInit.rocketVariant.put(playerUUID, Variant.ORIGINAL);
-                RocketInit.rocketEnhancement.put(playerUUID, RocketEnhancement.Enhancement.NOTHING);
+                variant = Variant.ORIGINAL;
+                enhancement = RocketEnhancement.Enhancement.NOTHING;
                 break;
 
             case 2:
@@ -210,8 +183,8 @@ public class RocketFunctions {
                         rocketMessage[1] = RocketLanguage.RB_VARIANT + loreLine;
                         rocketMessage[2] = RocketLanguage.RB_ENHANCE + RocketLanguage.RB_NOT_FOUND;
 
-                        RocketInit.rocketVariant.put(playerUUID, variantType);
-                        RocketInit.rocketEnhancement.put(playerUUID, RocketEnhancement.Enhancement.NOTHING);
+                        variant = variantType;
+                        enhancement = RocketEnhancement.Enhancement.NOTHING;
 
                         if (variantType.equals(Variant.WATER)) isWaterVariant = true;
                         if (variantType.equals(Variant.RUNNER)) isRunnerVariant = true;
@@ -224,8 +197,8 @@ public class RocketFunctions {
                         rocketMessage[1] = RocketLanguage.RB_VARIANT + RocketLanguage.RB_NOT_FOUND;
                         rocketMessage[2] = RocketLanguage.RB_ENHANCE + loreLine;
 
-                        RocketInit.rocketVariant.put(playerUUID, Variant.ORIGINAL);
-                        RocketInit.rocketEnhancement.put(playerUUID, enhancementType);
+                        variant = Variant.ORIGINAL;
+                        enhancement = enhancementType;
                     }
                 }
                 break;
@@ -239,33 +212,33 @@ public class RocketFunctions {
 
                 if (variantType != null && enhancementType != null) {
                     rocketMessage[1] = RocketLanguage.RB_VARIANT + variantLore;
-                    RocketInit.rocketVariant.put(playerUUID, variantType);
+                    variant = variantType;
 
                     if (variantType.equals(Variant.WATER)) isWaterVariant = true;
                     if (variantType.equals(Variant.RUNNER)) isRunnerVariant = true;
 
                     rocketMessage[2] = RocketLanguage.RB_ENHANCE + enhancementLore;
-                    RocketInit.rocketEnhancement.put(playerUUID, enhancementType);
+                    enhancement = enhancementType;
                 }
                 break;
 
         }
 
         if (!isWaterVariant && blockMiddle.isLiquid()) {
-            RocketInit.rocketWater.add(playerUUID);
+            rp.getLockouts().setInWater(true);
             commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_WATER_WARNING);
             return;
         }
 
-        if (RocketInit.rocketVariant.get(playerUUID) == null || RocketInit.rocketEnhancement.get(playerUUID) == null) {
+        if (variant == null || enhancement == null) {
             commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_FAIL_ATTACH);
-            disableRocketBoots(player, false, false, false, false, false);
+            disableRocketBoots(player, false);
             return;
         }
 
-        if (RocketInit.rocketVariant.get(playerUUID) != Variant.ORIGINAL && player.getWorld().getName().equals("world_nether")) {
+        if (variant != Variant.ORIGINAL && player.getWorld().getName().equals("world_nether")) {
             commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_NETHER);
-            disableRocketBoots(player, false, false, false, false, false);
+            disableRocketBoots(player, false);
             return;
         }
 
@@ -273,8 +246,11 @@ public class RocketFunctions {
             if (gamemodeCheck.check(player, GameMode.SURVIVAL, GameMode.ADVENTURE)) {
 
                 commonString.messageSend(RocketInit.getPlugin(), player, true, rocketMessage);
-                if (!isRunnerVariant) player.setAllowFlight(true);
-                RocketInit.rocketPower.put(playerUUID, getBootPowerLevel(boots));
+                if (!isRunnerVariant)
+                    player.setAllowFlight(true);
+
+                power = getBootPowerLevel(boots);
+                rp.setBootData(new BootData(power, variant, enhancement));
 
             }
 
@@ -330,6 +306,7 @@ public class RocketFunctions {
 
     public boolean fuelCheck(Player player, Material single, Material block) {
 
+        RocketPlayer rp = RocketInit.getPlayer(player);
         Inventory fuelInventory = getFuelInventory(player);
         ItemStack rocketBoots = player.getInventory().getBoots();
 
@@ -359,7 +336,7 @@ public class RocketFunctions {
         if (fuelInventory.containsAtLeast(new ItemStack(single), fuelCost)) return true;
 
         commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.FuelRequired(single.name().toLowerCase()));
-        RocketInit.rocketTimeout.add(player.getUniqueId());
+        rp.getLockouts().setInFuelLockout(true);
 
         new BukkitRunnable() {
             int c = 5;
@@ -367,7 +344,7 @@ public class RocketFunctions {
             @Override
             public void run() {
                 if (c <= 0) {
-                    RocketInit.rocketTimeout.remove(player.getUniqueId());
+                    rp.getLockouts().setInFuelLockout(false);
                     this.cancel();
                     return;
                 }
@@ -390,7 +367,7 @@ public class RocketFunctions {
 
         if (!blockStacks.split(fuelInventory, block, single, cost, (9 - cost))) {
             commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.FuelOutage(single.toString().toLowerCase()));
-            disableRocketBoots(player, true, true, true, true, true);
+            disableRocketBoots(player, true);
         }
 
         try {
@@ -410,7 +387,7 @@ public class RocketFunctions {
 
     public boolean isValidFuelJacket(ItemStack jacket) {
 
-        if (jacket.hasItemMeta()) {
+        if (jacket != null && jacket.hasItemMeta()) {
             ItemMeta jacketMeta = jacket.getItemMeta();
             if (jacketMeta.hasDisplayName())
                 if (jacketMeta.getDisplayName().equals(ChatColor.RED + "Rocket Boot Fuel Jacket")) return true;
@@ -467,7 +444,7 @@ public class RocketFunctions {
 
     public boolean isValidRocketBoots(ItemStack boots) {
 
-        if (boots.hasItemMeta()) {
+        if (boots != null && boots.hasItemMeta()) {
             ItemMeta bootMeta = boots.getItemMeta();
 
             if (bootMeta.hasDisplayName())
@@ -483,7 +460,8 @@ public class RocketFunctions {
 
     public int getBootPowerLevel(ItemStack boots) {
 
-        return romanNumeralToInteger.decode(boots.getItemMeta().getLore().get(0).replaceFirst(RocketLanguage.RB_LEVEL, ""));
+        String text = boots.getItemMeta().getLore().get(0);
+        return romanNumeralToInteger.decode(text.replaceFirst(RocketLanguage.RB_LEVEL, ""));
 
     }
 
@@ -566,7 +544,7 @@ public class RocketFunctions {
 
     public void changeBootDurability(Player player, ItemStack boots) {
 
-        Short rocketDurability = boots.getDurability();
+        short rocketDurability = boots.getDurability();
 
         int bootMaterialDurability = getBootDurability(boots);
         short changedDurability = 0;
@@ -664,7 +642,7 @@ public class RocketFunctions {
         int cBZ = centerBlock.getBlockZ();
 
         List<String> zoneList = RocketInit.getPlugin().getConfig().getStringList("zones");
-        String activeZone = player.getUniqueId().toString() + "|" + world.getName() + "|" + cBX + "|" + cBY + "|" + cBZ;
+        String activeZone = new IDTag().create(player, centerBlock);
         zoneList.add(activeZone);
 
         RocketInit.getPlugin().getConfig().set("zones", zoneList);

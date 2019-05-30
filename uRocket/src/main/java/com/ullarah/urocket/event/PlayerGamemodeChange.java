@@ -2,6 +2,7 @@ package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketFunctions;
 import com.ullarah.urocket.RocketInit;
+import com.ullarah.urocket.data.RocketPlayer;
 import com.ullarah.urocket.function.CommonString;
 import com.ullarah.urocket.function.GamemodeCheck;
 import com.ullarah.urocket.function.TitleSubtitle;
@@ -23,17 +24,17 @@ public class PlayerGamemodeChange implements Listener {
         TitleSubtitle titleSubtitle = new TitleSubtitle();
 
         Player player = event.getPlayer();
+        RocketPlayer rp = RocketInit.getPlayer(player);
 
-        if (!RocketInit.rocketUsage.isEmpty())
-            if (RocketInit.rocketUsage.contains(player.getUniqueId()))
-                if (gamemodeCheck.check(player, GameMode.CREATIVE, GameMode.SPECTATOR)) {
+        if (rp.isUsingBoots())
+            if (gamemodeCheck.check(player, GameMode.CREATIVE, GameMode.SPECTATOR)) {
 
-                    commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_GAMEMODE_ERROR);
-                    titleSubtitle.subtitle(player, 1, RocketLanguage.RB_GAMEMODE_ERROR);
+                commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_GAMEMODE_ERROR);
+                titleSubtitle.subtitle(player, 1, RocketLanguage.RB_GAMEMODE_ERROR);
 
-                    rocketFunctions.disableRocketBoots(player, false, false, false, false, false);
+                rocketFunctions.disableRocketBoots(player, false);
 
-                }
+            }
 
     }
 

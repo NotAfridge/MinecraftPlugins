@@ -37,12 +37,16 @@ public final class RocketLanguage {
     public static final String RB_WATER_WARNING = ChatColor.YELLOW + "These Rocket Boots do not work in water!";
     public static final String RB_WORLD_CHANGE = ChatColor.RED + "Rocket Boots do not like world changes!";
 
-    public static final String RB_STATION_PLACE_ERROR = ChatColor.RED + "You can only place this on top of a Repair Tank!";
+    public static final String RB_STATION_PLACE_ERROR = ChatColor.RED + "You can only place this on top of a Repair Tank you placed!";
     public static final String RB_STATION_PLACE_SUCCESS = ChatColor.YELLOW + "Rocket Repair Station ready to use!";
 
     public static final String RB_STATION_START = ChatColor.YELLOW + "Rocket Boot Repair starting. Please stand still.";
 
-    public static final String RB_RS_PLACE_ERROR = ChatColor.RED + "You can only place this on top of a Repair Station!";
+    public static final String RB_STATION_BREAK_ERROR = ChatColor.RED + "You must break the stand above first!";
+    public static final String RB_TANK_BREAK_ERROR = ChatColor.RED + "You must break the station above first!";
+
+    public static final String RB_RS_PLACE_ERROR = ChatColor.RED + "You can only place this on top of a Repair Station you placed!";
+    public static final String RB_RS_SNEAK_ERROR = ChatColor.RED + "You have to be sneaking to place this!";
     public static final String RB_RS_PLACE_SUCCESS = ChatColor.GREEN + "Repair Stand ready to use!";
     public static final String RB_RS_EXIST = ChatColor.YELLOW + "Repair Stand already exists at this location!";
     public static final String RB_RS_ENTITY = ChatColor.RED + "Entity in the way of Repair Stand placement!";

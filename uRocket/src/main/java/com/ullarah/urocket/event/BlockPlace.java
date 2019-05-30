@@ -8,6 +8,8 @@ import com.ullarah.urocket.RocketFunctions;
 import com.ullarah.urocket.RocketInit;
 import com.ullarah.urocket.function.AreaCheck;
 import com.ullarah.urocket.function.CommonString;
+import com.ullarah.urocket.function.IDTag;
+import com.ullarah.urocket.function.LocationShift;
 import com.ullarah.urocket.init.RocketLanguage;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -20,6 +22,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.util.Vector;
 
 import java.util.List;
 import java.util.Map;
@@ -48,12 +51,8 @@ public class BlockPlace implements Listener {
 
         if (player.getWorld().getName().equals("world")) {
 
-            World world = player.getWorld();
             Location blockLocation = block.getLocation();
-
-            int bX = blockLocation.getBlockX();
-            int bY = blockLocation.getBlockY();
-            int bZ = blockLocation.getBlockZ();
+            Location belowLocation = new LocationShift().add(blockLocation, 0, -1, 0);
 
             switch (block.getType()) {
 
@@ -63,7 +62,7 @@ public class BlockPlace implements Listener {
                         if (block.getRelative(BlockFace.DOWN).getType() == Material.FURNACE) {
 
                             List<String> tankList = RocketInit.getPlugin().getConfig().getStringList("tanks");
-                            String tank = player.getUniqueId().toString() + "|" + world.getName() + "|" + bX + "|" + (bY - 1) + "|" + bZ;
+                            String tank = new IDTag().create(player, belowLocation);
 
                             if (!tankList.contains(tank)) {
 
@@ -73,7 +72,7 @@ public class BlockPlace implements Listener {
                             } else {
 
                                 List<String> stationList = RocketInit.getPlugin().getConfig().getStringList("stations");
-                                stationList.add(player.getUniqueId().toString() + "|" + world.getName() + "|" + bX + "|" + bY + "|" + bZ);
+                                stationList.add(new IDTag().create(player, blockLocation));
 
                                 RocketInit.getPlugin().getConfig().set("stations", stationList);
                                 RocketInit.getPlugin().saveConfig();
@@ -96,7 +95,7 @@ public class BlockPlace implements Listener {
                     if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Repair Tank")) {
 
                         List<String> tankList = RocketInit.getPlugin().getConfig().getStringList("tanks");
-                        tankList.add(player.getUniqueId().toString() + "|" + world.getName() + "|" + bX + "|" + bY + "|" + bZ);
+                        tankList.add(new IDTag().create(player, blockLocation));
 
                         RocketInit.getPlugin().getConfig().set("tanks", tankList);
                         RocketInit.getPlugin().saveConfig();
@@ -107,7 +106,7 @@ public class BlockPlace implements Listener {
                 case END_PORTAL_FRAME:
                     if (rocketItemName.equals(ChatColor.RED + "Rocket Boot Fly Zone Controller")) {
 
-                        Boolean isFlyZone = false;
+                        boolean isFlyZone = false;
 
                         for (Map.Entry<UUID, ConcurrentHashMap<Location, Location>> rocketZone : RocketInit.rocketZoneLocations.entrySet()) {
 

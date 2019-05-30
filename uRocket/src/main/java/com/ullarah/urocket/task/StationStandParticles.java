@@ -1,10 +1,14 @@
 package com.ullarah.urocket.task;
 
 import com.ullarah.urocket.RocketInit;
+import com.ullarah.urocket.data.RepairStandData;
+import com.ullarah.urocket.function.LocationShift;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Furnace;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -22,35 +26,37 @@ public class StationStandParticles {
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
                 () -> plugin.getServer().getScheduler().runTask(plugin, () -> {
 
-                    if (!RocketInit.rocketRepairStand.isEmpty())
-                        for (Map.Entry<UUID, Location> repairStand : RocketInit.rocketRepairStand.entrySet()) {
+                    for (Map.Entry<UUID, RepairStandData> repairStand : RocketInit.rocketRepairStand.entrySet()) {
+                        processStand(repairStand.getValue());
+                    }
 
-                            Chunk chunk = repairStand.getValue().getWorld().getChunkAt(repairStand.getValue());
+                }), 0, 1);
+    }
 
-                            if (chunk.isLoaded()) {
+    private void processStand(RepairStandData data) {
+        if (!data.isRepairing()) {
+            return;
+        }
 
-                                for (Entity entity : chunk.getEntities()) {
+        Location location = data.getLocation();
+        Chunk chunk = location.getWorld().getChunkAt(location);
+        if (!chunk.isLoaded()) {
+            return;
+        }
 
-                                    if (entity instanceof ArmorStand) {
+        ArmorStand stand = data.getStand();
+        Location furnaceLoc = new LocationShift().add(stand.getLocation(), 0, -2, 0);
+        BlockState furnace = stand.getWorld().getBlockAt(furnaceLoc).getState();
 
-                                        LivingEntity stand = (LivingEntity) entity;
+        if (furnace instanceof Furnace && ((Furnace) furnace).getBurnTime() > 0) {
+            float x = (float) (location.getBlockX() + 0.5);
+            float y = (float) (location.getBlockY() + 0.5);
+            float z = (float) (location.getBlockZ() + 0.5);
 
-                                        float x = (float) (repairStand.getValue().getBlockX() + 0.5);
-                                        float y = (float) (repairStand.getValue().getBlockY() + 0.5);
-                                        float z = (float) (repairStand.getValue().getBlockZ() + 0.5);
-
-                                        stand.getWorld().spawnParticle(Particle.PORTAL, x, y, z, 1, 0, 0, 0, 1);
-
-                                    }
-
-                                }
-
-                            }
-
-                        }
-
-                }), 0, 0);
-
+            stand.getWorld().spawnParticle(Particle.PORTAL, x, y, z, 1, 0, 0, 0, 1);
+        } else {
+            data.stopRepairing(RepairStandData.StopReason.EMPTY_TANK);
+        }
     }
 
 }

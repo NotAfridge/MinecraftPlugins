@@ -1,11 +1,13 @@
 package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketInit;
+import com.ullarah.urocket.function.IDTag;
 import com.ullarah.urocket.recipe.RepairStand;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -25,28 +27,35 @@ public class StandBreak implements Listener {
 
             Location entityLocation = standEntity.getLocation();
 
-            int eX = entityLocation.getBlockX();
-            int eY = entityLocation.getBlockY();
-            int eZ = entityLocation.getBlockZ();
-
             List<String> standList = RocketInit.getPlugin().getConfig().getStringList("stands");
             List<String> newStandList = standList.stream().map(stand -> stand.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
-            String standOriginal = event.getDamager().getUniqueId().toString() + "|" + standEntity.getWorld().getName() + "|" + eX + "|" + eY + "|" + eZ;
-            String standNew = standEntity.getWorld().getName() + "|" + eX + "|" + eY + "|" + eZ;
+            String standNew = new IDTag().create(entityLocation);
 
-            if (standList.contains(standOriginal) || (event.getDamager().hasPermission("rocket.remove") && newStandList.contains(standNew))) {
 
-                if (standEntity.getEquipment().getBoots().getAmount() == 1) {
-                    ItemStack standBoots = standEntity.getEquipment().getBoots();
-                    if (standBoots.getType() != Material.AIR)
-                        standEntity.getWorld().dropItemNaturally(entityLocation, standBoots);
+            if (newStandList.contains(standNew)) {
+                // Only allow players to break stands
+                if (!(event.getDamager() instanceof Player)) {
+                    event.setCancelled(true);
+                    return;
                 }
 
+                // Cancel early, we're manually removing it
+                event.setCancelled(true);
+
+                // Drop all items on the armor stand
+                for (ItemStack stack : standEntity.getEquipment().getArmorContents()) {
+                    if (stack != null && stack.getType() != Material.AIR) {
+                        standEntity.getWorld().dropItemNaturally(entityLocation, stack);
+                    }
+                }
+
+                // Drop the enchanted stand
                 standEntity.getWorld().dropItemNaturally(entityLocation, new RepairStand().stand());
 
+                // Remove from the list and explicitly remove the entity, not kill it.
                 standList.remove(newStandList.indexOf(standNew));
-                standEntity.setHealth(0.0);
+                standEntity.remove();
 
                 RocketInit.getPlugin().getConfig().set("stands", standList);
                 RocketInit.getPlugin().saveConfig();
