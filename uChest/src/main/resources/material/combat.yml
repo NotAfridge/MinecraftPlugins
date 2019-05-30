@@ -5,11 +5,13 @@
 # e - Return value of money given (vault/economy)
 # x - Return value of experience given (xp)
 
-BOW:    { m: BOW,            s: true, d: true, r: true, e: 0.4, x: 0.5 }
-ARROW:  { m: ARROW,          s: true, d: true, r: true, e: 0.1, x: 0.2 }
-SARROW: { m: SPECTRAL_ARROW, s: true, d: true, r: true, e: 0.3, x: 0.4 }
-TARROW: { m: TIPPED_ARROW,   s: true, d: true, r: true, e: 0.5, x: 0.6 }
-SHIELD: { m: SHIELD,         s: true, d: true, r: true, e: 5.3, x: 5.4 }
+BOW:     { m: BOW,            s: true, d: true, r: true, e: 0.4,  x: 0.5  }
+XBOW:    { m: CROSSBOW,       s: true, d: true, r: true, e: 0.4,  x: 0.5  }
+ARROW:   { m: ARROW,          s: true, d: true, r: true, e: 0.1,  x: 0.2  }
+SARROW:  { m: SPECTRAL_ARROW, s: true, d: true, r: true, e: 0.3,  x: 0.4  }
+TARROW:  { m: TIPPED_ARROW,   s: true, d: true, r: true, e: 0.5,  x: 0.6  }
+SHIELD:  { m: SHIELD,         s: true, d: true, r: true, e: 5.3,  x: 5.4  }
+TRIDENT: { m: TRIDENT,        s: true, d: true, r: true, e: 16.0, x: 17.5 }
 
 SWORD_W: { m: WOODEN_SWORD,  s: true, d: true, r: true, e: 0.4,  x: 0.5 }
 SWORD_S: { m: STONE_SWORD,   s: true, d: true, r: true, e: 0.5,  x: 0.6 }
@@ -40,3 +42,7 @@ BOOT_C: { m: CHAINMAIL_BOOTS, s: true, d: true, r: true, e: 1.9,  x: 2.2  }
 BOOT_I: { m: IRON_BOOTS,      s: true, d: true, r: true, e: 11.4, x: 12.0 }
 BOOT_G: { m: GOLDEN_BOOTS,    s: true, d: true, r: true, e: 9.5,  x: 10.0 }
 BOOT_D: { m: DIAMOND_BOOTS,   s: true, d: true, r: true, e: 19.5, x: 20.0 }
+
+TOTEM: { m: TOTEM_OF_UNDYING,   s: true, d: true, r: true, e: 40.0, x: 42.0 }
+
+THELMET: { m: TURTLE_HELMET,   s: true, d: true, r: true, e: 10.0, x: 11.5 }

@@ -36,7 +36,7 @@ public class DonationRandom {
                 List<ItemStack> materialKeys = new ArrayList<>(ChestInit.materialMap.keySet());
                 ItemStack itemStack = materialKeys.get(new Random().nextInt(materialKeys.size()));
 
-                if ((boolean) ChestInit.materialMap.get(itemStack)[1])
+                if (ChestInit.materialMap.get(itemStack).isDonationEnabled())
                     ChestInit.getChestDonationInventory().setItem(i, itemStack);
 
             }

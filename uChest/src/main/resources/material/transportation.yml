@@ -5,9 +5,9 @@
 # e - Return value of money given (vault/economy)
 # x - Return value of experience given (xp)
 
-SADDLE:    { m: SADDLE,            s: true, d: true, r: true, e: 2.9,  x: 3.2 }
-CARROT_ST: { m: CARROT_ON_A_STICK, s: true, d: true, r: true, e: 0.5,  x: 0.6 }
-ELYTRA:    { m: ELYTRA,            s: true, d: true, r: true, e: 7.25, x: 7.5 }
+SADDLE:    { m: SADDLE,            s: true,  d: true,  r: true,  e: 2.9,  x: 3.2 }
+CARROT_ST: { m: CARROT_ON_A_STICK, s: true,  d: true,  r: true,  e: 0.5,  x: 0.6 }
+ELYTRA:    { m: ELYTRA,            s: false, d: false, r: false, e: 7.25, x: 7.5 }
 
 BOAT_OAK:     { m: OAK_BOAT,      s: true, d: true, r: true, e: 1.4, x: 1.95 }
 BOAT_SPRUCE:  { m: SPRUCE_BOAT,   s: true, d: true, r: true, e: 1.4, x: 1.95 }

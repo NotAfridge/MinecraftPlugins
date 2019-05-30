@@ -172,7 +172,7 @@ public class ChestMenu {
 
         CommonString commonString = new CommonString();
 
-        String consoleTools = commonString.pluginPrefix(ChestInit.getPlugin()) + ChatColor.WHITE + "toggle";
+        String consoleTools = commonString.pluginPrefix(ChestInit.getPlugin()) + ChatColor.WHITE + "toggle | validate";
 
         if (args.length == 0) {
 
@@ -194,6 +194,10 @@ public class ChestMenu {
 
                 case TOGGLE:
                     new ToggleAccess().toggleChestAccess(sender, args);
+                    break;
+
+                case VALIDATE:
+                    new ValidateConfig().validateMaterialConfig(sender, args);
                     break;
 
                 default:

@@ -3,7 +3,6 @@ package com.ullarah.uchest.event;
 import com.ullarah.uchest.ChestFunctions;
 import com.ullarah.uchest.ChestInit;
 import com.ullarah.uchest.init.ChestLanguage;
-import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -11,7 +10,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class ChestClick implements Listener {
 
@@ -42,11 +45,12 @@ public class ChestClick implements Listener {
         ChestFunctions chestFunctions = new ChestFunctions();
 
         Inventory chestInventory = event.getClickedInventory();
+        InventoryView view = event.getView();
         Player chestPlayer = (Player) event.getWhoClicked();
 
         if (chestInventory == null) return;
 
-        if (chestInventory.getName().matches(ChestLanguage.N_DCHEST)) {
+        if (view.getTitle().matches(ChestLanguage.N_DCHEST)) {
             if (ChestInit.chestDonateLock && event.getRawSlot() <= 53)
                 if (ChestInit.chestLockoutMap.get("dchest_itemlock").containsKey(chestPlayer.getUniqueId())) {
 
@@ -56,13 +60,13 @@ public class ChestClick implements Listener {
                 } else chestDonatePlayerUnlock(chestPlayer);
         }
 
-        if (chestInventory.getName().matches(ChestLanguage.N_RCHEST))
+        if (view.getTitle().matches(ChestLanguage.N_RCHEST))
             if (event.getCurrentItem().getAmount() >= 1 && event.getRawSlot() >= chestInventory.getSize()) {
                 event.setCancelled(true);
                 event.getCursor().setType(Material.AIR);
             }
 
-        if (chestInventory.getName().matches(ChestLanguage.N_ECHEST)) {
+        if (view.getTitle().matches(ChestLanguage.N_ECHEST)) {
             for (int s : new int[]{0, 1, 2, 3, 5, 6, 7, 8})
                 if (event.getRawSlot() == s) {
                     event.setCancelled(true);
@@ -70,7 +74,7 @@ public class ChestClick implements Listener {
                 }
         }
 
-        if (chestInventory.getName().matches(ChestLanguage.N_SCHEST)) {
+        if (view.getTitle().matches(ChestLanguage.N_SCHEST)) {
             if (event.getClick().isShiftClick()) {
                 event.setCancelled(true);
                 event.getCursor().setType(Material.AIR);
@@ -89,15 +93,15 @@ public class ChestClick implements Listener {
             }
         }
 
-        if (chestInventory.getName().matches("" + ChatColor.GOLD + ChatColor.BOLD + "Mixed Chests")) {
+        if (view.getTitle().matches("" + ChatColor.GOLD + ChatColor.BOLD + "Mixed Chests")) {
 
             event.setCancelled(true);
             event.getCursor().setType(Material.AIR);
             chestPlayer.closeInventory();
 
-            String[] chestArray = new String[]{"d", "e", "h", "m", "r", "s", "v", "w", "x"};
+            List<String> chestArray = Arrays.asList("d", "e", "h", "m", "r", "s", "v", "w", "x");
             for (String c : chestArray)
-                if (event.getRawSlot() == ArrayUtils.indexOf(chestArray, c))
+                if (event.getRawSlot() == chestArray.indexOf(c))
                     chestFunctions.openChestDelay(chestPlayer, c + "chest");
 
         }

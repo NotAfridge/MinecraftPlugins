@@ -1,15 +1,12 @@
 package com.ullarah.uchest;
 
-import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.managers.RegionManager;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.ullarah.uchest.data.MaterialData;
 import com.ullarah.uchest.function.CommonString;
 import com.ullarah.uchest.function.Experience;
 import com.ullarah.uchest.init.ChestLanguage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -37,10 +34,16 @@ public class ChestFunctions {
 
         for (ItemStack item : items) {
 
+            if (item == null)
+                continue;
+
+            int stackSize = item.getAmount();
+            item.setAmount(1);
+
             if (ChestInit.materialMap.containsKey(item)) {
 
-                Object[] materialObject = ChestInit.materialMap.get(new ItemStack(item.getType(), 1, item.getDurability()));
-                double itemValue = type == ValidChest.MONEY ? (double) materialObject[3] : (double) materialObject[4];
+                MaterialData data = ChestInit.materialMap.get(new ItemStack(item.getType(), 1, item.getDurability()));
+                double itemValue = type == ValidChest.MONEY ? data.getMoney() : data.getXp();
 
                 double maxDurability = item.getType().getMaxDurability();
                 double durability = item.getDurability();
@@ -48,7 +51,7 @@ public class ChestFunctions {
                 if (item.getType().getMaxDurability() > 0)
                     itemValue -= (itemValue * (durability / maxDurability));
 
-                amount += itemValue * item.getAmount();
+                amount += itemValue * stackSize;
                 hasItems = true;
 
             }
@@ -255,13 +258,18 @@ public class ChestFunctions {
     private ItemStack getRandomItem() {
 
         List<ItemStack> materialKeys = new ArrayList<>(ChestInit.materialMap.keySet());
+        ItemStack item;
+        int count = 0;
 
-        ItemStack item = materialKeys.get(new Random().nextInt(materialKeys.size()));
+        do {
+            // Only check 10 items before giving up
+            if (++count > 10)
+                return new ItemStack(Material.AIR);
 
-        if ((boolean) ChestInit.materialMap.get(item)[2]) return item;
-        else getRandomItem();
+            item = materialKeys.get(new Random().nextInt(materialKeys.size()));
+        } while (!ChestInit.materialMap.get(item).isRandomEnabled());
 
-        return new ItemStack(Material.AIR);
+        return item;
 
     }
 
@@ -420,7 +428,7 @@ public class ChestFunctions {
     }
 
     public enum validCommands {
-        HELP, TOGGLE, RANDOM, RESET, VIEW, UPGRADE
+        HELP, TOGGLE, VALIDATE, RANDOM, RESET, VIEW, UPGRADE
     }
 
     public enum ValidChest {

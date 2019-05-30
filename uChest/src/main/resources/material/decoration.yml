@@ -30,24 +30,29 @@ FEN_NETHER: { m: NETHER_BRICK_FENCE, s: true, d: true, r: true, e: 1.2, x: 1.4 }
 COBWEB: { m: COBWEB,     s: true, d: true, r: true, e: 0.2,  x: 0.3  }
 GRASS:  { m: GRASS,      s: true, d: true, r: true, e: 0.1,  x: 0.1  }
 TGRASS: { m: TALL_GRASS, s: true, d: true, r: true, e: 0.1,  x: 0.1  }
+SGRASS: { m: SEAGRASS,   s: true, d: true, r: true, e: 0.1,  x: 0.1  }
 FERN:   { m: FERN,       s: true, d: true, r: true, e: 0.1,  x: 0.1  }
 LFERN:  { m: LARGE_FERN, s: true, d: true, r: true, e: 0.1,  x: 0.1  }
 DEADB:  { m: DEAD_BUSH,  s: true, d: true, r: true, e: 0.05, x: 0.05 }
+SPICK:  { m: SEA_PICKLE, s: true, d: true, r: true, e: 0.1,  x: 0.1  }
 
-DANDELN: { m: DANDELION,    s: true, d: true, r: true, e: 0.1, x: 0.1 }
-POPPY:   { m: POPPY,        s: true, d: true, r: true, e: 0.1, x: 0.1 }
-ORCHID:  { m: BLUE_ORCHID,  s: true, d: true, r: true, e: 0.1, x: 0.1 }
-ALLIUM:  { m: ALLIUM,       s: true, d: true, r: true, e: 0.1, x: 0.1 }
-AZUREBL: { m: AZURE_BLUET,  s: true, d: true, r: true, e: 0.1, x: 0.1 }
-TUL_RED: { m: RED_TULIP,    s: true, d: true, r: true, e: 0.1, x: 0.1 }
-TUL_ORA: { m: ORANGE_TULIP, s: true, d: true, r: true, e: 0.1, x: 0.1 }
-TUL_WHT: { m: WHITE_TULIP,  s: true, d: true, r: true, e: 0.1, x: 0.1 }
-TUL_PNK: { m: PINK_TULIP,   s: true, d: true, r: true, e: 0.1, x: 0.1 }
-OXEYE:   { m: OXEYE_DAISY,  s: true, d: true, r: true, e: 0.1, x: 0.1 }
-SUNFLWR: { m: SUNFLOWER,    s: true, d: true, r: true, e: 0.1, x: 0.1 }
-LILAC:   { m: LILAC,        s: true, d: true, r: true, e: 0.1, x: 0.1 }
-ROSES:   { m: ROSE_BUSH,    s: true, d: true, r: true, e: 0.1, x: 0.1 }
-PEONY:   { m: PEONY,        s: true, d: true, r: true, e: 0.1, x: 0.1 }
+DANDELN:     { m: DANDELION,          s: true, d: true, r: true, e: 0.1, x: 0.1 }
+POPPY:       { m: POPPY,              s: true, d: true, r: true, e: 0.1, x: 0.1 }
+ORCHID:      { m: BLUE_ORCHID,        s: true, d: true, r: true, e: 0.1, x: 0.1 }
+ALLIUM:      { m: ALLIUM,             s: true, d: true, r: true, e: 0.1, x: 0.1 }
+AZUREBL:     { m: AZURE_BLUET,        s: true, d: true, r: true, e: 0.1, x: 0.1 }
+TUL_RED:     { m: RED_TULIP,          s: true, d: true, r: true, e: 0.1, x: 0.1 }
+TUL_ORA:     { m: ORANGE_TULIP,       s: true, d: true, r: true, e: 0.1, x: 0.1 }
+TUL_WHT:     { m: WHITE_TULIP,        s: true, d: true, r: true, e: 0.1, x: 0.1 }
+TUL_PNK:     { m: PINK_TULIP,         s: true, d: true, r: true, e: 0.1, x: 0.1 }
+OXEYE:       { m: OXEYE_DAISY,        s: true, d: true, r: true, e: 0.1, x: 0.1 }
+SUNFLWR:     { m: SUNFLOWER,          s: true, d: true, r: true, e: 0.1, x: 0.1 }
+LILAC:       { m: LILAC,              s: true, d: true, r: true, e: 0.1, x: 0.1 }
+ROSES:       { m: ROSE_BUSH,          s: true, d: true, r: true, e: 0.1, x: 0.1 }
+PEONY:       { m: PEONY,              s: true, d: true, r: true, e: 0.1, x: 0.1 }
+CORNFLOWER:  { m: CORNFLOWER,         s: true, d: true, r: true, e: 0.1, x: 0.1 }
+LILY:        { m: LILY_OF_THE_VALLEY, s: true, d: true, r: true, e: 0.1, x: 0.1 }
+WITHER_ROSE: { m: WITHER_ROSE,        s: true, d: true, r: true, e: 0.1, x: 0.1 }
 
 B_MUSH: { m: BROWN_MUSHROOM, s: true, d: true, r: true, e: 0.4, x: 0.5 }
 R_MUSH: { m: RED_MUSHROOM,   s: true, d: true, r: true, e: 0.4, x: 0.5 }
@@ -55,17 +60,37 @@ R_MUSH: { m: RED_MUSHROOM,   s: true, d: true, r: true, e: 0.4, x: 0.5 }
 TORCH:    { m: TORCH,       s: true, d: true, r: true, e: 0.01, x: 0.02 }
 LADDER:   { m: LADDER,      s: true, d: true, r: true, e: 0.4,  x: 0.5  }
 PAINTING: { m: PAINTING,    s: true, d: true, r: true, e: 0.3,  x: 0.4  }
-SIGN:     { m: SIGN,        s: true, d: true, r: true, e: 0.4,  x: 0.5  }
-BED:      { m: RED_BED,     s: true, d: true, r: true, e: 1.0,  x: 1.2  }
 FRAME:    { m: ITEM_FRAME,  s: true, d: true, r: true, e: 0.4,  x: 0.5  }
 FLWRPOT:  { m: FLOWER_POT,  s: true, d: true, r: true, e: 0.1,  x: 0.2  }
 AMRSTAND: { m: ARMOR_STAND, s: true, d: true, r: true, e: 0.55, x: 0.6  }
+
+SIGN_OAK:    { m: OAK_SIGN,      s: true, d: true, r: true, e: 0.4,  x: 0.5 }
+SIGN_SPRUCE: { m: SPRUCE_SIGN,   s: true, d: true, r: true, e: 0.4,  x: 0.5 }
+SIGN_BIRCH:  { m: BIRCH_SIGN,    s: true, d: true, r: true, e: 0.4,  x: 0.5 }
+SIGN_JUNGLE: { m: JUNGLE_SIGN,   s: true, d: true, r: true, e: 0.4,  x: 0.5 }
+SIGN_ACACIA: { m: ACACIA_SIGN,   s: true, d: true, r: true, e: 0.4,  x: 0.5 }
+SIGN_DARKO:  { m: DARK_OAK_SIGN, s: true, d: true, r: true, e: 0.4,  x: 0.5 }
 
 CHEST:   { m: CHEST,          s: true, d: true, r: true, e: 0.5, x: 0.6 }
 ECHEST:  { m: ENDER_CHEST,    s: true, d: true, r: true, e: 7.0, x: 7.2 }
 CRAFT:   { m: CRAFTING_TABLE, s: true, d: true, r: true, e: 0.4, x: 0.5 }
 FURNACE: { m: FURNACE,        s: true, d: true, r: true, e: 0.5, x: 0.6 }
 JUKEBOX: { m: JUKEBOX,        s: true, d: true, r: true, e: 0.4, x: 0.5 }
+
+BARREL:        { m: BARREL,            s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+BELL:          { m: BELL,              s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+BLAST_FURNACE: { m: BLAST_FURNACE,     s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+CAMPFIRE:      { m: CAMPFIRE,          s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+CARTOGRAPHY:   { m: CARTOGRAPHY_TABLE, s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+FLETCHING:     { m: FLETCHING_TABLE,   s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+GRINDSTONE:    { m: GRINDSTONE,        s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+LANTERN:       { m: LANTERN,           s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+LOOM:          { m: LOOM,              s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+SMITHING:      { m: SMITHING_TABLE,    s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+SMOKER:        { m: SMOKER,            s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+STONECUTTER:   { m: STONECUTTER,       s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+
+SCAFFOLDING:   { m: SCAFFOLDING, s: true, d: true, r: true, e: 0.4, x: 0.5 }
 
 SNOWFLAT:  { m: SNOW,        s: true, d: true, r: true, e: 0.1,  x: 0.2  }
 CACTUS:    { m: CACTUS,      s: true, d: true, r: true, e: 0.2,  x: 0.3  }
@@ -96,9 +121,45 @@ SKULL_D: { m: DRAGON_HEAD,           s: false, d: false, r: false, e: 120.0, x: 
 CH_PLANT:  { m: CHORUS_PLANT,  s: true, d: true, r: true, e: 0.8, x: 0.8 }
 CH_FLOWER: { m: CHORUS_FLOWER, s: true, d: true, r: true, e: 0.8, x: 0.9 }
 
+BMUSH_B: { m: BROWN_MUSHROOM_BLOCK, s: true, d: true, r: true, e: 0.8, x: 0.9 }
+BMUSH_R: { m: RED_MUSHROOM_BLOCK,   s: true, d: true, r: true, e: 0.8, x: 0.9 }
+MBUSH_S: { m: MUSHROOM_STEM,        s: true, d: true, r: true, e: 0.8, x: 0.9 }
+
 ANVIL:    { m: ANVIL,         s: true,  d: true,  r: true,  e: 78.0, x: 80.5  }
 ANVIL_SD: { m: CHIPPED_ANVIL, s: false, d: false, r: false, e: 37.5, x: 40.25 }
 ANVIL_VD: { m: DAMAGED_ANVIL, s: false, d: false, r: false, e: 18.4, x: 19.75 }
+
+WALL_CBS: { m: COBBLESTONE_WALL,       s: true, d: true, r: true, e: 0.027, x: 0.03  }
+WALL_MCB: { m: MOSSY_COBBLESTONE_WALL, s: true, d: true, r: true, e: 0.05,  x: 0.065 }
+WALL_AND: { m: ANDESITE_WALL,          s: true, d: true, r: true, e: 0.027, x: 0.03  }
+WALL_BRK: { m: BRICK_WALL,             s: true, d: true, r: true, e: 0.027, x: 0.03  }
+WALL_DIO: { m: DIORITE_WALL,           s: true, d: true, r: true, e: 0.027, x: 0.03  }
+WALL_ESB: { m: END_STONE_BRICK_WALL,   s: true, d: true, r: true, e: 0.027, x: 0.03  }
+WALL_GRN: { m: GRANITE_WALL,           s: true, d: true, r: true, e: 0.027, x: 0.03  }
+WALL_MSB: { m: MOSSY_STONE_BRICK_WALL, s: true, d: true, r: true, e: 0.027, x: 0.03  }
+WALL_NBR: { m: NETHER_BRICK_WALL,      s: true, d: true, r: true, e: 0.027, x: 0.03  }
+WALL_PRS: { m: PRISMARINE_WALL,        s: true, d: true, r: true, e: 0.027, x: 0.03  }
+WALL_RNB: { m: RED_NETHER_BRICK_WALL,  s: true, d: true, r: true, e: 0.027, x: 0.03  }
+WALL_RSS: { m: RED_SANDSTONE_WALL,     s: true, d: true, r: true, e: 0.027, x: 0.03  }
+WALL_SST: { m: SANDSTONE_WALL,         s: true, d: true, r: true, e: 0.027, x: 0.03  }
+WALL_SBK: { m: STONE_BRICK_WALL,       s: true, d: true, r: true, e: 0.027, x: 0.03  }
+
+BED_WHT: { m: WHITE_BED,      s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+BED_ORA: { m: ORANGE_BED,     s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+BED_MAG: { m: MAGENTA_BED,    s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+BED_LBL: { m: LIGHT_BLUE_BED, s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+BED_YEL: { m: YELLOW_BED,     s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+BED_LIM: { m: LIME_BED,       s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+BED_PNK: { m: PINK_BED,       s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+BED_GRY: { m: GRAY_BED,       s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+BED_LGR: { m: LIGHT_GRAY_BED, s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+BED_CYA: { m: CYAN_BED,       s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+BED_PUR: { m: PURPLE_BED,     s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+BED_BLU: { m: BLUE_BED,       s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+BED_BRN: { m: BROWN_BED,      s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+BED_GRN: { m: GREEN_BED,      s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+BED_RED: { m: RED_BED,        s: true, d: true, r: true, e: 1.0,  x: 1.2 }
+BED_BLK: { m: BLACK_BED,      s: true, d: true, r: true, e: 1.0,  x: 1.2 }
 
 PANE_CLR: { m: GLASS_PANE,                    s: true, d: true, r: true, e: 0.15, x: 0.3 }
 PANE_WHT: { m: WHITE_STAINED_GLASS_PANE,      s: true, d: true, r: true, e: 0.15, x: 0.3 }
@@ -117,6 +178,42 @@ PANE_BRN: { m: BROWN_STAINED_GLASS_PANE,      s: true, d: true, r: true, e: 0.15
 PANE_GRN: { m: GREEN_STAINED_GLASS_PANE,      s: true, d: true, r: true, e: 0.15, x: 0.3 }
 PANE_RED: { m: RED_STAINED_GLASS_PANE,        s: true, d: true, r: true, e: 0.15, x: 0.3 }
 PANE_BLK: { m: BLACK_STAINED_GLASS_PANE,      s: true, d: true, r: true, e: 0.15, x: 0.3 }
+
+SBOX: { m: SHULKER_BOX, s: true, d: true, r: true, e: 8.0, x: 8.5 }
+
+SBOX_WH: { m: WHITE_SHULKER_BOX,      s: true, d: true, r: true, e: 8.0, x: 8.5 }
+SBOX_OR: { m: ORANGE_SHULKER_BOX,     s: true, d: true, r: true, e: 8.0, x: 8.5 }
+SBOX_MA: { m: MAGENTA_SHULKER_BOX,    s: true, d: true, r: true, e: 8.0, x: 8.5 }
+SBOX_LB: { m: LIGHT_BLUE_SHULKER_BOX, s: true, d: true, r: true, e: 8.0, x: 8.5 }
+SBOX_YL: { m: YELLOW_SHULKER_BOX,     s: true, d: true, r: true, e: 8.0, x: 8.5 }
+SBOX_LM: { m: LIME_SHULKER_BOX,       s: true, d: true, r: true, e: 8.0, x: 8.5 }
+SBOX_PK: { m: PINK_SHULKER_BOX,       s: true, d: true, r: true, e: 8.0, x: 8.5 }
+SBOX_GR: { m: GRAY_SHULKER_BOX,       s: true, d: true, r: true, e: 8.0, x: 8.5 }
+SBOX_LG: { m: LIGHT_GRAY_SHULKER_BOX, s: true, d: true, r: true, e: 8.0, x: 8.5 }
+SBOX_CY: { m: CYAN_SHULKER_BOX,       s: true, d: true, r: true, e: 8.0, x: 8.5 }
+SBOX_PU: { m: PURPLE_SHULKER_BOX,     s: true, d: true, r: true, e: 8.0, x: 8.5 }
+SBOX_BL: { m: BLUE_SHULKER_BOX,       s: true, d: true, r: true, e: 8.0, x: 8.5 }
+SBOX_BR: { m: BROWN_SHULKER_BOX,      s: true, d: true, r: true, e: 8.0, x: 8.5 }
+SBOX_GE: { m: GREEN_SHULKER_BOX,      s: true, d: true, r: true, e: 8.0, x: 8.5 }
+SBOX_RE: { m: RED_SHULKER_BOX,        s: true, d: true, r: true, e: 8.0, x: 8.5 }
+SBOX_BK: { m: BLACK_SHULKER_BOX,      s: true, d: true, r: true, e: 8.0, x: 8.5 }
+
+GTERRACOTTA_WH: { m: WHITE_GLAZED_TERRACOTTA,      s: true, d: true, r: true, e: 0.4, x: 0.45 }
+GTERRACOTTA_OR: { m: ORANGE_GLAZED_TERRACOTTA,     s: true, d: true, r: true, e: 0.4, x: 0.45 }
+GTERRACOTTA_MA: { m: MAGENTA_GLAZED_TERRACOTTA,    s: true, d: true, r: true, e: 0.4, x: 0.45 }
+GTERRACOTTA_LB: { m: LIGHT_BLUE_GLAZED_TERRACOTTA, s: true, d: true, r: true, e: 0.4, x: 0.45 }
+GTERRACOTTA_YL: { m: YELLOW_GLAZED_TERRACOTTA,     s: true, d: true, r: true, e: 0.4, x: 0.45 }
+GTERRACOTTA_LM: { m: LIME_GLAZED_TERRACOTTA,       s: true, d: true, r: true, e: 0.4, x: 0.45 }
+GTERRACOTTA_PK: { m: PINK_GLAZED_TERRACOTTA,       s: true, d: true, r: true, e: 0.4, x: 0.45 }
+GTERRACOTTA_GR: { m: GRAY_GLAZED_TERRACOTTA,       s: true, d: true, r: true, e: 0.4, x: 0.45 }
+GTERRACOTTA_LG: { m: LIGHT_GRAY_GLAZED_TERRACOTTA, s: true, d: true, r: true, e: 0.4, x: 0.45 }
+GTERRACOTTA_CY: { m: CYAN_GLAZED_TERRACOTTA,       s: true, d: true, r: true, e: 0.4, x: 0.45 }
+GTERRACOTTA_PU: { m: PURPLE_GLAZED_TERRACOTTA,     s: true, d: true, r: true, e: 0.4, x: 0.45 }
+GTERRACOTTA_BL: { m: BLUE_GLAZED_TERRACOTTA,       s: true, d: true, r: true, e: 0.4, x: 0.45 }
+GTERRACOTTA_BR: { m: BROWN_GLAZED_TERRACOTTA,      s: true, d: true, r: true, e: 0.4, x: 0.45 }
+GTERRACOTTA_GE: { m: GREEN_GLAZED_TERRACOTTA,      s: true, d: true, r: true, e: 0.4, x: 0.45 }
+GTERRACOTTA_RE: { m: RED_GLAZED_TERRACOTTA,        s: true, d: true, r: true, e: 0.4, x: 0.45 }
+GTERRACOTTA_BK: { m: BLACK_GLAZED_TERRACOTTA,      s: true, d: true, r: true, e: 0.4, x: 0.45 }
 
 CARPET_WHT: { m: WHITE_CARPET,      s: true, d: true, r: true, e: 0.1, x: 0.2 }
 CARPET_ORA: { m: ORANGE_CARPET,     s: true, d: true, r: true, e: 0.1, x: 0.2 }
@@ -151,3 +248,27 @@ BANNER_BRN: { m: BROWN_BANNER,      s: true, d: true, r: true, e: 2.25, x: 2.5 }
 BANNER_GRN: { m: GREEN_BANNER,      s: true, d: true, r: true, e: 2.25, x: 2.5 }
 BANNER_RED: { m: RED_BANNER,        s: true, d: true, r: true, e: 2.25, x: 2.5 }
 BANNER_BLK: { m: BLACK_BANNER,      s: true, d: true, r: true, e: 2.25, x: 2.5 }
+
+CORAL_BR: { m: BRAIN_CORAL,  s: true, d: true, r: true, e: 0.4,  x: 0.5 }
+CORAL_BU: { m: BUBBLE_CORAL, s: true, d: true, r: true, e: 0.4,  x: 0.5 }
+CORAL_FI: { m: FIRE_CORAL,   s: true, d: true, r: true, e: 0.4,  x: 0.5 }
+CORAL_HO: { m: HORN_CORAL,   s: true, d: true, r: true, e: 0.4,  x: 0.5 }
+CORAL_TU: { m: TUBE_CORAL,   s: true, d: true, r: true, e: 0.4,  x: 0.5 }
+
+DCORAL_BR: { m: DEAD_BRAIN_CORAL,  s: true, d: true, r: true, e: 0.3,  x: 0.4 }
+DCORAL_BU: { m: DEAD_BUBBLE_CORAL, s: true, d: true, r: true, e: 0.3,  x: 0.4 }
+DCORAL_FI: { m: DEAD_FIRE_CORAL,   s: true, d: true, r: true, e: 0.3,  x: 0.4 }
+DCORAL_HO: { m: DEAD_HORN_CORAL,   s: true, d: true, r: true, e: 0.3,  x: 0.4 }
+DCORAL_TU: { m: DEAD_TUBE_CORAL,   s: true, d: true, r: true, e: 0.3,  x: 0.4 }
+
+FCORAL_BR: { m: BRAIN_CORAL_FAN,  s: true, d: true, r: true, e: 0.4,  x: 0.5 }
+FCORAL_BU: { m: BUBBLE_CORAL_FAN, s: true, d: true, r: true, e: 0.4,  x: 0.5 }
+FCORAL_FI: { m: FIRE_CORAL_FAN,   s: true, d: true, r: true, e: 0.4,  x: 0.5 }
+FCORAL_HO: { m: HORN_CORAL_FAN,   s: true, d: true, r: true, e: 0.4,  x: 0.5 }
+FCORAL_TU: { m: TUBE_CORAL_FAN,   s: true, d: true, r: true, e: 0.4,  x: 0.5 }
+
+DFCORAL_BR: { m: DEAD_BRAIN_CORAL_FAN,  s: true, d: true, r: true, e: 0.3,  x: 0.4 }
+DFCORAL_BU: { m: DEAD_BUBBLE_CORAL_FAN, s: true, d: true, r: true, e: 0.3,  x: 0.4 }
+DFCORAL_FI: { m: DEAD_FIRE_CORAL_FAN,   s: true, d: true, r: true, e: 0.3,  x: 0.4 }
+DFCORAL_HO: { m: DEAD_HORN_CORAL_FAN,   s: true, d: true, r: true, e: 0.3,  x: 0.4 }
+DFCORAL_TU: { m: DEAD_TUBE_CORAL_FAN,   s: true, d: true, r: true, e: 0.3,  x: 0.4 }
