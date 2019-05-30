@@ -8,6 +8,7 @@ import com.ullarah.umagic.recipe.MagicHoeCosmic;
 import com.ullarah.umagic.recipe.MagicHoeNormal;
 import com.ullarah.umagic.recipe.MagicHoeSuper;
 import com.ullarah.umagic.recipe.MagicHoeUber;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -77,10 +78,10 @@ public class MagicInit extends JavaPlugin {
 
             new MagicFunctions(true);
 
-            getServer().addRecipe(new MagicHoeNormal().recipe());
-            getServer().addRecipe(new MagicHoeSuper().recipe());
-            getServer().addRecipe(new MagicHoeUber().recipe());
-            getServer().addRecipe(new MagicHoeCosmic().recipe());
+            addRecipe(new MagicHoeNormal().recipe());
+            addRecipe(new MagicHoeSuper().recipe());
+            addRecipe(new MagicHoeUber().recipe());
+            addRecipe(new MagicHoeCosmic().recipe());
 
             new PluginRegisters(getPlugin());
 
@@ -97,8 +98,19 @@ public class MagicInit extends JavaPlugin {
 
     public void onDisable() {
 
-        getSqlConnection().closeSQLConnection();
+        if (getSqlConnection() != null)
+            getSqlConnection().closeSQLConnection();
 
+    }
+
+    private void addRecipe(Recipe recipe) {
+        try {
+            getServer().addRecipe(recipe);
+        } catch (IllegalStateException e) {
+            if (!e.getMessage().startsWith("Duplicate recipe ignored")) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

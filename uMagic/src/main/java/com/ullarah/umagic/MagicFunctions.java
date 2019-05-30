@@ -17,9 +17,9 @@ import com.ullarah.umagic.recipe.MagicHoeCosmic;
 import com.ullarah.umagic.recipe.MagicHoeNormal;
 import com.ullarah.umagic.recipe.MagicHoeSuper;
 import com.ullarah.umagic.recipe.MagicHoeUber;
-import org.apache.commons.lang3.StringUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.libs.org.apache.commons.lang3.StringUtils;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
@@ -204,19 +204,21 @@ public class MagicFunctions {
 
         try {
 
-            if (getSqlConnection().getResult("SELECT data FROM " + database + " WHERE "
-                    + StringUtils.join(new String[]{"world = " + location.getWorld().getName(),
-                    "locX = " + String.valueOf(location.getBlockX()), "locY = " + String.valueOf(location.getBlockY()),
-                    "locZ = " + String.valueOf(location.getBlockZ())}, " AND ")).next()) removeMetadata(location);
+            String statement = "SELECT data FROM " + database + " WHERE "
+                    + StringUtils.join(new String[]{
+                            "world='" + location.getWorld().getName() + "'",
+                            "locX=" + location.getBlockX(),
+                            "locY=" + location.getBlockY(),
+                            "locZ=" + location.getBlockZ()},
+                            " AND ");
+            ResultSet result = getSqlConnection().getResult(statement);
+            if (result != null && result.next())
+                removeMetadata(location);
 
         } catch (SQLException e) {
-
             getPlugin().getLogger().log(Level.SEVERE, getSqlMessage().sqlConnectionFailure(), e);
-
         } finally {
-
             getSqlConnection().closeSQLConnection();
-
         }
 
         getSqlConnection().runStatement("INSERT INTO " + database + " VALUES ("
@@ -228,10 +230,14 @@ public class MagicFunctions {
 
     protected void removeMetadata(Location location) {
 
-        getSqlConnection().runStatement("DELETE FROM " + database + " WHERE "
-                + StringUtils.join(new String[]{"world = " + location.getWorld().getName(),
-                "locX = " + String.valueOf(location.getBlockX()), "locY = " + String.valueOf(location.getBlockY()),
-                "locZ = " + String.valueOf(location.getBlockZ())}, " AND "));
+        String statement = "DELETE FROM " + database + " WHERE "
+                + StringUtils.join(new String[]{
+                        "world='" + location.getWorld().getName() + "'",
+                        "locX=" + location.getBlockX(),
+                        "locY=" + location.getBlockY(),
+                        "locZ=" + location.getBlockZ()},
+                " AND ");
+        getSqlConnection().runStatement(statement);
 
     }
 

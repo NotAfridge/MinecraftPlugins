@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -23,9 +24,11 @@ public class InboxClick implements Listener {
 
         if (event.getClickedInventory() == null) return;
 
-        if (event.getClickedInventory().getName().matches(ChatColor.DARK_RED + "Inbox: " + ChatColor.DARK_AQUA + "(.*)")) {
+        InventoryView view = event.getView();
 
-            String inboxOwner = ChatColor.stripColor(event.getClickedInventory().getTitle().replace("Inbox: ", ""));
+        if (view.getTitle().matches(ChatColor.DARK_RED + "Inbox: " + ChatColor.DARK_AQUA + "(.*)")) {
+
+            String inboxOwner = ChatColor.stripColor(view.getTitle().replace("Inbox: ", ""));
             UUID inboxUUID = new PlayerProfile().lookup(inboxOwner).getId();
 
             File inboxFile = new File(PostalInit.getInboxDataPath(), inboxUUID.toString() + ".yml");
@@ -55,7 +58,7 @@ public class InboxClick implements Listener {
                 return;
             }
 
-            if (item.getType() != Material.AIR) {
+            if (item != null && item.getType() != Material.AIR) {
 
                 if (item.hasItemMeta()) {
 
