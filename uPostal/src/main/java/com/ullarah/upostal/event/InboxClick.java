@@ -58,7 +58,7 @@ public class InboxClick implements Listener {
                 return;
             }
 
-            if (item.getType() != Material.AIR) {
+            if (item != null && item.getType() != Material.AIR) {
 
                 if (item.hasItemMeta()) {
 
