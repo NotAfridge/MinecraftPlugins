@@ -2,6 +2,7 @@ package com.ullarah.ubeacon.function;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.Plugin;
 
@@ -35,7 +36,7 @@ public class PluginRegisters {
                     case RECIPE:
                         ArrayList<ShapedRecipe> recipes = ((NewRecipe) object).recipes();
                         for (ShapedRecipe newRecipe : recipes) {
-                            plugin.getServer().addRecipe(newRecipe);
+                            addRecipe(plugin, newRecipe);
                         }
                         break;
 
@@ -76,6 +77,16 @@ public class PluginRegisters {
             return type;
         }
 
+    }
+
+    private void addRecipe(Plugin plugin, Recipe recipe) {
+        try {
+            plugin.getServer().addRecipe(recipe);
+        } catch (IllegalStateException e) {
+            if (!e.getMessage().startsWith("Duplicate recipe ignored")) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }
