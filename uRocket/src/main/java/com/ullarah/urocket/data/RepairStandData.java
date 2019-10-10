@@ -15,7 +15,9 @@ public class RepairStandData {
     public enum StopReason {
         FULLY_REPAIRED,
         ALREADY_MAX,
-        EMPTY_TANK
+        EMPTY_TANK,
+        STAND_DESTROYED,
+        BOOTS_REMOVED
     }
 
     private boolean repairing;
@@ -28,6 +30,8 @@ public class RepairStandData {
         this.stand = stand;
         this.location = new Location(location.getWorld(), location.getBlockX(), location.getBlockY(), location.getBlockZ());
         this.beaconLoc = new LocationShift().add(this.location, 0, -1, 0);
+
+        clearSignText();
     }
 
     public void stopRepairing(StopReason reason) {
@@ -36,22 +40,19 @@ public class RepairStandData {
             case ALREADY_MAX:
                 ItemStack boots = stand.getBoots();
                 String bootType = ChatColor.stripColor(boots.getItemMeta().getLore().get(0));
-
-                new SignText().changeAllCheck(beaconLoc, 0, "[Repair Status]", false,
-                        new String[]{
-                                "[Repair Status]",
-                                ChatColor.STRIKETHROUGH + "--------------",
-                                ChatColor.RED + bootType,
-                                "Fully Restored"});
-
+                setSignText(ChatColor.RED + bootType, "Fully Restored");
                 break;
 
             case EMPTY_TANK:
-                new SignText().changeLine(beaconLoc,
-                        new HashMap<Integer, String>() {{
-                            put(2, "Repair Tank");
-                            put(3, "Empty");
-                        }});
+                setSignText("Repair Tank", "Empty");
+                break;
+
+            case STAND_DESTROYED:
+                setSignText("Repair Stand", "Missing");
+                break;
+
+            case BOOTS_REMOVED:
+                clearSignText();
                 break;
         }
 
@@ -65,16 +66,25 @@ public class RepairStandData {
 
         boolean full = (bootDurability == bootMaterialDurability);
         String status = full ? "Fully Restored" : bootDurability + " / " + bootMaterialDurability;
-
-        new SignText().changeAllCheck(beaconLoc, 0, "[Repair Status]", false,
-                new String[]{
-                        "[Repair Status]",
-                        ChatColor.STRIKETHROUGH + "--------------",
-                        ChatColor.RED + bootType,
-                        status});
+        setSignText(ChatColor.RED + bootType, status);
 
         // Only start repairing if we need to
         repairing = !full;
+    }
+
+    private void clearSignText() {
+        setSignText("", "");
+    }
+
+    private void setSignText(String line3, String line4) {
+        new SignText().changeAllCheck(beaconLoc, 0, "[Repair Status]", false,
+            new String[]{
+                "[Repair Status]",
+                ChatColor.STRIKETHROUGH + "--------------",
+                line3,
+                line4
+            }
+        );
     }
 
     public ArmorStand getStand() {
