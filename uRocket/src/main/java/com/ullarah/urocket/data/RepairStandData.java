@@ -8,9 +8,10 @@ import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-
 public class RepairStandData {
+
+    private static final String HEADER = "[Repair Status]";
+    private static final String RULER = ChatColor.STRIKETHROUGH + "--------------";
 
     public enum StopReason {
         FULLY_REPAIRED,
@@ -77,14 +78,9 @@ public class RepairStandData {
     }
 
     private void setSignText(String line3, String line4) {
-        new SignText().changeAllCheck(beaconLoc, 0, "[Repair Status]", false,
-            new String[]{
-                "[Repair Status]",
-                ChatColor.STRIKETHROUGH + "--------------",
-                line3,
-                line4
-            }
-        );
+        String[] text = new String[] { HEADER, RULER, line3, line4 };
+        new SignText().changeAllCheck(beaconLoc, 0, HEADER, false, text);
+        new SignText().changeAllCheck(beaconLoc, 0, "", false, text);
     }
 
     public ArmorStand getStand() {
