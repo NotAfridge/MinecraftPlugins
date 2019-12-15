@@ -97,7 +97,12 @@ CACTUS:    { m: CACTUS,      s: true, d: true, r: true, e: 0.2,  x: 0.3  }
 SLIME_BLK: { m: SLIME_BLOCK, s: true, d: true, r: true, e: 4.85, x: 5.0  }
 IRONBAR:   { m: IRON_BARS,   s: true, d: true, r: true, e: 17.1, x: 17.6 }
 VINES:     { m: VINE,        s: true, d: true, r: true, e: 0.3,  x: 0.4  }
-LILYPAD:   { m: LILY_PAD,   s: true, d: true, r: true, e: 0.3,  x: 0.4  }
+LILYPAD:   { m: LILY_PAD,    s: true, d: true, r: true, e: 0.3,  x: 0.4  }
+
+BEE_HIVE:    { m: BEEHIVE,         s: true, d: true, r: true, e: 0.4,  x: 0.8  }
+BEE_NEST:    { m: BEE_NEST,        s: true, d: true, r: true, e: 0.4,  x: 0.8  }
+HCOMB_BLOCK: { m: HONEYCOMB_BLOCK, s: true, d: true, r: true, e: 0.5,  x: 1.0  }
+HONEY_BLOCK: { m: HONEY_BLOCK,     s: true, d: true, r: true, e: 0.5,  x: 1.0  }
 
 MEG_STONE:   { m: INFESTED_STONE,                 s: false, d: false, r: false, e: 0.4, x: 0.6 }
 MEG_CSTONE:  { m: INFESTED_COBBLESTONE,           s: false, d: false, r: false, e: 0.4, x: 0.6 }
