@@ -21,23 +21,26 @@ public class BeaconChange {
             List<String> beaconList = BeaconInit.getPlugin().getConfig().getStringList("beacons");
 
             for (String beacon : beaconList) {
-
-                String[] beaconParts = beacon.split("\\|");
-
-                World world = Bukkit.getWorld(beaconParts[1]);
-
-                Location location = new Location(world,
-                        Integer.parseInt(beaconParts[2]),
-                        Integer.parseInt(beaconParts[3]) + 1,
-                        Integer.parseInt(beaconParts[4]));
-
-                int index = new Random().nextInt(BeaconInit.getMaterials().size());
-                world.getBlockAt(location).setType(BeaconInit.getMaterials().get(index));
-
+                changeBeacon(beacon);
             }
 
         }, beaconInterval, beaconInterval);
 
+    }
+
+    private static void changeBeacon(String beacon) {
+        String[] beaconParts = beacon.split("\\|");
+
+        World world = Bukkit.getWorld(beaconParts[1]);
+        Location location = new Location(world,
+                Integer.parseInt(beaconParts[2]),
+                Integer.parseInt(beaconParts[3]) + 1,
+                Integer.parseInt(beaconParts[4]));
+
+        if (world.isChunkLoaded(location.getChunk())) {
+            int index = new Random().nextInt(BeaconInit.getMaterials().size());
+            world.getBlockAt(location).setType(BeaconInit.getMaterials().get(index));
+        }
     }
 
 }
