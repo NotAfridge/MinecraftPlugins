@@ -11,18 +11,14 @@ public class SignText {
 
     /**
      * Checks for signs around a single location
-     *
      * @param location the location surrounded by signs
      * @return a HashMap containing valid sign faces
      */
     private HashMap<String, Boolean> signFaceMap(final Location location) {
-
         HashMap<String, Boolean> signMap = new HashMap<>();
-
         for (String face : new String[]{"NORTH", "EAST", "SOUTH", "WEST"}) {
 
             switch (location.getBlock().getRelative(BlockFace.valueOf(face)).getType()) {
-
                 case ACACIA_SIGN:
                 case ACACIA_WALL_SIGN:
                 case BIRCH_SIGN:
@@ -37,44 +33,34 @@ public class SignText {
                 case SPRUCE_WALL_SIGN:
                     signMap.put(face, true);
                     break;
-
             }
-
         }
 
         return signMap;
-
     }
 
     /**
      * Change all sign text to given text array
-     *
      * @param location the location surrounded by signs
      * @param text     the text array, max 4 entries
      */
     public void changeAll(final Location location, String[] text) {
-
         HashMap<String, Boolean> signMap = signFaceMap(location);
-
         for (Map.Entry<String, Boolean> sign : signMap.entrySet()) {
 
             if (sign.getValue()) {
-
                 Sign signText = (Sign) location.getBlock().getRelative(BlockFace.valueOf(sign.getKey())).getState();
 
-                for (int i = 0; i < text.length; ++i) signText.setLine(i, text[i]);
-
+                for (int i = 0; i < text.length; ++i) {
+                    signText.setLine(i, text[i]);
+                }
                 signText.update();
-
             }
-
         }
-
     }
 
     /**
      * Change all sign(s) text to given text array checking a single line
-     *
      * @param location the location surrounded by signs
      * @param line     the specific line to check
      * @param extract  the extract of text to check
@@ -82,41 +68,31 @@ public class SignText {
      * @param text     a string array of sign line text to change
      */
     public void changeAllCheck(final Location location, int line, String extract, boolean cs, String[] text) {
-
         HashMap<String, Boolean> signMap = signFaceMap(location);
-
         for (Map.Entry<String, Boolean> sign : signMap.entrySet()) {
 
             if (sign.getValue()) {
 
                 Sign signText = (Sign) location.getBlock().getRelative(BlockFace.valueOf(sign.getKey())).getState();
-
                 String signLine = signText.getLine(line);
 
                 if (!cs) {
-
                     signLine = signLine.toLowerCase();
                     extract = extract.toLowerCase();
-
                 }
 
                 if (signLine.equals(extract)) {
-
-                    for (int i = 0; i < text.length; ++i) if (i != line) signText.setLine(i, text[i]);
-
+                    for (int i = 0; i < text.length; ++i) {
+                        signText.setLine(i, text[i]);
+                    }
                     signText.update();
-
                 }
-
             }
-
         }
-
     }
 
     /**
      * Change specific sign text to given text array
-     *
      * @param location the location surrounded by signs
      * @param lines    a map of the sign lines to change
      */

@@ -19,6 +19,7 @@ import org.bukkit.inventory.HorseInventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class InventoryClick implements Listener {
@@ -44,7 +45,6 @@ public class InventoryClick implements Listener {
 
         Player player = (Player) event.getWhoClicked();
         RocketPlayer rp = RocketInit.getPlayer(player);
-        UUID playerUUID = player.getUniqueId();
         ItemStack itemCursor = event.getCursor();
         ItemStack itemCurrent = event.getCurrentItem();
 
@@ -134,24 +134,17 @@ public class InventoryClick implements Listener {
 
         if (inventoryName.equals(event.getView().getTitle())) {
 
-            ArrayList<Material> allowedMaterial = new ArrayList<Material>() {{
-                add(Material.AIR);
-                add(Material.COAL);
-                add(Material.COAL_BLOCK);
-                add(Material.REDSTONE);
-                add(Material.REDSTONE_BLOCK);
-                add(Material.GLOWSTONE_DUST);
-                add(Material.GLOWSTONE);
-                add(Material.OAK_WOOD);
-                add(Material.OAK_LOG);
-            }};
+            ItemStack current = event.getCurrentItem();
+            ItemStack cursor = event.getCursor();
 
-            if (!allowedMaterial.contains(event.getCurrentItem().getType())) event.setCancelled(true);
-            if (!allowedMaterial.contains(event.getCursor().getType())) event.setCancelled(true);
+            if (!isFuelMaterial(current) || !isFuelMaterial(cursor)) {
+                event.setCancelled(true);
+                return;
+            }
 
             if (event.getClick().isShiftClick())
                 if (event.getClickedInventory() == event.getWhoClicked().getInventory())
-                    if (!allowedMaterial.contains(event.getCurrentItem().getType()))
+                    if (!isFuelMaterial(current))
                         event.setCancelled(true);
 
         }
@@ -170,13 +163,31 @@ public class InventoryClick implements Listener {
             Player player = (Player) event.getWhoClicked();
             ItemStack componentType = event.getCurrentItem();
 
-            componentType.setAmount(1);
-            event.setCancelled(true);
+            if (componentType != null) {
+                componentType.setAmount(1);
+                event.setCancelled(true);
 
-            player.getItemOnCursor().setType(Material.AIR);
-            player.getInventory().addItem(new ItemStack(componentType));
+                player.getItemOnCursor().setType(Material.AIR);
+                player.getInventory().addItem(new ItemStack(componentType));
+            }
         }
 
+    }
+
+    private boolean isFuelMaterial(ItemStack stack) {
+        List<Material> allowedMaterial = new ArrayList<Material>() {{
+            add(Material.AIR);
+            add(Material.COAL);
+            add(Material.COAL_BLOCK);
+            add(Material.REDSTONE);
+            add(Material.REDSTONE_BLOCK);
+            add(Material.GLOWSTONE_DUST);
+            add(Material.GLOWSTONE);
+            add(Material.OAK_WOOD);
+            add(Material.OAK_LOG);
+        }};
+
+        return stack == null || allowedMaterial.contains(stack.getType());
     }
 
 }

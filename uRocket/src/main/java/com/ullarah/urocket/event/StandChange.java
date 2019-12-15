@@ -58,11 +58,6 @@ public class StandChange implements Listener {
 
         if (display.equals(ChatColor.RED + "Rocket Boots")) {
             // Adding rocket boots
-            signText.changeLine(beaconSign, new HashMap<Integer, String>() {{
-                put(0, "[Repair Status]");
-                put(1, ChatColor.STRIKETHROUGH + "--------------");
-            }});
-
             RepairStandData data = new RepairStandData(event.getRightClicked(), standLocation);
             RocketInit.rocketRepairStand.put(event.getRightClicked().getUniqueId(), data);
 
@@ -79,11 +74,10 @@ public class StandChange implements Listener {
 
         } else {
             // Removing boots
-            signText.changeAllCheck(beaconSign, 0, "[Repair Status]", false,
-                    new String[]{"[Repair Status]", ChatColor.STRIKETHROUGH + "--------------", "", ""});
-
-            RocketInit.rocketRepairStand.remove(event.getRightClicked().getUniqueId());
-
+            RepairStandData data = RocketInit.rocketRepairStand.remove(event.getRightClicked().getUniqueId());
+            if (data != null) {
+                data.stopRepairing(RepairStandData.StopReason.BOOTS_REMOVED);
+            }
         }
 
     }

@@ -2,6 +2,7 @@ package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketFunctions;
 import com.ullarah.urocket.RocketInit;
+import com.ullarah.urocket.data.RepairStandData;
 import com.ullarah.urocket.data.RocketPlayer;
 import com.ullarah.urocket.function.CommonString;
 import com.ullarah.urocket.function.EntityLocation;
@@ -11,12 +12,10 @@ import com.ullarah.urocket.init.RocketLanguage;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -26,7 +25,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
 import java.util.List;
-import java.util.Set;
 
 public class PlayerInteract implements Listener {
 
@@ -151,6 +149,9 @@ public class PlayerInteract implements Listener {
         standList.add(stand);
         RocketInit.getPlugin().getConfig().set("stands", standList);
         RocketInit.getPlugin().saveConfig();
+
+        // Force signs to clear
+        new RepairStandData(null, standLocation);
 
         commonString.messageSend(RocketInit.getPlugin(), player, true, RocketLanguage.RB_RS_PLACE_SUCCESS);
     }

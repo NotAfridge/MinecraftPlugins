@@ -171,7 +171,7 @@ public class MagicFunctions {
                 Location location = new Location(world, x, y, z);
 
                 Chunk chunk = location.getChunk();
-                if (!chunk.isLoaded()) chunk.load();
+                if (!chunk.isLoaded()) world.getChunkAt(location);
 
                 for (Entity entity : world.getNearbyEntities(location, 3.0, 3.0, 3.0)) {
                     if (entity instanceof ItemFrame) {

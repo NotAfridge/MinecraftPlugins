@@ -44,29 +44,36 @@ public class ActiveEffects {
             RocketVariant.Variant variant = rp.getBootData().getVariant();
             PotionEffect[] effects = variant.getPotionEffects();
 
-            for (PotionEffect effect : player.getActivePotionEffects())
+            for (PotionEffect effect : player.getActivePotionEffects()) {
                 player.removePotionEffect(effect.getType());
+            }
 
-            if (effects != null) {
+            if (effects != null && effects.length != 0) {
+                rp.setEffected(true);
                 for (PotionEffect effect : effects) {
-                    rp.setEffected(true);
                     player.addPotionEffect(effect);
                 }
             }
 
-            if (variant.equals(RocketVariant.Variant.STEALTH))
+            if (variant.equals(RocketVariant.Variant.STEALTH)) {
+                Plugin plugin = RocketInit.getPlugin();
                 for (Player onlinePlayer : Bukkit.getOnlinePlayers())
-                    onlinePlayer.hidePlayer(player);
+                    if (!onlinePlayer.hasPermission("rocket.clairvoyant"))
+                        onlinePlayer.hidePlayer(plugin, player);
+            }
 
         }
         // Not flying, remove effects if required
         else if (rp.isEffected()) {
 
-            for (PotionEffect effect : player.getActivePotionEffects())
+            for (PotionEffect effect : player.getActivePotionEffects()) {
                 player.removePotionEffect(effect.getType());
+            }
 
-            for (Player onlinePlayer : Bukkit.getOnlinePlayers())
-                onlinePlayer.showPlayer(player);
+            Plugin plugin = RocketInit.getPlugin();
+            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                onlinePlayer.showPlayer(plugin, player);
+            }
 
             rp.setEffected(false);
 
