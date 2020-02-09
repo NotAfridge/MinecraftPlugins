@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Arrays;
@@ -50,6 +51,8 @@ public class ChestClick implements Listener {
 
         if (chestInventory == null) return;
 
+        ItemStack clicked = event.getCurrentItem();
+
         if (view.getTitle().matches(ChestLanguage.N_DCHEST)) {
             if (ChestInit.chestDonateLock && event.getRawSlot() <= 53)
                 if (ChestInit.chestLockoutMap.get("dchest_itemlock").containsKey(chestPlayer.getUniqueId())) {
@@ -61,9 +64,11 @@ public class ChestClick implements Listener {
         }
 
         if (view.getTitle().matches(ChestLanguage.N_RCHEST))
-            if (event.getCurrentItem().getAmount() >= 1 && event.getRawSlot() >= chestInventory.getSize()) {
-                event.setCancelled(true);
-                event.getCursor().setType(Material.AIR);
+            if (clicked != null) {
+                if (clicked.getAmount() >= 1 && event.getRawSlot() >= chestInventory.getSize()) {
+                    event.setCancelled(true);
+                    event.getCursor().setType(Material.AIR);
+                }
             }
 
         if (view.getTitle().matches(ChestLanguage.N_ECHEST)) {
@@ -75,17 +80,16 @@ public class ChestClick implements Listener {
         }
 
         if (view.getTitle().matches(ChestLanguage.N_SCHEST)) {
-            if (event.getClick().isShiftClick()) {
-                event.setCancelled(true);
-                event.getCursor().setType(Material.AIR);
-            } else {
-                if (event.getCurrentItem().getAmount() >= 1 && event.getRawSlot() >= chestInventory.getSize()) {
+            if (clicked != null) {
+                if (event.getClick().isShiftClick()) {
                     event.setCancelled(true);
                     event.getCursor().setType(Material.AIR);
-                }
-                if (event.getRawSlot() <= chestInventory.getSize()) {
+                } else if (clicked.getAmount() >= 1 && event.getRawSlot() >= chestInventory.getSize()) {
+                    event.setCancelled(true);
+                    event.getCursor().setType(Material.AIR);
+                } else {
                     Player player = (Player) event.getWhoClicked();
-                    player.getWorld().dropItemNaturally(player.getLocation(), event.getCurrentItem());
+                    player.getWorld().dropItemNaturally(player.getLocation(), clicked);
                     event.getCursor().setType(Material.AIR);
                     event.setCancelled(true);
                     player.closeInventory();

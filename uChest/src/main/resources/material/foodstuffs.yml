@@ -51,3 +51,5 @@ DKELP: { m: DRIED_KELP, s: true, d: true, r: true, e: 0.2, x: 0.3 }
 
 ROTFLESH: { m: ROTTEN_FLESH, s: true, d: true, r: true, e: 0.1, x: 0.2 }
 SPIDEYE:  { m: SPIDER_EYE,   s: true, d: true, r: true, e: 0.2, x: 0.3 }
+
+HONEY:  { m: HONEY_BOTTLE, s: true, d: true, r: true, e: 0.2, x: 0.3 }

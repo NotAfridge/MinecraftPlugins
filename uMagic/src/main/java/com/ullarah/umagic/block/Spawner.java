@@ -21,45 +21,11 @@ public class Spawner extends BaseBlock {
         CreatureSpawner originalSpawner = (CreatureSpawner) block.getState();
         EntityType originalEntityType = originalSpawner.getSpawnedType();
         int originalEntityDelay = originalSpawner.getDelay();
+        Block newSpawn = block.getRelative(face.getOppositeFace());
+        Material destination = newSpawn.getType();
+        if (destination == Material.AIR || destination == Material.CAVE_AIR) {
 
-        Location blockLocation = block.getLocation();
-        int blockX = blockLocation.getBlockX();
-        int blockY = blockLocation.getBlockY();
-        int blockZ = blockLocation.getBlockZ();
-
-        Block newSpawn = block.getWorld().getBlockAt(blockLocation);
-
-        switch (face) {
-
-            case NORTH:
-                newSpawn = block.getWorld().getBlockAt(blockX, blockY, blockZ + 1);
-                break;
-
-            case EAST:
-                newSpawn = block.getWorld().getBlockAt(blockX - 1, blockY, blockZ);
-                break;
-
-            case SOUTH:
-                newSpawn = block.getWorld().getBlockAt(blockX, blockY, blockZ - 1);
-                break;
-
-            case WEST:
-                newSpawn = block.getWorld().getBlockAt(blockX + 1, blockY, blockZ);
-                break;
-
-            case UP:
-                newSpawn = block.getWorld().getBlockAt(blockX, blockY - 1, blockZ);
-                break;
-
-            case DOWN:
-                newSpawn = block.getWorld().getBlockAt(blockX, blockY + 1, blockZ);
-                break;
-
-        }
-
-        if (newSpawn.getType().equals(Material.AIR)) {
-
-            block.setType(Material.AIR);
+            block.setType(destination);
             newSpawn.setType(Material.SPAWNER);
 
             BlockState blockState = newSpawn.getState();

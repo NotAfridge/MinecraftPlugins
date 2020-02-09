@@ -23,6 +23,8 @@ BOOK_WQ: { m: WRITABLE_BOOK, s: true, d: true, r: true, e: 1.2, x: 1.5 }
 
 BONE: { m: BONE, s: true, d: true, r: true, e: 0.4, x: 0.5 }
 
+HONEYCOMB: { m: HONEYCOMB, s: true, d: true, r: true, e: 0.2, x: 0.4 }
+
 END_PEARL: { m: ENDER_PEARL, s: true, d: true, r: true, e: 4.4, x: 4.6 }
 END_EYE:   { m: ENDER_EYE,   s: true, d: true, r: true, e: 5.0, x: 5.2 }
 
@@ -72,6 +74,7 @@ BANPAT_MOJNG: { m: MOJANG_BANNER_PATTERN,  s: true, d: true, r: true, e: 1.5, x:
 BANPAT_SKULL: { m: SKULL_BANNER_PATTERN,   s: true, d: true, r: true, e: 1.5, x: 2.0 }
 
 EGG_BAT:              { m: BAT_SPAWN_EGG,              s: false, d: false, r: false, e: 0.0, x: 0.0 }
+EGG_BEE:              { m: BEE_SPAWN_EGG,              s: false, d: false, r: false, e: 0.0, x: 0.0 }
 EGG_BLAZE:            { m: BLAZE_SPAWN_EGG,            s: false, d: false, r: false, e: 0.0, x: 0.0 }
 EGG_CAVE_SPIDER:      { m: CAVE_SPIDER_SPAWN_EGG,      s: false, d: false, r: false, e: 0.0, x: 0.0 }
 EGG_CHICKEN:          { m: CHICKEN_SPAWN_EGG,          s: false, d: false, r: false, e: 0.0, x: 0.0 }

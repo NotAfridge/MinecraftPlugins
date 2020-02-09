@@ -1,6 +1,7 @@
 package com.ullarah.urocket.event;
 
 import com.ullarah.urocket.RocketInit;
+import com.ullarah.urocket.data.RepairStandData;
 import com.ullarah.urocket.function.IDTag;
 import com.ullarah.urocket.recipe.RepairStand;
 import org.bukkit.Location;
@@ -31,8 +32,6 @@ public class StandBreak implements Listener {
             List<String> newStandList = standList.stream().map(stand -> stand.replaceFirst(".{37}", "")).collect(Collectors.toList());
 
             String standNew = new IDTag().create(entityLocation);
-
-
             if (newStandList.contains(standNew)) {
                 // Only allow players to break stands
                 if (!(event.getDamager() instanceof Player)) {
@@ -53,13 +52,18 @@ public class StandBreak implements Listener {
                 // Drop the enchanted stand
                 standEntity.getWorld().dropItemNaturally(entityLocation, new RepairStand().stand());
 
+                // Call appropriate hooks before removing stand data
+                RepairStandData data = RocketInit.rocketRepairStand.remove(standEntity.getUniqueId());
+                if (data != null) {
+                    data.stopRepairing(RepairStandData.StopReason.STAND_DESTROYED);
+                }
+
                 // Remove from the list and explicitly remove the entity, not kill it.
                 standList.remove(newStandList.indexOf(standNew));
                 standEntity.remove();
 
                 RocketInit.getPlugin().getConfig().set("stands", standList);
                 RocketInit.getPlugin().saveConfig();
-
             }
 
         }
