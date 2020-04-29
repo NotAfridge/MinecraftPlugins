@@ -39,8 +39,7 @@ public class StationStandParticles {
         }
 
         Location location = data.getLocation();
-        Chunk chunk = location.getWorld().getChunkAt(location);
-        if (!chunk.isLoaded()) {
+        if (!location.getWorld().isChunkLoaded(location.getBlockX() >> 4, location.getBlockZ() >> 4)) {
             return;
         }
 

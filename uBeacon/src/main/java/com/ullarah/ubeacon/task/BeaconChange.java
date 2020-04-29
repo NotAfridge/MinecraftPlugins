@@ -37,7 +37,7 @@ public class BeaconChange {
                 Integer.parseInt(beaconParts[3]) + 1,
                 Integer.parseInt(beaconParts[4]));
 
-        if (world.isChunkLoaded(location.getChunk())) {
+        if (world.isChunkLoaded(location.getBlockX() >> 4, location.getBlockZ() >> 4)) {
             int index = new Random().nextInt(BeaconInit.getMaterials().size());
             world.getBlockAt(location).setType(BeaconInit.getMaterials().get(index));
         }

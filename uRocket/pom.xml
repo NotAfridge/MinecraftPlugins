@@ -7,7 +7,7 @@
 
     <name>uRocket</name>
     <description>Rocket Boots for Flying</description>
-    <version>1.9.2</version>
+    <version>1.9.3</version>
 
     <parent>
         <groupId>com.ullarah</groupId>
