@@ -38,6 +38,8 @@ public class StandBreak implements Listener {
                     event.setCancelled(true);
                     return;
                 }
+                
+                if(event.isCanvelled() { return; }
 
                 // Cancel early, we're manually removing it
                 event.setCancelled(true);
